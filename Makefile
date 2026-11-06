@@ -3,7 +3,7 @@ PYTHON ?= python3
 CXX    ?= g++
 ROOT   := $(CURDIR)
 
-.PHONY: help verify hygiene tidy test test-py test-cpp gen route-check merge merge-offline fetch serve build build-cmake verify-sdk package build-dlls build-dlls-check build-dlls-zig noexcept-check mod clean
+.PHONY: help verify hygiene tidy test test-py test-cpp gen route-check merge merge-offline bhl-plan fetch serve build build-cmake verify-sdk package build-dlls build-dlls-check build-dlls-zig noexcept-check mod clean
 
 help:
 	@echo "verify        - hygiene + python tests + C++ checks + generation + merge + package"
@@ -11,6 +11,7 @@ help:
 	@echo "tidy          - remove __pycache__/stale stage dirs, then run hygiene"
 	@echo "fetch         - download pinned, checksum-verified upstream SDKs"
 	@echo "merge         - merge real upstreams into build/merged-real"
+	@echo "bhl-plan      - list the real BugfixedHL systems merged into OP4"
 	@echo "merge-offline - merge bundled fixtures (no network) into build/merged"
 	@echo "gen           - regenerate C++ route header from data/op4_route.json"
 	@echo "serve         - run the live dashboard on 0.0.0.0:8000"
@@ -81,9 +82,14 @@ route-check:
 
 merge-offline:
 	$(PYTHON) -m merge.cli run --offline
+	$(PYTHON) -m merge.bhl --tree build/merged
 
 merge:
 	$(PYTHON) -m merge.cli run --out build/merged-real
+	$(PYTHON) -m merge.bhl --tree build/merged-real
+
+bhl-plan:
+	$(PYTHON) -m merge.bhl --plan
 
 fetch:
 	$(PYTHON) -m merge.cli fetch

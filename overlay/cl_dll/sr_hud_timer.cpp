@@ -21,7 +21,7 @@
 #include <ctime>
 #include <string>
 
-#define SR_KIT_VERSION "0.1.1"
+#define SR_KIT_VERSION "0.2.0-bhl"
 
 namespace {
 sr::SystemClock g_Clock;
@@ -75,7 +75,7 @@ void SR_HUD_Init() {
     if (!g_Announced) {
         ConsolePrint("\n[BHLxOP4] ============================================\n");
         ConsolePrint("[BHLxOP4]  BugfixedHL x OP4 Speedrun v" SR_KIT_VERSION "\n");
-        ConsolePrint("[BHLxOP4]  client.so LOADED - HUD banner is ON\n");
+        ConsolePrint("[BHLxOP4]  client.so LOADED - BugfixedHL systems active\n");
         ConsolePrint("[BHLxOP4]  sr_status (server) / sr_hud_banner 0|1\n");
         ConsolePrint("[BHLxOP4] ============================================\n\n");
         g_Announced = true;
@@ -128,7 +128,7 @@ void SR_HUD_Redraw(float flTime) {
     if (banner) {
         // Green brand line: a zero-effort visual check that our DLL is loaded.
         gEngfuncs.pfnDrawSetTextColor(0.25f, 1.0f, 0.55f);
-        DrawConsoleString(x, y, "[ BHL x OP4 SPEEDRUN ]  v" SR_KIT_VERSION);
+        DrawConsoleString(x, y, "[ BugfixedHL systems in OP4 ]  " SR_KIT_VERSION);
         y += lh;
     }
 

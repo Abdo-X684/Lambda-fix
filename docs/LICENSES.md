@@ -19,3 +19,12 @@
 `data/delta.lst` (in the mod folder) is copied from the OP4 SDK `network/`
 folder because GoldSrc mods require it for client/server network data; it is
 SDK data, not kit code, and remains under the SDK's terms.
+
+## تحديث bhl-systems-1: كود GPL يُترجم الآن داخل الثنائيات
+
+حتى `0.1.x` كانت ملفات `integration/ports/` نسخاً مرجعية **غير مترجمة**.
+ابتداءً من `bhl-systems-1` تُنقل أنظمة BugfixedHL الحقيقية إلى
+`integration/bhl/` وتُترجم داخل `client.so` / `hl.so` (`docs/BHL_MERGE.md`).
+أي توزيع لهذه الثنائيات هو توزيع لعمل مشتق من كود تحت **GPL-3.0-or-later**،
+فيجب أن يلتزم بشروطها (المصدر المقابل، الإشعارات، نفس الرخصة). كود الـ kit
+ (`merge/`, `tools/`, `src/speedrun/`, `web/`) يبقى MIT ولا يغيّر هذا الالتزام.

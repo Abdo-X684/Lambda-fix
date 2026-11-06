@@ -43,7 +43,7 @@ class HudVisibilityTests(unittest.TestCase):
     def test_client_draws_brand_banner_without_waiting_for_a_split(self) -> None:
         src = CLIENT.read_text(encoding="utf-8")
         redraw = src[src.index("void SR_HUD_Redraw("):]
-        self.assertIn("[ BHL x OP4 SPEEDRUN ]", redraw)
+        self.assertIn("[ BugfixedHL systems in OP4 ]", redraw)
         self.assertIn("pfnDrawSetTextColor", redraw)
         self.assertIn("SPLIT  waiting for first map change", redraw)
         self.assertNotIn("if (shown <= 0", redraw)
@@ -75,7 +75,7 @@ class HudVisibilityTests(unittest.TestCase):
 
     def test_shipped_binaries_contain_the_visible_markers(self) -> None:
         expected = {
-            "client.so": [b"[ BHL x OP4 SPEEDRUN ]", b"client.so LOADED",
+            "client.so": [b"[ BugfixedHL systems in OP4 ]", b"client.so LOADED",
                           b"sr_hud_banner", b"SRSplit"],
             "hl.so": [b"server DLL LOADED", b"sr_status", b"sr_version",
                       b"SRSplit"],
@@ -102,7 +102,7 @@ class HudVisibilityTests(unittest.TestCase):
             sys.path.insert(0, str(ROOT))
         from tools.create_mod import install_text  # noqa: E402
         text = install_text("bhlop4")
-        for needle in ("sr_status", "sr_version", "client.so LOADED",
+        for needle in ("bhl_status", "bhl_version", "sr_status",
                        "not loading our two DLLs", "-game bhlop4"):
             self.assertIn(needle, text, needle)
 

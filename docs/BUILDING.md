@@ -31,33 +31,30 @@ hl_linux -game bhlop4 -console -dev +exec speedrun.cfg
 
 ---
 
-## 🔎 شغّلته لكن «مافي أي علامات BHL»؟
+## 🧩 «مافي أي علامات BHL» — كان خطأً في الدمج نفسه
 
-هذا كان خطأً حقيقياً في النسخة السابقة (v0.1.0): لم تكن `sr_*` cvars مسجّلة
-على العميل، فكان `CVAR_GET_FLOAT("sr_timer_enable")` يرجع `0` ويُطفئ الـ HUD،
-والمؤقت المحلي لم يكن يبدأ أبداً، فلا يُرسم شيء حتى أول تغيير خريطة. النتيجة:
-OP4 عادي تماماً. في **v0.1.1** صار الدمج مرئياً من أول إطار:
+السبب لم يكن cvars ناقصة فقط: الإصدارات `0.1.x` **لم تدمج BHL أصلاً**، بل
+استخدمته كمرجع تدقيق وبنت نظام `sr_*` جديداً. تم التصحيح: أنظمة BHL الحقيقية
+تُترجم الآن داخل الثنائيات مع طبقة توافقيات فقط
+([`BHL_MERGE.md`](BHL_MERGE.md)، `make merge` يستدعي `merge.bhl`).
 
-| العلامة | أين |
+| علامة BHL | وين |
 | --- | --- |
-| سطر أخضر `[ BHL x OP4 SPEEDRUN ] v0.1.1` | أعلى يسار الشاشة + مؤقت `RTA` وسطر `SPLIT` |
-| `[BHLxOP4] client.so LOADED` / `server DLL LOADED` | الكونسول عند التحميل |
-| **`sr_status`** | الكونسول: الإصدار، الخريطة، حالة المؤقت، الـ cvars، الأوامر |
-| `sr_version` | يطبع `0.1.1` |
-| `[BHLxOP4] speedrun.cfg loaded - glhf` | يؤكد أن `+exec speedrun.cfg` اشتغل |
+| مؤشر السرعة / jumpspeed / strafe guide | على الشاشة، `hud_speedometer 1` … |
+| `[BHL] BugfixedHL systems merged into Opposing Force` | الكونسول عند التحميل |
+| **`bhl_status`** | قائمة الأنظمة المدموجة (أمر BHL عبر `CON_COMMAND`) |
+| `bhl_version` → `bhl-systems-1` | cvar من نظام `ConVar` في BHL |
+| `sv_bhl_version` / `sv_bhl_query_vars` | السيرفر |
+| `bugfixedhl.cfg` | يُنشأ في مجلد المود عند الإغلاق |
 
-إن لم يظهر **أي** واحد منها فاللعبة لم تحمّل مكتباتنا أصلاً، راجع بالترتيب:
-`Half-Life/bhlop4/` (لا `bhlop4/bhlop4/` ولا داخل `gearbox/`)، خيارات التشغيل
-تحتوي فعلاً `-game bhlop4` (Steam أحياناً يُبقي `-game gearbox` قديماً)،
-`liblist.gam` فيه `gamedll_linux "dlls/hl.so"`، وجود `Half-Life/vgui.so`،
-وخلوّ الكونسول من `could not load library .../client.so`. `sr_hud_banner 0`
-يُخفي الشعار إن أردت.
+`bhl-op4-mod.zip` و`client.so`/`hl.so` في الـ Release مبنية من الشجرة المدموجة
+الجديدة. `sr_status` و`sr_hud_banner` بقيتا لإضافة السبيدرن الاختيارية فقط.
 
 ## ✅ جاهز للتحميل الآن
 
 | الملف | الحجم | التحميل |
 | --- | --- | --- |
-| **`bhl-op4-mod.zip`** ⭐ v0.1.1 | 9.3 MB | [**⬇ المود كامل**](https://github.com/Abdo-X684/Bugfixhl-speedrun-op4/releases/download/v0.1.0-linux32/bhl-op4-mod.zip) · [من اللوحة](/dist/bhl-op4-mod.zip) |
+| **`bhl-op4-mod.zip`** ⭐ bhl-systems-1 | 9.3 MB | [**⬇ المود كامل**](https://github.com/Abdo-X684/Bugfixhl-speedrun-op4/releases/download/v0.1.0-linux32/bhl-op4-mod.zip) · [من اللوحة](/dist/bhl-op4-mod.zip) |
 | `client.so` | 9.0 MB | [**⬇ مباشر**](https://github.com/Abdo-X684/Bugfixhl-speedrun-op4/releases/download/v0.1.0-linux32/client.so) · [من اللوحة](/dist/dlls/client.so) |
 | `hl.so` | 15.9 MB | [**⬇ مباشر**](https://github.com/Abdo-X684/Bugfixhl-speedrun-op4/releases/download/v0.1.0-linux32/hl.so) · [من اللوحة](/dist/dlls/hl.so) |
 | `MANIFEST.json` | sha256 + ELF32 | [**⬇ مباشر**](https://github.com/Abdo-X684/Bugfixhl-speedrun-op4/releases/download/v0.1.0-linux32/MANIFEST.json) |

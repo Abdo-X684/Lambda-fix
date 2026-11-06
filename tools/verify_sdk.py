@@ -25,6 +25,12 @@ CLIENT_FILES = [
     ("cl_dll/sr_hud_msg.cpp", True),
     ("cl_dll/hud.cpp", True),
     ("cl_dll/hud_redraw.cpp", True),
+    ("cl_dll/bhl_compat.cpp", True),
+    ("cl_dll/base.cpp", True),
+    ("cl_dll/speedometer.cpp", True),
+    ("cl_dll/jumpspeed.cpp", True),
+    ("cl_dll/strafeguide.cpp", True),
+    ("cl_dll/bhlcfg.cpp", True),
 ]
 SERVER_FILES = [
     ("dlls/sr_server.cpp", False),
@@ -32,6 +38,7 @@ SERVER_FILES = [
     ("dlls/client.cpp", False),
     ("dlls/UserMessages.cpp", False),
     ("game_shared/sr_core.cpp", False),
+    ("dlls/bhl_server.cpp", False),
 ]
 SOURCE_DIRS = ("cl_dll", "dlls", "game_shared", "pm_shared", "common")
 

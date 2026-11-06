@@ -4,6 +4,7 @@
 | --- | --- |
 | [BUILDING.md](BUILDING.md) | بناء `client.so` / `hl.so`: ماذا أحمّل، 32-bit، `vgui.so`، التثبيت والتشغيل |
 | [ARCHITECTURE.md](ARCHITECTURE.md) | الطبقات، تدفق البيانات، والقرارات المعمارية |
+| [BHL_MERGE.md](BHL_MERGE.md) | **الأنظمة الحقيقية لـ BugfixedHL المدموجة داخل OP4** + طبقة التوافقيات |
 | [MERGE_PLAN.md](MERGE_PLAN.md) | أنواع القواعد الـ30، سياسات التعارض، نقاط الحقن، ملفات البناء |
 | [RESOLUTION.md](RESOLUTION.md) | كيف حُلّت التعارضات الـ127 والمنقولات المؤجلة، بأدلة السطور |
 | [SPEEDRUN.md](SPEEDRUN.md) | المؤقّت، `SRSplit`، التقسيمات، PB، الشرعية، demo |

@@ -92,6 +92,27 @@
       "origin": "merge",
       "category": "hud",
       "desc": "Draw the green 'BHL x OP4 SPEEDRUN' banner - proves the merged client.so is loaded."
+    },
+    {
+      "name": "hud_speedometer",
+      "value": "1",
+      "origin": "bugfixhl",
+      "category": "bhl",
+      "desc": "BHL speedometer HUD (BugfixedHL system merged into OP4)."
+    },
+    {
+      "name": "hud_jumpspeed",
+      "value": "1",
+      "origin": "bugfixhl",
+      "category": "bhl",
+      "desc": "BHL jumpspeed HUD (BugfixedHL system merged into OP4)."
+    },
+    {
+      "name": "hud_strafeguide",
+      "value": "1",
+      "origin": "bugfixhl",
+      "category": "bhl",
+      "desc": "BHL strafe guide HUD (BugfixedHL system merged into OP4)."
     }
   ]
 }

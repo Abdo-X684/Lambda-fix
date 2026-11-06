@@ -38,7 +38,7 @@ jobs:
       - name: Fetch pinned upstream SDKs (checksum verified)
         run: make fetch
       - name: Merge the real SDKs
-        run: python3 -m merge.cli run --out build/merged-real
+        run: make merge
       - name: Syntax-check injected code against real SDK headers + no conflict markers
         run: python3 tools/verify_sdk.py --tree build/merged-real
       - name: Fail the build on any remaining conflict / deferred port

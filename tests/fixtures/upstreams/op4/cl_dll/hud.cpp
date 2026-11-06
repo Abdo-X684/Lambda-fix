@@ -8,3 +8,7 @@ void CHud::Init()
 	m_flTime = 1.0;
 	HOOK_MESSAGE(FlagIcons);  /* OP4: CTF flag icons */
 }
+
+void CHud::VidInit()
+{
+}

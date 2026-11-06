@@ -64,7 +64,7 @@ def liblist_text(name: str) -> str:
         'cldll "1"\n'
         'secure "0"\n'
         'svonly "0"\n'
-        'version "0.1.1"\n'
+        'version "bhl-systems-1"\n'
         'gamedll "dlls\\hl.dll"\n'
         'gamedll_linux "dlls/hl.so"\n'
         'fallback_dir "gearbox"\n'
@@ -99,29 +99,42 @@ The real `vgui.so` and all game assets come from your own legally installed
 Half-Life: Opposing Force. `client.so` has a `DT_NEEDED vgui.so` entry; the game
 supplies that library at runtime. No Valve/Gearbox binary is redistributed.
 
+## What is actually merged: real BugfixedHL systems
+
+Earlier builds used BugfixedHL only as a reference and shipped a brand-new
+`sr_*` speedrun system. That was wrong. This build compiles **BHL's own
+systems** into the OP4 client/server, with only a compatibility layer
+(`integration/bhl/`, `docs/BHL_MERGE.md`):
+
+* `ConVar` / `ConCommand` / `CvarSystem` (BHL's cvar system)
+* `CHudElem` / `CHudElemBase` (BHL's HUD base)
+* `CHudSpeedometer`, `CHudJumpspeed`, `CHudStrafeGuide`
+* `bhlcfg` / `bugfixedhl.cfg`
+* server cvars `sv_bhl_query_vars`, `sv_bhl_query_wait_for_id`,
+  `sv_bhl_defer_motd`, `sv_bhl_version`
+
+The `sr_*` RTA timer / `SRSplit` layer is an **optional add-on**, not the merge.
+
 ## How to confirm the merge is really loaded (5 seconds)
 
-The build used to look exactly like vanilla Opposing Force: the `sr_*` cvars
-were never registered on the client, so the HUD was silently disabled, and the
-local timer was never started. In this build (v0.1.1) it is unmistakable:
+| Sign | Where |
+| --- | --- |
+| speedometer / jumpspeed / strafe guide | on screen (`hud_speedometer 1`, `hud_jumpspeed 1`, `hud_strafeguide 1` are already in `speedrun.cfg`) |
+| `[BHL] BugfixedHL systems merged into Opposing Force` | console at startup |
+| **`bhl_status`** | console: lists the merged BHL systems (a real BHL `CON_COMMAND`) |
+| `bhl_version` -> `bhl-systems-1` | console (BHL `ConVar`) |
+| `sv_bhl_version` / `sv_bhl_query_vars` | server cvars |
+| `bugfixedhl.cfg` | created in the mod folder on shutdown |
+| `[BHLxOP4] ...` / `sr_status` | optional speedrun add-on only |
 
-1. **A green line `[ BHL x OP4 SPEEDRUN ] v0.1.1`** at the top-left of the
-   screen from the very first frame, followed by a running `RTA` timer and a
-   `SPLIT` line. Turn it off with `sr_hud_banner 0`.
-2. **Console**: `[BHLxOP4] client.so LOADED` when the client DLL initialises,
-   and `[BHLxOP4] server DLL LOADED` when the first map spawns.
-3. Type **`sr_status`** in the console: it prints the version, the map, timer
-   state, cvar values and the available commands. `sr_version` prints `0.1.1`.
-4. `[BHLxOP4] speedrun.cfg loaded - glhf` confirms `+exec speedrun.cfg` ran.
-
-If NONE of these appear, the game is **not loading our two DLLs** (the mod is
-running on stock binaries). Check, in order:
+If NONE of these appear, the game is **not loading our two DLLs** (stock
+binaries are running). Check, in order:
 
 * the folder really is `Half-Life/{name}/` (not `Half-Life/{name}/{name}/`
   after unzipping, and not inside `gearbox/`);
 * the launch options really contain `-game {name}` — Steam sometimes keeps an
-  old `-game gearbox` in the options; verify with `status` / `version` in the
-  console, and check `liblist.gam` contains `gamedll_linux "dlls/hl.so"`;
+  old `-game gearbox` in the options; check `liblist.gam` contains
+  `gamedll_linux "dlls/hl.so"`;
 * `Half-Life/vgui.so` exists (the engine needs it to load `client.so`);
 * the console does not say `could not load library .../client.so` (wrong
   architecture or missing 32-bit runtime libraries);

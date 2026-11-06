@@ -38,6 +38,22 @@ jobs:
               print(f'OK {name}: {len(data)} bytes, ELF32, sha256 verified')
           PY
 
+      - name: Verify real BugfixedHL systems are compiled into the binaries
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          client = (Path('dist/dlls') / 'client.so').read_bytes()
+          server = (Path('dist/dlls') / 'hl.so').read_bytes()
+          for marker in (b'hud_speedometer', b'hud_jumpspeed', b'hud_strafeguide',
+                         b'bhl_status', b'bhl_version', b'bugfixedhl.cfg',
+                         b'BugfixedHL systems merged'):
+              assert marker in client, f'client.so: missing BHL system {marker!r}'
+          for marker in (b'sv_bhl_query_vars', b'sv_bhl_defer_motd',
+                         b'BugfixedHL server systems'):
+              assert marker in server, f'hl.so: missing BHL system {marker!r}'
+          print('OK: real BugfixedHL systems are present in both ELF32 binaries')
+          PY
+
       - name: Build the standalone mod folder + zip
         run: python3 tools/create_mod.py
 
@@ -50,7 +66,7 @@ jobs:
             gh release upload "$TAG" \
               dist/bhl-op4-mod.zip dist/dlls/client.so dist/dlls/hl.so dist/dlls/MANIFEST.json --clobber
             gh release edit "$TAG" --notes-file .github/release-notes.md \
-              --title "BHL × OP4 Speedrun — v0.1.1 (Linux 32-bit mod)"
+              --title "BHL × OP4 — BugfixedHL systems merged (bhl-systems-1)"
           else
             gh release create "$TAG" \
               dist/bhl-op4-mod.zip dist/dlls/client.so dist/dlls/hl.so dist/dlls/MANIFEST.json \

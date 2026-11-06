@@ -16,7 +16,7 @@
 ## البدء السريع
 
 ```bash
-make verify        # النظافة + 111 اختبار Python + 77 فحص C++ + التوليد + الدمج + الحزمة
+make verify        # النظافة + 119 اختبار Python + 77 فحص C++ + التوليد + الدمج + الحزمة
 make hygiene       # فحص المسافات/JSON/الاستيرادات/روابط الوثائق
 make tidy          # تنظيف __pycache__ والمجلدات المرحلية ثم إعادة الفحص
 make fetch         # تنزيل SDKات الثلاثة المثبّتة مع التحقق من sha256
@@ -48,13 +48,25 @@ make serve         # لوحة التحكم + صفحة README على http://local
 [`MANIFEST.json`](dist/dlls/MANIFEST.json)، ومن لوحة التحكم زر «⬇ المود الجاهز».
 `make mod` يعيد توليد المجلد والأرشيف.
 
-### 🔎 كيف تتأكد أن الدمج شغّال؟
+### 🧩 الدمج الحقيقي: أنظمة BHL داخل OP4
 
-النسخة `v0.1.1` تُظهر سطراً أخضر `[ BHL x OP4 SPEEDRUN ] v0.1.1` أعلى يسار
-الشاشة مع مؤقت `RTA`، وتطبع `[BHLxOP4] client.so LOADED` في الكونسول،
-والأمر **`sr_status`** يعرض الإصدار والخريطة وحالة المؤقت. إن لم يظهر شيء من
-هذا فالمكتبات لم تُحمّل: تأكد من `Half-Life/bhlop4/` ومن `-game bhlop4` في
-خيارات التشغيل. التفاصيل في [`docs/BUILDING.md`](docs/BUILDING.md).
+**تصحيح مسار:** الإصدارات `0.1.x` عاملت BugfixedHL كمرجع تدقيق فقط وبنت نظام
+`sr_*` جديد. هذا خطأ؛ المطلوب كان دمج **أنظمة BHL نفسها** مع توافقيات. الآن
+تُترجم داخل `client.so`/`hl.so`:
+
+* `ConVar` / `ConCommand` / `CvarSystem` — نظام cvars الخاص بـ BHL
+* `CHudElem` / `CHudElemBase` — أساس عناصر HUD في BHL
+* `CHudSpeedometer`, `CHudJumpspeed`, `CHudStrafeGuide` — HUD حقيقي
+* `bhlcfg` / `bugfixedhl.cfg` — حفظ إعدادات BHL
+* `sv_bhl_query_vars`, `sv_bhl_query_wait_for_id`, `sv_bhl_defer_motd` على السيرفر
+
+وطبقة `integration/bhl/` هي **التوافقيات فقط** (راجع
+[`docs/BHL_MERGE.md`](docs/BHL_MERGE.md)). طبقة `sr_*` للسبيدرن صارت إضافة
+اختيارية، لا «الدمج».
+
+**تحقق:** `bhl_status` في الكونسول، `bhl_version` → `bhl-systems-1`،
+`hud_speedometer 1` / `hud_jumpspeed 1` / `hud_strafeguide 1` (مفعّلة افتراضياً)،
+و`[BHL] BugfixedHL systems merged into Opposing Force` عند التحميل.
 
 ### 🖥 واجهة المشروع
 

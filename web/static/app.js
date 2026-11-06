@@ -194,7 +194,7 @@ $('btnPackage').onclick = async () => {
   } catch (e) { $('packageResult').innerHTML = `<p class="notes">❌ ${esc(e.message)}</p>`; }
 };
 $('btnTests').onclick = async () => {
-  $('mergeResult').innerHTML = '<span class="muted">⏳ جارٍ تشغيل 111 اختبار Python…</span>';
+  $('mergeResult').innerHTML = '<span class="muted">⏳ جارٍ تشغيل 119 اختبار Python…</span>';
   try {
     const r = await api('/api/tests', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}' });
     const d = await r.json();
@@ -208,7 +208,7 @@ function renderStatus(st) {
   $('statusPill').classList.add('ok');
   $('stats').innerHTML = [
     ['قواعد الدمج', st.rules], ['خرائط OP4', st.route.maps], ['فصول', st.route.chapters],
-    ['مصادر مثبّتة', st.upstreams.length], ['اختبارات', '111 + 77'],
+    ['مصادر مثبّتة', st.upstreams.length], ['اختبارات', '119 + 77'],
   ].map(([label, value]) => `<div class="stat"><b>${esc(value)}</b><span>${esc(label)}</span></div>`).join('');
   $('upstreams').innerHTML = st.upstreams.map((u) => `<div class="up-row">
       <b>${esc(u.name)}</b> <span class="tag">${esc(u.role)}</span>
