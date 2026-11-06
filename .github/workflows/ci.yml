@@ -1,0 +1,50 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Full verification (python + C++ + generation + offline merge)
+        run: make verify
+      - name: CMake build (optional toolchain)
+        run: |
+          make build-cmake
+          ./build/cmake/speedrun_test
+      - name: Upload offline merge report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: offline-merge-report
+          path: build/merged/MERGE_REPORT.*
+
+  sdk-integration:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Fetch pinned upstream SDKs (checksum verified)
+        run: make fetch
+      - name: Merge the real SDKs
+        run: python3 -m merge.cli run --out build/merged-real
+      - name: Syntax-check injected code against real SDK headers
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq g++-multilib
+          python3 tools/verify_sdk.py --tree build/merged-real
+      - name: Upload real merge report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: real-merge-report
+          path: build/merged-real/MERGE_REPORT.*

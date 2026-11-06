@@ -1,0 +1,62 @@
+# BugfixedHL x Opposing Force - Speedrun Merge Kit
+PYTHON ?= python3
+CXX    ?= g++
+ROOT   := $(CURDIR)
+
+.PHONY: help verify test test-py test-cpp gen route-check merge merge-offline fetch serve build build-cmake verify-sdk clean
+
+help:
+	@echo "verify        - python tests + C++ build/tests + generation checks"
+	@echo "fetch         - download pinned, checksum-verified upstream SDKs"
+	@echo "merge         - merge real upstreams into build/merged"
+	@echo "merge-offline - merge bundled fixtures (no network) into build/merged"
+	@echo "gen           - regenerate C++ route header from data/op4_route.json"
+	@echo "serve         - run the live dashboard on 0.0.0.0:8000"
+	@echo "build         - build the speedrun core + C++ tests (g++, no deps)"
+	@echo "build-cmake   - same via CMake (optional)"
+	@echo "verify-sdk    - syntax-check injected files against the real SDK headers"
+	@echo "clean         - remove build artifacts"
+
+verify: test-py gen route-check test-cpp merge-offline
+	@echo "== ALL CHECKS PASSED =="
+
+test: test-py test-cpp
+
+test-py:
+	$(PYTHON) -m unittest discover -s tests -p 'test_*.py' -v
+
+test-cpp: build
+	./build/speedrun_test
+
+build:
+	mkdir -p build
+	$(CXX) -std=c++17 -O2 -Wall -Wextra -Wpedantic -Isrc/speedrun \
+		src/speedrun/sr_core.cpp tests/cpp/test_speedrun.cpp -o build/speedrun_test
+
+build-cmake:
+	cmake -S . -B build/cmake -DCMAKE_BUILD_TYPE=Release
+	cmake --build build/cmake -j 2
+
+verify-sdk:
+	$(PYTHON) tools/verify_sdk.py --tree build/merged-real
+
+gen:
+	$(PYTHON) tools/gen_route_header.py --check
+
+route-check:
+	$(PYTHON) -m merge.cli route --check
+
+merge-offline:
+	$(PYTHON) -m merge.cli run --offline
+
+merge:
+	$(PYTHON) -m merge.cli run --out build/merged-real
+
+fetch:
+	$(PYTHON) -m merge.cli fetch
+
+serve:
+	$(PYTHON) web/app.py
+
+clean:
+	rm -rf build .cache/upstreams

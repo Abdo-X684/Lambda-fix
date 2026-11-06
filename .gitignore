@@ -1,0 +1,25 @@
+# Build / generated output
+/build/
+/dist/
+/.cache/
+*.o
+*.obj
+*.so
+*.dll
+*.lib
+*.pyc
+__pycache__/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Testing/
+speedrun_test
+*.egg-info/
+
+# Local editor / OS
+.vscode/
+.idea/
+.DS_Store
+
+# Never commit fetched upstream sources (licensed separately)
+/upstreams/

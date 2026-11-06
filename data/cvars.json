@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "note": "cvars emitted into speedrun.cfg. sv_cheats stays 0: no run with cheats enabled is valid.",
+  "cvars": [
+    { "name": "sr_timer_enable",      "value": "1",               "origin": "merge",     "category": "timer",   "desc": "Master switch for the authoritative RTA run timer." },
+    { "name": "sr_timer_hud",         "value": "1",               "origin": "merge",     "category": "timer",   "desc": "Draw the timer, current split and PB delta on the HUD." },
+    { "name": "sr_timer_hud_pos",     "value": "0.82 0.04",       "origin": "merge",     "category": "timer",   "desc": "Normalised screen position of the timer HUD." },
+    { "name": "sr_splits_announce",   "value": "1",               "origin": "merge",     "category": "timer",   "desc": "Print split time and PB delta to the console on level change." },
+    { "name": "sr_pb_path",           "value": "splits/op4_pb.txt", "origin": "merge",   "category": "splits",  "desc": "Personal-best file, one 'map=ms' line per split." },
+    { "name": "sr_autodemo",          "value": "1",               "origin": "bugfixhl",  "category": "demo",    "desc": "Record a demo for every run (ported from BugfixedHL auto demo)." },
+    { "name": "sr_practice_mode",     "value": "0",               "origin": "merge",     "category": "practice", "desc": "Practice mode never writes a PB and marks the run as invalid." },
+    { "name": "bhl_bunnyhop",         "value": "1",               "origin": "bugfixhl",  "category": "movement", "desc": "Ported BugfixedHL bunnyhop / movement fix." },
+    { "name": "bhl_disable_selfgauss","value": "0",               "origin": "bugfixhl",  "category": "movement", "desc": "Ported BugfixedHL server-side selfgauss toggle." },
+    { "name": "hud_fastswitch",       "value": "1",               "origin": "engine",    "category": "hud",     "desc": "Instant weapon switching." },
+    { "name": "cl_showfps",           "value": "1",               "origin": "engine",    "category": "hud",     "desc": "Show FPS for stream overlays." },
+    { "name": "sv_cheats",            "value": "0",               "origin": "legality",  "category": "legality", "desc": "MUST stay 0. Any run recorded with cheats on is rejected." }
+  ]
+}

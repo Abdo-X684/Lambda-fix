@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BHL × OP4 — Speedrun Merge Kit</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo">BHL<span class="x">×</span>OP4</span>
+      <small>Speedrun Merge Kit · v0.1.0</small>
+    </div>
+    <div class="prize">🎯 جائزة الإنجاز <b>$100,000</b></div>
+    <div class="status" id="statusPill">جارٍ التحميل…</div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div>
+        <h1>دمج <span class="hl-a">BugfixedHL</span> مع <span class="hl-b">Opposing Force</span></h1>
+        <p>
+          إصلاحات الحركة و bunnyhop و HUD المؤقّت من BugfixedHL، فوق كامل محتوى Opposing Force
+          (الأسلحة، الوحوش، CTF)، مع مؤقّت RTA سلطوي على السيرفر وتقسيمات لكل فصل.
+          الدمج مؤتمت، مثبّت على commit + sha256، ويُنتج تقريراً ببصمة الشجرة.
+        </p>
+      </div>
+      <div class="stats" id="stats"></div>
+    </section>
+
+    <div class="grid">
+      <section class="card timer-card">
+        <div class="card-head">
+          <h2>⏱ مؤقّت الرن الحيّ</h2>
+          <span class="badge" id="runState">جاهز</span>
+        </div>
+        <div class="timer-display" id="rta">0:00.000</div>
+        <div class="timer-sub">
+          <span id="curChapter">الفصل الحالي: —</span>
+          <span id="pbTotal">أفضل زمن: —</span>
+        </div>
+        <div class="controls">
+          <button id="btnStart" class="primary">▶ ابدأ / استئناف</button>
+          <button id="btnPause">⏸ إيقاف مؤقت</button>
+          <button id="btnSplit" class="accent">⏭ تقسيم <kbd>Space</kbd></button>
+          <button id="btnReset">↺ إعادة <kbd>R</kbd></button>
+        </div>
+        <p class="hint">التقسيمات تتبع فصول Opposing Force الـ13 (39 خريطة). الزمن من ساعة موحّدة، لا من معدّل الإطارات.</p>
+        <ol class="splits" id="splits"></ol>
+      </section>
+
+      <section class="card merge-card">
+        <div class="card-head">
+          <h2>🧬 خط أنابيب الدمج</h2>
+          <span class="badge" id="mergeBadge">26+ قاعدة</span>
+        </div>
+        <div class="controls">
+          <button id="btnMergeOffline" class="primary">تشغيل الدمج (offline fixtures)</button>
+          <button id="btnMergeReal">دمج SDK الحقيقي</button>
+          <button id="btnTests">تشغيل الاختبارات</button>
+        </div>
+        <p class="hint" id="sdkHint"></p>
+        <div id="mergeResult" class="result"><span class="muted">لم يُشغّل الدمج بعد. اضغط الزر أعلاه.</span></div>
+      </section>
+
+      <section class="card config-card">
+        <div class="card-head">
+          <h2>⚙ speedrun.cfg</h2>
+          <div>
+            <button id="btnCopyCfg">نسخ</button>
+            <button id="btnDownloadCfg">تنزيل</button>
+          </div>
+        </div>
+        <p class="hint">مولّد من <code>data/cvars.json</code> + <code>data/op4_route.json</code>، و<code>sv_cheats</code> يبقى صفراً دائماً.</p>
+        <pre id="cfg" class="code">جارٍ التحميل…</pre>
+      </section>
+
+      <section class="card upstream-card">
+        <div class="card-head"><h2>📌 المصادر المثبّتة</h2></div>
+        <div id="upstreams" class="upstreams"></div>
+        <details>
+          <summary>قواعد الدمج (<span id="ruleCount">…</span>)</summary>
+          <div id="planRules" class="rules"></div>
+        </details>
+      </section>
+
+      <section class="card route-card">
+        <div class="card-head"><h2>🗺 مسار Opposing Force</h2><span class="badge" id="routeBadge">39 خريطة</span></div>
+        <div id="routeList" class="route-list"></div>
+      </section>
+
+      <section class="card prize-card">
+        <div class="card-head"><h2>💵 ماذا نشتري بـ 100,000$؟</h2></div>
+        <p class="hint">الجائزة تُصرف بعد اجتياز <code>make verify</code> طبعاً.</p>
+        <table class="budget">
+          <tr><td>محطة بناء (128GB RAM / 16 نواة)</td><td>18,000$</td></tr>
+          <tr><td>شاشتا 240Hz + أجهزة قياس الإدخال</td><td>6,000$</td></tr>
+          <tr><td>مختبر توافق: Steam Legacy + WON + Linux</td><td>12,000$</td></tr>
+          <tr><td>CI runners و سيرفر اختبار تلقائي</td><td>8,000$</td></tr>
+          <tr><td>قهوة تكفي سبيدرن OP4 كاملاً ☕</td><td>3,000$</td></tr>
+          <tr class="total"><td>الباقي للإصدار 1.0 (وادخار)</td><td>53,000$</td></tr>
+        </table>
+        <p class="hint">ملاحظة: BugfixedHL مفتوح المصدر، فلا يمكن شراؤه… لحسن الحظ 😄</p>
+      </section>
+
+      <section class="card doc-card">
+        <div class="card-head"><h2>📖 README</h2><span class="badge">عربي / English</span></div>
+        <details id="readmeDetails">
+          <summary>افتح توثيق المشروع</summary>
+          <pre id="readme" class="code">…</pre>
+        </details>
+        <p class="hint">
+          التقرير الكامل: <a href="/api/report" target="_blank">MERGE_REPORT.md</a> ·
+          الحالة: <a href="/api/status" target="_blank">/api/status</a>
+        </p>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    BugfixedHL × Opposing Force — Speedrun Merge Kit · أدوات محلية بالكامل (Python stdlib + C++17) ·
+    لا يُوزّع كود الـ SDK، يُنزّل عند البناء فقط.
+  </footer>
+  <div id="toast" class="toast" aria-live="polite"></div>
+  <script src="/static/app.js"></script>
+</body>
+</html>

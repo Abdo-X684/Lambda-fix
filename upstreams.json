@@ -1,0 +1,48 @@
+{
+  "schema": 1,
+  "note": "Pinned, checksum-verified upstreams. Never vendor these trees into git; fetch them at build time.",
+  "upstreams": [
+    {
+      "name": "op4",
+      "role": "target",
+      "repo": "twhl-community/halflife-op4-updated",
+      "ref": "5368be7f8eba14b05236c7c52ad5f6b11fd95e55",
+      "layout": "hlsdk-classic",
+      "license": "Valve HALF-LIFE SDK license (non-commercial) + TWHL fixes",
+      "about": "Opposing Force SDK based on Half-Life Updated: OP4 weapons, NPCs, CTF and gamerules.",
+      "tarball": {
+        "url": "https://codeload.github.com/twhl-community/halflife-op4-updated/tar.gz/5368be7f8eba14b05236c7c52ad5f6b11fd95e55",
+        "sha256": "c65e53713b5ef2d3a8a65dfea4010ccb87afb096944e310ce094f9fbdef43753",
+        "bytes": 4566940
+      }
+    },
+    {
+      "name": "bugfixhl",
+      "role": "donor",
+      "repo": "tmp64/BugfixedHL-Rebased",
+      "ref": "4d32095e3c33d5ca60809d9c51f8aafe51c0a521",
+      "layout": "bhl-rebased",
+      "license": "GPL-3.0",
+      "about": "BugfixedHL: crash fixes, bunnyhopping, ConVar system, auto demo recording and a HUD timer.",
+      "tarball": {
+        "url": "https://codeload.github.com/tmp64/BugfixedHL-Rebased/tar.gz/4d32095e3c33d5ca60809d9c51f8aafe51c0a521",
+        "sha256": "a70ab961de1c40f6d4df025fbd37f14c81951afef9b6175023518ed4f81228dc",
+        "bytes": 6498684
+      }
+    },
+    {
+      "name": "valve_hlsdk",
+      "role": "base",
+      "repo": "ValveSoftware/halflife",
+      "ref": "b1b5cf5892918535619b2937bb927e46cb097ba1",
+      "layout": "hlsdk-classic",
+      "license": "Valve HALF-LIFE SDK license (non-commercial)",
+      "about": "Vanilla HLSDK 2.3: common ancestor used as the 3-way merge base.",
+      "tarball": {
+        "url": "https://codeload.github.com/ValveSoftware/halflife/tar.gz/b1b5cf5892918535619b2937bb927e46cb097ba1",
+        "sha256": "f5e7793f974bc02d1e1c4e29a9733df23c2f8dfbaa97c888bb738c2d9b2b5726",
+        "bytes": 10294393
+      }
+    }
+  ]
+}

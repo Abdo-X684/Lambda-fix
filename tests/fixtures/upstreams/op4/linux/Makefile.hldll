@@ -1,0 +1,7 @@
+# OP4 server makefile - fixture
+HLDLL_OBJS = \
+	$(HLDLL_OBJ_DIR)/world.o \
+	$(HLDLL_OBJ_DIR)/client.o
+
+$(HLDLL_OBJ_DIR)/%.o : $(HLDLL_SRC_DIR)/%.cpp
+	$(DO_CC)

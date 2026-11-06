@@ -1,0 +1,214 @@
+{
+  "schema": 1,
+  "name": "bugfixhl-x-op4-speedrun",
+  "target": "op4",
+  "description": "Port BugfixedHL bugfixes and speedrun tooling onto the Opposing Force SDK with a reproducible, conflict-aware 3-way merge.",
+  "rules": [
+    {
+      "id": "tw-movement",
+      "action": "three_way",
+      "path": "pm_shared/pm_shared.cpp",
+      "base": "valve_hlsdk:pm_shared/pm_shared.c",
+      "ours": "op4:pm_shared/pm_shared.cpp",
+      "theirs": "bugfixhl:src/pm_shared/pm_shared.cpp",
+      "on_conflict": "marker",
+      "quarantine": "integration/conflicts/pm_shared.cpp.diff3",
+      "feature": "bunnyhop / movement bugfixes"
+    },
+    {
+      "id": "tw-client",
+      "action": "three_way",
+      "path": "dlls/client.cpp",
+      "base": "valve_hlsdk:dlls/client.cpp",
+      "ours": "op4:dlls/client.cpp",
+      "theirs": "bugfixhl:src/game/server/client.cpp",
+      "on_conflict": "ours",
+      "manual_port": "BugfixedHL rewrote client command handling (Unicode MOTD, slowhack protection). Port fixes hunk-by-hunk: a whole-file merge would destroy OP4-specific client code.",
+      "feature": "server crash / client command fixes"
+    },
+    {
+      "id": "tw-hud",
+      "action": "three_way",
+      "path": "cl_dll/hud.cpp",
+      "base": "valve_hlsdk:cl_dll/hud.cpp",
+      "ours": "op4:cl_dll/hud.cpp",
+      "theirs": "bugfixhl:src/game/client/hud.cpp",
+      "on_conflict": "ours",
+      "manual_port": "BugfixedHL replaced VGUI1 with VGUI2 and split HUD elements into client/hud/*. The OP4 HUD must keep its VGUI1 structure; port individual bugfixes only.",
+      "feature": "HUD init / message registration fixes"
+    },
+    {
+      "id": "port-bhl-timer-cpp",
+      "action": "copy",
+      "from": "bugfixhl:src/game/client/hud/timer.cpp",
+      "path": "integration/ports/bhl_timer.cpp",
+      "banner": true,
+      "note": "GPL-3.0 reference for the timer HUD idea; ship our own game_shared/sr_core.*"
+    },
+    {
+      "id": "port-bhl-timer-h",
+      "action": "copy",
+      "from": "bugfixhl:src/game/client/hud/timer.h",
+      "path": "integration/ports/bhl_timer.h",
+      "banner": true
+    },
+    {
+      "id": "port-bhl-demo-cpp",
+      "action": "copy",
+      "from": "bugfixhl:src/game/client/demo.cpp",
+      "path": "integration/ports/bhl_demo.cpp",
+      "banner": true,
+      "note": "Auto demo recording reference; exposed as sr_autodemo"
+    },
+    {
+      "id": "port-bhl-convar-cpp",
+      "action": "copy",
+      "from": "bugfixhl:src/common/convar.cpp",
+      "path": "integration/ports/bhl_convar.cpp",
+      "include_rewrites": [["src/", ""]],
+      "banner": true
+    },
+    {
+      "id": "port-bhl-convar-h",
+      "action": "copy",
+      "from": "bugfixhl:src/common/convar.h",
+      "path": "integration/ports/bhl_convar.h",
+      "banner": true
+    },
+    {
+      "id": "ports-readme",
+      "action": "copy",
+      "from": "repo:integration/ports/README.md",
+      "path": "integration/ports/README.md"
+    },
+    {
+      "id": "core-header",
+      "action": "copy",
+      "from": "repo:src/speedrun/sr_core.h",
+      "path": "game_shared/sr_core.h",
+      "feature": "clean-room speedrun core"
+    },
+    {
+      "id": "core-source",
+      "action": "copy",
+      "from": "repo:src/speedrun/sr_core.cpp",
+      "path": "game_shared/sr_core.cpp",
+      "feature": "clean-room speedrun core"
+    },
+    {
+      "id": "core-route-data",
+      "action": "copy",
+      "from": "repo:src/speedrun/sr_route_data.h",
+      "path": "game_shared/sr_route_data.h",
+      "feature": "generated OP4 chapter/map route"
+    },
+    {
+      "id": "client-hud-header",
+      "action": "copy",
+      "from": "overlay:cl_dll/sr_hud_timer.h",
+      "path": "cl_dll/sr_hud_timer.h",
+      "feature": "timer HUD"
+    },
+    {
+      "id": "client-hud-source",
+      "action": "copy",
+      "from": "overlay:cl_dll/sr_hud_timer.cpp",
+      "path": "cl_dll/sr_hud_timer.cpp",
+      "feature": "timer HUD"
+    },
+    {
+      "id": "server-header",
+      "action": "copy",
+      "from": "overlay:dlls/sr_server.h",
+      "path": "dlls/sr_server.h",
+      "feature": "authoritative server timer"
+    },
+    {
+      "id": "server-source",
+      "action": "copy",
+      "from": "overlay:dlls/sr_server.cpp",
+      "path": "dlls/sr_server.cpp",
+      "feature": "authoritative server timer"
+    },
+    {
+      "id": "gen-speedrun-cfg",
+      "action": "generate",
+      "path": "gamedir/speedrun.cfg",
+      "generator": "speedrun_cfg"
+    },
+    {
+      "id": "gen-route-json",
+      "action": "generate",
+      "path": "gamedir/splits/op4_route.json",
+      "generator": "route_json"
+    },
+    {
+      "id": "inject-hud-include",
+      "action": "inject",
+      "path": "cl_dll/hud.cpp",
+      "anchor": "#include \"hud.h\"",
+      "where": "after",
+      "snippet": "repo:integration/snippets/hud_include.snippet",
+      "feature": "wire the timer HUD into CHud"
+    },
+    {
+      "id": "inject-hud-init",
+      "action": "inject",
+      "path": "cl_dll/hud.cpp",
+      "anchor": "void CHud::Init()\n{\n",
+      "where": "after",
+      "snippet": "repo:integration/snippets/hud_init.snippet",
+      "feature": "wire the timer HUD into CHud"
+    },
+    {
+      "id": "inject-redraw-include",
+      "action": "inject",
+      "path": "cl_dll/hud_redraw.cpp",
+      "anchor": "#include \"hud.h\"",
+      "where": "after",
+      "snippet": "repo:integration/snippets/redraw_include.snippet"
+    },
+    {
+      "id": "inject-redraw-call",
+      "action": "inject",
+      "path": "cl_dll/hud_redraw.cpp",
+      "anchor": "bool CHud::Redraw(float flTime, bool intermission)\n{\n",
+      "where": "after",
+      "snippet": "repo:integration/snippets/redraw.snippet"
+    },
+    {
+      "id": "inject-world-include",
+      "action": "inject",
+      "path": "dlls/world.cpp",
+      "anchor": "#include \"extdll.h\"",
+      "where": "after",
+      "snippet": "repo:integration/snippets/server_include.snippet"
+    },
+    {
+      "id": "inject-world-spawn",
+      "action": "inject",
+      "path": "dlls/world.cpp",
+      "anchor": "void CWorld::Spawn()\n{\n",
+      "where": "after",
+      "snippet": "repo:integration/snippets/world_spawn.snippet",
+      "feature": "start/continue the run on map spawn"
+    },
+    {
+      "id": "inject-client-include",
+      "action": "inject",
+      "path": "dlls/client.cpp",
+      "anchor": "#include \"extdll.h\"",
+      "where": "after",
+      "snippet": "repo:integration/snippets/server_include.snippet"
+    },
+    {
+      "id": "inject-client-putinserver",
+      "action": "inject",
+      "path": "dlls/client.cpp",
+      "anchor": "void ClientPutInServer(edict_t* pEntity)\n{\n",
+      "where": "after",
+      "snippet": "repo:integration/snippets/client_putinserver.snippet",
+      "feature": "reject runs with sv_cheats enabled"
+    }
+  ]
+}

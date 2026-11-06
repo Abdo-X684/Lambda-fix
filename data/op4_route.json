@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "game": "Half-Life: Opposing Force",
+  "route_id": "op4_any_percent",
+  "source": "https://wiki.sourceruns.org/Opposing-Force-Maps.html",
+  "chapters": [
+    { "id": "ch00", "name": "Incoming",              "name_ar": "الوصول",              "maps": ["of0a0"] },
+    { "id": "ch01", "name": "Welcome To Black Mesa", "name_ar": "أهلاً في بلاك ميسا",  "maps": ["of1a1", "of1a2", "of1a3", "of1a4", "of1a4b"] },
+    { "id": "ch02", "name": "We Are Pulling Out",    "name_ar": "نحن ننسحب",           "maps": ["of1a5", "of1a5b", "of1a6"] },
+    { "id": "ch03", "name": "Missing In Action",     "name_ar": "مفقود في المعركة",    "maps": ["of2a1", "of2a1b", "of2a2", "of2a3"] },
+    { "id": "ch04", "name": "Friendly Fire",         "name_ar": "نيران صديقة",         "maps": ["of2a4", "of2a5", "of2a5b"] },
+    { "id": "ch05", "name": "We Are Not Alone",      "name_ar": "لسنا وحدنا",          "maps": ["of3a1", "of3a1b", "of3a2", "of3a3"] },
+    { "id": "ch06", "name": "Crush Depth",           "name_ar": "عمق السحق",           "maps": ["of3a4", "of3a5", "of3a6"] },
+    { "id": "ch07", "name": "Vicarious Reality",     "name_ar": "واقع غير مباشر",      "maps": ["of4a1", "of4a2", "of4a3"] },
+    { "id": "ch08", "name": "Pit Worm's Nest",       "name_ar": "عش دودة الحفرة",      "maps": ["of4a4", "of4a5"] },
+    { "id": "ch09", "name": "Foxtrot Uniform",       "name_ar": "فوكستروت يونيفورم",   "maps": ["of5a1", "of5a2", "of5a3", "of5a4"] },
+    { "id": "ch10", "name": "The Package",           "name_ar": "الطرد",               "maps": ["of6a1", "of6a2", "of6a3", "of6a4"] },
+    { "id": "ch11", "name": "Worlds Collide",        "name_ar": "تصادم العوالم",       "maps": ["of6a4b", "of6a5"] },
+    { "id": "ch12", "name": "Conclusion",            "name_ar": "الخاتمة",             "maps": ["of7a0"] }
+  ],
+  "boot_camp": {
+    "id": "bootcamp",
+    "name": "Boot Camp",
+    "name_ar": "معسكر التدريب",
+    "maps": ["ofboot0", "ofboot1", "ofboot2", "ofboot3", "ofboot4"],
+    "note": "Separate leaderboard category on speedrun.com; not part of the any% route."
+  }
+}
