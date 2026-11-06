@@ -32,7 +32,10 @@
    `(at, delta, hasPb, map)` عند كل changelevel؛ العميل يربطها في
    `CHud::Init` ويعرض `ServerMirror` (زمن سلطوي + إسقاط رتيب محلي).
 7. **العرض والتوزيع** — `web/app.py` (stdlib http.server + RTL)،
+   `web/markdown.py` (عارض Markdown آمن بلا اعتماديات: عناوين بفهرس، جداول،
+   كتل أوامر، روابط وثائق داخلية؛ يُهرَّب كل النص خادمياً)،
    `tools/package_mod.py` (zip + `MANIFEST.json` بـ sha256، بلا كود SDK).
+   اللوحة تبويبان: لوحة التحكم، وصفحة README/الوثائق بفهرس جانبي.
 
 ## القرارات المهمة
 

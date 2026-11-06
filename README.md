@@ -16,18 +16,27 @@
 ## البدء السريع
 
 ```bash
-make verify        # النظافة + 66 اختبار Python + 77 فحص C++ + التوليد + الدمج + الحزمة
+make verify        # النظافة + 80 اختبار Python + 77 فحص C++ + التوليد + الدمج + الحزمة
 make hygiene       # فحص المسافات/JSON/الاستيرادات/روابط الوثائق
 make tidy          # تنظيف __pycache__ والمجلدات المرحلية ثم إعادة الفحص
 make fetch         # تنزيل SDKات الثلاثة المثبّتة مع التحقق من sha256
 make merge         # الدمج الحقيقي → build/merged-real
 make verify-sdk    # g++ -fsyntax-only لـ9 ملفات + فحص خلوّ المصادر من علامات التعارض
 make package       # dist/bhl-op4-speedrun-overlay.zip + MANIFEST.json
-make serve         # لوحة التحكم على http://localhost:8000
+make serve         # لوحة التحكم + صفحة README على http://localhost:8000
 ```
 
 لا توجد اعتماديات خارجية: Python 3.9+ (stdlib فقط)، g++ مع C++17، و`git`.
 `cmake` اختياري عبر `make build-cmake`.
+
+### 🖥 واجهة المشروع
+
+`make serve` يفتح لوحة RTL بتبويبين: **لوحة التحكم** (مؤقّت، الدمج، التدقيقات،
+cfg، الحزمة، شريط انتقال سريع) و**README والوثائق** — عارض Markdown محلي آمن
+يعرض `README.md` وكل `docs/*.md` بفهرس جانبي، جداول، كتل أوامر، وروابط تنتقل
+بين الوثائق. الرابط المباشر للصفحة: `/#docs` (أو `/#docs/docs/RESOLUTION.md`).
+لا CDN ولا مكتبات JavaScript؛ المحتوى يُقرأ من المستودع عبر `/api/docs`
+و`/api/doc`، والـ HTML يُهرَّب خادمياً قبل إرساله.
 
 | أمر | الوصف |
 | --- | --- |

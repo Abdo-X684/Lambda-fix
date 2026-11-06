@@ -14,7 +14,7 @@ import subprocess
 import sys
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
-from urllib.parse import urlparse
+from urllib.parse import parse_qs, urlparse
 
 ROOT = Path(__file__).resolve().parents[1]
 WEB = ROOT / "web"
@@ -23,6 +23,7 @@ if str(ROOT) not in sys.path:
 
 from merge.configgen import load_route, render_config, route_maps  # noqa: E402
 from tools.package_mod import build as build_package  # noqa: E402
+from web.markdown import DocumentStore  # noqa: E402
 
 STATIC = {
     "/static/style.css": ("web/static/style.css", "text/css; charset=utf-8"),
@@ -42,6 +43,19 @@ def _read_report(name: str):
         return json.loads(path.read_text(encoding="utf-8"))
     except (json.JSONDecodeError, OSError):
         return None
+
+
+def docs_store() -> DocumentStore:
+    """Rebuilt per request so newly added docs show up without a restart."""
+    return DocumentStore(ROOT)
+
+
+def docs_payload() -> dict:
+    return {"docs": docs_store().index()}
+
+
+def doc_payload(name: str) -> dict | None:
+    return docs_store().get(name)
 
 
 def status_payload() -> dict:
@@ -126,7 +140,8 @@ class Handler(BaseHTTPRequestHandler):
         self._send(code, text.encode("utf-8"), ctype)
 
     def do_GET(self) -> None:  # noqa: N802
-        path = urlparse(self.path).path
+        parsed = urlparse(self.path)
+        path, query = parsed.path, parse_qs(parsed.query)
         try:
             if path in ("/", "/index.html"):
                 self._text((WEB / "index.html").read_text(encoding="utf-8"),
@@ -157,6 +172,18 @@ class Handler(BaseHTTPRequestHandler):
                            else "No report yet - run the merge first.")
             elif path == "/api/readme":
                 self._text((ROOT / "README.md").read_text(encoding="utf-8"))
+            elif path == "/api/docs":
+                self._json(docs_payload())
+            elif path == "/api/doc":
+                name = query.get("name", ["README.md"])[0]
+                payload = doc_payload(name)
+                if payload is None:
+                    self._json({"error": "unknown document", "name": name}, 404)
+                elif query.get("raw", [""])[0] == "1":
+                    self._send(200, payload["markdown"].encode("utf-8"),
+                               "text/markdown; charset=utf-8")
+                else:
+                    self._json(payload)
             else:
                 self._json({"error": "not found", "path": path}, 404)
         except (OSError, ValueError) as exc:

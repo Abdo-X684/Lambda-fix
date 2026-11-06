@@ -7,7 +7,7 @@
 
 ```bash
 make hygiene     # نصوص، JSON، استيرادات، روابط markdown، فهرس الوثائق
-make verify      # 66 اختبار Python + 77 فحص C++ + التوليد + الدمج + الحزمة
+make verify      # 80 اختبار Python + 77 فحص C++ + التوليد + الدمج + الحزمة
 make fetch && make merge && make verify-sdk   # إن غيّرت pins أو نقاط حقن
 ```
 
@@ -22,8 +22,9 @@ make fetch && make merge && make verify-sdk   # إن غيّرت pins أو نقا
 | كود C++ مشترك بين test واللعبة | `src/speedrun/` ثم قاعدة `copy` إلى `game_shared/` |
 | glue يعتمد على محرك Half-Life | `overlay/cl_dll/` أو `overlay/dlls/` + تحديث `merge/projects.py` |
 | خريطة/فصل/cvar | `data/` ثم `python3 tools/gen_route_header.py --write` |
-| وثيقة جديدة | `docs/` **وأضفها إلى `docs/README.md`** (يفشل `make hygiene` otherwise) |
+| وثيقة جديدة | `docs/` **وأضفها إلى `docs/README.md`** (وإلا يفشل `make hygiene`)؛ تظهر تلقائياً في تبويب الوثائق بالواجهة |
 | اختبار | `tests/test_*.py` أو `tests/cpp/test_speedrun.cpp` |
+| تعديل عارض الوثائق | `web/markdown.py` + `tests/test_markdown.py` (افحص التهريب والروابط) |
 
 ## إضافة قاعدة `inject`
 

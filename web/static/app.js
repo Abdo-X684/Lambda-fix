@@ -194,7 +194,7 @@ $('btnPackage').onclick = async () => {
   } catch (e) { $('packageResult').innerHTML = `<p class="notes">❌ ${esc(e.message)}</p>`; }
 };
 $('btnTests').onclick = async () => {
-  $('mergeResult').innerHTML = '<span class="muted">⏳ جارٍ تشغيل 66 اختبار Python…</span>';
+  $('mergeResult').innerHTML = '<span class="muted">⏳ جارٍ تشغيل 80 اختبار Python…</span>';
   try {
     const r = await api('/api/tests', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}' });
     const d = await r.json();
@@ -208,7 +208,7 @@ function renderStatus(st) {
   $('statusPill').classList.add('ok');
   $('stats').innerHTML = [
     ['قواعد الدمج', st.rules], ['خرائط OP4', st.route.maps], ['فصول', st.route.chapters],
-    ['مصادر مثبّتة', st.upstreams.length], ['اختبارات', '66 + 77'],
+    ['مصادر مثبّتة', st.upstreams.length], ['اختبارات', '80 + 77'],
   ].map(([label, value]) => `<div class="stat"><b>${esc(value)}</b><span>${esc(label)}</span></div>`).join('');
   $('upstreams').innerHTML = st.upstreams.map((u) => `<div class="up-row">
       <b>${esc(u.name)}</b> <span class="tag">${esc(u.role)}</span>
@@ -268,11 +268,110 @@ $('btnDownloadCfg').onclick = () => {
   a.href = URL.createObjectURL(blob); a.download = 'speedrun.cfg'; a.click();
   URL.revokeObjectURL(a.href);
 };
-$('readmeDetails').addEventListener('toggle', async (e) => {
-  if (e.target.open && $('readme').textContent === '…') {
-    $('readme').textContent = await api('/api/readme').then((r) => r.text());
-  }
-});
+/* -------------------------------------------------------- views / docs --- */
+const docsState = { name: 'README.md', docs: [], raw: '', toc: [] };
+let tocObserver = null;
 
-loadAll();
+function setView(view, opts = {}) {
+  const isDocs = view === 'docs';
+  $('viewDashboard').hidden = isDocs;
+  $('viewDocs').hidden = !isDocs;
+  $('btnViewDashboard').classList.toggle('active', !isDocs);
+  $('btnViewDocs').classList.toggle('active', isDocs);
+  if (!opts.keepHash) {
+    const hash = isDocs
+      ? (docsState.name === 'README.md' ? '#docs' : `#docs/${docsState.name}`)
+      : '#dashboard';
+    history.replaceState(null, '', hash);
+  }
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function setupObserver() {
+  if (tocObserver) tocObserver.disconnect();
+  const heads = [...$('docsBody').querySelectorAll('h1[id], h2[id], h3[id]')];
+  if (!('IntersectionObserver' in window) || !heads.length) return;
+  tocObserver = new IntersectionObserver((entries) => {
+    const visible = entries.filter((x) => x.isIntersecting)
+      .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
+    if (!visible) return;
+    $('docsToc').querySelectorAll('a').forEach((x) =>
+      x.classList.toggle('active', x.dataset.target === visible.target.id));
+  }, { rootMargin: '-80px 0px -70% 0px', threshold: 0 });
+  heads.forEach((h) => tocObserver.observe(h));
+}
+
+async function loadDoc(name) {
+  try {
+    const r = await api('/api/doc?name=' + encodeURIComponent(name));
+    const d = await r.json();
+    if (d.error) throw new Error(d.error);
+    docsState.name = d.name;
+    docsState.raw = d.markdown;
+    docsState.toc = d.toc;
+    $('docsTitle').textContent = d.title;
+    $('docPath').textContent = `${d.name} · ${d.bytes} بايت · مُنسّق محلياً بلا مكتبات خارجية`;
+    $('btnDownloadMarkdown').href = '/api/doc?name=' + encodeURIComponent(d.name) + '&raw=1';
+    $('btnDownloadMarkdown').setAttribute('download', d.name.replace(/\//g, '-'));
+    $('docsBody').innerHTML = d.html;
+    $('docsToc').innerHTML = d.toc.map((t, i) =>
+      `<a class="toc-item lvl-${t.level}${i === 0 ? ' active' : ''}" href="#${encodeURIComponent(t.id)}" data-target="${esc(t.id)}">${esc(t.text)}</a>`).join('');
+    $('docsMeta').textContent = `${d.toc.length} عنواناً · ${d.bytes} بايت`;
+    $('docsList').querySelectorAll('.docs-chip').forEach((c) =>
+      c.classList.toggle('active', c.dataset.doc === d.name));
+    setView('docs');
+    setupObserver();
+  } catch (e) { toast('تعذّر تحميل الوثيقة: ' + e.message); }
+}
+
+async function loadDocsList() {
+  try {
+    const d = await api('/api/docs').then((r) => r.json());
+    docsState.docs = d.docs;
+    $('docsList').innerHTML = d.docs.map((x) =>
+      `<button type="button" class="docs-chip" data-doc="${esc(x.name)}" title="${esc(x.name)}">${esc(x.title)}</button>`).join('');
+  } catch (e) { toast('تعذّر تحميل فهرس الوثائق: ' + e.message); }
+}
+
+function viewFromHash() {
+  const hash = decodeURIComponent(location.hash || '');
+  if (hash.startsWith('#docs')) {
+    loadDoc(hash.slice(6) || 'README.md');
+  } else {
+    setView('dashboard', { keepHash: true });
+  }
+}
+
+$('btnViewDashboard').onclick = () => setView('dashboard');
+$('btnViewDocs').onclick = () => loadDoc(docsState.name);
+$('btnOpenReadme').onclick = () => loadDoc('README.md');
+$('btnQuickReadme').onclick = () => loadDoc('README.md');
+$('btnBackDashboard').onclick = () => setView('dashboard');
+$('docsList').addEventListener('click', (e) => {
+  const b = e.target.closest('button[data-doc]');
+  if (b) loadDoc(b.dataset.doc);
+});
+$('docsToc').addEventListener('click', (e) => {
+  const a = e.target.closest('a[data-target]');
+  if (!a) return;
+  e.preventDefault();
+  const target = document.getElementById(a.dataset.target);
+  if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  $('docsToc').querySelectorAll('a').forEach((x) => x.classList.toggle('active', x === a));
+});
+$('docsBody').addEventListener('click', (e) => {
+  const a = e.target.closest('a.doc-link');
+  if (!a) return;
+  e.preventDefault();
+  loadDoc(a.dataset.doc);
+});
+$('btnCopyMarkdown').onclick = async () => {
+  const raw = docsState.name === 'README.md'
+    ? await api('/api/readme').then((r) => r.text())
+    : docsState.raw;
+  await navigator.clipboard.writeText(raw);
+  toast('📋 نُسخ مصدر ' + docsState.name);
+};
+
+loadAll().then(() => { loadDocsList().then(viewFromHash); });
 tick();

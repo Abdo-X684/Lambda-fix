@@ -30,9 +30,38 @@ class WebTests(unittest.TestCase):
 
     def test_api_paths_in_js_are_served(self):
         js = (ROOT / "web" / "static" / "app.js").read_text(encoding="utf-8")
-        paths = set(re.findall(r"api\('(/api/[a-z-]+)'", js))
+        paths = set(re.findall(r"api\('(/api/[a-z-]+)", js))
         self.assertEqual(paths, {"/api/status", "/api/route", "/api/plan", "/api/config",
-                                 "/api/report", "/api/readme", "/api/merge", "/api/tests", "/api/package"})
+                                 "/api/report", "/api/readme", "/api/merge", "/api/tests",
+                                 "/api/package", "/api/docs", "/api/doc"})
+
+    def test_docs_payload_lists_all_documents(self):
+        docs = app.docs_payload()["docs"]
+        names = [d["name"] for d in docs]
+        self.assertIn("README.md", names)
+        self.assertIn("CONTRIBUTING.md", names)
+        self.assertIn("docs/RESOLUTION.md", names)
+        self.assertTrue(all(d["title"] and d["bytes"] > 0 for d in docs))
+
+    def test_doc_payload_renders_readme(self):
+        doc = app.doc_payload("README.md")
+        self.assertIsNotNone(doc)
+        self.assertIn("<table", doc["html"])
+        self.assertTrue(doc["toc"])
+        self.assertIn("make verify", doc["html"])
+        self.assertNotIn("<script", doc["html"])
+        self.assertEqual(doc["markdown"], (ROOT / "README.md").read_text(encoding="utf-8"))
+
+    def test_unknown_document_is_rejected(self):
+        self.assertIsNone(app.doc_payload("../upstreams.json"))
+        self.assertIsNone(app.doc_payload("missing.md"))
+
+    def test_all_documents_are_renderable(self):
+        for entry in app.docs_payload()["docs"]:
+            with self.subTest(doc=entry["name"]):
+                doc = app.doc_payload(entry["name"])
+                self.assertIsNotNone(doc)
+                self.assertTrue(doc["html"].strip())
 
     def test_dashboard_binds_all_interfaces(self):
         source = (ROOT / "web" / "app.py").read_text(encoding="utf-8")
