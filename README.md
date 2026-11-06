@@ -36,6 +36,7 @@ make serve         # لوحة التحكم + صفحة README على http://local
 [`client.so`](https://github.com/Abdo-X684/Bugfixhl-speedrun-op4/raw/arena/dd30bd22-bugfixhl-speedrun-op4/dist/dlls/client.so) ·
 [`hl.so`](https://github.com/Abdo-X684/Bugfixhl-speedrun-op4/raw/arena/dd30bd22-bugfixhl-speedrun-op4/dist/dlls/hl.so) ·
 [`MANIFEST.json`](dist/dlls/MANIFEST.json).
+روابط الأصول المباشرة: [client.so](https://github.com/Abdo-X684/Bugfixhl-speedrun-op4/releases/download/v0.1.0-linux32/client.so) · [hl.so](https://github.com/Abdo-X684/Bugfixhl-speedrun-op4/releases/download/v0.1.0-linux32/hl.so).
 أو من لوحة التحكم زر «⬇ حمّل client.so». التفاصيل في [`docs/BUILDING.md`](docs/BUILDING.md).
 
 ### 🖥 واجهة المشروع
