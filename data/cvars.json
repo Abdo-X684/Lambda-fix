@@ -85,6 +85,13 @@
       "origin": "legality",
       "category": "legality",
       "desc": "MUST stay 0. Any run recorded with cheats on is rejected."
+    },
+    {
+      "name": "sr_hud_banner",
+      "value": "1",
+      "origin": "merge",
+      "category": "hud",
+      "desc": "Draw the green 'BHL x OP4 SPEEDRUN' banner - proves the merged client.so is loaded."
     }
   ]
 }

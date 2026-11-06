@@ -6,13 +6,13 @@
   "tree": "/home/user/Bugfixhl-speedrun-op4/build/merged-real",
   "files": {
     "client.so": {
-      "bytes": 9058172,
-      "sha256": "e4730179d36b4d24ce0a66143b3b8a32158cee9b9639bee7afa4a4210d4b5e81",
+      "bytes": 9061532,
+      "sha256": "7e8844c2523118b1042f954c9a018a554a6604e00eea1605e0c9ad64cc015ff5",
       "elf32": true
     },
     "hl.so": {
-      "bytes": 15945564,
-      "sha256": "9b3db3640007247e84b5cc7eff44dd2d2f7503a0d8422be03a9a663d16856626",
+      "bytes": 15949616,
+      "sha256": "8655c6eda0c471761e7d275f516ab24f0c974673d004a59fdbc637c849e5ecad",
       "elf32": true
     }
   }

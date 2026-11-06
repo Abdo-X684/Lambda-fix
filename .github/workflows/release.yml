@@ -49,7 +49,8 @@ jobs:
           if gh release view "$TAG" >/dev/null 2>&1; then
             gh release upload "$TAG" \
               dist/bhl-op4-mod.zip dist/dlls/client.so dist/dlls/hl.so dist/dlls/MANIFEST.json --clobber
-            gh release edit "$TAG" --notes-file .github/release-notes.md
+            gh release edit "$TAG" --notes-file .github/release-notes.md \
+              --title "BHL × OP4 Speedrun — v0.1.1 (Linux 32-bit mod)"
           else
             gh release create "$TAG" \
               dist/bhl-op4-mod.zip dist/dlls/client.so dist/dlls/hl.so dist/dlls/MANIFEST.json \

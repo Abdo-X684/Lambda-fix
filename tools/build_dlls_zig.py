@@ -16,6 +16,7 @@ See docs/BUILDING.md.
 
 from __future__ import annotations
 
+import re
 import shutil
 import subprocess
 import sys
@@ -70,6 +71,20 @@ def run(cmd: list[str], log: str) -> None:
         raise SystemExit(proc.returncode)
 
 
+def precreate_obj_dirs(args: list[str]) -> None:
+    """Zig (unlike GNU make) does not create the output directory for -o.
+
+    Ask make for a dry run of every compile command and create each object's
+    parent directory. This covers nested folders such as hl1_client/hl and
+    hldll/weapons without hard-coding a list that drifts with the SDK.
+    """
+    for makefile in ("Makefile.hl_cdll", "Makefile.hldll"):
+        proc = subprocess.run(["make", "-f", makefile, "-n"] + args,
+                              cwd=LINUX, capture_output=True, text=True)
+        for match in re.finditer(r"-o\s+(\S+\.o)", proc.stdout + proc.stderr):
+            (LINUX / match.group(1)).parent.mkdir(parents=True, exist_ok=True)
+
+
 def main() -> int:
     if not (LINUX / "Makefile.hl_cdll").is_file():
         raise SystemExit("run `make fetch && make merge` first")
@@ -91,10 +106,6 @@ def main() -> int:
 
         (LINUX / "release").mkdir(parents=True, exist_ok=True)
         (LINUX / "gendbg.sh").chmod(0o755)
-        dirs = ["hldll/ctf", "hldll/rope", "hldll/weapons", "hldll/wpn_shared",
-                "hl1_client", "particleman", "public", "common", "game_shared", "pm_shared"]
-        for rel in dirs:
-            (LINUX / "release" / "obj" / rel).mkdir(parents=True, exist_ok=True)
 
         client_inc = (f"-I{tmp} -I../cl_dll -I../cl_dll/particleman -I../dlls "
                       "-I/usr/include/malloc -I../common -I../public -I../pm_shared "
@@ -105,6 +116,8 @@ def main() -> int:
         client_ld = (f"-shared -Wl,--no-as-needed {tmp}/vgui.so -Wl,--as-needed "
                      "-L. libSDL2-2.0.so.0")
         common = [f"CPLUS={wrapper}"] + make_vars()
+        precreate_obj_dirs([f"INCLUDEDIRS={client_inc}",
+                            f"LDFLAGS={client_ld}"] + common)
 
         run(["make", "-f", "Makefile.hl_cdll", "-j8",
              f"INCLUDEDIRS={client_inc}", f"LDFLAGS={client_ld}"] + common,

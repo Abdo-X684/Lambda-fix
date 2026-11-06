@@ -4,6 +4,11 @@
 // The timer never reads the renderer clock: sr::SystemClock is monotonic.
 // Every level change is a split and is broadcast to clients via SRSplit, so
 // the HUD shows server time rather than a client-side guess.
+//
+// v0.1.1: register the sr_* cvars on the server as well (an unregistered cvar
+// reads back as 0, which used to suppress every split broadcast and every
+// console announce), print a loud load banner and add `sr_status` so it is
+// trivial to confirm that THIS hl.so is loaded.
 #include "extdll.h"
 #include "util.h"
 #include "cbase.h"
@@ -14,6 +19,8 @@
 #include <cstdio>
 #include <cstring>
 #include <exception>
+
+#define SR_KIT_VERSION "0.1.1"
 
 int gmsgSRSplit = 0;
 
@@ -33,6 +40,21 @@ sr::RunTimer g_Timer(g_Clock);
 char g_LastMap[64] = {};
 bool g_Valid = true;
 bool g_CommandsRegistered = false;
+bool g_Announced = false;
+
+// Registered with CVAR_REGISTER below; without this, CVAR_GET_FLOAT() on an
+// unknown cvar returns 0 even when speedrun.cfg set it to 1.
+cvar_t sr_cv_net_splits = {"sr_net_splits", "1", FCVAR_SERVER};
+cvar_t sr_cv_splits_announce = {"sr_splits_announce", "1", FCVAR_SERVER};
+cvar_t sr_cv_practice_mode = {"sr_practice_mode", "0", FCVAR_SERVER};
+cvar_t sr_cv_version = {"sr_version", SR_KIT_VERSION, FCVAR_SERVER};
+
+float SrCvar(const char* name, float fallback) {
+    const float value = CVAR_GET_FLOAT(name);
+    // An unregistered cvar is indistinguishable from "set to 0", so fall back
+    // to the built-in default when the engine knows nothing about it.
+    return value == 0.0f ? fallback : value;
+}
 
 bool CheatsEnabled() {
     return CVAR_GET_FLOAT("sv_cheats") != 0.0f;
@@ -45,7 +67,7 @@ int ClampToLong(sr::Ms value) {
 }
 
 void BroadcastSplit(const char* map, const sr::Split& split) {
-    if (gmsgSRSplit == 0 || CVAR_GET_FLOAT("sr_net_splits") == 0.0f) {
+    if (gmsgSRSplit == 0 || SrCvar("sr_net_splits", 1.0f) == 0.0f) {
         return;
     }
     MESSAGE_BEGIN(MSG_ALL, gmsgSRSplit);
@@ -66,7 +88,7 @@ void SplitNow(const char* map) {
     SR_TRY {
         g_Timer.SplitAt(map);
         const sr::Split& split = g_Timer.Splits().back();
-        if (CVAR_GET_FLOAT("sr_splits_announce") != 0.0f) {
+        if (SrCvar("sr_splits_announce", 1.0f) != 0.0f) {
             ALERT(at_console, "[BHLxOP4] split %s: %s (%c%s vs PB)\n", map,
                   sr::FormatTime(split.at).c_str(), split.delta < 0 ? '-' : '+',
                   sr::FormatTime(split.delta < 0 ? -split.delta : split.delta).c_str());
@@ -86,19 +108,41 @@ void Command_Reset() {
 }
 
 void Command_Practice() {
-    const float current = CVAR_GET_FLOAT("sr_practice_mode");
+    const float current = SrCvar("sr_practice_mode", 0.0f);
     CVAR_SET_FLOAT("sr_practice_mode", current != 0.0f ? 0.0f : 1.0f);
     ALERT(at_console, "[BHLxOP4] practice mode %s\n",
           current != 0.0f ? "off" : "on (PB writes disabled)");
+}
+
+void Command_Status() {
+    ALERT(at_console, "\n[BHLxOP4] ============================================\n");
+    ALERT(at_console, "[BHLxOP4]  BugfixedHL x OP4 Speedrun v" SR_KIT_VERSION "\n");
+    ALERT(at_console, "[BHLxOP4]  hl.so LOADED - merge is active\n");
+    ALERT(at_console, "[BHLxOP4]  map=%s  timer=%s  run=%s  elapsed=%s\n",
+          g_LastMap[0] ? g_LastMap : "(none)",
+          g_Timer.IsRunning() ? "running" : "stopped",
+          SR_Server_RunIsValid() ? "valid" : "invalid",
+          sr::FormatTime(g_Timer.ElapsedMs()).c_str());
+    ALERT(at_console, "[BHLxOP4]  sv_cheats=%s  sr_net_splits=%.0f  sr_practice_mode=%.0f\n",
+          CheatsEnabled() ? "ON (invalid)" : "0",
+          CVAR_GET_FLOAT("sr_net_splits"), CVAR_GET_FLOAT("sr_practice_mode"));
+    ALERT(at_console, "[BHLxOP4]  route: 39 maps / 13 chapter splits\n");
+    ALERT(at_console, "[BHLxOP4]  commands: sr_split sr_reset sr_practice_toggle sr_status\n");
+    ALERT(at_console, "[BHLxOP4] ============================================\n\n");
 }
 
 void RegisterCommands() {
     if (g_CommandsRegistered) {
         return;
     }
+    CVAR_REGISTER(&sr_cv_net_splits);
+    CVAR_REGISTER(&sr_cv_splits_announce);
+    CVAR_REGISTER(&sr_cv_practice_mode);
+    CVAR_REGISTER(&sr_cv_version);
     g_engfuncs.pfnAddServerCommand("sr_split", Command_Split);
     g_engfuncs.pfnAddServerCommand("sr_reset", Command_Reset);
     g_engfuncs.pfnAddServerCommand("sr_practice_toggle", Command_Practice);
+    g_engfuncs.pfnAddServerCommand("sr_status", Command_Status);
     g_CommandsRegistered = true;
 }
 }  // namespace
@@ -108,6 +152,13 @@ void SR_Server_OnMapSpawn(const char* map) {
     // Fallback for builds where UserMessages.cpp was not patched.
     if (gmsgSRSplit == 0) {
         gmsgSRSplit = REG_USER_MSG("SRSplit", -1);
+    }
+    if (!g_Announced) {
+        ALERT(at_console, "\n[BHLxOP4] ============================================\n");
+        ALERT(at_console, "[BHLxOP4]  BugfixedHL x OP4 Speedrun v" SR_KIT_VERSION "\n");
+        ALERT(at_console, "[BHLxOP4]  server DLL LOADED - type sr_status in console\n");
+        ALERT(at_console, "[BHLxOP4] ============================================\n\n");
+        g_Announced = true;
     }
     if (!map || !map[0]) {
         return;

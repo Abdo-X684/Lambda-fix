@@ -64,7 +64,7 @@ def liblist_text(name: str) -> str:
         'cldll "1"\n'
         'secure "0"\n'
         'svonly "0"\n'
-        'version "1"\n'
+        'version "0.1.1"\n'
         'gamedll "dlls\\hl.dll"\n'
         'gamedll_linux "dlls/hl.so"\n'
         'fallback_dir "gearbox"\n'
@@ -98,6 +98,35 @@ named `{name}` precisely so it passes that check.
 The real `vgui.so` and all game assets come from your own legally installed
 Half-Life: Opposing Force. `client.so` has a `DT_NEEDED vgui.so` entry; the game
 supplies that library at runtime. No Valve/Gearbox binary is redistributed.
+
+## How to confirm the merge is really loaded (5 seconds)
+
+The build used to look exactly like vanilla Opposing Force: the `sr_*` cvars
+were never registered on the client, so the HUD was silently disabled, and the
+local timer was never started. In this build (v0.1.1) it is unmistakable:
+
+1. **A green line `[ BHL x OP4 SPEEDRUN ] v0.1.1`** at the top-left of the
+   screen from the very first frame, followed by a running `RTA` timer and a
+   `SPLIT` line. Turn it off with `sr_hud_banner 0`.
+2. **Console**: `[BHLxOP4] client.so LOADED` when the client DLL initialises,
+   and `[BHLxOP4] server DLL LOADED` when the first map spawns.
+3. Type **`sr_status`** in the console: it prints the version, the map, timer
+   state, cvar values and the available commands. `sr_version` prints `0.1.1`.
+4. `[BHLxOP4] speedrun.cfg loaded - glhf` confirms `+exec speedrun.cfg` ran.
+
+If NONE of these appear, the game is **not loading our two DLLs** (the mod is
+running on stock binaries). Check, in order:
+
+* the folder really is `Half-Life/{name}/` (not `Half-Life/{name}/{name}/`
+  after unzipping, and not inside `gearbox/`);
+* the launch options really contain `-game {name}` — Steam sometimes keeps an
+  old `-game gearbox` in the options; verify with `status` / `version` in the
+  console, and check `liblist.gam` contains `gamedll_linux "dlls/hl.so"`;
+* `Half-Life/vgui.so` exists (the engine needs it to load `client.so`);
+* the console does not say `could not load library .../client.so` (wrong
+  architecture or missing 32-bit runtime libraries);
+* you are on Linux — these are ELF32 binaries. On Windows build the VS2019
+  solution and use `client.dll` / `hl.dll` in the same folder.
 
 Verify the files with `MANIFEST.json` (sha256 for every entry). Both libraries
 are ELF 32-bit i386, because GoldSrc Linux cannot load 64-bit libraries.

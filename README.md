@@ -16,7 +16,7 @@
 ## البدء السريع
 
 ```bash
-make verify        # النظافة + 102 اختبار Python + 77 فحص C++ + التوليد + الدمج + الحزمة
+make verify        # النظافة + 111 اختبار Python + 77 فحص C++ + التوليد + الدمج + الحزمة
 make hygiene       # فحص المسافات/JSON/الاستيرادات/روابط الوثائق
 make tidy          # تنظيف __pycache__ والمجلدات المرحلية ثم إعادة الفحص
 make fetch         # تنزيل SDKات الثلاثة المثبّتة مع التحقق من sha256
@@ -47,6 +47,14 @@ make serve         # لوحة التحكم + صفحة README على http://local
 [hl.so](https://github.com/Abdo-X684/Bugfixhl-speedrun-op4/releases/download/v0.1.0-linux32/hl.so) ·
 [`MANIFEST.json`](dist/dlls/MANIFEST.json)، ومن لوحة التحكم زر «⬇ المود الجاهز».
 `make mod` يعيد توليد المجلد والأرشيف.
+
+### 🔎 كيف تتأكد أن الدمج شغّال؟
+
+النسخة `v0.1.1` تُظهر سطراً أخضر `[ BHL x OP4 SPEEDRUN ] v0.1.1` أعلى يسار
+الشاشة مع مؤقت `RTA`، وتطبع `[BHLxOP4] client.so LOADED` في الكونسول،
+والأمر **`sr_status`** يعرض الإصدار والخريطة وحالة المؤقت. إن لم يظهر شيء من
+هذا فالمكتبات لم تُحمّل: تأكد من `Half-Life/bhlop4/` ومن `-game bhlop4` في
+خيارات التشغيل. التفاصيل في [`docs/BUILDING.md`](docs/BUILDING.md).
 
 ### 🖥 واجهة المشروع
 

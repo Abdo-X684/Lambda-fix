@@ -31,11 +31,33 @@ hl_linux -game bhlop4 -console -dev +exec speedrun.cfg
 
 ---
 
+## 🔎 شغّلته لكن «مافي أي علامات BHL»؟
+
+هذا كان خطأً حقيقياً في النسخة السابقة (v0.1.0): لم تكن `sr_*` cvars مسجّلة
+على العميل، فكان `CVAR_GET_FLOAT("sr_timer_enable")` يرجع `0` ويُطفئ الـ HUD،
+والمؤقت المحلي لم يكن يبدأ أبداً، فلا يُرسم شيء حتى أول تغيير خريطة. النتيجة:
+OP4 عادي تماماً. في **v0.1.1** صار الدمج مرئياً من أول إطار:
+
+| العلامة | أين |
+| --- | --- |
+| سطر أخضر `[ BHL x OP4 SPEEDRUN ] v0.1.1` | أعلى يسار الشاشة + مؤقت `RTA` وسطر `SPLIT` |
+| `[BHLxOP4] client.so LOADED` / `server DLL LOADED` | الكونسول عند التحميل |
+| **`sr_status`** | الكونسول: الإصدار، الخريطة، حالة المؤقت، الـ cvars، الأوامر |
+| `sr_version` | يطبع `0.1.1` |
+| `[BHLxOP4] speedrun.cfg loaded - glhf` | يؤكد أن `+exec speedrun.cfg` اشتغل |
+
+إن لم يظهر **أي** واحد منها فاللعبة لم تحمّل مكتباتنا أصلاً، راجع بالترتيب:
+`Half-Life/bhlop4/` (لا `bhlop4/bhlop4/` ولا داخل `gearbox/`)، خيارات التشغيل
+تحتوي فعلاً `-game bhlop4` (Steam أحياناً يُبقي `-game gearbox` قديماً)،
+`liblist.gam` فيه `gamedll_linux "dlls/hl.so"`، وجود `Half-Life/vgui.so`،
+وخلوّ الكونسول من `could not load library .../client.so`. `sr_hud_banner 0`
+يُخفي الشعار إن أردت.
+
 ## ✅ جاهز للتحميل الآن
 
 | الملف | الحجم | التحميل |
 | --- | --- | --- |
-| **`bhl-op4-mod.zip`** ⭐ | 9.3 MB | [**⬇ المود كامل**](https://github.com/Abdo-X684/Bugfixhl-speedrun-op4/releases/download/v0.1.0-linux32/bhl-op4-mod.zip) · [من اللوحة](/dist/bhl-op4-mod.zip) |
+| **`bhl-op4-mod.zip`** ⭐ v0.1.1 | 9.3 MB | [**⬇ المود كامل**](https://github.com/Abdo-X684/Bugfixhl-speedrun-op4/releases/download/v0.1.0-linux32/bhl-op4-mod.zip) · [من اللوحة](/dist/bhl-op4-mod.zip) |
 | `client.so` | 9.0 MB | [**⬇ مباشر**](https://github.com/Abdo-X684/Bugfixhl-speedrun-op4/releases/download/v0.1.0-linux32/client.so) · [من اللوحة](/dist/dlls/client.so) |
 | `hl.so` | 15.9 MB | [**⬇ مباشر**](https://github.com/Abdo-X684/Bugfixhl-speedrun-op4/releases/download/v0.1.0-linux32/hl.so) · [من اللوحة](/dist/dlls/hl.so) |
 | `MANIFEST.json` | sha256 + ELF32 | [**⬇ مباشر**](https://github.com/Abdo-X684/Bugfixhl-speedrun-op4/releases/download/v0.1.0-linux32/MANIFEST.json) |
