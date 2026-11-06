@@ -22,6 +22,7 @@ COMMON_INCLUDES = [
 ]
 CLIENT_FILES = [
     ("cl_dll/sr_hud_timer.cpp", True),
+    ("cl_dll/sr_hud_msg.cpp", True),
     ("cl_dll/hud.cpp", True),
     ("cl_dll/hud_redraw.cpp", True),
 ]
@@ -29,8 +30,22 @@ SERVER_FILES = [
     ("dlls/sr_server.cpp", False),
     ("dlls/world.cpp", False),
     ("dlls/client.cpp", False),
+    ("dlls/UserMessages.cpp", False),
     ("game_shared/sr_core.cpp", False),
 ]
+SOURCE_DIRS = ("cl_dll", "dlls", "game_shared", "pm_shared", "common")
+
+
+def find_conflict_markers(tree: Path) -> list[str]:
+    """Return source files that still contain 3-way merge conflict markers."""
+    found: list[str] = []
+    for d in SOURCE_DIRS:
+        for path in (tree / d).rglob("*"):
+            if path.is_file() and path.suffix.lower() in {".c", ".cpp", ".h", ".hpp"}:
+                head = path.read_bytes()[:200000]
+                if b"<<<<<<<" in head or b">>>>>>>" in head:
+                    found.append(path.relative_to(tree).as_posix())
+    return sorted(found)
 
 
 def check(tree: Path) -> int:
@@ -62,7 +77,16 @@ def check(tree: Path) -> int:
             failures += 1
         else:
             print(f"OK   {rel}")
-    print(f"{len(CLIENT_FILES) + len(SERVER_FILES) - failures}/{len(CLIENT_FILES) + len(SERVER_FILES)} files compile against the real SDK headers")
+    total = len(CLIENT_FILES) + len(SERVER_FILES)
+    print(f"{total - failures}/{total} files compile against the real SDK headers")
+
+    # A finished merge must never leave conflict markers in buildable sources.
+    markers = find_conflict_markers(tree)
+    if markers:
+        print(f"FAIL conflict markers found in {len(markers)} source file(s): {markers[:5]}")
+        failures += 1
+    else:
+        print("OK   no conflict markers in buildable sources")
     return 1 if failures else 0
 
 

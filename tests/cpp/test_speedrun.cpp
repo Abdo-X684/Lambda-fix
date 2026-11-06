@@ -133,6 +133,27 @@ static void test_pb_and_splits() {
     CHECK(parsed.at("of1a1") == 2500);
 }
 
+static void test_server_mirror() {
+    sr::ServerMirror mirror;
+    CHECK(!mirror.HasServer());
+    CHECK(mirror.ProjectedMs(9999) == 0);
+    mirror.OnServerSplit(1000, 5000);
+    CHECK(mirror.HasServer());
+    CHECK(mirror.ProjectedMs(5000) == 1000);
+    CHECK(mirror.ProjectedMs(5250) == 1250);
+    CHECK(mirror.ProjectedMs(4000) == 1000);  // clock went backwards: never lose time
+    mirror.OnServerSplit(9000, 10000);
+    CHECK(mirror.ProjectedMs(10200) == 9200);
+    mirror.Freeze(10300);
+    CHECK(mirror.IsFinished());
+    CHECK(mirror.ProjectedMs(999999) == 9300);  // frozen at finish
+    mirror.OnServerSplit(12000, 12000, true);
+    CHECK(mirror.ProjectedMs(999999) == 12000);
+    mirror.Reset();
+    CHECK(!mirror.HasServer());
+    CHECK(mirror.ProjectedMs(1) == 0);
+}
+
 static void test_auto_finish_and_config() {
     sr::FakeClock clock;
     sr::RunTimer timer(clock);
@@ -152,6 +173,8 @@ static void test_auto_finish_and_config() {
     CHECK(cfg.find("sr_timer_hud_pos \"10 4\"") != std::string::npos);
     CHECK(cfg.find("sv_cheats \"0\"") != std::string::npos);
     CHECK(cfg.find("sv_cheats \"1\"") == std::string::npos);
+    CHECK(cfg.find("sr_net_splits \"1\"") != std::string::npos);
+    CHECK(cfg.find("sv_allowbunnyhopping \"1\"") != std::string::npos);
 
     sr::SystemClock real;
     CHECK(real.NowMs() > 0);
@@ -162,6 +185,7 @@ int main() {
     test_format_time();
     test_timer_lifecycle();
     test_pb_and_splits();
+    test_server_mirror();
     test_auto_finish_and_config();
     std::cout << "speedrun core: " << checks << " checks, " << failures << " failure(s)\n";
     return failures == 0 ? 0 : 1;

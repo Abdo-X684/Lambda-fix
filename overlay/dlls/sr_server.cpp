@@ -1,9 +1,9 @@
 // BugfixedHL x Opposing Force - Speedrun Merge Kit
 // Integration glue only: compiled inside the merged OP4 server DLL.
 //
-// The timer never reads the renderer clock: sr::SystemClock is monotonic, so
-// loading stutters and paused game time do not inflate a run. A level change
-// is a split, and a run recorded while sv_cheats != 0 is flagged invalid.
+// The timer never reads the renderer clock: sr::SystemClock is monotonic.
+// Every level change is a split and is broadcast to clients via SRSplit, so
+// the HUD shows server time rather than a client-side guess.
 #include "extdll.h"
 #include "util.h"
 #include "cbase.h"
@@ -14,6 +14,8 @@
 #include <cstdio>
 #include <cstring>
 #include <exception>
+
+int gmsgSRSplit = 0;
 
 namespace {
 sr::SystemClock g_Clock;
@@ -26,6 +28,24 @@ bool CheatsEnabled() {
     return CVAR_GET_FLOAT("sv_cheats") != 0.0f;
 }
 
+int ClampToLong(sr::Ms value) {
+    if (value > 2147483647LL) return 2147483647;
+    if (value < -2147483648LL) return -2147483648;
+    return static_cast<int>(value);
+}
+
+void BroadcastSplit(const char* map, const sr::Split& split) {
+    if (gmsgSRSplit == 0 || CVAR_GET_FLOAT("sr_net_splits") == 0.0f) {
+        return;
+    }
+    MESSAGE_BEGIN(MSG_ALL, gmsgSRSplit);
+    WRITE_LONG(ClampToLong(split.at));
+    WRITE_LONG(ClampToLong(split.delta));
+    WRITE_BYTE(split.has_pb ? 1 : 0);
+    WRITE_STRING(map);
+    MESSAGE_END();
+}
+
 void SplitNow(const char* map) {
     if (!map || !map[0] || !sr::Route::IsKnownMap(map)) {
         return;
@@ -34,21 +54,20 @@ void SplitNow(const char* map) {
         return;
     }
     try {
-        const sr::Ms at = g_Timer.SplitAt(map);
+        g_Timer.SplitAt(map);
         const sr::Split& split = g_Timer.Splits().back();
         if (CVAR_GET_FLOAT("sr_splits_announce") != 0.0f) {
             ALERT(at_console, "[BHLxOP4] split %s: %s (%c%s vs PB)\n", map,
-                  sr::FormatTime(at).c_str(), split.delta < 0 ? '-' : '+',
+                  sr::FormatTime(split.at).c_str(), split.delta < 0 ? '-' : '+',
                   sr::FormatTime(split.delta < 0 ? -split.delta : split.delta).c_str());
         }
+        BroadcastSplit(map, split);
     } catch (const std::exception&) {
         // Skipping backwards in the route (practice) must not crash a run.
     }
 }
 
-void Command_Split() {
-    SplitNow(g_LastMap);
-}
+void Command_Split() { SplitNow(g_LastMap); }
 
 void Command_Reset() {
     SR_Server_Reset();
@@ -76,6 +95,10 @@ void RegisterCommands() {
 
 void SR_Server_OnMapSpawn(const char* map) {
     RegisterCommands();
+    // Fallback for builds where UserMessages.cpp was not patched.
+    if (gmsgSRSplit == 0) {
+        gmsgSRSplit = REG_USER_MSG("SRSplit", -1);
+    }
     if (!map || !map[0]) {
         return;
     }

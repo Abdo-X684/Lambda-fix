@@ -64,6 +64,16 @@ def render_markdown(report: dict[str, Any]) -> str:
     for key, value in s.items():
         lines.append(f"| {key} | {value} |")
 
+    if not report["conflicts"] and not report["manual_port"]:
+        lines += ["", "## ✅ No outstanding conflicts or deferred ports", "",
+                  "Every divergence resolved: either an OP4-native equivalence was verified",
+                  "(see the audit table) or a curated fix was injected and compiled.", ""]
+    if report.get("audits"):
+        lines += ["", "## Equivalence audits (BugfixedHL fix -> OP4-native implementation)", ""]
+        for a in report["audits"]:
+            lines.append(f"- `{a['path']}` — **{a['verdict']}** ({a['feature']}) — {a['evidence']}")
+            for c in a["checks"]:
+                lines.append(f"    - [{'x' if c['ok'] else ' '}] {c['meaning']} (found {c['found']}, need {c['min']})")
     if report["conflicts"]:
         lines += ["", "## Conflicts (quarantined, never written into buildable sources)", ""]
         for c in report["conflicts"]:
@@ -83,6 +93,7 @@ def render_markdown(report: dict[str, Any]) -> str:
         "",
         "## Status legend",
         "",
+        "- `audited`: donor fix already present natively in OP4, machine-verified",
         "- `merged` / `unchanged`: 3-way merge applied cleanly",
         "- `conflict`: conflicting hunks quarantined for a human to resolve",
         "- `deferred`: OP4 version kept; donor rewrite needs a manual port",

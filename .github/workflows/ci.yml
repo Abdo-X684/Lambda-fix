@@ -13,18 +13,20 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Full verification (python + C++ + generation + offline merge)
+      - name: Full verification (python + C++ + generation + offline merge + package)
         run: make verify
       - name: CMake build (optional toolchain)
         run: |
           make build-cmake
           ./build/cmake/speedrun_test
-      - name: Upload offline merge report
+      - name: Upload offline merge report + package manifest
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: offline-merge-report
-          path: build/merged/MERGE_REPORT.*
+          name: kit-artifacts
+          path: |
+            build/merged/MERGE_REPORT.*
+            dist/MANIFEST.json
 
   sdk-integration:
     runs-on: ubuntu-latest
@@ -37,11 +39,21 @@ jobs:
         run: make fetch
       - name: Merge the real SDKs
         run: python3 -m merge.cli run --out build/merged-real
-      - name: Syntax-check injected code against real SDK headers
+      - name: Syntax-check injected code against real SDK headers + no conflict markers
+        run: python3 tools/verify_sdk.py --tree build/merged-real
+      - name: Fail the build on any remaining conflict / deferred port
         run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y -qq g++-multilib
-          python3 tools/verify_sdk.py --tree build/merged-real
+          python3 - <<'PY'
+          import json
+          r = json.load(open('build/merged-real/MERGE_REPORT.json'))
+          s = r['summary']
+          assert s['errors'] == 0 and s['anchor_drift'] == 0, s
+          assert s['conflicts'] == 0 and s['deferred'] == 0, s
+          assert s['audited'] == 3, s
+          print('real merge clean:', s)
+          PY
+      - name: Build distributable overlay package
+        run: make package
       - name: Upload real merge report
         if: always()
         uses: actions/upload-artifact@v4

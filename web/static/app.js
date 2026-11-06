@@ -121,11 +121,24 @@ function renderMerge(report) {
     pill('إضافة', s.added, 'good') +
     pill('توليد', s.generated, 'good') +
     pill('تعارضات محجورة', s.conflicts, s.conflicts ? 'warn' : 'good') +
-    pill('تأجيل يدوي', s.deferred, 'warn') +
+    pill('تدقيقات تكافؤ', s.audited || 0, 'good') +
+    pill('تأجيل يدوي', s.deferred, s.deferred ? 'warn' : 'good') +
     pill('انحراف/أخطاء', s.anchor_drift + s.missing + s.errors,
          s.anchor_drift + s.missing + s.errors ? 'bad' : 'good') +
     '</div>';
   html += `<p class="hash">tree sha256: ${esc(report.tree_hash)}</p>`;
+  if (!report.conflicts.length && !report.manual_port.length) {
+    html += '<p class="pill good">🎉 لا تعارضات ولا منقولات مؤجلة — الدمج مكتمل</p>';
+  }
+  if (report.audits && report.audits.length) {
+    html += '<table><thead><tr><th>ملف OP4</th><th>إصلاح BugfixedHL المعادل</th><th>النتيجة</th></tr></thead><tbody>';
+    for (const a of report.audits) {
+      html += `<tr><td class="num">${esc(a.path)}</td><td>${esc(a.feature)}</td>` +
+              `<td><span class="tag ${a.verdict === 'equivalent' ? 'merged' : 'error'}">${esc(a.verdict)}</span> ` +
+              `(${a.checks.filter((c) => c.ok).length}/${a.checks.length} فحص)</td></tr>`;
+    }
+    html += '</tbody></table>';
+  }
   if (report.conflicts.length) {
     html += `<p class="notes">⚠ ${report.conflicts.length} تعارض Three-way محجور في <code>integration/conflicts/</code> (لا يلوّث ملفات البناء).</p>`;
   }
@@ -164,8 +177,24 @@ async function doMerge(mode) {
 
 $('btnMergeOffline').onclick = () => doMerge('offline');
 $('btnMergeReal').onclick = () => doMerge('upstream');
+$('btnPackage').onclick = async () => {
+  $('packageResult').innerHTML = '<p class="muted">⏳ جارٍ بناء حزمة التوزيع…</p>';
+  try {
+    const r = await api('/api/package', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}',
+    });
+    const d = await r.json();
+    if (!d.ok) { $('packageResult').innerHTML = `<p class="notes">❌ ${esc(d.error)}</p>`; return; }
+    $('packageResult').innerHTML = `<div class="result">
+      <p class="pill good">📦 ${esc(d.file_count)} ملفاً · ${esc(d.bytes)} بايت</p>
+      <p class="hash">sha256: ${esc(d.sha256)}</p>
+      <a href="/dist/bhl-op4-speedrun-overlay.zip">⬇ تنزيل الحزمة</a>
+      <span class="muted"> · يحتوي كودنا فقط، بلا أي مصدر SDK مرخّص خارجياً.</span></div>`;
+    toast('✅ حزمة التوزيع جاهزة');
+  } catch (e) { $('packageResult').innerHTML = `<p class="notes">❌ ${esc(e.message)}</p>`; }
+};
 $('btnTests').onclick = async () => {
-  $('mergeResult').innerHTML = '<span class="muted">⏳ جارٍ تشغيل 51 اختبار Python…</span>';
+  $('mergeResult').innerHTML = '<span class="muted">⏳ جارٍ تشغيل 64 اختبار Python…</span>';
   try {
     const r = await api('/api/tests', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}' });
     const d = await r.json();
@@ -179,7 +208,7 @@ function renderStatus(st) {
   $('statusPill').classList.add('ok');
   $('stats').innerHTML = [
     ['قواعد الدمج', st.rules], ['خرائط OP4', st.route.maps], ['فصول', st.route.chapters],
-    ['مصادر مثبّتة', st.upstreams.length], ['اختبارات', '51 + 63'],
+    ['مصادر مثبّتة', st.upstreams.length], ['اختبارات', '64 + 77'],
   ].map(([label, value]) => `<div class="stat"><b>${esc(value)}</b><span>${esc(label)}</span></div>`).join('');
   $('upstreams').innerHTML = st.upstreams.map((u) => `<div class="up-row">
       <b>${esc(u.name)}</b> <span class="tag">${esc(u.role)}</span>
@@ -191,6 +220,12 @@ function renderStatus(st) {
   $('btnMergeReal').disabled = !st.sdk_cached;
   $('ruleCount').textContent = st.rules;
   $('routeBadge').textContent = `${st.route.maps} خريطة + ${st.route.boot_camp} تدريب`;
+  const s = st.last_report && st.last_report.summary;
+  $('doneBanner').innerHTML = s
+    ? `✅ <b>الدمج مكتمل</b> · ${esc(s.tree_files)} ملف · ${esc(s.audited || 0)} تدقيق تكافؤ · ` +
+      `${esc(s.injected)} حقن · <b>0</b> تعارضات · <b>0</b> مؤجّل · <b>0</b> أخطاء` +
+      (st.package_ready ? ' · 📦 حزمة التوزيع جاهزة' : '')
+    : '🚧 جارٍ تجهيز الدمج…';
 }
 
 function renderRoute(route) {

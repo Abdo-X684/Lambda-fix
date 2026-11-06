@@ -62,6 +62,26 @@ struct Split {
     int route_index = -1;
 };
 
+// Client-side projection of the server-authoritative time. The server sends
+// the cumulative split time once per level change; between messages the HUD
+// projects it forward with a local monotonic clock (never the render clock).
+class ServerMirror {
+public:
+    void OnServerSplit(Ms at_ms, Ms now_ms, bool finished = false);
+    void Freeze(Ms now_ms);
+    void Reset();
+    Ms ProjectedMs(Ms now_ms) const;
+    bool HasServer() const { return has_server_; }
+    bool IsFinished() const { return finished_; }
+
+private:
+    Ms at_ms_ = 0;
+    Ms anchor_ms_ = 0;
+    Ms frozen_ms_ = 0;
+    bool has_server_ = false;
+    bool finished_ = false;
+};
+
 // Authoritative RTA timer. Time is always taken from IClock, never from the
 // renderer, so pausing/loading does not inflate the run. Splits must follow the
 // declared OP4 route order, which makes skipped maps detectable.

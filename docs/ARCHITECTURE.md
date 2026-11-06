@@ -1,54 +1,46 @@
-# المعمارية
+# المعمارية (النسخة المكتملة)
 
 ## المشكلة
 
 | | BugfixedHL-Rebased | halflife-op4-updated |
 | --- | --- | --- |
-| التخطيط | `src/game/{client,server,shared}`, `src/common`, `src/pm_shared` | `cl_dll`, `dlls`, `game_shared`, `common`, `pm_shared` |
-| الواجهة | VGUI2، HUD مقسّم إلى `client/hud/*`، `ConVar` class | VGUI1، `cl_dll/hud.cpp` واحد، macros |
-| الأساس | HLSDK 2.3-p3 محدّث + إصلاحات Metamod | HLSDK Updated + كود Gearbox المُعاد بناؤه |
+| التخطيط | `src/game/{client,server,shared}`, `src/common` | `cl_dll`, `dlls`, `game_shared`, `common` |
+| الواجهة | VGUI2، HUD مقسّم، `ConVar` class | VGUI1، `cl_dll/hud.cpp` واحد، macros |
 | البناء | CMake | VS2019 vcxproj + Linux Makefiles |
 | الرخصة | GPL-3.0 | Valve HLSDK (non-commercial) + TWHL |
 
-أخذ ملف `src/game/client/hud.cpp` من BugfixedHL ووضعه مكان `cl_dll/hud.cpp` يدمر
-كل كود OP4 (CTF، flag icons، gamerules). لهذا المشروع **لا يدمج المستودعين كتلةً واحدة**،
-بل يطبّق طبقة انتقائية قابلة للمراجعة.
+وضع `src/game/client/hud.cpp` مكان `cl_dll/hud.cpp` يدمر كود OP4. لذا المشروع
+لا يدمج المستودعين كتلةً واحدة، بل يطبّق طبقة انتقائية مُثبتة بالأدلة.
 
 ## الطبقات
 
 1. **البيانات** — `upstreams.json` (3 مصادر بـ SHA + sha256 + رخصة + دور)
-   و`merge/plan.json` (26 قاعدة صريحة). لا يحدث أي تعديل ضمني.
-2. **المصادر** — `merge/fetch.py` ينزّل أرشيفات codeload، يتحقق من sha256 والحجم،
-   يفك الضغط بأمان (يمنع traversal والروابط الرمزية والملفات الثنائية)، ويضعها في
-   `.cache/upstreams/` (مستثنى من git). `--offline` يبدّلها بـ fixtures مصغّرة.
-3. **المحرّك** — `merge/engine.py`:
-   - ينسخ شجرة OP4 إلى مجلد مرحلي،
-   - `three_way`: `git merge-file -p --diff3` مع vanilla كأصل، OP4 كـ ours،
-     BugfixedHL كـ theirs،
-   - `copy`: نقل مع ترجمة مسارات (`merge/layout.py`) وإعادة كتابة `#include`
-     وبانر مصدر للملفات المرجعية،
-   - `inject`: إدراج بعد anchor فريد، مع كشف «انحراف الـ anchor»،
-   - `generate`: `speedrun.cfg` و`op4_route.json`،
-   - `merge/projects.py`: إضافة الملفات الجديدة إلى قوائم بناء VS وLinux،
-   - تقرير + بصمة شجرة + تبديل ذري للمجلد الناتج.
-4. **النواة** — `src/speedrun/sr_core.{h,cpp}`: C++17 بلا أي اعتماد على المحرك،
-   تُبنى وتُختبر على المضيف وتُنسخ كما هي إلى `game_shared/` في الشجرة المدموجة.
-5. **ال glue** — `overlay/cl_dll/sr_hud_timer.*` و`overlay/dlls/sr_server.*`
-   ومقاطع `integration/snippets/`: الكود الوحيد الذي يتكلم مع محرك Half-Life.
-6. **العرض** — `web/app.py` (stdlib http.server) + واجهة RTL، تقرأ نفس ملفات
-   البيانات وتشغّل الدمج والاختبارات عبر JSON API نسبي.
+   و`merge/plan.json` (30 قاعدة صريحة، schema 2).
+2. **المصادر** — `merge/fetch.py`: تنزيل + تحقق sha256/حجم + فك آمن
+   (يمنع traversal والروابط الرمزية والثنائيات) إلى `.cache/upstreams/`.
+   `--offline` يبدّلها بـ fixtures بنفس المسارات والـ anchors.
+3. **المحرّك** — `merge/engine.py`: نسخ شجرة OP4 إلى مرحلة مؤقتة،
+   `audit` (تدقيق تكافؤ)، `copy` (ترجمة مسارات/`#include`/بانر)،
+   `inject` (anchor فريد)، `generate`، `patch_projects`،
+   ثم تقرير + بصمة شجرة + تبديل ذري.
+4. **النواة** — `src/speedrun/sr_core.{h,cpp}`: C++17 بلا اعتماد على المحرك،
+   تُبنى وتُختبر على المضيف وتُنسخ كما هي إلى `game_shared/`.
+   تحوي `RunTimer` و`Route` و`Split`/PB و`ServerMirror`.
+5. **الـ glue** — `overlay/cl_dll/sr_hud_timer.*` و`sr_hud_msg.*`،
+   `overlay/dlls/sr_server.*`، ومقاطع `integration/snippets/`.
+6. **الشبكة** — السيرفر يسجّل `SRSplit` في `LinkUserMessages()` ويبثّ
+   `(at, delta, hasPb, map)` عند كل changelevel؛ العميل يربطها في
+   `CHud::Init` ويعرض `ServerMirror` (زمن سلطوي + إسقاط رتيب محلي).
+7. **العرض والتوزيع** — `web/app.py` (stdlib http.server + RTL)،
+   `tools/package_mod.py` (zip + `MANIFEST.json` بـ sha256، بلا كود SDK).
 
-## قراران مهمان
+## القرارات المهمة
 
-* **التعارضات تُحجر ولا تُكتب في ملفات قابلة للترجمة.** `on_conflict: marker`
-  يكتب نتيجة `git merge-file` في `integration/conflicts/` ويترك ملف OP4 نظيفاً،
-  بينما `on_conflict: ours` يسجّل «نقل يدوي مؤجّل» بسبب واضح.
-* **المنفولات GPL للمراجعة فقط.** الكود المنقول من BugfixedHL يوضع في
-  `integration/ports/` خارج كل مسارات البناء، والمنفذة فعلياً نواة نظيفة
-  مكتوبة هنا. هذا يمنع تلوث الشجرة بتبعيات VGUI2 ويوضح الالتزام الرخصي.
-
-## حتمية النتيجة
-
-`compute_tree_hash()` يهضم `(المسار النسبي، المحتوى)` لكل ملف بترتيب مفروض،
-ويستثني ملفات التقرير نفسها. إعادة تشغيل الدمج على نفس المدخلات تعطي نفس
-البصمة (يختبره `tests/test_engine.py`).
+* **التكافؤ بدل الدمج الأعمى**: OP4-updated يوفّر bunnyhop وحماية الأوامر
+  وتهيئة HUD أصلاً. التدقيق الآلي يثبت ذلك بمراجع سطور؛ التفاصيل في
+  [`RESOLUTION.md`](RESOLUTION.md). لا تعارضات مخفية ولا cvars وهمية.
+* **المنقولات GPL للمراجعة فقط** في `integration/ports/` خارج مسارات البناء،
+  والتنفيذ نواة نظيفة مكتوبة هنا.
+* **الزمن سلطوي**: HUD لا يخمن الزمن، بل يستقبل الرسائل ويعرض إسقاطاً رتيباً.
+* **الحتمية**: `compute_tree_hash()` يهضم `(المسار، المحتوى)` بترتيب مفروض
+  ويستثني التقرير؛ إعادة التشغيل تعطي نفس البصمة. الحزمة كذلك بتواريخ zip ثابتة.

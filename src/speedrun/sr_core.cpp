@@ -87,6 +87,41 @@ std::string Route::LastMap() {
     return maps.empty() ? std::string() : maps.back();
 }
 
+void ServerMirror::OnServerSplit(Ms at_ms, Ms now_ms, bool finished) {
+    at_ms_ = at_ms < 0 ? 0 : at_ms;
+    anchor_ms_ = now_ms;
+    has_server_ = true;
+    finished_ = finished;
+    frozen_ms_ = at_ms_;
+}
+
+void ServerMirror::Freeze(Ms now_ms) {
+    if (!has_server_ || finished_) {
+        return;
+    }
+    frozen_ms_ = ProjectedMs(now_ms);
+    finished_ = true;
+}
+
+void ServerMirror::Reset() {
+    at_ms_ = 0;
+    anchor_ms_ = 0;
+    frozen_ms_ = 0;
+    has_server_ = false;
+    finished_ = false;
+}
+
+Ms ServerMirror::ProjectedMs(Ms now_ms) const {
+    if (!has_server_) {
+        return 0;
+    }
+    if (finished_) {
+        return frozen_ms_;
+    }
+    const Ms delta = now_ms > anchor_ms_ ? now_ms - anchor_ms_ : 0;
+    return at_ms_ + delta;
+}
+
 RunTimer::RunTimer(IClock& clock, std::map<std::string, Ms> personal_best)
     : clock_(clock), pb_(std::move(personal_best)) {}
 
@@ -218,6 +253,8 @@ std::string RenderConfig(const ConfigOptions& o) {
         << "sr_timer_hud_pos \"" << o.hud_x << " " << o.hud_y << "\"\n"
         << "sr_autodemo \"" << (o.autodemo ? 1 : 0) << "\"\n"
         << "sr_splits_announce \"" << (o.splits_announce ? 1 : 0) << "\"\n"
+        << "sr_net_splits \"1\"\n"
+        << "sv_allowbunnyhopping \"1\"\n"
         << "sr_practice_mode \"" << (o.practice ? 1 : 0) << "\"\n"
         << "sr_pb_path \"" << o.pb_path << "\"\n"
         << "sv_cheats \"0\"\n";

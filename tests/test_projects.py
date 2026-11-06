@@ -20,8 +20,9 @@ class ProjectPatchTests(unittest.TestCase):
     def test_vcxproj_is_idempotent_and_valid_xml(self):
         import xml.etree.ElementTree as ET
         new, added = patch_vcxproj(VCX, CLIENT_SOURCES)
-        self.assertEqual(len(added), 2)
+        self.assertEqual(len(added), 3)
         self.assertIn("sr_hud_timer.cpp", new)
+        self.assertIn("sr_hud_msg.cpp", new)
         ET.fromstring(new)
         again, added2 = patch_vcxproj(new, CLIENT_SOURCES)
         self.assertEqual(again, new)
@@ -29,7 +30,7 @@ class ProjectPatchTests(unittest.TestCase):
 
     def test_makefile_is_idempotent(self):
         new, added = patch_makefile(MK, "HL1_OBJS", CLIENT_SOURCES)
-        self.assertEqual(len(added), 2)
+        self.assertEqual(len(added), 3)
         self.assertIn("$(GAME_SHARED_OBJ_DIR)/sr_core.o", new)
         self.assertIn("HL1_OBJS = \\\n\t$(HL1_OBJ_DIR)/sr_hud_timer.o", new)
         again, added2 = patch_makefile(new, "HL1_OBJS", CLIENT_SOURCES)

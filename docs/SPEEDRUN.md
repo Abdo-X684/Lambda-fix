@@ -1,50 +1,48 @@
-# تصميم طبقة السبيدرن
+# تصميم طبقة السبيدرن (مكتمل)
 
 ## الزمن
 
 * `sr::IClock` قابل للحقن: `SystemClock` (steady_clock) في اللعبة، `FakeClock` في الاختبارات.
-* `RunTimer` يحسب `now - start - paused_total`؛ الإيقاف المؤقت لا يضيف زمن التحميل،
-  والتجميد عند `Finish()` يمنع تضخم الرن بعد `of7a0`.
-* `FormatTime` → `M:SS.mmm` أو `H:MM:SS.mmm` للأزمنة الطويلة.
+* `RunTimer` يحسب `now - start - paused_total`؛ الإيقاف لا يضيف زمن التحميل،
+  والتجميد عند `of7a0` يمنع تضخم الرن.
+* `ServerMirror` على العميل: `OnServerSplit(at, now)` ثم
+  `ProjectedMs(now2) = at + max(0, now2 - now)`؛ عند `Freeze` يتوقف نهائياً.
+* `FormatTime` → `M:SS.mmm` أو `H:MM:SS.mmm`.
+
+## الشبكة: `SRSplit`
+
+| جهة | السلوك |
+| --- | --- |
+| السيرفر | `gmsgSRSplit = REG_USER_MSG("SRSplit", -1)` في `LinkUserMessages()`؛ عند كل تقسيم `MESSAGE_BEGIN(MSG_ALL, ...)` ثم `WRITE_LONG(at)`, `WRITE_LONG(delta)`, `WRITE_BYTE(hasPb)`, `WRITE_STRING(map)`, `MESSAGE_END()` |
+| العميل | `HOOK_MESSAGE(SRSplit)` في `CHud::Init`؛ `__MsgFunc_SRSplit` يقرأ بـ `BEGIN_READ/READ_*` ويتحقق `READ_OK()` ثم `SR_HUD_OnSplit(...)` |
+| HUD | يعرض `ServerMirror`، وآخر تقسيم مع فرق PB عبر `DrawConsoleString` |
+
+`sr_net_splits 0` يعطّل البثّ للاختبار المحلي.
 
 ## المسار والتقسيمات
 
-`data/op4_route.json` هو المصدر الوحيد: 13 فصلاً و39 خريطة (من
-[SourceRuns Wiki](https://wiki.sourceruns.org/Opposing-Force-Maps.html))،
-ومعسكر التدريب `ofboot0..ofboot4` فئة منفصلة على speedrun.com ولا يُخلط بالـ any%.
-
-`SplitAt(map)` يرفض: مؤقّت متوقف، خريطة مجهولة، أو العودة للخلف في الترتيب.
-القفز للأمام مسموح (skips شائعة في سبيدرن HL). آخر خريطة `of7a0` تُنهي الرن تلقائياً.
-`ParsePersonalBest` يتجاهل التعليقات والأسطر التالفة والقيم السالبة كي لا يُفسد
-ملف PB رنّاً كاملاً.
+`data/op4_route.json` هو المصدر الوحيد: 13 فصلاً و39 خريطة، ومعسكر التدريب
+`ofboot0..ofboot4` فئة منفصلة. `SplitAt(map)` يرفض المؤقّت المتوقف، الخريطة
+المجهولة، والعودة للخلف؛ القفز للأمام مسموح (skips). `ParsePersonalBest`
+يتجاهل الأسطر التالفة كي لا يُفسد ملف PB رنّاً كاملاً.
 
 ## الشرعية
 
 | البند | الآلية |
 | --- | --- |
-| `sv_cheats` | يبقى `0` في cfg؛ السيرفر يعلم الرن INVALID إذا كان مفعّلاً |
-| وضع التدريب | `sr_practice_mode 1` يمنع اعتبار الرن صالحاً |
-| السلطة | المؤقّت على السيرفر، HUD العميل مرآة عرض فقط |
-| demo | `sr_autodemo 1` مستوحى من BugfixedHL auto demo |
-| الروابط | `F5` إعادة، `F6` تقسيم، `F7` تدريب — لا تلمس `Space` (bhop) ولا `E` |
+| `sv_cheats` | `0` في cfg؛ السيرفر يعلم الرن INVALID إن كان مفعّلاً |
+| `sr_practice_mode 1` | يمنع اعتبار الرن صالحاً |
+| السلطة | المؤقّت على السيرفر + بثّ `SRSplit`؛ HUD مرآة فقط |
+| bunnyhop | `sv_allowbunnyhopping 1` (مكافئ OP4 الأصلي لإصلاح BugfixedHL) |
+| demo | `sr_autodemo 1` → `record sr_run_<epoch>` عند البدء/الإعادة، `stop` عند الخاتمة |
+| binds | `F5` إعادة، `F6` تقسيم، `F7` تدريب — لا تلمس `Space` أو `E` |
 
 ## أوامر اللعبة
 
 `sr_split`, `sr_reset`, `sr_practice_toggle` تُسجَّل مرة واحدة عند أول
-`CWorld::Spawn` عبر `g_engfuncs.pfnAddServerCommand`.
+`CWorld::Spawn`. ملف PB: أسطر `map=ms` في `splits/op4_pb.txt`.
 
-## ملف PB
+## التحقق
 
-```
-# BHLxOP4 personal best - map=ms
-of0a0=1500
-of1a1=2500
-...
-```
-
-## HUD
-
-`SR_HUD_Redraw` يرسم RTA وآخر تقسيم مع فرق PB باستخدام
-`DrawConsoleString` و`gHUD.m_scrinfo` الحقيقيين من OP4 SDK.
-التحقق: `tools/verify_sdk.py` يترجم كل ملفات glue والملفات المحقونة مقابل
-هيدرات SDK الفعلية بـ `-fsyntax-only`.
+`tools/verify_sdk.py`: 9 ملفات `g++ -fsyntax-only` أمام هيدرات OP4 الحقيقية
++ فحص عدم وجود علامات تعارض في أي مصدر قابل للبناء.

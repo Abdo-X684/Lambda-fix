@@ -22,6 +22,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from merge.configgen import load_route, render_config, route_maps  # noqa: E402
+from tools.package_mod import build as build_package  # noqa: E402
 
 STATIC = {
     "/static/style.css": ("web/static/style.css", "text/css; charset=utf-8"),
@@ -63,6 +64,7 @@ def status_payload() -> dict:
         },
         "sdk_cached": (ROOT / ".cache" / "upstreams" / "op4" / ".FETCHED.json").is_file(),
         "real_sdk_cached": (ROOT / "build" / "merged-real" / "MERGE_REPORT.json").is_file(),
+        "package_ready": (ROOT / "dist" / "bhl-op4-speedrun-overlay.zip").is_file(),
         "last_report": (
             {
                 "mode": report["mode"],
@@ -132,6 +134,12 @@ class Handler(BaseHTTPRequestHandler):
             elif path in STATIC:
                 rel, ctype = STATIC[path]
                 self._text((ROOT / rel).read_text(encoding="utf-8"), ctype)
+            elif path == "/dist/bhl-op4-speedrun-overlay.zip":
+                zip_path = ROOT / "dist" / "bhl-op4-speedrun-overlay.zip"
+                if not zip_path.is_file():
+                    self._json({"error": "package not built yet"}, 404)
+                else:
+                    self._send(200, zip_path.read_bytes(), "application/zip")
             elif path == "/api/status":
                 self._json(status_payload())
             elif path == "/api/route":
@@ -164,6 +172,11 @@ class Handler(BaseHTTPRequestHandler):
             payload = {}
         if path == "/api/merge":
             self._json(run_merge(payload.get("mode", "offline")))
+        elif path == "/api/package":
+            try:
+                self._json(build_package(ROOT))
+            except (OSError, ValueError) as exc:
+                self._json({"ok": False, "error": str(exc)}, 500)
         elif path == "/api/tests":
             self._json(run_tests())
         else:

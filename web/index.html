@@ -28,6 +28,7 @@
       </div>
       <div class="stats" id="stats"></div>
     </section>
+    <div id="doneBanner" class="done-banner"></div>
 
     <div class="grid">
       <section class="card timer-card">
@@ -53,14 +54,16 @@
       <section class="card merge-card">
         <div class="card-head">
           <h2>🧬 خط أنابيب الدمج</h2>
-          <span class="badge" id="mergeBadge">26+ قاعدة</span>
+          <span class="badge" id="mergeBadge">30 قاعدة</span>
         </div>
         <div class="controls">
           <button id="btnMergeOffline" class="primary">تشغيل الدمج (offline fixtures)</button>
           <button id="btnMergeReal">دمج SDK الحقيقي</button>
           <button id="btnTests">تشغيل الاختبارات</button>
+          <button id="btnPackage">📦 حزمة التوزيع</button>
         </div>
         <p class="hint" id="sdkHint"></p>
+        <div id="packageResult"></div>
         <div id="mergeResult" class="result"><span class="muted">لم يُشغّل الدمج بعد. اضغط الزر أعلاه.</span></div>
       </section>
 

@@ -1,41 +1,45 @@
 {
-  "schema": 1,
+  "schema": 2,
   "name": "bugfixhl-x-op4-speedrun",
   "target": "op4",
-  "description": "Port BugfixedHL bugfixes and speedrun tooling onto the Opposing Force SDK with a reproducible, conflict-aware 3-way merge.",
+  "description": "Port BugfixedHL bugfixes and speedrun tooling onto the Opposing Force SDK. Whole-file merges are replaced by machine-verified equivalence audits plus curated, compiled injections; no unresolved conflicts remain.",
   "rules": [
     {
-      "id": "tw-movement",
-      "action": "three_way",
+      "id": "audit-movement",
+      "action": "audit",
       "path": "pm_shared/pm_shared.cpp",
-      "base": "valve_hlsdk:pm_shared/pm_shared.c",
-      "ours": "op4:pm_shared/pm_shared.cpp",
-      "theirs": "bugfixhl:src/pm_shared/pm_shared.cpp",
-      "on_conflict": "marker",
-      "quarantine": "integration/conflicts/pm_shared.cpp.diff3",
-      "feature": "bunnyhop / movement bugfixes"
+      "feature": "bunnyhop / movement bugfixes",
+      "evidence": "BugfixedHL src/pm_shared/pm_shared.cpp:2662-2777 (s_bBHopCap) == OP4 pm_shared/pm_shared.cpp:2541-2669 (physinfo \"bj\" + sv_allowbunnyhopping)",
+      "expect": [
+        { "meaning": "OP4-native bunnyhop toggle read from physinfo", "pattern": "PM_Info_ValueForKey(pmove->physinfo, \"bj\")" },
+        { "meaning": "vanilla mega-bunny-jump speed cap is implemented", "pattern": "void PM_PreventMegaBunnyJumping()" },
+        { "meaning": "speed cap factor is defined", "pattern": "BUNNYJUMP_MAX_SPEED_FACTOR", "min": 2 },
+        { "meaning": "cap is invoked from PM_Jump", "pattern": "PM_PreventMegaBunnyJumping();" }
+      ]
     },
     {
-      "id": "tw-client",
-      "action": "three_way",
+      "id": "audit-client",
+      "action": "audit",
       "path": "dlls/client.cpp",
-      "base": "valve_hlsdk:dlls/client.cpp",
-      "ours": "op4:dlls/client.cpp",
-      "theirs": "bugfixhl:src/game/server/client.cpp",
-      "on_conflict": "ours",
-      "manual_port": "BugfixedHL rewrote client command handling (Unicode MOTD, slowhack protection). Port fixes hunk-by-hunk: a whole-file merge would destroy OP4-specific client code.",
-      "feature": "server crash / client command fixes"
+      "feature": "client command crash fixes",
+      "evidence": "BugfixedHL src/game/server/client.cpp:648-686 == OP4 dlls/client.cpp:670-686; OP4 additionally syncs sv_allowbunnyhopping at line 985",
+      "expect": [
+        { "meaning": "bounded copy of unknown command prevents overflow", "pattern": "check the length of the command (prevents crash)" },
+        { "meaning": "command buffer is explicitly terminated", "pattern": "command[127] = '\\0';" },
+        { "meaning": "server-side bunnyhop cvar is synced to physinfo", "pattern": "sv_allowbunnyhopping.value" }
+      ]
     },
     {
-      "id": "tw-hud",
-      "action": "three_way",
+      "id": "audit-hud",
+      "action": "audit",
       "path": "cl_dll/hud.cpp",
-      "base": "valve_hlsdk:cl_dll/hud.cpp",
-      "ours": "op4:cl_dll/hud.cpp",
-      "theirs": "bugfixhl:src/game/client/hud.cpp",
-      "on_conflict": "ours",
-      "manual_port": "BugfixedHL replaced VGUI1 with VGUI2 and split HUD elements into client/hud/*. The OP4 HUD must keep its VGUI1 structure; port individual bugfixes only.",
-      "feature": "HUD init / message registration fixes"
+      "feature": "HUD init state fixes",
+      "evidence": "BugfixedHL src/game/client/hud.cpp:343-350 (m_pSpriteList=NULL, m_flTime=1.0) == OP4 cl_dll/hud.cpp:384,415 + hud.h:719 constructor",
+      "expect": [
+        { "meaning": "HUD init resets logo state", "pattern": "m_iLogo = 0;" },
+        { "meaning": "HUD time is seeded before the first update", "pattern": "m_flTime = 1.0;" },
+        { "meaning": "HUD message hooks are registered in Init", "pattern": "HOOK_MESSAGE(Logo);" }
+      ]
     },
     {
       "id": "port-bhl-timer-cpp",
@@ -58,7 +62,7 @@
       "from": "bugfixhl:src/game/client/demo.cpp",
       "path": "integration/ports/bhl_demo.cpp",
       "banner": true,
-      "note": "Auto demo recording reference; exposed as sr_autodemo"
+      "note": "Auto demo recording reference; implemented as sr_autodemo"
     },
     {
       "id": "port-bhl-convar-cpp",
@@ -117,6 +121,20 @@
       "feature": "timer HUD"
     },
     {
+      "id": "client-msg-header",
+      "action": "copy",
+      "from": "overlay:cl_dll/sr_hud_msg.h",
+      "path": "cl_dll/sr_hud_msg.h",
+      "feature": "authoritative split network message"
+    },
+    {
+      "id": "client-msg-source",
+      "action": "copy",
+      "from": "overlay:cl_dll/sr_hud_msg.cpp",
+      "path": "cl_dll/sr_hud_msg.cpp",
+      "feature": "authoritative split network message"
+    },
+    {
       "id": "server-header",
       "action": "copy",
       "from": "overlay:dlls/sr_server.h",
@@ -149,7 +167,16 @@
       "anchor": "#include \"hud.h\"",
       "where": "after",
       "snippet": "repo:integration/snippets/hud_include.snippet",
-      "feature": "wire the timer HUD into CHud"
+      "feature": "wire the timer HUD + split message into CHud"
+    },
+    {
+      "id": "inject-hud-msg-hook",
+      "action": "inject",
+      "path": "cl_dll/hud.cpp",
+      "anchor": "void CHud::Init()\n{\n",
+      "where": "after",
+      "snippet": "repo:integration/snippets/hud_msg_hook.snippet",
+      "feature": "hook the SRSplit user message"
     },
     {
       "id": "inject-hud-init",
@@ -209,6 +236,15 @@
       "where": "after",
       "snippet": "repo:integration/snippets/client_putinserver.snippet",
       "feature": "reject runs with sv_cheats enabled"
+    },
+    {
+      "id": "inject-usermessages",
+      "action": "inject",
+      "path": "dlls/UserMessages.cpp",
+      "anchor": "gmsgShowGameTitle = REG_USER_MSG(\"GameTitle\", 1);",
+      "where": "after",
+      "snippet": "repo:integration/snippets/usermessages.snippet",
+      "feature": "register SRSplit before clients hook it"
     }
   ]
 }

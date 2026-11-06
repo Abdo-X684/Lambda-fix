@@ -13,6 +13,7 @@ from pathlib import Path
 # (build target, source path relative to the SDK root, object-dir variable)
 CLIENT_SOURCES = (
     ("cl_dll/sr_hud_timer.cpp", "HL1_OBJ_DIR"),
+    ("cl_dll/sr_hud_msg.cpp", "HL1_OBJ_DIR"),
     ("game_shared/sr_core.cpp", "GAME_SHARED_OBJ_DIR"),
 )
 SERVER_SOURCES = (

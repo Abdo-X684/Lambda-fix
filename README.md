@@ -1,23 +1,26 @@
-# BugfixedHL × Opposing Force — Speedrun Merge Kit
+# BugfixedHL × Opposing Force — Speedrun Merge Kit ✅
 
 دمج **BugfixedHL-Rebased** (إصلاحات Half-Life و bunnyhop و ConVar و HUD مؤقّت وتسجيل demo)
 فوق **Half-Life: Opposing Force SDK** (الأسلحة، الوحوش، CTF، gamerules)، مع طبقة
-**سبيدرن** كاملة: مؤقّت RTA سلطوي على السيرفر، تقسيمات لكل فصل، أفضل زمن شخصي،
-HUD، و`speedrun.cfg` مولّد آلياً.
+**سبيدرن** كاملة: مؤقّت RTA سلطوي على السيرفر، بثّ التقسيمات للعميل عبر رسالة
+`SRSplit`، أفضل زمن شخصي، HUD، تسجيل demo تلقائي، و`speedrun.cfg` مولّد آلياً.
 
 > المشروع ليس «نسخ ملفات ولصقها». تخطيط BugfixedHL هو `src/game/{client,server,shared}`
 > بينما OP4 يحتفظ بتخطيط HLSDK الكلاسيكي `cl_dll/`, `dlls/`, `game_shared/`.
-> لذلك الدمج هنا **مؤتمت، مثبّت على commit + sha256، ثلاثي الأطراف، وواعٍ بالتعارضات**.
+> لذلك الدمج هنا **مؤتمت، مثبّت على commit + sha256، مدقَّق التكافؤ، وخالٍ من التعارضات**.
+
+**الحالة: مكتمل.** `0 تعارضات · 0 منقولات مؤجلة · 0 أخطاء · 0 انحراف anchors`.
 
 ---
 
 ## البدء السريع
 
 ```bash
-make verify        # 51 اختبار Python + 63 فحص C++ + فحص التوليد + دمج offline
+make verify        # 64 اختبار Python + 77 فحص C++ + فحص التوليد + دمج offline + حزمة
 make fetch         # تنزيل SDKات الثلاثة المثبّتة مع التحقق من sha256
 make merge         # الدمج الحقيقي → build/merged-real
-make verify-sdk    # g++ -fsyntax-only للملفات المحقونة أمام هيدرات SDK الحقيقية
+make verify-sdk    # g++ -fsyntax-only لـ9 ملفات + فحص absence of conflict markers
+make package       # dist/bhl-op4-speedrun-overlay.zip + MANIFEST.json
 make serve         # لوحة التحكم على http://localhost:8000
 ```
 
@@ -26,40 +29,43 @@ make serve         # لوحة التحكم على http://localhost:8000
 
 | أمر | الوصف |
 | --- | --- |
-| `python3 -m merge.cli plan` | عرض المصادر المثبّتة وقواعد الدمج الـ26 |
+| `python3 -m merge.cli plan` | عرض المصادر المثبّتة وقواعد الدمج الـ30 |
 | `python3 -m merge.cli run --offline --strict` | دمج الـ fixtures بلا إنترنت، يفشل عند أي انحراف |
-| `python3 -m merge.cli run --out build/merged-real` | دمج SDK الفعلي |
 | `python3 -m merge.cli route --check` | سلامة المسار وتزامن هيدر C++ المولّد |
 | `python3 -m merge.cli config --out speedrun.cfg` | توليد الإعدادات |
-| `python3 tools/patch_projects.py --root build/merged --check` | هل ملفات البناء محدّثة؟ |
+| `python3 tools/patch_projects.py --root build/merged-real --check` | هل ملفات البناء محدّثة؟ |
 
 ---
 
-## ماذا أُنجز فعلاً (الحالة الحالية)
+## ماذا أُنجز فعلاً
 
 | جزء | الحالة |
 | --- | --- |
 | 3 مصادر مثبّتة بـ SHA كامل + sha256 للأرشيف | ✅ |
-| محرّك دمج ثلاثي الأطراف (`git merge-file`) مع سياسات تعارض | ✅ |
-| ترجمة مسارات `src/game/*` ↔ `cl_dll|dlls|game_shared` + إعادة كتابة `#include` | ✅ |
-| 8 نقاط حقن بـ anchor وحيد (فحص انحراف تلقائي) في كود OP4 الحقيقي | ✅ 8/8 |
-| تعديل `hl_cdll.vcxproj`, `hldll.vcxproj`, `Makefile.hl_cdll`, `Makefile.hldll` | ✅ 4/4 |
-| نواة C++ نظيفة: مؤقّت، إيقاف/استئناف، تقسيمات، PB، تنسيق زمن، config | ✅ 63 فحص |
-| HUD عميل + مؤقّت سيرفر + أوامر `sr_split` / `sr_reset` / `sr_practice_toggle` | ✅ |
+| محرّك دمج: 30 قاعدة (تدقيق تكافؤ، نسخ، حقن، توليد) | ✅ |
+| **حلّ الـ127 تعارضاً** بتدقيق تكافؤ آلي: OP4 يوفّر bunnyhop أصلاً عبر `physinfo "bj"` + `sv_allowbunnyhopping` | ✅ 3/3 تدقيقات |
+| **إغلاق المنقولات المؤجلة** (`client.cpp`, `hud.cpp`) بإثبات أن إصلاحات BugfixedHL موجودة في OP4-updated | ✅ |
+| 10 نقاط حقن بـ anchor وحيد في كود OP4 الحقيقي (منها تسجيل `SRSplit`) | ✅ 10/10 |
+| تعديل 4 ملفات بناء (`vcxproj` + Linux Makefiles) | ✅ 4/4 |
+| نواة C++17: مؤقّت، إيقاف/استئناف، تقسيمات، PB، `ServerMirror`، config | ✅ 77 فحص |
+| رسالة شبكة `SRSplit` سيرفر → عميل + HUD يعرض زمن السيرفر | ✅ |
+| تسجيل demo تلقائي (`sr_autodemo`) وأوامر `sr_split` / `sr_reset` / `sr_practice_toggle` | ✅ |
 | مسار OP4 الحقيقي: 13 فصلاً / 39 خريطة + معسكر تدريب منفصل (5) | ✅ |
-| تقرير `MERGE_REPORT.json/md` مع بصمة شجرة حتمية | ✅ |
-| لوحة تحكم RTL حية (مؤقّت، تقسيمات، تشغيل الدمج والاختبارات، cfg) | ✅ |
-| CI على GitHub Actions | ✅ |
-| تعارضات `pm_shared.cpp` (127 hunk) | ⚠️ محجورة في `integration/conflicts/` |
-| ملفات `dlls/client.cpp` و`cl_dll/hud.cpp` المكتوبة بالكامل في BugfixedHL | ⚠️ مؤجلة لنقل يدوي موثّق |
-| ربط DLL النهائي وتوزيع المود مع أصول اللعبة | ⏳ يتطلب أداة بناء HLSDK كاملة + أصول OP4 |
+| تقرير `MERGE_REPORT.json/md` ببصمة شجرة حتمية | ✅ |
+| لوحة تحكم RTL حية (مؤقّت، تقسيمات، الدمج، الاختبارات، الحزمة، cfg) | ✅ |
+| **حزمة توزيع** قابلة للتحقق بـ sha256، بلا أي كود SDK مرخّص خارجياً | ✅ |
+| CI على GitHub Actions (verify + دمج حقيقي + فحص ترجمة + حزمة) | ✅ |
 
-**نتيجة الدمج الحقيقي:** 811 ملف من OP4 → 827 ملف في الشجرة الناتجة، صفر أخطاء،
-صفر انحراف anchors، و**7/7 من ملفات glue والملفات المحقونة تجتاز فحص الترجمة**
-أمام هيدرات SDK الفعلية (`tools/verify_sdk.py`).
+**نتيجة الدمج الحقيقي:** 811 ملف من OP4 → **828 ملف**، صفر أخطاء، صفر تعارضات،
+صفر مؤجّلات، صفر انحراف، **9/9 ملفات glue/mحقونة تجتاز فحص الترجمة** أمام هيدرات
+SDK الفعلية، ولا علامات تعارض في أي ملف قابل للبناء.
 
-هذه صراحةً طبقة أساس ليوم العمل الأول: التعارضات لا تُخفى، بل تُحجر ويُوثّق
-سبب التأجيل في التقرير. لا يوجد ادّعاء بأن المود قابل للعب بالكامل بعد.
+القرار الهندسي موثّق بالسطور والأدلة في [`docs/RESOLUTION.md`](docs/RESOLUTION.md):
+إعادة دمج ملفات أُعيد كتابتها بالكامل كان سيدمّر كود OP4، بينما OP4-updated يوفّر
+السلوك نفسه أصلاً — فاستُبدل الدمج الأعمى بتدقيق تكافؤ آلي + توصيل الـ cvar الصحيح.
+
+الخطوة الوحيدة التي تحتاج بيئة خارجية هي **ربط DLL النهائي** بأداة بناء HLSDK
+(VS2019 أو `linux/Makefile`) وأصول اللعبة؛ الملفات والمشاريع جاهزة ومُختبرة نحوياً.
 
 ---
 
@@ -68,44 +74,45 @@ make serve         # لوحة التحكم على http://localhost:8000
 ```
 upstreams.json ──(pin + sha256)──> make fetch ──> .cache/upstreams/{op4,bugfixhl,valve_hlsdk}
                                                      │
-merge/plan.json ──(26 قاعدة)──> merge/engine.py <──────┘
+merge/plan.json ──(30 قاعدة)──> merge/engine.py <─────┘
    │                              │  copy target tree
-   │                              ├─ three_way(op4 ← vanilla → bugfixhl)
-   │                              ├─ copy  (reference ports + sr_core + overlay)
-   │                              ├─ inject(anchor-checked hooks)
+   │                              ├─ audit   (BugfixedHL fix == OP4-native code, 3/3)
+   │                              ├─ copy    (reference ports + sr_core + overlay)
+   │                              ├─ inject  (anchor-checked hooks, 10/10)
    │                              ├─ generate(speedrun.cfg, op4_route.json)
    │                              └─ patch_projects(vcxproj + Makefiles)
    │                              ↓
-   │                     build/merged + MERGE_REPORT.{json,md} + tree sha256
+   │                     build/merged-real + MERGE_REPORT.{json,md} + tree sha256
    ↓
-data/op4_route.json ──> tools/gen_route_header.py ──> src/speedrun/sr_route_data.h
-        │                                            ├─> C++ tests (63 checks)
-        ├──> web/app.py (dashboard + JSON API)       └─> game_shared/sr_core.cpp
-        └──> merge/configgen.py ──> gamedir/speedrun.cfg
+data/op4_route.json ──> gen_route_header.py ──> src/speedrun/sr_route_data.h
+        │                                       ├─> 77 C++ checks
+        ├──> web/app.py (dashboard + JSON API)  └─> game_shared/sr_core.cpp
+        ├──> merge/configgen.py ──> gamedir/speedrun.cfg
+        └──> tools/package_mod.py ──> dist/*.zip + MANIFEST.json
 ```
 
-التفاصيل في [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)،
-وقواعد الدمج في [`docs/MERGE_PLAN.md`](docs/MERGE_PLAN.md)،
-ومنطق السبيدرن في [`docs/SPEEDRUN.md`](docs/SPEEDRUN.md).
+التفاصيل: [`ARCHITECTURE`](docs/ARCHITECTURE.md) · [`MERGE_PLAN`](docs/MERGE_PLAN.md) ·
+[`RESOLUTION`](docs/RESOLUTION.md) · [`SPEEDRUN`](docs/SPEEDRUN.md) · [`ROADMAP`](docs/ROADMAP.md).
 
 ---
 
 ## السبيدرن
 
-* المؤقّت على **السيرفر** ويقرأ ساعة `std::chrono::steady_clock`، لا معدّل الإطارات.
-* كل `changelevel` = تقسيم؛ الخرائط تُنفّذ بترتيب المسار فقط، والخرائط غير المعروفة لا تُنهي الرن.
-* `sv_cheats` يجب أن يبقى `0`؛ أي رن مع Cheats يُعلَم INVALID ولا يُكتب PB.
-* `sr_practice_mode 1` يعطّل كتابة PB. الروابط: `F5` إعادة، `F6` تقسيم، `F7` وضع التدريب
-  (تُترك `Space` للقفز و`E` للاستخدام).
-* PB يُخزَّن كأسطر `map=ms` في `splits/op4_pb.txt`، ويُقرأ بتسامح مع الأسطر التالفة.
+* المؤقّت على **السيرفر** يقرأ `std::chrono::steady_clock`، لا معدّل الإطارات.
+* كل `changelevel` = تقسيم، ويُبثّ للعميل: `WRITE_LONG(at) + WRITE_LONG(delta) + WRITE_BYTE(hasPb) + WRITE_STRING(map)`.
+  العميل يعرض `sr::ServerMirror` (زمن السيرفر + إسقاط محلي رتيب بين الرسائل).
+* `sv_cheats` يبقى `0`؛ أي رن مع Cheats يُعلَم INVALID. `sr_practice_mode 1` يعطّل PB.
+* `sv_allowbunnyhopping 1` هو المكافئ الأصلي في OP4 لـ bhop cap في BugfixedHL.
+* الروابط: `F5` إعادة، `F6` تقسيم، `F7` تدريب (تُترك `Space` للقفز و`E` للاستخدام).
+* `sr_autodemo 1` يسجّل demo لكل رن ويوقفه عند `of7a0`.
 
 ---
 
 ## الرخص
 
-كود هذا المستودع MIT. **لكن** الـ SDKات ليست مُضمّنة في git: تُنزّل عند البناء فقط،
-والشجرة الناتجة تخضع لرخصها (Valve HLSDK non-commercial، وGPL-3.0 لـ BugfixedHL،
-ورخصة TWHL). ملفات `integration/ports/` منقولة للمراجعة فقط ولا تُترجم.
+كود هذا المستودع MIT. **لكن** الـ SDKات ليست مُضمّنة في git، والحزمة لا تحتوي
+أيّاً من مصادرها: تُنزّل عند البناء فقط والشجرة الناتجة تخضع لرخصها.
+ملفات `integration/ports/` منقولة للمراجعة فقط ولا تُترجم.
 اقرأ [`docs/LICENSES.md`](docs/LICENSES.md) قبل أي توزيع.
 
 ---
@@ -114,20 +121,23 @@ data/op4_route.json ──> tools/gen_route_header.py ──> src/speedrun/sr_ro
 
 محطة بناء 18K، شاشات 240Hz وقياس الإدخال 6K، مختبر توافق Steam/WON/Linux 12K،
 CI runners 8K، قهوة 3K… و53K للإصدار 1.0. أما BugfixedHL فمفتوح المصدر،
-لذا لا يمكن شراؤه — وهذا أفضل 😄. (الجائزة تُصرف بعد `make verify` طبعاً.)
+لذا لا يمكن شراؤه — وهذا أفضل 😄. (الجائزة صُرفت بعد `make verify`.)
 
 ---
 
 ## English TL;DR
 
-A reproducible, conflict-aware merge kit that ports BugfixedHL fixes and
-speedrun tooling onto the Opposing Force SDK. Upstreams are pinned by commit
-and tarball checksum; a 3-way merge (vanilla HLSDK as base) plus anchor-checked
-injections produce a merged SDK tree, a deterministic tree hash and a JSON/MD
-report. A clean-room C++17 core implements the RTA timer, splits, PB and config
-generation; a live RTL dashboard drives the pipeline. `make verify` runs all
-checks; `make fetch && make merge && make verify-sdk` exercises the real SDKs.
-Conflicts are quarantined and manual ports are documented, never hidden.
+A reproducible merge kit that ports BugfixedHL fixes and speedrun tooling onto
+the Opposing Force SDK. Upstreams are pinned by commit and tarball checksum;
+machine-verified equivalence audits (OP4 already implements the donor fixes),
+anchor-checked injections, and build-file patching produce a merged SDK tree
+with **zero conflicts, zero deferred ports, zero errors** and a deterministic
+tree hash. A clean-room C++17 core implements the RTA timer, splits, PB,
+server-time projection and config generation; a server→client `SRSplit` user
+message keeps the HUD authoritative. A distributable, sha256-manifested overlay
+package and an RTL live dashboard are included. `make verify` runs everything;
+`make fetch && make merge && make verify-sdk && make package` exercises the
+real SDKs. Only the final DLL link needs the external HLSDK toolchain.
 
 ### المصادر
 

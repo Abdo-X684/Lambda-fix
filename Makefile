@@ -3,7 +3,7 @@ PYTHON ?= python3
 CXX    ?= g++
 ROOT   := $(CURDIR)
 
-.PHONY: help verify test test-py test-cpp gen route-check merge merge-offline fetch serve build build-cmake verify-sdk clean
+.PHONY: help verify test test-py test-cpp gen route-check merge merge-offline fetch serve build build-cmake verify-sdk package clean
 
 help:
 	@echo "verify        - python tests + C++ build/tests + generation checks"
@@ -15,9 +15,10 @@ help:
 	@echo "build         - build the speedrun core + C++ tests (g++, no deps)"
 	@echo "build-cmake   - same via CMake (optional)"
 	@echo "verify-sdk    - syntax-check injected files against the real SDK headers"
+	@echo "package       - build dist/bhl-op4-speedrun-overlay.zip + MANIFEST.json"
 	@echo "clean         - remove build artifacts"
 
-verify: test-py gen route-check test-cpp merge-offline
+verify: test-py gen route-check test-cpp merge-offline package
 	@echo "== ALL CHECKS PASSED =="
 
 test: test-py test-cpp
@@ -39,6 +40,9 @@ build-cmake:
 
 verify-sdk:
 	$(PYTHON) tools/verify_sdk.py --tree build/merged-real
+
+package:
+	$(PYTHON) tools/package_mod.py
 
 gen:
 	$(PYTHON) tools/gen_route_header.py --check

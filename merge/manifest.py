@@ -8,13 +8,14 @@ declared as a rule.  Nothing is applied implicitly.
 from __future__ import annotations
 
 import json
+import re
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
 from .layout import is_safe_relative
 
-ACTIONS = {"three_way", "copy", "inject", "generate", "skip"}
+ACTIONS = {"three_way", "copy", "inject", "generate", "audit", "skip"}
 CONFLICT_POLICIES = {"marker", "ours", "theirs", "fail"}
 GENERATORS = {"speedrun_cfg", "route_json"}
 WHERE = {"before", "after"}
@@ -167,6 +168,19 @@ def validate_plan(plan: Plan, upstreams: dict[str, Upstream]) -> list[str]:
         elif rule.action == "generate":
             if rule.get("generator") not in GENERATORS:
                 errors.append(f"{tag}: unknown generator '{rule.get('generator')}'")
+        elif rule.action == "audit":
+            expectations = rule.get("expect")
+            if not isinstance(expectations, list) or not expectations:
+                errors.append(f"{tag}: audit needs a non-empty 'expect' list")
+            else:
+                for item in expectations:
+                    if not isinstance(item, dict) or "pattern" not in item or "meaning" not in item:
+                        errors.append(f"{tag}: each expect item needs 'pattern' and 'meaning'")
+                    elif item.get("regex"):
+                        try:
+                            re.compile(item["pattern"])
+                        except re.error as exc:
+                            errors.append(f"{tag}: invalid regex: {exc}")
 
         for spec in specs:
             name, _, rel = str(spec).partition(":")

@@ -10,7 +10,7 @@ ROOT = Path(__file__).resolve().parents[1]
 class WebTests(unittest.TestCase):
     def test_status_payload(self):
         st = app.status_payload()
-        self.assertEqual(st["rules"], 26)
+        self.assertEqual(st["rules"], 30)
         self.assertEqual(len(st["upstreams"]), 3)
         self.assertEqual(st["route"]["maps"], 39)
         self.assertEqual(st["route"]["chapters"], 13)
@@ -32,7 +32,7 @@ class WebTests(unittest.TestCase):
         js = (ROOT / "web" / "static" / "app.js").read_text(encoding="utf-8")
         paths = set(re.findall(r"api\('(/api/[a-z-]+)'", js))
         self.assertEqual(paths, {"/api/status", "/api/route", "/api/plan", "/api/config",
-                                 "/api/report", "/api/readme", "/api/merge", "/api/tests"})
+                                 "/api/report", "/api/readme", "/api/merge", "/api/tests", "/api/package"})
 
     def test_dashboard_binds_all_interfaces(self):
         source = (ROOT / "web" / "app.py").read_text(encoding="utf-8")

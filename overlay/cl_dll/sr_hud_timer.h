@@ -1,7 +1,6 @@
 // BugfixedHL x Opposing Force - Speedrun Merge Kit
-// Thin client-side HUD mirror. The authoritative timer lives on the server
-// (dlls/sr_server.cpp); this mirror keeps the HUD usable in single player and
-// receives split updates through SR_HUD_OnSplit.
+// Timer HUD. Time comes from the server (SRSplit user message); the local
+// RunTimer is only a fallback when no server message has arrived.
 #pragma once
 
 #include "sr_core.h"

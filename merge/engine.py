@@ -18,6 +18,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import shutil
 import subprocess
 import tempfile
@@ -84,6 +85,7 @@ class MergeEngine:
         self.warnings: list[str] = []
         self.conflicts: list[dict[str, Any]] = []
         self.manual_port: list[dict[str, Any]] = []
+        self.audits: list[dict[str, Any]] = []
 
     # ------------------------------------------------------------------ utils
     def _spec_path(self, spec: str) -> Path:
@@ -249,6 +251,54 @@ class MergeEngine:
         _write(target, text[:pos] + snippet + text[pos:])
         return self._record(rule, "injected", f"anchor matched {occurrences}x", origin=rule["snippet"])
 
+    def _audit(self, rule: Any) -> dict[str, Any]:
+        """Prove that the target SDK already provides the donor's fix.
+
+        OP4-updated ships several BugfixedHL features natively (bunnyhop via
+        physinfo "bj", the bounded unknown-command copy, HUD init resets).
+        Re-merging whole rewritten files is both wrong and unnecessary; an
+        explicit, machine-checked equivalence audit is the correct closure.
+        """
+        target = self.stage / rule.path
+        if not target.is_file():
+            raise FileNotFoundError(f"audit target missing: {rule.path}")
+        text = _read(target)
+        checks: list[dict[str, Any]] = []
+        for item in rule["expect"]:
+            pattern = item["pattern"]
+            if item.get("regex", False):
+                found = len(re.findall(pattern, text))
+            else:
+                found = text.count(pattern)
+            minimum = int(item.get("min", 1))
+            checks.append(
+                {
+                    "meaning": item["meaning"],
+                    "pattern": pattern,
+                    "found": found,
+                    "min": minimum,
+                    "ok": found >= minimum,
+                }
+            )
+        ok = all(c["ok"] for c in checks)
+        audit = {
+            "rule": rule.id,
+            "path": rule.path,
+            "feature": rule.get("feature", ""),
+            "evidence": rule.get("evidence", ""),
+            "verdict": "equivalent" if ok else "missing",
+            "checks": checks,
+        }
+        self.audits.append(audit)
+        if not ok:
+            missing = [c["meaning"] for c in checks if not c["ok"]]
+            self.warnings.append(f"{rule.id}: missing equivalences in {rule.path}: {', '.join(missing)}")
+            return self._record(rule, "anchor_drift", f"{len(missing)} equivalences missing", origin=rule.get("evidence", ""))
+        return self._record(
+            rule, "audited", f"{len(checks)}/{len(checks)} BugfixedHL equivalences verified",
+            origin=rule.get("evidence", ""),
+        )
+
     def _generate(self, rule: Any) -> dict[str, Any]:
         generator = rule["generator"]
         if generator == "speedrun_cfg":
@@ -271,6 +321,8 @@ class MergeEngine:
             return self._inject(rule)
         if rule.action == "generate":
             return self._generate(rule)
+        if rule.action == "audit":
+            return self._audit(rule)
         raise MergeError(f"unsupported action: {rule.action}")
 
     # ------------------------------------------------------------------- main
@@ -325,6 +377,7 @@ class MergeEngine:
             "unchanged": statuses.count("unchanged"),
             "conflicts": len(self.conflicts),
             "deferred": statuses.count("deferred"),
+            "audited": statuses.count("audited"),
             "added": statuses.count("added"),
             "injected": statuses.count("injected"),
             "generated": statuses.count("generated"),
@@ -358,6 +411,7 @@ class MergeEngine:
             "summary": summary,
             "conflicts": self.conflicts,
             "manual_port": self.manual_port,
+            "audits": self.audits,
             "warnings": self.warnings,
             "build_files": build_files,
             "tree_hash": tree_hash,
