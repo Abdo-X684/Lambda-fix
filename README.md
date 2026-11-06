@@ -16,10 +16,12 @@
 ## البدء السريع
 
 ```bash
-make verify        # 64 اختبار Python + 77 فحص C++ + فحص التوليد + دمج offline + حزمة
+make verify        # النظافة + 66 اختبار Python + 77 فحص C++ + التوليد + الدمج + الحزمة
+make hygiene       # فحص المسافات/JSON/الاستيرادات/روابط الوثائق
+make tidy          # تنظيف __pycache__ والمجلدات المرحلية ثم إعادة الفحص
 make fetch         # تنزيل SDKات الثلاثة المثبّتة مع التحقق من sha256
 make merge         # الدمج الحقيقي → build/merged-real
-make verify-sdk    # g++ -fsyntax-only لـ9 ملفات + فحص absence of conflict markers
+make verify-sdk    # g++ -fsyntax-only لـ9 ملفات + فحص خلوّ المصادر من علامات التعارض
 make package       # dist/bhl-op4-speedrun-overlay.zip + MANIFEST.json
 make serve         # لوحة التحكم على http://localhost:8000
 ```
@@ -91,8 +93,10 @@ data/op4_route.json ──> gen_route_header.py ──> src/speedrun/sr_route_da
         └──> tools/package_mod.py ──> dist/*.zip + MANIFEST.json
 ```
 
-التفاصيل: [`ARCHITECTURE`](docs/ARCHITECTURE.md) · [`MERGE_PLAN`](docs/MERGE_PLAN.md) ·
-[`RESOLUTION`](docs/RESOLUTION.md) · [`SPEEDRUN`](docs/SPEEDRUN.md) · [`ROADMAP`](docs/ROADMAP.md).
+**فهرس الوثائق:** [`docs/README.md`](docs/README.md) · [`ARCHITECTURE`](docs/ARCHITECTURE.md) ·
+[`MERGE_PLAN`](docs/MERGE_PLAN.md) · [`RESOLUTION`](docs/RESOLUTION.md) ·
+[`SPEEDRUN`](docs/SPEEDRUN.md) · [`ROADMAP`](docs/ROADMAP.md) ·
+ودليل المساهمة [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
 ---
 

@@ -9,7 +9,13 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from .configgen import load_route, route_maps, validate_route, write_config
+from .configgen import (
+    load_route,
+    render_config,
+    route_maps,
+    validate_route,
+    write_config,
+)
 from .engine import MergeEngine
 from .fetch import fetch_all, resolve_sources
 from .manifest import load_plan, load_upstreams, validate_plan
@@ -110,14 +116,8 @@ def cmd_config(args: argparse.Namespace) -> int:
         write_config(root, out)
         print(f"wrote {out}")
     else:
-        print(write_config_to_text(root), end="")
+        print(render_config(root), end="")
     return 0
-
-
-def write_config_to_text(root: Path) -> str:
-    from .configgen import render_config
-
-    return render_config(root)
 
 
 def cmd_verify(args: argparse.Namespace) -> int:

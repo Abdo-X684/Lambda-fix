@@ -1,25 +1,20 @@
-# Build / generated output
+# Generated output - never commit (recreate with make verify / make merge)
 /build/
 /dist/
 /.cache/
+__pycache__/
+*.pyc
 *.o
 *.obj
 *.so
 *.dll
 *.lib
-*.pyc
-__pycache__/
 CMakeFiles/
 CMakeCache.txt
 cmake_install.cmake
 Testing/
-speedrun_test
-*.egg-info/
 
-# Local editor / OS
+# Editors / OS
 .vscode/
 .idea/
 .DS_Store
-
-# Never commit fetched upstream sources (licensed separately)
-/upstreams/

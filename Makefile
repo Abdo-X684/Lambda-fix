@@ -3,12 +3,14 @@ PYTHON ?= python3
 CXX    ?= g++
 ROOT   := $(CURDIR)
 
-.PHONY: help verify test test-py test-cpp gen route-check merge merge-offline fetch serve build build-cmake verify-sdk package clean
+.PHONY: help verify hygiene tidy test test-py test-cpp gen route-check merge merge-offline fetch serve build build-cmake verify-sdk package clean
 
 help:
-	@echo "verify        - python tests + C++ build/tests + generation checks"
+	@echo "verify        - hygiene + python tests + C++ checks + generation + merge + package"
+	@echo "hygiene       - check whitespace, JSON, imports, docs links, fixtures"
+	@echo "tidy          - remove __pycache__/stale stage dirs, then run hygiene"
 	@echo "fetch         - download pinned, checksum-verified upstream SDKs"
-	@echo "merge         - merge real upstreams into build/merged"
+	@echo "merge         - merge real upstreams into build/merged-real"
 	@echo "merge-offline - merge bundled fixtures (no network) into build/merged"
 	@echo "gen           - regenerate C++ route header from data/op4_route.json"
 	@echo "serve         - run the live dashboard on 0.0.0.0:8000"
@@ -16,12 +18,20 @@ help:
 	@echo "build-cmake   - same via CMake (optional)"
 	@echo "verify-sdk    - syntax-check injected files against the real SDK headers"
 	@echo "package       - build dist/bhl-op4-speedrun-overlay.zip + MANIFEST.json"
-	@echo "clean         - remove build artifacts"
+	@echo "clean         - remove build/, dist/ and fetched SDK cache"
 
-verify: test-py gen route-check test-cpp merge-offline package
+verify: hygiene test-py gen route-check test-cpp merge-offline package
 	@echo "== ALL CHECKS PASSED =="
 
 test: test-py test-cpp
+
+hygiene:
+	$(PYTHON) tools/check_hygiene.py
+
+tidy:
+	find . -name '__pycache__' -type d -prune -exec rm -rf {} + 2>/dev/null || true
+	rm -rf build/.stage-* build/.old-*
+	$(PYTHON) tools/check_hygiene.py
 
 test-py:
 	$(PYTHON) -m unittest discover -s tests -p 'test_*.py' -v
@@ -63,4 +73,4 @@ serve:
 	$(PYTHON) web/app.py
 
 clean:
-	rm -rf build .cache/upstreams
+	rm -rf build dist .cache/upstreams
