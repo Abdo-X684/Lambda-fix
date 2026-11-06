@@ -37,6 +37,7 @@ FILES = (
     ("LICENSE", "LICENSE"),
     ("docs/LICENSES.md", "docs/LICENSES.md"),
     ("docs/SPEEDRUN.md", "docs/SPEEDRUN.md"),
+    ("docs/BUILDING.md", "docs/BUILDING.md"),
 )
 SNIPPETS = "integration/snippets"
 INSTALL_NAME = "INSTALL.md"
@@ -52,15 +53,21 @@ OP4 SDK checkout.
 
 ## Apply
 
-1. `make fetch && make merge` in the merge-kit repository, then build the two
-   DLLs with the OP4 SDK toolchain (VS2019 project or `linux/Makefile`).
-   `merge/projects.py` already added the new `.cpp` files to those build files.
+1. `make fetch && make merge` in the merge-kit repository, then run
+   `make build-dlls` (or `cd build/merged-real/linux && make CFG=release`).
+   `merge/projects.py` already added the new `.cpp` files to the VS2019
+   projects and the Linux Makefiles. On Linux you need `gcc-multilib /
+   g++-multilib` and the game's proprietary `vgui.so`; see `docs/BUILDING.md`
+   in this archive for the exact download/build/install steps.
 2. Copy `src/cl_dll/*` to `<OP4 SDK>/cl_dll/`, `src/dlls/*` to `dlls/`,
    `src/game_shared/*` to `game_shared/` if you are applying manually, and
    apply `integration/snippets/*.snippet` at the anchors documented in
    `merge/plan.json`.
 3. Copy `gamedir/speedrun.cfg` into the mod directory and put
    `gamedir/splits/op4_route.json` under `splits/`.
+
+No compiled binaries are included in this archive: `client.so`/`hl.so` are
+built locally from the merged SDK tree and are subject to the upstream licenses.
 
 ## Run
 

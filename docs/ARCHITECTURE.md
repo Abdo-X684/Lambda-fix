@@ -36,6 +36,9 @@
    كتل أوامر، روابط وثائق داخلية؛ يُهرَّب كل النص خادمياً)،
    `tools/package_mod.py` (zip + `MANIFEST.json` بـ sha256، بلا كود SDK).
    اللوحة تبويبان: لوحة التحكم، وصفحة README/الوثائق بفهرس جانبي.
+8. **ربط الـ binaries** — `tools/build_dlls.py`: فحص الشجرة/الأداة 32-bit/
+   `vgui.so`، ثم `make -C build/merged-real/linux CFG=release` لإنتاج
+   `client.so` + `hl.so` مع `MANIFEST.json`؛ تفاصيل [`BUILDING.md`](BUILDING.md).
 
 ## القرارات المهمة
 

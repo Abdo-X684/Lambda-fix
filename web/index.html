@@ -45,6 +45,7 @@
         <a class="chip" href="#cardRoute">🗺 المسار</a>
         <a class="chip" href="#cardPrize">💵 الجائزة</a>
         <button class="chip chip-accent" id="btnQuickReadme" type="button">📖 اقرأ README</button>
+        <button class="chip" id="btnQuickBuild" type="button">🔨 أبني client.so؟</button>
       </nav>
 
       <div class="grid">
@@ -127,7 +128,10 @@
         <section class="card doc-card" id="cardDoc">
           <div class="card-head"><h2>📖 توثيق المشروع</h2><span class="badge">README.md</span></div>
           <p class="hint">الـ README كامل، مُنسّق ومقروء داخل الصفحة: جداول، أوامر، فهرس جانبي، وروابط تنتقل بين الوثائق — بلا أي مكتبة خارجية.</p>
-          <div class="controls"><button id="btnOpenReadme" class="primary" type="button">افتح صفحة README ←</button></div>
+          <div class="controls">
+            <button id="btnOpenReadme" class="primary" type="button">افتح صفحة README ←</button>
+            <button id="btnOpenBuild" type="button">🔨 كيف أبني client.so؟</button>
+          </div>
           <p class="hint">
             التقرير الكامل: <a href="/api/report" target="_blank">MERGE_REPORT.md</a> ·
             الحالة: <a href="/api/status" target="_blank">/api/status</a>

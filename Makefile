@@ -3,7 +3,7 @@ PYTHON ?= python3
 CXX    ?= g++
 ROOT   := $(CURDIR)
 
-.PHONY: help verify hygiene tidy test test-py test-cpp gen route-check merge merge-offline fetch serve build build-cmake verify-sdk package clean
+.PHONY: help verify hygiene tidy test test-py test-cpp gen route-check merge merge-offline fetch serve build build-cmake verify-sdk package build-dlls build-dlls-check clean
 
 help:
 	@echo "verify        - hygiene + python tests + C++ checks + generation + merge + package"
@@ -18,6 +18,8 @@ help:
 	@echo "build-cmake   - same via CMake (optional)"
 	@echo "verify-sdk    - syntax-check injected files against the real SDK headers"
 	@echo "package       - build dist/bhl-op4-speedrun-overlay.zip + MANIFEST.json"
+	@echo "build-dlls    - build 32-bit client.so + hl.so from build/merged-real"
+	@echo "build-dlls-check - preflight only (toolchain / vgui.so / patched makefiles)"
 	@echo "clean         - remove build/, dist/ and fetched SDK cache"
 
 verify: hygiene test-py gen route-check test-cpp merge-offline package
@@ -50,6 +52,12 @@ build-cmake:
 
 verify-sdk:
 	$(PYTHON) tools/verify_sdk.py --tree build/merged-real
+
+build-dlls:
+	$(PYTHON) tools/build_dlls.py
+
+build-dlls-check:
+	$(PYTHON) tools/build_dlls.py --check --require-tree
 
 package:
 	$(PYTHON) tools/package_mod.py

@@ -16,13 +16,14 @@
 ## البدء السريع
 
 ```bash
-make verify        # النظافة + 80 اختبار Python + 77 فحص C++ + التوليد + الدمج + الحزمة
+make verify        # النظافة + 90 اختبار Python + 77 فحص C++ + التوليد + الدمج + الحزمة
 make hygiene       # فحص المسافات/JSON/الاستيرادات/روابط الوثائق
 make tidy          # تنظيف __pycache__ والمجلدات المرحلية ثم إعادة الفحص
 make fetch         # تنزيل SDKات الثلاثة المثبّتة مع التحقق من sha256
 make merge         # الدمج الحقيقي → build/merged-real
 make verify-sdk    # g++ -fsyntax-only لـ9 ملفات + فحص خلوّ المصادر من علامات التعارض
 make package       # dist/bhl-op4-speedrun-overlay.zip + MANIFEST.json
+make build-dlls    # client.so + hl.so (يحتاج gcc-multilib + vgui.so من اللعبة)
 make serve         # لوحة التحكم + صفحة README على http://localhost:8000
 ```
 
@@ -75,8 +76,11 @@ SDK الفعلية، ولا علامات تعارض في أي ملف قابل ل
 إعادة دمج ملفات أُعيد كتابتها بالكامل كان سيدمّر كود OP4، بينما OP4-updated يوفّر
 السلوك نفسه أصلاً — فاستُبدل الدمج الأعمى بتدقيق تكافؤ آلي + توصيل الـ cvar الصحيح.
 
-الخطوة الوحيدة التي تحتاج بيئة خارجية هي **ربط DLL النهائي** بأداة بناء HLSDK
-(VS2019 أو `linux/Makefile`) وأصول اللعبة؛ الملفات والمشاريع جاهزة ومُختبرة نحوياً.
+الخطوة الوحيدة التي تحتاج بيئة خارجية هي **ربط الـ DLL النهائي**: نفّذ
+`make build-dlls` بعد `make fetch && make merge` على جهاز فيه `gcc-multilib`
+ونسخة من اللعبة (للحصول على `vgui.so` والأصول). الدليل الكامل — بما فيه «من أين
+أحمّل كل شيء» — في [`docs/BUILDING.md`](docs/BUILDING.md). الملفات والمشاريع
+جاهزة ومُختبرة نحوياً، والسكربت يفحص البيئة ويقول لك بصراحة ما ينقصها.
 
 ---
 
@@ -102,7 +106,7 @@ data/op4_route.json ──> gen_route_header.py ──> src/speedrun/sr_route_da
         └──> tools/package_mod.py ──> dist/*.zip + MANIFEST.json
 ```
 
-**فهرس الوثائق:** [`docs/README.md`](docs/README.md) · [`ARCHITECTURE`](docs/ARCHITECTURE.md) ·
+**فهرس الوثائق:** [`docs/README.md`](docs/README.md) · [`BUILDING`](docs/BUILDING.md) · [`ARCHITECTURE`](docs/ARCHITECTURE.md) ·
 [`MERGE_PLAN`](docs/MERGE_PLAN.md) · [`RESOLUTION`](docs/RESOLUTION.md) ·
 [`SPEEDRUN`](docs/SPEEDRUN.md) · [`ROADMAP`](docs/ROADMAP.md) ·
 ودليل المساهمة [`CONTRIBUTING.md`](CONTRIBUTING.md).

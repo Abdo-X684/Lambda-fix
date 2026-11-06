@@ -2,6 +2,7 @@
 
 | ملف | المحتوى |
 | --- | --- |
+| [BUILDING.md](BUILDING.md) | بناء `client.so` / `hl.so`: ماذا أحمّل، 32-bit، `vgui.so`، التثبيت والتشغيل |
 | [ARCHITECTURE.md](ARCHITECTURE.md) | الطبقات، تدفق البيانات، والقرارات المعمارية |
 | [MERGE_PLAN.md](MERGE_PLAN.md) | أنواع القواعد الـ30، سياسات التعارض، نقاط الحقن، ملفات البناء |
 | [RESOLUTION.md](RESOLUTION.md) | كيف حُلّت التعارضات الـ127 والمنقولات المؤجلة، بأدلة السطور |

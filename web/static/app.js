@@ -194,7 +194,7 @@ $('btnPackage').onclick = async () => {
   } catch (e) { $('packageResult').innerHTML = `<p class="notes">❌ ${esc(e.message)}</p>`; }
 };
 $('btnTests').onclick = async () => {
-  $('mergeResult').innerHTML = '<span class="muted">⏳ جارٍ تشغيل 80 اختبار Python…</span>';
+  $('mergeResult').innerHTML = '<span class="muted">⏳ جارٍ تشغيل 90 اختبار Python…</span>';
   try {
     const r = await api('/api/tests', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}' });
     const d = await r.json();
@@ -208,7 +208,7 @@ function renderStatus(st) {
   $('statusPill').classList.add('ok');
   $('stats').innerHTML = [
     ['قواعد الدمج', st.rules], ['خرائط OP4', st.route.maps], ['فصول', st.route.chapters],
-    ['مصادر مثبّتة', st.upstreams.length], ['اختبارات', '80 + 77'],
+    ['مصادر مثبّتة', st.upstreams.length], ['اختبارات', '90 + 77'],
   ].map(([label, value]) => `<div class="stat"><b>${esc(value)}</b><span>${esc(label)}</span></div>`).join('');
   $('upstreams').innerHTML = st.upstreams.map((u) => `<div class="up-row">
       <b>${esc(u.name)}</b> <span class="tag">${esc(u.role)}</span>
@@ -346,6 +346,8 @@ $('btnViewDashboard').onclick = () => setView('dashboard');
 $('btnViewDocs').onclick = () => loadDoc(docsState.name);
 $('btnOpenReadme').onclick = () => loadDoc('README.md');
 $('btnQuickReadme').onclick = () => loadDoc('README.md');
+$('btnQuickBuild').onclick = () => loadDoc('docs/BUILDING.md');
+$('btnOpenBuild').onclick = () => loadDoc('docs/BUILDING.md');
 $('btnBackDashboard').onclick = () => setView('dashboard');
 $('docsList').addEventListener('click', (e) => {
   const b = e.target.closest('button[data-doc]');

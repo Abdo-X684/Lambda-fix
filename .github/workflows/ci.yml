@@ -52,6 +52,9 @@ jobs:
           assert s['audited'] == 3, s
           print('real merge clean:', s)
           PY
+      - name: Verify the Linux DLL build inputs (structure, no toolchain needed)
+        run: |
+          python3 tools/build_dlls.py --check --require-tree --out dist/dlls
       - name: Build distributable overlay package
         run: make package
       - name: Upload real merge report
