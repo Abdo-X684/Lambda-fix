@@ -8,6 +8,8 @@ on:
         required: false
         default: 'v0.1.0-linux32'
   push:
+    branches: ['arena/dd30bd22-bugfixhl-speedrun-op4']
+    paths: ['.github/RELEASE_TRIGGER']
     tags: ['v*-linux32']
 
 permissions:
@@ -39,7 +41,7 @@ jobs:
       - name: Attach the binaries to the GitHub Release
         env:
           GH_TOKEN: ${{ github.token }}
-          TAG: ${{ inputs.tag || github.ref_name }}
+          TAG: ${{ inputs.tag || 'v0.1.0-linux32' }}
         run: |
           if gh release view "$TAG" >/dev/null 2>&1; then
             gh release upload "$TAG" \
