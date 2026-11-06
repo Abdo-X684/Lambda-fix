@@ -194,7 +194,10 @@ def write_manifest(out: Path, artifacts: dict[str, Path], meta: dict) -> dict:
 
 
 def install_artifacts(out: Path, mod: Path, tree: Path) -> list[str]:
-    """Copy binaries into a gearbox mod dir, backing up stock libraries once."""
+    """Copy binaries into a standalone mod dir (NEVER a Valve game directory)."""
+    from tools.create_mod import validate_mod_name  # noqa: PLC0415
+
+    validate_mod_name(mod.name)
     written: list[str] = []
 
     def place(src: Path, dest: Path) -> None:
@@ -258,9 +261,14 @@ def main(argv: list[str] | None = None) -> int:
               f"ELF32={info['elf32']}")
     print(f"wrote {args.out / 'MANIFEST.json'}")
     if args.install:
-        for dest in install_artifacts(args.out, args.install, args.tree):
-            print(f"  installed -> {dest}")
-        print("launch the mod with: -game gearbox -console -dev")
+        try:
+            for dest in install_artifacts(args.out, args.install, args.tree):
+                print(f"  installed -> {dest}")
+        except ValueError as exc:
+            print(f"install refused: {exc}", file=sys.stderr)
+            print("use: python3 tools/create_mod.py --install <Half-Life dir>", file=sys.stderr)
+            return 2
+        print(f"launch the mod with: -game {args.install.name} -console -dev")
     return 0
 
 

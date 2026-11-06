@@ -38,6 +38,9 @@ jobs:
               print(f'OK {name}: {len(data)} bytes, ELF32, sha256 verified')
           PY
 
+      - name: Build the standalone mod folder + zip
+        run: python3 tools/create_mod.py
+
       - name: Attach the binaries to the GitHub Release
         env:
           GH_TOKEN: ${{ github.token }}
@@ -45,11 +48,11 @@ jobs:
         run: |
           if gh release view "$TAG" >/dev/null 2>&1; then
             gh release upload "$TAG" \
-              dist/dlls/client.so dist/dlls/hl.so dist/dlls/MANIFEST.json --clobber
+              dist/bhl-op4-mod.zip dist/dlls/client.so dist/dlls/hl.so dist/dlls/MANIFEST.json --clobber
             gh release edit "$TAG" --notes-file .github/release-notes.md
           else
             gh release create "$TAG" \
-              dist/dlls/client.so dist/dlls/hl.so dist/dlls/MANIFEST.json \
+              dist/bhl-op4-mod.zip dist/dlls/client.so dist/dlls/hl.so dist/dlls/MANIFEST.json \
               --target arena/dd30bd22-bugfixhl-speedrun-op4 \
               --title "BHL × OP4 Speedrun — client.so + hl.so (Linux 32-bit)" \
               --notes-file .github/release-notes.md

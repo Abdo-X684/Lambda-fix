@@ -15,3 +15,7 @@
 لمصادر مرخّصة separately، ويجب مراجعة الالتزامات قبل نشر أي حزمة مود.
 
 هذا المستند ليس استشارة قانونية.
+
+`data/delta.lst` (in the mod folder) is copied from the OP4 SDK `network/`
+folder because GoldSrc mods require it for client/server network data; it is
+SDK data, not kit code, and remains under the SDK's terms.

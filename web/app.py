@@ -34,6 +34,7 @@ DLL_DOWNLOADS = {
     "/dist/dlls/hl.so": "hl.so",
     "/dist/dlls/MANIFEST.json": "MANIFEST.json",
 }
+MOD_ZIP = ROOT / "dist" / "bhl-op4-mod.zip"
 
 
 def _report_path(name: str) -> Path:
@@ -85,6 +86,7 @@ def status_payload() -> dict:
         "real_sdk_cached": (ROOT / "build" / "merged-real" / "MERGE_REPORT.json").is_file(),
         "package_ready": (ROOT / "dist" / "bhl-op4-speedrun-overlay.zip").is_file(),
         "dlls_ready": (ROOT / "dist" / "dlls" / "client.so").is_file(),
+        "mod_zip_ready": MOD_ZIP.is_file(),
         "last_report": (
             {
                 "mode": report["mode"],
@@ -155,6 +157,11 @@ class Handler(BaseHTTPRequestHandler):
             elif path in STATIC:
                 rel, ctype = STATIC[path]
                 self._text((ROOT / rel).read_text(encoding="utf-8"), ctype)
+            elif path == "/dist/bhl-op4-mod.zip":
+                if not MOD_ZIP.is_file():
+                    self._json({"error": "mod archive not built yet (make mod)"}, 404)
+                else:
+                    self._send(200, MOD_ZIP.read_bytes(), "application/zip")
             elif path in DLL_DOWNLOADS:
                 dll = ROOT / "dist" / "dlls" / DLL_DOWNLOADS[path]
                 if not dll.is_file():

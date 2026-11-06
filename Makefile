@@ -3,7 +3,7 @@ PYTHON ?= python3
 CXX    ?= g++
 ROOT   := $(CURDIR)
 
-.PHONY: help verify hygiene tidy test test-py test-cpp gen route-check merge merge-offline fetch serve build build-cmake verify-sdk package build-dlls build-dlls-check build-dlls-zig noexcept-check clean
+.PHONY: help verify hygiene tidy test test-py test-cpp gen route-check merge merge-offline fetch serve build build-cmake verify-sdk package build-dlls build-dlls-check build-dlls-zig noexcept-check mod clean
 
 help:
 	@echo "verify        - hygiene + python tests + C++ checks + generation + merge + package"
@@ -21,9 +21,10 @@ help:
 	@echo "build-dlls    - build 32-bit client.so + hl.so from build/merged-real"
 	@echo "build-dlls-check - preflight only (toolchain / vgui.so / patched makefiles)"
 	@echo "build-dlls-zig - build ELF32 client.so/hl.so with Zig, no gcc-multilib/vgui.so needed"
+	@echo "mod           - create the standalone bhlop4/ mod folder + zip (never gearbox/)"
 	@echo "clean         - remove build/, dist/ and fetched SDK cache"
 
-verify: hygiene test-py gen route-check noexcept-check test-cpp merge-offline package
+verify: hygiene test-py gen route-check noexcept-check test-cpp merge-offline package mod
 	@echo "== ALL CHECKS PASSED =="
 
 test: test-py test-cpp
@@ -65,6 +66,9 @@ build-dlls-zig:
 
 noexcept-check:
 	$(CXX) -std=c++17 -fno-exceptions -Isrc/speedrun -fsyntax-only src/speedrun/sr_core.cpp
+
+mod:
+	$(PYTHON) tools/create_mod.py
 
 package:
 	$(PYTHON) tools/package_mod.py
