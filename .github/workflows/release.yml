@@ -1,0 +1,55 @@
+name: Publish Linux32 release assets
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Release tag'
+        required: false
+        default: 'v0.1.0-linux32'
+  push:
+    tags: ['v*-linux32']
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: arena/dd30bd22-bugfixhl-speedrun-op4
+
+      - name: Verify the ELF32 binaries against MANIFEST.json
+        run: |
+          python3 - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+          dlls = Path('dist/dlls')
+          m = json.loads((dlls / 'MANIFEST.json').read_text(encoding='utf-8'))
+          for name, info in m['files'].items():
+              data = (dlls / name).read_bytes()
+              assert data[:5] == b'\x7fELF\x01', f'{name}: not ELF32'
+              assert len(data) == info['bytes'], f'{name}: size mismatch'
+              assert hashlib.sha256(data).hexdigest() == info['sha256'], f'{name}: sha256 mismatch'
+              print(f'OK {name}: {len(data)} bytes, ELF32, sha256 verified')
+          PY
+
+      - name: Attach the binaries to the GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ inputs.tag || github.ref_name }}
+        run: |
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" \
+              dist/dlls/client.so dist/dlls/hl.so dist/dlls/MANIFEST.json --clobber
+            gh release edit "$TAG" --notes-file .github/release-notes.md
+          else
+            gh release create "$TAG" \
+              dist/dlls/client.so dist/dlls/hl.so dist/dlls/MANIFEST.json \
+              --target arena/dd30bd22-bugfixhl-speedrun-op4 \
+              --title "BHL × OP4 Speedrun — client.so + hl.so (Linux 32-bit)" \
+              --notes-file .github/release-notes.md
+          fi
+          gh release view "$TAG" --json name,assets

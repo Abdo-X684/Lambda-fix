@@ -7,8 +7,8 @@
 
 | الملف | الحجم | التحميل |
 | --- | --- | --- |
-| `client.so` | 9.0 MB | [من لوحة المشروع](/dist/dlls/client.so) · [من GitHub مباشرة](https://github.com/Abdo-X684/Bugfixhl-speedrun-op4/raw/arena/dd30bd22-bugfixhl-speedrun-op4/dist/dlls/client.so) |
-| `hl.so` | 15.9 MB | [من لوحة المشروع](/dist/dlls/hl.so) · [من GitHub مباشرة](https://github.com/Abdo-X684/Bugfixhl-speedrun-op4/raw/arena/dd30bd22-bugfixhl-speedrun-op4/dist/dlls/hl.so) |
+| `client.so` | 9.0 MB | [**⬇ GitHub Release**](https://github.com/Abdo-X684/Bugfixhl-speedrun-op4/releases/tag/v0.1.0-linux32) · [من لوحة المشروع](/dist/dlls/client.so) |
+| `hl.so` | 15.9 MB | [**⬇ GitHub Release**](https://github.com/Abdo-X684/Bugfixhl-speedrun-op4/releases/tag/v0.1.0-linux32) · [من لوحة المشروع](/dist/dlls/hl.so) |
 | `MANIFEST.json` | sha256 + ELF32 | [`/dist/dlls/MANIFEST.json`](/dist/dlls/MANIFEST.json) |
 
 اضغط الزر، ضع `client.so` في `gearbox/cl_dlls/` و`hl.so` في `gearbox/dlls/`،

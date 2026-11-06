@@ -32,7 +32,7 @@ make serve         # لوحة التحكم + صفحة README على http://local
 
 ### ⬇ تحميل `client.so` جاهز
 
-الملفان مبنيان فعلاً (ELF32) ومرفوعان داخل الفرع:
+الملفان مبنيان فعلاً (ELF32) ومنشوران كـ [**GitHub Release**](https://github.com/Abdo-X684/Bugfixhl-speedrun-op4/releases/tag/v0.1.0-linux32)، ومرفوعان أيضاً داخل الفرع:
 [`client.so`](https://github.com/Abdo-X684/Bugfixhl-speedrun-op4/raw/arena/dd30bd22-bugfixhl-speedrun-op4/dist/dlls/client.so) ·
 [`hl.so`](https://github.com/Abdo-X684/Bugfixhl-speedrun-op4/raw/arena/dd30bd22-bugfixhl-speedrun-op4/dist/dlls/hl.so) ·
 [`MANIFEST.json`](dist/dlls/MANIFEST.json).
