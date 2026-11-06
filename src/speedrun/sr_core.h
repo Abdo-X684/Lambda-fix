@@ -41,6 +41,10 @@ public:
 // "1:02.345", "12:01:02.345" for very long runs. Negative values clamp to 0.
 std::string FormatTime(Ms ms);
 
+// Last validation error. Empty in exception-enabled builds (which throw instead);
+// populated when the core is compiled with -fno-exceptions for GoldSrc.
+std::string LastError();
+
 class Route {
 public:
     static const ChapterData* Chapters();

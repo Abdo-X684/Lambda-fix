@@ -7,7 +7,7 @@
 
 ```bash
 make hygiene     # نصوص، JSON، استيرادات، روابط markdown، فهرس الوثائق
-make verify      # 90 اختبار Python + 77 فحص C++ + التوليد + الدمج + الحزمة
+make verify      # 93 اختبار Python + 77 فحص C++ + التوليد + الدمج + الحزمة
 make fetch && make merge && make verify-sdk   # إن غيّرت pins أو نقاط حقن
 ```
 

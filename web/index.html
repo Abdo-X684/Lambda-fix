@@ -46,6 +46,7 @@
         <a class="chip" href="#cardPrize">💵 الجائزة</a>
         <button class="chip chip-accent" id="btnQuickReadme" type="button">📖 اقرأ README</button>
         <button class="chip" id="btnQuickBuild" type="button">🔨 أبني client.so؟</button>
+        <a class="chip chip-accent" href="#cardDll">⬇ حمّل client.so</a>
       </nav>
 
       <div class="grid">
@@ -123,6 +124,17 @@
             <tr class="total"><td>الباقي للإصدار 1.0 (وادخار)</td><td>53,000$</td></tr>
           </table>
           <p class="hint">ملاحظة: BugfixedHL مفتوح المصدر، فلا يمكن شراؤه… لحسن الحظ 😄</p>
+        </section>
+
+        <section class="card dll-card" id="cardDll">
+          <div class="card-head"><h2>⬇ client.so جاهز للتحميل</h2><span class="badge">ELF32 · Linux</span></div>
+          <p class="hint">مبني من الشجرة المدموجة (HUD السبيدرن + <code>SRSplit</code>). ثنائيات ELF 32-bit؛ <code>vgui.so</code> الحقيقية تُؤخذ من لعبتك عند التشغيل، وليست مضمّنة هنا.</p>
+          <div class="controls">
+            <a class="button-link" href="/dist/dlls/client.so" download>⬇ client.so</a>
+            <a class="button-link" href="/dist/dlls/hl.so" download>⬇ hl.so</a>
+            <a class="button-link" href="/dist/dlls/MANIFEST.json" target="_blank">📄 sha256 / MANIFEST</a>
+          </div>
+          <p class="hint">ضع الأول في <code>gearbox/cl_dlls/</code> والثاني في <code>gearbox/dlls/</code> ثم شغّل <code>-game gearbox</code>.</p>
         </section>
 
         <section class="card doc-card" id="cardDoc">

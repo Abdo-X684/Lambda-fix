@@ -3,15 +3,55 @@
 #include "sr_core.h"
 
 #include <algorithm>
+#include <cerrno>
 #include <chrono>
 #include <cstdio>
+#include <cstdlib>
 #include <sstream>
 #include <stdexcept>
 #include <utility>
 
 #include "sr_route_data.h"
 
+// GoldSrc builds the game DLLs with -fno-exceptions, while the host test build
+// keeps exceptions. Preserve the throwing API on the host and degrade to a
+// recorded error + safe return inside the engine (never terminate the game).
+#if defined(__cpp_exceptions) || defined(__EXCEPTIONS) || defined(_CPPUNWIND)
+#define SR_HAS_EXCEPTIONS 1
+#else
+#define SR_HAS_EXCEPTIONS 0
+#endif
+
+#if SR_HAS_EXCEPTIONS
+#define SR_FAIL_VOID(exc, msg) throw exc(msg)
+#define SR_FAIL_RET(exc, msg, value) throw exc(msg)
+#else
+#define SR_FAIL_VOID(exc, msg) do { sr::detail::SetLastError(msg); return; } while (0)
+#define SR_FAIL_RET(exc, msg, value) do { sr::detail::SetLastError(msg); return value; } while (0)
+#endif
+
 namespace sr {
+
+namespace detail {
+std::string g_last_error;
+void SetLastError(const std::string& msg) { g_last_error = msg; }
+}  // namespace detail
+
+std::string LastError() { return detail::g_last_error; }
+
+static bool ParseMsValue(const std::string& text, Ms* out) {
+    if (text.empty()) {
+        return false;
+    }
+    errno = 0;
+    char* end = nullptr;
+    const long long value = std::strtoll(text.c_str(), &end, 10);
+    if (errno == ERANGE || end == text.c_str() || value < 0) {
+        return false;
+    }
+    *out = value;
+    return true;
+}
 
 Ms SystemClock::NowMs() const {
     const auto now = std::chrono::steady_clock::now().time_since_epoch();
@@ -137,7 +177,7 @@ void RunTimer::Reset() {
 
 void RunTimer::Start() {
     if (state_ == State::Running || state_ == State::Paused) {
-        throw std::logic_error("sr::RunTimer: Start() called while a run is active");
+        SR_FAIL_VOID(std::logic_error, "sr::RunTimer: Start() called while a run is active");
     }
     Reset();
     start_ms_ = clock_.NowMs();
@@ -146,7 +186,7 @@ void RunTimer::Start() {
 
 void RunTimer::Pause() {
     if (state_ != State::Running) {
-        throw std::logic_error("sr::RunTimer: Pause() requires a running timer");
+        SR_FAIL_VOID(std::logic_error, "sr::RunTimer: Pause() requires a running timer");
     }
     paused_at_ = clock_.NowMs();
     state_ = State::Paused;
@@ -154,7 +194,7 @@ void RunTimer::Pause() {
 
 void RunTimer::Resume() {
     if (state_ != State::Paused) {
-        throw std::logic_error("sr::RunTimer: Resume() requires a paused timer");
+        SR_FAIL_VOID(std::logic_error, "sr::RunTimer: Resume() requires a paused timer");
     }
     paused_total_ += clock_.NowMs() - paused_at_;
     state_ = State::Running;
@@ -162,7 +202,7 @@ void RunTimer::Resume() {
 
 void RunTimer::Finish() {
     if (state_ == State::Idle) {
-        throw std::logic_error("sr::RunTimer: Finish() requires a started timer");
+        SR_FAIL_VOID(std::logic_error, "sr::RunTimer: Finish() requires a started timer");
     }
     finish_ms_ = ElapsedMs();
     state_ = State::Finished;
@@ -184,14 +224,14 @@ Ms RunTimer::ElapsedMs() const {
 
 Ms RunTimer::SplitAt(const std::string& map) {
     if (state_ != State::Running) {
-        throw std::logic_error("sr::RunTimer: SplitAt() requires a running timer");
+        SR_FAIL_RET(std::logic_error, "sr::RunTimer: SplitAt() requires a running timer", -1);
     }
     const int index = Route::MapIndex(map);
     if (index < 0) {
-        throw std::invalid_argument("sr::RunTimer: unknown OP4 map: " + map);
+        SR_FAIL_RET(std::invalid_argument, "sr::RunTimer: unknown OP4 map: " + map, -1);
     }
     if (index <= last_index_) {
-        throw std::logic_error("sr::RunTimer: splits must follow the route order: " + map);
+        SR_FAIL_RET(std::logic_error, "sr::RunTimer: splits must follow the route order: " + map, -1);
     }
     const Ms at = ElapsedMs();
     Split split;
@@ -232,14 +272,10 @@ std::map<std::string, Ms> ParsePersonalBest(std::istream& in) {
         if (eq == std::string::npos || eq == 0) {
             continue;
         }
-        try {
-            std::size_t used = 0;
-            const Ms value = std::stoll(line.substr(eq + 1), &used);
-            if (used > 0 && value >= 0) {
-                pb[line.substr(0, eq)] = value;
-            }
-        } catch (const std::exception&) {
-            // A corrupt PB line must never break a run.
+        Ms value = 0;
+        if (ParseMsValue(line.substr(eq + 1), &value)) {
+            // A corrupt PB line must never break a run (no exceptions needed).
+            pb[line.substr(0, eq)] = value;
         }
     }
     return pb;

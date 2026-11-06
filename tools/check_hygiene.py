@@ -103,7 +103,7 @@ def check(root: Path = ROOT) -> list[str]:
             continue
         for match in LINK_RE.finditer(path.read_text(encoding="utf-8")):
             target = match.group(1).split("#")[0].strip()
-            if not target or target.startswith(("http://", "https://", "mailto:")):
+            if not target or target.startswith(("http://", "https://", "mailto:", "/")):
                 continue
             if not (path.parent / target).resolve().exists():
                 issues.append(

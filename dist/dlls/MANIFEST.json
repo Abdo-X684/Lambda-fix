@@ -1,0 +1,19 @@
+{
+  "kind": "goldsrc-linux-binaries",
+  "arch": "ELF32 i386",
+  "compiler": "zig c++ -target x86-linux-gnu",
+  "cfg": "release",
+  "tree": "/home/user/Bugfixhl-speedrun-op4/build/merged-real",
+  "files": {
+    "client.so": {
+      "bytes": 9058172,
+      "sha256": "e4730179d36b4d24ce0a66143b3b8a32158cee9b9639bee7afa4a4210d4b5e81",
+      "elf32": true
+    },
+    "hl.so": {
+      "bytes": 15945564,
+      "sha256": "9b3db3640007247e84b5cc7eff44dd2d2f7503a0d8422be03a9a663d16856626",
+      "elf32": true
+    }
+  }
+}

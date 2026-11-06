@@ -76,6 +76,7 @@ h1 { font-size: clamp(25px, 3.2vw, 40px); margin: 0 0 10px; line-height: 1.35; }
 .config-card, .upstream-card { grid-column: span 6; }
 .route-card { grid-column: span 8; }
 .prize-card, .doc-card { grid-column: span 4; }
+.dll-card { grid-column: span 8; }
 @media (max-width: 1000px) { .card { grid-column: span 12 !important; } }
 
 .card-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }

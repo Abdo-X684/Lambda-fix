@@ -17,6 +17,16 @@
 
 int gmsgSRSplit = 0;
 
+// GoldSrc compiles with -fno-exceptions; keep the guard on the host and make
+// it a no-op branch inside the engine.
+#if defined(__cpp_exceptions) || defined(__EXCEPTIONS) || defined(_CPPUNWIND)
+#define SR_TRY try
+#define SR_CATCH_ALL catch (const std::exception&)
+#else
+#define SR_TRY if (true)
+#define SR_CATCH_ALL if (false)
+#endif
+
 namespace {
 sr::SystemClock g_Clock;
 sr::RunTimer g_Timer(g_Clock);
@@ -53,7 +63,7 @@ void SplitNow(const char* map) {
     if (!g_Timer.IsRunning()) {
         return;
     }
-    try {
+    SR_TRY {
         g_Timer.SplitAt(map);
         const sr::Split& split = g_Timer.Splits().back();
         if (CVAR_GET_FLOAT("sr_splits_announce") != 0.0f) {
@@ -62,7 +72,7 @@ void SplitNow(const char* map) {
                   sr::FormatTime(split.delta < 0 ? -split.delta : split.delta).c_str());
         }
         BroadcastSplit(map, split);
-    } catch (const std::exception&) {
+    } SR_CATCH_ALL {
         // Skipping backwards in the route (practice) must not crash a run.
     }
 }

@@ -29,6 +29,11 @@ STATIC = {
     "/static/style.css": ("web/static/style.css", "text/css; charset=utf-8"),
     "/static/app.js": ("web/static/app.js", "application/javascript; charset=utf-8"),
 }
+DLL_DOWNLOADS = {
+    "/dist/dlls/client.so": "client.so",
+    "/dist/dlls/hl.so": "hl.so",
+    "/dist/dlls/MANIFEST.json": "MANIFEST.json",
+}
 
 
 def _report_path(name: str) -> Path:
@@ -79,6 +84,7 @@ def status_payload() -> dict:
         "sdk_cached": (ROOT / ".cache" / "upstreams" / "op4" / ".FETCHED.json").is_file(),
         "real_sdk_cached": (ROOT / "build" / "merged-real" / "MERGE_REPORT.json").is_file(),
         "package_ready": (ROOT / "dist" / "bhl-op4-speedrun-overlay.zip").is_file(),
+        "dlls_ready": (ROOT / "dist" / "dlls" / "client.so").is_file(),
         "last_report": (
             {
                 "mode": report["mode"],
@@ -149,6 +155,13 @@ class Handler(BaseHTTPRequestHandler):
             elif path in STATIC:
                 rel, ctype = STATIC[path]
                 self._text((ROOT / rel).read_text(encoding="utf-8"), ctype)
+            elif path in DLL_DOWNLOADS:
+                dll = ROOT / "dist" / "dlls" / DLL_DOWNLOADS[path]
+                if not dll.is_file():
+                    self._json({"error": "binaries not built yet"}, 404)
+                else:
+                    ctype = "application/json; charset=utf-8" if dll.suffix == ".json" else "application/octet-stream"
+                    self._send(200, dll.read_bytes(), ctype)
             elif path == "/dist/bhl-op4-speedrun-overlay.zip":
                 zip_path = ROOT / "dist" / "bhl-op4-speedrun-overlay.zip"
                 if not zip_path.is_file():

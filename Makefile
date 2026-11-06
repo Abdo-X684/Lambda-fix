@@ -3,7 +3,7 @@ PYTHON ?= python3
 CXX    ?= g++
 ROOT   := $(CURDIR)
 
-.PHONY: help verify hygiene tidy test test-py test-cpp gen route-check merge merge-offline fetch serve build build-cmake verify-sdk package build-dlls build-dlls-check clean
+.PHONY: help verify hygiene tidy test test-py test-cpp gen route-check merge merge-offline fetch serve build build-cmake verify-sdk package build-dlls build-dlls-check build-dlls-zig noexcept-check clean
 
 help:
 	@echo "verify        - hygiene + python tests + C++ checks + generation + merge + package"
@@ -20,9 +20,10 @@ help:
 	@echo "package       - build dist/bhl-op4-speedrun-overlay.zip + MANIFEST.json"
 	@echo "build-dlls    - build 32-bit client.so + hl.so from build/merged-real"
 	@echo "build-dlls-check - preflight only (toolchain / vgui.so / patched makefiles)"
+	@echo "build-dlls-zig - build ELF32 client.so/hl.so with Zig, no gcc-multilib/vgui.so needed"
 	@echo "clean         - remove build/, dist/ and fetched SDK cache"
 
-verify: hygiene test-py gen route-check test-cpp merge-offline package
+verify: hygiene test-py gen route-check noexcept-check test-cpp merge-offline package
 	@echo "== ALL CHECKS PASSED =="
 
 test: test-py test-cpp
@@ -58,6 +59,12 @@ build-dlls:
 
 build-dlls-check:
 	$(PYTHON) tools/build_dlls.py --check --require-tree
+
+build-dlls-zig:
+	$(PYTHON) tools/build_dlls_zig.py
+
+noexcept-check:
+	$(CXX) -std=c++17 -fno-exceptions -Isrc/speedrun -fsyntax-only src/speedrun/sr_core.cpp
 
 package:
 	$(PYTHON) tools/package_mod.py

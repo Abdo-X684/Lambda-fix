@@ -8,6 +8,8 @@ from unittest.mock import patch
 
 from tools import build_dlls as bd
 
+ROOT = Path(__file__).resolve().parents[1]
+
 
 def fake_tree(root: Path, *, patched: bool = True) -> Path:
     linux = root / "linux"
@@ -137,6 +139,24 @@ class ArtifactTests(unittest.TestCase):
                 with redirect_stderr(io.StringIO()):
                     code = bd.main(["--tree", str(tree), "--vgui", str(vgui)])
             self.assertEqual(code, 2)
+
+
+class CommittedBinaryTests(unittest.TestCase):
+    def test_downloadable_binaries_match_manifest(self):
+        import hashlib
+        dlls = ROOT / "dist" / "dlls"
+        manifest_path = dlls / "MANIFEST.json"
+        if not manifest_path.is_file():
+            self.skipTest("run make build-dlls-zig first")
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        for name, info in manifest["files"].items():
+            path = dlls / name
+            with self.subTest(name=name):
+                self.assertTrue(path.is_file())
+                data = path.read_bytes()
+                self.assertEqual(len(data), info["bytes"])
+                self.assertEqual(hashlib.sha256(data).hexdigest(), info["sha256"])
+                self.assertTrue(bd.is_elf32(path))
 
 
 if __name__ == "__main__":

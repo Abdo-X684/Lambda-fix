@@ -46,6 +46,8 @@ def _link(match: re.Match, current: str, known: frozenset) -> str:
     url = html.escape(raw_url, quote=True)
     if raw_url.startswith("#"):
         return f'<a href="{url}">{label}</a>'
+    if raw_url.startswith("/"):
+        return f'<a href="{url}">{label}</a>'
     if raw_url.startswith(("http://", "https://", "mailto:")):
         return f'<a href="{url}" target="_blank" rel="noopener noreferrer">{label}</a>'
     base, _, frag = raw_url.partition("#")

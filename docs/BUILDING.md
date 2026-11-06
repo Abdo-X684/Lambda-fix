@@ -1,5 +1,23 @@
 # كيف أبني `client.so` — ومن أين أحمّل الأشياء؟
 
+## ✅ جاهز للتحميل الآن (الطريقة الأسرع)
+
+بنيتُ الاثنين فعلاً داخل المشروع بـ Zig كمُصرّف i386 عابر (بلا `gcc-multilib`
+وبلا `vgui.so` من اللعبة وقت الربط):
+
+| الملف | الحجم | التحميل |
+| --- | --- | --- |
+| `client.so` | 9.0 MB | [من لوحة المشروع](/dist/dlls/client.so) · [من GitHub مباشرة](https://github.com/Abdo-X684/Bugfixhl-speedrun-op4/raw/arena/dd30bd22-bugfixhl-speedrun-op4/dist/dlls/client.so) |
+| `hl.so` | 15.9 MB | [من لوحة المشروع](/dist/dlls/hl.so) · [من GitHub مباشرة](https://github.com/Abdo-X684/Bugfixhl-speedrun-op4/raw/arena/dd30bd22-bugfixhl-speedrun-op4/dist/dlls/hl.so) |
+| `MANIFEST.json` | sha256 + ELF32 | [`/dist/dlls/MANIFEST.json`](/dist/dlls/MANIFEST.json) |
+
+اضغط الزر، ضع `client.so` في `gearbox/cl_dlls/` و`hl.so` في `gearbox/dlls/`،
+وشغّل `-game gearbox`. لإعادة إنتاجهما: `make build-dlls-zig` (يحتاج
+`pip install ziglang` فقط). **`vgui.so` الحقيقية وأصول اللعبة تبقى من نسختك
+المشروعة**؛ المكتبة الوهمية استُخدمت للربط فقط لإنشاء `DT_NEEDED`، ولا تُوزّع.
+
+---
+
 ## الجواب المختصر
 
 **`client.so` لا يُحمّل من موقع: يُبنى من الشجرة المدموجة.** لا يوجد رابط «شرعي»

@@ -28,6 +28,11 @@ class MarkdownRendererTests(unittest.TestCase):
         self.assertIn('rel="noopener noreferrer"', r.html)
         self.assertIn('data-doc="docs/RESOLUTION.md"', r.html)
 
+    def test_site_absolute_download_link_stays_clickable(self):
+        r = render_markdown("[download](/dist/dlls/client.so)")
+        self.assertIn('href="/dist/dlls/client.so"', r.html)
+        self.assertNotIn("doc-missing", r.html)
+
     def test_code_span_inside_link_label_stays_intact(self):
         r = render_markdown("[`x`](docs/README.md)",
                             known_docs=frozenset({"docs/README.md"}))

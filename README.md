@@ -16,7 +16,7 @@
 ## البدء السريع
 
 ```bash
-make verify        # النظافة + 90 اختبار Python + 77 فحص C++ + التوليد + الدمج + الحزمة
+make verify        # النظافة + 93 اختبار Python + 77 فحص C++ + التوليد + الدمج + الحزمة
 make hygiene       # فحص المسافات/JSON/الاستيرادات/روابط الوثائق
 make tidy          # تنظيف __pycache__ والمجلدات المرحلية ثم إعادة الفحص
 make fetch         # تنزيل SDKات الثلاثة المثبّتة مع التحقق من sha256
@@ -29,6 +29,14 @@ make serve         # لوحة التحكم + صفحة README على http://local
 
 لا توجد اعتماديات خارجية: Python 3.9+ (stdlib فقط)، g++ مع C++17، و`git`.
 `cmake` اختياري عبر `make build-cmake`.
+
+### ⬇ تحميل `client.so` جاهز
+
+الملفان مبنيان فعلاً (ELF32) ومرفوعان داخل الفرع:
+[`client.so`](https://github.com/Abdo-X684/Bugfixhl-speedrun-op4/raw/arena/dd30bd22-bugfixhl-speedrun-op4/dist/dlls/client.so) ·
+[`hl.so`](https://github.com/Abdo-X684/Bugfixhl-speedrun-op4/raw/arena/dd30bd22-bugfixhl-speedrun-op4/dist/dlls/hl.so) ·
+[`MANIFEST.json`](dist/dlls/MANIFEST.json).
+أو من لوحة التحكم زر «⬇ حمّل client.so». التفاصيل في [`docs/BUILDING.md`](docs/BUILDING.md).
 
 ### 🖥 واجهة المشروع
 

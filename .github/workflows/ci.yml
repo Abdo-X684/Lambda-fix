@@ -55,6 +55,16 @@ jobs:
       - name: Verify the Linux DLL build inputs (structure, no toolchain needed)
         run: |
           python3 tools/build_dlls.py --check --require-tree --out dist/dlls
+      - name: Reproduce the Linux32 binaries with Zig (no multilib, no vgui.so)
+        run: |
+          python3 -m pip install --quiet ziglang
+          python3 tools/build_dlls_zig.py
+          python3 - <<'PY'
+          import json
+          m = json.load(open('dist/dlls/MANIFEST.json'))
+          assert all(f['elf32'] for f in m['files'].values()), m
+          print('reproduced ELF32 binaries:', m['files'])
+          PY
       - name: Build distributable overlay package
         run: make package
       - name: Upload real merge report
