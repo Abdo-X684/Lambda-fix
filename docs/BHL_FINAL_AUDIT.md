@@ -14,8 +14,8 @@
 | البند | القيمة |
 |---|---|
 | الفرع | `arena/dd30bd22-bugfixhl-speedrun-op4` |
-| commit البناء/الأدلة | `BUILD_COMMIT_PLACEHOLDER` |
-| commit تحديث هذا التقرير | `REPORT_COMMIT_PLACEHOLDER` |
+| commit البناء/الأدلة | `a5f24e0eebc6365001c20041fd65a88a082a3257` |
+| commit تحديث هذا التقرير | التزام لاحق لتحديث هذا التقرير فقط (`git log -1`) |
 | أساس BHL | `tmp64/BugfixedHL-Rebased @ 4d32095e3c33` |
 | مصدر OP4 | `twhl-community/halflife-op4-updated @ 5368be7f8eba` |
 | SDK | `tmp64/hl1_source_sdk @ 11f26656677c881c7c630d03957900e7701da62e` |
@@ -151,7 +151,7 @@ python3 tools/build_bhl_base.py
 | خوارزمية `GetNextAttackDelay` + مُعدّد كيانات OP4 | `make test-op4` | **14 تحقّق PASS** |
 | أجسام الإصلاحات الحقيقية مُستخرجة نصّاً من الشجرة | `make test-op4-fixups` | **39 تحقّق PASS** |
 | الاختبارات الكاملة | `make verify` | `== ALL CHECKS PASSED ==` |
-| CI | `gh run list` | معرّف التشغيل في نهاية هذا الملف |
+| CI | `gh run list` | معرّف التشغيل في الإجابة النهائية للجلسة |
 
 `tools/gen_op4_fixup_harness.py` يستخرج أجسام الدوال **نصّاً** من
 `bhl-op4/` (لا يعيد كتابتها) ثم يترجمها وينفّذها مع محاكاة لحالة المحرك فقط؛
@@ -161,7 +161,8 @@ python3 tools/build_bhl_base.py
 
 ## 6. CI
 
-- سجل `gh run watch` وتفاصيل الوظائف مذكورة في الإجابة النهائية للجلسة.
+- معرّف تشغيل CI ونتائجه مذكوران في الإجابة النهائية للجلسة.
+- لا يضيف هذا الالتزام أي تغيير على الشجرة أو الثنائيات؛ البناء موثّق في الالتزام أعلاه.
 - **CI أخضر ليس إثبات نجاح** ولم يُستخدم كذلك في أي استنتاج أعلاه.
 
 ---
