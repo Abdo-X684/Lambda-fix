@@ -17,7 +17,7 @@ from .configgen import (
     write_config,
 )
 from .engine import MergeEngine
-from .fetch import fetch_all, resolve_sources
+from .fetch import FetchError, fetch_all, resolve_sources
 from .manifest import load_plan, load_upstreams, validate_plan
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -162,7 +162,13 @@ def main(argv: list[str] | None = None) -> int:
         "config": cmd_config,
         "verify": cmd_verify,
     }
-    return int(handlers[args.command](args) or 0)
+    try:
+        return int(handlers[args.command](args) or 0)
+    except (FetchError, OSError, ValueError) as exc:
+        print(f"merge: {exc}", file=sys.stderr)
+        print("hint: run `make fetch` first (or use --offline for the fixtures)",
+              file=sys.stderr)
+        return 1
 
 
 if __name__ == "__main__":
