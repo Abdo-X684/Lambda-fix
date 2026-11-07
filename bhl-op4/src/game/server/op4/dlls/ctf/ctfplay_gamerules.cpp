@@ -1001,7 +1001,7 @@ void CHalfLifeCTFplay::PlayerKilled(CBasePlayer* pVictim, entvars_t* pKiller, en
 
 	if (!m_DisableDeathPenalty && !g_fGameOver)
 	{
-		auto v5 = pKiller ? CBaseEntity::Instance<CBasePlayer>(pKiller) : nullptr;
+		auto v5 = pKiller ? static_cast<CBasePlayer *>(CBaseEntity::Instance(pKiller)) : nullptr;
 
 		if (pVictim->m_pFlag)
 		{
@@ -1177,7 +1177,7 @@ void CHalfLifeCTFplay::DeathNotice(CBasePlayer* pVictim, entvars_t* pKiller, ent
 	{
 		if (pKiller && pVictim && (pKiller->flags & FL_CLIENT) != 0)
 		{
-			auto pEntKiller = CBaseEntity::Instance<CBasePlayer>(pKiller);
+			auto pEntKiller = static_cast<CBasePlayer *>(CBaseEntity::Instance(pKiller));
 
 			if (pEntKiller && pVictim != pEntKiller && (PlayerRelationship(pVictim, pEntKiller) == GR_TEAMMATE))
 			{
@@ -1255,7 +1255,7 @@ BOOL CHalfLifeCTFplay::IsValidTeam(const char* pTeamName)
 	return GetTeamIndex(pTeamName) != -1;
 }
 
-void CHalfLifeCTFplay::ChangePlayerTeam(CBasePlayer* pPlayer, const char* pCharName, bool bKill, bool bGib)
+void CHalfLifeCTFplay::ChangePlayerTeam(CBasePlayer* pPlayer, const char* pCharName, BOOL bKill, BOOL bGib)
 {
 	auto v5 = pPlayer->entindex();
 

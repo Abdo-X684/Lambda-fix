@@ -99,19 +99,19 @@ public:
 
 	BOOL IsValidTeam(const char* pTeamName) override;
 
-	void ChangePlayerTeam(CBasePlayer* pPlayer, const char* pCharName, bool bKill, bool bGib) override;
+	void ChangePlayerTeam(CBasePlayer* pPlayer, const char* pCharName, BOOL bKill, BOOL bGib) override;
 
 	const char* SetDefaultPlayerTeam(CBasePlayer* pPlayer) override;
 
-	const char* GetCharacterType(int iTeamNum, int iCharNum) override;
+	const char* GetCharacterType(int iTeamNum, int iCharNum);
 
-	int GetNumTeams() override;
+	int GetNumTeams();
 
-	const char* TeamWithFewestPlayers() override;
+	const char* TeamWithFewestPlayers();
 
-	bool TeamsBalanced() override;
+	bool TeamsBalanced();
 
-	void GoToIntermission() override;
+	void GoToIntermission();
 
 private:
 	void SendTeamStatInfo(CTFTeam iTeamNum);

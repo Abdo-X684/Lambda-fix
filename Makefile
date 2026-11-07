@@ -3,7 +3,7 @@ PYTHON ?= python3
 CXX    ?= g++
 ROOT   := $(CURDIR)
 
-.PHONY: help verify hygiene tidy test test-py test-cpp gen route-check merge merge-offline bhl-plan bhl-base verify-bhl-base fetch serve build build-cmake verify-sdk package build-dlls build-dlls-check build-dlls-zig noexcept-check mod clean
+.PHONY: help verify hygiene tidy test test-py test-cpp test-op4 test-op4-fixups gen route-check merge merge-offline bhl-plan bhl-base verify-bhl-base fetch serve build build-cmake verify-sdk package build-dlls build-dlls-check build-dlls-zig noexcept-check mod clean
 
 help:
 	@echo "verify        - hygiene + python tests + C++ checks + generation + merge + package"
@@ -18,6 +18,8 @@ help:
 	@echo "gen           - regenerate C++ route header from data/op4_route.json"
 	@echo "serve         - run the live dashboard on 0.0.0.0:8000"
 	@echo "build         - build the speedrun core + C++ tests (g++, no deps)"
+	@echo "test-op4      - executable tests of the real OP4 algorithms in the DLLs"
+	@echo "test-op4-fixups - executable tests of the extracted real OP4 fixup bodies"
 	@echo "build-cmake   - same via CMake (optional)"
 	@echo "verify-sdk    - syntax-check injected files against the real SDK headers"
 	@echo "package       - build dist/bhl-op4-speedrun-overlay.zip + MANIFEST.json"
@@ -27,7 +29,7 @@ help:
 	@echo "mod           - create the standalone bhlop4/ mod folder + zip (never gearbox/)"
 	@echo "clean         - remove build/, dist/ and fetched SDK cache"
 
-verify: hygiene test-py gen route-check noexcept-check test-cpp verify-bhl-base merge-offline package mod
+verify: hygiene test-py gen route-check noexcept-check test-cpp test-op4 test-op4-fixups verify-bhl-base merge-offline package mod
 	@echo "== ALL CHECKS PASSED =="
 
 test: test-py test-cpp
@@ -45,6 +47,17 @@ test-py:
 
 test-cpp: build
 	./build/speedrun_test
+
+test-op4:
+	mkdir -p build
+	$(CXX) -std=c++17 -O1 -Wall -Wextra -Wpedantic tests/cpp/test_op4_algorithms.cpp -o build/op4_algorithm_test
+	./build/op4_algorithm_test
+
+test-op4-fixups:
+	mkdir -p build
+	$(PYTHON) tools/gen_op4_fixup_harness.py
+	$(CXX) -std=c++17 -O1 -Wall -Wextra -Wpedantic build/op4_fixup_harness.cpp -o build/op4_fixup_harness
+	./build/op4_fixup_harness
 
 build:
 	mkdir -p build

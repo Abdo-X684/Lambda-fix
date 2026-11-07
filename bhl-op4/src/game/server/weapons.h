@@ -362,6 +362,11 @@ public:
 	float m_flPumpTime;
 	int m_fInSpecialReload; // Are we in the middle of a reload for the shotguns
 	float m_flNextPrimaryAttack; // soonest time ItemPostFrame will call PrimaryAttack
+
+	/* OP4-MERGE: OP4 dlls/weapons.h:406-407 prediction bookkeeping, required by the verbatim GetNextAttackDelay body */
+	float m_flPrevPrimaryAttack = 0;
+	float m_flLastFireTime = 0;
+
 	float m_flNextSecondaryAttack; // soonest time ItemPostFrame will call SecondaryAttack
 	float m_flTimeWeaponIdle; // soonest time ItemPostFrame will call WeaponIdle
 	int m_iPrimaryAmmoType; // "primary" ammo index into players m_rgAmmo[]

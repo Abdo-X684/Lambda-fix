@@ -217,7 +217,7 @@ void CItemCTF::DropThink()
 
 void CItemCTF::CarryThink()
 {
-	auto pOwner = Instance<CBasePlayer>(pev->owner);
+	auto pOwner = static_cast<CBasePlayer *>(CBaseEntity::Instance(pev->owner));
 
 	if (pOwner && pOwner->IsPlayer())
 	{

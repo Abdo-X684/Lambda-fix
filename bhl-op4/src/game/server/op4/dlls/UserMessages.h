@@ -59,7 +59,7 @@ inline int gmsgSpectator = 0;
 inline int gmsgStatusIcon = 0;
 inline int gmsgPlayerBrowse = 0;
 inline int gmsgHudColor = 0;
-inline int gmsgFlagIcon = 0;
+extern int gmsgFlagIcon;
 inline int gmsgFlagTimer = 0;
 inline int gmsgPlayerIcon = 0;
 inline int gmsgVGUIMenu = 0;

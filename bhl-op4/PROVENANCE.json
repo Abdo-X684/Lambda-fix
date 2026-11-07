@@ -4,15 +4,27 @@
     "commit": "4d32095e3c33",
     "files": 694,
     "license": "GPL-3.0",
-    "merged_files": 11,
+    "merged_files": 13,
     "repo": "tmp64/BugfixedHL-Rebased",
-    "tree_sha256": "3775e2b60bd9b1573079149ae0cbc1758e2adf02164d0fb8cf369d742c6713f2",
+    "tree_sha256": "48f2511ebd7a2e830daf59e99f2f3c48caaaf6c9f70509e9d115aba23e606e2d",
     "tree_sha256_note": "sha256 over sorted '<path>  <file sha256>' for every BHL-origin file on disk; verified by --check",
-    "verbatim_files": 683
+    "verbatim_files": 681
   },
   "cmake": {
     "src/game/client/CMakeLists.txt": [],
     "src/game/server/CMakeLists.txt": [
+      "op4/dlls/ctf/CHUDIconTrigger.cpp",
+      "op4/dlls/ctf/CItemAcceleratorCTF.cpp",
+      "op4/dlls/ctf/CItemCTF.cpp",
+      "op4/dlls/ctf/CItemSpawnCTF.cpp",
+      "op4/dlls/ctf/CTFGoal.cpp",
+      "op4/dlls/ctf/CTFGoalBase.cpp",
+      "op4/dlls/ctf/CTFGoalFlag.cpp",
+      "op4/dlls/ctf/CTFSpawn.cpp",
+      "op4/dlls/rope/CElectrifiedWire.cpp",
+      "op4/dlls/rope/CRope.cpp",
+      "op4/dlls/rope/CRopeSample.cpp",
+      "op4/dlls/rope/CRopeSegment.cpp",
       "op4/dlls/weapons/CDisplacer.cpp",
       "op4/dlls/weapons/CDisplacerBall.cpp",
       "op4/dlls/weapons/CEagle.cpp",
@@ -28,7 +40,8 @@
       "op4/dlls/weapons/CSniperRifle.cpp",
       "op4/dlls/weapons/CSpore.cpp",
       "op4/dlls/weapons/CSporeLauncher.cpp",
-      "op4/op4_compat.cpp"
+      "op4/op4_compat.cpp",
+      "op4/op4_link_fixups.cpp"
     ]
   },
   "files": {
@@ -3264,7 +3277,7 @@
         "op4-cmake-sources"
       ],
       "origin": "bugfixhl",
-      "sha256": "58982700a41572409efb56c2b85190243fc4ca6f09bef7f0950621195f5af170"
+      "sha256": "98c20c3e001e4f62f43f7cb5e2347e1be9a85ccbedae3c216a94ad444bd443ef"
     },
     "src/game/server/activity.h": {
       "action": "verbatim",
@@ -3384,10 +3397,11 @@
         "op4-cworld-singleton",
         "op4-ehandle-entity-template",
         "op4-squad-forward-decl",
-        "op4-squad-pointer"
+        "op4-squad-pointer",
+        "op4-cworld-ctor-dtor"
       ],
       "origin": "bugfixhl",
-      "sha256": "0ad89c3e9cd00083d0a0571ac09192f08772bcba818a9b1eadb261c7fc78ac57"
+      "sha256": "996dffedba8d2f1ce90e5c3cec08025d0420695c6ed5b90bfd1dad45b3d68186"
     },
     "src/game/server/cdll_dll.h": {
       "action": "bhl+op4-merge",
@@ -3549,10 +3563,14 @@
       "sha256": "e710f14124f3e0a50890c6a816601816fa5d33dc1f6caecf527db57da2ef2ef9"
     },
     "src/game/server/game.cpp": {
-      "action": "verbatim",
+      "action": "bhl+op4-merge",
       "commit": "4d32095e3c33",
+      "merge_rules": [
+        "op4-gamedllinit-decls",
+        "op4-gamedllinit-call"
+      ],
       "origin": "bugfixhl",
-      "sha256": "cf2ef220d3c2e5866874e10fdcc10e6846e62829d78bca10f02244f7390d1013"
+      "sha256": "33fdf90b16306e62bdd72bf03f9eeb9d6afb93a975294ffd08afbf09e9473c72"
     },
     "src/game/server/game.h": {
       "action": "verbatim",
@@ -4056,10 +4074,16 @@
       "upstream_path": "dlls/UserMessages.cpp"
     },
     "src/game/server/op4/dlls/UserMessages.h": {
-      "action": "verbatim",
+      "action": "op4+compat-patch",
       "commit": "5368be7f8eba",
       "origin": "op4",
-      "sha256": "cf41769ce854a7c8dfb934da98f5d68a43cd8ee4a1d74ec92c47dabf942039b0",
+      "patch_rules": [
+        {
+          "count": 1,
+          "rule": "bhl-ctf-gmsgflagicon-extern"
+        }
+      ],
+      "sha256": "e83acff0fe4a82306266cc38049d2ff83a48892132d8d4752e9cb68d865feb61",
       "upstream_path": "dlls/UserMessages.h"
     },
     "src/game/server/op4/dlls/Wxdebug.cpp": {
@@ -4398,6 +4422,10 @@
           "rule": "bhl-getprivate-template"
         },
         {
+          "count": 1,
+          "rule": "bhl-instance-template"
+        },
+        {
           "count": 2,
           "rule": "bhl-keyvalue-void-returns"
         },
@@ -4410,7 +4438,7 @@
           "rule": "op4-compat-late-include"
         }
       ],
-      "sha256": "d6501421259e1e9dee56a330d089ecc90b1e0efdf7e6f97f35e1c1b8a7c602a2",
+      "sha256": "887fd1b3cb632fbb342158debab10d6e854ebb7c0339c3d845eda7faed451df6",
       "upstream_path": "dlls/ctf/CItemCTF.cpp"
     },
     "src/game/server/op4/dlls/ctf/CItemCTF.h": {
@@ -4775,6 +4803,14 @@
           "rule": "bhl-ctfteam-scoped-enum-cast"
         },
         {
+          "count": 1,
+          "rule": "bhl-ctf-changeplayerteam-bools"
+        },
+        {
+          "count": 2,
+          "rule": "bhl-instance-template"
+        },
+        {
           "count": 6,
           "rule": "bhl-bool-returns-from-bhl-virtuals"
         },
@@ -4787,7 +4823,7 @@
           "rule": "op4-compat-late-include"
         }
       ],
-      "sha256": "c5ebcef785da6fe8d08c6a1ec39ff7a6d7478854bd0e875a2ee72e96cffbaf4c",
+      "sha256": "70d5e2b2a6f8d7cc2168ab0992641b128eca5992cfe1d45da3ac61c58cbc39d8",
       "upstream_path": "dlls/ctf/ctfplay_gamerules.cpp"
     },
     "src/game/server/op4/dlls/ctf/ctfplay_gamerules.h": {
@@ -4796,11 +4832,19 @@
       "origin": "op4",
       "patch_rules": [
         {
+          "count": 5,
+          "rule": "bhl-ctf-nonvirtual-overrides"
+        },
+        {
+          "count": 1,
+          "rule": "bhl-ctf-changeplayerteam-bools"
+        },
+        {
           "count": 7,
           "rule": "bhl-bool-returns-from-bhl-virtuals"
         }
       ],
-      "sha256": "aa51a752e91ea7a4fae619831a152c2f659d8160158f799ae3385e92fed20f79",
+      "sha256": "da137d314c120e208369a14cb96c5416f51061ead7fbe69bfce2c32fffcb3846",
       "upstream_path": "dlls/ctf/ctfplay_gamerules.h"
     },
     "src/game/server/op4/dlls/ehandle.cpp": {
@@ -6678,7 +6722,7 @@
           "rule": "op4-compat-late-include"
         }
       ],
-      "sha256": "60ef8f179c6c806d647720808517d2a2b94545720105bfc53865cb5a86c3fe6b"
+      "sha256": "ee6f4fad01260282e42ffe8b9a4070bc9d813a800aae3984954a40815651da4d"
     },
     "src/game/server/op4/op4_compat.h": {
       "action": "compat-glue",
@@ -6690,7 +6734,29 @@
       "action": "compat-glue",
       "commit": null,
       "origin": "this-repo",
-      "sha256": "5e1c8b9577e69624d7fb26bb37edc13d9a54e65aa0436ea3838f7cb0f9f349e4"
+      "sha256": "a3d9f989067caedd101f51443ab3a66f855c03b99471c5794292cc4a42b73b31"
+    },
+    "src/game/server/op4/op4_entity_enumerator.h": {
+      "action": "compat-glue",
+      "commit": null,
+      "origin": "this-repo",
+      "sha256": "2081813b05f7cf3afc0ffb359b2acdc47913d81909cc874901a5f6c92b0c842a"
+    },
+    "src/game/server/op4/op4_link_fixups.cpp": {
+      "action": "op4+compat-patch",
+      "commit": null,
+      "origin": "this-repo",
+      "patch_rules": [
+        {
+          "count": 1,
+          "rule": "op4-compat-include"
+        },
+        {
+          "count": 1,
+          "rule": "op4-compat-late-include"
+        }
+      ],
+      "sha256": "68200bb31bb036cb84a48932905e269ade2be1e24b6a2f59376266708e9e3077"
     },
     "src/game/server/op4/reference/dlls/cdll_dll.h": {
       "action": "reference-only",
@@ -7135,10 +7201,11 @@
         "op4-weaponinfo-include",
         "op4-weapon-prediction-api",
         "op4-findhull-decl",
-        "op4-laserspot-public-spawn"
+        "op4-laserspot-public-spawn",
+        "op4-weapon-timing-state"
       ],
       "origin": "bugfixhl",
-      "sha256": "ba34b9ccb774fa445052a0f66d0d42b57e78b3aefdd23a7f00fdcd0876426287"
+      "sha256": "6cf4378889d028123afdacbbb993a6c4ed1699d5162cc2fca298c925ddbd5f53"
     },
     "src/game/server/world.cpp": {
       "action": "verbatim",
@@ -7177,10 +7244,13 @@
       "sha256": "7b5028a9e3aec1cc48e0f2050ff06148fd411be6cacc026461865054815964b2"
     },
     "src/game/shared/CMakeLists.txt": {
-      "action": "verbatim",
+      "action": "bhl+op4-merge",
       "commit": "4d32095e3c33",
+      "merge_rules": [
+        "op4-shared-weapon-timing-cmake"
+      ],
       "origin": "bugfixhl",
-      "sha256": "2ab9dfe69778d0dc6461a40420da6c06483086ed5b89daf9c51c01bb6c319a43"
+      "sha256": "16b6f9493300e63077ab21b20c3a5dd9721e64e68ee4feae5fe22393eae06b31"
     },
     "src/game/shared/ClientSupportsFlags.h": {
       "action": "verbatim",
@@ -7217,6 +7287,18 @@
       "commit": "4d32095e3c33",
       "origin": "bugfixhl",
       "sha256": "d047c64628dbee8045ae3cac8de8af593726d9318bfb856dfded1867cd657845"
+    },
+    "src/game/shared/op4_weapon_timing.cpp": {
+      "action": "compat-glue",
+      "commit": null,
+      "origin": "this-repo",
+      "sha256": "5295e609b6eee1fbe023f2e533148c73bd7fecea930b4637dc4c84b94cc2120f"
+    },
+    "src/game/shared/op4_weapon_timing.h": {
+      "action": "compat-glue",
+      "commit": null,
+      "origin": "this-repo",
+      "sha256": "7c24e4ebcc3dc396e30f5f8196025af3d68d3ded6c7ecd399b426c03d8a319de"
     },
     "src/game/shared/voice_common.h": {
       "action": "verbatim",
@@ -7420,7 +7502,11 @@
   "glue_files": [
     "src/game/server/op4/op4_compat.h",
     "src/game/server/op4/op4_compat_late.h",
-    "src/game/server/op4/op4_compat.cpp"
+    "src/game/server/op4/op4_compat.cpp",
+    "src/game/server/op4/op4_link_fixups.cpp",
+    "src/game/server/op4/op4_entity_enumerator.h",
+    "src/game/shared/op4_weapon_timing.h",
+    "src/game/shared/op4_weapon_timing.cpp"
   ],
   "op4": {
     "commit": "5368be7f8eba",
@@ -7428,7 +7514,7 @@
     "repo": "twhl-community/halflife-op4-updated"
   },
   "port_pending": {
-    "count": 74,
+    "count": 62,
     "files": [
       "src/game/client/op4/com_weapons.cpp",
       "src/game/client/op4/death.cpp",
@@ -7463,19 +7549,11 @@
       "src/game/server/op4/dlls/blowercannon.cpp",
       "src/game/server/op4/dlls/cleansuit_scientist.cpp",
       "src/game/server/op4/dlls/coopplay_gamerules.cpp",
-      "src/game/server/op4/dlls/ctf/CHUDIconTrigger.cpp",
-      "src/game/server/op4/dlls/ctf/CItemAcceleratorCTF.cpp",
       "src/game/server/op4/dlls/ctf/CItemBackpackCTF.cpp",
-      "src/game/server/op4/dlls/ctf/CItemCTF.cpp",
       "src/game/server/op4/dlls/ctf/CItemLongJumpCTF.cpp",
       "src/game/server/op4/dlls/ctf/CItemPortableHEVCTF.cpp",
       "src/game/server/op4/dlls/ctf/CItemRegenerationCTF.cpp",
-      "src/game/server/op4/dlls/ctf/CItemSpawnCTF.cpp",
       "src/game/server/op4/dlls/ctf/CTFDetect.cpp",
-      "src/game/server/op4/dlls/ctf/CTFGoal.cpp",
-      "src/game/server/op4/dlls/ctf/CTFGoalBase.cpp",
-      "src/game/server/op4/dlls/ctf/CTFGoalFlag.cpp",
-      "src/game/server/op4/dlls/ctf/CTFSpawn.cpp",
       "src/game/server/op4/dlls/ctf/ctfplay_gamerules.cpp",
       "src/game/server/op4/dlls/ehandle.cpp",
       "src/game/server/op4/dlls/func_tank_of.cpp",
@@ -7493,10 +7571,6 @@
       "src/game/server/op4/dlls/otis.cpp",
       "src/game/server/op4/dlls/penguin_grenade.cpp",
       "src/game/server/op4/dlls/pitworm_up.cpp",
-      "src/game/server/op4/dlls/rope/CElectrifiedWire.cpp",
-      "src/game/server/op4/dlls/rope/CRope.cpp",
-      "src/game/server/op4/dlls/rope/CRopeSample.cpp",
-      "src/game/server/op4/dlls/rope/CRopeSegment.cpp",
       "src/game/server/op4/dlls/shockroach.cpp",
       "src/game/server/op4/dlls/shocktrooper.cpp",
       "src/game/server/op4/dlls/squeakgrenade.cpp",

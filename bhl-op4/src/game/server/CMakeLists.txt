@@ -169,6 +169,18 @@ source_group( TREE ${PROJECT_SOURCE_DIR} FILES ${SOURCE_FILES} )
 
 # OP4-MERGE: OP4 subsystem sources proven to compile against BHL headers
 list( APPEND SOURCE_FILES
+	op4/dlls/ctf/CHUDIconTrigger.cpp
+	op4/dlls/ctf/CItemAcceleratorCTF.cpp
+	op4/dlls/ctf/CItemCTF.cpp
+	op4/dlls/ctf/CItemSpawnCTF.cpp
+	op4/dlls/ctf/CTFGoal.cpp
+	op4/dlls/ctf/CTFGoalBase.cpp
+	op4/dlls/ctf/CTFGoalFlag.cpp
+	op4/dlls/ctf/CTFSpawn.cpp
+	op4/dlls/rope/CElectrifiedWire.cpp
+	op4/dlls/rope/CRope.cpp
+	op4/dlls/rope/CRopeSample.cpp
+	op4/dlls/rope/CRopeSegment.cpp
 	op4/dlls/weapons/CDisplacer.cpp
 	op4/dlls/weapons/CDisplacerBall.cpp
 	op4/dlls/weapons/CEagle.cpp
@@ -185,6 +197,7 @@ list( APPEND SOURCE_FILES
 	op4/dlls/weapons/CSpore.cpp
 	op4/dlls/weapons/CSporeLauncher.cpp
 	op4/op4_compat.cpp
+	op4/op4_link_fixups.cpp
 )
 
 add_library( ${TARGET_NAME} SHARED ${SOURCE_FILES} )

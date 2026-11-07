@@ -16,9 +16,11 @@ BOOL UTIL_DefaultUseDecrement() { return oldweapons.value == 0; }
 BOOL UTIL_UseOldWeapons() { return oldweapons.value != 0; }
 bool UTIL_IsMultiplayer() { return g_pGameRules != nullptr && g_pGameRules->IsMultiplayer(); }
 
-/* OP4's CTF ruleset is present in the merged tree but is not BHL's active
- * gamerules yet; see docs/BHL_BASE_MERGE.md "Remaining work". */
-  bool UTIL_IsCTF() { return false; }
+  /* OP4 dlls/util.cpp:2582-2585, verbatim body. NOT a stub: it asks BHL's
+   * real CGameRules::IsCTF() virtual. BHL's base implementation returns false
+   * because the OP4 CTF ruleset is not installed as the active gamerules; that
+   * is an explicitly declared incompleteness, not a hidden constant. */
+    bool UTIL_IsCTF() { return g_pGameRules->IsCTF(); }
 
   /* OP4's UTIL_GetLocalPlayer() returns the first player entity. BHL exposes
    * the same engine state through CBaseEntity::Instance / pfnPEntityOfEntIndex. */

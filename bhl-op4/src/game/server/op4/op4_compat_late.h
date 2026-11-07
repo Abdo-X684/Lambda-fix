@@ -4,10 +4,12 @@
  * FindHullIntersection would otherwise expand inside weapons.h).
  * -------------------------------------------------------------------------*/
 #ifndef OP4_BHL_COMPAT_LATE_H
-#define OP4_BHL_COMPAT_LATE_H
-#include "op4_compat.h"
+  #define OP4_BHL_COMPAT_LATE_H
+  #include "op4_compat.h"
 
-/* BHL: PLAYBACK_EVENT_FULL is (*g_engfuncs.pfnPlaybackEvent), float* args.
+#include "op4_entity_enumerator.h"
+
+  /* BHL: PLAYBACK_EVENT_FULL is (*g_engfuncs.pfnPlaybackEvent), float* args.
  * OP4: passes Vector origin/angles. */
 #undef PLAYBACK_EVENT_FULL
 #define PLAYBACK_EVENT_FULL(flags, pInvoker, eventindex, delay, origin, angles, fparam1, fparam2, iparam1, iparam2, bparam1, bparam2) \

@@ -21,6 +21,13 @@
 #include "appversion.h"
 #include "CBugfixedServer.h"
 
+/* OP4-MERGE: real OP4 cvars / registration hook (dlls/game.cpp:588-592,1189-1193; UserMessages.cpp:75) */
+extern cvar_t oldgrapple;
+extern cvar_t oldweapons;
+extern cvar_t multipower;
+extern void OP4_RegisterGameDLLHooks();
+
+
 // Version cvar
 // You can remove it, but remember that this will lower amount of people getting knowing about that HLSDK release.
 // And thus reducing good comments, suggestion and bugfixes.
@@ -492,6 +499,10 @@ void GameDLLInit(void)
 
 	// Register cvars here:
 	CVAR_REGISTER(&hlds_version);
+
+	/* OP4-MERGE: register OP4 cvars + FlagIcon user message (see op4_link_fixups.cpp) */
+	OP4_RegisterGameDLLHooks();
+
 
 	CVAR_REGISTER(&displaysoundlist);
 

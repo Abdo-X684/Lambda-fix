@@ -132,6 +132,7 @@ dfa3bf2001fdcd5134dad04a6c9f91425a5b444cae982b334950fe03c808cb74  bhl-op4/src/ga
 763709fb8f85bef3eb1a8876afdffcda4c409308ecad4a81f3d5d4b518f3a850  bhl-op4/src/game/server/wpn_shared/hl_wpn_glock.cpp
 4bd2f91a99a5ac666c9c7b937e06f1898a81944127dff09e2e3e88a73ea4cb0f  bhl-op4/src/game/shared/CGameVersion.cpp
 d047c64628dbee8045ae3cac8de8af593726d9318bfb856dfded1867cd657845  bhl-op4/src/game/shared/mathlib.cpp
+5295e609b6eee1fbe023f2e533148c73bd7fecea930b4637dc4c84b94cc2120f  bhl-op4/src/game/shared/op4_weapon_timing.cpp
 d63d2826da56607a772f8fb974ca78526894a67f775afbc1608ab19ba7021865  bhl-op4/src/pm_shared/pm_debug.cpp
 73496f2434add1f7799aa721adc45455f1b9303e7820144200ea9676dfaec9ed  bhl-op4/src/pm_shared/pm_math.cpp
 61eb91115ac18c0a022698b128a420943e5bc49bfb2a2f78d92168cc4a634d46  bhl-op4/src/pm_shared/pm_shared.cpp
@@ -166,7 +167,7 @@ cea10abb8963c2071f9a7172a590a73ffdab23efc98d8c1fddeec4231dee8e62  bhl-op4/src/ga
 da1d25bdedbd77ead8d311e44ee4729865b809ef834b5af44c47fe4467d00b63  bhl-op4/src/game/server/flyingmonster.cpp
 4f1730a164a0f0cab724e2f319aa555c64abbb6ec23a8e17e15c90ea53fdf01d  bhl-op4/src/game/server/func_break.cpp
 e710f14124f3e0a50890c6a816601816fa5d33dc1f6caecf527db57da2ef2ef9  bhl-op4/src/game/server/func_tank.cpp
-cf2ef220d3c2e5866874e10fdcc10e6846e62829d78bca10f02244f7390d1013  bhl-op4/src/game/server/game.cpp
+33fdf90b16306e62bdd72bf03f9eeb9d6afb93a975294ffd08afbf09e9473c72  bhl-op4/src/game/server/game.cpp
 05aba02768e0e8434324ec1ac40b75e43850230e1cfcab68281c9167afcee5bd  bhl-op4/src/game/server/gamerules.cpp
 ccf180a890709b8b8b77ea72ca65bb4928fb2b29d4bafe5e12728a068923b2dd  bhl-op4/src/game/server/gargantua.cpp
 73afefc04faff5f01fce7b19ddcb4fdcceed30eca12f4336ae461acd0b18d94a  bhl-op4/src/game/server/gauss.cpp
@@ -202,6 +203,18 @@ de661c48cce9f047f0f96d8b510f7278c4791b8c3b1b6c0ce4678c973577a5c3  bhl-op4/src/ga
 fdb546e3f26f085297eff4caf87a8197b1baa982a81cc40e3e57835ffd72e1ca  bhl-op4/src/game/server/nihilanth.cpp
 301987b2fc5b6a1f7ab9dc9a71572c968215ec3e5e9a3e24d396e385db53fa06  bhl-op4/src/game/server/nodes.cpp
 76397fe70b3aab6ebbdd0beea7fa5c2c4924da10f816e50bf5d75da19e6213dd  bhl-op4/src/game/server/observer.cpp
+930166a9c6bd9f780efd9eaec40f17f3348b9e556de12081a7e261077a536c1c  bhl-op4/src/game/server/op4/dlls/ctf/CHUDIconTrigger.cpp
+a23b12dc0b4accba4d7f7aa4947e2837bc87090fe51b76366a79761b5fb0fbe4  bhl-op4/src/game/server/op4/dlls/ctf/CItemAcceleratorCTF.cpp
+887fd1b3cb632fbb342158debab10d6e854ebb7c0339c3d845eda7faed451df6  bhl-op4/src/game/server/op4/dlls/ctf/CItemCTF.cpp
+509299568519002eed3de556d603a8ece283a0b522cca8b1ad35e9a7fdd9bf85  bhl-op4/src/game/server/op4/dlls/ctf/CItemSpawnCTF.cpp
+35b9c942270fd321f2cf94397160a4935ca7bf2d494827e32634a1332a031acc  bhl-op4/src/game/server/op4/dlls/ctf/CTFGoal.cpp
+a753fa45180210503bf39367c168ba52717860266670295f3e84b882a88cb38e  bhl-op4/src/game/server/op4/dlls/ctf/CTFGoalBase.cpp
+6f6d322da6885a6e045a2ba70186decd5422b7e95bf47d0676d28f6abe1aa41e  bhl-op4/src/game/server/op4/dlls/ctf/CTFGoalFlag.cpp
+c4c2aad52d080aef02564c8d0320ef8c6ceb946aab3b2b057a265b0bb90298ee  bhl-op4/src/game/server/op4/dlls/ctf/CTFSpawn.cpp
+2aa44a0a558e577fd59d09551df66aa57ed8197dbb400bd4cd9a28232ac8b82e  bhl-op4/src/game/server/op4/dlls/rope/CElectrifiedWire.cpp
+9a635a1d711c08ae862209626d866b2e1289c3302ef3bac09a5e8abe73067d22  bhl-op4/src/game/server/op4/dlls/rope/CRope.cpp
+29e5f2022c1b59728cdfd67985bac251c8cfd36f9735a3bce5fa6b61d429c122  bhl-op4/src/game/server/op4/dlls/rope/CRopeSample.cpp
+6a9ffad593641190d43d15621411ab799c61924fd0a7ec1fef2c37db0b220fa0  bhl-op4/src/game/server/op4/dlls/rope/CRopeSegment.cpp
 141d6d6f80f633c9c039e9d260ee04b8944a01aca165b2a14d57d56917f3f16c  bhl-op4/src/game/server/op4/dlls/weapons/CDisplacer.cpp
 a5b2b49ae9b6889a1d1aaacdb331432003d7b878d9211d69d625e5b2ab389809  bhl-op4/src/game/server/op4/dlls/weapons/CDisplacerBall.cpp
 10b701b6afb04bde98e0208ead0b157fce91be1493c915cf8bfed445d06bead6  bhl-op4/src/game/server/op4/dlls/weapons/CEagle.cpp
@@ -217,7 +230,8 @@ b21d03525199e4b0855bdb05d2148dcdbc35357d66f7b6f4022b950db9d7aafc  bhl-op4/src/ga
 a4a8e89a59c12a11926446adff3465cb0331f93cfe766f743a22e48c3b12f9ea  bhl-op4/src/game/server/op4/dlls/weapons/CSniperRifle.cpp
 65f5bd70daed2026cc7034e856d2f2bb2c47f451f75b3534c2bc2b3597ecbbe4  bhl-op4/src/game/server/op4/dlls/weapons/CSpore.cpp
 fdfe8be1cda35196deb9cc06e7196ae26be89ce263cbe1c007d553cae5f9afb8  bhl-op4/src/game/server/op4/dlls/weapons/CSporeLauncher.cpp
-60ef8f179c6c806d647720808517d2a2b94545720105bfc53865cb5a86c3fe6b  bhl-op4/src/game/server/op4/op4_compat.cpp
+ee6f4fad01260282e42ffe8b9a4070bc9d813a800aae3984954a40815651da4d  bhl-op4/src/game/server/op4/op4_compat.cpp
+68200bb31bb036cb84a48932905e269ade2be1e24b6a2f59376266708e9e3077  bhl-op4/src/game/server/op4/op4_link_fixups.cpp
 897b1070cf1886dbacbf155e522164d4b681897efd046a51d8545c4e5d83aafe  bhl-op4/src/game/server/osprey.cpp
 e6f2c03d3fe3e8983449c2bf3fa6005f7b6c6d3088533d2a89d368bfc01d7d08  bhl-op4/src/game/server/path.cpp
 9a43bd7ad89958b366814d62756d3ff146e751be48aeb6b889fa45a3b09cda8c  bhl-op4/src/game/server/pathcorner.cpp
@@ -259,6 +273,7 @@ d2e41cd7473401eb4f50dc5cf7105e00b2c7f9fd8b839c01cc9f952b7394f2da  bhl-op4/src/ga
 d44d120de5730ece9f39e8242593bc93b9e5300cb5f6d0bf8125715c2524ca56  bhl-op4/src/game/server/zombie.cpp
 4bd2f91a99a5ac666c9c7b937e06f1898a81944127dff09e2e3e88a73ea4cb0f  bhl-op4/src/game/shared/CGameVersion.cpp
 d047c64628dbee8045ae3cac8de8af593726d9318bfb856dfded1867cd657845  bhl-op4/src/game/shared/mathlib.cpp
+5295e609b6eee1fbe023f2e533148c73bd7fecea930b4637dc4c84b94cc2120f  bhl-op4/src/game/shared/op4_weapon_timing.cpp
 d63d2826da56607a772f8fb974ca78526894a67f775afbc1608ab19ba7021865  bhl-op4/src/pm_shared/pm_debug.cpp
 73496f2434add1f7799aa721adc45455f1b9303e7820144200ea9676dfaec9ed  bhl-op4/src/pm_shared/pm_math.cpp
 61eb91115ac18c0a022698b128a420943e5bc49bfb2a2f78d92168cc4a634d46  bhl-op4/src/pm_shared/pm_shared.cpp

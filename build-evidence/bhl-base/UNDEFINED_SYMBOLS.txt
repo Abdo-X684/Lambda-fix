@@ -27,9 +27,6 @@
          U _ExitOnFatalAssert
          U _SpewInfo
          U _SpewMessage
-         U _ZN17CBasePlayerWeapon18GetNextAttackDelayEf
-         U _ZTI17CBasePlayerWeapon
-         U _ZTV17CBasePlayerWeapon
          U ___tls_get_addr
          U __assert_fail
          U __ctype_b_loc
@@ -315,13 +312,6 @@
          U writev
 
 ===== hl.so =====
-         U _ZN11CTFGoalFlag8DropFlagEP11CBasePlayer
-         U _ZN12CBaseMonster14AddShockEffectEfffff
-         U _ZN17CBasePlayerWeapon18GetNextAttackDelayEf
-         U _ZN5CRope12DetachObjectEv
-         U _ZN6CWorld5WorldE
-         U _ZTI17CBasePlayerWeapon
-         U _ZTV17CBasePlayerWeapon
          U ___tls_get_addr
          U __assert_fail
          U __cxa_atexit
@@ -329,6 +319,7 @@
          U __isoc99_sscanf
          U _exit
          U abort
+         U acosf
          U aligned_alloc
          U atan2f
          U atof
@@ -391,8 +382,6 @@
          U mmap64
          U mremap
          U munmap
-         U oldgrapple
-         U oldweapons
          U open64
          U openat64
          U pipe2

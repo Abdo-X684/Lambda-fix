@@ -32,6 +32,8 @@ import shutil
 import sys
 from pathlib import Path
 
+from . import op4_fixups
+
 ROOT = Path(__file__).resolve().parent.parent
 CACHE = ROOT / ".cache" / "upstreams"
 BHL = CACHE / "bugfixhl"
@@ -154,9 +156,31 @@ PATCH_RULES = [
        r"CanPlaySentence\s*\(\s*bool\s+", "CanPlaySentence(BOOL "),
       ("bhl-playscriptedsentence-param",
        r"\bbool\s+bConcurrent\b", "BOOL bConcurrent"),
-      ("bhl-stopfollowing-param",
-       r"StopFollowing\s*\(\s*bool\s+", "StopFollowing(BOOL "),
-  ]
+        ("bhl-stopfollowing-param",
+         r"StopFollowing\s*\(\s*bool\s+", "StopFollowing(BOOL "),
+        # OP4's CHalfLifeCTFplay (dlls/ctf/ctfplay_gamerules.h) declares five
+        # CTF-only helpers with `override`. BHL's CGameRules has no such
+        # virtuals, so `override` is a hard compile error. Dropping ONLY the
+        # `override` keyword keeps OP4's real declarations/bodies intact.
+        ("bhl-ctf-nonvirtual-overrides",
+         r"(const char\* GetCharacterType\([^)]*\)|int GetNumTeams\(\)|"
+         r"const char\* TeamWithFewestPlayers\(\)|bool TeamsBalanced\(\)|"
+         r"void GoToIntermission\(\))\s*override", r"\1"),
+        # BHL CGameRules::ChangePlayerTeam uses BOOL, OP4-updated uses bool.
+        ("bhl-ctf-changeplayerteam-bools",
+         r"\bbool\s+bKill\s*,\s*bool\s+bGib\b", "BOOL bKill, BOOL bGib"),
+        # OP4's UserMessages.h defines gmsgFlagIcon as a C++17 inline variable.
+        # The real OP4 global is defined (and registered) in the labelled glue
+        # file; declare it extern here so there is exactly one strong symbol.
+        ("bhl-ctf-gmsgflagicon-extern",
+         r"inline int gmsgFlagIcon = 0;", "extern int gmsgFlagIcon;"),
+        # OP4's cbase.h has a template CBaseEntity::Instance<T>(edict_t*);
+        # BHL has the non-template CBaseEntity::Instance(edict_t*) returning
+        # CBaseEntity*. Same engine primitive, mechanical cast only.
+        ("bhl-instance-template",
+         r"\b(?:CBaseEntity::)?Instance<(\w+)>\(([^()]*)\)",
+         r"static_cast<\1 *>(CBaseEntity::Instance(\2))"),
+    ]
 
 
 def bhl_legacy_int_methods(tree: Path) -> dict[str, str]:
@@ -332,10 +356,11 @@ GLUE_LATE_HEADER = r'''/* ------------------------------------------------------
  * FindHullIntersection would otherwise expand inside weapons.h).
  * -------------------------------------------------------------------------*/
 #ifndef OP4_BHL_COMPAT_LATE_H
-#define OP4_BHL_COMPAT_LATE_H
-#include "op4_compat.h"
+  #define OP4_BHL_COMPAT_LATE_H
+  #include "op4_compat.h"
 
-/* BHL: PLAYBACK_EVENT_FULL is (*g_engfuncs.pfnPlaybackEvent), float* args.
+''' + op4_fixups.ENTITY_ENUMERATOR + r'''
+  /* BHL: PLAYBACK_EVENT_FULL is (*g_engfuncs.pfnPlaybackEvent), float* args.
  * OP4: passes Vector origin/angles. */
 #undef PLAYBACK_EVENT_FULL
 #define PLAYBACK_EVENT_FULL(flags, pInvoker, eventindex, delay, origin, angles, fparam1, fparam2, iparam1, iparam2, bparam1, bparam2) \
@@ -371,9 +396,11 @@ BOOL UTIL_DefaultUseDecrement() { return oldweapons.value == 0; }
 BOOL UTIL_UseOldWeapons() { return oldweapons.value != 0; }
 bool UTIL_IsMultiplayer() { return g_pGameRules != nullptr && g_pGameRules->IsMultiplayer(); }
 
-/* OP4's CTF ruleset is present in the merged tree but is not BHL's active
- * gamerules yet; see docs/BHL_BASE_MERGE.md "Remaining work". */
-  bool UTIL_IsCTF() { return false; }
+  /* OP4 dlls/util.cpp:2582-2585, verbatim body. NOT a stub: it asks BHL's
+   * real CGameRules::IsCTF() virtual. BHL's base implementation returns false
+   * because the OP4 CTF ruleset is not installed as the active gamerules; that
+   * is an explicitly declared incompleteness, not a hidden constant. */
+    bool UTIL_IsCTF() { return g_pGameRules->IsCTF(); }
 
   /* OP4's UTIL_GetLocalPlayer() returns the first player entity. BHL exposes
    * the same engine state through CBaseEntity::Instance / pfnPEntityOfEntIndex. */
@@ -589,13 +616,77 @@ def apply_merges(tree: Path, provenance: dict) -> None:
         provenance["src/game/server/weapons.h"].setdefault("merge_rules", []).append(
             "op4-laserspot-public-spawn")
 
+    # 13. OP4's GetNextAttackDelay bookkeeping fields on BHL's
+    #     CBasePlayerWeapon. Source: OP4 dlls/weapons.h:406-407. Declared
+    #     BHL base change; reason: the real OP4 algorithm (dlls/weapons.cpp
+    #     1071-1099) needs them. No BHL behaviour is removed or replaced.
+    edit("src/game/server/weapons.h",
+         "\tfloat m_flNextPrimaryAttack; // soonest time ItemPostFrame will call PrimaryAttack",
+         "\n\t/* OP4-MERGE: OP4 dlls/weapons.h:406-407 prediction bookkeeping, "
+         "required by the verbatim GetNextAttackDelay body */\n"
+         "\tfloat m_flPrevPrimaryAttack = 0;\n\tfloat m_flLastFireTime = 0;\n",
+         "op4-weapon-timing-state")
+
+    # 14. OP4's CWorld singleton ctor/dtor declarations. Source:
+    #     OP4 dlls/world.cpp:483-501. The definitions are in the labelled
+    #     glue file op4_link_fixups.cpp (OP4's world.cpp also defines Spawn/
+    #     Precache/KeyValue, which would collide with BHL's world.cpp).
+    edit("src/game/server/cbase.h", "\tstatic CWorld *World;",
+         "\n\t/* OP4-MERGE: OP4 dlls/world.cpp:483-501 singleton ctor/dtor */\n"
+         "\tCWorld();\n\t~CWorld();\n",
+         "op4-cworld-ctor-dtor")
+
+    # 15. DECLARED BHL base change: register OP4's real cvars + FlagIcon
+    #     user message from BHL's GameDLLInit. Source: OP4 dlls/game.cpp
+    #     1189-1193 and dlls/UserMessages.cpp:75. Without this the cvars
+    #     would be dead data and CTF's HUD icon message would never exist.
+    edit("src/game/server/game.cpp", '#include "CBugfixedServer.h"',
+         "\n/* OP4-MERGE: real OP4 cvars / registration hook "
+         "(dlls/game.cpp:588-592,1189-1193; UserMessages.cpp:75) */\n"
+         "extern cvar_t oldgrapple;\n"
+         "extern cvar_t oldweapons;\n"
+         "extern cvar_t multipower;\n"
+         "extern void OP4_RegisterGameDLLHooks();\n",
+         "op4-gamedllinit-decls")
+    edit("src/game/server/game.cpp", "\tCVAR_REGISTER(&hlds_version);",
+         "\n\t/* OP4-MERGE: register OP4 cvars + FlagIcon user message "
+         "(see op4_link_fixups.cpp) */\n"
+         "\tOP4_RegisterGameDLLHooks();\n",
+         "op4-gamedllinit-call")
+
+    # 16. DECLARED BHL base change: compile the shared OP4 weapon-timing
+    #     glue TU into BOTH client.so and hl.so. BHL's shared CMakeLists
+    #     feeds both targets, so no new target is introduced.
+    edit("src/game/shared/CMakeLists.txt", "\tCGameVersion.cpp",
+         "\n\t# OP4-MERGE: verbatim GetNextAttackDelay body, shared by both DLLs\n"
+         "\top4_weapon_timing.cpp\n\top4_weapon_timing.h\n",
+         "op4-shared-weapon-timing-cmake")
+
 
 # Only sources proven to compile against BHL headers are wired into the BHL
 # CMake targets. Everything else is present in the tree as a ported OP4 source
 # and listed in PORT_STATUS.json with its exact remaining gaps. Adding a broken
 # source to a target would be a false "merged" claim.
 BUILD_SOURCE_DIRS = ("src/game/server/op4/dlls/weapons",)
-BUILD_SOURCE_FILES = ("src/game/server/op4/op4_compat.cpp",)
+# Real OP4 CTF + rope subsystem files that compile clean against the merged
+# BHL headers. Wiring them (rather than copying bodies into glue) is what
+# actually supplies CRope::DetachObject and CTFGoalFlag::DropFlag.
+BUILD_SOURCE_FILES = (
+    "src/game/server/op4/op4_compat.cpp",
+    "src/game/server/op4/op4_link_fixups.cpp",
+    "src/game/server/op4/dlls/ctf/CItemAcceleratorCTF.cpp",
+    "src/game/server/op4/dlls/ctf/CItemCTF.cpp",
+    "src/game/server/op4/dlls/ctf/CItemSpawnCTF.cpp",
+    "src/game/server/op4/dlls/ctf/CHUDIconTrigger.cpp",
+    "src/game/server/op4/dlls/ctf/CTFGoal.cpp",
+    "src/game/server/op4/dlls/ctf/CTFGoalBase.cpp",
+    "src/game/server/op4/dlls/ctf/CTFGoalFlag.cpp",
+    "src/game/server/op4/dlls/ctf/CTFSpawn.cpp",
+    "src/game/server/op4/dlls/rope/CElectrifiedWire.cpp",
+    "src/game/server/op4/dlls/rope/CRope.cpp",
+    "src/game/server/op4/dlls/rope/CRopeSample.cpp",
+    "src/game/server/op4/dlls/rope/CRopeSegment.cpp",
+)
 
 
 def build_sources(tree: Path, side: str) -> list[str]:
@@ -710,6 +801,11 @@ def build(out: Path) -> dict:
         ("src/game/server/op4/op4_compat.h", GLUE_HEADER),
         ("src/game/server/op4/op4_compat_late.h", GLUE_LATE_HEADER),
         ("src/game/server/op4/op4_compat.cpp", GLUE_CPP),
+          ("src/game/server/op4/op4_link_fixups.cpp", op4_fixups.FIXUPS_CPP),
+          ("src/game/server/op4/op4_entity_enumerator.h",
+           op4_fixups.ENTITY_ENUMERATOR_H),
+          ("src/game/shared/op4_weapon_timing.h", op4_fixups.TIMING_H),
+        ("src/game/shared/op4_weapon_timing.cpp", op4_fixups.TIMING_CPP),
     ):
         p = out / rel
         p.write_text(content)

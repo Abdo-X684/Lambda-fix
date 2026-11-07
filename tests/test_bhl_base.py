@@ -37,7 +37,7 @@ class BhlBaseTreeTests(unittest.TestCase):
                          "twhl-community/halflife-op4-updated")
         self.assertGreaterEqual(self.prov["base"]["files"], 690)
         self.assertGreater(self.prov["op4"]["files"], 100)
-        self.assertEqual(len(self.prov["glue_files"]), 3)
+        self.assertEqual(len(self.prov["glue_files"]), 7)
 
     def test_02_every_provenance_entry_matches_disk(self):
         bad = []
@@ -137,13 +137,13 @@ class BhlBaseTreeTests(unittest.TestCase):
             "\n".join(f"{r}  {sha256(TREE / r)}" for r in sorted(bhl_files)).encode()
         ).hexdigest()
         self.assertEqual(digest, self.prov["base"]["tree_sha256"])
-        self.assertEqual(self.prov["base"]["verbatim_files"], 683)
-        self.assertEqual(self.prov["base"]["merged_files"], 11)
+        self.assertEqual(self.prov["base"]["verbatim_files"], 681)
+        self.assertEqual(self.prov["base"]["merged_files"], 13)
         self.assertEqual(len(bhl_files), 694)
 
     def test_12_verbatim_bhl_server_sources_compile(self):
         bb = self.status["bhl_base"]
-        self.assertGreaterEqual(bb["total"], 109)
+        self.assertGreaterEqual(bb["total"], 108)
         self.assertGreaterEqual(bb["clean"], 100)
         for rel in bb["files"]:
             rec = self.prov["files"][rel]

@@ -157,13 +157,6 @@
         "gaps": [],
         "ok": true
       },
-      "src/game/server/game.cpp": {
-        "errors": 1,
-        "gaps": [
-          "'appversion.h' file not found"
-        ],
-        "ok": false
-      },
       "src/game/server/gamerules.cpp": {
         "errors": 0,
         "gaps": [],
@@ -563,10 +556,10 @@
       }
     },
     "note": "Verbatim BugfixedHL-Rebased server sources compiled against the merged tree; proves the BASE is real BHL code.",
-    "pending": 6,
-    "total": 109
+    "pending": 5,
+    "total": 108
   },
-  "clean": 48,
+  "clean": 59,
   "compiler": "/tmp/zig32",
   "files": {
     "src/game/server/op4/dlls/CDrillSergeant.cpp": {
@@ -634,11 +627,9 @@
       "ok": false
     },
     "src/game/server/op4/dlls/ctf/CHUDIconTrigger.cpp": {
-      "errors": 2,
-      "gaps": [
-        "use of undeclared identifier 'UTIL_FindEntitiesByClassname'"
-      ],
-      "ok": false
+      "errors": 0,
+      "gaps": [],
+      "ok": true
     },
     "src/game/server/op4/dlls/ctf/CItemAcceleratorCTF.cpp": {
       "errors": 0,
@@ -646,45 +637,29 @@
       "ok": true
     },
     "src/game/server/op4/dlls/ctf/CItemBackpackCTF.cpp": {
-      "errors": 5,
-      "gaps": [
-        "non-virtual member function marked 'override' hides virtual member function",
-        "only virtual member functions can be marked 'override'"
-      ],
-      "ok": false
+      "errors": 0,
+      "gaps": [],
+      "ok": true
     },
     "src/game/server/op4/dlls/ctf/CItemCTF.cpp": {
-      "errors": 6,
-      "gaps": [
-        "'CBasePlayer' does not refer to a value",
-        "non-virtual member function marked 'override' hides virtual member function",
-        "only virtual member functions can be marked 'override'"
-      ],
-      "ok": false
+      "errors": 0,
+      "gaps": [],
+      "ok": true
     },
     "src/game/server/op4/dlls/ctf/CItemLongJumpCTF.cpp": {
-      "errors": 5,
-      "gaps": [
-        "non-virtual member function marked 'override' hides virtual member function",
-        "only virtual member functions can be marked 'override'"
-      ],
-      "ok": false
+      "errors": 0,
+      "gaps": [],
+      "ok": true
     },
     "src/game/server/op4/dlls/ctf/CItemPortableHEVCTF.cpp": {
-      "errors": 5,
-      "gaps": [
-        "non-virtual member function marked 'override' hides virtual member function",
-        "only virtual member functions can be marked 'override'"
-      ],
-      "ok": false
+      "errors": 0,
+      "gaps": [],
+      "ok": true
     },
     "src/game/server/op4/dlls/ctf/CItemRegenerationCTF.cpp": {
-      "errors": 5,
-      "gaps": [
-        "non-virtual member function marked 'override' hides virtual member function",
-        "only virtual member functions can be marked 'override'"
-      ],
-      "ok": false
+      "errors": 0,
+      "gaps": [],
+      "ok": true
     },
     "src/game/server/op4/dlls/ctf/CItemSpawnCTF.cpp": {
       "errors": 0,
@@ -692,12 +667,9 @@
       "ok": true
     },
     "src/game/server/op4/dlls/ctf/CTFDetect.cpp": {
-      "errors": 5,
-      "gaps": [
-        "non-virtual member function marked 'override' hides virtual member function",
-        "only virtual member functions can be marked 'override'"
-      ],
-      "ok": false
+      "errors": 0,
+      "gaps": [],
+      "ok": true
     },
     "src/game/server/op4/dlls/ctf/CTFGoal.cpp": {
       "errors": 0,
@@ -710,13 +682,9 @@
       "ok": true
     },
     "src/game/server/op4/dlls/ctf/CTFGoalFlag.cpp": {
-      "errors": 10,
-      "gaps": [
-        "non-virtual member function marked 'override' hides virtual member function",
-        "only virtual member functions can be marked 'override'",
-        "use of undeclared identifier 'UTIL_FindEntitiesByClassname'"
-      ],
-      "ok": false
+      "errors": 0,
+      "gaps": [],
+      "ok": true
     },
     "src/game/server/op4/dlls/ctf/CTFSpawn.cpp": {
       "errors": 0,
@@ -724,16 +692,16 @@
       "ok": true
     },
     "src/game/server/op4/dlls/ctf/ctfplay_gamerules.cpp": {
-      "errors": 51,
+      "errors": 50,
       "gaps": [
-        "'CBasePlayer' does not refer to a value",
+        "no matching function for call to '__invoke'",
         "no member named 'm_iBarnacleKills' in 'CBasePlayer'",
         "no member named 'm_iMostDamage' in 'CBasePlayer'",
         "no member named 'm_iSnipeKills' in 'CBasePlayer'",
         "no member named 'm_iSuicides' in 'CBasePlayer'",
         "no member named 'm_szTeamModel' in 'CBasePlayer'",
-        "non-virtual member function marked 'override' hides virtual member function",
-        "only virtual member functions can be marked 'override'"
+        "use of undeclared identifier 'MENU_CLASS'",
+        "use of undeclared identifier 'MENU_NONE'"
       ],
       "ok": false
     },
@@ -750,12 +718,9 @@
       "ok": false
     },
     "src/game/server/op4/dlls/geneworm.cpp": {
-      "errors": 3,
-      "gaps": [
-        "use of undeclared identifier 'UTIL_FindEntitiesByClassname'",
-        "use of undeclared identifier 'UTIL_FindEntitiesByTargetname'"
-      ],
-      "ok": false
+      "errors": 0,
+      "gaps": [],
+      "ok": true
     },
     "src/game/server/op4/dlls/gonome.cpp": {
       "errors": 0,
@@ -807,11 +772,9 @@
       "ok": true
     },
     "src/game/server/op4/dlls/op4mortar.cpp": {
-      "errors": 1,
-      "gaps": [
-        "use of undeclared identifier 'UTIL_FindEntitiesByTargetname'"
-      ],
-      "ok": false
+      "errors": 0,
+      "gaps": [],
+      "ok": true
     },
     "src/game/server/op4/dlls/otis.cpp": {
       "errors": 0,
@@ -957,16 +920,16 @@
       "ok": true
     },
     "src/game/server/op4/dlls/world.cpp": {
-      "errors": 23,
+      "errors": 16,
       "gaps": [
-        "definition of implicitly declared default constructor",
-        "definition of implicitly declared destructor",
         "no matching constructor for initialization of 'CRestore'",
         "no matching constructor for initialization of 'CSave'",
         "no matching function for call to 'InstallGameRules'",
         "no member named 'IsValidSaveRestoreData' in 'CSaveRestoreBuffer'",
-        "non-virtual member function marked 'override' hides virtual member function",
-        "only virtual member functions can be marked 'override'"
+        "use of undeclared identifier 'gDisplayTitle'",
+        "use of undeclared identifier 'g_fGameOver'",
+        "use of undeclared identifier 'g_pBodyQueueHead'",
+        "use of undeclared identifier 'g_pLastSpawn'"
       ],
       "ok": false
     },
@@ -984,11 +947,16 @@
       "errors": 0,
       "gaps": [],
       "ok": true
+    },
+    "src/game/server/op4/op4_link_fixups.cpp": {
+      "errors": 0,
+      "gaps": [],
+      "ok": true
     }
   },
-  "pending": 21,
+  "pending": 11,
   "source_sdk": ".cache/upstreams/hl1_source_sdk",
   "status": "compiled",
   "target": "x86-linux-gnu (ELF32 relocatable objects)",
-  "total": 69
+  "total": 70
 }

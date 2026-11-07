@@ -2,6 +2,11 @@ add_sources(
 	CMakeLists.txt
 	bitvec.h
 	CGameVersion.cpp
+
+	# OP4-MERGE: verbatim GetNextAttackDelay body, shared by both DLLs
+	op4_weapon_timing.cpp
+	op4_weapon_timing.h
+
 	CGameVersion.h
 	ClientSupportsFlags.h
 	enum_utils.h

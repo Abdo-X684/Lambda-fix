@@ -831,6 +831,11 @@ public:
 	/* OP4-MERGE: OP4 grapple uses a CWorld singleton */
 	static CWorld *World;
 
+	/* OP4-MERGE: OP4 dlls/world.cpp:483-501 singleton ctor/dtor */
+	CWorld();
+	~CWorld();
+
+
 	void Spawn(void);
 	void Precache(void);
 	void KeyValue(KeyValueData *pkvd);

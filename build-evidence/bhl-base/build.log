@@ -8,9 +8,9 @@ zig    : /tmp/zenv/lib/python3.11/site-packages/ziglang/zig (clang for i386-unkn
 [gen] appversion.h from bhl-op4/src/common/appversion.h.in
 [gen] PCRE1 config.h / pcre.h from pcre.h.generic, config.h.generic
 [compat] 3 build fixes written to /home/user/Bugfixhl-speedrun-op4/build-evidence/bhl-base/patches
-[cmake] client=137 server=128 common=7
-[compile] client: 137/137 clean
-[compile] server: 128/128 clean
+[cmake] client=138 server=142 common=8
+[compile] client: 138/138 clean
+[compile] server: 142/142 clean
 [cmake] tier1=35 tier2=3 vgui_controls=68
 [compile] tier1: 35/35 clean
 [compile] tier2: 3/3 clean
@@ -24,20 +24,20 @@ zig    : /tmp/zenv/lib/python3.11/site-packages/ziglang/zig (clang for i386-unkn
 [ar] libglad.a: 1 objects
 [ar] libsemver.a: 1 objects
 [ar] libpcre.a: 20 objects
-[link] client.so: 137 objects, 6 archives, 4 shared libs
-[link] client.so: OK (27740848 bytes)
-[link] hl.so: 128 objects, 1 archives, 0 shared libs
-[link] hl.so: OK (16795192 bytes)
-[audit] client.so: 3 unresolved symbols from our own build
-[audit] hl.so: 9 unresolved symbols from our own build
-[done] 3.5s
+[link] client.so: 138 objects, 6 archives, 4 shared libs
+[link] client.so: OK (27753660 bytes)
+[link] hl.so: 142 objects, 1 archives, 0 shared libs
+[link] hl.so: OK (17415276 bytes)
+[audit] client.so: 0 unresolved symbols from our own build
+[audit] hl.so: 0 unresolved symbols from our own build
+[done] 88.4s
 {
   "client.so": {
     "path": "build-evidence/bhl-base/client.so",
-    "bytes": 27740848,
-    "sha256": "6b8bcaa7d0d60ed2b6b29e90023552da972ef6b0fd2440b7fb7ab8d9946f9c42",
+    "bytes": 27753660,
+    "sha256": "3230033ffaf2634b7c485ec9a19611aa541a7c6c20078eb4f47fda058018b9a8",
     "elf32": true,
-    "exported_symbol_count": 4930,
+    "exported_symbol_count": 4931,
     "exported_game_entry_points": [
       "HUD_Frame",
       "HUD_Init",
@@ -50,7 +50,7 @@ zig    : /tmp/zenv/lib/python3.11/site-packages/ziglang/zig (clang for i386-unkn
       "Initialize",
       "V_CalcRefdef"
     ],
-    "undefined_symbol_count": 314,
+    "undefined_symbol_count": 311,
     "needed": [
       "libSDL2-2.0.so.0",
       "libtier0.so",
@@ -59,40 +59,26 @@ zig    : /tmp/zenv/lib/python3.11/site-packages/ziglang/zig (clang for i386-unkn
       "libc.so.6",
       "ld-linux.so.2"
     ],
-    "unresolved_own_build_symbols": [
-      "CBasePlayerWeapon::GetNextAttackDelay(float)",
-      "typeinfo for CBasePlayerWeapon",
-      "vtable for CBasePlayerWeapon"
-    ]
+    "unresolved_own_build_symbols": []
   },
   "hl.so": {
     "path": "build-evidence/bhl-base/hl.so",
-    "bytes": 16795192,
-    "sha256": "1801ba9c41b968285a57aa8a1136d61eb663f7f32dc378197f4ec52f5c28ea99",
+    "bytes": 17415276,
+    "sha256": "791e853b664366a37b9adb4948537c80c8f43a1a22f36db81f44ca917f54fdeb",
     "elf32": true,
-    "exported_symbol_count": 3331,
+    "exported_symbol_count": 3475,
     "exported_game_entry_points": [
       "GetEntityAPI",
       "GetEntityAPI2",
       "GetNewDLLFunctions",
       "GiveFnptrsToDll"
     ],
-    "undefined_symbol_count": 164,
+    "undefined_symbol_count": 156,
     "needed": [
       "libm.so.6",
       "libc.so.6",
       "ld-linux.so.2"
     ],
-    "unresolved_own_build_symbols": [
-      "CBaseMonster::AddShockEffect(float, float, float, float, float)",
-      "CBasePlayerWeapon::GetNextAttackDelay(float)",
-      "CRope::DetachObject()",
-      "CTFGoalFlag::DropFlag(CBasePlayer*)",
-      "CWorld::World",
-      "oldgrapple",
-      "oldweapons",
-      "typeinfo for CBasePlayerWeapon",
-      "vtable for CBasePlayerWeapon"
-    ]
+    "unresolved_own_build_symbols": []
   }
 }

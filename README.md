@@ -1,70 +1,62 @@
-# BugfixedHL × Opposing Force — **BHL هو الأساس** ✅
+# BugfixedHL × Opposing Force — **BHL هو الأساس**
 
-> **الشجرة المعتمدة:** [`bhl-op4/`](bhl-op4/PROVENANCE.json).
-> **BugfixedHL-Rebased هو الأساس الكامل** (694 ملفاً منسوخة حرفياً)، وفوقه
-> تُدمج أنظمة وأسلحة **Opposing Force**. هذا عكس النهج السابق الذي كان OP4
-> هو الأساس — راجع [`docs/LEGACY.md`](docs/LEGACY.md) و
-> [`docs/BHL_BASE_MERGE.md`](docs/BHL_BASE_MERGE.md).
+> **الشجرة المعتمدة:** [`bhl-op4/PROVENANCE.json`](bhl-op4/PROVENANCE.json).
+> [**التقرير النهائي**](docs/BHL_FINAL_AUDIT.md) ·
+> [**إثبات البناء**](docs/BHL_BASE_BUILD.md) ·
+> [**إغلاق رموز الربط**](build-evidence/bhl-base/LINK_GAP_CLOSURE.md) ·
+> [**بيئة التشغيل**](build-evidence/bhl-base/RUNTIME_ENVIRONMENT.md)
 
-## ما تغيّر فعلاً
+## الحالة بصراحة
 
-| بند | السابق (legacy) | الآن |
-| --- | --- | --- |
-| الأساس | OP4 (828 ملف) | **BHL @ `4d32095e3c33` — 694 ملف** |
-| كود BHL في `client.so` | 4 ملفات فقط | الشجرة كلها + 15 سلاح OP4 مُترجمة فوقها |
-| كود BHL في `hl.so` | **صفر** | بُني من `bhl-op4/` (128 وحدة ترجمة) لكن **لم يُختبر داخل اللعبة** وبقيت به رموز ربط غير محلولة — [`docs/BHL_BASE_BUILD.md`](docs/BHL_BASE_BUILD.md) |
-| `ConVar/CvarSystem` | إعادة تنفيذ مستقلة (تشابه `0.030`) | نظام BHL الأصلي في الشجرة |
-| دمج ثلاثي الأطراف | `merged=0` | 20 قاعدة دمج معلنة داخل هيدرات BHL |
-| إثبات المصدر | بانرات و`strings` | `PROVENANCE.json` بـ sha256 لكل ملف |
+| البند | الوضع |
+| --- | --- |
+| الأساس | `tmp64/BugfixedHL-Rebased @ 4d32095e3c33` — 694 ملف BHL، **681 مطابق بايت-ببايت** + 13 دمجاً معلَناً |
+| إضافة OP4 | 154 ملفاً من `twhl-community/halflife-op4-updated @ 5368be7f8eba` + 7 ملفات glue موسومة |
+| بناء `client.so` / `hl.so` من `bhl-op4/` | ✅ ELF32، 408 وحدة ترجمة، **صفر رمز ربط غير محلول** |
+| الثنائيات | `client.so` = `3230033ffaf2634b7c485ec9a19611aa541a7c6c20078eb4f47fda058018b9a8` · `hl.so` = `791e853b664366a37b9adb4948537c80c8f43a1a22f36db81f44ca917f54fdeb` |
+| اختبار داخل Opposing Force | ❌ **لم يُنفَّذ** — لا محرك، لا `vgui.so`، لا أصول شرعية، لا محمّل ELF32 ديناميكي |
+| إعلان الاكتمال | ❌ **لا** — المشروع غير مكتمل؛ قائمة النواقص في التقرير النهائي |
 
-## الدليل المعماري والبرهان
+## الدليل والبرهان
 
-* [`bhl-op4/PROVENANCE.json`](bhl-op4/PROVENANCE.json) — أصل كل ملف، و`commit`،
-  و`sha256`، واسم كل قاعدة عدّلته (851 مدخلاً).
-  * [`bhl-op4/PORT_STATUS.json`](bhl-op4/PORT_STATUS.json) — نتيجة ترجمة كل
-    مصدر OP4 إلى **كائن ELF32 حقيقي** مقابل هيدرات BHL المدمجة.
-  * [`docs/BHL_BASE_BUILD.md`](docs/BHL_BASE_BUILD.md) و
-    [`build-evidence/bhl-base/MANIFEST.json`](build-evidence/bhl-base/MANIFEST.json)
-    — **بناء حقيقي**: 401 أمر ترجمة/ربط، 393 بصمة مصدر، سجل كامل، و`client.so`
-    و`hl.so` من `bhl-op4/` فقط، مع قائمة الرموز غير المحلولة بلا إخفاء.
-* **683 / 683 ملف BHL منسوخ حرفياً** يطابق الـ commit المثبّت بايتاً ببايت
-  (و11 ملف BHL آخر عليها دمج معلن)، وبصمة الشجرة `base.tree_sha256` محسوبة
-  ومُعاد التحقق منها في كل `--check`.
-* **103 / 109 من مصادر خادم BHL نفسها** تُترجم إلى كائنات ELF32 مقابل الشجرة
-  المدمجة — أي أن الأساس كود BHL قابل للترجمة فعلاً، لا هيدرات فقط.
-* **15 / 15 أسلحة OP4 تُترجم بنجاح** (CDisplacer, Eagle, Grapple, Knife, M249,
-  Penguin, Pipewrench, ShockRifle, SniperRifle, Spore, …) و**48 / 69** من مصادر
-  خادم OP4. 16 مصدراً فقط موصولة بـ `src/game/server/CMakeLists.txt` — لا يُوصل
-  أي ملف لم تُثبت ترجمته.
-* 20 قاعدة دمج حقيقية: `WeaponId`، `Bullet`، `WaterLevel`، حقول `skilldata_t`،
-  حالة `CBasePlayer`/`CBaseMonster`، `CWorld::World`، `IsCTF()`… كلها داخل
-  **ملفات BHL نفسها**، لا في طبقة بديلة.
+* [`docs/BHL_FINAL_AUDIT.md`](docs/BHL_FINAL_AUDIT.md) — التقرير الجامع: كل رمز، كل تغيير على BHL، كل اختبار ونتيجته، النواقص صراحةً.
+* [`docs/BHL_BASE_BUILD.md`](docs/BHL_BASE_BUILD.md) و
+  [`build-evidence/bhl-base/MANIFEST.json`](build-evidence/bhl-base/MANIFEST.json)
+  — **416 أمر ترجمة/ربط**، 408 بصمة مصدر، سجل كامل، بصمات مطابقة للملفات على القرص.
+* [`build-evidence/bhl-base/LINK_GAP_CLOSURE.md`](build-evidence/bhl-base/LINK_GAP_CLOSURE.md)
+  — جدول الـ12 رمزاً: التنفيذ الأصلي، سبب الغياب، التغيير، دليل الاختفاء، الاختبار.
+* [`bhl-op4/PORT_STATUS.json`](bhl-op4/PORT_STATUS.json) — نتيجة ترجمة كل مصدر OP4
+  إلى كائن ELF32 حقيقي مقابل هيدرات BHL المدمجة.
+* [`build-evidence/bhl-base/RUNTIME_ENVIRONMENT.md`](build-evidence/bhl-base/RUNTIME_ENVIRONMENT.md)
+  — أدلة قابلة لإعادة التشغيل على استحالة الاختبار داخل اللعبة.
+* `python3 -m merge.bhl_base --check --out bhl-op4` يتحقق من كل بصمة،
+  و`tests/test_bhl_base.py::test_07` يقارن الـ681 ملفاً بالمصدر المثبّت.
 
 ```bash
 make fetch                                  # الشجرتان المثبّتتان + sha256
 make bhl-base                               # إعادة بناء bhl-op4/ من الصفر
 python3 tools/verify_bhl_base.py --compile  # كائنات ELF32 + PORT_STATUS.json
-  make verify-bhl-base                        # فحص المصدر + المصادر الموصولة
-  python3 tools/build_bhl_base.py             # بناء client.so و hl.so من bhl-op4/
-  make verify                                 # كل فحوصات المستودع
+python3 tools/build_bhl_base.py             # بناء client.so و hl.so من bhl-op4/
+make test-op4                               # خوارزمية OP4 الحقيقية + مُعدّد الكيانات
+make test-op4-fixups                        # أجسام الإصلاحات الحقيقية مُستخرجة نصّاً
+python3 -m unittest tests.test_op4_link_fixups -v
+python3 tools/probe_runtime_environment.py  # فحص بيئة التشغيل
+make verify                                 # كل فحوصات المستودع
 ```
 
 ## ما لم يُنجز بعد — بصراحة
 
-1. **بُنيت `client.so` و `hl.so` من `bhl-op4/` فعلياً** (ELF32، 137 + 128 وحدة
-   ترجمة، وكل المصادر تُترجم بلا أخطاء)، لكن **لا تزال هناك 12 رمز ربط غير محلول**
-   (3 في العميل، 9 في الخادم) من أنظمة OP4 غير المكتملة: `GetNextAttackDelay`،
-   `AddShockEffect`، `CRope::DetachObject`، `CTFGoalFlag::DropFlag`،
-   `CWorld::World`، `oldgrapple`، `oldweapons`. لذلك **لم تُحمَّلا داخل المحرك ولم
-   تُختبرا داخل Opposing Force**، ولا يُعلَن الاكتمال. الأوامر والسجلات الكاملة
-   والسبب الدقيق لكل رمز: [`docs/BHL_BASE_BUILD.md`](docs/BHL_BASE_BUILD.md)
-   و`build-evidence/bhl-base/LINK_GAPS.md`.
-2. **الثنائيات والـ Release أدناه قديمة**: `dist/dlls/*.so`, `dist/bhlop4/`,
-   `v0.1.0-linux32` مبنية من شجرة **OP4-أساس** السابقة. لا تستخدمها كدليل
-   على هذا الدمج. لم ألمسها ولم أُحدّث الـ Release.
-3. مصادر عميل OP4 وCTF/كيانات/rope منسوخة لكنها `port_pending`؛ أخطاء كل
-   ملف مدرجة في `PORT_STATUS.json`. `UTIL_IsCTF()` تُعيد `false` صراحةً.
-4. لا يُدعى أن المود قابل للعب كاملاً؛ `vgui.so` وأصول اللعبة من نسختك الشرعية.
+1. **لا اختبار داخل Opposing Force**: لا تحميل في محرك، لا خريطة، لا HUD/UI،
+   لا أسلحة BHL/OP4، لا تبديل ولا ذخيرة ولا إعادة تعبئة، لا Monster/Rope/Grapple/CTF
+   وقت تشغيل، ولا مراقبة أعطال. الأسباب بأدلة في `RUNTIME_ENVIRONMENT.md`.
+2. `dlls/ctf/ctfplay_gamerules.cpp` (قواعد CTF الفعلية) **غير موصول** لأنه يحتاج
+   حقول `CBasePlayer` وقوائم خاصة بـ OP4؛ إضافتها تعني استبدال أنظمة BHL (ممنوع).
+   النتيجة: `CGameRules::IsCTF()` يبقى `false`، ومباراة CTF غير قابلة للعب بعد.
+   62 ملف OP4 ما زالت `port-pending`.
+3. لم يُنفَّذ configure/build بـ CMake كاملاً (استُخدم استنساخ أمين لقوائمه مع Zig-clang).
+4. **الثنائيات والـ Release أدناه قديمة**: `dist/dlls/*.so`, `dist/bhlop4/`,
+   `v0.1.0-linux32` مبنية من شجرة **OP4-أساس** السابقة، لم تُلمس، ولا تُستخدم كدليل.
+5. لا PR إلى `main`، ولا تحديث Release، ولا توزيع ثنائيات، ولا ادعاء امتثال ترخيصي.
 
 ## الرخص
 
