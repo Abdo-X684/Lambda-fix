@@ -1,0 +1,98 @@
+=== bhl-op4 real 32-bit build ===
+tree   : /home/user/Bugfixhl-speedrun-op4/bhl-op4
+sdk    : /home/user/Bugfixhl-speedrun-op4/.cache/upstreams/hl1_source_sdk
+out    : /home/user/Bugfixhl-speedrun-op4/build-evidence/bhl-base
+zig    : /tmp/zenv/lib/python3.11/site-packages/ziglang/zig (clang for i386-unknown-linux-gnu)
+[deps] nlohmann: nlohmann-json-3.11.3.tar.gz sha256=0d8ef5af7f9794e3263480193c491549b2ba6cc74bb018906202ada498a79406
+[deps] pcre: pcre-master.tar.gz sha256=5aa545145f0c5a584b54a34f04c2d61c01d31724d3fbae2ee20cd8e3c422594d
+[gen] appversion.h from bhl-op4/src/common/appversion.h.in
+[gen] PCRE1 config.h / pcre.h from pcre.h.generic, config.h.generic
+[compat] 3 build fixes written to /home/user/Bugfixhl-speedrun-op4/build-evidence/bhl-base/patches
+[cmake] client=137 server=128 common=7
+[compile] client: 137/137 clean
+[compile] server: 128/128 clean
+[cmake] tier1=35 tier2=3 vgui_controls=68
+[compile] tier1: 35/35 clean
+[compile] tier2: 3/3 clean
+[compile] vgui_controls: 68/68 clean
+[compile] glad: 1/1 clean
+[compile] semver: 1/1 clean
+[compile] pcre: 20/20 clean
+[ar] libvgui_controls.a: 68 objects
+[ar] libtier2.a: 3 objects
+[ar] libtier1.a: 35 objects
+[ar] libglad.a: 1 objects
+[ar] libsemver.a: 1 objects
+[ar] libpcre.a: 20 objects
+[link] client.so: 137 objects, 6 archives, 4 shared libs
+[link] client.so: OK (27740848 bytes)
+[link] hl.so: 128 objects, 1 archives, 0 shared libs
+[link] hl.so: OK (16795192 bytes)
+[audit] client.so: 3 unresolved symbols from our own build
+[audit] hl.so: 9 unresolved symbols from our own build
+[done] 3.5s
+{
+  "client.so": {
+    "path": "build-evidence/bhl-base/client.so",
+    "bytes": 27740848,
+    "sha256": "6b8bcaa7d0d60ed2b6b29e90023552da972ef6b0fd2440b7fb7ab8d9946f9c42",
+    "elf32": true,
+    "exported_symbol_count": 4930,
+    "exported_game_entry_points": [
+      "HUD_Frame",
+      "HUD_Init",
+      "HUD_Key_Event",
+      "HUD_Redraw",
+      "HUD_Reset",
+      "HUD_Shutdown",
+      "HUD_UpdateClientData",
+      "HUD_VidInit",
+      "Initialize",
+      "V_CalcRefdef"
+    ],
+    "undefined_symbol_count": 314,
+    "needed": [
+      "libSDL2-2.0.so.0",
+      "libtier0.so",
+      "libvstdlib.so",
+      "libm.so.6",
+      "libc.so.6",
+      "ld-linux.so.2"
+    ],
+    "unresolved_own_build_symbols": [
+      "CBasePlayerWeapon::GetNextAttackDelay(float)",
+      "typeinfo for CBasePlayerWeapon",
+      "vtable for CBasePlayerWeapon"
+    ]
+  },
+  "hl.so": {
+    "path": "build-evidence/bhl-base/hl.so",
+    "bytes": 16795192,
+    "sha256": "1801ba9c41b968285a57aa8a1136d61eb663f7f32dc378197f4ec52f5c28ea99",
+    "elf32": true,
+    "exported_symbol_count": 3331,
+    "exported_game_entry_points": [
+      "GetEntityAPI",
+      "GetEntityAPI2",
+      "GetNewDLLFunctions",
+      "GiveFnptrsToDll"
+    ],
+    "undefined_symbol_count": 164,
+    "needed": [
+      "libm.so.6",
+      "libc.so.6",
+      "ld-linux.so.2"
+    ],
+    "unresolved_own_build_symbols": [
+      "CBaseMonster::AddShockEffect(float, float, float, float, float)",
+      "CBasePlayerWeapon::GetNextAttackDelay(float)",
+      "CRope::DetachObject()",
+      "CTFGoalFlag::DropFlag(CBasePlayer*)",
+      "CWorld::World",
+      "oldgrapple",
+      "oldweapons",
+      "typeinfo for CBasePlayerWeapon",
+      "vtable for CBasePlayerWeapon"
+    ]
+  }
+}

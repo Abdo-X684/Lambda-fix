@@ -9,6 +9,11 @@ __pycache__/
 *.so
 *.dll
 *.lib
+
+# The two libraries built from bhl-op4/ are deliberate, documented evidence
+# (docs/BHL_BASE_BUILD.md). They are NOT the legacy dist/dlls binaries.
+!build-evidence/bhl-base/client.so
+!build-evidence/bhl-base/hl.so
 CMakeFiles/
 CMakeCache.txt
 cmake_install.cmake

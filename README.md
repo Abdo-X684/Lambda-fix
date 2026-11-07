@@ -12,7 +12,7 @@
 | --- | --- | --- |
 | الأساس | OP4 (828 ملف) | **BHL @ `4d32095e3c33` — 694 ملف** |
 | كود BHL في `client.so` | 4 ملفات فقط | الشجرة كلها + 15 سلاح OP4 مُترجمة فوقها |
-| كود BHL في `hl.so` | **صفر** | لم يُبنَ بعد (انظر «ما لم يُنجز») |
+| كود BHL في `hl.so` | **صفر** | بُني من `bhl-op4/` (128 وحدة ترجمة) لكن **لم يُختبر داخل اللعبة** وبقيت به رموز ربط غير محلولة — [`docs/BHL_BASE_BUILD.md`](docs/BHL_BASE_BUILD.md) |
 | `ConVar/CvarSystem` | إعادة تنفيذ مستقلة (تشابه `0.030`) | نظام BHL الأصلي في الشجرة |
 | دمج ثلاثي الأطراف | `merged=0` | 20 قاعدة دمج معلنة داخل هيدرات BHL |
 | إثبات المصدر | بانرات و`strings` | `PROVENANCE.json` بـ sha256 لكل ملف |
@@ -21,8 +21,12 @@
 
 * [`bhl-op4/PROVENANCE.json`](bhl-op4/PROVENANCE.json) — أصل كل ملف، و`commit`،
   و`sha256`، واسم كل قاعدة عدّلته (851 مدخلاً).
-* [`bhl-op4/PORT_STATUS.json`](bhl-op4/PORT_STATUS.json) — نتيجة ترجمة كل
-  مصدر OP4 إلى **كائن ELF32 حقيقي** مقابل هيدرات BHL المدمجة.
+  * [`bhl-op4/PORT_STATUS.json`](bhl-op4/PORT_STATUS.json) — نتيجة ترجمة كل
+    مصدر OP4 إلى **كائن ELF32 حقيقي** مقابل هيدرات BHL المدمجة.
+  * [`docs/BHL_BASE_BUILD.md`](docs/BHL_BASE_BUILD.md) و
+    [`build-evidence/bhl-base/MANIFEST.json`](build-evidence/bhl-base/MANIFEST.json)
+    — **بناء حقيقي**: 401 أمر ترجمة/ربط، 393 بصمة مصدر، سجل كامل، و`client.so`
+    و`hl.so` من `bhl-op4/` فقط، مع قائمة الرموز غير المحلولة بلا إخفاء.
 * **683 / 683 ملف BHL منسوخ حرفياً** يطابق الـ commit المثبّت بايتاً ببايت
   (و11 ملف BHL آخر عليها دمج معلن)، وبصمة الشجرة `base.tree_sha256` محسوبة
   ومُعاد التحقق منها في كل `--check`.
@@ -40,15 +44,21 @@
 make fetch                                  # الشجرتان المثبّتتان + sha256
 make bhl-base                               # إعادة بناء bhl-op4/ من الصفر
 python3 tools/verify_bhl_base.py --compile  # كائنات ELF32 + PORT_STATUS.json
-make verify-bhl-base                        # فحص المصدر + المصادر الموصولة
-make verify                                 # كل فحوصات المستودع
+  make verify-bhl-base                        # فحص المصدر + المصادر الموصولة
+  python3 tools/build_bhl_base.py             # بناء client.so و hl.so من bhl-op4/
+  make verify                                 # كل فحوصات المستودع
 ```
 
 ## ما لم يُنجز بعد — بصراحة
 
-1. **لا يوجد `client.so` / `hl.so` من الشجرة الجديدة.** البناء الكامل يحتاج
-   CMake ≥ 3.30، حزم vcpkg، و`tmp64/hl1_source_sdk @ 11f26656677c…`.
-   لم أُنتج ثنائيات وهمية.
+1. **بُنيت `client.so` و `hl.so` من `bhl-op4/` فعلياً** (ELF32، 137 + 128 وحدة
+   ترجمة، وكل المصادر تُترجم بلا أخطاء)، لكن **لا تزال هناك 12 رمز ربط غير محلول**
+   (3 في العميل، 9 في الخادم) من أنظمة OP4 غير المكتملة: `GetNextAttackDelay`،
+   `AddShockEffect`، `CRope::DetachObject`، `CTFGoalFlag::DropFlag`،
+   `CWorld::World`، `oldgrapple`، `oldweapons`. لذلك **لم تُحمَّلا داخل المحرك ولم
+   تُختبرا داخل Opposing Force**، ولا يُعلَن الاكتمال. الأوامر والسجلات الكاملة
+   والسبب الدقيق لكل رمز: [`docs/BHL_BASE_BUILD.md`](docs/BHL_BASE_BUILD.md)
+   و`build-evidence/bhl-base/LINK_GAPS.md`.
 2. **الثنائيات والـ Release أدناه قديمة**: `dist/dlls/*.so`, `dist/bhlop4/`,
    `v0.1.0-linux32` مبنية من شجرة **OP4-أساس** السابقة. لا تستخدمها كدليل
    على هذا الدمج. لم ألمسها ولم أُحدّث الـ Release.

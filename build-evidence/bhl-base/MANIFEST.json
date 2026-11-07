@@ -1,0 +1,90 @@
+{
+  "base_repo": "tmp64/BugfixedHL-Rebased @ 4d32095e3c33",
+  "compatibility_fixes": [
+    "patches/utlblockmemory.h.patch (pinned SDK bit-field std::swap)",
+    "patches/results.cpp.patch (one BHL client TU: auto& -> const auto&)",
+    "patches/vgui_pch.h (reproduces SDK's own PCH header list)"
+  ],
+  "libraries": {
+    "client.so": {
+      "bytes": 27740848,
+      "elf32": true,
+      "exported_game_entry_points": [
+        "HUD_Frame",
+        "HUD_Init",
+        "HUD_Key_Event",
+        "HUD_Redraw",
+        "HUD_Reset",
+        "HUD_Shutdown",
+        "HUD_UpdateClientData",
+        "HUD_VidInit",
+        "Initialize",
+        "V_CalcRefdef"
+      ],
+      "exported_symbol_count": 4930,
+      "needed": [
+        "libSDL2-2.0.so.0",
+        "libtier0.so",
+        "libvstdlib.so",
+        "libm.so.6",
+        "libc.so.6",
+        "ld-linux.so.2"
+      ],
+      "path": "build-evidence/bhl-base/client.so",
+      "sha256": "6b8bcaa7d0d60ed2b6b29e90023552da972ef6b0fd2440b7fb7ab8d9946f9c42",
+      "undefined_symbol_count": 314,
+      "unresolved_own_build_symbols": [
+        "CBasePlayerWeapon::GetNextAttackDelay(float)",
+        "typeinfo for CBasePlayerWeapon",
+        "vtable for CBasePlayerWeapon"
+      ]
+    },
+    "hl.so": {
+      "bytes": 16795192,
+      "elf32": true,
+      "exported_game_entry_points": [
+        "GetEntityAPI",
+        "GetEntityAPI2",
+        "GetNewDLLFunctions",
+        "GiveFnptrsToDll"
+      ],
+      "exported_symbol_count": 3331,
+      "needed": [
+        "libm.so.6",
+        "libc.so.6",
+        "ld-linux.so.2"
+      ],
+      "path": "build-evidence/bhl-base/hl.so",
+      "sha256": "1801ba9c41b968285a57aa8a1136d61eb663f7f32dc378197f4ec52f5c28ea99",
+      "undefined_symbol_count": 164,
+      "unresolved_own_build_symbols": [
+        "CBaseMonster::AddShockEffect(float, float, float, float, float)",
+        "CBasePlayerWeapon::GetNextAttackDelay(float)",
+        "CRope::DetachObject()",
+        "CTFGoalFlag::DropFlag(CBasePlayer*)",
+        "CWorld::World",
+        "oldgrapple",
+        "oldweapons",
+        "typeinfo for CBasePlayerWeapon",
+        "vtable for CBasePlayerWeapon"
+      ]
+    }
+  },
+  "note": "Built and ELF-verified only. NOT tested inside Opposing Force: this sandbox has no HL engine, real vgui.so or legitimate OP4 assets. See docs/BHL_BASE_BUILD.md.",
+  "purpose": "real 32-bit build from the BugfixedHL-root bhl-op4/ tree",
+  "source_lists": {
+    "client": 137,
+    "pcre": 20,
+    "server": 128,
+    "tier1": 35,
+    "tier2": 3,
+    "vgui_controls": 68
+  },
+  "source_sdk": "tmp64/hl1_source_sdk @ 11f26656677c881c7c630d03957900e7701da62e",
+  "toolchain": {
+    "cmake_available": "3.30.9 (dependency probe)",
+    "target": "i386-unknown-linux5.10.0-gnu2.34.0",
+    "zig": "0.17.1 (clang 22.1.8)"
+  },
+  "tree": "bhl-op4/"
+}

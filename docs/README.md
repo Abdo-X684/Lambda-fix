@@ -3,6 +3,7 @@
 | ملف | المحتوى |
 | --- | --- |
 | [BHL_BASE_MERGE.md](BHL_BASE_MERGE.md) | ✅ **المرجع المعماري الحالي**: BHL أساساً + دمج أنظمة/أسلحة OP4، قواعد الدمج، إثبات الترجمة، ما لم يُنجز |
+| [BHL_BASE_BUILD.md](BHL_BASE_BUILD.md) | 🔧 **إثبات البناء الحقيقي**: أوامر/سجلات بناء `client.so` و`hl.so` من `bhl-op4/`، الإصلاحات المعلنة، والرموز غير المحلولة المتبقية |
 | [LEGACY.md](LEGACY.md) | ⚠️ ما صُنّف قديماً (الثنائيات، الـ Release، `sr_*`، وثائق المرحلة السابقة) |
 | [BUILDING.md](BUILDING.md) | *(legacy)* بناء `client.so` / `hl.so` من شجرة OP4-أساس |
 | [ARCHITECTURE.md](ARCHITECTURE.md) | *(legacy)* طبقات المرحلة السابقة |
