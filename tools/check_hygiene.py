@@ -15,7 +15,11 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-SKIP_DIRS = {"build", ".cache", "dist", ".git", "__pycache__", "CMakeFiles"}
+# bhl-op4/ is the verbatim, checksum-tracked upstream tree. Its whitespace is
+# upstream's own and must not be "tidied" (that would break PROVENANCE.json).
+# Its integrity is checked by tests/test_bhl_base.py and merge.bhl_base --check.
+SKIP_DIRS = {"build", ".cache", "dist", ".git", "__pycache__", "CMakeFiles",
+             "bhl-op4"}
 TEXT_SUFFIXES = {
     ".py", ".md", ".json", ".cpp", ".h", ".js", ".css", ".html",
     ".yml", ".yaml", ".snippet", ".txt", ".cfg",

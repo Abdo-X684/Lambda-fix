@@ -13,8 +13,10 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Full verification (python + C++ + generation + offline merge + package)
-        run: make verify
+        - name: Verify the BHL-based merge tree (provenance + compiled OP4 sources)
+          run: make verify-bhl-base
+        - name: Full verification (python + C++ + generation + offline merge + package)
+          run: make verify
       - name: CMake build (optional toolchain)
         run: |
           make build-cmake
@@ -23,13 +25,61 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: kit-artifacts
-          path: |
-            build/merged/MERGE_REPORT.*
-            dist/MANIFEST.json
+            name: kit-artifacts
+            path: |
+              build/merged/MERGE_REPORT.*
+              dist/MANIFEST.json
+              bhl-op4/PROVENANCE.json
+              bhl-op4/PORT_STATUS.json
 
-  sdk-integration:
-    runs-on: ubuntu-latest
+    bhl-base-compile:
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v4
+        - uses: actions/setup-python@v5
+          with:
+            python-version: '3.11'
+        - name: Install Zig (32-bit cross compiler, no multilib needed)
+          run: |
+            python3 -m pip install --quiet ziglang
+            ZIG_BIN=$(python3 -c 'import ziglang, pathlib; print(pathlib.Path(ziglang.__file__).parent / "zig")')
+            printf '#!/bin/sh\nexec %s c++ -target x86-linux-gnu "$@"\n' "$ZIG_BIN" > /tmp/zig32
+            chmod +x /tmp/zig32
+        - name: Compile OP4 subsystem sources against the merged BHL headers
+          run: |
+            python3 tools/verify_bhl_base.py --compile
+            python3 - <<'PY'
+            import json
+            s = json.load(open('bhl-op4/PORT_STATUS.json'))
+            assert s['status'] == 'compiled', s
+            weapons = {k: v for k, v in s['files'].items()
+                       if k.startswith('src/game/server/op4/dlls/weapons/')}
+            assert len(weapons) == 15, len(weapons)
+            assert all(v['ok'] for v in weapons.values()), [
+                k for k, v in weapons.items() if not v['ok']]
+            bhl = s['bhl_base']
+            assert bhl['total'] >= 109, bhl['total']
+            assert bhl['clean'] >= 100, bhl['clean']
+            prov = json.load(open('bhl-op4/PROVENANCE.json'))
+            assert prov['base']['verbatim_files'] == 683
+            assert prov['base']['files'] == 694
+            print('BHL-base OP4 weapons:', len(weapons), '/', len(weapons), 'ELF32 objects')
+            print('verbatim BHL server sources:', bhl['clean'], '/', bhl['total'])
+            print('OP4 overall:', s['clean'], '/', s['total'], 'clean')
+            PY
+        - name: Verify provenance and CMake-wired sources
+          run: make verify-bhl-base
+        - name: Upload provenance + port status
+          if: always()
+          uses: actions/upload-artifact@v4
+          with:
+            name: bhl-base-reports
+            path: |
+              bhl-op4/PROVENANCE.json
+              bhl-op4/PORT_STATUS.json
+
+    sdk-integration:
+      runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5

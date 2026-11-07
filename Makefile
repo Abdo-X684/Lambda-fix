@@ -3,7 +3,7 @@ PYTHON ?= python3
 CXX    ?= g++
 ROOT   := $(CURDIR)
 
-.PHONY: help verify hygiene tidy test test-py test-cpp gen route-check merge merge-offline bhl-plan fetch serve build build-cmake verify-sdk package build-dlls build-dlls-check build-dlls-zig noexcept-check mod clean
+.PHONY: help verify hygiene tidy test test-py test-cpp gen route-check merge merge-offline bhl-plan bhl-base verify-bhl-base fetch serve build build-cmake verify-sdk package build-dlls build-dlls-check build-dlls-zig noexcept-check mod clean
 
 help:
 	@echo "verify        - hygiene + python tests + C++ checks + generation + merge + package"
@@ -11,7 +11,9 @@ help:
 	@echo "tidy          - remove __pycache__/stale stage dirs, then run hygiene"
 	@echo "fetch         - download pinned, checksum-verified upstream SDKs"
 	@echo "merge         - merge real upstreams into build/merged-real"
-	@echo "bhl-plan      - list the real BugfixedHL systems merged into OP4"
+	@echo "bhl-plan      - (legacy) list the OP4-base bhl-systems-1 shims"
+	@echo "bhl-base      - rebuild bhl-op4/ = BHL tree + merged OP4 systems/weapons"
+	@echo "verify-bhl-base - verify provenance + CMake-wired OP4 sources compile"
 	@echo "merge-offline - merge bundled fixtures (no network) into build/merged"
 	@echo "gen           - regenerate C++ route header from data/op4_route.json"
 	@echo "serve         - run the live dashboard on 0.0.0.0:8000"
@@ -25,7 +27,7 @@ help:
 	@echo "mod           - create the standalone bhlop4/ mod folder + zip (never gearbox/)"
 	@echo "clean         - remove build/, dist/ and fetched SDK cache"
 
-verify: hygiene test-py gen route-check noexcept-check test-cpp merge-offline package mod
+verify: hygiene test-py gen route-check noexcept-check test-cpp verify-bhl-base merge-offline package mod
 	@echo "== ALL CHECKS PASSED =="
 
 test: test-py test-cpp
@@ -90,6 +92,13 @@ merge:
 
 bhl-plan:
 	$(PYTHON) -m merge.bhl --plan
+
+bhl-base:
+	$(PYTHON) -m merge.bhl_base --out bhl-op4
+
+verify-bhl-base:
+	$(PYTHON) -m merge.bhl_base --check --out bhl-op4
+	$(PYTHON) tools/verify_bhl_base.py --check
 
 fetch:
 	$(PYTHON) -m merge.cli fetch

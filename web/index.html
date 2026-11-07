@@ -26,11 +26,12 @@
       <section class="hero">
         <div>
           <h1>دمج <span class="hl-a">BugfixedHL</span> مع <span class="hl-b">Opposing Force</span></h1>
-          <p>
-            إصلاحات الحركة و bunnyhop و HUD المؤقّت من BugfixedHL، فوق كامل محتوى Opposing Force
-            (الأسلحة، الوحوش، CTF)، مع مؤقّت RTA سلطوي على السيرفر وتقسيمات لكل فصل.
-            الدمج مؤتمت، مثبّت على commit + sha256، ويُنتج تقريراً ببصمة الشجرة.
-          </p>
+            <p>
+              <b>BugfixedHL-Rebased هو الأساس الكامل</b> (694 ملفاً)، وفوقه تُدمج أنظمة
+              وأسلحة Opposing Force. لكل ملف بيان مصدر بـ sha256، و15/15 من أسلحة OP4
+              تُترجم إلى كائنات ELF32 مقابل هيدرات BHL المدمجة. الثنائيات المعروضة أدناه
+              تعود للمرحلة السابقة (legacy) وليست من هذه الشجرة.
+            </p>
         </div>
         <div class="stats" id="stats"></div>
       </section>
@@ -38,7 +39,8 @@
 
       <nav class="quicknav" aria-label="انتقال سريع">
         <span class="quicknav-label">انتقل إلى:</span>
-        <a class="chip" href="#cardTimer">⏱ المؤقّت</a>
+          <a class="chip chip-accent" href="#cardBhlBase">🧱 BHL أساساً</a>
+          <a class="chip" href="#cardTimer">⏱ المؤقّت</a>
         <a class="chip" href="#cardMerge">🧬 الدمج</a>
         <a class="chip" href="#cardConfig">⚙ الإعدادات</a>
         <a class="chip" href="#cardUpstreams">📌 المصادر</a>
@@ -49,8 +51,29 @@
         <a class="chip chip-accent" href="#cardDll">⬇ حمّل client.so</a>
       </nav>
 
-      <div class="grid">
-        <section class="card timer-card" id="cardTimer">
+        <div class="grid">
+          <section class="card merge-card" id="cardBhlBase">
+            <div class="card-head">
+              <h2>🧱 الشجرة المعتمدة: BHL أساساً</h2>
+              <span class="badge">694 BHL + 154 OP4 + 3 glue</span>
+            </div>
+            <p class="hint">
+              <code>bhl-op4/</code> = شجرة <b>BugfixedHL-Rebased @ 4d32095e3c33</b> كاملة:
+              <b>683 / 683</b> ملف منسوخ حرفياً يطابق الـ commit بايتاً ببايت، و11 ملف BHL
+              عليها 20 قاعدة دمج حقيقية، و154 ملفاً من OP4 (أسلحة، CTF، rope، كيانات،
+              أحداث عميل). بيان المصدر وبصمة الشجرة في
+              <a href="/api/bhl-base" target="_blank">PROVENANCE.json</a>، ونتيجة الترجمة في
+              <a href="/api/port-status" target="_blank">PORT_STATUS.json</a>.
+            </p>
+            <p class="hint ok">✅ <b>103 / 109 مصدر خادم BHL</b> يُترجم إلى كائنات ELF32 · <b>15 / 15 أسلحة OP4</b> · <b>48 / 69</b> من مصادر خادم OP4 · <b>16</b> مصدراً موصولاً بـ CMake.</p>
+            <p class="hint warn">⚠️ لم يُبنَ <code>client.so</code>/<code>hl.so</code> جديد بعد: البناء الكامل يحتاج CMake ≥ 3.30 + vcpkg + <code>hl1_source_sdk</code>. الثنائيات في الأسفل <b>legacy</b>.</p>
+            <div class="controls">
+              <button class="primary" type="button" id="btnBhlBaseDoc">📖 اقرأ الدليل المعماري</button>
+              <button type="button" id="btnLegacyDoc">⚠️ ما هو قديم</button>
+            </div>
+          </section>
+
+          <section class="card timer-card" id="cardTimer">
           <div class="card-head">
             <h2>⏱ مؤقّت الرن الحيّ</h2>
             <span class="badge" id="runState">جاهز</span>
@@ -127,8 +150,9 @@
         </section>
 
         <section class="card dll-card" id="cardDll">
-          <div class="card-head"><h2>⬇ المود الجاهز</h2><span class="badge">bhl-systems-1 · bhlop4 · ELF32</span></div>
-          <p class="hint">مبني من الشجرة المدموجة (HUD السبيدرن + <code>SRSplit</code>). ثنائيات ELF 32-bit؛ <code>vgui.so</code> الحقيقية تُؤخذ من لعبتك عند التشغيل، وليست مضمّنة هنا.</p>
+            <div class="card-head"><h2>⬇ المود الجاهز (legacy)</h2><span class="badge">OP4-أساس · bhl-systems-1</span></div>
+            <p class="hint warn">⚠️ <b>هذه الثنائيات ليست من الشجرة المعتمدة</b> <code>bhl-op4/</code>. بُنيت من شجرة OP4-أساس السابقة؛ <code>hl.so</code> لا يحوي كود BHL. تُركت كأرشيف فقط ولم تُحدَّث.</p>
+            <p class="hint">ثنائيات ELF 32-bit؛ <code>vgui.so</code> الحقيقية تُؤخذ من لعبتك عند التشغيل، وليست مضمّنة هنا.</p>
           <div class="controls">
             <a class="button-link primary" href="/dist/bhl-op4-mod.zip" download>⭐ ⬇ المود الجاهز (zip)</a>
             <a class="button-link" href="/dist/dlls/client.so" download>⬇ client.so</a>
@@ -137,7 +161,7 @@
             <a class="button-link" href="https://github.com/Abdo-X684/Bugfixhl-speedrun-op4/releases/download/v0.1.0-linux32/client.so">⬇ من Release</a>
             <a class="button-link" href="https://github.com/Abdo-X684/Bugfixhl-speedrun-op4/releases/tag/v0.1.0-linux32" target="_blank">🏷 صفحة Release</a>
           </div>
-          <p class="hint ok">✅ <b>أنظمة BHL الحقيقية مترجمة داخل المكتبات</b>: <code>hud_speedometer</code> / <code>hud_jumpspeed</code> / <code>hud_strafeguide</code> على الشاشة، و<code>bhl_status</code> + <code>bhl_version</code> في الكونسول. طبقة <code>sr_*</code> إضافة اختيارية فقط.</p>
+            <p class="hint">الشجرة الحالية موثّقة في <a href="#cardBhlBase">🧱 BHL أساساً</a>؛ لا تُستخدم هذه المكتبات كإثبات على الدمج الجديد.</p>
           <p class="hint warn">⚠️ <b>لا تضعهما داخل <code>gearbox/</code></b> — SDK يرفض مجلدات Valve ويغلق اللعبة. فكّ الـ zip ليصير <code>Half-Life/bhlop4/</code> ثم شغّل <code>-game bhlop4</code> (الأصول تُقرأ عبر <code>fallback_dir "gearbox"</code>).</p>
         </section>
 

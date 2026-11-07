@@ -192,6 +192,12 @@ class Handler(BaseHTTPRequestHandler):
                            else "No report yet - run the merge first.")
             elif path == "/api/readme":
                 self._text((ROOT / "README.md").read_text(encoding="utf-8"))
+            elif path in ("/api/bhl-base", "/api/port-status"):
+                name = ("PROVENANCE.json" if path == "/api/bhl-base"
+                        else "PORT_STATUS.json")
+                p = ROOT / "bhl-op4" / name
+                self._text(p.read_text(encoding="utf-8") if p.is_file()
+                           else "{}")
             elif path == "/api/docs":
                 self._json(docs_payload())
             elif path == "/api/doc":

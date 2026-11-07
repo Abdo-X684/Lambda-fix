@@ -2,9 +2,11 @@
 
 | ملف | المحتوى |
 | --- | --- |
-| [BUILDING.md](BUILDING.md) | بناء `client.so` / `hl.so`: ماذا أحمّل، 32-bit، `vgui.so`، التثبيت والتشغيل |
-| [ARCHITECTURE.md](ARCHITECTURE.md) | الطبقات، تدفق البيانات، والقرارات المعمارية |
-| [BHL_MERGE.md](BHL_MERGE.md) | **الأنظمة الحقيقية لـ BugfixedHL المدموجة داخل OP4** + طبقة التوافقيات |
+| [BHL_BASE_MERGE.md](BHL_BASE_MERGE.md) | ✅ **المرجع المعماري الحالي**: BHL أساساً + دمج أنظمة/أسلحة OP4، قواعد الدمج، إثبات الترجمة، ما لم يُنجز |
+| [LEGACY.md](LEGACY.md) | ⚠️ ما صُنّف قديماً (الثنائيات، الـ Release، `sr_*`، وثائق المرحلة السابقة) |
+| [BUILDING.md](BUILDING.md) | *(legacy)* بناء `client.so` / `hl.so` من شجرة OP4-أساس |
+| [ARCHITECTURE.md](ARCHITECTURE.md) | *(legacy)* طبقات المرحلة السابقة |
+| [BHL_MERGE.md](BHL_MERGE.md) | *(legacy)* وصف `bhl-systems-1` على شجرة OP4-أساس |
 | [MERGE_PLAN.md](MERGE_PLAN.md) | أنواع القواعد الـ30، سياسات التعارض، نقاط الحقن، ملفات البناء |
 | [RESOLUTION.md](RESOLUTION.md) | كيف حُلّت التعارضات الـ127 والمنقولات المؤجلة، بأدلة السطور |
 | [SPEEDRUN.md](SPEEDRUN.md) | المؤقّت، `SRSplit`، التقسيمات، PB، الشرعية، demo |

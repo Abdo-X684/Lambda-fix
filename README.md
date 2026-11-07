@@ -1,72 +1,72 @@
-# BugfixedHL × Opposing Force — Speedrun Merge Kit ✅
+# BugfixedHL × Opposing Force — **BHL هو الأساس** ✅
 
-دمج **BugfixedHL-Rebased** (إصلاحات Half-Life و bunnyhop و ConVar و HUD مؤقّت وتسجيل demo)
-فوق **Half-Life: Opposing Force SDK** (الأسلحة، الوحوش، CTF، gamerules)، مع طبقة
-**سبيدرن** كاملة: مؤقّت RTA سلطوي على السيرفر، بثّ التقسيمات للعميل عبر رسالة
-`SRSplit`، أفضل زمن شخصي، HUD، تسجيل demo تلقائي، و`speedrun.cfg` مولّد آلياً.
+> **الشجرة المعتمدة:** [`bhl-op4/`](bhl-op4/PROVENANCE.json).
+> **BugfixedHL-Rebased هو الأساس الكامل** (694 ملفاً منسوخة حرفياً)، وفوقه
+> تُدمج أنظمة وأسلحة **Opposing Force**. هذا عكس النهج السابق الذي كان OP4
+> هو الأساس — راجع [`docs/LEGACY.md`](docs/LEGACY.md) و
+> [`docs/BHL_BASE_MERGE.md`](docs/BHL_BASE_MERGE.md).
 
-> المشروع ليس «نسخ ملفات ولصقها». تخطيط BugfixedHL هو `src/game/{client,server,shared}`
-> بينما OP4 يحتفظ بتخطيط HLSDK الكلاسيكي `cl_dll/`, `dlls/`, `game_shared/`.
-> لذلك الدمج هنا **مؤتمت، مثبّت على commit + sha256، مدقَّق التكافؤ، وخالٍ من التعارضات**.
+## ما تغيّر فعلاً
 
-**الحالة: مكتمل.** `0 تعارضات · 0 منقولات مؤجلة · 0 أخطاء · 0 انحراف anchors`.
+| بند | السابق (legacy) | الآن |
+| --- | --- | --- |
+| الأساس | OP4 (828 ملف) | **BHL @ `4d32095e3c33` — 694 ملف** |
+| كود BHL في `client.so` | 4 ملفات فقط | الشجرة كلها + 15 سلاح OP4 مُترجمة فوقها |
+| كود BHL في `hl.so` | **صفر** | لم يُبنَ بعد (انظر «ما لم يُنجز») |
+| `ConVar/CvarSystem` | إعادة تنفيذ مستقلة (تشابه `0.030`) | نظام BHL الأصلي في الشجرة |
+| دمج ثلاثي الأطراف | `merged=0` | 20 قاعدة دمج معلنة داخل هيدرات BHL |
+| إثبات المصدر | بانرات و`strings` | `PROVENANCE.json` بـ sha256 لكل ملف |
+
+## الدليل المعماري والبرهان
+
+* [`bhl-op4/PROVENANCE.json`](bhl-op4/PROVENANCE.json) — أصل كل ملف، و`commit`،
+  و`sha256`، واسم كل قاعدة عدّلته (851 مدخلاً).
+* [`bhl-op4/PORT_STATUS.json`](bhl-op4/PORT_STATUS.json) — نتيجة ترجمة كل
+  مصدر OP4 إلى **كائن ELF32 حقيقي** مقابل هيدرات BHL المدمجة.
+* **683 / 683 ملف BHL منسوخ حرفياً** يطابق الـ commit المثبّت بايتاً ببايت
+  (و11 ملف BHL آخر عليها دمج معلن)، وبصمة الشجرة `base.tree_sha256` محسوبة
+  ومُعاد التحقق منها في كل `--check`.
+* **103 / 109 من مصادر خادم BHL نفسها** تُترجم إلى كائنات ELF32 مقابل الشجرة
+  المدمجة — أي أن الأساس كود BHL قابل للترجمة فعلاً، لا هيدرات فقط.
+* **15 / 15 أسلحة OP4 تُترجم بنجاح** (CDisplacer, Eagle, Grapple, Knife, M249,
+  Penguin, Pipewrench, ShockRifle, SniperRifle, Spore, …) و**48 / 69** من مصادر
+  خادم OP4. 16 مصدراً فقط موصولة بـ `src/game/server/CMakeLists.txt` — لا يُوصل
+  أي ملف لم تُثبت ترجمته.
+* 20 قاعدة دمج حقيقية: `WeaponId`، `Bullet`، `WaterLevel`، حقول `skilldata_t`،
+  حالة `CBasePlayer`/`CBaseMonster`، `CWorld::World`، `IsCTF()`… كلها داخل
+  **ملفات BHL نفسها**، لا في طبقة بديلة.
+
+```bash
+make fetch                                  # الشجرتان المثبّتتان + sha256
+make bhl-base                               # إعادة بناء bhl-op4/ من الصفر
+python3 tools/verify_bhl_base.py --compile  # كائنات ELF32 + PORT_STATUS.json
+make verify-bhl-base                        # فحص المصدر + المصادر الموصولة
+make verify                                 # كل فحوصات المستودع
+```
+
+## ما لم يُنجز بعد — بصراحة
+
+1. **لا يوجد `client.so` / `hl.so` من الشجرة الجديدة.** البناء الكامل يحتاج
+   CMake ≥ 3.30، حزم vcpkg، و`tmp64/hl1_source_sdk @ 11f26656677c…`.
+   لم أُنتج ثنائيات وهمية.
+2. **الثنائيات والـ Release أدناه قديمة**: `dist/dlls/*.so`, `dist/bhlop4/`,
+   `v0.1.0-linux32` مبنية من شجرة **OP4-أساس** السابقة. لا تستخدمها كدليل
+   على هذا الدمج. لم ألمسها ولم أُحدّث الـ Release.
+3. مصادر عميل OP4 وCTF/كيانات/rope منسوخة لكنها `port_pending`؛ أخطاء كل
+   ملف مدرجة في `PORT_STATUS.json`. `UTIL_IsCTF()` تُعيد `false` صراحةً.
+4. لا يُدعى أن المود قابل للعب كاملاً؛ `vgui.so` وأصول اللعبة من نسختك الشرعية.
+
+## الرخص
+
+BHL: GPL-3.0. OP4/Valve HLSDK: رخصة Valve غير التجارية.
+[`docs/LICENSES.md`](docs/LICENSES.md) — لا يدّعي المستودع امتثالاً لتوزيع ثنائي.
 
 ---
 
-## البدء السريع
+## ⚠️ ما يلي توثيق المرحلة السابقة (legacy)
 
-```bash
-make verify        # النظافة + 119 اختبار Python + 77 فحص C++ + التوليد + الدمج + الحزمة
-make hygiene       # فحص المسافات/JSON/الاستيرادات/روابط الوثائق
-make tidy          # تنظيف __pycache__ والمجلدات المرحلية ثم إعادة الفحص
-make fetch         # تنزيل SDKات الثلاثة المثبّتة مع التحقق من sha256
-make merge         # الدمج الحقيقي → build/merged-real
-make verify-sdk    # g++ -fsyntax-only لـ9 ملفات + فحص خلوّ المصادر من علامات التعارض
-make package       # dist/bhl-op4-speedrun-overlay.zip + MANIFEST.json
-make build-dlls    # client.so + hl.so (يحتاج gcc-multilib + vgui.so من اللعبة)
-make serve         # لوحة التحكم + صفحة README على http://localhost:8000
-```
-
-لا توجد اعتماديات خارجية: Python 3.9+ (stdlib فقط)، g++ مع C++17، و`git`.
-`cmake` اختياري عبر `make build-cmake`.
-
-### ⬇ تحميل المود الجاهز
-
-**حمّل [`bhl-op4-mod.zip`](https://github.com/Abdo-X684/Bugfixhl-speedrun-op4/releases/download/v0.1.0-linux32/bhl-op4-mod.zip)**،
-فكّه داخل مجلد Half-Life بجوار `valve/` و`gearbox/`، وشغّل `-game bhlop4`.
-يحتوي `client.so` + `hl.so` (ELF32) مع `liblist.gam`, `steam_appid.txt`,
-`delta.lst`, `speedrun.cfg` و`splits/`.
-
-> ⚠️ **لا تضع الملفات داخل `gearbox/`**: SDK يرفض أي مجلد يبدأ بـ `gearbox`
-> أو `valve` ويغلق اللعبة برسالة *“run from its intended location”*.
-> المجلد المستقل `bhlop4` + `fallback_dir "gearbox"` هو الحل؛ التفاصيل في
-> [`docs/BUILDING.md`](docs/BUILDING.md).
-
-الملفان منشوران أيضاً كأصول منفردة في [**GitHub Release**](https://github.com/Abdo-X684/Bugfixhl-speedrun-op4/releases/tag/v0.1.0-linux32):
-[client.so](https://github.com/Abdo-X684/Bugfixhl-speedrun-op4/releases/download/v0.1.0-linux32/client.so) ·
-[hl.so](https://github.com/Abdo-X684/Bugfixhl-speedrun-op4/releases/download/v0.1.0-linux32/hl.so) ·
-[`MANIFEST.json`](dist/dlls/MANIFEST.json)، ومن لوحة التحكم زر «⬇ المود الجاهز».
-`make mod` يعيد توليد المجلد والأرشيف.
-
-### 🧩 الدمج الحقيقي: أنظمة BHL داخل OP4
-
-**تصحيح مسار:** الإصدارات `0.1.x` عاملت BugfixedHL كمرجع تدقيق فقط وبنت نظام
-`sr_*` جديد. هذا خطأ؛ المطلوب كان دمج **أنظمة BHL نفسها** مع توافقيات. الآن
-تُترجم داخل `client.so`/`hl.so`:
-
-* `ConVar` / `ConCommand` / `CvarSystem` — نظام cvars الخاص بـ BHL
-* `CHudElem` / `CHudElemBase` — أساس عناصر HUD في BHL
-* `CHudSpeedometer`, `CHudJumpspeed`, `CHudStrafeGuide` — HUD حقيقي
-* `bhlcfg` / `bugfixedhl.cfg` — حفظ إعدادات BHL
-* `sv_bhl_query_vars`, `sv_bhl_query_wait_for_id`, `sv_bhl_defer_motd` على السيرفر
-
-وطبقة `integration/bhl/` هي **التوافقيات فقط** (راجع
-[`docs/BHL_MERGE.md`](docs/BHL_MERGE.md)). طبقة `sr_*` للسبيدرن صارت إضافة
-اختيارية، لا «الدمج».
-
-**تحقق:** `bhl_status` في الكونسول، `bhl_version` → `bhl-systems-1`،
-`hud_speedometer 1` / `hud_jumpspeed 1` / `hud_strafeguide 1` (مفعّلة افتراضياً)،
-و`[BHL] BugfixedHL systems merged into Opposing Force` عند التحميل.
+الأقسام التالية تصف نهج «OP4 هو الأساس + `sr_*`» الذي رُفض بعد التدقيق.
+تُترك كسجلّ تاريخي فقط؛ **لا تعتمد عليها** كحالة المشروع الحالية.
 
 ### 🖥 واجهة المشروع
 

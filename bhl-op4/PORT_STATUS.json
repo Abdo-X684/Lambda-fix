@@ -1,0 +1,994 @@
+{
+  "bhl_base": {
+    "clean": 103,
+    "files": {
+      "src/game/server/AI_BaseNPC_Schedule.cpp": {
+        "errors": 3,
+        "gaps": [
+          "no matching function for call to 'DotProduct'",
+          "no member named 'Make2D' in 'Vector'"
+        ],
+        "ok": false
+      },
+      "src/game/server/CBugfixedServer.cpp": {
+        "errors": 1,
+        "gaps": [
+          "'appversion.h' file not found"
+        ],
+        "ok": false
+      },
+      "src/game/server/aflock.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/agrunt.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/airtank.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/animating.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/animation.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/apache.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/barnacle.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/barney.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/bigmomma.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/bloater.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/bmodels.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/bullsquid.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/buttons.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/cbase.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/client.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/com_utils.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/combat.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/controller.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/crossbow.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/crowbar.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/defaultai.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/doors.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/effects.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/egon.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/explode.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/flyingmonster.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/func_break.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/func_tank.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/game.cpp": {
+        "errors": 1,
+        "gaps": [
+          "'appversion.h' file not found"
+        ],
+        "ok": false
+      },
+      "src/game/server/gamerules.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/gargantua.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/gauss.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/genericmonster.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/ggrenade.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/globals.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/glock.cpp": {
+        "errors": 1,
+        "gaps": [
+          "redefinition of 'CGlock'"
+        ],
+        "ok": false
+      },
+      "src/game/server/gman.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/h_ai.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/h_battery.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/h_cine.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/h_cycler.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/h_export.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/handgrenade.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/hassassin.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/headcrab.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/healthkit.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/hgrunt.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/hornet.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/hornetgun.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/houndeye.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/ichthyosaur.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/islave.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/items.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/leech.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/lights.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/maprules.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/monstermaker.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/monsters.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/monsterstate.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/mortar.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/mp5.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/mpstubb.cpp": {
+        "errors": 2,
+        "gaps": [
+          "cannot cast from type 'void' to member pointer type 'void (CBaseEntity::*)()'",
+          "reference to non-static member function must be called; did you mean to call it with no arguments?"
+        ],
+        "ok": false
+      },
+      "src/game/server/multiplay_gamerules.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/nihilanth.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/nodes.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/observer.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/osprey.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/path.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/pathcorner.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/plane.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/plats.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/player.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/playermonster.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/python.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/rat.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/roach.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/rpg.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/satchel.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/schedule.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/scientist.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/scripted.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/shotgun.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/singleplay_gamerules.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/skill.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/sound.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/soundent.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/spectator.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/squadmonster.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/squeakgrenade.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/stats.cpp": {
+        "errors": 1,
+        "gaps": [
+          "'..\\engine\\shake.h' file not found"
+        ],
+        "ok": false
+      },
+      "src/game/server/subs.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/talkmonster.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/teamplay_gamerules.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/tempmonster.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/tentacle.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/triggers.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/tripmine.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/turret.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/util.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/util_shared.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/vehicle.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/voice_gamemgr.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/weapons.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/world.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/wpn_shared/hl_wpn_glock.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/xen.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/server/zombie.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      }
+    },
+    "note": "Verbatim BugfixedHL-Rebased server sources compiled against the merged tree; proves the BASE is real BHL code.",
+    "pending": 6,
+    "total": 109
+  },
+  "clean": 48,
+  "compiler": "/tmp/zig32",
+  "files": {
+    "src/game/server/op4/dlls/CDrillSergeant.cpp": {
+      "errors": 0,
+      "gaps": [],
+      "ok": true
+    },
+    "src/game/server/op4/dlls/COFAllyMonster.cpp": {
+      "errors": 0,
+      "gaps": [],
+      "ok": true
+    },
+    "src/game/server/op4/dlls/COFSquadTalkMonster.cpp": {
+      "errors": 0,
+      "gaps": [],
+      "ok": true
+    },
+    "src/game/server/op4/dlls/CRecruit.cpp": {
+      "errors": 0,
+      "gaps": [],
+      "ok": true
+    },
+    "src/game/server/op4/dlls/UserMessages.cpp": {
+      "errors": 0,
+      "gaps": [],
+      "ok": true
+    },
+    "src/game/server/op4/dlls/Wxdebug.cpp": {
+      "errors": 1,
+      "gaps": [
+        "'tchar.h' file not found"
+      ],
+      "ok": false
+    },
+    "src/game/server/op4/dlls/baby_voltigore.cpp": {
+      "errors": 0,
+      "gaps": [],
+      "ok": true
+    },
+    "src/game/server/op4/dlls/blkop_apache.cpp": {
+      "errors": 0,
+      "gaps": [],
+      "ok": true
+    },
+    "src/game/server/op4/dlls/blkop_osprey.cpp": {
+      "errors": 0,
+      "gaps": [],
+      "ok": true
+    },
+    "src/game/server/op4/dlls/blowercannon.cpp": {
+      "errors": 0,
+      "gaps": [],
+      "ok": true
+    },
+    "src/game/server/op4/dlls/cleansuit_scientist.cpp": {
+      "errors": 0,
+      "gaps": [],
+      "ok": true
+    },
+    "src/game/server/op4/dlls/coopplay_gamerules.cpp": {
+      "errors": 2,
+      "gaps": [
+        "only virtual member functions can be marked 'override'"
+      ],
+      "ok": false
+    },
+    "src/game/server/op4/dlls/ctf/CHUDIconTrigger.cpp": {
+      "errors": 2,
+      "gaps": [
+        "use of undeclared identifier 'UTIL_FindEntitiesByClassname'"
+      ],
+      "ok": false
+    },
+    "src/game/server/op4/dlls/ctf/CItemAcceleratorCTF.cpp": {
+      "errors": 0,
+      "gaps": [],
+      "ok": true
+    },
+    "src/game/server/op4/dlls/ctf/CItemBackpackCTF.cpp": {
+      "errors": 5,
+      "gaps": [
+        "non-virtual member function marked 'override' hides virtual member function",
+        "only virtual member functions can be marked 'override'"
+      ],
+      "ok": false
+    },
+    "src/game/server/op4/dlls/ctf/CItemCTF.cpp": {
+      "errors": 6,
+      "gaps": [
+        "'CBasePlayer' does not refer to a value",
+        "non-virtual member function marked 'override' hides virtual member function",
+        "only virtual member functions can be marked 'override'"
+      ],
+      "ok": false
+    },
+    "src/game/server/op4/dlls/ctf/CItemLongJumpCTF.cpp": {
+      "errors": 5,
+      "gaps": [
+        "non-virtual member function marked 'override' hides virtual member function",
+        "only virtual member functions can be marked 'override'"
+      ],
+      "ok": false
+    },
+    "src/game/server/op4/dlls/ctf/CItemPortableHEVCTF.cpp": {
+      "errors": 5,
+      "gaps": [
+        "non-virtual member function marked 'override' hides virtual member function",
+        "only virtual member functions can be marked 'override'"
+      ],
+      "ok": false
+    },
+    "src/game/server/op4/dlls/ctf/CItemRegenerationCTF.cpp": {
+      "errors": 5,
+      "gaps": [
+        "non-virtual member function marked 'override' hides virtual member function",
+        "only virtual member functions can be marked 'override'"
+      ],
+      "ok": false
+    },
+    "src/game/server/op4/dlls/ctf/CItemSpawnCTF.cpp": {
+      "errors": 0,
+      "gaps": [],
+      "ok": true
+    },
+    "src/game/server/op4/dlls/ctf/CTFDetect.cpp": {
+      "errors": 5,
+      "gaps": [
+        "non-virtual member function marked 'override' hides virtual member function",
+        "only virtual member functions can be marked 'override'"
+      ],
+      "ok": false
+    },
+    "src/game/server/op4/dlls/ctf/CTFGoal.cpp": {
+      "errors": 0,
+      "gaps": [],
+      "ok": true
+    },
+    "src/game/server/op4/dlls/ctf/CTFGoalBase.cpp": {
+      "errors": 0,
+      "gaps": [],
+      "ok": true
+    },
+    "src/game/server/op4/dlls/ctf/CTFGoalFlag.cpp": {
+      "errors": 10,
+      "gaps": [
+        "non-virtual member function marked 'override' hides virtual member function",
+        "only virtual member functions can be marked 'override'",
+        "use of undeclared identifier 'UTIL_FindEntitiesByClassname'"
+      ],
+      "ok": false
+    },
+    "src/game/server/op4/dlls/ctf/CTFSpawn.cpp": {
+      "errors": 0,
+      "gaps": [],
+      "ok": true
+    },
+    "src/game/server/op4/dlls/ctf/ctfplay_gamerules.cpp": {
+      "errors": 51,
+      "gaps": [
+        "'CBasePlayer' does not refer to a value",
+        "no member named 'm_iBarnacleKills' in 'CBasePlayer'",
+        "no member named 'm_iMostDamage' in 'CBasePlayer'",
+        "no member named 'm_iSnipeKills' in 'CBasePlayer'",
+        "no member named 'm_iSuicides' in 'CBasePlayer'",
+        "no member named 'm_szTeamModel' in 'CBasePlayer'",
+        "non-virtual member function marked 'override' hides virtual member function",
+        "only virtual member functions can be marked 'override'"
+      ],
+      "ok": false
+    },
+    "src/game/server/op4/dlls/ehandle.cpp": {
+      "errors": 0,
+      "gaps": [],
+      "ok": true
+    },
+    "src/game/server/op4/dlls/func_tank_of.cpp": {
+      "errors": 1,
+      "gaps": [
+        "no matching function for call to 'ExplosionCreate'"
+      ],
+      "ok": false
+    },
+    "src/game/server/op4/dlls/geneworm.cpp": {
+      "errors": 3,
+      "gaps": [
+        "use of undeclared identifier 'UTIL_FindEntitiesByClassname'",
+        "use of undeclared identifier 'UTIL_FindEntitiesByTargetname'"
+      ],
+      "ok": false
+    },
+    "src/game/server/op4/dlls/gonome.cpp": {
+      "errors": 0,
+      "gaps": [],
+      "ok": true
+    },
+    "src/game/server/op4/dlls/hfgrunt.cpp": {
+      "errors": 0,
+      "gaps": [],
+      "ok": true
+    },
+    "src/game/server/op4/dlls/hgrunt_ally.cpp": {
+      "errors": 0,
+      "gaps": [],
+      "ok": true
+    },
+    "src/game/server/op4/dlls/hgrunt_medic.cpp": {
+      "errors": 1,
+      "gaps": [
+        "no member named 'Make2D' in 'Vector'"
+      ],
+      "ok": false
+    },
+    "src/game/server/op4/dlls/hgrunt_torch.cpp": {
+      "errors": 1,
+      "gaps": [
+        "no matching function for call to 'ExplosionCreate'"
+      ],
+      "ok": false
+    },
+    "src/game/server/op4/dlls/item_generic.cpp": {
+      "errors": 0,
+      "gaps": [],
+      "ok": true
+    },
+    "src/game/server/op4/dlls/loader.cpp": {
+      "errors": 0,
+      "gaps": [],
+      "ok": true
+    },
+    "src/game/server/op4/dlls/male_assassin.cpp": {
+      "errors": 0,
+      "gaps": [],
+      "ok": true
+    },
+    "src/game/server/op4/dlls/nuclearbomb.cpp": {
+      "errors": 0,
+      "gaps": [],
+      "ok": true
+    },
+    "src/game/server/op4/dlls/op4mortar.cpp": {
+      "errors": 1,
+      "gaps": [
+        "use of undeclared identifier 'UTIL_FindEntitiesByTargetname'"
+      ],
+      "ok": false
+    },
+    "src/game/server/op4/dlls/otis.cpp": {
+      "errors": 0,
+      "gaps": [],
+      "ok": true
+    },
+    "src/game/server/op4/dlls/penguin_grenade.cpp": {
+      "errors": 0,
+      "gaps": [],
+      "ok": true
+    },
+    "src/game/server/op4/dlls/pitworm_up.cpp": {
+      "errors": 1,
+      "gaps": [
+        "use of undeclared identifier 'm_EFlags'"
+      ],
+      "ok": false
+    },
+    "src/game/server/op4/dlls/rope/CElectrifiedWire.cpp": {
+      "errors": 0,
+      "gaps": [],
+      "ok": true
+    },
+    "src/game/server/op4/dlls/rope/CRope.cpp": {
+      "errors": 0,
+      "gaps": [],
+      "ok": true
+    },
+    "src/game/server/op4/dlls/rope/CRopeSample.cpp": {
+      "errors": 0,
+      "gaps": [],
+      "ok": true
+    },
+    "src/game/server/op4/dlls/rope/CRopeSegment.cpp": {
+      "errors": 0,
+      "gaps": [],
+      "ok": true
+    },
+    "src/game/server/op4/dlls/shockroach.cpp": {
+      "errors": 0,
+      "gaps": [],
+      "ok": true
+    },
+    "src/game/server/op4/dlls/shocktrooper.cpp": {
+      "errors": 2,
+      "gaps": [
+        "no viable conversion from 'const GibData' to 'int'",
+        "use of undeclared identifier 'CLASS_ALIEN_RACE_X'"
+      ],
+      "ok": false
+    },
+    "src/game/server/op4/dlls/squeakgrenade.cpp": {
+      "errors": 6,
+      "gaps": [
+        "use of undeclared identifier 'SQUEAK_DOWN'",
+        "use of undeclared identifier 'SQUEAK_FIDGETFIT'",
+        "use of undeclared identifier 'SQUEAK_FIDGETNIP'",
+        "use of undeclared identifier 'SQUEAK_IDLE1'",
+        "use of undeclared identifier 'SQUEAK_UP'"
+      ],
+      "ok": false
+    },
+    "src/game/server/op4/dlls/voltigore.cpp": {
+      "errors": 1,
+      "gaps": [
+        "no viable conversion from 'const GibData' to 'int'"
+      ],
+      "ok": false
+    },
+    "src/game/server/op4/dlls/weapons/CDisplacer.cpp": {
+      "errors": 0,
+      "gaps": [],
+      "ok": true
+    },
+    "src/game/server/op4/dlls/weapons/CDisplacerBall.cpp": {
+      "errors": 0,
+      "gaps": [],
+      "ok": true
+    },
+    "src/game/server/op4/dlls/weapons/CEagle.cpp": {
+      "errors": 0,
+      "gaps": [],
+      "ok": true
+    },
+    "src/game/server/op4/dlls/weapons/CEagleLaser.cpp": {
+      "errors": 0,
+      "gaps": [],
+      "ok": true
+    },
+    "src/game/server/op4/dlls/weapons/CGrapple.cpp": {
+      "errors": 0,
+      "gaps": [],
+      "ok": true
+    },
+    "src/game/server/op4/dlls/weapons/CGrappleTip.cpp": {
+      "errors": 0,
+      "gaps": [],
+      "ok": true
+    },
+    "src/game/server/op4/dlls/weapons/CKnife.cpp": {
+      "errors": 0,
+      "gaps": [],
+      "ok": true
+    },
+    "src/game/server/op4/dlls/weapons/CM249.cpp": {
+      "errors": 0,
+      "gaps": [],
+      "ok": true
+    },
+    "src/game/server/op4/dlls/weapons/CPenguin.cpp": {
+      "errors": 0,
+      "gaps": [],
+      "ok": true
+    },
+    "src/game/server/op4/dlls/weapons/CPipewrench.cpp": {
+      "errors": 0,
+      "gaps": [],
+      "ok": true
+    },
+    "src/game/server/op4/dlls/weapons/CShockBeam.cpp": {
+      "errors": 0,
+      "gaps": [],
+      "ok": true
+    },
+    "src/game/server/op4/dlls/weapons/CShockRifle.cpp": {
+      "errors": 0,
+      "gaps": [],
+      "ok": true
+    },
+    "src/game/server/op4/dlls/weapons/CSniperRifle.cpp": {
+      "errors": 0,
+      "gaps": [],
+      "ok": true
+    },
+    "src/game/server/op4/dlls/weapons/CSpore.cpp": {
+      "errors": 0,
+      "gaps": [],
+      "ok": true
+    },
+    "src/game/server/op4/dlls/weapons/CSporeLauncher.cpp": {
+      "errors": 0,
+      "gaps": [],
+      "ok": true
+    },
+    "src/game/server/op4/dlls/world.cpp": {
+      "errors": 23,
+      "gaps": [
+        "definition of implicitly declared default constructor",
+        "definition of implicitly declared destructor",
+        "no matching constructor for initialization of 'CRestore'",
+        "no matching constructor for initialization of 'CSave'",
+        "no matching function for call to 'InstallGameRules'",
+        "no member named 'IsValidSaveRestoreData' in 'CSaveRestoreBuffer'",
+        "non-virtual member function marked 'override' hides virtual member function",
+        "only virtual member functions can be marked 'override'"
+      ],
+      "ok": false
+    },
+    "src/game/server/op4/dlls/zombie_barney.cpp": {
+      "errors": 0,
+      "gaps": [],
+      "ok": true
+    },
+    "src/game/server/op4/dlls/zombie_soldier.cpp": {
+      "errors": 0,
+      "gaps": [],
+      "ok": true
+    },
+    "src/game/server/op4/op4_compat.cpp": {
+      "errors": 0,
+      "gaps": [],
+      "ok": true
+    }
+  },
+  "pending": 21,
+  "source_sdk": ".cache/upstreams/hl1_source_sdk",
+  "status": "compiled",
+  "target": "x86-linux-gnu (ELF32 relocatable objects)",
+  "total": 69
+}
