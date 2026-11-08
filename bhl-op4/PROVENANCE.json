@@ -6,25 +6,58 @@
     "license": "GPL-3.0",
     "merged_files": 13,
     "repo": "tmp64/BugfixedHL-Rebased",
-    "tree_sha256": "48f2511ebd7a2e830daf59e99f2f3c48caaaf6c9f70509e9d115aba23e606e2d",
+    "tree_sha256": "c93059f971f475fa7ac61bac7728c0811b6597bb4f7cfd83d68e1dd04b32e0ff",
     "tree_sha256_note": "sha256 over sorted '<path>  <file sha256>' for every BHL-origin file on disk; verified by --check",
     "verbatim_files": 681
   },
   "cmake": {
     "src/game/client/CMakeLists.txt": [],
     "src/game/server/CMakeLists.txt": [
+      "op4/dlls/CDrillSergeant.cpp",
+      "op4/dlls/COFAllyMonster.cpp",
+      "op4/dlls/COFSquadTalkMonster.cpp",
+      "op4/dlls/CRecruit.cpp",
+      "op4/dlls/baby_voltigore.cpp",
+      "op4/dlls/blkop_apache.cpp",
+      "op4/dlls/blkop_osprey.cpp",
+      "op4/dlls/blowercannon.cpp",
+      "op4/dlls/cleansuit_scientist.cpp",
+      "op4/dlls/coopplay_gamerules.cpp",
       "op4/dlls/ctf/CHUDIconTrigger.cpp",
       "op4/dlls/ctf/CItemAcceleratorCTF.cpp",
+      "op4/dlls/ctf/CItemBackpackCTF.cpp",
       "op4/dlls/ctf/CItemCTF.cpp",
+      "op4/dlls/ctf/CItemLongJumpCTF.cpp",
+      "op4/dlls/ctf/CItemPortableHEVCTF.cpp",
+      "op4/dlls/ctf/CItemRegenerationCTF.cpp",
       "op4/dlls/ctf/CItemSpawnCTF.cpp",
+      "op4/dlls/ctf/CTFDetect.cpp",
       "op4/dlls/ctf/CTFGoal.cpp",
       "op4/dlls/ctf/CTFGoalBase.cpp",
       "op4/dlls/ctf/CTFGoalFlag.cpp",
       "op4/dlls/ctf/CTFSpawn.cpp",
+      "op4/dlls/func_tank_of.cpp",
+      "op4/dlls/geneworm.cpp",
+      "op4/dlls/gonome.cpp",
+      "op4/dlls/hfgrunt.cpp",
+      "op4/dlls/hgrunt_ally.cpp",
+      "op4/dlls/hgrunt_medic.cpp",
+      "op4/dlls/hgrunt_torch.cpp",
+      "op4/dlls/item_generic.cpp",
+      "op4/dlls/loader.cpp",
+      "op4/dlls/male_assassin.cpp",
+      "op4/dlls/nuclearbomb.cpp",
+      "op4/dlls/op4mortar.cpp",
+      "op4/dlls/otis.cpp",
+      "op4/dlls/penguin_grenade.cpp",
+      "op4/dlls/pitworm_up.cpp",
       "op4/dlls/rope/CElectrifiedWire.cpp",
       "op4/dlls/rope/CRope.cpp",
       "op4/dlls/rope/CRopeSample.cpp",
       "op4/dlls/rope/CRopeSegment.cpp",
+      "op4/dlls/shockroach.cpp",
+      "op4/dlls/shocktrooper.cpp",
+      "op4/dlls/voltigore.cpp",
       "op4/dlls/weapons/CDisplacer.cpp",
       "op4/dlls/weapons/CDisplacerBall.cpp",
       "op4/dlls/weapons/CEagle.cpp",
@@ -40,6 +73,8 @@
       "op4/dlls/weapons/CSniperRifle.cpp",
       "op4/dlls/weapons/CSpore.cpp",
       "op4/dlls/weapons/CSporeLauncher.cpp",
+      "op4/dlls/zombie_barney.cpp",
+      "op4/dlls/zombie_soldier.cpp",
       "op4/op4_compat.cpp",
       "op4/op4_link_fixups.cpp"
     ]
@@ -3277,7 +3312,7 @@
         "op4-cmake-sources"
       ],
       "origin": "bugfixhl",
-      "sha256": "98c20c3e001e4f62f43f7cb5e2347e1be9a85ccbedae3c216a94ad444bd443ef"
+      "sha256": "af7510640d4db4c16158be4933dc2df619da116bfdc6bafc120c9a0e6a40f87d"
     },
     "src/game/server/activity.h": {
       "action": "verbatim",
@@ -3398,10 +3433,11 @@
         "op4-ehandle-entity-template",
         "op4-squad-forward-decl",
         "op4-squad-pointer",
-        "op4-cworld-ctor-dtor"
+        "op4-cworld-ctor-dtor",
+        "op4-entity-eflags"
       ],
       "origin": "bugfixhl",
-      "sha256": "996dffedba8d2f1ce90e5c3cec08025d0420695c6ed5b90bfd1dad45b3d68186"
+      "sha256": "6907f236099a0cb34ee55b6ab067852f7b2abc0d88e08ac9a831a1358df7ac8d"
     },
     "src/game/server/cdll_dll.h": {
       "action": "bhl+op4-merge",
@@ -3588,10 +3624,12 @@
       "action": "bhl+op4-merge",
       "commit": "4d32095e3c33",
       "merge_rules": [
-        "op4-gamerules-isctf"
+        "op4-gamerules-isctf",
+        "op4-gamerules-cbasemonster-fwd",
+        "op4-gamerules-monster-hooks"
       ],
       "origin": "bugfixhl",
-      "sha256": "ed259cb53814cedf723e7f6704780a04bbda8e045d3428573dfe51c6f7b92889"
+      "sha256": "bb4eab25b2cd6211ddd2e6f86895f223836ffb48d7a306fd55255b8d3ac9ed7e"
     },
     "src/game/server/gargantua.cpp": {
       "action": "verbatim",
@@ -3795,10 +3833,11 @@
       "action": "bhl+op4-merge",
       "commit": "4d32095e3c33",
       "merge_rules": [
-        "op4-gibdata-structs"
+        "op4-gibdata-structs",
+        "op4-gibdata-spawn-overload"
       ],
       "origin": "bugfixhl",
-      "sha256": "d3f5127aaa8c4113274cae5922d0d177939d823a8bb590333d9f0af87085366d"
+      "sha256": "e98f3e1ee7672f3abd9da34b70cbac21e88729f08e4a731ac81e34a7484944e5"
     },
     "src/game/server/monsterstate.cpp": {
       "action": "verbatim",
@@ -6728,13 +6767,13 @@
       "action": "compat-glue",
       "commit": null,
       "origin": "this-repo",
-      "sha256": "737f43161edebe3ca71bb6e54799b877db73e87ed57e2c88dc91b7ac6b1315f3"
+      "sha256": "eea7d2fd006387d227a310d22f62ebfbacfa23d0d0e99a5e9788854a2275a47e"
     },
     "src/game/server/op4/op4_compat_late.h": {
       "action": "compat-glue",
       "commit": null,
       "origin": "this-repo",
-      "sha256": "a3d9f989067caedd101f51443ab3a66f855c03b99471c5794292cc4a42b73b31"
+      "sha256": "59172822188e03f0d11dc6ae5897ed3ac2afda34089eccc71805187197a74021"
     },
     "src/game/server/op4/op4_entity_enumerator.h": {
       "action": "compat-glue",
@@ -6756,7 +6795,7 @@
           "rule": "op4-compat-late-include"
         }
       ],
-      "sha256": "68200bb31bb036cb84a48932905e269ade2be1e24b6a2f59376266708e9e3077"
+      "sha256": "654581914a0a052200b9c555a875eb74d13864b15cc7ca3880b2157e1b0a8994"
     },
     "src/game/server/op4/reference/dlls/cdll_dll.h": {
       "action": "reference-only",
@@ -6911,7 +6950,7 @@
         "op4-rope-forward-decl"
       ],
       "origin": "bugfixhl",
-      "sha256": "5b9894ff0521283e923e19d3c7c47f6735251dfbeedd623308565831bfb897df"
+      "sha256": "d3e1f71ccb8b7100608d93fbb71790eb769f5e97cd71608cebcf3b40acd4bd5d"
     },
     "src/game/server/playermonster.cpp": {
       "action": "verbatim",
@@ -7514,7 +7553,7 @@
     "repo": "twhl-community/halflife-op4-updated"
   },
   "port_pending": {
-    "count": 62,
+    "count": 27,
     "files": [
       "src/game/client/op4/com_weapons.cpp",
       "src/game/client/op4/death.cpp",
@@ -7537,47 +7576,12 @@
       "src/game/client/op4/scoreboard.cpp",
       "src/game/client/op4/tri.cpp",
       "src/game/client/op4/util.cpp",
-      "src/game/server/op4/dlls/CDrillSergeant.cpp",
-      "src/game/server/op4/dlls/COFAllyMonster.cpp",
-      "src/game/server/op4/dlls/COFSquadTalkMonster.cpp",
-      "src/game/server/op4/dlls/CRecruit.cpp",
       "src/game/server/op4/dlls/UserMessages.cpp",
       "src/game/server/op4/dlls/Wxdebug.cpp",
-      "src/game/server/op4/dlls/baby_voltigore.cpp",
-      "src/game/server/op4/dlls/blkop_apache.cpp",
-      "src/game/server/op4/dlls/blkop_osprey.cpp",
-      "src/game/server/op4/dlls/blowercannon.cpp",
-      "src/game/server/op4/dlls/cleansuit_scientist.cpp",
-      "src/game/server/op4/dlls/coopplay_gamerules.cpp",
-      "src/game/server/op4/dlls/ctf/CItemBackpackCTF.cpp",
-      "src/game/server/op4/dlls/ctf/CItemLongJumpCTF.cpp",
-      "src/game/server/op4/dlls/ctf/CItemPortableHEVCTF.cpp",
-      "src/game/server/op4/dlls/ctf/CItemRegenerationCTF.cpp",
-      "src/game/server/op4/dlls/ctf/CTFDetect.cpp",
       "src/game/server/op4/dlls/ctf/ctfplay_gamerules.cpp",
       "src/game/server/op4/dlls/ehandle.cpp",
-      "src/game/server/op4/dlls/func_tank_of.cpp",
-      "src/game/server/op4/dlls/geneworm.cpp",
-      "src/game/server/op4/dlls/gonome.cpp",
-      "src/game/server/op4/dlls/hfgrunt.cpp",
-      "src/game/server/op4/dlls/hgrunt_ally.cpp",
-      "src/game/server/op4/dlls/hgrunt_medic.cpp",
-      "src/game/server/op4/dlls/hgrunt_torch.cpp",
-      "src/game/server/op4/dlls/item_generic.cpp",
-      "src/game/server/op4/dlls/loader.cpp",
-      "src/game/server/op4/dlls/male_assassin.cpp",
-      "src/game/server/op4/dlls/nuclearbomb.cpp",
-      "src/game/server/op4/dlls/op4mortar.cpp",
-      "src/game/server/op4/dlls/otis.cpp",
-      "src/game/server/op4/dlls/penguin_grenade.cpp",
-      "src/game/server/op4/dlls/pitworm_up.cpp",
-      "src/game/server/op4/dlls/shockroach.cpp",
-      "src/game/server/op4/dlls/shocktrooper.cpp",
       "src/game/server/op4/dlls/squeakgrenade.cpp",
-      "src/game/server/op4/dlls/voltigore.cpp",
-      "src/game/server/op4/dlls/world.cpp",
-      "src/game/server/op4/dlls/zombie_barney.cpp",
-      "src/game/server/op4/dlls/zombie_soldier.cpp"
+      "src/game/server/op4/dlls/world.cpp"
     ],
     "note": "Ported OP4 sources present in the tree but not yet compile-wired; see PORT_STATUS.json for each file's exact remaining API gaps."
   },

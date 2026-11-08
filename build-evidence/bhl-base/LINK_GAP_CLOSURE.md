@@ -23,6 +23,16 @@
 
 > الرموز 1–3 مكرّرة في `client.so` و`hl.so` (3 + 9 = 12 فجوة أصلية).
 
+## فجوتان جديدتان ظهرتا بعد وصل 36 مصدر OP4 إضافي — وأُغلقتا
+
+| # | الرمز | التنفيذ الأصلي | سبب الظهور | التغيير المُعلَن | دليل الاختفاء | اختبار وظيفي |
+|---|---|---|---|---|---|---|
+| 13 | `IsFacing(entvars_s*, Vector const&)` (server) | `dlls/h_ai.cpp:196-210` جسم OP4 الحقيقي | يستدعيها `otis.cpp`, `CDrillSergeant.cpp`, `CRecruit.cpp`, `hgrunt_ally.cpp`, `hgrunt_medic.cpp`, `hgrunt_torch.cpp` بعد وصلها؛ BHL `src/game/server/h_ai.cpp` لا يعرّفها | glue موسوم بنص الجسم + تحويلان ميكانيكيان (`Normalize()`←`Normalized()`، `UTIL_MakeVectorsPrivate` بـ`float*`) | `nm --defined-only` يعرضه، `nm -u` لا يعرضه، `objdump` >8 تعليمات | harness: 8 تحققات (مخروط `0.96`، إهمال Z، خلف، دوران 90°) + `tests/test_op4_link_fixups.py::test_08` |
+| 14 | `CGib::SpawnRandomGibs(entvars_s*, int, GibData const&)` (server) | `dlls/combat.cpp:179-265` جسم OP4 الحقيقي | `shocktrooper.cpp` و`voltigore.cpp` يستدعيان التحميل الزائد بـ`GibData`؛ BHL `combat.cpp` يعرّف فقط `(…, int human)` ولا يمكن وصل `combat.cpp` الخاص بـ OP4 لأنه يكرّر نظام الضرر | glue بنص الجسم (+ ماكرو `stackalloc`/`stackfree` من `common/Platform.h`) ودمج مُعلَن `op4-gibdata-spawn-overload` للإعلان في `monsters.h` | معرّف، غير undefined، جسم >8 تعليمات | `tests/test_op4_link_fixups.py::test_07/08` تتحقق من جمل OP4 الحقيقية ومن تعريف الرمز |
+
+كذلك استُبعد `dlls/ehandle.cpp` صراحةً بعد فشل ربط بتكرار `EHANDLE::Get/Set/operator->`
+مع `cbase.cpp` في BHL؛ الفشل موثّق ولم يُخفَ.
+
 ## ما استُخدم كإثبات
 
 ```bash
@@ -35,15 +45,15 @@ python3 -m unittest tests.test_op4_link_fixups -v
 python3 tools/probe_runtime_environment.py
 ```
 
-- `UNDEFINED_SYMBOLS.txt`: قائمة `nm -u` الكاملة (311 عميل / 156 خادم، كلها محرّك/ libc/ABI).
+- `UNDEFINED_SYMBOLS.txt`: قائمة `nm -u` الكاملة (311 عميل / 157 خادم، كلها محرّك/ libc/ABI).
 - `LINK_GAPS.md`: **بلا أي بند**.
 - `MANIFEST.json`: `unresolved_own_build_symbols: []` للمكتبتين.
 - `RUNTIME_ENVIRONMENT.md`: لماذا لا يوجد اختبار داخل اللعبة.
 
 ## ما لم يُكتمل صراحةً
 
-- **`dlls/ctf/ctfplay_gamerules.cpp` لم يُوصل**: يحتاج حقول `CBasePlayer` الخاصة بـ OP4 (`m_szTeamModel`، `m_szTeamName`، `m_iSnipeKills`...) وثوابت قوائم OP4 و`UTIL_FindPlayers` و`SecondsToTime`. إضافتها تعني استبدال أنظمة BHL — ممنوع بحسب التعليمات. النتيجة: `CGameRules::IsCTF()` يبقى `false` في BHL، فلا تُفعَّل قواعد CTF كلعبة؛ كيانات CTF ورسائل HUD موجودة وقابلة للاستدعاء لكن مباراة CTF كاملة **غير قابلة للعب بعد**.
-- 62 ملف OP4 ما زالت `port-pending` ومنها `CItemBackpackCTF`، `CItemLongJumpCTF`، `CItemPortableHEVCTF`، `CItemRegenerationCTF`، `CTFDetect`، و`ctfplay_gamerules.cpp`.
+- **`dlls/ctf/ctfplay_gamerules.cpp` لم يُوصل**: يحتاج حالة `CBasePlayer`/قوائم/cvars خاصة بـ OP4، ويكرّر 15 رمزاً CTF (`teamscores`, `team_names`, `GetTeamName`, `SendFlagIcon`, `DisplayTeamFlags`…) منقولة نصّاً إلى glue؛ وصله كما هو يفشل الرابط. النتيجة: `CGameRules::IsCTF()` يبقى `false` في BHL، فلا تُفعَّل قواعد CTF كلعبة؛ كيانات CTF ورسائل HUD موجودة وقابلة للاستدعاء لكن مباراة CTF كاملة **غير قابلة للعب بعد**.
+- **27 ملف OP4 ما زالت `port-pending`** (21 عميل + 6 خادم). الستة الخادم مستبعدة بأسباب معلَنة: `ehandle.cpp`، `UserMessages.cpp`، `squeakgrenade.cpp`، `world.cpp` تكرّر أنظمة BHL؛ `Wxdebug.cpp` Windows-only؛ `ctfplay_gamerules.cpp` مذكور أعلاه. أربعة منها لا تُترجم حالياً، واثنان نظيفان لكن غير موصولين.
 - ملفات OP4 الأساسية (`weapons.cpp`، `monsters.cpp`، `world.cpp`، `game.cpp`، `util.cpp`، `gamerules.cpp`) تبقى `reference-only`؛ لم تُدمج ككتلة واحدة.
 - **لا اختبار داخل Opposing Force**: لا محرك، لا `vgui.so`، لا أصول شرعية، ولا محمّل ELF32 ديناميكي. مفصّل في `RUNTIME_ENVIRONMENT.md`.
 - لم يُنفَّذ `cmake` كاملاً (استُخدم استنساخ أمين لقوائم/تعريفات CMake مع clang/Zig موجّه إلى i386).

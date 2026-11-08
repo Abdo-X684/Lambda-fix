@@ -163,7 +163,6 @@ public:
 	int m_iFlagCaptures = 0;
 	short m_iOffense = 0;
 	short m_iDefense = 0;
-	int m_EFlags = 0;
 	void Player_Menu();
 	bool Menu_Team_Input(int inp);
 	bool Menu_Char_Input(int inp);

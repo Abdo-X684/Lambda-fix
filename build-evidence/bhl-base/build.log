@@ -8,9 +8,9 @@ zig    : /tmp/zenv/lib/python3.11/site-packages/ziglang/zig (clang for i386-unkn
 [gen] appversion.h from bhl-op4/src/common/appversion.h.in
 [gen] PCRE1 config.h / pcre.h from pcre.h.generic, config.h.generic
 [compat] 3 build fixes written to /home/user/Bugfixhl-speedrun-op4/build-evidence/bhl-base/patches
-[cmake] client=138 server=142 common=8
+[cmake] client=138 server=177 common=8
 [compile] client: 138/138 clean
-[compile] server: 142/142 clean
+[compile] server: 177/177 clean
 [cmake] tier1=35 tier2=3 vgui_controls=68
 [compile] tier1: 35/35 clean
 [compile] tier2: 3/3 clean
@@ -25,17 +25,17 @@ zig    : /tmp/zenv/lib/python3.11/site-packages/ziglang/zig (clang for i386-unkn
 [ar] libsemver.a: 1 objects
 [ar] libpcre.a: 20 objects
 [link] client.so: 138 objects, 6 archives, 4 shared libs
-[link] client.so: OK (27753660 bytes)
-[link] hl.so: 142 objects, 1 archives, 0 shared libs
-[link] hl.so: OK (17415276 bytes)
+[link] client.so: OK (27753644 bytes)
+[link] hl.so: 177 objects, 1 archives, 0 shared libs
+[link] hl.so: OK (20936800 bytes)
 [audit] client.so: 0 unresolved symbols from our own build
 [audit] hl.so: 0 unresolved symbols from our own build
-[done] 88.4s
+[done] 26.7s
 {
   "client.so": {
     "path": "build-evidence/bhl-base/client.so",
-    "bytes": 27753660,
-    "sha256": "3230033ffaf2634b7c485ec9a19611aa541a7c6c20078eb4f47fda058018b9a8",
+    "bytes": 27753644,
+    "sha256": "c94a5de12bb9d1789216e4cf9416408df882ec8eaa17413dd771b006340be29c",
     "elf32": true,
     "exported_symbol_count": 4931,
     "exported_game_entry_points": [
@@ -63,17 +63,17 @@ zig    : /tmp/zenv/lib/python3.11/site-packages/ziglang/zig (clang for i386-unkn
   },
   "hl.so": {
     "path": "build-evidence/bhl-base/hl.so",
-    "bytes": 17415276,
-    "sha256": "791e853b664366a37b9adb4948537c80c8f43a1a22f36db81f44ca917f54fdeb",
+    "bytes": 20936800,
+    "sha256": "06b95817af97d6b54f647a93db35edbb501d97de66dc9265640e17a0a49dd61f",
     "elf32": true,
-    "exported_symbol_count": 3475,
+    "exported_symbol_count": 4421,
     "exported_game_entry_points": [
       "GetEntityAPI",
       "GetEntityAPI2",
       "GetNewDLLFunctions",
       "GiveFnptrsToDll"
     ],
-    "undefined_symbol_count": 156,
+    "undefined_symbol_count": 157,
     "needed": [
       "libm.so.6",
       "libc.so.6",

@@ -19,11 +19,11 @@
 #include "enginecallback.h"   /* BHL engine callbacks (WRITE_COORD, ...) */
 #include "event_flags.h"
 #include "weaponinfo.h"       /* BHL's weapon_data_t */
-  #include "ctf/CTFDefs.h"      /* OP4's CTFItem enum */
+#include "ctf/CTFDefs.h"      /* OP4's CTFItem enum */
 
-  class CBaseEntity;            /* forward declaration only */
+class CBaseEntity;            /* forward declaration only */
 
-  int  UTIL_DefaultPlaybackFlags();
+int  UTIL_DefaultPlaybackFlags();
 BOOL UTIL_DefaultUseDecrement();
 BOOL UTIL_UseOldWeapons();
 bool UTIL_IsMultiplayer();
@@ -57,6 +57,20 @@ bool UTIL_IsCTF();
 #ifndef CLASS_CTFITEM
 #define CLASS_CTFITEM 30
 #endif
+#ifndef CLASS_ALIEN_RACE_X
+#define CLASS_ALIEN_RACE_X 15  /* OP4 dlls/cbase.h:112 */
+#endif
+
+/* OP4 common/Platform.h:72-90 stack scratch macros. OP4's combat.cpp uses
+ * them for the GibData submodel-limit bookkeeping. On POSIX the upstream
+ * implementation is exactly alloca()/no-op; reproduced here because BHL
+ * does not ship OP4's Platform.h. No game logic is involved. */
+#ifndef stackalloc
+#define stackalloc(size) alloca(size)
+#endif
+#ifndef stackfree
+#define stackfree(address) ((void)0)
+#endif
 
 /* OP4-only gamerules constants (OP4 dlls/gamerules.h). */
 #ifndef ITEM_RESPAWN_TIME
@@ -76,13 +90,13 @@ bool UTIL_IsCTF();
 extern cvar_t multipower;
 extern cvar_t coopweprespawn;
 
-  /* OP4 monsters.h helper, implemented in OP4 monsters.cpp. */
-  bool IsFacing(entvars_t *pevTest, const Vector &reference);
+/* OP4 monsters.h helper, implemented in OP4 monsters.cpp. */
+bool IsFacing(entvars_t *pevTest, const Vector &reference);
 
-  /* OP4 dlls/util.h helper; thin adapter over BHL's engine state below. */
-  CBaseEntity *UTIL_GetLocalPlayer();
+/* OP4 dlls/util.h helper; thin adapter over BHL's engine state below. */
+CBaseEntity *UTIL_GetLocalPlayer();
 
-  inline void WRITE_COORD_VECTOR(const Vector &vec)
+inline void WRITE_COORD_VECTOR(const Vector &vec)
 {
 	WRITE_COORD(vec.x);
 	WRITE_COORD(vec.y);

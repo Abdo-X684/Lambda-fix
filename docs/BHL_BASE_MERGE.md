@@ -22,10 +22,10 @@
 
 | الطبقة | المصدر | عدد الملفات | الحالة |
 | --- | --- | --- | --- |
-| **BASE** | `tmp64/BugfixedHL-Rebased @ 4d32095e3c33` (GPL-3.0) | **694** | **683 ملفاً حرفياً** (مطابقة بايت-ببايت للـ commit) + 11 ملفاً عليها دمج معلن |
+| **BASE** | `tmp64/BugfixedHL-Rebased @ 4d32095e3c33` (GPL-3.0) | **694** | **681 ملفاً حرفياً** (مطابقة بايت-ببايت للـ commit) + 13 ملفاً عليها دمج معلن |
 | **ADD / MERGE** | `twhl-community/halflife-op4-updated @ 5368be7f8eba` | **154** | أسلحة، CTF، rope، كيانات OP4، أحداث العميل |
-| **GLUE** | هذا المستودع | **3** | `op4_compat.h`, `op4_compat_late.h`, `op4_compat.cpp` |
-| بيان المصدر | — | **851** مدخلاً | لكل ملف: الأصل، `commit`، `sha256`، `action`، أسماء القواعد |
+| **GLUE** | هذا المستودع | **7** | `op4_compat.h`, `op4_compat_late.h`, `op4_compat.cpp`, `op4_link_fixups.cpp`, `op4_entity_enumerator.h`, `op4_weapon_timing.{h,cpp}` |
+| بيان المصدر | — | **855** مدخلاً | لكل ملف: الأصل، `commit`، `sha256`، `action`، أسماء القواعد |
 
 الشجرة كاملة **متتبَّعة في Git** داخل `bhl-op4/` (وليست في `.cache/` المستثنى)،
 ومعها `PROVENANCE.json`: `action` يكون `verbatim` / `bhl+op4-merge` /
@@ -41,7 +41,7 @@
 ## 3. قواعد الدمج الحقيقية في ملفات BHL
 
 هذه ليست طبقة تحاكي BHL؛ هذه إضافات OP4 **داخل هيدرات BHL نفسها**
-(20 قاعدة على 11 ملفاً من BHL):
+(29 قاعدة مسماة على 13 ملفاً من BHL؛ أحدثها في `BHL_FINAL_AUDIT.md` §2):
 
 | رقم | ملف BHL | ما أُدمج من OP4 |
 | --- | --- | --- |
@@ -60,6 +60,10 @@
 | 13 | `src/game/server/monsters.h` | `struct GibLimit` / `struct GibData` من OP4 |
 | 14 | `src/game/server/gamerules.h` | `IsCTF()` |
 | 15 | `src/game/{server,client}/CMakeLists.txt` | مصادر OP4 المُثبَت ترجمتها تُضاف إلى أهداف BHL |
+| 16 | `src/game/server/gamerules.h` | `IPointsForMonsterKill` / `MonsterKilled` (OP4 `dlls/gamerules.h:113,116`) |
+| 17 | `src/game/server/monsters.h` | إعلان `CGib::SpawnRandomGibs(..., const GibData&)` (OP4 `dlls/monsters.h:184`) |
+| 18 | `src/game/server/cbase.h` | `byte m_EFlags` (OP4 `dlls/cbase.h:169`) |
+| 19 | `src/game/server/game.cpp` + `src/game/shared/CMakeLists.txt` | تسجيل cvars/رسالة `FlagIcon`، وTU توقيت السلاح المشترك |
 
 ملفات OP4 الأساسية (`dlls/{util,player,weapons,gamerules,skill,decals,...}`)
 موضوعة في `src/game/server/op4/reference/` كمرجع فقط: لا تُترجم ولا تظلّل
@@ -70,7 +74,7 @@
 OP4 يستخدم HLSDK مُحدَّثاً (`bool`, `override`, `Vector` كوسائط أحداث،
 `enum class`)، وBHL يستخدم واجهة HLSDK الأصلية (`int/BOOL`, `float *`). لذلك
 طُبّقت تحويلات **ميكانيكية مسماة** على مصادر OP4 (كل قاعدة وعدد تطبيقاتها في
-`PROVENANCE.json`، 470 تطبيقاً):
+`PROVENANCE.json`، 839 تطبيقاً على 103 ملفات OP4):
 
 * قواعد مُشتقّة من هيدرات BHL نفسها: كل دالة يُعلنها BHL بـ `BOOL`/`int`
   ويُعلنها OP4 بـ `bool` تُحوَّل إلى **نوع BHL المُعلَن** (لا إلى نوع مُخمَّن).
@@ -90,8 +94,10 @@ OP4 يستخدم HLSDK مُحدَّثاً (`bool`, `override`, `Vector` كوسا
 (وهذان لا يمكن ترجمتهما بجانب نسختي BHL)، وتحويلات وسيطات، وثوابت OP4
 الناقصة. `UTIL_IsCTF()` تُعيد `false` صراحةً لأن قواعد CTF ليست القواعد
 النشطة بعد — مُوثّق، غير مخفي. بعض الإعلانات (`UpdateShockEffect`,
-`IsFacing`, `Player_Menu`, …) أجسامها في ملفات OP4 الأساسية غير المدمجة؛
-هذه **فجوة ربط** معلنة، لا تُخفى خلف stub وهمي.
+`Player_Menu`, …) أجسامها في ملفات OP4 الأساسية غير المدمجة؛ هذه **فجوة ربط**
+معلنة، لا تُخفى خلف stub وهمي. أما `IsFacing` الذي ظهر بعد وصل كيانات OP4
+فقد أُغلق بجسم `dlls/h_ai.cpp:196-210` الحقيقي في glue موسوم (انظر
+`BHL_FINAL_AUDIT.md` §1.1).
 
 ## 5. إثبات الترجمة (وليس مجرد وجود ملفات)
 
@@ -107,18 +113,21 @@ OP4 يستخدم HLSDK مُحدَّثاً (`bool`, `override`, `Vector` كوسا
   `CGrappleTip`, `CKnife`, `CM249`, `CPenguin`, `CPipewrench`, `CShockBeam`,
   `CShockRifle`, `CSniperRifle`, `CSpore`, `CSporeLauncher`.
   `readelf -h` على `CEagle.o`: `ELF32 / REL / Intel 80386`.
-* **103 / 109 من مصادر خادم BHL نفسها** (المنسوخة حرفياً، لا هيدرات فقط)
-  تُترجم إلى كائنات ELF32 داخل الشجرة المدمجة. الستة المتعثرة مفصّلة في
+* **103 / 108 من مصادر خادم BHL نفسها** (المنسوخة حرفياً، لا هيدرات فقط)
+  تُترجم إلى كائنات ELF32 داخل الشجرة المدمجة. الخمسة المتعثرة مفصّلة في
   `PORT_STATUS.json` (`appversion.h` يُولّده CMake، مسار Windows في
-  `stats.cpp`، `Make2D` من نسخة SDK أخرى، …).
-* **48 / 69** من مصادر خادم OP4 تُترجم بنجاح، منها CTF وrope وكيانات
-  (`CTFGoal`, `CTFSpawn`, `CRope`, `CRopeSegment`, `CDrillSergeant`, …).
-* **16 مصدراً** موصولة بـ `src/game/server/CMakeLists.txt` (الـ15 +
-  `op4_compat.cpp`) — هدف البناء لا يضمّ ملفاً معطوباً ولا ملفاً فيه فجوة ربط
-  معلنة. المصادر الـ32 الأخرى الناجحة موجودة في الشجرة وموثّقة في
-  `PORT_STATUS.json` لكنها غير موصولة بعد.
-* **21 مصدر خادم** ما زال `port_pending`، و**74 مصدر OP4** إجمالاً
-  (خادم + عميل) غير موصول؛ لكل واحد قائمة أخطائه الدقيقة في `PORT_STATUS.json`.
+  `stats.cpp`، `Make2D` من نسخة SDK أخرى، …). مصادر BHL الحقيقية كلها تُترجم
+  داخل البناء الفعلي (`server: 177/177 clean`).
+* **66 / 70** من مصادر OP4 تُترجم بنجاح إلى كائنات ELF32، منها 15/15 سلاحاً
+  وCTF وrope وكيانات (`CTFGoal`, `CTFSpawn`, `CRope`, `CRopeSegment`,
+  `CDrillSergeant`, `hgrunt_medic`, `shocktrooper`, `voltigore`, …).
+* **64 مصدراً** موصولة بـ `src/game/server/CMakeLists.txt` — هدف البناء لا
+  يضمّ ملفاً معطوباً ولا ملفاً فيه فجوة ربط معلنة؛ `--check` يتحقق من أن كل
+  ملف موصول نظيف (0 فشل). البناء الفعلي أنتج 177 كائن خادم وصفر فجوة ربط.
+* **27 ملف `port_pending`** (21 عميل + 6 خادم). الأربعة التي لا تُترجم بعد
+  (`Wxdebug.cpp`، `squeakgrenade.cpp`، `world.cpp`،
+  `ctf/ctfplay_gamerules.cpp`) ومصدران نظيفان مستبعدان لتكرار أنظمة BHL
+  (`ehandle.cpp`, `UserMessages.cpp`) مفصّلة بأسبابها في `BHL_FINAL_AUDIT.md` §7.
 
 > `--check` يفشل إذا أي مصدر موصول بـ CMake لم يُترجم بنجاح. لا يمكن إدعاء
 > «مدموج» لملف لا يُترجم.

@@ -169,18 +169,51 @@ source_group( TREE ${PROJECT_SOURCE_DIR} FILES ${SOURCE_FILES} )
 
 # OP4-MERGE: OP4 subsystem sources proven to compile against BHL headers
 list( APPEND SOURCE_FILES
+	op4/dlls/CDrillSergeant.cpp
+	op4/dlls/COFAllyMonster.cpp
+	op4/dlls/COFSquadTalkMonster.cpp
+	op4/dlls/CRecruit.cpp
+	op4/dlls/baby_voltigore.cpp
+	op4/dlls/blkop_apache.cpp
+	op4/dlls/blkop_osprey.cpp
+	op4/dlls/blowercannon.cpp
+	op4/dlls/cleansuit_scientist.cpp
+	op4/dlls/coopplay_gamerules.cpp
 	op4/dlls/ctf/CHUDIconTrigger.cpp
 	op4/dlls/ctf/CItemAcceleratorCTF.cpp
+	op4/dlls/ctf/CItemBackpackCTF.cpp
 	op4/dlls/ctf/CItemCTF.cpp
+	op4/dlls/ctf/CItemLongJumpCTF.cpp
+	op4/dlls/ctf/CItemPortableHEVCTF.cpp
+	op4/dlls/ctf/CItemRegenerationCTF.cpp
 	op4/dlls/ctf/CItemSpawnCTF.cpp
+	op4/dlls/ctf/CTFDetect.cpp
 	op4/dlls/ctf/CTFGoal.cpp
 	op4/dlls/ctf/CTFGoalBase.cpp
 	op4/dlls/ctf/CTFGoalFlag.cpp
 	op4/dlls/ctf/CTFSpawn.cpp
+	op4/dlls/func_tank_of.cpp
+	op4/dlls/geneworm.cpp
+	op4/dlls/gonome.cpp
+	op4/dlls/hfgrunt.cpp
+	op4/dlls/hgrunt_ally.cpp
+	op4/dlls/hgrunt_medic.cpp
+	op4/dlls/hgrunt_torch.cpp
+	op4/dlls/item_generic.cpp
+	op4/dlls/loader.cpp
+	op4/dlls/male_assassin.cpp
+	op4/dlls/nuclearbomb.cpp
+	op4/dlls/op4mortar.cpp
+	op4/dlls/otis.cpp
+	op4/dlls/penguin_grenade.cpp
+	op4/dlls/pitworm_up.cpp
 	op4/dlls/rope/CElectrifiedWire.cpp
 	op4/dlls/rope/CRope.cpp
 	op4/dlls/rope/CRopeSample.cpp
 	op4/dlls/rope/CRopeSegment.cpp
+	op4/dlls/shockroach.cpp
+	op4/dlls/shocktrooper.cpp
+	op4/dlls/voltigore.cpp
 	op4/dlls/weapons/CDisplacer.cpp
 	op4/dlls/weapons/CDisplacerBall.cpp
 	op4/dlls/weapons/CEagle.cpp
@@ -196,6 +229,8 @@ list( APPEND SOURCE_FILES
 	op4/dlls/weapons/CSniperRifle.cpp
 	op4/dlls/weapons/CSpore.cpp
 	op4/dlls/weapons/CSporeLauncher.cpp
+	op4/dlls/zombie_barney.cpp
+	op4/dlls/zombie_soldier.cpp
 	op4/op4_compat.cpp
 	op4/op4_link_fixups.cpp
 )

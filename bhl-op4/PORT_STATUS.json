@@ -559,7 +559,7 @@
     "pending": 5,
     "total": 108
   },
-  "clean": 59,
+  "clean": 66,
   "compiler": "/tmp/zig32",
   "files": {
     "src/game/server/op4/dlls/CDrillSergeant.cpp": {
@@ -620,11 +620,9 @@
       "ok": true
     },
     "src/game/server/op4/dlls/coopplay_gamerules.cpp": {
-      "errors": 2,
-      "gaps": [
-        "only virtual member functions can be marked 'override'"
-      ],
-      "ok": false
+      "errors": 0,
+      "gaps": [],
+      "ok": true
     },
     "src/game/server/op4/dlls/ctf/CHUDIconTrigger.cpp": {
       "errors": 0,
@@ -711,11 +709,9 @@
       "ok": true
     },
     "src/game/server/op4/dlls/func_tank_of.cpp": {
-      "errors": 1,
-      "gaps": [
-        "no matching function for call to 'ExplosionCreate'"
-      ],
-      "ok": false
+      "errors": 0,
+      "gaps": [],
+      "ok": true
     },
     "src/game/server/op4/dlls/geneworm.cpp": {
       "errors": 0,
@@ -738,18 +734,14 @@
       "ok": true
     },
     "src/game/server/op4/dlls/hgrunt_medic.cpp": {
-      "errors": 1,
-      "gaps": [
-        "no member named 'Make2D' in 'Vector'"
-      ],
-      "ok": false
+      "errors": 0,
+      "gaps": [],
+      "ok": true
     },
     "src/game/server/op4/dlls/hgrunt_torch.cpp": {
-      "errors": 1,
-      "gaps": [
-        "no matching function for call to 'ExplosionCreate'"
-      ],
-      "ok": false
+      "errors": 0,
+      "gaps": [],
+      "ok": true
     },
     "src/game/server/op4/dlls/item_generic.cpp": {
       "errors": 0,
@@ -787,11 +779,9 @@
       "ok": true
     },
     "src/game/server/op4/dlls/pitworm_up.cpp": {
-      "errors": 1,
-      "gaps": [
-        "use of undeclared identifier 'm_EFlags'"
-      ],
-      "ok": false
+      "errors": 0,
+      "gaps": [],
+      "ok": true
     },
     "src/game/server/op4/dlls/rope/CElectrifiedWire.cpp": {
       "errors": 0,
@@ -819,12 +809,9 @@
       "ok": true
     },
     "src/game/server/op4/dlls/shocktrooper.cpp": {
-      "errors": 2,
-      "gaps": [
-        "no viable conversion from 'const GibData' to 'int'",
-        "use of undeclared identifier 'CLASS_ALIEN_RACE_X'"
-      ],
-      "ok": false
+      "errors": 0,
+      "gaps": [],
+      "ok": true
     },
     "src/game/server/op4/dlls/squeakgrenade.cpp": {
       "errors": 6,
@@ -838,11 +825,9 @@
       "ok": false
     },
     "src/game/server/op4/dlls/voltigore.cpp": {
-      "errors": 1,
-      "gaps": [
-        "no viable conversion from 'const GibData' to 'int'"
-      ],
-      "ok": false
+      "errors": 0,
+      "gaps": [],
+      "ok": true
     },
     "src/game/server/op4/dlls/weapons/CDisplacer.cpp": {
       "errors": 0,
@@ -954,7 +939,7 @@
       "ok": true
     }
   },
-  "pending": 11,
+  "pending": 4,
   "source_sdk": ".cache/upstreams/hl1_source_sdk",
   "status": "compiled",
   "target": "x86-linux-gnu (ELF32 relocatable objects)",

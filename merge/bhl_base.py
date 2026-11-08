@@ -271,11 +271,11 @@ GLUE_HEADER = r'''/* -----------------------------------------------------------
 #include "enginecallback.h"   /* BHL engine callbacks (WRITE_COORD, ...) */
 #include "event_flags.h"
 #include "weaponinfo.h"       /* BHL's weapon_data_t */
-  #include "ctf/CTFDefs.h"      /* OP4's CTFItem enum */
+#include "ctf/CTFDefs.h"      /* OP4's CTFItem enum */
 
-  class CBaseEntity;            /* forward declaration only */
+class CBaseEntity;            /* forward declaration only */
 
-  int  UTIL_DefaultPlaybackFlags();
+int  UTIL_DefaultPlaybackFlags();
 BOOL UTIL_DefaultUseDecrement();
 BOOL UTIL_UseOldWeapons();
 bool UTIL_IsMultiplayer();
@@ -309,6 +309,20 @@ bool UTIL_IsCTF();
 #ifndef CLASS_CTFITEM
 #define CLASS_CTFITEM 30
 #endif
+#ifndef CLASS_ALIEN_RACE_X
+#define CLASS_ALIEN_RACE_X 15  /* OP4 dlls/cbase.h:112 */
+#endif
+
+/* OP4 common/Platform.h:72-90 stack scratch macros. OP4's combat.cpp uses
+ * them for the GibData submodel-limit bookkeeping. On POSIX the upstream
+ * implementation is exactly alloca()/no-op; reproduced here because BHL
+ * does not ship OP4's Platform.h. No game logic is involved. */
+#ifndef stackalloc
+#define stackalloc(size) alloca(size)
+#endif
+#ifndef stackfree
+#define stackfree(address) ((void)0)
+#endif
 
 /* OP4-only gamerules constants (OP4 dlls/gamerules.h). */
 #ifndef ITEM_RESPAWN_TIME
@@ -328,13 +342,13 @@ bool UTIL_IsCTF();
 extern cvar_t multipower;
 extern cvar_t coopweprespawn;
 
-  /* OP4 monsters.h helper, implemented in OP4 monsters.cpp. */
-  bool IsFacing(entvars_t *pevTest, const Vector &reference);
+/* OP4 monsters.h helper, implemented in OP4 monsters.cpp. */
+bool IsFacing(entvars_t *pevTest, const Vector &reference);
 
-  /* OP4 dlls/util.h helper; thin adapter over BHL's engine state below. */
-  CBaseEntity *UTIL_GetLocalPlayer();
+/* OP4 dlls/util.h helper; thin adapter over BHL's engine state below. */
+CBaseEntity *UTIL_GetLocalPlayer();
 
-  inline void WRITE_COORD_VECTOR(const Vector &vec)
+inline void WRITE_COORD_VECTOR(const Vector &vec)
 {
 	WRITE_COORD(vec.x);
 	WRITE_COORD(vec.y);
@@ -356,8 +370,8 @@ GLUE_LATE_HEADER = r'''/* ------------------------------------------------------
  * FindHullIntersection would otherwise expand inside weapons.h).
  * -------------------------------------------------------------------------*/
 #ifndef OP4_BHL_COMPAT_LATE_H
-  #define OP4_BHL_COMPAT_LATE_H
-  #include "op4_compat.h"
+#define OP4_BHL_COMPAT_LATE_H
+#include "op4_compat.h"
 
 ''' + op4_fixups.ENTITY_ENUMERATOR + r'''
   /* BHL: PLAYBACK_EVENT_FULL is (*g_engfuncs.pfnPlaybackEvent), float* args.
@@ -373,11 +387,33 @@ GLUE_LATE_HEADER = r'''/* ------------------------------------------------------
 /* OP4's Vector::Normalize() returns a normalised copy; BHL's mathlib Vector
  * spells that Normalized(). This macro is defined only after all headers have
  * been parsed (see file header), so it cannot change BHL declarations. */
-#ifndef OP4_BHL_NO_NORMALIZE_MACRO
-#define Normalize() Normalized()
-#endif
-#endif /* OP4_BHL_COMPAT_LATE_H */
-'''
+  #ifndef OP4_BHL_NO_NORMALIZE_MACRO
+  #define Normalize() Normalized()
+  #endif
+
+  /* OP4's Vector::Make2D() (OP4 dlls/vector.h:115) returns Vector2D{x,y};
+   * BHL's Source-SDK mathlib Vector spells that AsVector2D() (vector.h:113).
+   * Mechanical member-name mapping only; the expression is unchanged. */
+  #ifndef OP4_BHL_NO_MAKE2D_MACRO
+  #define Make2D() AsVector2D()
+  #endif
+
+  /* OP4 dlls/explode.h:25 has a 5-arg ExplosionCreate(center, angles,
+   * pOwner, magnitude, doDamage). BHL's explode.h:28 additionally separates
+   * pInflictor from pAttacker. OP4 passes one owner for both roles, so this
+   * inline forwards to BHL's real ExplosionCreate with that mapping. The
+   * declaration is repeated so the overload is available even in TUs that
+   * never include explode.h; no function body is replaced or invented. */
+  extern void ExplosionCreate(const Vector &center, const Vector &angles,
+                              edict_t *pInflictor, edict_t *pAttacker,
+                              int magnitude, BOOL doDamage);
+  inline void ExplosionCreate(const Vector &center, const Vector &angles,
+                              edict_t *pOwner, int magnitude, bool doDamage)
+  {
+      ::ExplosionCreate(center, angles, pOwner, pOwner, magnitude, doDamage ? 1 : 0);
+  }
+  #endif /* OP4_BHL_COMPAT_LATE_H */
+  '''
 
 GLUE_CPP = r'''/* Implementations of the OP4 helpers declared in op4_compat.h.
  * Small, mechanical adapters over real BugfixedHL engine state. */
@@ -541,7 +577,7 @@ def apply_merges(tree: Path, provenance: dict) -> None:
            "\tint m_iNewTeamNum = 0;\n\tunsigned int m_iClientItems = 0;\n"
            "\tint m_iCurrentMenu = 0;\n\tint m_iLastPlayerTrace = 0;\n"
            "\tint m_iFlagCaptures = 0;\n\tshort m_iOffense = 0;\n"
-           "\tshort m_iDefense = 0;\n\tint m_EFlags = 0;\n"
+           "\tshort m_iDefense = 0;\n"
            "\tvoid Player_Menu();\n"
            "\tbool Menu_Team_Input(int inp);\n"
            "\tbool Menu_Char_Input(int inp);\n",
@@ -662,6 +698,41 @@ def apply_merges(tree: Path, provenance: dict) -> None:
          "\top4_weapon_timing.cpp\n\top4_weapon_timing.h\n",
          "op4-shared-weapon-timing-cmake")
 
+    # 17. OP4's CGameRules monster-kill hooks (OP4 dlls/gamerules.h:113,116).
+    #     CHalfLifeCoopplay derives from BHL's CHalfLifeMultiplay and marks
+    #     these two `override`; BHL's base lacks them. Adding the two OP4
+    #     virtuals (with their OP4 default bodies) is an additive base merge,
+    #     not a replacement: no BHL behaviour is removed.
+    edit("src/game/server/gamerules.h", "class CBasePlayer;",
+         "\nclass CBaseMonster; /* OP4-MERGE: dlls/gamerules.h monster hooks */",
+         "op4-gamerules-cbasemonster-fwd")
+    edit("src/game/server/gamerules.h",
+         "\tvirtual int IPointsForKill(CBasePlayer *pAttacker, CBasePlayer *pKilled) = 0; // how many points do I award whoever kills this player?",
+         "\n\t/* OP4-MERGE: verbatim OP4 dlls/gamerules.h:113,116 */\n"
+         "\tvirtual int IPointsForMonsterKill(CBasePlayer *pAttacker, CBaseMonster *pKiller) { return 0; }\n"
+         "\tvirtual void MonsterKilled(CBaseMonster *pVictim, entvars_t *pKiller, entvars_t *pInflictor) {}\n",
+         "op4-gamerules-monster-hooks")
+
+    # 18. OP4's GibData overload of CGib::SpawnRandomGibs. The verbatim OP4
+    #     body lives in the labelled glue (op4_link_fixups.cpp) because OP4's
+    #     combat.cpp also defines BHL's damage system and cannot coexist.
+    edit("src/game/server/monsters.h",
+         "\tstatic void SpawnRandomGibs(entvars_t *pevVictim, int cGibs, int human);",
+         "\n\t/* OP4-MERGE: verbatim OP4 dlls/monsters.h:184 */\n"
+         "\tstatic void SpawnRandomGibs(entvars_t *pevVictim, int cGibs, const GibData &gibData);\n",
+         "op4-gibdata-spawn-overload")
+
+    # 19. OP4's CBaseEntity::m_EFlags (OP4 dlls/cbase.h:169). OP4's
+    #     pitworm_up.cpp forces EFLAG_SLERP through it. Put it on the common
+    #     base, exactly where OP4 has it, instead of shadowing it on
+    #     CBasePlayer as rule 9 originally did.
+    edit("src/game/server/cbase.h",
+         "\tCBaseEntity *m_pLink; // used for temporary link-list operations.",
+         "\n\t/* OP4-MERGE: verbatim OP4 dlls/cbase.h:169, entity flags sent\n"
+         "\t * to the client in ::AddToFullPack */\n"
+         "\tbyte m_EFlags = 0;\n",
+         "op4-entity-eflags")
+
 
 # Only sources proven to compile against BHL headers are wired into the BHL
 # CMake targets. Everything else is present in the tree as a ported OP4 source
@@ -683,10 +754,64 @@ BUILD_SOURCE_FILES = (
     "src/game/server/op4/dlls/ctf/CTFGoalFlag.cpp",
     "src/game/server/op4/dlls/ctf/CTFSpawn.cpp",
     "src/game/server/op4/dlls/rope/CElectrifiedWire.cpp",
-    "src/game/server/op4/dlls/rope/CRope.cpp",
-    "src/game/server/op4/dlls/rope/CRopeSample.cpp",
-    "src/game/server/op4/dlls/rope/CRopeSegment.cpp",
-)
+      "src/game/server/op4/dlls/rope/CRope.cpp",
+      "src/game/server/op4/dlls/rope/CRopeSample.cpp",
+      "src/game/server/op4/dlls/rope/CRopeSegment.cpp",
+      # OP4 CTF powerups / detector: compile clean after the declared CTF API
+      # patches above. Wiring them is what makes the CTF item set real.
+      "src/game/server/op4/dlls/ctf/CItemBackpackCTF.cpp",
+      "src/game/server/op4/dlls/ctf/CItemLongJumpCTF.cpp",
+      "src/game/server/op4/dlls/ctf/CItemPortableHEVCTF.cpp",
+      "src/game/server/op4/dlls/ctf/CItemRegenerationCTF.cpp",
+      "src/game/server/op4/dlls/ctf/CTFDetect.cpp",
+      # Real OP4 monsters / NPCs / entities that compile clean against the
+      # merged BHL headers. These are verbatim OP4 subsystem files, not shims.
+      "src/game/server/op4/dlls/CDrillSergeant.cpp",
+      "src/game/server/op4/dlls/COFAllyMonster.cpp",
+      "src/game/server/op4/dlls/COFSquadTalkMonster.cpp",
+      "src/game/server/op4/dlls/CRecruit.cpp",
+      "src/game/server/op4/dlls/baby_voltigore.cpp",
+      "src/game/server/op4/dlls/blkop_apache.cpp",
+      "src/game/server/op4/dlls/blkop_osprey.cpp",
+      "src/game/server/op4/dlls/blowercannon.cpp",
+      "src/game/server/op4/dlls/cleansuit_scientist.cpp",
+      # NOTE: OP4 dlls/ehandle.cpp re-implements EHANDLE::Get/Set/
+      # operator-> which BHL defines in cbase.cpp; wiring it would
+      # duplicate BHL systems. It stays port-pending by design.
+      "src/game/server/op4/dlls/geneworm.cpp",
+      "src/game/server/op4/dlls/gonome.cpp",
+      "src/game/server/op4/dlls/hfgrunt.cpp",
+      "src/game/server/op4/dlls/hgrunt_ally.cpp",
+      "src/game/server/op4/dlls/item_generic.cpp",
+      "src/game/server/op4/dlls/loader.cpp",
+      "src/game/server/op4/dlls/male_assassin.cpp",
+      "src/game/server/op4/dlls/nuclearbomb.cpp",
+      "src/game/server/op4/dlls/op4mortar.cpp",
+      "src/game/server/op4/dlls/otis.cpp",
+      "src/game/server/op4/dlls/penguin_grenade.cpp",
+      "src/game/server/op4/dlls/shockroach.cpp",
+        "src/game/server/op4/dlls/zombie_barney.cpp",
+        "src/game/server/op4/dlls/zombie_soldier.cpp",
+        # Seven more real OP4 subsystem files made wireable by the declared
+        # additive BHL base merges above (gamerules monster hooks, GibData
+        # spawn overload, CBaseEntity::m_EFlags, CLASS_ALIEN_RACE_X, and the
+        # ExplosionCreate / Make2D API adapters in op4_compat_late.h).
+        "src/game/server/op4/dlls/coopplay_gamerules.cpp",
+        "src/game/server/op4/dlls/func_tank_of.cpp",
+        "src/game/server/op4/dlls/hgrunt_medic.cpp",
+        "src/game/server/op4/dlls/hgrunt_torch.cpp",
+        "src/game/server/op4/dlls/pitworm_up.cpp",
+        "src/game/server/op4/dlls/shocktrooper.cpp",
+        "src/game/server/op4/dlls/voltigore.cpp",
+        # Deliberately NOT wired (all documented, none silently dropped):
+        #   dlls/ehandle.cpp          duplicates BHL EHANDLE::Get/Set/operator->
+        #   dlls/UserMessages.cpp     duplicates BHL's LinkUserMessages()
+        #   dlls/squeakgrenade.cpp    duplicates BHL's CSqueak/CSqueakGrenade
+        #   dlls/world.cpp            duplicates BHL's CWorld (glue carries the
+        #                             OP4 CWorld singleton ctor/dtor instead)
+        #   dlls/ctf/ctfplay_gamerules.cpp needs BHL menu/team/score state
+        #   dlls/Wxdebug.cpp          Windows-only _DEBUG trace; empty on Linux
+    )
 
 
 def build_sources(tree: Path, side: str) -> list[str]:

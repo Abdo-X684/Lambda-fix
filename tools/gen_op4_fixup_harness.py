@@ -10,8 +10,9 @@ Extracted from the labelled glue (op4_link_fixups.cpp):
     OP4_RegisterGameDLLHooks
     CWorld::CWorld / CWorld::~CWorld
     SendFlagIcon / SendFlagIcons / DisplayTeamFlags
-    GetLosingTeam / GetTeamName
-Extracted from the verbatim-wired real OP4 files:
+      GetLosingTeam / GetTeamName
+      IsFacing                      (OP4 dlls/h_ai.cpp:196-210)
+  Extracted from the verbatim-wired real OP4 files:
     CRope::DetachObject           (dlls/rope/CRope.cpp)
     CTFGoalFlag::DropFlag         (dlls/ctf/CTFGoalFlag.cpp)
 
@@ -87,8 +88,32 @@ struct Vector
 	Vector() = default;
 	Vector(float a, float b, float c) : x(a), y(b), z(c) {}
 	Vector operator+(const Vector &o) const { return Vector(x + o.x, y + o.y, z + o.z); }
+	Vector operator-(const Vector &o) const { return Vector(x - o.x, y - o.y, z - o.z); }
 };
 static const Vector g_vecZero;
+
+/* Host-side equivalents of the labelled op4_compat.h adapter helpers. They
+ * only supply the same primitive operations the real BHL headers provide; the
+ * IsFacing() body under test is extracted verbatim from the shipped glue. */
+inline float *OP4_VEC(const Vector &v) { return const_cast<float *>(&v.x); }
+inline Vector OP4_Normalized(const Vector &v)
+{
+	const float len = std::sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
+	if (len < 1e-6f) return Vector(0, 0, 0);
+	return Vector(v.x / len, v.y / len, v.z / len);
+}
+inline float DotProduct(const Vector &a, const Vector &b)
+{
+	return a.x * b.x + a.y * b.y + a.z * b.z;
+}
+inline void UTIL_MakeVectorsPrivate(const Vector &angles, float *f, float *, float *)
+{
+	/* IsFacing() zeroes pitch, so only yaw matters: forward = (cos, sin, 0). */
+	const float rad = angles.y * 3.14159265358979323846f / 180.0f;
+	f[0] = std::cos(rad);
+	f[1] = std::sin(rad);
+	f[2] = 0;
+}
 
 struct edict_t { int index = 0; };
 struct entvars_t
@@ -96,7 +121,7 @@ struct entvars_t
 	int deadflag = DEAD_NO;
 	int rendermode = 4, renderfx = 0;
 	float renderamt = 0;
-	Vector rendercolor, origin, angles, velocity;
+	Vector rendercolor, origin, angles, velocity, v_angle;
 	int solid = 0, movetype = 0, sequence = 0, flags = 0, effects = 0, frame = 0;
 	int model = 1;
 	edict_t *aiment = nullptr, *owner = nullptr;
@@ -437,6 +462,24 @@ int main()
 	check(near(flag.m_lastDropOrigin.z, 64.0f),
 	      "DropFlag uses OP4's ducking height 34 (30+34)");
 
+	/* ---- IsFacing (OP4 h_ai.cpp:196-210) ---- */
+	std::puts("OP4 h_ai.cpp:196-210 IsFacing:");
+	entvars_t npc;
+	npc.origin = Vector(0, 0, 0);
+	npc.v_angle = Vector(0, 0, 0); /* facing +X */
+	check(IsFacing(&npc, Vector(10, 0, 0)), "target dead ahead -> facing");
+	check(IsFacing(&npc, Vector(10, 1, 0)), "target 5.7 degrees off -> facing");
+	check(!IsFacing(&npc, Vector(10, 3, 0)),
+	      "target 16.7 degrees off -> outside OP4's 0.96 cone");
+	check(!IsFacing(&npc, Vector(-10, 0, 0)), "target behind -> not facing");
+	check(IsFacing(&npc, Vector(10, 0, 100)),
+	      "IsFacing zeroes Z (OP4's 2-D cone), large height ignored");
+	check(!IsFacing(&npc, Vector(0, 0, 10)),
+	      "target directly overhead -> zero 2-D direction -> not facing");
+	npc.v_angle.y = 90;
+	check(IsFacing(&npc, Vector(0, 10, 0)), "yaw 90 degrees -> facing +Y");
+	check(!IsFacing(&npc, Vector(10, 0, 0)), "yaw 90 degrees -> +X is not facing");
+
 	if (g_failures)
 	{
 		std::printf("== %d FAILURE(S) ==\n", g_failures);
@@ -459,9 +502,10 @@ def main() -> int:
         (GLUE, "SendFlagIcon"),
         (GLUE, "SendFlagIcons"),
         (GLUE, "DisplayTeamFlags"),
-        (GLUE, "GetLosingTeam"),
-        (GLUE, "GetTeamName"),
-        (ROPE, "CRope::DetachObject"),
+          (GLUE, "GetLosingTeam"),
+          (GLUE, "GetTeamName"),
+          (GLUE, "IsFacing"),
+          (ROPE, "CRope::DetachObject"),
         (FLAG, "CTFGoalFlag::DropFlag"),
     ]
     chunks = [PRELUDE, "\n/* ===== VERBATIM OP4 / GLUE BODIES ===== */\n"]

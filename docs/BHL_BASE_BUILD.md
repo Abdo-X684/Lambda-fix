@@ -73,9 +73,9 @@ make verify
 
 | ملف | المحتوى |
 |---|---|
-| `BUILD_COMMANDS.txt` | 416 أمر ترجمة/ربط فعلي |
-| `SOURCES.sha256` | بصمة 408 ملف مصدر مُدخل |
-| `compile-units.json` | 408 وحدة ترجمة، كلها `ok` |
+| `BUILD_COMMANDS.txt` | 451 أمر ترجمة/ربط فعلي |
+| `SOURCES.sha256` | بصمة 443 ملف مصدر مُدخل |
+| `compile-units.json` | 443 وحدة ترجمة، كلها `ok` |
 | `build.log` | سجل الترجمة والربط الكامل |
 | `UNDEFINED_SYMBOLS.txt` | `nm -u` الكامل للمكتبتين |
 | `LINK_GAPS.md` | **فارغ من الرموز** (0 فجوة) |
@@ -99,9 +99,9 @@ make verify
 [gen] appversion.h from bhl-op4/src/common/appversion.h.in
 [gen] PCRE1 config.h / pcre.h from pcre.h.generic, config.h.generic
 [compat] 3 build fixes written to build-evidence/bhl-base/patches
-[cmake] client=138 server=142 common=8
+[cmake] client=138 server=177 common=8
 [compile] client: 138/138 clean
-[compile] server: 142/142 clean
+[compile] server: 177/177 clean
 [cmake] tier1=35 tier2=3 vgui_controls=68
 [compile] tier1: 35/35 clean
 [compile] tier2: 3/3 clean
@@ -114,12 +114,12 @@ make verify
 [ar] libtier1.a: 35 objects
 [ar] libglad.a / libsemver.a / libpcre.a
 [link] client.so: 138 objects, 6 archives, 4 shared libs
-[link] client.so: OK (27753660 bytes)
-[link] hl.so: 142 objects, 1 archives, 0 shared libs
-[link] hl.so: OK (17415276 bytes)
+[link] client.so: OK (27753644 bytes)
+[link] hl.so: 177 objects, 1 archives, 0 shared libs
+[link] hl.so: OK (20936800 bytes)
 [audit] client.so: 0 unresolved symbols from our own build
 [audit] hl.so: 0 unresolved symbols from our own build
-[done] 88.4s
+[done] 26.7s
 ```
 
 السجل الكامل: `../build-evidence/bhl-base/build.log`.
@@ -130,10 +130,10 @@ make verify
 
 | الملف | الحجم (بايت) | sha256 | ELF | رموز مُصدَّرة | رموز undefined | نقاط دخول BHL | `DT_NEEDED` |
 |---|---|---|---|---|---|---|---|
-| `build-evidence/bhl-base/client.so` | 27,753,660 | `3230033ffaf2634b7c485ec9a19611aa541a7c6c20078eb4f47fda058018b9a8` | ELF32 / Intel 80386 | 4,931 | 311 | `Initialize`, `HUD_Init`, `HUD_VidInit`, `HUD_Redraw`, `HUD_UpdateClientData`, `HUD_Reset`, `HUD_Frame`, `HUD_Shutdown`, `HUD_Key_Event`, `V_CalcRefdef` | `libSDL2-2.0.so.0`, `libtier0.so`, `libvstdlib.so`, `libm.so.6`, `libc.so.6`, `ld-linux.so.2` |
-| `build-evidence/bhl-base/hl.so` | 17,415,276 | `791e853b664366a37b9adb4948537c80c8f43a1a22f36db81f44ca917f54fdeb` | ELF32 / Intel 80386 | 3,475 | 156 | `GetEntityAPI`, `GetEntityAPI2`, `GetNewDLLFunctions`, `GiveFnptrsToDll` | `libm.so.6`, `libc.so.6`, `ld-linux.so.2` |
+| `build-evidence/bhl-base/client.so` | 27,753,644 | `c94a5de12bb9d1789216e4cf9416408df882ec8eaa17413dd771b006340be29c` | ELF32 / Intel 80386 | 4,931 | 311 | `Initialize`, `HUD_Init`, `HUD_VidInit`, `HUD_Redraw`, `HUD_UpdateClientData`, `HUD_Reset`, `HUD_Frame`, `HUD_Shutdown`, `HUD_Key_Event`, `V_CalcRefdef` | `libSDL2-2.0.so.0`, `libtier0.so`, `libvstdlib.so`, `libm.so.6`, `libc.so.6`, `ld-linux.so.2` |
+| `build-evidence/bhl-base/hl.so` | 20,936,800 | `06b95817af97d6b54f647a93db35edbb501d97de66dc9265640e17a0a49dd61f` | ELF32 / Intel 80386 | 4,421 | 157 | `GetEntityAPI`, `GetEntityAPI2`, `GetNewDLLFunctions`, `GiveFnptrsToDll` | `libm.so.6`, `libc.so.6`, `ld-linux.so.2` |
 
-الـ 311/156 undefined هي رموز يوفّرها المحرك/النظام (tier0/vstdlib، SDL2،
+الـ 311/157 undefined هي رموز يوفّرها المحرك/النظام (tier0/vstdlib، SDL2،
 libc/libm، C++ ABI) ويوفّرها المحرك عند التحميل؛ ليست فجوات من بنائنا.
 القائمة الكاملة في `UNDEFINED_SYMBOLS.txt`، والتصنيف في
 `tools/build_bhl_base.py::is_engine_or_libc_symbol`.
@@ -163,6 +163,6 @@ libc/libm، C++ ABI) ويوفّرها المحرك عند التحميل؛ لي�
 - **لا اختبار داخل Opposing Force**، ولا تحميل داخل المحرك، ولا خريطة، ولا HUD،
   ولا أسلحة، ولا Monster/Rope/Grapple/CTF وقت تشغيل، ولا مراقبة أعطال.
   الأسباب والأدلة: `../build-evidence/bhl-base/RUNTIME_ENVIRONMENT.md`.
-- `dlls/ctf/ctfplay_gamerules.cpp` (قواعد CTF الفعلية) غير موصول؛
-  و62 ملف OP4 ما زالت `port-pending`. التفاصيل في
-  `BHL_FINAL_AUDIT.md` و`LINK_GAP_CLOSURE.md`.
+  - `dlls/ctf/ctfplay_gamerules.cpp` (قواعد CTF الفعلية) غير موصول؛
+    و**27 ملف OP4** ما زالت `port-pending` (21 عميل + 6 خادم مستبعدة بأسباب
+    معلَنة). التفاصيل في `BHL_FINAL_AUDIT.md` §7 و`LINK_GAP_CLOSURE.md`.

@@ -164,6 +164,11 @@ public:
 	CBaseEntity *m_pGoalEnt; // path corner we are heading towards
 	CBaseEntity *m_pLink; // used for temporary link-list operations.
 
+	/* OP4-MERGE: verbatim OP4 dlls/cbase.h:169, entity flags sent
+	 * to the client in ::AddToFullPack */
+	byte m_EFlags = 0;
+
+
 	// initialization functions
 	virtual void Spawn(void) { return; }
 	virtual void Precache(void) { return; }

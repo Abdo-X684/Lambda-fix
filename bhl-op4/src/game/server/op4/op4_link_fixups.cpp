@@ -11,11 +11,13 @@
  *                                        multipower
  *   dlls/world.cpp:483-501               CWorld::World, CWorld ctor/dtor
  *   dlls/monsters.cpp:3448-3503          CBaseMonster shock-effect methods
+ *   dlls/h_ai.cpp:196-210                IsFacing()
  *   dlls/ctf/ctfplay_gamerules.cpp:48-67 CTF globals + team_names
  *   dlls/cdll_dll.h:200-213              RGB_* / UnpackRGB
  *   dlls/ctf/ctfplay_gamerules.cpp:141-263 SendFlagIcon / SendFlagIcons /
  *                                        DisplayTeamFlags
  *   dlls/ctf/ctfplay_gamerules.cpp:92-112 GetTeamName
+ *   dlls/combat.cpp:179-265             CGib::SpawnRandomGibs(GibData)
  *
  * Upstream: halflife-op4-updated @ 5368be7f8eba.
  * See PROVENANCE.json, docs/BHL_BASE_BUILD.md and LINK_GAPS.md.
@@ -25,6 +27,7 @@
 #include "util.h"
 #include "cbase.h"
 #include "basemonster.h"
+#include "monsters.h"   /* CGib / GibData (OP4 combat.cpp overload) */
 #include "weapons.h"
 #include "player.h"
 #include "gamerules.h"
@@ -32,7 +35,9 @@
 
 #include "ctf/CTFGoalFlag.h"
 
+#include <alloca.h>
 #include <cstdio>
+#include <cstring>
 #include "op4_compat_late.h"
 
 /* OP4 dlls/UserMessages.h:62 -- defined below, registered from GameDLLInit. */
@@ -315,6 +320,29 @@ void DisplayTeamFlags(CBasePlayer* pPlayer)
 	}
 }
 
+/* ===== dlls/h_ai.cpp:196-210 (verbatim OP4 body) ======================== *
+ * Used by the real, wired OP4 ally monsters (otis / CRecruit /
+ * CDrillSergeant / hgrunt_ally). OP4's h_ai.cpp cannot be linked next to
+ * BHL's h_ai.cpp, so the body is transcribed here. Only two mechanical
+ * adaptation points: OP4's Vector::Normalize() -> BHL's Normalized(), and
+ * BHL's UTIL_MakeVectorsPrivate takes float* instead of Vector&.         */
+bool IsFacing(entvars_t* pevTest, const Vector& reference)
+{
+	Vector vecDir = (reference - pevTest->origin);
+	vecDir.z = 0;
+	vecDir = OP4_Normalized(vecDir);
+	Vector forward, angle;
+	angle = pevTest->v_angle;
+	angle.x = 0;
+	UTIL_MakeVectorsPrivate(angle, OP4_VEC(forward), NULL, NULL);
+	// He's facing me, he meant it
+	if (DotProduct(forward, vecDir) > 0.96) // +/- 15 degrees or so
+	{
+		return true;
+	}
+	return false;
+}
+
 /* ===== dlls/ctf/ctfplay_gamerules.cpp:126-138 (verbatim) =============== *
  * CItemCTF::MyItemTouch (the real, wired CItemCTF.cpp:127) uses this to
  * hand a powerup to the losing team.                                      */
@@ -359,4 +387,113 @@ const char* GetTeamName(edict_t* pEntity)
 			return szTmp;
 		}
 	}
+}
+
+/* ===== dlls/combat.cpp:179-265 (verbatim OP4 body) ====================== *
+ * OP4-updated reworked gib spawning around a GibData descriptor with
+ * per-submodel limits. BHL's combat.cpp only has the older
+ * CGib::SpawnRandomGibs(entvars_t*, int, int human) overload, and linking
+ * OP4's combat.cpp would duplicate BHL's TakeDamage/Killed/TraceAttack/...
+ * implementations. The body below is the real OP4 algorithm; only the two
+ * OP4 common/Platform.h macros stackalloc/stackfree are supplied by the
+ * labelled compat header (alloca / no-op) and the gib counts are verbatim
+ * from OP4 combat.cpp:35-37. The declaration is added to BHL's monsters.h
+ * by the declared merge rule "op4-gibdata-spawn-overload".                */
+#ifndef GERMAN_GIB_COUNT
+#define GERMAN_GIB_COUNT 4
+#endif
+#ifndef HUMAN_GIB_COUNT
+#define HUMAN_GIB_COUNT 6
+#endif
+#ifndef ALIEN_GIB_COUNT
+#define ALIEN_GIB_COUNT 4
+#endif
+
+void CGib::SpawnRandomGibs(entvars_t* pevVictim, int cGibs, const GibData& gibData)
+{
+	//Track the number of uses of a particular submodel so we can avoid spawning too many of the same
+	auto pLimitTracking = gibData.Limits != nullptr ? reinterpret_cast<int*>(stackalloc(sizeof(int) * gibData.SubModelCount)) : nullptr;
+
+	if (pLimitTracking)
+	{
+		memset(pLimitTracking, 0, sizeof(int) * gibData.SubModelCount);
+	}
+
+	auto currentBody = 0;
+
+	int cSplat;
+
+	for (cSplat = 0; cSplat < cGibs; cSplat++)
+	{
+		CGib* pGib = GetClassPtr((CGib*)NULL);
+
+		if (g_Language == LANGUAGE_GERMAN)
+		{
+			pGib->Spawn("models/germangibs.mdl");
+			pGib->pev->body = RANDOM_LONG(0, GERMAN_GIB_COUNT - 1);
+		}
+		else
+		{
+			pGib->Spawn(gibData.ModelName);
+
+			if (pLimitTracking)
+			{
+				if (pLimitTracking[currentBody] >= gibData.Limits[currentBody].MaxGibs)
+				{
+					++currentBody;
+				}
+
+				pGib->pev->body = currentBody;
+
+				++pLimitTracking[currentBody];
+			}
+			else
+			{
+				pGib->pev->body = RANDOM_LONG(gibData.FirstSubModel, gibData.SubModelCount - 1);
+			}
+		}
+
+		if (pevVictim)
+		{
+			// spawn the gib somewhere in the monster's bounding volume
+			pGib->pev->origin.x = pevVictim->absmin.x + pevVictim->size.x * (RANDOM_FLOAT(0, 1));
+			pGib->pev->origin.y = pevVictim->absmin.y + pevVictim->size.y * (RANDOM_FLOAT(0, 1));
+			pGib->pev->origin.z = pevVictim->absmin.z + pevVictim->size.z * (RANDOM_FLOAT(0, 1)) + 1; // absmin.z is in the floor because the engine subtracts 1 to enlarge the box
+
+			// make the gib fly away from the attack vector
+			pGib->pev->velocity = g_vecAttackDir * -1;
+
+			// mix in some noise
+			pGib->pev->velocity.x += RANDOM_FLOAT(-0.25, 0.25);
+			pGib->pev->velocity.y += RANDOM_FLOAT(-0.25, 0.25);
+			pGib->pev->velocity.z += RANDOM_FLOAT(-0.25, 0.25);
+
+			pGib->pev->velocity = pGib->pev->velocity * RANDOM_FLOAT(300, 400);
+
+			pGib->pev->avelocity.x = RANDOM_FLOAT(100, 200);
+			pGib->pev->avelocity.y = RANDOM_FLOAT(100, 300);
+
+			// copy owner's blood color
+			pGib->m_bloodColor = (CBaseEntity::Instance(pevVictim))->BloodColor();
+
+			if (pevVictim->health > -50)
+			{
+				pGib->pev->velocity = pGib->pev->velocity * 0.7;
+			}
+			else if (pevVictim->health > -200)
+			{
+				pGib->pev->velocity = pGib->pev->velocity * 2;
+			}
+			else
+			{
+				pGib->pev->velocity = pGib->pev->velocity * 4;
+			}
+
+			pGib->pev->solid = SOLID_BBOX;
+			UTIL_SetSize(pGib->pev, Vector(0, 0, 0), Vector(0, 0, 0));
+		}
+		pGib->LimitVelocity();
+	}
+
+	stackfree(pLimitTracking);
 }

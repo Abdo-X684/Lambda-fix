@@ -1,30 +1,31 @@
 # التقرير النهائي — FINAL BOSS
 
 > **الخلاصة الصريحة:** أُغلقت فجوات الربط الإثني عشر بتطبيقات Opposing Force
-> حقيقية، وأُعيد بناء `client.so` و`hl.so` من الشجرة النهائية بصفر فجوة،
-> مع اختبارات تنفيذية للأجسام الحقيقية. **لكن المشروع لم يُكتمل**: لم يُختبر
-> داخل Opposing Force لأن البيئة لا تحتوي محركاً ولا `vgui.so` ولا أصولاً شرعية
-> ولا محمّل ELF32 ديناميكياً. لا اختبار مخبّر، ولا نجاح مُستنتَج من الترجمة أو CI.
-> لا PR إلى `main`، ولا Release.
+> حقيقية، ثم في مرحلة المتابعة وُصل 36 مصدر OP4 إضافي حقيقي بهدف خادم BHL،
+> وأُضيف جسمان حقيقيان آخران (`IsFacing` و`CGib::SpawnRandomGibs(GibData)`)
+> بعد أن كشف الوصل الجديد عنهما، وأُعيد بناء `client.so` و`hl.so` من الشجرة
+> النهائية بصفر فجوة ربط مع اختبارات تنفيذية للأجسام الحقيقية.
+> **لكن المشروع لم يُكتمل**: لم يُختبر داخل Opposing Force لأن البيئة لا تحتوي
+> محركاً ولا `vgui.so` ولا أصولاً شرعية ولا محمّل ELF32 ديناميكياً. لا اختبار
+> مخبّر، ولا نجاح مُستنتَج من الترجمة أو CI. لا PR إلى `main`، ولا Release.
 
 ---
 
-## 0. الهوية والcommit
+## 0. الهوية والـ commit
 
 | البند | القيمة |
 |---|---|
 | الفرع | `arena/dd30bd22-bugfixhl-speedrun-op4` |
-| commit البناء/الأدلة | `a5f24e0eebc6365001c20041fd65a88a082a3257` |
-| commit تحديث هذا التقرير | التزام لاحق لتحديث هذا التقرير فقط (`git log -1`) |
+| commit البناء/الأدلة | هذا الالتزام (`git log -1`)؛ سبقه `425a30f5250d…` |
 | أساس BHL | `tmp64/BugfixedHL-Rebased @ 4d32095e3c33` |
 | مصدر OP4 | `twhl-community/halflife-op4-updated @ 5368be7f8eba` |
 | SDK | `tmp64/hl1_source_sdk @ 11f26656677c881c7c630d03957900e7701da62e` |
 
 ---
 
-## 1. المرحلة الأولى — إغلاق الرموز الإثني عشر
+## 1. إغلاق فجوات الربط
 
-الجدول الكامل (المصدر الأصلي، سبب الغياب، التغيير المطلوب، دليل اختفاء الرمز،
+الجدول الكامل (المصدر الأصلي، سبب الغياب، التغيير، دليل اختفاء الرمز،
 الاختبار الوظيفي) في
 [`../build-evidence/bhl-base/LINK_GAP_CLOSURE.md`](../build-evidence/bhl-base/LINK_GAP_CLOSURE.md).
 
@@ -33,28 +34,52 @@
 | `client.so` | 3 فجوات | **0** |
 | `hl.so` | 9 فجوات | **0** |
 
-- لا دالة فارغة، ولا stub لإسكات الرابط، ولا تعطيل نظام، ولا تغيير واجهة BHL
-  لإخفاء تعارض، ولا نسخ عشوائي.
+- لا دالة فارغة، ولا stub لإسكات الرابط، ولا تعطيل نظام، ولا نسخ عشوائي.
 - stub عميل OP4 `hl_baseentity.cpp:309` (`return flTime;`) **رُفض صراحةً**
   واستُخدمت خوارزمية `dlls/weapons.cpp:1069-1099`.
-- وُصلت ملفات OP4 حقيقية إلى هدف BHL: 8 من `dlls/ctf/` و4 من `dlls/rope/`
-  (منها `CTFGoalFlag.cpp` و`CRope.cpp` اللذان يحملان الجسمين المطلوبين).
 - الأجسام التي لا يمكن أن تتواجد ملفاتها الأصلية بجانب ملفات BHL بنفس الاسم
   نُقلت نصّاً إلى glue مُوسوم باسم الملف والسطور العلوية:
   `dlls/monsters.cpp:3448-3503`، `dlls/world.cpp:483-501`،
   `dlls/game.cpp:588-592,1189-1193`،
   `dlls/ctf/ctfplay_gamerules.cpp:48-67,92-138,141-263`،
-  `dlls/cdll_dll.h:200-213`.
-- ظهرت فجوة جديدة واحدة أثناء العمل (`GetLosingTeam`) بعد وصل `CItemCTF.cpp`
+  `dlls/cdll_dll.h:200-213`، `dlls/h_ai.cpp:196-210`،
+  `dlls/combat.cpp:179-265`.
+- ظهرت فجوة جديدة أثناء العمل (`GetLosingTeam`) بعد وصل `CItemCTF.cpp`
   وأُغلقت بجسم OP4 الحقيقي؛ لم تُخفَ.
 
-**الدليل:** `nm --defined-only` يعرض الـ12، `nm -u` لا يعرضها،
-`nm -S` يثبت أحجام البيانات، `objdump` يثبت أن الأجسام ليست `ret` فارغة،
-`LINK_GAPS.md` بلا بنود، `MANIFEST.json` بـ`[]`.
+### 1.1 مرحلة المتابعة: 36 ملف OP4 حقيقي إضافي + فجوة جديدة أُغلقت
+
+وُصل 29 مصدر OP4 نظيفاً (كيانات/CTF/NPC)، ثم 7 مصادر أخرى بعد إصلاح توافق
+مُعلَن. الآن **64 مصدر OP4/glue موصول بهدف خادم BHL** (كانت 29).
+
+وصل الـ29 كشف فجوة ربط حقيقية واحدة في `hl.so`:
+`IsFacing(entvars_s*, Vector const&)` — يستدعيها `otis.cpp` و`CDrillSergeant.cpp`
+و`CRecruit.cpp` و`hgrunt_ally.cpp` وغيرها. الجسم الحقيقي موجود في
+`.cache/upstreams/op4/dlls/h_ai.cpp:196-212` ولا يوجد له نظير في BHL
+`src/game/server/h_ai.cpp`. أُضيف نصّاً إلى glue موسوم، **لا stub**، مع تحويلين
+ميكانيكيين فقط (`Vector::Normalize()` ← `Normalized()`،
+`UTIL_MakeVectorsPrivate` يستقبل `float*`).
+
+وصل 7 مصادر أخرى تطلّب خمسة توافقات معلَنة، كلها إضافية ولا تحذف نظام BHL:
+
+| العنصر | المصدر العلوي | الشكل |
+|---|---|---|
+| `IsFacing` | `dlls/h_ai.cpp:196-210` | جسم حقيقي في glue |
+| `CGib::SpawnRandomGibs(pev, n, GibData)` | `dlls/combat.cpp:179-265` | جسم حقيقي في glue + إعلان مُدمج في `monsters.h` |
+| `IPointsForMonsterKill` / `MonsterKilled` | `dlls/gamerules.h:113,116` | virtuals مُضافة إلى `CGameRules` |
+| `byte CBaseEntity::m_EFlags` | `dlls/cbase.h:169` | حقل مُضاف إلى القاعدة (وأُزيل التكرار من `CBasePlayer`) |
+| `CLASS_ALIEN_RACE_X`، `stackalloc`/`stackfree`، `ExplosionCreate` 5-وسيط، `Make2D()` | `dlls/cbase.h:112`، `common/Platform.h:87`، `dlls/explode.h:25`، `dlls/vector.h:115` | ثوابت/ماكروهات/مهايئات في `op4_compat.h` و`op4_compat_late.h` |
+
+`dlls/ehandle.cpp` **استُبعد صراحةً** بعد أن فشل الربط بتكرار
+`EHANDLE::Get/Set/operator->` مع `cbase.cpp` في BHL؛ لم يُخفَ الفشل.
+
+**الدليل:** `nm --defined-only` يعرض الرموز الـ12 + الـ2 الجديدين، `nm -u` لا
+يعرضها، `nm -S` يثبت أحجام البيانات، `objdump` يثبت أن الأجسام ليست `ret`
+فارغة، `LINK_GAPS.md` بلا بنود، `MANIFEST.json` بـ`[]` للمكتبتين.
 
 ---
 
-## 2. المرحلة الثانية — حماية الهوية
+## 2. حماية الهوية
 
 `bhl-op4/PROVENANCE.json` (855 ملفاً):
 
@@ -65,19 +90,21 @@
 | glue (هذا المستودع) | 7 | `action: compat-glue`، كل واحد موسوم بمصدره العلوي |
 | `base.tree_sha256` | `48f2511ebd7a2e830daf59e99f2f3c48caaaf6c9f70509e9d115aba23e606e2d` | يُعاد حسابه ويتحقق منه `--check` |
 
-**كل تغيير على ملفات BHL مُعلَن بالاسم والسبب** (13 ملفاً، ومنها 4 جديدة في هذه المرحلة):
+**كل تغيير على ملفات BHL مُعلَن بالاسم والسبب** (13 ملفاً). القواعد الجديدة في
+هذه المرحلة:
 
 | ملف BHL | القاعدة | السبب |
 |---|---|---|
-| `src/game/server/weapons.h` | `op4-weapon-timing-state` | حقلا `m_flPrevPrimaryAttack` / `m_flLastFireTime` المطلوبان للخوارزمية الحقيقية |
-| `src/game/server/cbase.h` | `op4-cworld-ctor-dtor` | إعلان باني/هادم `CWorld` ل singleton OP4 |
-| `src/game/server/game.cpp` | `op4-gamedllinit-decls` + `op4-gamedllinit-call` | تسجيل cvars OP4 الحقيقية ورسالة `FlagIcon` من `GameDLLInit` في BHL (وإلا لكانت بيانات ميتة) |
-| `src/game/shared/CMakeLists.txt` | `op4-shared-weapon-timing-cmake` | ترجمة TU التوقيت في المكتبتين عبر قائمة BHL المشتركة نفسها |
+| `src/game/server/gamerules.h` | `op4-gamerules-cbasemonster-fwd` + `op4-gamerules-monster-hooks` | `CHalfLifeCoopplay` يعلّم دالتين `override` غائبتين عن قاعدة BHL |
+| `src/game/server/monsters.h` | `op4-gibdata-spawn-overload` | إعلان التحميل الزائد لـ `GibData` (الجسم في glue) |
+| `src/game/server/cbase.h` | `op4-entity-eflags` | `pitworm_up.cpp` يضبط `EFLAG_SLERP` عبر `m_EFlags` |
+| `src/game/server/player.h` | `op4-player-state` (عُدّل) | أُزيل `m_EFlags` المكرر ونُقل إلى `CBaseEntity` كما في OP4 |
+| `src/game/server/CMakeLists.txt` | `op4-cmake-sources` | 64 مصدر OP4/glue موصول بالهدف |
 
-الـ9 الأخرى كانت موجودة من قبل وموثّقة في `BHL_BASE_MERGE.md`.
 `python3 -m merge.bhl_base --check --out bhl-op4` يتحقق من كل بصمة،
 و`tests/test_bhl_base.py::test_07` يقارن الـ681 ملفاً بايت-ببايت بالمصدر المثبّت،
-و`test_op4_link_fixups.py::test_06` يثبت أن التغييرات الأربعة معلَنة بقواعد مسماة.
+و`test_op4_link_fixups.py::test_06` يثبت أن القواعد معلَنة بأسماء،
+و`test_09` يثبت أن المصادر السبعة الجديدة أصلها `op4` لا glue.
 
 **ما لم يحدث:** لم تُحذف ميزة BHL، ولم يُستبدل نظام BHL بمحاكاة، ولم تُغيَّر
 واجهة BHL لإخفاء تعارض (فقط حقول/إعلانات مضافة وتسجيل)، وكل إضافة OP4 لها
@@ -85,7 +112,7 @@
 
 ---
 
-## 3. المرحلة الثالثة — إعادة البناء القابلة للتكرار
+## 3. إعادة البناء القابلة للتكرار
 
 ```bash
 python3 -m merge.bhl_base --out bhl-op4
@@ -94,12 +121,13 @@ python3 tools/build_bhl_base.py
 
 | البند | القيمة |
 |---|---|
-| وحدات ترجمة | **408** (كلها `ok`) — عميل 138، خادم 142، tier1 35، tier2 3، vgui 68، glad/semver 2، PCRE 20 |
-| أوامر موثّقة | 416 في `BUILD_COMMANDS.txt` |
-| بصمات مصادر الإدخال | 408 في `SOURCES.sha256` |
+| وحدات ترجمة | **443** (كلها `ok`) — عميل 138، خادم 177، tier1 35، tier2 3، vgui 68، glad/semver 2، PCRE 20 |
+| أوامر موثّقة | 451 في `BUILD_COMMANDS.txt` |
+| بصمات مصادر الإدخال | 443 في `SOURCES.sha256` |
 | مكتبات ثابتة | 6 أرشيفات، ربط بلا `--allow-shlib-undefined` |
-| `client.so` | 27,753,660 B — `3230033ffaf2634b7c485ec9a19611aa541a7c6c20078eb4f47fda058018b9a8` |
-| `hl.so` | 17,415,276 B — `791e853b664366a37b9adb4948537c80c8f43a1a22f36db81f44ca917f54fdeb` |
+| `client.so` | 27,753,644 B — `c94a5de12bb9d1789216e4cf9416408df882ec8eaa17413dd771b006340be29c` |
+| `hl.so` | 20,936,800 B — `06b95817af97d6b54f647a93db35edbb501d97de66dc9265640e17a0a49dd61f` |
+| رموز مُصدَّرة / undefined | عميل 4,931 / 311، خادم 4,421 / 157 (كلها يوفّرها المحرك/النظام) |
 | المعمارية | ELF32 / Intel 80386 (مُثبت بـ`readelf -h`) |
 | فجوات البناء | 0 / 0 |
 
@@ -118,11 +146,11 @@ python3 tools/build_bhl_base.py
 
 ---
 
-## 4. المرحلة الرابعة — التثبيت والاختبار داخل اللعبة: **لم يُنفَّذ**
+## 4. التثبيت والاختبار داخل اللعبة: **لم يُنفَّذ**
 
 `python3 tools/probe_runtime_environment.py` →
 [`../build-evidence/bhl-base/RUNTIME_ENVIRONMENT.md`](../build-evidence/bhl-base/RUNTIME_ENVIRONMENT.md)
-يسجّل:
+يسجّل `NOT EXECUTABLE`:
 
 | الفحص | النتيجة الفعلية |
 |---|---|
@@ -141,48 +169,53 @@ python3 tools/build_bhl_base.py
 
 ---
 
-## 5. المرحلة الخامسة — كل الاختبارات ونتائجها
+## 5. كل الاختبارات ونتائجها (بعد آخر تعديل)
 
 | الاختبار | الأمر | النتيجة |
 |---|---|---|
 | سلامة الشجرة / المطابقة بايت-ببايت | `python3 -m merge.bhl_base --check --out bhl-op4` | `BHL-BASE PROVENANCE OK` |
-| ترجمة مصادر OP4 + مصادر BHL إلى ELF32 | `python3 tools/verify_bhl_base.py --compile` | OP4 `59/70` نظيفة، BHL `103/108`، **كل ملف موصول بـ CMake نظيف (0 فشل)** |
-| الرموز الإثني عشر / الأجسام غير الفارغة / البيانات / القواعد المعلَنة | `python3 -m unittest tests.test_op4_link_fixups -v` | **7/7 OK** |
+| ترجمة مصادر OP4 + مصادر BHL إلى ELF32 | `python3 tools/verify_bhl_base.py --compile` | OP4 `66/70` نظيفة، BHL `103/108`، **كل ملف موصول بـ CMake نظيف (0 فشل)** |
+| الرموز الـ12 + الرمزان الجديدان / الأجسام / البيانات / القواعد / المصادر الموصولة | `python3 -m unittest tests.test_op4_link_fixups -v` | **9/9 OK** |
 | خوارزمية `GetNextAttackDelay` + مُعدّد كيانات OP4 | `make test-op4` | **14 تحقّق PASS** |
-| أجسام الإصلاحات الحقيقية مُستخرجة نصّاً من الشجرة | `make test-op4-fixups` | **39 تحقّق PASS** |
+| أجسام الإصلاحات الحقيقية مُستخرجة نصّاً من الشجرة (بما فيها `IsFacing`) | `make test-op4-fixups` | **50 تحقّق PASS** |
+| نظافة الملفات النصية | `python3 tools/check_hygiene.py` | `hygiene: OK` |
 | الاختبارات الكاملة | `make verify` | `== ALL CHECKS PASSED ==` |
-| CI | `gh run list` | معرّف التشغيل في الإجابة النهائية للجلسة |
 
-`tools/gen_op4_fixup_harness.py` يستخرج أجسام الدوال **نصّاً** من
-`bhl-op4/` (لا يعيد كتابتها) ثم يترجمها وينفّذها مع محاكاة لحالة المحرك فقط؛
-المنطق المُختبر هو نفسه الذي في الثنائيات.
+`tools/gen_op4_fixup_harness.py` يستخرج أجسام الدوال **نصّاً** من `bhl-op4/`
+(لا يعيد كتابتها) ثم يترجمها وينفّذها مع محاكاة لحالة المحرك فقط؛ المنطق
+المُختبر هو نفسه الذي في الثنائيات. أُضيفت 8 تحقّقات تنفيذية لـ `IsFacing`
+(مخروط `0.96`، إهمال المحور Z، الاتجاه الخلفي، دوران 90°).
 
 ---
 
 ## 6. CI
 
 - معرّف تشغيل CI ونتائجه مذكوران في الإجابة النهائية للجلسة.
-- لا يضيف هذا الالتزام أي تغيير على الشجرة أو الثنائيات؛ البناء موثّق في الالتزام أعلاه.
 - **CI أخضر ليس إثبات نجاح** ولم يُستخدم كذلك في أي استنتاج أعلاه.
 
 ---
 
 ## 7. قائمة النواقص الصريحة
 
-1. لا اختبار داخل Opposing Force (السبب الكامل في القسم 4).
-2. `dlls/ctf/ctfplay_gamerules.cpp` **غير موصول**: يحتاج حقول `CBasePlayer`
-   الخاصة بـ OP4 (`m_szTeamModel`، `m_szTeamName`، `m_iSnipeKills`...) وثوابت
-   قوائم OP4 و`UTIL_FindPlayers` و`SecondsToTime`. إضافتها تعني استبدال أنظمة
-   BHL — ممنوع. **النتيجة العملية:** `CGameRules::IsCTF()` يبقى `false`، فقواعد
-   CTF لا تُفعَّل ومباراة CTF كاملة غير قابلة للعب؛ كيانات CTF ورسائل HUD
-   موجودة ومُختبرة كودياً فقط.
-3. 62 ملف OP4 ما زالت `port-pending`، منها `CItemBackpackCTF`،
-   `CItemLongJumpCTF`، `CItemPortableHEVCTF`، `CItemRegenerationCTF`،
-   `CTFDetect`، `ctfplay_gamerules.cpp`.
-4. ملفات OP4 الأساسية (`weapons.cpp`، `monsters.cpp`، `world.cpp`، `game.cpp`،
+1. لا اختبار داخل Opposing Force (السبب الكامل في القسم 4)؛ ولا إعادة اختبار
+   داخل اللعبة بعد آخر تعديل.
+2. أربعة مصادر OP4 خادم ما زالت لا تُترجم، و**27 ملف `port_pending`** إجمالاً
+   (21 عميل + 6 خادم). أسباب الستة الخادم معلَنة، لا مُخفاة:
+   - `dlls/ehandle.cpp`: يكرّر `EHANDLE` مع `cbase.cpp` في BHL.
+   - `dlls/UserMessages.cpp`: يكرّر `LinkUserMessages()` في BHL.
+   - `dlls/squeakgrenade.cpp`: يكرّر `CSqueak`/`CSqueakGrenade` في BHL.
+   - `dlls/world.cpp`: يكرّر `CWorld` في BHL (الـ singleton منقول إلى glue).
+   - `dlls/Wxdebug.cpp`: أداة تتبّع Windows-only داخل `_DEBUG`؛ `tchar.h` غائب ولا كود يُنتَج على Linux.
+   - `dlls/ctf/ctfplay_gamerules.cpp`: يحتاج حالة `CBasePlayer`/قوائم/cvars خاصة بـ OP4،
+     **ويكرّر 15 رمزاً** (`teamscores`, `team_names`, `GetTeamName`,
+     `SendFlagIcon`, `DisplayTeamFlags`…) موجودة نصّاً في glue. وصله كما هو
+     يفشل الرابط؛ لم يُوصَل. **النتيجة العملية:** `CGameRules::IsCTF()` يبقى
+     `false`، فقواعد CTF لا تُفعَّل ومباراة CTF كاملة غير قابلة للعب؛ كيانات
+     CTF ورسائل HUD موجودة ومُختبرة كودياً فقط.
+3. ملفات OP4 الأساسية (`weapons.cpp`، `monsters.cpp`، `world.cpp`، `game.cpp`،
    `util.cpp`، `gamerules.cpp`) تبقى `reference-only`؛ لم تُدمج ككتلة.
-5. لم يُنفَّذ configure/build بـ CMake كاملاً.
-6. لا PR إلى `main`، ولا تحديث Release، ولا توزيع ثنائيات، ولا ادعاء امتثال
+4. لم يُنفَّذ configure/build بـ CMake كاملاً بمولّد CMake فعلي.
+5. لا PR إلى `main`، ولا تحديث Release، ولا توزيع ثنائيات، ولا ادعاء امتثال
    ترخيصي (GPL-3.0 مقابل ترخيص Valve غير التجاري).
-7. اختبار تعدد الأشكال لـ `vtable`/`typeinfo` وقت التشغيل غير ممكن بلا محرك؛
+6. اختبار تعدد الأشكال لـ `vtable`/`typeinfo` وقت التشغيل غير ممكن بلا محرك؛
    اكتُفي بإثبات الحجم والتعريف وعدم كون الجسم stub.

@@ -169,6 +169,10 @@ public:
 	virtual int ObjectCaps(void) { return (CBaseEntity ::ObjectCaps() & ~FCAP_ACROSS_TRANSITION) | FCAP_DONT_SAVE; }
 	static void SpawnHeadGib(entvars_t *pevVictim);
 	static void SpawnRandomGibs(entvars_t *pevVictim, int cGibs, int human);
+
+	/* OP4-MERGE: verbatim OP4 dlls/monsters.h:184 */
+	static void SpawnRandomGibs(entvars_t *pevVictim, int cGibs, const GibData &gibData);
+
 	static void SpawnStickyGibs(entvars_t *pevVictim, Vector vecOrigin, int cGibs);
 
 	int m_bloodColor;

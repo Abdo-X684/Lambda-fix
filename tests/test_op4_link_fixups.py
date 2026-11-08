@@ -46,6 +46,24 @@ SERVER_GAPS = [
 DATA_GAPS = {"CWorld::World", "oldgrapple", "oldweapons",
              "typeinfo for CBasePlayerWeapon", "vtable for CBasePlayerWeapon"}
 
+# Two more real OP4 bodies added when 7 additional subsystem sources were
+# wired into the BHL server target (see docs/BHL_FINAL_AUDIT.md). Neither may
+# stay undefined, and neither may be an empty stub.
+NEW_SERVER_FIXUPS = [
+    "IsFacing(entvars_s*, Vector const&)",
+    "CGib::SpawnRandomGibs(entvars_s*, int, GibData const&)",
+]
+
+NEW_WIRED_OP4 = (
+    "op4/dlls/coopplay_gamerules.cpp",
+    "op4/dlls/func_tank_of.cpp",
+    "op4/dlls/hgrunt_medic.cpp",
+    "op4/dlls/hgrunt_torch.cpp",
+    "op4/dlls/pitworm_up.cpp",
+    "op4/dlls/shocktrooper.cpp",
+    "op4/dlls/voltigore.cpp",
+)
+
 
 def demangle(text: str) -> str:
     if not shutil.which("c++filt"):
@@ -180,9 +198,12 @@ class LinkGapClosureTests(unittest.TestCase):
                 ("op4-gamedllinit-decls", "op4-gamedllinit-call"),
             "src/game/shared/CMakeLists.txt":
                 ("op4-shared-weapon-timing-cmake",),
-            "src/game/server/weapons.h": ("op4-weapon-timing-state",),
-            "src/game/server/cbase.h": ("op4-cworld-ctor-dtor",),
-        }
+              "src/game/server/weapons.h": ("op4-weapon-timing-state",),
+              "src/game/server/cbase.h": ("op4-cworld-ctor-dtor",
+                                         "op4-entity-eflags"),
+              "src/game/server/gamerules.h": ("op4-gamerules-monster-hooks",),
+              "src/game/server/monsters.h": ("op4-gibdata-spawn-overload",),
+          }
         for rel, rules in declared.items():
             with self.subTest(file=rel):
                 rec = files[rel]
@@ -204,7 +225,7 @@ class LinkGapClosureTests(unittest.TestCase):
              "OP4 monsters.cpp AddShockEffect"),
             (fixups, "World = this;", "OP4 world.cpp CWorld ctor"),
             (fixups, "CVAR_REGISTER(&oldgrapple);", "OP4 game.cpp registration"),
-            (fixups, "gmsgFlagIcon = g_engfuncs.pfnRegUserMsg(\"FlagIcon\", -1);",
+            (fixups, 'gmsgFlagIcon = g_engfuncs.pfnRegUserMsg("FlagIcon", -1);',
              "OP4 UserMessages.cpp FlagIcon"),
             (fixups, "teamscores[teamIndex]", "OP4 ctfplay_gamerules.cpp SendFlagIcon"),
             (fixups, "if (teamscores[1] < teamscores[0])",
@@ -216,10 +237,51 @@ class LinkGapClosureTests(unittest.TestCase):
             (flag, "void CTFGoalFlag::DropFlag(CBasePlayer* pPlayer)",
              "real OP4 CTFGoalFlag.cpp"),
             (rope, "void CRope::DetachObject()", "real OP4 CRope.cpp"),
+            (fixups, "if (DotProduct(forward, vecDir) > 0.96)",
+             "OP4 h_ai.cpp IsFacing cone"),
+            (fixups, "pGib->Spawn(gibData.ModelName);",
+             "OP4 combat.cpp GibData gib spawning"),
+            (fixups, "pLimitTracking[currentBody] >= gibData.Limits[currentBody].MaxGibs",
+             "OP4 combat.cpp GibData submodel limits"),
         ]
         for text, needle, label in probes:
             with self.subTest(source=label):
                 self.assertIn(needle, text, f"missing real OP4 statement: {needle}")
+
+    def test_08_new_fixups_are_defined_with_real_bodies(self):
+        """The two new gap closures must be real code, not undefined/stubs."""
+        for name in NEW_SERVER_FIXUPS:
+            with self.subTest(symbol=name):
+                self.assertIn(name, self.server_def,
+                              f"{name} is NOT defined in hl.so")
+                self.assertNotIn(name, self.server_und,
+                                 f"{name} is STILL UNDEFINED in hl.so")
+        if shutil.which("objdump"):
+            for name in NEW_SERVER_FIXUPS:
+                sym = mangled(SERVER, name)
+                self.assertIsNotNone(sym, f"no symbol for {name}")
+                out = subprocess.run(
+                    ["objdump", "-d", f"--disassemble={sym}", str(SERVER)],
+                    capture_output=True, text=True, check=True).stdout
+                insns = [ln for ln in out.splitlines()
+                         if "\t" in ln and ln.split("\t")[0].strip().endswith(":")]
+                with self.subTest(symbol=name):
+                    self.assertGreater(len(insns), 8,
+                                       f"{name} disassembles to <=8 instructions")
+
+    def test_09_newly_wired_sources_are_real_op4_files(self):
+        """The 7 additional wired files are verbatim OP4, not glue copies."""
+        files = self.prov["files"]
+        wired = set(self.prov["cmake"]["src/game/server/CMakeLists.txt"])
+        for rel in NEW_WIRED_OP4:
+            with self.subTest(source=rel):
+                self.assertIn(rel, wired, f"{rel} not wired into the BHL target")
+                rec = files["src/game/server/" + rel]
+                self.assertEqual(rec["origin"], "op4", rel)
+                self.assertIn(rec["action"],
+                              ("verbatim", "op4+compat-patch"), rel)
+                self.assertEqual(rec["upstream_path"],
+                                 rel.removeprefix("op4/"), rel)
 
 
 if __name__ == "__main__":

@@ -12,8 +12,8 @@
 | --- | --- |
 | الأساس | `tmp64/BugfixedHL-Rebased @ 4d32095e3c33` — 694 ملف BHL، **681 مطابق بايت-ببايت** + 13 دمجاً معلَناً |
 | إضافة OP4 | 154 ملفاً من `twhl-community/halflife-op4-updated @ 5368be7f8eba` + 7 ملفات glue موسومة |
-| بناء `client.so` / `hl.so` من `bhl-op4/` | ✅ ELF32، 408 وحدة ترجمة، **صفر رمز ربط غير محلول** |
-| الثنائيات | `client.so` = `3230033ffaf2634b7c485ec9a19611aa541a7c6c20078eb4f47fda058018b9a8` · `hl.so` = `791e853b664366a37b9adb4948537c80c8f43a1a22f36db81f44ca917f54fdeb` |
+| بناء `client.so` / `hl.so` من `bhl-op4/` | ✅ ELF32، 443 وحدة ترجمة، 64 مصدر OP4/glue موصول بالخادم، **صفر رمز ربط غير محلول** |
+| الثنائيات | `client.so` = `c94a5de12bb9d1789216e4cf9416408df882ec8eaa17413dd771b006340be29c` · `hl.so` = `06b95817af97d6b54f647a93db35edbb501d97de66dc9265640e17a0a49dd61f` |
 | اختبار داخل Opposing Force | ❌ **لم يُنفَّذ** — لا محرك، لا `vgui.so`، لا أصول شرعية، لا محمّل ELF32 ديناميكي |
 | إعلان الاكتمال | ❌ **لا** — المشروع غير مكتمل؛ قائمة النواقص في التقرير النهائي |
 
@@ -22,9 +22,9 @@
 * [`docs/BHL_FINAL_AUDIT.md`](docs/BHL_FINAL_AUDIT.md) — التقرير الجامع: كل رمز، كل تغيير على BHL، كل اختبار ونتيجته، النواقص صراحةً.
 * [`docs/BHL_BASE_BUILD.md`](docs/BHL_BASE_BUILD.md) و
   [`build-evidence/bhl-base/MANIFEST.json`](build-evidence/bhl-base/MANIFEST.json)
-  — **416 أمر ترجمة/ربط**، 408 بصمة مصدر، سجل كامل، بصمات مطابقة للملفات على القرص.
+  — **451 أمر ترجمة/ربط**، 443 بصمة مصدر، سجل كامل، بصمات مطابقة للملفات على القرص.
 * [`build-evidence/bhl-base/LINK_GAP_CLOSURE.md`](build-evidence/bhl-base/LINK_GAP_CLOSURE.md)
-  — جدول الـ12 رمزاً: التنفيذ الأصلي، سبب الغياب، التغيير، دليل الاختفاء، الاختبار.
+  — جدول الـ12 رمزاً: التنفيذ الأصلي، سبب الغياب، التغيير، دليل الاختفاء، الاختبار؛ ومعها `IsFacing` و`CGib::SpawnRandomGibs(GibData)` في التقرير النهائي.
 * [`bhl-op4/PORT_STATUS.json`](bhl-op4/PORT_STATUS.json) — نتيجة ترجمة كل مصدر OP4
   إلى كائن ELF32 حقيقي مقابل هيدرات BHL المدمجة.
 * [`build-evidence/bhl-base/RUNTIME_ENVIRONMENT.md`](build-evidence/bhl-base/RUNTIME_ENVIRONMENT.md)
@@ -49,10 +49,11 @@ make verify                                 # كل فحوصات المستودع
 1. **لا اختبار داخل Opposing Force**: لا تحميل في محرك، لا خريطة، لا HUD/UI،
    لا أسلحة BHL/OP4، لا تبديل ولا ذخيرة ولا إعادة تعبئة، لا Monster/Rope/Grapple/CTF
    وقت تشغيل، ولا مراقبة أعطال. الأسباب بأدلة في `RUNTIME_ENVIRONMENT.md`.
-2. `dlls/ctf/ctfplay_gamerules.cpp` (قواعد CTF الفعلية) **غير موصول** لأنه يحتاج
-   حقول `CBasePlayer` وقوائم خاصة بـ OP4؛ إضافتها تعني استبدال أنظمة BHL (ممنوع).
-   النتيجة: `CGameRules::IsCTF()` يبقى `false`، ومباراة CTF غير قابلة للعب بعد.
-   62 ملف OP4 ما زالت `port-pending`.
+2. `dlls/ctf/ctfplay_gamerules.cpp` (قواعد CTF الفعلية) **غير موصول**: يحتاج حالة
+   `CBasePlayer`/قوائم/cvars خاصة بـ OP4، ويكرّر 15 رمزاً CTF موجودة نصّاً في glue
+   (وصله كما هو يفشل الرابط). النتيجة: `CGameRules::IsCTF()` يبقى `false`، ومباراة
+   CTF غير قابلة للعب بعد. **27 ملف OP4 ما زالت `port-pending`** (21 عميل + 6 خادم
+   مستبعدة بأسباب معلَنة: تكرار أنظمة BHL أو Windows-only).
 3. لم يُنفَّذ configure/build بـ CMake كاملاً (استُخدم استنساخ أمين لقوائمه مع Zig-clang).
 4. **الثنائيات والـ Release أدناه قديمة**: `dist/dlls/*.so`, `dist/bhlop4/`,
    `v0.1.0-linux32` مبنية من شجرة **OP4-أساس** السابقة، لم تُلمس، ولا تُستخدم كدليل.
