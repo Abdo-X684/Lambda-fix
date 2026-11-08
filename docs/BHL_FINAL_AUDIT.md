@@ -50,7 +50,7 @@
 ### 1.1 مرحلة المتابعة: 36 ملف OP4 حقيقي إضافي + فجوة جديدة أُغلقت
 
 وُصل 29 مصدر OP4 نظيفاً (كيانات/CTF/NPC)، ثم 7 مصادر أخرى بعد إصلاح توافق
-مُعلَن. الآن **64 مصدر OP4/glue موصول بهدف خادم BHL** (كانت 29).
+مُعلَن. الآن **66 مصدر OP4/glue موصول بهدف خادم BHL** (كانت 29).
 
 وصل الـ29 كشف فجوة ربط حقيقية واحدة في `hl.so`:
 `IsFacing(entvars_s*, Vector const&)` — يستدعيها `otis.cpp` و`CDrillSergeant.cpp`
@@ -85,12 +85,12 @@
 
 | الأصل | العدد | الحالة |
 |---|---|---|
-| BugfixedHL-Rebased | 694 | **681 مطابقة بايت-ببايت** للمصدر المثبّت + **13 دمجاً مُعلَناً** |
+| BugfixedHL-Rebased | 694 | **680 مطابقة بايت-ببايت** للمصدر المثبّت + **13 دمجاً مُعلَناً** |
 | halflife-op4-updated | 154 | ملفات OP4 بـ`upstream_path` |
-| glue (هذا المستودع) | 7 | `action: compat-glue`، كل واحد موسوم بمصدره العلوي |
+| glue (هذا المستودع) | 8 | `action: compat-glue`، كل واحد موسوم بمصدره العلوي |
 | `base.tree_sha256` | `48f2511ebd7a2e830daf59e99f2f3c48caaaf6c9f70509e9d115aba23e606e2d` | يُعاد حسابه ويتحقق منه `--check` |
 
-**كل تغيير على ملفات BHL مُعلَن بالاسم والسبب** (13 ملفاً). القواعد الجديدة في
+**كل تغيير على ملفات BHL مُعلَن بالاسم والسبب** (14 ملفاً). القواعد الجديدة في
 هذه المرحلة:
 
 | ملف BHL | القاعدة | السبب |
@@ -99,10 +99,10 @@
 | `src/game/server/monsters.h` | `op4-gibdata-spawn-overload` | إعلان التحميل الزائد لـ `GibData` (الجسم في glue) |
 | `src/game/server/cbase.h` | `op4-entity-eflags` | `pitworm_up.cpp` يضبط `EFLAG_SLERP` عبر `m_EFlags` |
 | `src/game/server/player.h` | `op4-player-state` (عُدّل) | أُزيل `m_EFlags` المكرر ونُقل إلى `CBaseEntity` كما في OP4 |
-| `src/game/server/CMakeLists.txt` | `op4-cmake-sources` | 64 مصدر OP4/glue موصول بالهدف |
+| `src/game/server/CMakeLists.txt` | `op4-cmake-sources` | 66 مصدر OP4/glue موصول بالهدف |
 
 `python3 -m merge.bhl_base --check --out bhl-op4` يتحقق من كل بصمة،
-و`tests/test_bhl_base.py::test_07` يقارن الـ681 ملفاً بايت-ببايت بالمصدر المثبّت،
+و`tests/test_bhl_base.py::test_07` يقارن الـ680 ملفاً بايت-ببايت بالمصدر المثبّت،
 و`test_op4_link_fixups.py::test_06` يثبت أن القواعد معلَنة بأسماء،
 و`test_09` يثبت أن المصادر السبعة الجديدة أصلها `op4` لا glue.
 
@@ -121,13 +121,13 @@ python3 tools/build_bhl_base.py
 
 | البند | القيمة |
 |---|---|
-| وحدات ترجمة | **443** (كلها `ok`) — عميل 138، خادم 177، tier1 35، tier2 3، vgui 68، glad/semver 2، PCRE 20 |
-| أوامر موثّقة | 451 في `BUILD_COMMANDS.txt` |
-| بصمات مصادر الإدخال | 443 في `SOURCES.sha256` |
+| وحدات ترجمة | **445** (كلها `ok`) — عميل 138، خادم 179، tier1 35، tier2 3، vgui 68، glad/semver 2، PCRE 20 |
+| أوامر موثّقة | 453 في `BUILD_COMMANDS.txt` |
+| بصمات مصادر الإدخال | 445 في `SOURCES.sha256` |
 | مكتبات ثابتة | 6 أرشيفات، ربط بلا `--allow-shlib-undefined` |
-| `client.so` | 27,753,644 B — `c94a5de12bb9d1789216e4cf9416408df882ec8eaa17413dd771b006340be29c` |
-| `hl.so` | 20,936,800 B — `06b95817af97d6b54f647a93db35edbb501d97de66dc9265640e17a0a49dd61f` |
-| رموز مُصدَّرة / undefined | عميل 4,931 / 311، خادم 4,421 / 157 (كلها يوفّرها المحرك/النظام) |
+| `client.so` | 27,753,724 B — `37a09c5202c1db3021d0f6c88b6137b24330e040cc4844b8aaf25a8bdaa84f57` |
+| `hl.so` | 21,231,808 B — `3eabfa02bf75799ff422c949874ce376a9e4fca64b48d9e38b3520302a594744` |
+| رموز مُصدَّرة / undefined | عميل 4,931 / 311، خادم 4,467 / 156 (كلها يوفّرها المحرك/النظام) |
 | المعمارية | ELF32 / Intel 80386 (مُثبت بـ`readelf -h`) |
 | فجوات البناء | 0 / 0 |
 
@@ -174,10 +174,10 @@ python3 tools/build_bhl_base.py
 | الاختبار | الأمر | النتيجة |
 |---|---|---|
 | سلامة الشجرة / المطابقة بايت-ببايت | `python3 -m merge.bhl_base --check --out bhl-op4` | `BHL-BASE PROVENANCE OK` |
-| ترجمة مصادر OP4 + مصادر BHL إلى ELF32 | `python3 tools/verify_bhl_base.py --compile` | OP4 `66/70` نظيفة، BHL `103/108`، **كل ملف موصول بـ CMake نظيف (0 فشل)** |
-| الرموز الـ12 + الرمزان الجديدان / الأجسام / البيانات / القواعد / المصادر الموصولة | `python3 -m unittest tests.test_op4_link_fixups -v` | **9/9 OK** |
+| ترجمة مصادر OP4 + مصادر BHL إلى ELF32 | `python3 tools/verify_bhl_base.py --compile` | OP4 `68/71` نظيفة، BHL `102/107`، **كل ملف موصول بـ CMake نظيف (0 فشل)** |
+| الرموز الـ12 + الرمزان الجديدان / الأجسام / البيانات / القواعد / المصادر الموصولة | `python3 -m unittest tests.test_bhl_base tests.test_op4_link_fixups -v` | **22/22 OK** (منها `test_10` يثبت وصل قواعد CTF و`IsCTF()`) |
 | خوارزمية `GetNextAttackDelay` + مُعدّد كيانات OP4 | `make test-op4` | **14 تحقّق PASS** |
-| أجسام الإصلاحات الحقيقية مُستخرجة نصّاً من الشجرة (بما فيها `IsFacing`) | `make test-op4-fixups` | **50 تحقّق PASS** |
+| أجسام الإصلاحات الحقيقية مُستخرجة نصّاً من الشجرة (بما فيها `IsFacing`) | `make test-op4-fixups` | **55 تحقّق PASS** |
 | نظافة الملفات النصية | `python3 tools/check_hygiene.py` | `hygiene: OK` |
 | الاختبارات الكاملة | `make verify` | `== ALL CHECKS PASSED ==` |
 
@@ -199,19 +199,20 @@ python3 tools/build_bhl_base.py
 
 1. لا اختبار داخل Opposing Force (السبب الكامل في القسم 4)؛ ولا إعادة اختبار
    داخل اللعبة بعد آخر تعديل.
-2. أربعة مصادر OP4 خادم ما زالت لا تُترجم، و**27 ملف `port_pending`** إجمالاً
-   (21 عميل + 6 خادم). أسباب الستة الخادم معلَنة، لا مُخفاة:
+2. **26 ملف `port_pending`** إجمالاً (21 عميل + 5 خادم). أسباب الخمسة الخادم
+   معلَنة، لا مُخفاة:
    - `dlls/ehandle.cpp`: يكرّر `EHANDLE` مع `cbase.cpp` في BHL.
-   - `dlls/UserMessages.cpp`: يكرّر `LinkUserMessages()` في BHL.
+   - `dlls/UserMessages.cpp`: يكرّر `LinkUserMessages()` في BHL (رسائل OP4
+     سُجّلت من `GameDLLInit` بديلاً عنه).
    - `dlls/squeakgrenade.cpp`: يكرّر `CSqueak`/`CSqueakGrenade` في BHL.
    - `dlls/world.cpp`: يكرّر `CWorld` في BHL (الـ singleton منقول إلى glue).
-   - `dlls/Wxdebug.cpp`: أداة تتبّع Windows-only داخل `_DEBUG`؛ `tchar.h` غائب ولا كود يُنتَج على Linux.
-   - `dlls/ctf/ctfplay_gamerules.cpp`: يحتاج حالة `CBasePlayer`/قوائم/cvars خاصة بـ OP4،
-     **ويكرّر 15 رمزاً** (`teamscores`, `team_names`, `GetTeamName`,
-     `SendFlagIcon`, `DisplayTeamFlags`…) موجودة نصّاً في glue. وصله كما هو
-     يفشل الرابط؛ لم يُوصَل. **النتيجة العملية:** `CGameRules::IsCTF()` يبقى
-     `false`، فقواعد CTF لا تُفعَّل ومباراة CTF كاملة غير قابلة للعب؛ كيانات
-     CTF ورسائل HUD موجودة ومُختبرة كودياً فقط.
+   - `dlls/Wxdebug.cpp`: Windows-only داخل `_DEBUG`؛ `tchar.h` غائب ولا كود يُنتَج على Linux.
+   - أما `dlls/ctf/ctfplay_gamerules.cpp` **فقد وُصل في هذه الجولة**: نُقلت
+     ملكية الـ15 رمزاً CTF من glue إلى الملف الحقيقي، وأضيفت القوائم/cvars/
+     الرسائل/الـ virtuals المطلوبة، وصار `IsCTF()` يُفعَّل فعلاً. يبقى أن
+     **عميل OP4 (HUD الأعلام/scoreboard/spectator) غير موصول** لتعارض
+     VGUI1/VGUI2 مثبت في `COMPLETION_INVENTORY.md` §4، وأن مباراة CTF
+     **غير مُختبَرة داخل اللعبة**.
 3. ملفات OP4 الأساسية (`weapons.cpp`، `monsters.cpp`، `world.cpp`، `game.cpp`،
    `util.cpp`، `gamerules.cpp`) تبقى `reference-only`؛ لم تُدمج ككتلة.
 4. لم يُنفَّذ configure/build بـ CMake كاملاً بمولّد CMake فعلي.

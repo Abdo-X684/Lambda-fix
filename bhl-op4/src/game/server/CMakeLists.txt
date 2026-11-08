@@ -192,6 +192,7 @@ list( APPEND SOURCE_FILES
 	op4/dlls/ctf/CTFGoalBase.cpp
 	op4/dlls/ctf/CTFGoalFlag.cpp
 	op4/dlls/ctf/CTFSpawn.cpp
+	op4/dlls/ctf/ctfplay_gamerules.cpp
 	op4/dlls/func_tank_of.cpp
 	op4/dlls/geneworm.cpp
 	op4/dlls/gonome.cpp
@@ -232,6 +233,7 @@ list( APPEND SOURCE_FILES
 	op4/dlls/zombie_barney.cpp
 	op4/dlls/zombie_soldier.cpp
 	op4/op4_compat.cpp
+	op4/op4_ctf_player.cpp
 	op4/op4_link_fixups.cpp
 )
 

@@ -326,12 +326,14 @@ FIXUPS_CPP = r'''/* ------------------------------------------------------------
  *   dlls/world.cpp:483-501               CWorld::World, CWorld ctor/dtor
  *   dlls/monsters.cpp:3448-3503          CBaseMonster shock-effect methods
  *   dlls/h_ai.cpp:196-210                IsFacing()
- *   dlls/ctf/ctfplay_gamerules.cpp:48-67 CTF globals + team_names
- *   dlls/cdll_dll.h:200-213              RGB_* / UnpackRGB
- *   dlls/ctf/ctfplay_gamerules.cpp:141-263 SendFlagIcon / SendFlagIcons /
- *                                        DisplayTeamFlags
- *   dlls/ctf/ctfplay_gamerules.cpp:92-112 GetTeamName
+ *   dlls/UserMessages.cpp:75-92          gmsgFlagIcon + OP4-only msg ids
  *   dlls/combat.cpp:179-265             CGib::SpawnRandomGibs(GibData)
+ *
+ * CTF globals, SendFlagIcon*, DisplayTeamFlags, GetTeamName, GetLosingTeam and
+ * the RGB constants / UnpackRGB are NO LONGER here: the REAL dlls/ctf/ctfplay_gamerules.cpp
+ * is wired into the BHL server target, so it owns those single definitions.
+ * op4_ctf_player.cpp (also glue) owns the real CTF menu/cvar/respawn bodies.
+ * See PROVENANCE.json and docs/COMPLETION_INVENTORY.md.
  *
  * Upstream: halflife-op4-updated @ 5368be7f8eba.
  * See PROVENANCE.json, docs/BHL_BASE_BUILD.md and LINK_GAPS.md.
@@ -366,10 +368,32 @@ cvar_t multipower = {"mp_multipower", "0", FCVAR_SERVER};
  * static initialiser would be wrong.                                       */
 void OP4_RegisterGameDLLHooks()
 {
+	/* dlls/game.cpp:1189-1200 (verbatim OP4 cvar registrations) */
 	CVAR_REGISTER(&oldgrapple);
 	CVAR_REGISTER(&oldweapons);
 	CVAR_REGISTER(&multipower);
-	gmsgFlagIcon = g_engfuncs.pfnRegUserMsg("FlagIcon", -1);
+	CVAR_REGISTER(&ctfplay);
+	CVAR_REGISTER(&ctf_autoteam);
+	CVAR_REGISTER(&ctf_capture);
+	CVAR_REGISTER(&coopplay);
+	CVAR_REGISTER(&defaultcoop);
+	CVAR_REGISTER(&coopweprespawn);
+
+	/* dlls/UserMessages.cpp:75-92 (verbatim OP4-only message registrations).
+	 * Shared ids are owned and registered by BHL's player.cpp. */
+	gmsgFlagIcon    = g_engfuncs.pfnRegUserMsg("FlagIcon", -1);
+	gmsgFlagTimer   = g_engfuncs.pfnRegUserMsg("FlagTimer", -1);
+	gmsgPlayerIcon  = g_engfuncs.pfnRegUserMsg("PlayerIcon", -1);
+	gmsgPlayerBrowse= g_engfuncs.pfnRegUserMsg("PlayerBrowse", -1);
+	gmsgHudColor    = g_engfuncs.pfnRegUserMsg("HudColor", 3);
+	gmsgSetMenuTeam = g_engfuncs.pfnRegUserMsg("SetMenuTeam", 1);
+	gmsgCTFScore    = g_engfuncs.pfnRegUserMsg("CTFScore", 2);
+	gmsgStatsInfo   = g_engfuncs.pfnRegUserMsg("StatsInfo", -1);
+	gmsgStatsPlayer = g_engfuncs.pfnRegUserMsg("StatsPlayer", 31);
+	gmsgTeamFull    = g_engfuncs.pfnRegUserMsg("TeamFull", 1);
+	gmsgOldWeapon   = g_engfuncs.pfnRegUserMsg("OldWeapon", 1);
+	gmsgCustomIcon  = g_engfuncs.pfnRegUserMsg("CustomIcon", -1);
+	gmsgWeapons     = g_engfuncs.pfnRegUserMsg("Weapons", -1);
 }
 
 /* ===== dlls/world.cpp:483-501 (verbatim) ================================= *
@@ -462,176 +486,16 @@ void CBaseMonster::ClearShockEffect()
 	}
 }
 
-/* ===== dlls/ctf/ctfplay_gamerules.cpp:48-67 (verbatim globals) ========= *
- * ctfplay_gamerules.cpp itself is NOT wired: it needs OP4-only CBasePlayer
- * fields (m_szTeamModel, m_szTeamName, m_iSnipeKills...), OP4 menus and
- * UTIL_FindPlayers. Adding those would replace BHL player/gamerules systems.
- * Only the state that the verbatim-wired CTF entities actually read is
- * reproduced here, byte-for-byte from upstream. See "incomplete" in the
- * final report.                                                            */
-char g_szScoreIconNameBM[40] = "item_ctfflagh";
-char g_szScoreIconNameOF[40] = "item_ctfflagh";
-
-float g_flFlagReturnTime = 30;
-float g_flBaseDefendDist = 192;
-float g_flDefendCarrierTime = 10;
-float g_flCaptureAssistTime = 10;
-float g_flPowerupRespawnTime = 30;
-int g_iMapScoreMax = 0;
-
-int teamscores[2] = {0, 0};
-
-static const char team_names[2][16] =
-{
-	{"Black Mesa"},
-	{"Opposing Force"}
-};
+/* CTF globals / team_names now come from the REAL wired
+   ctf/ctfplay_gamerules.cpp; glue keeps only gmsgFlagIcon. */
 
 /* OP4 dlls/UserMessages.h:62 -- registered in OP4_RegisterGameDLLHooks(). */
 int gmsgFlagIcon = 0;
 
-/* ===== dlls/cdll_dll.h:200-213 (verbatim) =============================== */
-#define RGB_YELLOWISH 0x00FFA000 /* 255,160,0 */
-#define RGB_REDISH    0x00FF1010
-#define RGB_GREENISH  0x0000A000 /* 0,160,0 */
-#define RGB_HUD_COLOR RGB_GREENISH
-
-inline void UnpackRGB(int& r, int& g, int& b, unsigned long ulRGB)
-{
-	r = (ulRGB & 0xFF0000) >> 16;
-	g = (ulRGB & 0xFF00) >> 8;
-	b = ulRGB & 0xFF;
-}
-
-/* ===== dlls/ctf/ctfplay_gamerules.cpp:141-263 (verbatim) =============== */
-static void SendFlagIcon(CBasePlayer* player, bool isActive, const char* flagName, int teamIndex)
-{
-	g_engfuncs.pfnMessageBegin(MSG_ONE, gmsgFlagIcon, nullptr, player->edict());
-	g_engfuncs.pfnWriteByte(isActive ? 1 : 0);
-	g_engfuncs.pfnWriteString(flagName);
-	g_engfuncs.pfnWriteByte(teamIndex);
-
-	int r, g, b;
-
-	if (teamIndex == 0)
-	{
-		UnpackRGB(r, g, b, RGB_YELLOWISH);
-	}
-	else
-	{
-		UnpackRGB(r, g, b, RGB_HUD_COLOR);
-	}
-
-	g_engfuncs.pfnWriteByte(r);
-	g_engfuncs.pfnWriteByte(g);
-	g_engfuncs.pfnWriteByte(b);
-
-	g_engfuncs.pfnWriteByte(teamscores[teamIndex]);
-	g_engfuncs.pfnMessageEnd();
-}
-
-static void SendFlagIcons(CBasePlayer* player, CTFGoalFlag* team1Flag, CTFGoalFlag* team2Flag)
-{
-	if (team1Flag || team2Flag)
-	{
-		auto pMyFlag = static_cast<CTFGoalFlag*>(static_cast<CBaseEntity*>(player->m_pFlag));
-
-		if (team1Flag)
-		{
-			const char* flagName = "";
-
-			switch (team1Flag->m_iGoalState)
-			{
-			case 1:
-				flagName = "item_ctfflagh";
-				break;
-			case 2:
-				if (pMyFlag == team1Flag && pMyFlag)
-				{
-					flagName = "item_ctfflagg";
-				}
-				else
-				{
-					flagName = "item_ctfflagc";
-				}
-				break;
-			case 3:
-				flagName = "item_ctfflagd";
-				break;
-			}
-
-			SendFlagIcon(player, true, flagName, 0);
-		}
-
-		if (team2Flag)
-		{
-			const char* flagName = "";
-
-			switch (team2Flag->m_iGoalState)
-			{
-			case 1:
-				flagName = "item_ctfflagh";
-				break;
-			case 2:
-				if (pMyFlag == team2Flag && pMyFlag)
-				{
-					flagName = "item_ctfflagg";
-				}
-				else
-				{
-					flagName = "item_ctfflagc";
-				}
-				break;
-			case 3:
-				flagName = "item_ctfflagd";
-				break;
-			}
-
-			SendFlagIcon(player, true, flagName, 1);
-		}
-	}
-	else
-	{
-		SendFlagIcon(player, true, g_szScoreIconNameBM, 0);
-		SendFlagIcon(player, true, g_szScoreIconNameOF, 1);
-	}
-}
-
-void DisplayTeamFlags(CBasePlayer* pPlayer)
-{
-	if (0 == gmsgFlagIcon)
-		return;
-
-	CTFGoalFlag* team1Flag = nullptr;
-
-	while ((team1Flag = static_cast<CTFGoalFlag*>(UTIL_FindEntityByClassname(team1Flag, "item_ctfflag"))) && team1Flag->m_iGoalNum != 1)
-	{
-	}
-
-	CTFGoalFlag* team2Flag = nullptr;
-
-	while ((team2Flag = static_cast<CTFGoalFlag*>(UTIL_FindEntityByClassname(team2Flag, "item_ctfflag"))) && team2Flag->m_iGoalNum != 2)
-	{
-	}
-
-	if (pPlayer)
-	{
-		SendFlagIcons(pPlayer, team1Flag, team2Flag);
-	}
-	else
-	{
-		for (int i = 1; i <= gpGlobals->maxClients; ++i)
-		{
-			auto player = static_cast<CBasePlayer*>(UTIL_PlayerByIndex(i));
-
-			if (player)
-			{
-				SendFlagIcons(player, team1Flag, team2Flag);
-			}
-		}
-	}
-}
-
+/* RGB_* / UnpackRGB now live in op4_compat.h (verbatim
+   dlls/cdll_dll.h:187-213) so the real ctfplay_gamerules.cpp can use them. */
+/* SendFlagIcon / SendFlagIcons / DisplayTeamFlags now come from the REAL
+   wired ctf/ctfplay_gamerules.cpp (no duplicate strong symbols). */
 /* ===== dlls/h_ai.cpp:196-210 (verbatim OP4 body) ======================== *
  * Used by the real, wired OP4 ally monsters (otis / CRecruit /
  * CDrillSergeant / hgrunt_ally). OP4's h_ai.cpp cannot be linked next to
@@ -655,52 +519,8 @@ bool IsFacing(entvars_t* pevTest, const Vector& reference)
 	return false;
 }
 
-/* ===== dlls/ctf/ctfplay_gamerules.cpp:126-138 (verbatim) =============== *
- * CItemCTF::MyItemTouch (the real, wired CItemCTF.cpp:127) uses this to
- * hand a powerup to the losing team.                                      */
-void GetLosingTeam(int& iTeamNum, int& iScoreDiff)
-{
-	iTeamNum = 0;
-	iScoreDiff = 0;
-
-	//TODO: doesn't really make sense, if team 0 is losing the score difference is 0
-	if (teamscores[1] < teamscores[0])
-	{
-		iTeamNum = 1;
-
-		const auto difference = teamscores[0] - teamscores[1];
-
-		if (iScoreDiff < difference)
-			iScoreDiff = difference;
-	}
-}
-
-/* ===== dlls/ctf/ctfplay_gamerules.cpp:92-112 (verbatim) ================= */
-const char* GetTeamName(edict_t* pEntity)
-{
-	if (g_pGameRules->IsCTF())
-	{
-		auto pPlayer = static_cast<CBasePlayer*>(CBaseEntity::Instance(pEntity));
-
-		return team_names[(int)pPlayer->m_iTeamNum - 1];
-	}
-	else
-	{
-		/* A bit counterintuitive, this basically means each player model is a team */
-		if (g_pGameRules->IsDeathmatch() && g_pGameRules->IsTeamplay())
-		{
-			return g_engfuncs.pfnInfoKeyValue(g_engfuncs.pfnGetInfoKeyBuffer(pEntity), "model");
-		}
-		else
-		{
-			static char szTmp[256];
-
-			snprintf(szTmp, sizeof(szTmp), "%i", g_engfuncs.pfnGetPlayerUserId(pEntity));
-			return szTmp;
-		}
-	}
-}
-
+/* GetLosingTeam / GetTeamName now come from the REAL wired
+   ctf/ctfplay_gamerules.cpp. */
 /* ===== dlls/combat.cpp:179-265 (verbatim OP4 body) ====================== *
  * OP4-updated reworked gib spawning around a GibData descriptor with
  * per-submodel limits. BHL's combat.cpp only has the older
@@ -808,5 +628,315 @@ void CGib::SpawnRandomGibs(entvars_t* pevVictim, int cGibs, const GibData& gibDa
 	}
 
 	stackfree(pLimitTracking);
+}
+'''
+
+
+# ---------------------------------------------------------------------------
+# src/game/server/op4/op4_ctf_player.cpp -- verbatim OP4 player/menu/cvar bodies
+# ---------------------------------------------------------------------------
+CTF_PLAYER_CPP = r'''/* ---------------------------------------------------------------------------
+ * OP4 -> BugfixedHL GLUE (this repository, explicitly labelled).
+ *
+ * Real Opposing Force implementations whose ORIGINAL host files cannot be
+ * compiled next to BugfixedHL's identically named files:
+ *   dlls/game.cpp:580-586       ctfplay / ctf_autoteam / ctf_capture /
+ *                               coopplay / defaultcoop / coopweprespawn
+ *   dlls/UserMessages.cpp:75-92 OP4-only user-message ids
+ *   dlls/client.cpp:152-166     respawn()
+ *   dlls/player.cpp:5246-5277   CBasePlayer::Player_Menu()
+ *   dlls/player.cpp:5279-5308   CBasePlayer::ResetMenu()
+ *   dlls/player.cpp:5310-5416   CBasePlayer::Menu_Team_Input()
+ *   dlls/player.cpp:5418-5476   CBasePlayer::Menu_Char_Input()
+ *
+ * Upstream: halflife-op4-updated @ 5368be7f8eba. NOT stubs; no BHL system
+ * replaced. Mechanical adaptation only: BHL stores team numbers as int.
+ * -------------------------------------------------------------------------*/
+#include "extdll.h"
+#include "util.h"
+#include "cbase.h"
+#include "player.h"
+#include "gamerules.h"
+#include "game.h"
+#include "client.h"
+#include "ctf/CTFDefs.h"
+#include <cstdlib>
+
+/* ===== dlls/game.cpp:580-586 (verbatim) ================================= */
+cvar_t ctfplay          = {"mp_ctfplay", "0", FCVAR_SERVER};
+cvar_t ctf_autoteam     = {"mp_ctf_autoteam", "0", FCVAR_SERVER};
+cvar_t ctf_capture      = {"mp_ctf_capture", "0", FCVAR_SERVER};
+cvar_t coopplay         = {"mp_coopplay", "0", FCVAR_SERVER};
+cvar_t defaultcoop      = {"mp_defaultcoop", "0", FCVAR_SERVER};
+cvar_t coopweprespawn   = {"mp_coopweprespawn", "0", FCVAR_SERVER};
+
+/* ===== OP4-only user-message ids ========================================= */
+int gmsgFlagTimer   = 0;
+int gmsgPlayerIcon  = 0;
+int gmsgPlayerBrowse= 0;
+int gmsgHudColor    = 0;
+int gmsgSetMenuTeam = 0;
+int gmsgCTFScore    = 0;
+int gmsgStatsInfo   = 0;
+int gmsgStatsPlayer = 0;
+int gmsgTeamFull    = 0;
+int gmsgOldWeapon   = 0;
+int gmsgCustomIcon  = 0;
+int gmsgWeapons     = 0;
+
+/* ===== dlls/client.cpp:152-166 (verbatim) =============================== */
+void respawn(entvars_t* pev, bool fCopyCorpse)
+{
+	if (0 != gpGlobals->coop || 0 != gpGlobals->deathmatch)
+	{
+		if (fCopyCorpse)
+		{
+			// make a copy of the dead body for appearances sake
+			CopyToBodyQue(pev);
+		}
+
+		// respawn player
+		GetClassPtr((CBasePlayer*)pev)->Spawn();
+	}
+	else
+	{ // restart the entire server
+		SERVER_COMMAND("reload\n");
+	}
+}
+
+/* ===== dlls/player.cpp:5246-5277 (verbatim) ============================= */
+void CBasePlayer::Player_Menu()
+{
+	if (g_pGameRules->IsCTF())
+	{
+		if (m_iCurrentMenu == MENU_TEAM)
+		{
+			MESSAGE_BEGIN(MSG_ONE, gmsgAllowSpec, nullptr, edict());
+			WRITE_BYTE(1);
+			MESSAGE_END();
+
+			MESSAGE_BEGIN(MSG_ONE, gmsgTeamNames, nullptr, edict());
+			g_engfuncs.pfnWriteByte(2);
+			WRITE_STRING("#CTFTeam_BM");
+			WRITE_STRING("#CTFTeam_OF");
+			MESSAGE_END();
+
+			MESSAGE_BEGIN(MSG_ONE, gmsgVGUIMenu, nullptr, edict());
+			WRITE_BYTE(MENU_TEAM);
+			MESSAGE_END();
+		}
+		else if (m_iCurrentMenu == MENU_CLASS)
+		{
+			MESSAGE_BEGIN(MSG_ONE, gmsgSetMenuTeam, nullptr, edict());
+			WRITE_BYTE(static_cast<int>(m_iNewTeamNum == CTFTeam::None ? m_iTeamNum : m_iNewTeamNum));
+			MESSAGE_END();
+
+			MESSAGE_BEGIN(MSG_ONE, gmsgVGUIMenu, nullptr, edict());
+			WRITE_BYTE(MENU_CLASS);
+			MESSAGE_END();
+		}
+	}
+}
+
+/* ===== dlls/player.cpp:5279-5308 (verbatim) ============================= */
+void CBasePlayer::ResetMenu()
+{
+	if (0 != gmsgShowMenu)
+	{
+		MESSAGE_BEGIN(MSG_ONE, gmsgShowMenu, nullptr, edict());
+		WRITE_SHORT(0);
+		WRITE_CHAR(0);
+		WRITE_BYTE(0);
+		WRITE_STRING("");
+		MESSAGE_END();
+	}
+
+	switch (m_iCurrentMenu)
+	{
+	case MENU_DEFAULT:
+		m_iCurrentMenu = MENU_TEAM;
+		break;
+
+	case MENU_TEAM:
+		m_iCurrentMenu = MENU_CLASS;
+		break;
+
+	default:
+		m_iCurrentMenu = MENU_NONE;
+		return;
+	}
+
+	if (g_pGameRules->IsCTF())
+		Player_Menu();
+}
+
+/* ===== dlls/player.cpp:5310-5416 (verbatim) ============================= */
+bool CBasePlayer::Menu_Team_Input(int inp)
+{
+	m_iNewTeamNum = CTFTeam::None;
+
+	if (inp == -1)
+	{
+		g_pGameRules->ChangePlayerTeam(this, nullptr, false, false);
+
+		MESSAGE_BEGIN(MSG_ONE, gmsgTeamFull, nullptr, edict());
+		WRITE_BYTE(0);
+		MESSAGE_END();
+		return true;
+	}
+	else if (inp == 3)
+	{
+		if (g_pGameRules->TeamsBalanced())
+		{
+			if (m_iTeamNum == CTFTeam::None)
+			{
+				m_iNewTeamNum = static_cast<CTFTeam>(RANDOM_LONG(0, 1) + 1);
+				if (m_iNewTeamNum <= CTFTeam::None)
+				{
+					m_iNewTeamNum = CTFTeam::BlackMesa;
+				}
+				else if (m_iNewTeamNum > CTFTeam::OpposingForce)
+				{
+					m_iNewTeamNum = CTFTeam::OpposingForce;
+				}
+			}
+			else
+			{
+				m_iNewTeamNum = m_iTeamNum;
+			}
+		}
+		else
+		{
+			m_iNewTeamNum = static_cast<CTFTeam>(g_pGameRules->GetTeamIndex(g_pGameRules->TeamWithFewestPlayers()) + 1);
+		}
+
+		MESSAGE_BEGIN(MSG_ONE, gmsgTeamFull, nullptr, edict());
+		WRITE_BYTE(0);
+		MESSAGE_END();
+
+		ResetMenu();
+
+		pev->impulse = 0;
+
+		return true;
+	}
+	else if (inp <= g_pGameRules->GetNumTeams() && inp > 0)
+	{
+		auto unbalanced = false;
+
+		if (ctf_autoteam.value == 1)
+		{
+			if (m_iTeamNum != static_cast<CTFTeam>(inp))
+			{
+				if (!g_pGameRules->TeamsBalanced() && inp != g_pGameRules->GetTeamIndex(g_pGameRules->TeamWithFewestPlayers()) + 1)
+				{
+					ClientPrint(pev, HUD_PRINTCONSOLE, "Team balancing enabled.\nThis team is full.\n");
+					MESSAGE_BEGIN(MSG_ONE, gmsgTeamFull, nullptr, edict());
+					WRITE_BYTE(1);
+					MESSAGE_END();
+
+					unbalanced = true;
+				}
+				else
+				{
+					m_iNewTeamNum = static_cast<CTFTeam>(inp);
+				}
+			}
+			else
+			{
+				m_iNewTeamNum = m_iTeamNum;
+			}
+		}
+		else
+		{
+			m_iNewTeamNum = static_cast<CTFTeam>(inp);
+		}
+
+		if (!unbalanced)
+		{
+			MESSAGE_BEGIN(MSG_ONE, gmsgTeamFull, nullptr, edict());
+			WRITE_BYTE(0);
+			MESSAGE_END();
+
+			ResetMenu();
+
+			pev->impulse = 0;
+
+			return true;
+		}
+	}
+	else if (inp == 6 && m_iTeamNum > CTFTeam::None)
+	{
+		m_iCurrentMenu = MENU_NONE;
+		return true;
+	}
+
+	m_iCurrentMenu = MENU_TEAM;
+
+	if (g_pGameRules->IsCTF())
+		Player_Menu();
+
+	return false;
+}
+
+/* ===== dlls/player.cpp:5418-5476 (verbatim) ============================= */
+bool CBasePlayer::Menu_Char_Input(int inp)
+{
+	if (m_iNewTeamNum == CTFTeam::None)
+	{
+		ClientPrint(pev, HUD_PRINTCONSOLE, "Can't change character; not in a team.\n");
+		return false;
+	}
+
+	const char* pszCharacterType;
+
+	if (inp == 7)
+	{
+		pszCharacterType = g_pGameRules->GetCharacterType(static_cast<int>(m_iNewTeamNum) - 1, RANDOM_LONG(0, 5));
+	}
+	else
+	{
+		const auto characterIndex = inp - 1;
+
+		if (characterIndex < 0 || characterIndex > 5)
+			return false;
+
+		pszCharacterType = g_pGameRules->GetCharacterType(static_cast<int>(m_iNewTeamNum) - 1, characterIndex);
+	}
+
+	//Kill and gib the player if they're changing teams
+	const auto killAndGib = OBS_NONE == pev->iuser1 && m_iTeamNum != m_iNewTeamNum;
+
+	g_pGameRules->ChangePlayerTeam(this, pszCharacterType, killAndGib, killAndGib);
+
+	ResetMenu();
+
+	pev->impulse = 0;
+
+	if (OBS_NONE != pev->iuser1)
+	{
+		pev->effects &= ~EF_NODRAW;
+		pev->flags &= FL_FAKECLIENT;
+		pev->flags |= FL_CLIENT;
+		pev->takedamage = DAMAGE_YES;
+		m_iHideHUD &= ~(HIDEHUD_HEALTH | HIDEHUD_WEAPONS);
+		m_afPhysicsFlags &= PFLAG_OBSERVER;
+		pev->flags &= ~FL_SPECTATOR;
+
+		MESSAGE_BEGIN(MSG_ALL, gmsgSpectator);
+		WRITE_BYTE(entindex());
+		WRITE_BYTE(0);
+		MESSAGE_END();
+
+		pev->iuser1 = 0;
+		pev->deadflag = 0;
+		pev->solid = SOLID_SLIDEBOX;
+		pev->movetype = MOVETYPE_WALK;
+
+		g_pGameRules->GetPlayerSpawnSpot(this);
+		g_pGameRules->PlayerSpawn(this);
+	}
+
+	return true;
 }
 '''

@@ -177,6 +177,7 @@ class LinkGapClosureTests(unittest.TestCase):
         glue = set(self.prov["glue_files"])
         expected_glue = {
             "src/game/server/op4/op4_link_fixups.cpp",
+            "src/game/server/op4/op4_ctf_player.cpp",
             "src/game/server/op4/op4_entity_enumerator.h",
             "src/game/shared/op4_weapon_timing.h",
             "src/game/shared/op4_weapon_timing.cpp",
@@ -201,7 +202,10 @@ class LinkGapClosureTests(unittest.TestCase):
               "src/game/server/weapons.h": ("op4-weapon-timing-state",),
               "src/game/server/cbase.h": ("op4-cworld-ctor-dtor",
                                          "op4-entity-eflags"),
-              "src/game/server/gamerules.h": ("op4-gamerules-monster-hooks",),
+              "src/game/server/gamerules.h": ("op4-gamerules-monster-hooks",
+                                             "op4-gamerules-ctf-virtuals"),
+              "src/game/server/gamerules.cpp": ("op4-install-gamerules-decls",
+                                               "op4-install-gamerules-branch"),
               "src/game/server/monsters.h": ("op4-gibdata-spawn-overload",),
           }
         for rel, rules in declared.items():
@@ -217,6 +221,10 @@ class LinkGapClosureTests(unittest.TestCase):
     def test_07_real_upstream_bodies_back_the_fixups(self):
         """Key statements from the pinned OP4 sources must be present verbatim."""
         fixups = (ROOT / "bhl-op4/src/game/server/op4/op4_link_fixups.cpp").read_text()
+        ctf = (ROOT / "bhl-op4/src/game/server/op4/dlls/ctf/ctfplay_gamerules.cpp").read_text()
+        ctfh = (ROOT / "bhl-op4/src/game/server/op4/dlls/ctf/ctfplay_gamerules.h").read_text()
+        ctfplayer = (ROOT / "bhl-op4/src/game/server/op4/op4_ctf_player.cpp").read_text()
+        rules = (ROOT / "bhl-op4/src/game/server/gamerules.cpp").read_text()
         timing = (ROOT / "bhl-op4/src/game/shared/op4_weapon_timing.h").read_text()
         flag = (ROOT / "bhl-op4/src/game/server/op4/dlls/ctf/CTFGoalFlag.cpp").read_text()
         rope = (ROOT / "bhl-op4/src/game/server/op4/dlls/rope/CRope.cpp").read_text()
@@ -225,11 +233,18 @@ class LinkGapClosureTests(unittest.TestCase):
              "OP4 monsters.cpp AddShockEffect"),
             (fixups, "World = this;", "OP4 world.cpp CWorld ctor"),
             (fixups, "CVAR_REGISTER(&oldgrapple);", "OP4 game.cpp registration"),
-            (fixups, 'gmsgFlagIcon = g_engfuncs.pfnRegUserMsg("FlagIcon", -1);',
+            (fixups, 'pfnRegUserMsg("FlagIcon", -1)',
              "OP4 UserMessages.cpp FlagIcon"),
-            (fixups, "teamscores[teamIndex]", "OP4 ctfplay_gamerules.cpp SendFlagIcon"),
-            (fixups, "if (teamscores[1] < teamscores[0])",
-             "OP4 ctfplay_gamerules.cpp GetLosingTeam"),
+            (ctf, "teamscores[teamIndex]", "real OP4 ctfplay_gamerules.cpp SendFlagIcon"),
+            (ctf, "if (teamscores[1] < teamscores[0])",
+             "real OP4 ctfplay_gamerules.cpp GetLosingTeam"),
+            (ctfh, "bool IsCTF() override { return true; }", "OP4 CTF IsCTF override"),
+            (ctfplayer, "bool CBasePlayer::Menu_Team_Input", "OP4 player.cpp menu"),
+            (ctfplayer, "g_pGameRules->TeamsBalanced()", "OP4 menu team balancing"),
+            (ctfplayer, "cvar_t ctf_capture", "OP4 game.cpp CTF cvars"),
+            (ctfplayer, "void respawn(entvars_t* pev, bool fCopyCorpse)", "OP4 client.cpp respawn"),
+            (rules, "return new CHalfLifeCTFplay();", "declared BHL InstallGameRules CTF"),
+            (rules, "return new CHalfLifeCoopplay();", "declared BHL InstallGameRules coop"),
             (timing, "float flNextAttack = timeBase + delay - flCreep;",
              "OP4 weapons.cpp GetNextAttackDelay"),
             (timing, "state.prevPrimaryAttack = flNextAttack - timeBase;",
@@ -282,6 +297,47 @@ class LinkGapClosureTests(unittest.TestCase):
                               ("verbatim", "op4+compat-patch"), rel)
                 self.assertEqual(rec["upstream_path"],
                                  rel.removeprefix("op4/"), rel)
+
+
+    def test_10_real_ctf_rules_are_wired_and_isctf_is_live(self):
+        """The real OP4 CTF rules file must be wired, own its symbols once, and
+        be reachable from InstallGameRules with a live IsCTF() override."""
+        files = self.prov["files"]
+        wired = set(self.prov["cmake"]["src/game/server/CMakeLists.txt"])
+        rel = "op4/dlls/ctf/ctfplay_gamerules.cpp"
+        self.assertIn(rel, wired, f"{rel} not wired into the server target")
+        rec = files["src/game/server/" + rel]
+        self.assertEqual(rec["origin"], "op4")
+        self.assertIn(rec["action"], ("verbatim", "op4+compat-patch"))
+        self.assertNotIn(rel, self.prov["port_pending"]["files"])
+
+        ctf = (ROOT / "bhl-op4/src/game/server/op4/dlls/ctf/ctfplay_gamerules.cpp").read_text()
+        ctf_h = (ROOT / "bhl-op4/src/game/server/op4/dlls/ctf/ctfplay_gamerules.h").read_text()
+        rules = (ROOT / "bhl-op4/src/game/server/gamerules.cpp").read_text()
+        head = (ROOT / "bhl-op4/src/game/server/gamerules.h").read_text()
+        glue = (ROOT / "bhl-op4/src/game/server/op4/op4_link_fixups.cpp").read_text()
+        player = (ROOT / "bhl-op4/src/game/server/op4/op4_ctf_player.cpp").read_text()
+
+        self.assertIn("bool IsCTF() override { return true; }", ctf_h)
+        self.assertIn("virtual bool IsCTF()", head)
+        self.assertIn("return new CHalfLifeCTFplay();", rules)
+        self.assertIn("return new CHalfLifeCoopplay();", rules)
+        self.assertIn("SF_WORLD_CTF", rules)
+        # Single ownership: these CTF bodies exist in the real file, not glue.
+        for needle in ("void GetLosingTeam(int& iTeamNum, int& iScoreDiff)",
+                       "void DisplayTeamFlags(CBasePlayer* pPlayer)"):
+            self.assertIn(needle, ctf)
+            self.assertNotIn(needle, glue)
+        # Real OP4 CTF cvars/messages/menu bodies are present and registered.
+        for needle in ("mp_ctfplay", "mp_coopplay", "mp_ctf_capture"):
+            self.assertIn(needle, player)
+        for needle in ("gmsgCTFScore", "gmsgSetMenuTeam", "gmsgTeamFull"):
+            self.assertTrue(
+                ("pfnRegUserMsg" in glue and needle in glue and needle in player),
+                f"{needle} not defined AND registered")
+        for needle in ("bool CBasePlayer::Menu_Team_Input(int inp)",
+                       "void respawn(entvars_t* pev, bool fCopyCorpse)"):
+            self.assertIn(needle, player)
 
 
 if __name__ == "__main__":

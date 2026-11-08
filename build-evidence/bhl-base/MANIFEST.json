@@ -7,7 +7,7 @@
   ],
   "libraries": {
     "client.so": {
-      "bytes": 27753644,
+      "bytes": 27753724,
       "elf32": true,
       "exported_game_entry_points": [
         "HUD_Frame",
@@ -31,12 +31,12 @@
         "ld-linux.so.2"
       ],
       "path": "build-evidence/bhl-base/client.so",
-      "sha256": "c94a5de12bb9d1789216e4cf9416408df882ec8eaa17413dd771b006340be29c",
+      "sha256": "37a09c5202c1db3021d0f6c88b6137b24330e040cc4844b8aaf25a8bdaa84f57",
       "undefined_symbol_count": 311,
       "unresolved_own_build_symbols": []
     },
     "hl.so": {
-      "bytes": 20936800,
+      "bytes": 21231808,
       "elf32": true,
       "exported_game_entry_points": [
         "GetEntityAPI",
@@ -44,15 +44,15 @@
         "GetNewDLLFunctions",
         "GiveFnptrsToDll"
       ],
-      "exported_symbol_count": 4421,
+      "exported_symbol_count": 4467,
       "needed": [
         "libm.so.6",
         "libc.so.6",
         "ld-linux.so.2"
       ],
       "path": "build-evidence/bhl-base/hl.so",
-      "sha256": "06b95817af97d6b54f647a93db35edbb501d97de66dc9265640e17a0a49dd61f",
-      "undefined_symbol_count": 157,
+      "sha256": "3eabfa02bf75799ff422c949874ce376a9e4fca64b48d9e38b3520302a594744",
+      "undefined_symbol_count": 156,
       "unresolved_own_build_symbols": []
     }
   },
@@ -61,7 +61,7 @@
   "source_lists": {
     "client": 138,
     "pcre": 20,
-    "server": 177,
+    "server": 179,
     "tier1": 35,
     "tier2": 3,
     "vgui_controls": 68

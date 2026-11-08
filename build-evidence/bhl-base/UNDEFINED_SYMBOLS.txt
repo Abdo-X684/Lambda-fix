@@ -332,7 +332,6 @@
          U clock_nanosleep
          U close
          U connect
-         U coopweprespawn
          U copy_file_range
          U dl_iterate_phdr
          U dladdr

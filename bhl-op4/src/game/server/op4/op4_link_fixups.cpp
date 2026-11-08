@@ -12,18 +12,19 @@
  *   dlls/world.cpp:483-501               CWorld::World, CWorld ctor/dtor
  *   dlls/monsters.cpp:3448-3503          CBaseMonster shock-effect methods
  *   dlls/h_ai.cpp:196-210                IsFacing()
- *   dlls/ctf/ctfplay_gamerules.cpp:48-67 CTF globals + team_names
- *   dlls/cdll_dll.h:200-213              RGB_* / UnpackRGB
- *   dlls/ctf/ctfplay_gamerules.cpp:141-263 SendFlagIcon / SendFlagIcons /
- *                                        DisplayTeamFlags
- *   dlls/ctf/ctfplay_gamerules.cpp:92-112 GetTeamName
+ *   dlls/UserMessages.cpp:75-92          gmsgFlagIcon + OP4-only msg ids
  *   dlls/combat.cpp:179-265             CGib::SpawnRandomGibs(GibData)
+ *
+ * CTF globals, SendFlagIcon*, DisplayTeamFlags, GetTeamName, GetLosingTeam and
+ * the RGB constants / UnpackRGB are NO LONGER here: the REAL dlls/ctf/ctfplay_gamerules.cpp
+ * is wired into the BHL server target, so it owns those single definitions.
+ * op4_ctf_player.cpp (also glue) owns the real CTF menu/cvar/respawn bodies.
+ * See PROVENANCE.json and docs/COMPLETION_INVENTORY.md.
  *
  * Upstream: halflife-op4-updated @ 5368be7f8eba.
  * See PROVENANCE.json, docs/BHL_BASE_BUILD.md and LINK_GAPS.md.
  * -------------------------------------------------------------------------*/
 #include "extdll.h"
-#include "op4_compat.h"
 #include "util.h"
 #include "cbase.h"
 #include "basemonster.h"
@@ -54,10 +55,32 @@ cvar_t multipower = {"mp_multipower", "0", FCVAR_SERVER};
  * static initialiser would be wrong.                                       */
 void OP4_RegisterGameDLLHooks()
 {
+	/* dlls/game.cpp:1189-1200 (verbatim OP4 cvar registrations) */
 	CVAR_REGISTER(&oldgrapple);
 	CVAR_REGISTER(&oldweapons);
 	CVAR_REGISTER(&multipower);
-	gmsgFlagIcon = g_engfuncs.pfnRegUserMsg("FlagIcon", -1);
+	CVAR_REGISTER(&ctfplay);
+	CVAR_REGISTER(&ctf_autoteam);
+	CVAR_REGISTER(&ctf_capture);
+	CVAR_REGISTER(&coopplay);
+	CVAR_REGISTER(&defaultcoop);
+	CVAR_REGISTER(&coopweprespawn);
+
+	/* dlls/UserMessages.cpp:75-92 (verbatim OP4-only message registrations).
+	 * Shared ids are owned and registered by BHL's player.cpp. */
+	gmsgFlagIcon    = g_engfuncs.pfnRegUserMsg("FlagIcon", -1);
+	gmsgFlagTimer   = g_engfuncs.pfnRegUserMsg("FlagTimer", -1);
+	gmsgPlayerIcon  = g_engfuncs.pfnRegUserMsg("PlayerIcon", -1);
+	gmsgPlayerBrowse= g_engfuncs.pfnRegUserMsg("PlayerBrowse", -1);
+	gmsgHudColor    = g_engfuncs.pfnRegUserMsg("HudColor", 3);
+	gmsgSetMenuTeam = g_engfuncs.pfnRegUserMsg("SetMenuTeam", 1);
+	gmsgCTFScore    = g_engfuncs.pfnRegUserMsg("CTFScore", 2);
+	gmsgStatsInfo   = g_engfuncs.pfnRegUserMsg("StatsInfo", -1);
+	gmsgStatsPlayer = g_engfuncs.pfnRegUserMsg("StatsPlayer", 31);
+	gmsgTeamFull    = g_engfuncs.pfnRegUserMsg("TeamFull", 1);
+	gmsgOldWeapon   = g_engfuncs.pfnRegUserMsg("OldWeapon", 1);
+	gmsgCustomIcon  = g_engfuncs.pfnRegUserMsg("CustomIcon", -1);
+	gmsgWeapons     = g_engfuncs.pfnRegUserMsg("Weapons", -1);
 }
 
 /* ===== dlls/world.cpp:483-501 (verbatim) ================================= *
@@ -150,176 +173,16 @@ void CBaseMonster::ClearShockEffect()
 	}
 }
 
-/* ===== dlls/ctf/ctfplay_gamerules.cpp:48-67 (verbatim globals) ========= *
- * ctfplay_gamerules.cpp itself is NOT wired: it needs OP4-only CBasePlayer
- * fields (m_szTeamModel, m_szTeamName, m_iSnipeKills...), OP4 menus and
- * UTIL_FindPlayers. Adding those would replace BHL player/gamerules systems.
- * Only the state that the verbatim-wired CTF entities actually read is
- * reproduced here, byte-for-byte from upstream. See "incomplete" in the
- * final report.                                                            */
-char g_szScoreIconNameBM[40] = "item_ctfflagh";
-char g_szScoreIconNameOF[40] = "item_ctfflagh";
-
-float g_flFlagReturnTime = 30;
-float g_flBaseDefendDist = 192;
-float g_flDefendCarrierTime = 10;
-float g_flCaptureAssistTime = 10;
-float g_flPowerupRespawnTime = 30;
-int g_iMapScoreMax = 0;
-
-int teamscores[2] = {0, 0};
-
-static const char team_names[2][16] =
-{
-	{"Black Mesa"},
-	{"Opposing Force"}
-};
+/* CTF globals / team_names now come from the REAL wired
+   ctf/ctfplay_gamerules.cpp; glue keeps only gmsgFlagIcon. */
 
 /* OP4 dlls/UserMessages.h:62 -- registered in OP4_RegisterGameDLLHooks(). */
 int gmsgFlagIcon = 0;
 
-/* ===== dlls/cdll_dll.h:200-213 (verbatim) =============================== */
-#define RGB_YELLOWISH 0x00FFA000 /* 255,160,0 */
-#define RGB_REDISH    0x00FF1010
-#define RGB_GREENISH  0x0000A000 /* 0,160,0 */
-#define RGB_HUD_COLOR RGB_GREENISH
-
-inline void UnpackRGB(int& r, int& g, int& b, unsigned long ulRGB)
-{
-	r = (ulRGB & 0xFF0000) >> 16;
-	g = (ulRGB & 0xFF00) >> 8;
-	b = ulRGB & 0xFF;
-}
-
-/* ===== dlls/ctf/ctfplay_gamerules.cpp:141-263 (verbatim) =============== */
-static void SendFlagIcon(CBasePlayer* player, bool isActive, const char* flagName, int teamIndex)
-{
-	g_engfuncs.pfnMessageBegin(MSG_ONE, gmsgFlagIcon, nullptr, player->edict());
-	g_engfuncs.pfnWriteByte(isActive ? 1 : 0);
-	g_engfuncs.pfnWriteString(flagName);
-	g_engfuncs.pfnWriteByte(teamIndex);
-
-	int r, g, b;
-
-	if (teamIndex == 0)
-	{
-		UnpackRGB(r, g, b, RGB_YELLOWISH);
-	}
-	else
-	{
-		UnpackRGB(r, g, b, RGB_HUD_COLOR);
-	}
-
-	g_engfuncs.pfnWriteByte(r);
-	g_engfuncs.pfnWriteByte(g);
-	g_engfuncs.pfnWriteByte(b);
-
-	g_engfuncs.pfnWriteByte(teamscores[teamIndex]);
-	g_engfuncs.pfnMessageEnd();
-}
-
-static void SendFlagIcons(CBasePlayer* player, CTFGoalFlag* team1Flag, CTFGoalFlag* team2Flag)
-{
-	if (team1Flag || team2Flag)
-	{
-		auto pMyFlag = static_cast<CTFGoalFlag*>(static_cast<CBaseEntity*>(player->m_pFlag));
-
-		if (team1Flag)
-		{
-			const char* flagName = "";
-
-			switch (team1Flag->m_iGoalState)
-			{
-			case 1:
-				flagName = "item_ctfflagh";
-				break;
-			case 2:
-				if (pMyFlag == team1Flag && pMyFlag)
-				{
-					flagName = "item_ctfflagg";
-				}
-				else
-				{
-					flagName = "item_ctfflagc";
-				}
-				break;
-			case 3:
-				flagName = "item_ctfflagd";
-				break;
-			}
-
-			SendFlagIcon(player, true, flagName, 0);
-		}
-
-		if (team2Flag)
-		{
-			const char* flagName = "";
-
-			switch (team2Flag->m_iGoalState)
-			{
-			case 1:
-				flagName = "item_ctfflagh";
-				break;
-			case 2:
-				if (pMyFlag == team2Flag && pMyFlag)
-				{
-					flagName = "item_ctfflagg";
-				}
-				else
-				{
-					flagName = "item_ctfflagc";
-				}
-				break;
-			case 3:
-				flagName = "item_ctfflagd";
-				break;
-			}
-
-			SendFlagIcon(player, true, flagName, 1);
-		}
-	}
-	else
-	{
-		SendFlagIcon(player, true, g_szScoreIconNameBM, 0);
-		SendFlagIcon(player, true, g_szScoreIconNameOF, 1);
-	}
-}
-
-void DisplayTeamFlags(CBasePlayer* pPlayer)
-{
-	if (0 == gmsgFlagIcon)
-		return;
-
-	CTFGoalFlag* team1Flag = nullptr;
-
-	while ((team1Flag = static_cast<CTFGoalFlag*>(UTIL_FindEntityByClassname(team1Flag, "item_ctfflag"))) && team1Flag->m_iGoalNum != 1)
-	{
-	}
-
-	CTFGoalFlag* team2Flag = nullptr;
-
-	while ((team2Flag = static_cast<CTFGoalFlag*>(UTIL_FindEntityByClassname(team2Flag, "item_ctfflag"))) && team2Flag->m_iGoalNum != 2)
-	{
-	}
-
-	if (pPlayer)
-	{
-		SendFlagIcons(pPlayer, team1Flag, team2Flag);
-	}
-	else
-	{
-		for (int i = 1; i <= gpGlobals->maxClients; ++i)
-		{
-			auto player = static_cast<CBasePlayer*>(UTIL_PlayerByIndex(i));
-
-			if (player)
-			{
-				SendFlagIcons(player, team1Flag, team2Flag);
-			}
-		}
-	}
-}
-
+/* RGB_* / UnpackRGB now live in op4_compat.h (verbatim
+   dlls/cdll_dll.h:187-213) so the real ctfplay_gamerules.cpp can use them. */
+/* SendFlagIcon / SendFlagIcons / DisplayTeamFlags now come from the REAL
+   wired ctf/ctfplay_gamerules.cpp (no duplicate strong symbols). */
 /* ===== dlls/h_ai.cpp:196-210 (verbatim OP4 body) ======================== *
  * Used by the real, wired OP4 ally monsters (otis / CRecruit /
  * CDrillSergeant / hgrunt_ally). OP4's h_ai.cpp cannot be linked next to
@@ -343,52 +206,8 @@ bool IsFacing(entvars_t* pevTest, const Vector& reference)
 	return false;
 }
 
-/* ===== dlls/ctf/ctfplay_gamerules.cpp:126-138 (verbatim) =============== *
- * CItemCTF::MyItemTouch (the real, wired CItemCTF.cpp:127) uses this to
- * hand a powerup to the losing team.                                      */
-void GetLosingTeam(int& iTeamNum, int& iScoreDiff)
-{
-	iTeamNum = 0;
-	iScoreDiff = 0;
-
-	//TODO: doesn't really make sense, if team 0 is losing the score difference is 0
-	if (teamscores[1] < teamscores[0])
-	{
-		iTeamNum = 1;
-
-		const auto difference = teamscores[0] - teamscores[1];
-
-		if (iScoreDiff < difference)
-			iScoreDiff = difference;
-	}
-}
-
-/* ===== dlls/ctf/ctfplay_gamerules.cpp:92-112 (verbatim) ================= */
-const char* GetTeamName(edict_t* pEntity)
-{
-	if (g_pGameRules->IsCTF())
-	{
-		auto pPlayer = static_cast<CBasePlayer*>(CBaseEntity::Instance(pEntity));
-
-		return team_names[(int)pPlayer->m_iTeamNum - 1];
-	}
-	else
-	{
-		/* A bit counterintuitive, this basically means each player model is a team */
-		if (g_pGameRules->IsDeathmatch() && g_pGameRules->IsTeamplay())
-		{
-			return g_engfuncs.pfnInfoKeyValue(g_engfuncs.pfnGetInfoKeyBuffer(pEntity), "model");
-		}
-		else
-		{
-			static char szTmp[256];
-
-			snprintf(szTmp, sizeof(szTmp), "%i", g_engfuncs.pfnGetPlayerUserId(pEntity));
-			return szTmp;
-		}
-	}
-}
-
+/* GetLosingTeam / GetTeamName now come from the REAL wired
+   ctf/ctfplay_gamerules.cpp. */
 /* ===== dlls/combat.cpp:179-265 (verbatim OP4 body) ====================== *
  * OP4-updated reworked gib spawning around a GibData descriptor with
  * per-submodel limits. BHL's combat.cpp only has the older

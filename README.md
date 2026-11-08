@@ -10,10 +10,10 @@
 
 | البند | الوضع |
 | --- | --- |
-| الأساس | `tmp64/BugfixedHL-Rebased @ 4d32095e3c33` — 694 ملف BHL، **681 مطابق بايت-ببايت** + 13 دمجاً معلَناً |
-| إضافة OP4 | 154 ملفاً من `twhl-community/halflife-op4-updated @ 5368be7f8eba` + 7 ملفات glue موسومة |
-| بناء `client.so` / `hl.so` من `bhl-op4/` | ✅ ELF32، 443 وحدة ترجمة، 64 مصدر OP4/glue موصول بالخادم، **صفر رمز ربط غير محلول** |
-| الثنائيات | `client.so` = `c94a5de12bb9d1789216e4cf9416408df882ec8eaa17413dd771b006340be29c` · `hl.so` = `06b95817af97d6b54f647a93db35edbb501d97de66dc9265640e17a0a49dd61f` |
+| الأساس | `tmp64/BugfixedHL-Rebased @ 4d32095e3c33` — 694 ملف BHL، **680 مطابق بايت-ببايت** + 14 دمجاً معلَناً |
+| إضافة OP4 | 154 ملفاً من `twhl-community/halflife-op4-updated @ 5368be7f8eba` + 8 ملفات glue موسومة |
+| بناء `client.so` / `hl.so` من `bhl-op4/` | ✅ ELF32، 445 وحدة ترجمة، 66 مصدر OP4/glue موصول بالخادم، **صفر رمز ربط غير محلول** |
+| الثنائيات | `client.so` = `37a09c5202c1db3021d0f6c88b6137b24330e040cc4844b8aaf25a8bdaa84f57` · `hl.so` = `3eabfa02bf75799ff422c949874ce376a9e4fca64b48d9e38b3520302a594744` |
 | اختبار داخل Opposing Force | ❌ **لم يُنفَّذ** — لا محرك، لا `vgui.so`، لا أصول شرعية، لا محمّل ELF32 ديناميكي |
 | إعلان الاكتمال | ❌ **لا** — المشروع غير مكتمل؛ قائمة النواقص في التقرير النهائي |
 
@@ -22,7 +22,7 @@
 * [`docs/BHL_FINAL_AUDIT.md`](docs/BHL_FINAL_AUDIT.md) — التقرير الجامع: كل رمز، كل تغيير على BHL، كل اختبار ونتيجته، النواقص صراحةً.
 * [`docs/BHL_BASE_BUILD.md`](docs/BHL_BASE_BUILD.md) و
   [`build-evidence/bhl-base/MANIFEST.json`](build-evidence/bhl-base/MANIFEST.json)
-  — **451 أمر ترجمة/ربط**، 443 بصمة مصدر، سجل كامل، بصمات مطابقة للملفات على القرص.
+  — **453 أمر ترجمة/ربط**، 445 بصمة مصدر، سجل كامل، بصمات مطابقة للملفات على القرص.
 * [`build-evidence/bhl-base/LINK_GAP_CLOSURE.md`](build-evidence/bhl-base/LINK_GAP_CLOSURE.md)
   — جدول الـ12 رمزاً: التنفيذ الأصلي، سبب الغياب، التغيير، دليل الاختفاء، الاختبار؛ ومعها `IsFacing` و`CGib::SpawnRandomGibs(GibData)` في التقرير النهائي.
 * [`bhl-op4/PORT_STATUS.json`](bhl-op4/PORT_STATUS.json) — نتيجة ترجمة كل مصدر OP4
@@ -30,7 +30,7 @@
 * [`build-evidence/bhl-base/RUNTIME_ENVIRONMENT.md`](build-evidence/bhl-base/RUNTIME_ENVIRONMENT.md)
   — أدلة قابلة لإعادة التشغيل على استحالة الاختبار داخل اللعبة.
 * `python3 -m merge.bhl_base --check --out bhl-op4` يتحقق من كل بصمة،
-  و`tests/test_bhl_base.py::test_07` يقارن الـ681 ملفاً بالمصدر المثبّت.
+  و`tests/test_bhl_base.py::test_07` يقارن الـ680 ملفاً بالمصدر المثبّت.
 
 ```bash
 make fetch                                  # الشجرتان المثبّتتان + sha256
@@ -49,11 +49,13 @@ make verify                                 # كل فحوصات المستودع
 1. **لا اختبار داخل Opposing Force**: لا تحميل في محرك، لا خريطة، لا HUD/UI،
    لا أسلحة BHL/OP4، لا تبديل ولا ذخيرة ولا إعادة تعبئة، لا Monster/Rope/Grapple/CTF
    وقت تشغيل، ولا مراقبة أعطال. الأسباب بأدلة في `RUNTIME_ENVIRONMENT.md`.
-2. `dlls/ctf/ctfplay_gamerules.cpp` (قواعد CTF الفعلية) **غير موصول**: يحتاج حالة
-   `CBasePlayer`/قوائم/cvars خاصة بـ OP4، ويكرّر 15 رمزاً CTF موجودة نصّاً في glue
-   (وصله كما هو يفشل الرابط). النتيجة: `CGameRules::IsCTF()` يبقى `false`، ومباراة
-   CTF غير قابلة للعب بعد. **27 ملف OP4 ما زالت `port-pending`** (21 عميل + 6 خادم
-   مستبعدة بأسباب معلَنة: تكرار أنظمة BHL أو Windows-only).
+2. **قواعد CTF صارت موصولة وفعلية**: `ctf/ctfplay_gamerules.cpp` مترجم وموصول،
+   و`InstallGameRules` ينشئ `CHalfLifeCTFplay`/`CHalfLifeCoopplay`، و`IsCTF()`
+   تعيد `true` في قواعد CTF، و13 رسالة و9 cvars مسجّلة، والقوائم و`respawn`
+   بأجسام OP4 الحقيقية. **لكن مباراة CTF داخل اللعبة غير مُختبَرة**، وHUD عميل
+   OP4 غير موصول (تعارض VGUI1/VGUI2). التفاصيل في
+   [`docs/COMPLETION_INVENTORY.md`](docs/COMPLETION_INVENTORY.md).
+   **26 ملف OP4 ما زالت `port-pending`** (21 عميل + 5 خادم مستبعدة بأسباب معلَنة).
 3. لم يُنفَّذ configure/build بـ CMake كاملاً (استُخدم استنساخ أمين لقوائمه مع Zig-clang).
 4. **الثنائيات والـ Release أدناه قديمة**: `dist/dlls/*.so`, `dist/bhlop4/`,
    `v0.1.0-linux32` مبنية من شجرة **OP4-أساس** السابقة، لم تُلمس، ولا تُستخدم كدليل.

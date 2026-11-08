@@ -180,6 +180,14 @@ public:
 
 	// Immediately end a multiplayer game
 	virtual void EndMultiplayerGame(void) { }
+
+	/* OP4-MERGE: verbatim OP4 dlls/gamerules.h CTF hooks (additive, last) */
+	virtual const char *GetCharacterType(int iTeamNum, int iCharNum) { return nullptr; }
+	virtual int GetNumTeams() { return 0; }
+	virtual const char *TeamWithFewestPlayers() { return nullptr; }
+	virtual bool TeamsBalanced() { return true; }
+	virtual void GoToIntermission() {}
+
 };
 
 extern CGameRules *InstallGameRules(void);

@@ -168,7 +168,7 @@ da1d25bdedbd77ead8d311e44ee4729865b809ef834b5af44c47fe4467d00b63  bhl-op4/src/ga
 4f1730a164a0f0cab724e2f319aa555c64abbb6ec23a8e17e15c90ea53fdf01d  bhl-op4/src/game/server/func_break.cpp
 e710f14124f3e0a50890c6a816601816fa5d33dc1f6caecf527db57da2ef2ef9  bhl-op4/src/game/server/func_tank.cpp
 33fdf90b16306e62bdd72bf03f9eeb9d6afb93a975294ffd08afbf09e9473c72  bhl-op4/src/game/server/game.cpp
-05aba02768e0e8434324ec1ac40b75e43850230e1cfcab68281c9167afcee5bd  bhl-op4/src/game/server/gamerules.cpp
+c0581b8351ee8d00684b0f1f3ebd7ed48cf61b21cb22b93ec2f913c504297d37  bhl-op4/src/game/server/gamerules.cpp
 ccf180a890709b8b8b77ea72ca65bb4928fb2b29d4bafe5e12728a068923b2dd  bhl-op4/src/game/server/gargantua.cpp
 73afefc04faff5f01fce7b19ddcb4fdcceed30eca12f4336ae461acd0b18d94a  bhl-op4/src/game/server/gauss.cpp
 0be7a833ec4e671b6a195f820ac385a087de573895aff99ef8610e04f8d157bf  bhl-op4/src/game/server/genericmonster.cpp
@@ -226,6 +226,7 @@ ac851460a42086f8474dfb9b72956e5145ed063df797c3d82f3c9a00503dae30  bhl-op4/src/ga
 a753fa45180210503bf39367c168ba52717860266670295f3e84b882a88cb38e  bhl-op4/src/game/server/op4/dlls/ctf/CTFGoalBase.cpp
 6f6d322da6885a6e045a2ba70186decd5422b7e95bf47d0676d28f6abe1aa41e  bhl-op4/src/game/server/op4/dlls/ctf/CTFGoalFlag.cpp
 c4c2aad52d080aef02564c8d0320ef8c6ceb946aab3b2b057a265b0bb90298ee  bhl-op4/src/game/server/op4/dlls/ctf/CTFSpawn.cpp
+70d5e2b2a6f8d7cc2168ab0992641b128eca5992cfe1d45da3ac61c58cbc39d8  bhl-op4/src/game/server/op4/dlls/ctf/ctfplay_gamerules.cpp
 0d1b205ada21772a6063c4f718dc45704787c028cf3e6dd34295df7a9213f776  bhl-op4/src/game/server/op4/dlls/func_tank_of.cpp
 865e8ee1bd10a77a2243c87a2702a09665299901a3c12229b21862b63aee1bb9  bhl-op4/src/game/server/op4/dlls/geneworm.cpp
 3e8e135e94427d629d100ae6f8cc26c49f5e9394e1b30abc3ac66206f022e0e9  bhl-op4/src/game/server/op4/dlls/gonome.cpp
@@ -266,7 +267,8 @@ fdfe8be1cda35196deb9cc06e7196ae26be89ce263cbe1c007d553cae5f9afb8  bhl-op4/src/ga
 9451684285e32be282f7f5a9f2aeec337d029f8f9a97111e30a4e53328c8aba8  bhl-op4/src/game/server/op4/dlls/zombie_barney.cpp
 fe54fbb0bc00edb81939378293648684002dfe934d0e9157426040002e6b3e4b  bhl-op4/src/game/server/op4/dlls/zombie_soldier.cpp
 ee6f4fad01260282e42ffe8b9a4070bc9d813a800aae3984954a40815651da4d  bhl-op4/src/game/server/op4/op4_compat.cpp
-654581914a0a052200b9c555a875eb74d13864b15cc7ca3880b2157e1b0a8994  bhl-op4/src/game/server/op4/op4_link_fixups.cpp
+ccd459bf803218462bab72d50436f9a78341c4b5dacd43c59ab3f10d5c73cec7  bhl-op4/src/game/server/op4/op4_ctf_player.cpp
+a4639e763ba7b06e781acef2aa1d2e0913cca34056fc68b6eac4f94a0b037dee  bhl-op4/src/game/server/op4/op4_link_fixups.cpp
 897b1070cf1886dbacbf155e522164d4b681897efd046a51d8545c4e5d83aafe  bhl-op4/src/game/server/osprey.cpp
 e6f2c03d3fe3e8983449c2bf3fa6005f7b6c6d3088533d2a89d368bfc01d7d08  bhl-op4/src/game/server/path.cpp
 9a43bd7ad89958b366814d62756d3ff146e751be48aeb6b889fa45a3b09cda8c  bhl-op4/src/game/server/pathcorner.cpp

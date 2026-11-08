@@ -57,9 +57,91 @@ bool UTIL_IsCTF();
 #ifndef CLASS_CTFITEM
 #define CLASS_CTFITEM 30
 #endif
-#ifndef CLASS_ALIEN_RACE_X
-#define CLASS_ALIEN_RACE_X 15  /* OP4 dlls/cbase.h:112 */
-#endif
+  #ifndef CLASS_ALIEN_RACE_X
+  #define CLASS_ALIEN_RACE_X 15  /* OP4 dlls/cbase.h:112 */
+  #endif
+
+  /* ---- OP4 dlls/cdll_dll.h:187-213, verbatim -------------------------- *
+   * CTF menu ids, HUD colour constants and UnpackRGB(). BHL's cdll_dll.h
+   * has none of them; ctf/ctfplay_gamerules.cpp uses all of them.        */
+  #ifndef MENU_NONE
+  #define MENU_NONE 0
+  #define MENU_DEFAULT 1
+  #define MENU_TEAM 2
+  #define MENU_CLASS 3
+  #define MENU_MAPBRIEFING 4
+  #define MENU_INTRO 5
+  #define MENU_CLASSHELP 6
+  #define MENU_CLASSHELP2 7
+  #define MENU_REPEATHELP 8
+  #define MENU_STATSMENU 9
+  #define MENU_SCOREBOARD 10
+  #endif
+  #ifndef RGB_YELLOWISH
+  #define RGB_YELLOWISH 0x00FFA000 /* 255,160,0 */
+  #define RGB_REDISH    0x00FF1010
+  #define RGB_GREENISH  0x0000A000 /* 0,160,0 */
+  #define RGB_HUD_COLOR RGB_GREENISH
+  #endif
+  inline void UnpackRGB(int &r, int &g, int &b, unsigned long ulRGB)
+  {
+      r = (ulRGB & 0xFF0000) >> 16;
+      g = (ulRGB & 0xFF00) >> 8;
+      b = ulRGB & 0xFF;
+  }
+
+  /* OP4 dlls/world.h:21 -- the worldspawn flag that selects CTF rules. */
+  #ifndef SF_WORLD_CTF
+  #define SF_WORLD_CTF 0x0008
+  #endif
+
+  /* ---- OP4 dlls/util.h:584-595, verbatim ------------------------------ */
+  struct MinuteSecondTime
+  {
+      const int Minutes;
+      const int Seconds;
+  };
+  inline MinuteSecondTime SecondsToTime(const int seconds)
+  {
+      const auto minutes = seconds / 60;
+      return { minutes, seconds - (minutes * 60) };
+  }
+
+  /* OP4 dlls/game.cpp:580-586 / dlls/game.h:46-50 real cvars. Definitions
+   * live in the labelled glue op4_link_fixups.cpp. */
+  extern cvar_t ctfplay;
+  extern cvar_t ctf_autoteam;
+  extern cvar_t ctf_capture;
+  extern cvar_t coopplay;
+  extern cvar_t defaultcoop;
+  extern cvar_t coopweprespawn;
+  extern cvar_t oldweapons;
+
+  /* OP4 user-message ids. BHL owns the shared ids (player.cpp); the labelled
+   * glue owns the OP4-only ids. OP4's UserMessages.h is patched to extern. */
+  extern int gmsgFlagIcon;
+  extern int gmsgFlagTimer;
+  extern int gmsgPlayerIcon;
+  extern int gmsgPlayerBrowse;
+  extern int gmsgHudColor;
+  extern int gmsgSetMenuTeam;
+  extern int gmsgCTFScore;
+  extern int gmsgStatsInfo;
+  extern int gmsgStatsPlayer;
+  extern int gmsgTeamFull;
+  extern int gmsgOldWeapon;
+  extern int gmsgCustomIcon;
+  extern int gmsgWeapons;
+  extern int gmsgAllowSpec;
+  extern int gmsgTeamNames;
+  extern int gmsgVGUIMenu;
+  extern int gmsgShowMenu;
+  extern int gmsgSpectator;
+
+  /* OP4 dlls/client.cpp:152-166 respawn() and BHL world.cpp CopyToBodyQue;
+   * the real bodies are in the labelled glue. */
+  extern void respawn(entvars_t *pev, bool fCopyCorpse);
+  extern void CopyToBodyQue(entvars_t *pev);
 
 /* OP4 common/Platform.h:72-90 stack scratch macros. OP4's combat.cpp uses
  * them for the GibData submodel-limit bookkeeping. On POSIX the upstream

@@ -320,6 +320,16 @@ void CGameRules::RefreshSkillData(void)
 // instantiate the proper game rules object
 //=========================================================
 
+
+/* OP4-MERGE: dlls/gamerules.cpp:486-539 coop/CTF ruleset selection */
+#include "ctf/ctfplay_gamerules.h"  /* OP4's real CHalfLifeCTFplay */
+#include "coopplay_gamerules.h"     /* OP4's real CHalfLifeCoopplay */
+#ifndef SF_WORLD_CTF
+#define SF_WORLD_CTF 0x0008  /* OP4 dlls/world.h:21 */
+#endif
+extern cvar_t coopplay;
+extern cvar_t ctfplay;
+
 CGameRules *InstallGameRules(void)
 {
 	SERVER_COMMAND("exec game.cfg\n");
@@ -333,7 +343,21 @@ CGameRules *InstallGameRules(void)
 	}
 	else
 	{
-		if (teamplay.value > 0)
+		/* OP4-MERGE: coop and CTF take precedence, exactly as OP4's
+		 * InstallGameRules does (coopplay cvar / SF_WORLD_CTF). No
+		 * BHL branch is removed: all original branches stay below. */
+		if (coopplay.value > 0)
+		{
+			g_teamplay = 1;
+			return new CHalfLifeCoopplay();
+		}
+		else if (ctfplay.value > 0 ||
+			(CWorld::World && (CWorld::World->pev->spawnflags & SF_WORLD_CTF) != 0))
+		{
+			g_teamplay = 1;
+			return new CHalfLifeCTFplay();
+		}
+		else if (teamplay.value > 0)
 		{
 			// teamplay
 			g_teamplay = 1;

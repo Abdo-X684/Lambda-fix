@@ -47,5 +47,141 @@
   {
       ::ExplosionCreate(center, angles, pOwner, pOwner, magnitude, doDamage ? 1 : 0);
   }
+
+  /* ---- OP4 dlls/player.h:473-602, verbatim --------------------------- *
+   * Only compiled where BHL's player.h has already been included (guard
+   * PLAYER_H), because CPlayerIterator needs CBasePlayer complete. OP4's
+   * CTF rules iterate players with UTIL_FindPlayers(); BHL exposes only
+   * UTIL_PlayerByIndex(), which is exactly what this adapter calls.       */
+  #ifdef PLAYER_H
+  class CPlayerIterator
+  {
+  public:
+      static const int FirstPlayerIndex = 1;
+
+      CPlayerIterator()
+          : m_pPlayer(nullptr), m_iNextIndex(gpGlobals->maxClients + 1)
+      {
+      }
+
+      CPlayerIterator(const CPlayerIterator&) = default;
+
+      CPlayerIterator(CBasePlayer* pPlayer)
+          : m_pPlayer(pPlayer), m_iNextIndex(pPlayer ? pPlayer->entindex() + 1 : FirstPlayerIndex)
+      {
+      }
+
+      CPlayerIterator& operator=(const CPlayerIterator&) = default;
+
+      const CBasePlayer* operator*() const { return m_pPlayer; }
+
+      CBasePlayer* operator*() { return m_pPlayer; }
+
+      CBasePlayer* operator->() { return m_pPlayer; }
+
+      void operator++()
+      {
+          m_pPlayer = static_cast<CBasePlayer*>(FindNextPlayer(m_iNextIndex, &m_iNextIndex));
+      }
+
+      void operator++(int)
+      {
+          ++*this;
+      }
+
+      bool operator==(const CPlayerIterator& other) const
+      {
+          return m_pPlayer == other.m_pPlayer;
+      }
+
+      bool operator!=(const CPlayerIterator& other) const
+      {
+          return !(*this == other);
+      }
+
+      static CBasePlayer* FindNextPlayer(int index, int* pOutNextIndex = nullptr)
+      {
+          while (index <= gpGlobals->maxClients)
+          {
+              auto pPlayer = UTIL_PlayerByIndex(index);
+
+              if (pPlayer)
+              {
+                  if (pOutNextIndex)
+                  {
+                      *pOutNextIndex = index + 1;
+                  }
+
+                  return static_cast<CBasePlayer*>(pPlayer);
+              }
+
+              ++index;
+          }
+
+          if (pOutNextIndex)
+          {
+              *pOutNextIndex = gpGlobals->maxClients;
+          }
+
+          return nullptr;
+      }
+
+  private:
+      int m_iNextIndex = 1;
+      CBasePlayer* m_pPlayer;
+  };
+
+  class CPlayerEnumerator
+  {
+  public:
+      using iterator = CPlayerIterator;
+
+      CPlayerEnumerator() = default;
+
+      iterator begin()
+      {
+          return {static_cast<CBasePlayer*>(CPlayerIterator::FindNextPlayer(CPlayerIterator::FirstPlayerIndex))};
+      }
+
+      iterator end()
+      {
+          return {};
+      }
+  };
+
+  class CPlayerEnumeratorWithStart
+  {
+  public:
+      using iterator = CPlayerIterator;
+
+      CPlayerEnumeratorWithStart(CBasePlayer* pStartEntity)
+          : m_pStartEntity(pStartEntity)
+      {
+      }
+
+      iterator begin()
+      {
+          return {m_pStartEntity};
+      }
+
+      iterator end()
+      {
+          return {};
+      }
+
+  private:
+      CBasePlayer* m_pStartEntity = nullptr;
+  };
+
+  inline CPlayerEnumerator UTIL_FindPlayers()
+  {
+      return {};
+  }
+
+  inline CPlayerEnumeratorWithStart UTIL_FindPlayers(CBasePlayer* pStartEntity)
+  {
+      return {pStartEntity};
+  }
+  #endif /* PLAYER_H */
   #endif /* OP4_BHL_COMPAT_LATE_H */
   

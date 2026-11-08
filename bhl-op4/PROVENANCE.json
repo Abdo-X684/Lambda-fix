@@ -4,11 +4,11 @@
     "commit": "4d32095e3c33",
     "files": 694,
     "license": "GPL-3.0",
-    "merged_files": 13,
+    "merged_files": 14,
     "repo": "tmp64/BugfixedHL-Rebased",
-    "tree_sha256": "c93059f971f475fa7ac61bac7728c0811b6597bb4f7cfd83d68e1dd04b32e0ff",
+    "tree_sha256": "0710253fcd579b1c3670c8f893f986f996a9dceb875613a8604f2a0c3996acc5",
     "tree_sha256_note": "sha256 over sorted '<path>  <file sha256>' for every BHL-origin file on disk; verified by --check",
-    "verbatim_files": 681
+    "verbatim_files": 680
   },
   "cmake": {
     "src/game/client/CMakeLists.txt": [],
@@ -36,6 +36,7 @@
       "op4/dlls/ctf/CTFGoalBase.cpp",
       "op4/dlls/ctf/CTFGoalFlag.cpp",
       "op4/dlls/ctf/CTFSpawn.cpp",
+      "op4/dlls/ctf/ctfplay_gamerules.cpp",
       "op4/dlls/func_tank_of.cpp",
       "op4/dlls/geneworm.cpp",
       "op4/dlls/gonome.cpp",
@@ -76,6 +77,7 @@
       "op4/dlls/zombie_barney.cpp",
       "op4/dlls/zombie_soldier.cpp",
       "op4/op4_compat.cpp",
+      "op4/op4_ctf_player.cpp",
       "op4/op4_link_fixups.cpp"
     ]
   },
@@ -3312,7 +3314,7 @@
         "op4-cmake-sources"
       ],
       "origin": "bugfixhl",
-      "sha256": "af7510640d4db4c16158be4933dc2df619da116bfdc6bafc120c9a0e6a40f87d"
+      "sha256": "ce5b734e725f6fe7c87866be618a241cb2f5d806e3be7fe387f6de972fde9e18"
     },
     "src/game/server/activity.h": {
       "action": "verbatim",
@@ -3615,10 +3617,14 @@
       "sha256": "235318c3a6f05511f4ed1cd6e9f1da42b88e2146bcea84384553adc3d6955ced"
     },
     "src/game/server/gamerules.cpp": {
-      "action": "verbatim",
+      "action": "bhl+op4-merge",
       "commit": "4d32095e3c33",
+      "merge_rules": [
+        "op4-install-gamerules-decls",
+        "op4-install-gamerules-branch"
+      ],
       "origin": "bugfixhl",
-      "sha256": "05aba02768e0e8434324ec1ac40b75e43850230e1cfcab68281c9167afcee5bd"
+      "sha256": "c0581b8351ee8d00684b0f1f3ebd7ed48cf61b21cb22b93ec2f913c504297d37"
     },
     "src/game/server/gamerules.h": {
       "action": "bhl+op4-merge",
@@ -3626,10 +3632,11 @@
       "merge_rules": [
         "op4-gamerules-isctf",
         "op4-gamerules-cbasemonster-fwd",
-        "op4-gamerules-monster-hooks"
+        "op4-gamerules-monster-hooks",
+        "op4-gamerules-ctf-virtuals"
       ],
       "origin": "bugfixhl",
-      "sha256": "bb4eab25b2cd6211ddd2e6f86895f223836ffb48d7a306fd55255b8d3ac9ed7e"
+      "sha256": "d1314031a42aeff76a4242d304075f45090e33ec2fbd1a7ba300c74c54387f5c"
     },
     "src/game/server/gargantua.cpp": {
       "action": "verbatim",
@@ -4118,11 +4125,11 @@
       "origin": "op4",
       "patch_rules": [
         {
-          "count": 1,
-          "rule": "bhl-ctf-gmsgflagicon-extern"
+          "count": 53,
+          "rule": "bhl-ctf-usermsg-extern"
         }
       ],
-      "sha256": "e83acff0fe4a82306266cc38049d2ff83a48892132d8d4752e9cb68d865feb61",
+      "sha256": "7923d6bdb6e63bd3204487edfca611f733d7f58c5c50fac6d0814370fcf38bde",
       "upstream_path": "dlls/UserMessages.h"
     },
     "src/game/server/op4/dlls/Wxdebug.cpp": {
@@ -6767,13 +6774,33 @@
       "action": "compat-glue",
       "commit": null,
       "origin": "this-repo",
-      "sha256": "eea7d2fd006387d227a310d22f62ebfbacfa23d0d0e99a5e9788854a2275a47e"
+      "sha256": "5db1baa8cd58a8be54ef92573b3c2e89aaf99783681075ba6e8f45f11b65aeeb"
     },
     "src/game/server/op4/op4_compat_late.h": {
       "action": "compat-glue",
       "commit": null,
       "origin": "this-repo",
-      "sha256": "59172822188e03f0d11dc6ae5897ed3ac2afda34089eccc71805187197a74021"
+      "sha256": "3134950f90e278cd87a9d304c46466162646a972ac9b0accda00d4a679c8d34f"
+    },
+    "src/game/server/op4/op4_ctf_player.cpp": {
+      "action": "op4+compat-patch",
+      "commit": null,
+      "origin": "this-repo",
+      "patch_rules": [
+        {
+          "count": 1,
+          "rule": "bhl-ctfteam-scoped-enum-cast"
+        },
+        {
+          "count": 1,
+          "rule": "op4-compat-include"
+        },
+        {
+          "count": 1,
+          "rule": "op4-compat-late-include"
+        }
+      ],
+      "sha256": "ccd459bf803218462bab72d50436f9a78341c4b5dacd43c59ab3f10d5c73cec7"
     },
     "src/game/server/op4/op4_entity_enumerator.h": {
       "action": "compat-glue",
@@ -6788,14 +6815,10 @@
       "patch_rules": [
         {
           "count": 1,
-          "rule": "op4-compat-include"
-        },
-        {
-          "count": 1,
           "rule": "op4-compat-late-include"
         }
       ],
-      "sha256": "654581914a0a052200b9c555a875eb74d13864b15cc7ca3880b2157e1b0a8994"
+      "sha256": "a4639e763ba7b06e781acef2aa1d2e0913cca34056fc68b6eac4f94a0b037dee"
     },
     "src/game/server/op4/reference/dlls/cdll_dll.h": {
       "action": "reference-only",
@@ -6947,10 +6970,11 @@
       "commit": "4d32095e3c33",
       "merge_rules": [
         "op4-player-state",
-        "op4-rope-forward-decl"
+        "op4-rope-forward-decl",
+        "op4-player-ctf-stats"
       ],
       "origin": "bugfixhl",
-      "sha256": "d3e1f71ccb8b7100608d93fbb71790eb769f5e97cd71608cebcf3b40acd4bd5d"
+      "sha256": "1247d054ae356d28d0d4c452d881112bd21d23161532fd3fad5c93c598729669"
     },
     "src/game/server/playermonster.cpp": {
       "action": "verbatim",
@@ -7543,6 +7567,7 @@
     "src/game/server/op4/op4_compat_late.h",
     "src/game/server/op4/op4_compat.cpp",
     "src/game/server/op4/op4_link_fixups.cpp",
+    "src/game/server/op4/op4_ctf_player.cpp",
     "src/game/server/op4/op4_entity_enumerator.h",
     "src/game/shared/op4_weapon_timing.h",
     "src/game/shared/op4_weapon_timing.cpp"
@@ -7553,7 +7578,7 @@
     "repo": "twhl-community/halflife-op4-updated"
   },
   "port_pending": {
-    "count": 27,
+    "count": 26,
     "files": [
       "src/game/client/op4/com_weapons.cpp",
       "src/game/client/op4/death.cpp",
@@ -7578,7 +7603,6 @@
       "src/game/client/op4/util.cpp",
       "src/game/server/op4/dlls/UserMessages.cpp",
       "src/game/server/op4/dlls/Wxdebug.cpp",
-      "src/game/server/op4/dlls/ctf/ctfplay_gamerules.cpp",
       "src/game/server/op4/dlls/ehandle.cpp",
       "src/game/server/op4/dlls/squeakgrenade.cpp",
       "src/game/server/op4/dlls/world.cpp"

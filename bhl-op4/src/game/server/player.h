@@ -163,6 +163,19 @@ public:
 	int m_iFlagCaptures = 0;
 	short m_iOffense = 0;
 	short m_iDefense = 0;
+
+
+	/* OP4-MERGE: verbatim OP4 dlls/player.h:192-220 CTF stats/menu state */
+	char *m_szTeamModel = nullptr;
+	short m_iSnipeKills = 0;
+	short m_iBarnacleKills = 0;
+	short m_iSuicides = 0;
+	float m_flLastDamageTime = 0;
+	int m_nLastShotBy = 0;
+	float m_flLastShotTime = 0;
+	short m_iLastDamage = 0;
+	short m_iMostDamage = 0;
+	void ResetMenu();
 	void Player_Menu();
 	bool Menu_Team_Input(int inp);
 	bool Menu_Char_Input(int inp);

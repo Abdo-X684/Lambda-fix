@@ -22,7 +22,7 @@
 
 | الطبقة | المصدر | عدد الملفات | الحالة |
 | --- | --- | --- | --- |
-| **BASE** | `tmp64/BugfixedHL-Rebased @ 4d32095e3c33` (GPL-3.0) | **694** | **681 ملفاً حرفياً** (مطابقة بايت-ببايت للـ commit) + 13 ملفاً عليها دمج معلن |
+| **BASE** | `tmp64/BugfixedHL-Rebased @ 4d32095e3c33` (GPL-3.0) | **694** | **680 ملفاً حرفياً** (مطابقة بايت-ببايت للـ commit) + 14 ملفاً عليها دمج معلن |
 | **ADD / MERGE** | `twhl-community/halflife-op4-updated @ 5368be7f8eba` | **154** | أسلحة، CTF، rope، كيانات OP4، أحداث العميل |
 | **GLUE** | هذا المستودع | **7** | `op4_compat.h`, `op4_compat_late.h`, `op4_compat.cpp`, `op4_link_fixups.cpp`, `op4_entity_enumerator.h`, `op4_weapon_timing.{h,cpp}` |
 | بيان المصدر | — | **855** مدخلاً | لكل ملف: الأصل، `commit`، `sha256`، `action`، أسماء القواعد |
@@ -41,7 +41,7 @@
 ## 3. قواعد الدمج الحقيقية في ملفات BHL
 
 هذه ليست طبقة تحاكي BHL؛ هذه إضافات OP4 **داخل هيدرات BHL نفسها**
-(29 قاعدة مسماة على 13 ملفاً من BHL؛ أحدثها في `BHL_FINAL_AUDIT.md` §2):
+(29 قاعدة مسماة على 14 ملفاً من BHL؛ أحدثها في `BHL_FINAL_AUDIT.md` §2):
 
 | رقم | ملف BHL | ما أُدمج من OP4 |
 | --- | --- | --- |
@@ -92,12 +92,11 @@ OP4 يستخدم HLSDK مُحدَّثاً (`bool`, `override`, `Vector` كوسا
 **أجسام الدوال بقيت من OP4.** طبقة `op4_compat.*` لا تعيد تنفيذ أي نظام BHL؛
 هي فقط توفّر دوال OP4 التي كانت تعيش في `dlls/weapons.cpp` / `util.cpp`
 (وهذان لا يمكن ترجمتهما بجانب نسختي BHL)، وتحويلات وسيطات، وثوابت OP4
-الناقصة. `UTIL_IsCTF()` تُعيد `false` صراحةً لأن قواعد CTF ليست القواعد
-النشطة بعد — مُوثّق، غير مخفي. بعض الإعلانات (`UpdateShockEffect`,
-`Player_Menu`, …) أجسامها في ملفات OP4 الأساسية غير المدمجة؛ هذه **فجوة ربط**
-معلنة، لا تُخفى خلف stub وهمي. أما `IsFacing` الذي ظهر بعد وصل كيانات OP4
-فقد أُغلق بجسم `dlls/h_ai.cpp:196-210` الحقيقي في glue موسوم (انظر
-`BHL_FINAL_AUDIT.md` §1.1).
+الناقصة. `UTIL_IsCTF()` تستدعي `g_pGameRules->IsCTF()`؛ قواعد CTF الحقيقية
+صارت تُنشأ من `InstallGameRules` وتعيد `true`. أجسام القوائم و`respawn` و
+cvars ورسائل OP4 أُضيفت في glue مُوسوم `op4_ctf_player.cpp` (نصّاً من
+`player.cpp` / `client.cpp` / `game.cpp`)، و`IsFacing` من `h_ai.cpp:196-210`.
+`ctfplay_gamerules.cpp` نفسه موصول، لم يبقَ منقولاً إلى glue.
 
 ## 5. إثبات الترجمة (وليس مجرد وجود ملفات)
 
@@ -113,18 +112,18 @@ OP4 يستخدم HLSDK مُحدَّثاً (`bool`, `override`, `Vector` كوسا
   `CGrappleTip`, `CKnife`, `CM249`, `CPenguin`, `CPipewrench`, `CShockBeam`,
   `CShockRifle`, `CSniperRifle`, `CSpore`, `CSporeLauncher`.
   `readelf -h` على `CEagle.o`: `ELF32 / REL / Intel 80386`.
-* **103 / 108 من مصادر خادم BHL نفسها** (المنسوخة حرفياً، لا هيدرات فقط)
+* **102 / 107 من مصادر خادم BHL نفسها** (المنسوخة حرفياً، لا هيدرات فقط)
   تُترجم إلى كائنات ELF32 داخل الشجرة المدمجة. الخمسة المتعثرة مفصّلة في
   `PORT_STATUS.json` (`appversion.h` يُولّده CMake، مسار Windows في
   `stats.cpp`، `Make2D` من نسخة SDK أخرى، …). مصادر BHL الحقيقية كلها تُترجم
-  داخل البناء الفعلي (`server: 177/177 clean`).
+  داخل البناء الفعلي (`server: 179/179 clean`).
 * **66 / 70** من مصادر OP4 تُترجم بنجاح إلى كائنات ELF32، منها 15/15 سلاحاً
   وCTF وrope وكيانات (`CTFGoal`, `CTFSpawn`, `CRope`, `CRopeSegment`,
   `CDrillSergeant`, `hgrunt_medic`, `shocktrooper`, `voltigore`, …).
-* **64 مصدراً** موصولة بـ `src/game/server/CMakeLists.txt` — هدف البناء لا
+* **66 مصدراً** موصولة بـ `src/game/server/CMakeLists.txt` — هدف البناء لا
   يضمّ ملفاً معطوباً ولا ملفاً فيه فجوة ربط معلنة؛ `--check` يتحقق من أن كل
   ملف موصول نظيف (0 فشل). البناء الفعلي أنتج 177 كائن خادم وصفر فجوة ربط.
-* **27 ملف `port_pending`** (21 عميل + 6 خادم). الأربعة التي لا تُترجم بعد
+* **26 ملف `port_pending`** (21 عميل + 5 خادم). الأربعة التي لا تُترجم بعد
   (`Wxdebug.cpp`، `squeakgrenade.cpp`، `world.cpp`،
   `ctf/ctfplay_gamerules.cpp`) ومصدران نظيفان مستبعدان لتكرار أنظمة BHL
   (`ehandle.cpp`, `UserMessages.cpp`) مفصّلة بأسبابها في `BHL_FINAL_AUDIT.md` §7.
@@ -143,9 +142,10 @@ OP4 يستخدم HLSDK مُحدَّثاً (`bool`, `override`, `Vector` كوسا
    هي **legacy** وليست ناتج `bhl-op4/`؛ لا تستخدمها كدليل على هذا الدمج.
 3. مصادر عميل OP4 (`hl_events`, `ev_hldm`, HUD, particleman) منسوخة لكنها
    غير موصولة ببناء العميل بعد (فروق VGUI2/GameUI بين الشجرتين).
-4. CTF كـ gamerules نشط، وبعض كيانات OP4، لم تُكمل توافقياتها بعد؛
-   `UTIL_IsCTF() == false` حتى إتمامها. فجوات الربط المذكورة في القسم 4
-   تحتاج نقل الأجسام من ملفات OP4 الأساسية أو كتابة معادلاتها داخل BHL.
+4. CTF كـ gamerules **موصول وحقيقي** الآن (`ctfplay_gamerules.cpp`،
+   `InstallGameRules`، `IsCTF()`، القوائم، 13 رسالة، 9 cvars،
+   `unresolved_own_build_symbols: []`). ما لم يُكمل بعد: HUD عميل OP4
+   (تعارض VGUI1/VGUI2) وأي اختبار داخل اللعبة.
 5. لا يُدعى أن المود قابل للعب كاملاً، ولا تُضمَّن أصول اللعبة أو
    `vgui.so` الحقيقي.
 

@@ -44,16 +44,16 @@ Reproduce with `python3 tools/probe_runtime_environment.py`.
     "compiler": "/tmp/zig32",
     "dynamic_build_rc": 0,
     "dynamic_build_stderr": "",
-    "dynamic_command": "/tmp/zig32 /tmp/op4-runtime-g6liz6ft/run32.cpp -o /tmp/op4-runtime-g6liz6ft/run32",
+    "dynamic_command": "/tmp/zig32 /tmp/op4-runtime-wmdalbqi/run32.cpp -o /tmp/op4-runtime-wmdalbqi/run32",
     "dynamic_run": {
-      "error": "FileNotFoundError: [Errno 2] No such file or directory: '/tmp/op4-runtime-g6liz6ft/run32'",
+      "error": "FileNotFoundError: [Errno 2] No such file or directory: '/tmp/op4-runtime-wmdalbqi/run32'",
       "rc": null
     },
     "raw_zig": "/tmp/zenv/lib/python3.11/site-packages/ziglang/zig",
     "source": "#include <cstdio>\nint main(){printf(\"ELF32-RUN-OK\\n\");return 0;}\n",
     "static_build_rc": 0,
     "static_build_stderr": "",
-    "static_command": "/tmp/zenv/lib/python3.11/site-packages/ziglang/zig c++ -target x86-linux-musl -static /tmp/op4-runtime-g6liz6ft/run32.cpp -o /tmp/op4-runtime-g6liz6ft/run32s",
+    "static_command": "/tmp/zenv/lib/python3.11/site-packages/ziglang/zig c++ -target x86-linux-musl -static /tmp/op4-runtime-wmdalbqi/run32.cpp -o /tmp/op4-runtime-wmdalbqi/run32s",
     "static_run": {
       "rc": 0,
       "stderr": "",

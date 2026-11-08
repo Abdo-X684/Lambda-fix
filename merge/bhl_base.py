@@ -169,11 +169,13 @@ PATCH_RULES = [
         # BHL CGameRules::ChangePlayerTeam uses BOOL, OP4-updated uses bool.
         ("bhl-ctf-changeplayerteam-bools",
          r"\bbool\s+bKill\s*,\s*bool\s+bGib\b", "BOOL bKill, BOOL bGib"),
-        # OP4's UserMessages.h defines gmsgFlagIcon as a C++17 inline variable.
-        # The real OP4 global is defined (and registered) in the labelled glue
-        # file; declare it extern here so there is exactly one strong symbol.
-        ("bhl-ctf-gmsgflagicon-extern",
-         r"inline int gmsgFlagIcon = 0;", "extern int gmsgFlagIcon;"),
+          # OP4's UserMessages.h defines every gmsg* id as a C++17 inline
+          # variable. BHL's player.cpp already owns strong definitions for the
+          # shared ids, and the labelled glue owns the OP4-only ids. Turning
+          # them all into extern declarations gives exactly one strong symbol
+          # per id instead of a COMDAT/strong mix.
+          ("bhl-ctf-usermsg-extern",
+           r"inline int (gmsg\w+) = 0;", r"extern int \1;"),
         # OP4's cbase.h has a template CBaseEntity::Instance<T>(edict_t*);
         # BHL has the non-template CBaseEntity::Instance(edict_t*) returning
         # CBaseEntity*. Same engine primitive, mechanical cast only.
@@ -309,9 +311,91 @@ bool UTIL_IsCTF();
 #ifndef CLASS_CTFITEM
 #define CLASS_CTFITEM 30
 #endif
-#ifndef CLASS_ALIEN_RACE_X
-#define CLASS_ALIEN_RACE_X 15  /* OP4 dlls/cbase.h:112 */
-#endif
+  #ifndef CLASS_ALIEN_RACE_X
+  #define CLASS_ALIEN_RACE_X 15  /* OP4 dlls/cbase.h:112 */
+  #endif
+
+  /* ---- OP4 dlls/cdll_dll.h:187-213, verbatim -------------------------- *
+   * CTF menu ids, HUD colour constants and UnpackRGB(). BHL's cdll_dll.h
+   * has none of them; ctf/ctfplay_gamerules.cpp uses all of them.        */
+  #ifndef MENU_NONE
+  #define MENU_NONE 0
+  #define MENU_DEFAULT 1
+  #define MENU_TEAM 2
+  #define MENU_CLASS 3
+  #define MENU_MAPBRIEFING 4
+  #define MENU_INTRO 5
+  #define MENU_CLASSHELP 6
+  #define MENU_CLASSHELP2 7
+  #define MENU_REPEATHELP 8
+  #define MENU_STATSMENU 9
+  #define MENU_SCOREBOARD 10
+  #endif
+  #ifndef RGB_YELLOWISH
+  #define RGB_YELLOWISH 0x00FFA000 /* 255,160,0 */
+  #define RGB_REDISH    0x00FF1010
+  #define RGB_GREENISH  0x0000A000 /* 0,160,0 */
+  #define RGB_HUD_COLOR RGB_GREENISH
+  #endif
+  inline void UnpackRGB(int &r, int &g, int &b, unsigned long ulRGB)
+  {
+      r = (ulRGB & 0xFF0000) >> 16;
+      g = (ulRGB & 0xFF00) >> 8;
+      b = ulRGB & 0xFF;
+  }
+
+  /* OP4 dlls/world.h:21 -- the worldspawn flag that selects CTF rules. */
+  #ifndef SF_WORLD_CTF
+  #define SF_WORLD_CTF 0x0008
+  #endif
+
+  /* ---- OP4 dlls/util.h:584-595, verbatim ------------------------------ */
+  struct MinuteSecondTime
+  {
+      const int Minutes;
+      const int Seconds;
+  };
+  inline MinuteSecondTime SecondsToTime(const int seconds)
+  {
+      const auto minutes = seconds / 60;
+      return { minutes, seconds - (minutes * 60) };
+  }
+
+  /* OP4 dlls/game.cpp:580-586 / dlls/game.h:46-50 real cvars. Definitions
+   * live in the labelled glue op4_link_fixups.cpp. */
+  extern cvar_t ctfplay;
+  extern cvar_t ctf_autoteam;
+  extern cvar_t ctf_capture;
+  extern cvar_t coopplay;
+  extern cvar_t defaultcoop;
+  extern cvar_t coopweprespawn;
+  extern cvar_t oldweapons;
+
+  /* OP4 user-message ids. BHL owns the shared ids (player.cpp); the labelled
+   * glue owns the OP4-only ids. OP4's UserMessages.h is patched to extern. */
+  extern int gmsgFlagIcon;
+  extern int gmsgFlagTimer;
+  extern int gmsgPlayerIcon;
+  extern int gmsgPlayerBrowse;
+  extern int gmsgHudColor;
+  extern int gmsgSetMenuTeam;
+  extern int gmsgCTFScore;
+  extern int gmsgStatsInfo;
+  extern int gmsgStatsPlayer;
+  extern int gmsgTeamFull;
+  extern int gmsgOldWeapon;
+  extern int gmsgCustomIcon;
+  extern int gmsgWeapons;
+  extern int gmsgAllowSpec;
+  extern int gmsgTeamNames;
+  extern int gmsgVGUIMenu;
+  extern int gmsgShowMenu;
+  extern int gmsgSpectator;
+
+  /* OP4 dlls/client.cpp:152-166 respawn() and BHL world.cpp CopyToBodyQue;
+   * the real bodies are in the labelled glue. */
+  extern void respawn(entvars_t *pev, bool fCopyCorpse);
+  extern void CopyToBodyQue(entvars_t *pev);
 
 /* OP4 common/Platform.h:72-90 stack scratch macros. OP4's combat.cpp uses
  * them for the GibData submodel-limit bookkeeping. On POSIX the upstream
@@ -412,6 +496,142 @@ GLUE_LATE_HEADER = r'''/* ------------------------------------------------------
   {
       ::ExplosionCreate(center, angles, pOwner, pOwner, magnitude, doDamage ? 1 : 0);
   }
+
+  /* ---- OP4 dlls/player.h:473-602, verbatim --------------------------- *
+   * Only compiled where BHL's player.h has already been included (guard
+   * PLAYER_H), because CPlayerIterator needs CBasePlayer complete. OP4's
+   * CTF rules iterate players with UTIL_FindPlayers(); BHL exposes only
+   * UTIL_PlayerByIndex(), which is exactly what this adapter calls.       */
+  #ifdef PLAYER_H
+  class CPlayerIterator
+  {
+  public:
+      static const int FirstPlayerIndex = 1;
+
+      CPlayerIterator()
+          : m_pPlayer(nullptr), m_iNextIndex(gpGlobals->maxClients + 1)
+      {
+      }
+
+      CPlayerIterator(const CPlayerIterator&) = default;
+
+      CPlayerIterator(CBasePlayer* pPlayer)
+          : m_pPlayer(pPlayer), m_iNextIndex(pPlayer ? pPlayer->entindex() + 1 : FirstPlayerIndex)
+      {
+      }
+
+      CPlayerIterator& operator=(const CPlayerIterator&) = default;
+
+      const CBasePlayer* operator*() const { return m_pPlayer; }
+
+      CBasePlayer* operator*() { return m_pPlayer; }
+
+      CBasePlayer* operator->() { return m_pPlayer; }
+
+      void operator++()
+      {
+          m_pPlayer = static_cast<CBasePlayer*>(FindNextPlayer(m_iNextIndex, &m_iNextIndex));
+      }
+
+      void operator++(int)
+      {
+          ++*this;
+      }
+
+      bool operator==(const CPlayerIterator& other) const
+      {
+          return m_pPlayer == other.m_pPlayer;
+      }
+
+      bool operator!=(const CPlayerIterator& other) const
+      {
+          return !(*this == other);
+      }
+
+      static CBasePlayer* FindNextPlayer(int index, int* pOutNextIndex = nullptr)
+      {
+          while (index <= gpGlobals->maxClients)
+          {
+              auto pPlayer = UTIL_PlayerByIndex(index);
+
+              if (pPlayer)
+              {
+                  if (pOutNextIndex)
+                  {
+                      *pOutNextIndex = index + 1;
+                  }
+
+                  return static_cast<CBasePlayer*>(pPlayer);
+              }
+
+              ++index;
+          }
+
+          if (pOutNextIndex)
+          {
+              *pOutNextIndex = gpGlobals->maxClients;
+          }
+
+          return nullptr;
+      }
+
+  private:
+      int m_iNextIndex = 1;
+      CBasePlayer* m_pPlayer;
+  };
+
+  class CPlayerEnumerator
+  {
+  public:
+      using iterator = CPlayerIterator;
+
+      CPlayerEnumerator() = default;
+
+      iterator begin()
+      {
+          return {static_cast<CBasePlayer*>(CPlayerIterator::FindNextPlayer(CPlayerIterator::FirstPlayerIndex))};
+      }
+
+      iterator end()
+      {
+          return {};
+      }
+  };
+
+  class CPlayerEnumeratorWithStart
+  {
+  public:
+      using iterator = CPlayerIterator;
+
+      CPlayerEnumeratorWithStart(CBasePlayer* pStartEntity)
+          : m_pStartEntity(pStartEntity)
+      {
+      }
+
+      iterator begin()
+      {
+          return {m_pStartEntity};
+      }
+
+      iterator end()
+      {
+          return {};
+      }
+
+  private:
+      CBasePlayer* m_pStartEntity = nullptr;
+  };
+
+  inline CPlayerEnumerator UTIL_FindPlayers()
+  {
+      return {};
+  }
+
+  inline CPlayerEnumeratorWithStart UTIL_FindPlayers(CBasePlayer* pStartEntity)
+  {
+      return {pStartEntity};
+  }
+  #endif /* PLAYER_H */
   #endif /* OP4_BHL_COMPAT_LATE_H */
   '''
 
@@ -467,7 +687,10 @@ def apply_merges(tree: Path, provenance: dict) -> None:
         s = p.read_text(errors="surrogateescape")
         if marker not in s:
             raise RuntimeError(f"merge rule {rule}: anchor missing in {rel}: {marker!r}")
-        if text.strip()[:40] in s:
+        # Compare the WHOLE inserted block, not just a prefix: several merge
+        # rules deliberately share a "/* OP4-MERGE: verbatim OP4 ..." header,
+        # and a 40-character prefix check used to suppress later rules.
+        if text.strip() and text.strip() in s:
             return
         s = s.replace(marker, text + "\n" + marker if before else marker + "\n" + text, 1)
         p.write_text(s, errors="surrogateescape")
@@ -733,6 +956,85 @@ def apply_merges(tree: Path, provenance: dict) -> None:
          "\tbyte m_EFlags = 0;\n",
          "op4-entity-eflags")
 
+    # 20. OP4's CTF scoreboard / menu / userinfo state on BHL's CBasePlayer.
+    #     Verbatim OP4 dlls/player.h:192-220. CHalfLifeCTFplay and the real
+    #     OP4 menu/stat bodies (glue) read these fields. Additive only.
+    edit("src/game/server/player.h", "\tshort m_iDefense = 0;\n",
+         "\n\t/* OP4-MERGE: verbatim OP4 dlls/player.h:192-220 CTF stats/menu state */\n"
+         "\tchar *m_szTeamModel = nullptr;\n"
+         "\tshort m_iSnipeKills = 0;\n"
+         "\tshort m_iBarnacleKills = 0;\n"
+         "\tshort m_iSuicides = 0;\n"
+           "\tfloat m_flLastDamageTime = 0;\n"
+           "\tint m_nLastShotBy = 0;\n"
+           "\tfloat m_flLastShotTime = 0;\n"
+           "\tshort m_iLastDamage = 0;\n"
+           "\tshort m_iMostDamage = 0;\n"
+           "\tvoid ResetMenu();\n",
+           "op4-player-ctf-stats")
+
+    # 21. OP4's CTF gamerules virtuals on BHL's CGameRules. Without them the
+    #     real CHalfLifeCTFplay cannot override these, and OP4's
+    #     CBasePlayer::Menu_Team_Input() cannot call g_pGameRules->TeamsBalanced().
+    # BHL's CGameRules ALREADY has GetIndexedTeamName() and
+    # SetDefaultPlayerTeam(); only the five genuinely OP4-only hooks are added,
+    # and they are appended at the END of CGameRules' virtual list so no
+    # existing BHL vtable slot moves. The marker is CGameRules' last virtual
+    # (the first EndMultiplayerGame declaration in the header).
+    edit("src/game/server/gamerules.h",
+         "\tvirtual void EndMultiplayerGame(void) { }",
+         "\n\t/* OP4-MERGE: verbatim OP4 dlls/gamerules.h CTF hooks (additive, last) */\n"
+         "\tvirtual const char *GetCharacterType(int iTeamNum, int iCharNum) { return nullptr; }\n"
+         "\tvirtual int GetNumTeams() { return 0; }\n"
+         "\tvirtual const char *TeamWithFewestPlayers() { return nullptr; }\n"
+         "\tvirtual bool TeamsBalanced() { return true; }\n"
+         "\tvirtual void GoToIntermission() {}\n",
+         "op4-gamerules-ctf-virtuals")
+
+    # 22. DECLARED BHL base change: install OP4's real coop / CTF rules.
+    #     Source OP4 dlls/gamerules.cpp:486-539. BHL's InstallGameRules(void)
+    #     has no pWorld arg, so the merged code uses CWorld::World (the OP4
+    #     singleton whose ctor/dtor live in the labelled glue) and OP4's
+    #     SF_WORLD_CTF worldspawn flag. No BHL branch is removed.
+    gp = tree / "src/game/server/gamerules.cpp"
+    gs = gp.read_text(errors="surrogateescape")
+    decls = (
+        "\n/* OP4-MERGE: dlls/gamerules.cpp:486-539 coop/CTF ruleset selection */\n"
+        "#include \"ctf/ctfplay_gamerules.h\"  /* OP4's real CHalfLifeCTFplay */\n"
+        "#include \"coopplay_gamerules.h\"     /* OP4's real CHalfLifeCoopplay */\n"
+        "#ifndef SF_WORLD_CTF\n#define SF_WORLD_CTF 0x0008  /* OP4 dlls/world.h:21 */\n#endif\n"
+        "extern cvar_t coopplay;\n"
+        "extern cvar_t ctfplay;\n"
+    )
+    anchor = "CGameRules *InstallGameRules(void)\n{"
+    if anchor not in gs:
+        raise RuntimeError("InstallGameRules anchor missing in gamerules.cpp")
+    gs = gs.replace(anchor, decls + "\n" + anchor, 1)
+    old_branch = "\t\tif (teamplay.value > 0)\n\t\t{"
+    new_branch = (
+        "\t\t/* OP4-MERGE: coop and CTF take precedence, exactly as OP4's\n"
+        "\t\t * InstallGameRules does (coopplay cvar / SF_WORLD_CTF). No\n"
+        "\t\t * BHL branch is removed: all original branches stay below. */\n"
+        "\t\tif (coopplay.value > 0)\n"
+        "\t\t{\n"
+        "\t\t\tg_teamplay = 1;\n"
+        "\t\t\treturn new CHalfLifeCoopplay();\n"
+        "\t\t}\n"
+        "\t\telse if (ctfplay.value > 0 ||\n"
+        "\t\t\t(CWorld::World && (CWorld::World->pev->spawnflags & SF_WORLD_CTF) != 0))\n"
+        "\t\t{\n"
+        "\t\t\tg_teamplay = 1;\n"
+        "\t\t\treturn new CHalfLifeCTFplay();\n"
+        "\t\t}\n"
+        "\t\telse if (teamplay.value > 0)\n\t\t{"
+    )
+    if old_branch not in gs:
+        raise RuntimeError("teamplay branch anchor missing in gamerules.cpp")
+    gs = gs.replace(old_branch, new_branch, 1)
+    gp.write_text(gs, errors="surrogateescape")
+    provenance["src/game/server/gamerules.cpp"].setdefault("merge_rules", []).extend(
+        ("op4-install-gamerules-decls", "op4-install-gamerules-branch"))
+
 
 # Only sources proven to compile against BHL headers are wired into the BHL
 # CMake targets. Everything else is present in the tree as a ported OP4 source
@@ -745,6 +1047,8 @@ BUILD_SOURCE_DIRS = ("src/game/server/op4/dlls/weapons",)
 BUILD_SOURCE_FILES = (
     "src/game/server/op4/op4_compat.cpp",
     "src/game/server/op4/op4_link_fixups.cpp",
+    "src/game/server/op4/op4_ctf_player.cpp",
+    "src/game/server/op4/dlls/ctf/ctfplay_gamerules.cpp",
     "src/game/server/op4/dlls/ctf/CItemAcceleratorCTF.cpp",
     "src/game/server/op4/dlls/ctf/CItemCTF.cpp",
     "src/game/server/op4/dlls/ctf/CItemSpawnCTF.cpp",
@@ -927,6 +1231,7 @@ def build(out: Path) -> dict:
         ("src/game/server/op4/op4_compat_late.h", GLUE_LATE_HEADER),
         ("src/game/server/op4/op4_compat.cpp", GLUE_CPP),
           ("src/game/server/op4/op4_link_fixups.cpp", op4_fixups.FIXUPS_CPP),
+          ("src/game/server/op4/op4_ctf_player.cpp", op4_fixups.CTF_PLAYER_CPP),
           ("src/game/server/op4/op4_entity_enumerator.h",
            op4_fixups.ENTITY_ENUMERATOR_H),
           ("src/game/shared/op4_weapon_timing.h", op4_fixups.TIMING_H),

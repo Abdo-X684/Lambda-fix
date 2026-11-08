@@ -2,6 +2,7 @@
 
 | ملف | المحتوى |
 | --- | --- |
+| [COMPLETION_INVENTORY.md](COMPLETION_INVENTORY.md) | 📋 **جرد الاكتمال**: تصنيف كل مصادر OP4، الـ26 `port_pending`، تعارض VGUI1/VGUI2، جذور CTF/IsCTF، وحالة مراحل التنفيذ |
 | [BHL_BASE_MERGE.md](BHL_BASE_MERGE.md) | ✅ **المرجع المعماري الحالي**: BHL أساساً + دمج أنظمة/أسلحة OP4، قواعد الدمج، إثبات الترجمة، ما لم يُنجز |
 | [BHL_FINAL_AUDIT.md](BHL_FINAL_AUDIT.md) | 🛑 **التقرير النهائي**: إغلاق الـ12 رمزاً، البناء النهائي، كل اختبار ونتيجته، وقائمة النواقص صراحةً |
 | [BHL_BASE_BUILD.md](BHL_BASE_BUILD.md) | 🔧 **إثبات البناء الحقيقي**: أوامر/سجلات/بصمات بناء `client.so` و`hl.so` من `bhl-op4/`، صفر فجوة ربط، الإصلاحات المعلنة |

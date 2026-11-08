@@ -73,9 +73,9 @@ make verify
 
 | ملف | المحتوى |
 |---|---|
-| `BUILD_COMMANDS.txt` | 451 أمر ترجمة/ربط فعلي |
-| `SOURCES.sha256` | بصمة 443 ملف مصدر مُدخل |
-| `compile-units.json` | 443 وحدة ترجمة، كلها `ok` |
+| `BUILD_COMMANDS.txt` | 453 أمر ترجمة/ربط فعلي |
+| `SOURCES.sha256` | بصمة 445 ملف مصدر مُدخل |
+| `compile-units.json` | 445 وحدة ترجمة، كلها `ok` |
 | `build.log` | سجل الترجمة والربط الكامل |
 | `UNDEFINED_SYMBOLS.txt` | `nm -u` الكامل للمكتبتين |
 | `LINK_GAPS.md` | **فارغ من الرموز** (0 فجوة) |
@@ -101,7 +101,7 @@ make verify
 [compat] 3 build fixes written to build-evidence/bhl-base/patches
 [cmake] client=138 server=177 common=8
 [compile] client: 138/138 clean
-[compile] server: 177/177 clean
+[compile] server: 179/179 clean
 [cmake] tier1=35 tier2=3 vgui_controls=68
 [compile] tier1: 35/35 clean
 [compile] tier2: 3/3 clean
@@ -114,9 +114,9 @@ make verify
 [ar] libtier1.a: 35 objects
 [ar] libglad.a / libsemver.a / libpcre.a
 [link] client.so: 138 objects, 6 archives, 4 shared libs
-[link] client.so: OK (27753644 bytes)
+[link] client.so: OK (27753724 bytes)
 [link] hl.so: 177 objects, 1 archives, 0 shared libs
-[link] hl.so: OK (20936800 bytes)
+[link] hl.so: OK (21231808 bytes)
 [audit] client.so: 0 unresolved symbols from our own build
 [audit] hl.so: 0 unresolved symbols from our own build
 [done] 26.7s
@@ -130,8 +130,8 @@ make verify
 
 | الملف | الحجم (بايت) | sha256 | ELF | رموز مُصدَّرة | رموز undefined | نقاط دخول BHL | `DT_NEEDED` |
 |---|---|---|---|---|---|---|---|
-| `build-evidence/bhl-base/client.so` | 27,753,644 | `c94a5de12bb9d1789216e4cf9416408df882ec8eaa17413dd771b006340be29c` | ELF32 / Intel 80386 | 4,931 | 311 | `Initialize`, `HUD_Init`, `HUD_VidInit`, `HUD_Redraw`, `HUD_UpdateClientData`, `HUD_Reset`, `HUD_Frame`, `HUD_Shutdown`, `HUD_Key_Event`, `V_CalcRefdef` | `libSDL2-2.0.so.0`, `libtier0.so`, `libvstdlib.so`, `libm.so.6`, `libc.so.6`, `ld-linux.so.2` |
-| `build-evidence/bhl-base/hl.so` | 20,936,800 | `06b95817af97d6b54f647a93db35edbb501d97de66dc9265640e17a0a49dd61f` | ELF32 / Intel 80386 | 4,421 | 157 | `GetEntityAPI`, `GetEntityAPI2`, `GetNewDLLFunctions`, `GiveFnptrsToDll` | `libm.so.6`, `libc.so.6`, `ld-linux.so.2` |
+| `build-evidence/bhl-base/client.so` | 27,753,724 | `37a09c5202c1db3021d0f6c88b6137b24330e040cc4844b8aaf25a8bdaa84f57` | ELF32 / Intel 80386 | 4,931 | 311 | `Initialize`, `HUD_Init`, `HUD_VidInit`, `HUD_Redraw`, `HUD_UpdateClientData`, `HUD_Reset`, `HUD_Frame`, `HUD_Shutdown`, `HUD_Key_Event`, `V_CalcRefdef` | `libSDL2-2.0.so.0`, `libtier0.so`, `libvstdlib.so`, `libm.so.6`, `libc.so.6`, `ld-linux.so.2` |
+| `build-evidence/bhl-base/hl.so` | 21,231,808 | `3eabfa02bf75799ff422c949874ce376a9e4fca64b48d9e38b3520302a594744` | ELF32 / Intel 80386 | 4,467 | 156 | `GetEntityAPI`, `GetEntityAPI2`, `GetNewDLLFunctions`, `GiveFnptrsToDll` | `libm.so.6`, `libc.so.6`, `ld-linux.so.2` |
 
 الـ 311/157 undefined هي رموز يوفّرها المحرك/النظام (tier0/vstdlib، SDL2،
 libc/libm، C++ ABI) ويوفّرها المحرك عند التحميل؛ ليست فجوات من بنائنا.
@@ -147,8 +147,8 @@ libc/libm، C++ ABI) ويوفّرها المحرك عند التحميل؛ لي�
 | 1 | `ctfplay_gamerules.h:102,106,108,110` — `override` لا يقابل virtual في BHL، و`bool` بدل `BOOL` | OP4-updated حدّث واجهة `CGameRules` | رقع مُعلَنة `bhl-ctf-nonvirtual-overrides` و`bhl-ctf-changeplayerteam-bools`؛ أُزيلت كلمة `override` فقط وعدّل نوع المعامل، الأجسام بقيت OP4 |
 | 2 | `UTIL_FindEntitiesByClassname` غير موجود في BHL | BHL يعرض `UTIL_FindEntityByClassname` المفرد فقط | `op4_entity_enumerator.h` = `dlls/util.h:597-735` نصّاً، يستدعي primitive الخاص بـ BHL نفسه؛ لم تُغيَّر واجهة BHL |
 | 3 | `CItemCTF.cpp:220` — `'CBasePlayer' does not refer to a value` | OP4 لديه `Instance<T>()` قالبي | رقعة `bhl-instance-template` تحوّلها إلى `static_cast<T*>(CBaseEntity::Instance(...))` |
-| 4 | `op4_link_fixups.cpp:52` — `gmsgFlagIcon` غير مُعرّف | استُخدم قبل سطر التعريف | أُضيف إعلان `extern` أعلى الملف، ورقعة `bhl-ctf-gmsgflagicon-extern` تمنع تعريف inline مزدوج |
-| 5 | `GetLosingTeam(int&,int&)` فجوة جديدة ظهرت بعد وصل `CItemCTF.cpp` | الدالة في `ctfplay_gamerules.cpp` غير الموصول | أُضيف جسم OP4 الحقيقي `:126-138` إلى glue بدل stub |
+| 4 | `gmsg*` غير مُعرّفة | `UserMessages.h` يعرّفها `inline` (COMDAT) مقابل تعريفات BHL القوية | رقعة `bhl-ctf-usermsg-extern` حوّلتها إلى `extern`؛ 13 رسالة OP4-only معرّفة في glue ومسجّلة من `GameDLLInit` |
+| 5 | `GetLosingTeam(int&,int&)` فجوة ظهرت بعد وصل `CItemCTF.cpp` | الدالة كانت في `ctfplay_gamerules.cpp` غير الموصول | سابقاً جسم OP4 الحقيقي في glue؛ **الآن** `ctfplay_gamerules.cpp` نفسه موصول ويملك التعريف الوحيد |
 | 6 | `op4_compat.h` يحوي تضمينات BHL، فلا يمكن تضمينه في اختبار مضيف | بنية الملف الأصلية | فُصل مُعدّد الكيانات إلى `op4_entity_enumerator.h` مستقل كي يُختبر تنفيذياً |
 | 7 | `hl_baseentity.cpp:309` في عميل OP4 هو `return flTime;` | stub | **رُفض صراحةً**؛ استُخدمت خوارزمية `dlls/weapons.cpp:1069-1099` الحقيقية |
 
@@ -164,5 +164,5 @@ libc/libm، C++ ABI) ويوفّرها المحرك عند التحميل؛ لي�
   ولا أسلحة، ولا Monster/Rope/Grapple/CTF وقت تشغيل، ولا مراقبة أعطال.
   الأسباب والأدلة: `../build-evidence/bhl-base/RUNTIME_ENVIRONMENT.md`.
   - `dlls/ctf/ctfplay_gamerules.cpp` (قواعد CTF الفعلية) غير موصول؛
-    و**27 ملف OP4** ما زالت `port-pending` (21 عميل + 6 خادم مستبعدة بأسباب
+    و**26 ملف OP4** ما زالت `port-pending` (21 عميل + 5 خادم مستبعدة بأسباب
     معلَنة). التفاصيل في `BHL_FINAL_AUDIT.md` §7 و`LINK_GAP_CLOSURE.md`.

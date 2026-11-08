@@ -1,6 +1,6 @@
 {
   "bhl_base": {
-    "clean": 103,
+    "clean": 102,
     "files": {
       "src/game/server/AI_BaseNPC_Schedule.cpp": {
         "errors": 3,
@@ -153,11 +153,6 @@
         "ok": true
       },
       "src/game/server/func_tank.cpp": {
-        "errors": 0,
-        "gaps": [],
-        "ok": true
-      },
-      "src/game/server/gamerules.cpp": {
         "errors": 0,
         "gaps": [],
         "ok": true
@@ -557,9 +552,9 @@
     },
     "note": "Verbatim BugfixedHL-Rebased server sources compiled against the merged tree; proves the BASE is real BHL code.",
     "pending": 5,
-    "total": 108
+    "total": 107
   },
-  "clean": 66,
+  "clean": 68,
   "compiler": "/tmp/zig32",
   "files": {
     "src/game/server/op4/dlls/CDrillSergeant.cpp": {
@@ -690,18 +685,9 @@
       "ok": true
     },
     "src/game/server/op4/dlls/ctf/ctfplay_gamerules.cpp": {
-      "errors": 50,
-      "gaps": [
-        "no matching function for call to '__invoke'",
-        "no member named 'm_iBarnacleKills' in 'CBasePlayer'",
-        "no member named 'm_iMostDamage' in 'CBasePlayer'",
-        "no member named 'm_iSnipeKills' in 'CBasePlayer'",
-        "no member named 'm_iSuicides' in 'CBasePlayer'",
-        "no member named 'm_szTeamModel' in 'CBasePlayer'",
-        "use of undeclared identifier 'MENU_CLASS'",
-        "use of undeclared identifier 'MENU_NONE'"
-      ],
-      "ok": false
+      "errors": 0,
+      "gaps": [],
+      "ok": true
     },
     "src/game/server/op4/dlls/ehandle.cpp": {
       "errors": 0,
@@ -933,15 +919,20 @@
       "gaps": [],
       "ok": true
     },
+    "src/game/server/op4/op4_ctf_player.cpp": {
+      "errors": 0,
+      "gaps": [],
+      "ok": true
+    },
     "src/game/server/op4/op4_link_fixups.cpp": {
       "errors": 0,
       "gaps": [],
       "ok": true
     }
   },
-  "pending": 4,
+  "pending": 3,
   "source_sdk": ".cache/upstreams/hl1_source_sdk",
   "status": "compiled",
   "target": "x86-linux-gnu (ELF32 relocatable objects)",
-  "total": 70
+  "total": 71
 }
