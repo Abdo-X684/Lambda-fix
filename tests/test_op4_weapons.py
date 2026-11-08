@@ -18,6 +18,7 @@ build-evidence/bhl-base/RUNTIME_ENVIRONMENT.md and is NOT claimed here.
 
 from __future__ import annotations
 
+import hashlib
 import json
 import re
 import shutil
@@ -64,7 +65,10 @@ class Op4WeaponIntegrationTests(unittest.TestCase):
         cls.hl_events = (TREE / "src/game/client/hl/hl_events.cpp").read_text()
         cls.ev_cpp = (TREE / "src/game/client/op4/op4_weapon_events.cpp").read_text()
         cls.ev_h = (TREE / "src/game/client/op4/op4_weapon_events.h").read_text()
-        cls.upstream_ev = (wev.OP4 / "cl_dll" / "ev_hldm.cpp").read_text()
+        upstream_ev = wev.OP4 / "cl_dll" / "ev_hldm.cpp"
+        cls.upstream_ev = upstream_ev.read_text() if upstream_ev.is_file() else None
+        cls.bodies_sha = json.loads(
+            (ROOT / "tests/fixtures/op4_weapon_events.json").read_text())["bodies"]
         cls.client_def = subprocess.run(
             ["nm", "--defined-only", str(CLIENT)], capture_output=True,
             text=True, check=True).stdout
@@ -118,14 +122,28 @@ class Op4WeaponIntegrationTests(unittest.TestCase):
             if not w["func"]:
                 continue
             with self.subTest(weapon=w["cls"]):
+                # The shipped glue is compared by sha256 to the PINNED upstream
+                # body, so CI proves verbatim-ness even without .cache/.
                 m = re.search(r"^void " + re.escape(w["func"]) +
-                              r"\(.*?\)\s*\{", self.upstream_ev, re.M | re.S)
-                self.assertIsNotNone(m, "upstream body missing")
-                upstream = _brace_block(self.upstream_ev, m.start()).strip()
-                self.assertIn(upstream, self.ev_cpp,
-                              "shipped body differs from pinned OP4 source")
-                self.assertGreater(len(upstream), 400,
+                              r"\(.*?\)\s*\{", self.ev_cpp, re.M | re.S)
+                self.assertIsNotNone(m, "shipped event body missing")
+                shipped = _brace_block(self.ev_cpp, m.start()).strip()
+                self.assertGreater(len(shipped), 400,
                                    "body suspiciously short (possible stub)")
+                self.assertEqual(
+                    hashlib.sha256(shipped.encode()).hexdigest(),
+                    self.bodies_sha[w["func"]],
+                    "shipped body is not the pinned OP4 body byte-for-byte")
+                # When the pinned checkout exists, also compare the actual
+                # source text (strongest check, used locally).
+                if self.upstream_ev is not None:
+                    um = re.search(r"^void " + re.escape(w["func"]) +
+                                   r"\(.*?\)\s*\{", self.upstream_ev,
+                                   re.M | re.S)
+                    self.assertIsNotNone(um, "upstream body missing")
+                    self.assertEqual(
+                        shipped, _brace_block(self.upstream_ev, um.start()).strip(),
+                        "shipped body differs from pinned OP4 source")
         for w in wev.WEAPONS:
             for en in w["enums"]:
                 with self.subTest(enum=en):
@@ -198,6 +216,19 @@ class Op4WeaponIntegrationTests(unittest.TestCase):
             with self.subTest(lib=name):
                 self.assertTrue(lib[name]["elf32"])
                 self.assertEqual(lib[name]["unresolved_own_build_symbols"], [])
+
+    def test_08_generator_import_does_not_need_the_upstream_cache(self):
+        """Regression: CI checks out a clean clone without .cache/upstreams."""
+        import importlib
+        saved = wev.OP4
+        try:
+            wev.OP4 = ROOT / "tests/fixtures/__no_such_upstream__"
+            importlib.reload(wev)  # must not raise FileNotFoundError
+            self.assertTrue(callable(wev.weapon_events))
+            self.assertEqual(len(wev.WEAPONS), 10)
+        finally:
+            wev.OP4 = saved
+            importlib.reload(wev)
 
     def test_07_this_is_not_an_in_game_test(self):
         """Guard against accidentally claiming runtime proof."""

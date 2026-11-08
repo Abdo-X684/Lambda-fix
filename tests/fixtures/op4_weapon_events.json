@@ -1,0 +1,16 @@
+{
+  "bodies": {
+    "EV_FireDisplacer": "7c69f6739be671c2d82a061d114ea0e1dedf068361dc9691cc7dd8797ff4090c",
+    "EV_FireEagle": "44486a83cd08a2478b05e1a7fb424c8db51fab3e19a1b205068f833d56942f72",
+    "EV_FireM249": "900c35e87592cadd122310d0eff09f58e5174151088c77be0d1e6ae386ace2c6",
+    "EV_FireShockRifle": "84a55e67df3b0ad9568516ee6af6a8b8e94ca047a823754c16408665fbb9ada5",
+    "EV_FireSpore": "8584cd481657ad1a9c5b9f992491cfcdd5ea989a8bcf35f7243c0c54b9fadae4",
+    "EV_Knife": "05bdd64b35d0663eb2a3095f27e6a667ca5edc0cbebd7555fd5b0cd99892edde",
+    "EV_PenguinFire": "d816402da922df039c9c866c8a272cce32df988b0aeaa9d1db45e977985e1150",
+    "EV_Pipewrench": "d4681d12af875b9adf218e4ddb828c2b167a186a249acf0ace7106dec52af26e",
+    "EV_SniperRifle": "ec4aa1f7c7e22626b2a85d14163a493f6aa36804db0b3771d56e66d07ad4eb6b"
+  },
+  "note": "sha256 of each VERBATIM OP4 event body. Lets CI prove the shipped glue is byte-identical to the pinned upstream without committing Valve source text into a fixture.",
+  "pinned_upstream": "halflife-op4-updated @ 5368be7f8eba",
+  "source": "cl_dll/ev_hldm.cpp"
+}

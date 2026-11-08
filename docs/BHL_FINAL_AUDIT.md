@@ -176,7 +176,7 @@ python3 tools/build_bhl_base.py
 |---|---|---|
 | سلامة الشجرة / المطابقة بايت-ببايت | `python3 -m merge.bhl_base --check --out bhl-op4` | `BHL-BASE PROVENANCE OK` |
 | ترجمة مصادر OP4 + مصادر BHL إلى ELF32 | `python3 tools/verify_bhl_base.py --compile` | OP4 `68/71` نظيفة، BHL `101/106`، glue العميل `1/1`، **كل ملف موصول بـ CMake نظيف (0 فشل)** |
-| الرموز الـ12 + الرمزان الجديدان / الأجسام / البيانات / القواعد / المصادر الموصولة + الأسلحة | `python3 -m unittest tests.test_bhl_base tests.test_op4_link_fixups tests.test_op4_weapons -v` | **29/29 OK** (منها `test_10` يثبت وصل قواعد CTF و`IsCTF()`) |
+| الرموز الـ12 + الرمزان الجديدان / الأجسام / البيانات / القواعد / المصادر الموصولة + الأسلحة | `python3 -m unittest tests.test_bhl_base tests.test_op4_link_fixups tests.test_op4_weapons -v` | **30/30 OK** (منها `test_10` يثبت وصل قواعد CTF و`IsCTF()`) |
 | خوارزمية `GetNextAttackDelay` + مُعدّد كيانات OP4 | `make test-op4` | **14 تحقّق PASS** |
 | أجسام الإصلاحات الحقيقية مُستخرجة نصّاً من الشجرة (بما فيها `IsFacing`) | `make test-op4-fixups` | **55 تحقّق PASS** |
 | نظافة الملفات النصية | `python3 tools/check_hygiene.py` | `hygiene: OK` |

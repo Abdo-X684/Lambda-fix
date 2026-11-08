@@ -230,15 +230,20 @@ def _build() -> tuple[str, str]:
         "enum OP4BulletType",
         "{",
     ]
-    base = (ROOT / "bhl-op4" / "src" / "game" / "server" / "weapons.h").read_text()
-    m = re.search(r"\tBULLET_MONSTER_12MM,\s*\n(.*?)\} Bullet;", base, re.S)
+    # Read the PINNED UPSTREAM enum, not the generated tree: generation first
+    # copies pristine BHL headers (which stop at BULLET_MONSTER_12MM) and only
+    # then merges the OP4 tail, so the generated file is the wrong source here.
+    op4_w = (OP4 / "dlls" / "weapons.h").read_text()
+    m = re.search(r"typedef enum\s*\{(.*?)\}\s*Bullet;", op4_w, re.S)
     if not m:
-        raise RuntimeError("cannot read OP4 bullet types from merged weapons.h")
-    tail = [ln.strip().rstrip(",") for ln in m.group(1).strip().splitlines()
-            if ln.strip() and not ln.strip().startswith("/*")
-            and not ln.strip().startswith("*")]
-    for i, name in enumerate(tail):
-        header.append(f"\t{name} = {9 + i},")
+        raise RuntimeError("cannot read Bullet enum from pinned OP4 weapons.h")
+    names = re.findall(r"^\s*(BULLET_[A-Z0-9_]+)\s*(?:=\s*\d+)?\s*,",
+                       m.group(1), re.M)
+    if "BULLET_MONSTER_12MM" not in names:
+        raise RuntimeError("OP4 Bullet enum has no BULLET_MONSTER_12MM")
+    last_bhl = names.index("BULLET_MONSTER_12MM")
+    for i, name in enumerate(names[last_bhl + 1:]):
+        header.append(f"\t{name} = {last_bhl + 1 + i},")
     header += ["};", ""]
 
     for w in WEAPONS:
@@ -254,11 +259,34 @@ def _build() -> tuple[str, str]:
     return "\n".join(header) + "\n", "\n".join(cpp) + "\n"
 
 
-WEAPON_EVENTS_H, WEAPON_EVENTS_CPP = _build()
+_CACHE: tuple[str, str] | None = None
+
+
+def weapon_events() -> tuple[str, str]:
+    """Build the glue lazily.
+
+    Importing this module must NOT require the pinned upstream checkout:
+    `merge.bhl_base --check`, the CI compile probe and the unit tests all run
+    on a clean clone where `.cache/upstreams/` is absent (it is gitignored).
+    Only a real tree generation calls this function.
+    """
+    global _CACHE
+    if _CACHE is None:
+        _CACHE = _build()
+    return _CACHE
+
+
+def weapon_events_h() -> str:
+    return weapon_events()[0]
+
+
+def weapon_events_cpp() -> str:
+    return weapon_events()[1]
 
 
 if __name__ == "__main__":
+    _h, _c = weapon_events()
     print(f"weapons={len(WEAPONS)} events={sum(1 for w in WEAPONS if w['func'])} "
-          f"header={len(WEAPON_EVENTS_H)}B cpp={len(WEAPON_EVENTS_CPP)}B")
+          f"header={len(_h)}B cpp={len(_c)}B")
     for w in WEAPONS:
         print(f"  {w['cls']:26s} {str(w['event']):24s} {w['func']}")

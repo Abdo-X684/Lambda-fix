@@ -33,6 +33,7 @@
 | `tools/run_weapon_phase.py` | مشغّل يفرض «سلاح واحد في كل مرة» ويحفظ سجلات كل مرحلة في `build-evidence/weapon-phases/<cls>/` |
 | `tests/test_op4_weapons.py` | **جديد**: 7 اختبارات تُطبَّق على كل سلاح (تسجيل خادم، ربط حدث، مطابقة الجسم مع OP4، قواعد الدمج، رموز ELF32 غير فارغة، صفر فجوة ربط، تأكيد أن الاختبار ليس داخل اللعبة) |
 | `tests/test_bhl_base.py`، `.github/workflows/ci.yml` | فحص الأعداد صار مجموعياً (`verbatim + merged == 694`) بدلاً من تثبيت رقم يتغيّر مع كل مرحلة |
+| `tests/fixtures/op4_weapon_events.json` | **جديد**: بصمات sha256 لأجسام `EV_*` التسعة من الـ commit المثبّت، ليُثبت CI تطابقها بدون وجود `.cache/upstreams` |
 
 ### الفرق (diff)
 
@@ -68,7 +69,8 @@ git diff c067b51~1 -- merge/op4_weapon_events.py merge/bhl_base.py \
 (سجلات كاملة) و`RESULT.json` فيه بصمات `client.so` و`hl.so` لتلك المرحلة.
 
 `make verify` و`unittest` أُعيدا بعد **كل** مرحلة على حدة: `ALL CHECKS PASSED`
-و`7/7 OK` في المراحل العشر.
+و`7/7 OK` في المراحل العشر. بعد إصلاح خطأ CI أُضيف اختبار انحدار ثامن
+(`test_08`)، فأصبحت المجموعة النهائية `8/8 OK` والمجموع الكلي `30/30 OK`.
 
 ---
 
@@ -83,7 +85,7 @@ git diff c067b51~1 -- merge/op4_weapon_events.py merge/bhl_base.py \
 | `python3 tools/verify_bhl_base.py --compile` | rc=0 — OP4 `68/71`، BHL `101/106`، **glue العميل `1/1`** |
 | `python3 tools/verify_bhl_base.py --check` | rc=0 — `BHL-BASE TREE OK`، 67 مصدراً موصولاً بـ CMake |
 | `make verify` | rc=0 — `ALL CHECKS PASSED` |
-| `unittest tests.test_bhl_base tests.test_op4_link_fixups tests.test_op4_weapons` | rc=0 — `29/29 OK` |
+| `unittest tests.test_bhl_base tests.test_op4_link_fixups tests.test_op4_weapons` | rc=0 — `30/30 OK` |
 | `PROVENANCE.json` | BHL `677` مطابق بايت-ببايت + `17` دمجاً معلَناً، OP4 `154`، glue `10` |
 
 ### إثبات الرموز (بناء/ربط، **ليس داخل اللعبة**)
@@ -125,6 +127,17 @@ git diff c067b51~1 -- merge/op4_weapon_events.py merge/bhl_base.py \
    يدوياً.
 6. **خطأ في اختبار (المرحلة 1):** تعبير نمطي بلا `re.M`؛ صُحّح إلى تطابق سطر
    `nm` الصريح.
+7. **فشل CI بعد الدفع (`make verify-bhl-base`):** `merge/op4_weapon_events.py`
+   كان يبني glue عند **الاستيراد** فيقرأ `.cache/upstreams/op4/cl_dll/ev_hldm.cpp`،
+   وهذا المسار مستثنى من Git وغير موجود في نسخة CI النظيفة → `FileNotFoundError`
+   في مهمّتَي `verify` و`bhl-base-compile`. السبب من سجل CI وليس تخميناً.
+   الحل: (أ) `_build()` صار كسولاً عبر `weapon_events()` لا يُستدعى إلا عند توليد
+   الشجرة فعلاً؛ (ب) قراءة تعداد `Bullet` من **مصدر OP4 المثبّت** بدل الشجرة
+   المولّدة (التي تُنسخ أولاً بنسخة BHL قبل الدمج، فكانت تُنتج تعداداً فارغاً)؛
+   (ج) إضافة `tests/fixtures/op4_weapon_events.json` ببصمات الأجسام التسعة
+   حتى يبقى إثبات «حرفياً» قائماً على CI؛ (د) اختبار انحدار `test_08` يحاكي غياب
+   الكاش. أُعيد التوليد فطابقت الملفات المولّدة الحالة السابقة بايت-ببايت،
+   وأُعيد `make verify` محلياً **مع إخفاء `.cache/upstreams` كاملاً** فنجح.
 
 **لا توجد أخطاء بناء أو ربط متبقية.** `unresolved_own_build_symbols: []`
 للمكتبتين.

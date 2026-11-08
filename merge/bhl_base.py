@@ -1089,7 +1089,7 @@ def apply_merges(tree: Path, provenance: dict) -> None:
     #     operation is applied to BHL's own local-weapon array g_pWpns[], which
     #     HUD_PrepEntity() fills. Weapon-scoped, additive, no BHL behaviour
     #     changed. Only present when a merged event body needs the symbol.
-    if "SetLocalBody" in op4_weapon_events.WEAPON_EVENTS_CPP:
+    if "SetLocalBody" in op4_weapon_events.weapon_events_cpp():
         edit("src/game/client/hl/hl_weapons.cpp",
              "static CBasePlayerWeapon *g_pWpns[32];",
              "\n/* OP4-MERGE (declared): OP4 cl_dll/hl/hl_weapons.cpp:622\n"
@@ -1305,9 +1305,9 @@ def build(out: Path) -> dict:
           ("src/game/server/op4/op4_link_fixups.cpp", op4_fixups.FIXUPS_CPP),
           ("src/game/server/op4/op4_ctf_player.cpp", op4_fixups.CTF_PLAYER_CPP),
           ("src/game/client/op4/op4_weapon_events.h",
-           op4_weapon_events.WEAPON_EVENTS_H),
+           op4_weapon_events.weapon_events_h()),
           ("src/game/client/op4/op4_weapon_events.cpp",
-           op4_weapon_events.WEAPON_EVENTS_CPP),
+           op4_weapon_events.weapon_events_cpp()),
           ("src/game/server/op4/op4_entity_enumerator.h",
            op4_fixups.ENTITY_ENUMERATOR_H),
           ("src/game/shared/op4_weapon_timing.h", op4_fixups.TIMING_H),
