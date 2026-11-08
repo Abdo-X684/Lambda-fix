@@ -8,6 +8,7 @@
  * Upstream: halflife-op4-updated @ 5368be7f8eba.
  * -------------------------------------------------------------------------*/
 #pragma once
+#include <cstddef>
 
 /* dlls/weapons/CEagle.h : DesertEagleAnim (verbatim) */
 enum DesertEagleAnim
@@ -23,6 +24,26 @@ enum DesertEagleAnim
 	EAGLE_RELOAD,
 	EAGLE_DRAW,
 	EAGLE_HOLSTER
+};
+
+/* dlls/weapons/CPipewrench.h : pipewrench_e (verbatim) */
+enum pipewrench_e
+{
+	PIPEWRENCH_IDLE1 = 0,
+	PIPEWRENCH_IDLE2,
+	PIPEWRENCH_IDLE3,
+	PIPEWRENCH_DRAW,
+	PIPEWRENCH_HOLSTER,
+	PIPEWRENCH_ATTACK1HIT,
+	PIPEWRENCH_ATTACK1MISS,
+	PIPEWRENCH_ATTACK2HIT,
+	PIPEWRENCH_ATTACK2MISS,
+	PIPEWRENCH_ATTACK3HIT,
+	PIPEWRENCH_ATTACK3MISS,
+	PIPEWRENCH_BIG_SWING_START,
+	PIPEWRENCH_BIG_SWING_HIT,
+	PIPEWRENCH_BIG_SWING_MISS,
+	PIPEWRENCH_BIG_SWING_IDLE
 };
 
 /* OP4-MERGE bullet ids (verbatim OP4 dlls/weapons.h Bullet enum tail).

@@ -1,0 +1,30 @@
+{
+  "client_compile": "[compile] client: 139/139 clean",
+  "errors": [
+    "first include attempt hit a C/C++ language-linkage clash; fixed by ../ BHL headers"
+  ],
+  "in_game_test": false,
+  "libraries": {
+    "client.so": {
+      "bytes": 27761892,
+      "sha256": "113981e51dee0943d6ef803e4fc92c2b6c7a9531c44d3d22b5688ee8423b6b45"
+    },
+    "hl.so": {
+      "bytes": 21231824,
+      "sha256": "44ed987023adcccf0d7f8e6f81b84339dbea393d27acfe66781010638bc41e7a"
+    }
+  },
+  "link_gaps": "\"unresolved_own_build_symbols\": []",
+  "make_verify": "rc=0 ALL CHECKS PASSED",
+  "provenance": {
+    "glue_files": 10,
+    "merged_files": 16,
+    "verbatim_files": 678
+  },
+  "regen": "rc=0",
+  "remaining": "No in-game firing/reload/ammo/model/sound test.",
+  "server_compile": "[compile] server: 179/179 clean",
+  "test_kind": "build + link + source/symbol checks (NOT in-game)",
+  "weapon": "weapon_eagle",
+  "weapon_tests": "rc=0 7/7 OK"
+}

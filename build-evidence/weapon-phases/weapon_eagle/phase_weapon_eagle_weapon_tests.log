@@ -1,0 +1,17 @@
+test_01_server_registers_each_weapon (tests.test_op4_weapons.Op4WeaponIntegrationTests.test_01_server_registers_each_weapon)
+W_Precache must precache every merged OP4 weapon (else no WeaponList). ... ok
+test_02_client_hooks_each_weapon_event (tests.test_op4_weapons.Op4WeaponIntegrationTests.test_02_client_hooks_each_weapon_event)
+Game_HookEvents must route each OP4 .sc script to its callback. ... ok
+test_03_event_bodies_are_verbatim_op4 (tests.test_op4_weapons.Op4WeaponIntegrationTests.test_03_event_bodies_are_verbatim_op4)
+The shipped callback is byte-for-byte OP4's, not a rewrite/stub. ... ok
+test_04_merges_are_declared_by_name (tests.test_op4_weapons.Op4WeaponIntegrationTests.test_04_merges_are_declared_by_name) ... ok
+test_05_elf32_symbols_are_real_and_non_empty (tests.test_op4_weapons.Op4WeaponIntegrationTests.test_05_elf32_symbols_are_real_and_non_empty)
+client.so owns the event callback; hl.so owns the weapon class. ... ok
+test_06_link_has_no_own_build_gaps (tests.test_op4_weapons.Op4WeaponIntegrationTests.test_06_link_has_no_own_build_gaps) ... ok
+test_07_this_is_not_an_in_game_test (tests.test_op4_weapons.Op4WeaponIntegrationTests.test_07_this_is_not_an_in_game_test)
+Guard against accidentally claiming runtime proof. ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.156s
+
+OK

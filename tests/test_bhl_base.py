@@ -101,7 +101,7 @@ class BhlBaseTreeTests(unittest.TestCase):
             self.skipTest("pinned BHL cache not present (run: make fetch)")
         verbatim = [(rel, rec) for rel, rec in self.prov["files"].items()
                     if rec["action"] == "verbatim" and rec["origin"] == "bugfixhl"]
-        self.assertGreaterEqual(len(verbatim), 678)
+        self.assertGreaterEqual(len(verbatim), 677)
         bad = []
         for rel, rec in verbatim:
             src = upstream / rel
@@ -137,8 +137,11 @@ class BhlBaseTreeTests(unittest.TestCase):
             "\n".join(f"{r}  {sha256(TREE / r)}" for r in sorted(bhl_files)).encode()
         ).hexdigest()
         self.assertEqual(digest, self.prov["base"]["tree_sha256"])
-        self.assertEqual(self.prov["base"]["verbatim_files"], 678)
-        self.assertEqual(self.prov["base"]["merged_files"], 16)
+        # Every BHL file is either byte-identical or has a NAMED merge rule.
+        # The exact split grows as weapon-scoped merges are added.
+        self.assertEqual(self.prov["base"]["verbatim_files"]
+                         + self.prov["base"]["merged_files"], 694)
+        self.assertGreaterEqual(self.prov["base"]["merged_files"], 16)
         self.assertEqual(len(bhl_files), 694)
 
     def test_12_verbatim_bhl_server_sources_compile(self):

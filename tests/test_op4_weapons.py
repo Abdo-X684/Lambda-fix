@@ -83,6 +83,9 @@ class Op4WeaponIntegrationTests(unittest.TestCase):
                 if w["ammo"]:
                     self.assertIn(f'UTIL_PrecacheOther("{w["ammo"]}");',
                                   self.weapons_cpp)
+                for snd in w.get("sounds", []):
+                    self.assertIn(f'PRECACHE_SOUND("{snd}");', self.weapons_cpp,
+                                  f"{w['cls']}: missing weapon sound precache")
         # No BHL weapon registration was removed.
         for bhl_w in ("weapon_crowbar", "weapon_9mmhandgun", "weapon_9mmAR",
                       "weapon_357", "weapon_gauss", "weapon_rpg",
@@ -93,7 +96,9 @@ class Op4WeaponIntegrationTests(unittest.TestCase):
 
     def test_02_client_hooks_each_weapon_event(self):
         """Game_HookEvents must route each OP4 .sc script to its callback."""
-        for w in wev.WEAPONS:
+        hooked = [w for w in wev.WEAPONS if w["event"]]
+        self.assertGreater(len(hooked), 0)
+        for w in hooked:
             with self.subTest(weapon=w["cls"]):
                 self.assertIn(f'void {w["func"]}(struct event_args_s *args);',
                               self.hl_events, "missing extern \"C\" declaration")
@@ -110,6 +115,8 @@ class Op4WeaponIntegrationTests(unittest.TestCase):
     def test_03_event_bodies_are_verbatim_op4(self):
         """The shipped callback is byte-for-byte OP4's, not a rewrite/stub."""
         for w in wev.WEAPONS:
+            if not w["func"]:
+                continue
             with self.subTest(weapon=w["cls"]):
                 m = re.search(r"^void " + re.escape(w["func"]) +
                               r"\(.*?\)\s*\{", self.upstream_ev, re.M | re.S)
@@ -122,7 +129,13 @@ class Op4WeaponIntegrationTests(unittest.TestCase):
         for w in wev.WEAPONS:
             for en in w["enums"]:
                 with self.subTest(enum=en):
-                    self.assertIn(f"enum {en}", self.ev_h)
+                    self.assertTrue(
+                        f"enum {en}" in self.ev_h
+                        or f"enum class {en}" in self.ev_h,
+                        f"missing verbatim enum {en}")
+            for decl in w.get("defines", []):
+                with self.subTest(define=decl):
+                    self.assertIn(decl, self.ev_h)
         for name in wev.BULLET_TYPES:
             with self.subTest(bullet=name):
                 self.assertIn(name, self.ev_h)
@@ -155,6 +168,8 @@ class Op4WeaponIntegrationTests(unittest.TestCase):
     def test_05_elf32_symbols_are_real_and_non_empty(self):
         """client.so owns the event callback; hl.so owns the weapon class."""
         for w in wev.WEAPONS:
+            if not w["func"]:
+                continue
             with self.subTest(weapon=w["cls"]):
                 self.assertIn(f" T {w['func']}\n", self.client_def,
                               f"{w['func']} not defined in client.so")
@@ -167,6 +182,8 @@ class Op4WeaponIntegrationTests(unittest.TestCase):
                           f"{cname}::Spawn missing from hl.so")
         if shutil.which("objdump"):
             for w in wev.WEAPONS:
+                if not w["func"]:
+                    continue
                 out = subprocess.run(
                     ["objdump", "-d", f"--disassemble={w['func']}", str(CLIENT)],
                     capture_output=True, text=True, check=True).stdout

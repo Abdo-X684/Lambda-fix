@@ -63,8 +63,8 @@ jobs:
           glue = s['client_glue']
           assert glue['total'] >= 1 and glue['clean'] == glue['total'], glue
           prov = json.load(open('bhl-op4/PROVENANCE.json'))
-          assert prov['base']['verbatim_files'] == 678
-          assert prov['base']['merged_files'] == 16
+          assert prov['base']['verbatim_files'] + prov['base']['merged_files'] == 694
+          assert prov['base']['merged_files'] >= 16
           assert prov['base']['files'] == 694
           print('BHL-base OP4 weapons:', len(weapons), '/', len(weapons), 'ELF32 objects')
           print('verbatim BHL server sources:', bhl['clean'], '/', bhl['total'])

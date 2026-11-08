@@ -11,8 +11,13 @@ generation time. They cannot be compiled by wiring that whole file: it also
 defines BHL's own ``EV_FireGlock1``, ``EV_FireMP5`` ... which would duplicate
 strong symbols in ``client.so``. Only the OP4-only ``EV_*`` callbacks are
 taken, with a labelled client header supplying the animation enum constants
-that OP4's ``dlls/weapons/*.h`` headers carry. No function is reimplemented
-and no stub is introduced.
+that OP4's ``dlls/weapons/*.h`` headers carry. No event function is
+reimplemented and no stub is introduced.
+
+Only the client-side state that the included OP4 bodies actually reference is
+declared/defined here (``g_iClub``, ``g_iSwing``, ``SetLocalBody``). The one
+BHL-side helper this needs is a declared, weapon-only merge in
+``src/game/client/hl/hl_weapons.cpp`` (see merge/bhl_base.py).
 
 Upstream references are written into the generated files.
 """
@@ -25,15 +30,25 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 OP4 = ROOT / ".cache" / "upstreams" / "op4"
 
-# (server classname, client event fn, event script, OP4 weapon header,
-#  animation enum name(s), extra ammo classname to precache or None)
-#
-# One weapon is added at a time. Each addition is a small, reviewable change:
-# server W_Precache registration + client pfnHookEvent + the real EV_* body.
+# One weapon is added AT A TIME. Each addition is a single data row here:
+#   cls       server classname registered in W_Precache()
+#   ammo      extra ammo entity to precache, or None
+#   sounds    extra sounds the weapon's OP4 W_Precache() precaches, or []
+#   cxx_class server C++ class (used by tests to check hl.so symbols)
+#   event     client .sc script hooked in Game_HookEvents(), or None
+#   func      OP4 EV_* callback name, or None (grapple has no event script)
+#   header    OP4 weapon header holding the animation enum(s)
+#   enums     enum names to reproduce verbatim in the client glue header
+#   defines   extra verbatim declarations from that header (outside enums)
 WEAPONS = [
-    dict(cls="weapon_eagle", ammo=None, cxx_class="CEagle",
+    dict(cls="weapon_eagle", ammo=None, sounds=[], cxx_class="CEagle",
          event="events/eagle.sc", func="EV_FireEagle",
-         header="dlls/weapons/CEagle.h", enums=["DesertEagleAnim"]),
+         header="dlls/weapons/CEagle.h", enums=["DesertEagleAnim"],
+         defines=[]),
+    dict(cls="weapon_pipewrench", ammo=None, sounds=[], cxx_class="CPipewrench",
+     event="events/pipewrench.sc", func="EV_Pipewrench",
+     header="dlls/weapons/CPipewrench.h", enums=["pipewrench_e"],
+     defines=[]),
 ]
 
 # Verbatim from the merged BHL server weapons.h (itself an OP4-MERGE of the
@@ -69,7 +84,8 @@ def _function(name: str, src: str) -> str:
 
 
 def _enum(name: str, src: str) -> str:
-    m = re.search(r"^enum\s+" + re.escape(name) + r"\s*\{", src, re.M)
+    m = re.search(r"^enum\s+(?:class\s+)?" + re.escape(name) + r"\s*\{",
+                  src, re.M)
     if not m:
         raise RuntimeError(f"cannot find enum {name}")
     return _brace_block(src, m.start()).strip()
@@ -78,6 +94,11 @@ def _enum(name: str, src: str) -> str:
 def _build() -> tuple[str, str]:
     ev_src = (OP4 / "cl_dll" / "ev_hldm.cpp").read_text()
     hdr_cache: dict[str, str] = {}
+    bodies: dict[str, str] = {
+        w["func"]: _function(w["func"], ev_src)
+        for w in WEAPONS if w["func"]
+    }
+    used = "\n".join(bodies.values())
 
     header = [
         "/* ---------------------------------------------------------------------------",
@@ -90,6 +111,7 @@ def _build() -> tuple[str, str]:
         " * Upstream: halflife-op4-updated @ 5368be7f8eba.",
         " * -------------------------------------------------------------------------*/",
         "#pragma once",
+        "#include <cstddef>",
         "",
     ]
     cpp = [
@@ -110,6 +132,7 @@ def _build() -> tuple[str, str]:
         ' * conflict with BHL ev_common.cpp\'s definitions. */',
         '#include "../hud.h"',
         '#include "../cl_util.h"',
+        '#include "../cl_dll.h"',
         '#include "const.h"',
         '#include "entity_state.h"',
         '#include "cl_entity.h"',
@@ -127,11 +150,28 @@ def _build() -> tuple[str, str]:
         '#include "com_model.h"',
         '#include "op4_weapon_events.h"',
         "",
+        "/* BHL client helpers used by the verbatim OP4 bodies. */",
         "void V_PunchAxis(int axis, float punch);",
-        "",
-        "/* Third-party/BHL client helpers used by the verbatim bodies. */",
-        "",
     ]
+    if "SetLocalBody" in used:
+        cpp += [
+            "/* Declared OP4-MERGE in BHL src/game/client/hl/hl_weapons.cpp:",
+            " * the same operation as OP4's SetLocalBody(), against BHL's own",
+            " * local-weapon array. Required by the verbatim EV_FireM249 body. */",
+            "void SetLocalBody(int id, int body);",
+        ]
+    if "g_iClub" in used:
+        cpp += [
+            "/* OP4 cl_dll/ev_hldm.cpp:1653 - OP4-only pipewrench swing counter. */",
+            "int g_iClub;",
+        ]
+    if "g_iSwing" in used:
+        cpp += [
+            "/* BHL src/game/client/ev_hldm.cpp:1183 already owns g_iSwing",
+            " * (same name and purpose as OP4's). Reference it, do not duplicate. */",
+            "extern int g_iSwing;",
+        ]
+    cpp.append("")
 
     for w in WEAPONS:
         if w["header"] not in hdr_cache:
@@ -139,11 +179,15 @@ def _build() -> tuple[str, str]:
         hs = hdr_cache[w["header"]]
         for en in w["enums"]:
             block = _enum(en, hs)
-            # OP4 uses `enum NAME { ... };` in some headers and bare `enum
-            # NAME { ... }` in others. Normalise with a trailing semicolon.
+            # OP4 uses `enum NAME { ... };` in some headers and a bare
+            # `enum NAME { ... }` in others. Normalise with a semicolon.
             if not block.endswith(";"):
                 block += ";"
             header += [f"/* {w['header']} : {en} (verbatim) */", block, ""]
+        for decl in w.get("defines", []):
+            if decl not in hs:
+                raise RuntimeError(f"{w['header']}: missing verbatim declaration {decl!r}")
+            header += [f"/* {w['header']} (verbatim) */", decl, ""]
 
     # OP4-only bullet ids, verbatim values from the merged server weapons.h.
     header += [
@@ -166,11 +210,12 @@ def _build() -> tuple[str, str]:
     header += ["};", ""]
 
     for w in WEAPONS:
-        body = _function(w["func"], ev_src)
+        if not w["func"]:
+            continue
         cpp += [
             f"/* ===== OP4 cl_dll/ev_hldm.cpp : {w['func']} (verbatim) ===== */",
             f'extern "C" void {w["func"]}(event_args_t *args);',
-            body,
+            bodies[w["func"]],
             "",
         ]
 
@@ -181,7 +226,7 @@ WEAPON_EVENTS_H, WEAPON_EVENTS_CPP = _build()
 
 
 if __name__ == "__main__":
-    print(f"weapons={len(WEAPONS)} header={len(WEAPON_EVENTS_H)}B "
-          f"cpp={len(WEAPON_EVENTS_CPP)}B")
+    print(f"weapons={len(WEAPONS)} events={sum(1 for w in WEAPONS if w['func'])} "
+          f"header={len(WEAPON_EVENTS_H)}B cpp={len(WEAPON_EVENTS_CPP)}B")
     for w in WEAPONS:
-        print(f"  {w['cls']:26s} {w['event']:24s} {w['func']}")
+        print(f"  {w['cls']:26s} {str(w['event']):24s} {w['func']}")

@@ -355,7 +355,7 @@
     "compiled_from": "bhl-op4/src/game/client/hl/hl_events.cpp",
     "object": "0044_hl_events.o",
     "set": "client",
-    "sha256": "b52be4b94f3c657f57a1233c27d11a87781879c02bd7f312fdb253f7742b268d",
+    "sha256": "28638be60ab8ac2c2e3f6fe8001fc04c162294fc8ab3761b7620ec2e5876d9fb",
     "source": "bhl-op4/src/game/client/hl/hl_events.cpp",
     "status": "ok"
   },
@@ -755,7 +755,7 @@
     "compiled_from": "bhl-op4/src/game/client/op4/op4_weapon_events.cpp",
     "object": "0094_op4_weapon_events.o",
     "set": "client",
-    "sha256": "8f087ef1419e5bf2e2e212c147789c6bc2533a86b02ff5442e0055f70bc50061",
+    "sha256": "1eadea679b1437b78e5cc471bc11c209cc5ce8df269b64694b735765ff69d3ee",
     "source": "bhl-op4/src/game/client/op4/op4_weapon_events.cpp",
     "status": "ok"
   },
@@ -2451,7 +2451,7 @@
     "compiled_from": "bhl-op4/src/game/server/weapons.cpp",
     "object": "0167_weapons.o",
     "set": "server",
-    "sha256": "2b64dc4a4c65da0808520d4fc490fc9071e85488bc6ccf1b4dac703fc3d7f2ab",
+    "sha256": "29a18b2a6eed125f3c066a17c09dbc6fce0932d4bebc48db7c919e2452d27003",
     "source": "bhl-op4/src/game/server/weapons.cpp",
     "status": "ok"
   },

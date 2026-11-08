@@ -1047,7 +1047,13 @@ def apply_merges(tree: Path, provenance: dict) -> None:
                       for w in op4_weapon_events.WEAPONS)
     _ammo = "\n".join('\tUTIL_PrecacheOther("{}");'.format(w["ammo"])
                       for w in op4_weapon_events.WEAPONS if w["ammo"])
-    _both = _prec + (("\n" + _ammo) if _ammo else "")
+    _snd = "\n".join('\tPRECACHE_SOUND("{}");'.format(s)
+                     for w in op4_weapon_events.WEAPONS
+                     for s in w.get("sounds", []))
+    _both = _prec
+    for extra in (_ammo, _snd):
+        if extra:
+            _both += "\n" + extra
     edit("src/game/server/weapons.cpp",
          '\tg_sModelIndexFireball = PRECACHE_MODEL("sprites/zerogxplode.spr"); // fireball',
          "\n\t/* OP4-MERGE: OP4 dlls/weapons.cpp weapon registration (additive) */\n"
@@ -1058,11 +1064,12 @@ def apply_merges(tree: Path, provenance: dict) -> None:
     #     client. Source: OP4 cl_dll/hl/hl_events.cpp:31-40. The callbacks
     #     themselves are the verbatim OP4 bodies in the labelled client glue
     #     src/game/client/op4/op4_weapon_events.cpp. No BHL event is removed.
+    _event_weapons = [w for w in op4_weapon_events.WEAPONS if w["event"]]
     _decls = "\n".join('\tvoid {}(struct event_args_s *args);'.format(w["func"])
-                       for w in op4_weapon_events.WEAPONS)
+                       for w in _event_weapons)
     _hooks = "\n".join('\tgEngfuncs.pfnHookEvent("{}", {});'.format(
                         w["event"], w["func"])
-                       for w in op4_weapon_events.WEAPONS)
+                       for w in _event_weapons)
     edit("src/game/client/hl/hl_events.cpp",
          "\tvoid EV_SnarkFire(struct event_args_s *args);",
          "\n\t/* OP4-MERGE: OP4 cl_dll/hl/hl_events.cpp weapon playback events */\n"
@@ -1073,6 +1080,31 @@ def apply_merges(tree: Path, provenance: dict) -> None:
          "\n\t/* OP4-MERGE: OP4 cl_dll/hl/hl_events.cpp weapon event hooks */\n"
          + _hooks + "\n",
          "op4-client-weapon-event-hooks")
+
+    # 25. DECLARED BHL base change: the single client-side weapon helper that
+    #     OP4's verbatim EV_FireM249 body calls. OP4's SetLocalBody() resolves
+    #     the local prediction weapon through a hard-coded list of OP4 client
+    #     weapon objects (cl_dll/hl/hl_weapons.cpp:559-622). Importing that
+    #     list would duplicate BHL's weapon-prediction system, so the SAME
+    #     operation is applied to BHL's own local-weapon array g_pWpns[], which
+    #     HUD_PrepEntity() fills. Weapon-scoped, additive, no BHL behaviour
+    #     changed. Only present when a merged event body needs the symbol.
+    if "SetLocalBody" in op4_weapon_events.WEAPON_EVENTS_CPP:
+        edit("src/game/client/hl/hl_weapons.cpp",
+             "static CBasePlayerWeapon *g_pWpns[32];",
+             "\n/* OP4-MERGE (declared): OP4 cl_dll/hl/hl_weapons.cpp:622\n"
+             " * SetLocalBody(). OP4 uses GetLocalWeapon(id) over its own client\n"
+             " * weapon objects; BHL owns the equivalent g_pWpns[] array here.\n"
+             " * Required by the verbatim OP4 EV_FireM249 playback-event body,\n"
+             " * which sets the M249 viewmodel body on alternating eject. */\n"
+             "void SetLocalBody(int id, int body)\n"
+             "{\n"
+             "\tif (id < 0 || id >= (int)(sizeof(g_pWpns) / sizeof(g_pWpns[0])))\n"
+             "\t\treturn;\n"
+             "\tif (CBasePlayerWeapon *pWeapon = g_pWpns[id])\n"
+             "\t\tpWeapon->pev->body = body;\n"
+             "}\n",
+             "op4-client-setlocalbody")
 
 
 # Only sources proven to compile against BHL headers are wired into the BHL

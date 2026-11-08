@@ -40,6 +40,7 @@ extern "C"
 
 	/* OP4-MERGE: OP4 cl_dll/hl/hl_events.cpp weapon playback events */
 	void EV_FireEagle(struct event_args_s *args);
+	void EV_Pipewrench(struct event_args_s *args);
 
 
 	void EV_TrainPitchAdjust(struct event_args_s *args);
@@ -84,5 +85,6 @@ void Game_HookEvents(void)
 
 	/* OP4-MERGE: OP4 cl_dll/hl/hl_events.cpp weapon event hooks */
 	gEngfuncs.pfnHookEvent("events/eagle.sc", EV_FireEagle);
+	gEngfuncs.pfnHookEvent("events/pipewrench.sc", EV_Pipewrench);
 
 }
