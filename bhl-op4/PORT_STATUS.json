@@ -1,6 +1,6 @@
 {
   "bhl_base": {
-    "clean": 102,
+    "clean": 101,
     "files": {
       "src/game/server/AI_BaseNPC_Schedule.cpp": {
         "errors": 3,
@@ -524,11 +524,6 @@
         "gaps": [],
         "ok": true
       },
-      "src/game/server/weapons.cpp": {
-        "errors": 0,
-        "gaps": [],
-        "ok": true
-      },
       "src/game/server/world.cpp": {
         "errors": 0,
         "gaps": [],
@@ -552,11 +547,29 @@
     },
     "note": "Verbatim BugfixedHL-Rebased server sources compiled against the merged tree; proves the BASE is real BHL code.",
     "pending": 5,
-    "total": 107
+    "total": 106
   },
   "clean": 68,
+  "client_glue": {
+    "clean": 1,
+    "files": {
+      "src/game/client/op4/op4_weapon_events.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      }
+    },
+    "note": "Generated client weapon-event glue wired into the client CMake target; compiled as real client TUs with BHL's PCH.",
+    "pending": 0,
+    "total": 1
+  },
   "compiler": "/tmp/zig32",
   "files": {
+    "src/game/client/op4/op4_weapon_events.cpp": {
+      "errors": 0,
+      "gaps": [],
+      "ok": true
+    },
     "src/game/server/op4/dlls/CDrillSergeant.cpp": {
       "errors": 0,
       "gaps": [],

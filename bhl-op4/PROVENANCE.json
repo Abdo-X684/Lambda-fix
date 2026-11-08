@@ -4,14 +4,16 @@
     "commit": "4d32095e3c33",
     "files": 694,
     "license": "GPL-3.0",
-    "merged_files": 14,
+    "merged_files": 16,
     "repo": "tmp64/BugfixedHL-Rebased",
-    "tree_sha256": "0710253fcd579b1c3670c8f893f986f996a9dceb875613a8604f2a0c3996acc5",
+    "tree_sha256": "c7d39c70232c2b5141aa1180d8194c2c4bb038df5c8fae576394a7c5600585b3",
     "tree_sha256_note": "sha256 over sorted '<path>  <file sha256>' for every BHL-origin file on disk; verified by --check",
-    "verbatim_files": 680
+    "verbatim_files": 678
   },
   "cmake": {
-    "src/game/client/CMakeLists.txt": [],
+    "src/game/client/CMakeLists.txt": [
+      "op4/op4_weapon_events.cpp"
+    ],
     "src/game/server/CMakeLists.txt": [
       "op4/dlls/CDrillSergeant.cpp",
       "op4/dlls/COFAllyMonster.cpp",
@@ -1574,7 +1576,7 @@
         "op4-cmake-sources"
       ],
       "origin": "bugfixhl",
-      "sha256": "a56c6d03b15acf63a1d2cef854b3c395590195abc8539d88e859b8e955f20ca9"
+      "sha256": "d41d41688541d1cd40acde8bcc2293490cf06758551de51c01da09ddf434c504"
     },
     "src/game/client/Exports.h": {
       "action": "verbatim",
@@ -2105,10 +2107,14 @@
       "sha256": "fcde99813aa1645ca73be70df813e0b96fc684739c97e12028e04d088de6dbca"
     },
     "src/game/client/hl/hl_events.cpp": {
-      "action": "verbatim",
+      "action": "bhl+op4-merge",
       "commit": "4d32095e3c33",
+      "merge_rules": [
+        "op4-client-weapon-event-decls",
+        "op4-client-weapon-event-hooks"
+      ],
       "origin": "bugfixhl",
-      "sha256": "0d5beeb643a95fe0aa1ffc5cb86c5dbca0115fd3d7ca06c149c4396bd2729c86"
+      "sha256": "b52be4b94f3c657f57a1233c27d11a87781879c02bd7f312fdb253f7742b268d"
     },
     "src/game/client/hl/hl_objects.cpp": {
       "action": "verbatim",
@@ -2791,6 +2797,18 @@
       "origin": "op4",
       "sha256": "a6dc4b38709ba5e38d66cc6f51a3ac4f4e9c83cf5bd6ec992531b6f9246da7ff",
       "upstream_path": "cl_dll/hud_spectator.h"
+    },
+    "src/game/client/op4/op4_weapon_events.cpp": {
+      "action": "compat-glue",
+      "commit": null,
+      "origin": "this-repo",
+      "sha256": "8f087ef1419e5bf2e2e212c147789c6bc2533a86b02ff5442e0055f70bc50061"
+    },
+    "src/game/client/op4/op4_weapon_events.h": {
+      "action": "compat-glue",
+      "commit": null,
+      "origin": "this-repo",
+      "sha256": "5b304daaa88d0fd70047ae388a484158b8859fb210e13d8756abecd76d065ac0"
     },
     "src/game/client/op4/overview.cpp": {
       "action": "verbatim",
@@ -7250,10 +7268,13 @@
       "sha256": "ecacb9db32f218924204d0b3dd4575536e142958448682080d4c98d1321476af"
     },
     "src/game/server/weapons.cpp": {
-      "action": "verbatim",
+      "action": "bhl+op4-merge",
       "commit": "4d32095e3c33",
+      "merge_rules": [
+        "op4-wprecache-op4-weapons"
+      ],
       "origin": "bugfixhl",
-      "sha256": "d9ca70c4d1124f5682d80c19f4b45d10fbf746499fc050e2ecf89cb22f1308cf"
+      "sha256": "2b64dc4a4c65da0808520d4fc490fc9071e85488bc6ccf1b4dac703fc3d7f2ab"
     },
     "src/game/server/weapons.h": {
       "action": "bhl+op4-merge",
@@ -7568,6 +7589,8 @@
     "src/game/server/op4/op4_compat.cpp",
     "src/game/server/op4/op4_link_fixups.cpp",
     "src/game/server/op4/op4_ctf_player.cpp",
+    "src/game/client/op4/op4_weapon_events.h",
+    "src/game/client/op4/op4_weapon_events.cpp",
     "src/game/server/op4/op4_entity_enumerator.h",
     "src/game/shared/op4_weapon_timing.h",
     "src/game/shared/op4_weapon_timing.cpp"

@@ -73,9 +73,9 @@ make verify
 
 | ملف | المحتوى |
 |---|---|
-| `BUILD_COMMANDS.txt` | 453 أمر ترجمة/ربط فعلي |
-| `SOURCES.sha256` | بصمة 445 ملف مصدر مُدخل |
-| `compile-units.json` | 445 وحدة ترجمة، كلها `ok` |
+| `BUILD_COMMANDS.txt` | 454 أمر ترجمة/ربط فعلي |
+| `SOURCES.sha256` | بصمة 446 ملف مصدر مُدخل |
+| `compile-units.json` | 446 وحدة ترجمة، كلها `ok` |
 | `build.log` | سجل الترجمة والربط الكامل |
 | `UNDEFINED_SYMBOLS.txt` | `nm -u` الكامل للمكتبتين |
 | `LINK_GAPS.md` | **فارغ من الرموز** (0 فجوة) |
@@ -99,8 +99,8 @@ make verify
 [gen] appversion.h from bhl-op4/src/common/appversion.h.in
 [gen] PCRE1 config.h / pcre.h from pcre.h.generic, config.h.generic
 [compat] 3 build fixes written to build-evidence/bhl-base/patches
-[cmake] client=138 server=177 common=8
-[compile] client: 138/138 clean
+[cmake] client=139 server=179 common=8
+[compile] client: 139/139 clean
 [compile] server: 179/179 clean
 [cmake] tier1=35 tier2=3 vgui_controls=68
 [compile] tier1: 35/35 clean
@@ -113,10 +113,10 @@ make verify
 [ar] libtier2.a: 3 objects
 [ar] libtier1.a: 35 objects
 [ar] libglad.a / libsemver.a / libpcre.a
-[link] client.so: 138 objects, 6 archives, 4 shared libs
-[link] client.so: OK (27753724 bytes)
-[link] hl.so: 177 objects, 1 archives, 0 shared libs
-[link] hl.so: OK (21231808 bytes)
+[link] client.so: 139 objects, 6 archives, 4 shared libs
+[link] client.so: OK (27761892 bytes)
+[link] hl.so: 179 objects, 1 archives, 0 shared libs
+[link] hl.so: OK (21231824 bytes)
 [audit] client.so: 0 unresolved symbols from our own build
 [audit] hl.so: 0 unresolved symbols from our own build
 [done] 26.7s
@@ -130,8 +130,8 @@ make verify
 
 | الملف | الحجم (بايت) | sha256 | ELF | رموز مُصدَّرة | رموز undefined | نقاط دخول BHL | `DT_NEEDED` |
 |---|---|---|---|---|---|---|---|
-| `build-evidence/bhl-base/client.so` | 27,753,724 | `37a09c5202c1db3021d0f6c88b6137b24330e040cc4844b8aaf25a8bdaa84f57` | ELF32 / Intel 80386 | 4,931 | 311 | `Initialize`, `HUD_Init`, `HUD_VidInit`, `HUD_Redraw`, `HUD_UpdateClientData`, `HUD_Reset`, `HUD_Frame`, `HUD_Shutdown`, `HUD_Key_Event`, `V_CalcRefdef` | `libSDL2-2.0.so.0`, `libtier0.so`, `libvstdlib.so`, `libm.so.6`, `libc.so.6`, `ld-linux.so.2` |
-| `build-evidence/bhl-base/hl.so` | 21,231,808 | `3eabfa02bf75799ff422c949874ce376a9e4fca64b48d9e38b3520302a594744` | ELF32 / Intel 80386 | 4,467 | 156 | `GetEntityAPI`, `GetEntityAPI2`, `GetNewDLLFunctions`, `GiveFnptrsToDll` | `libm.so.6`, `libc.so.6`, `ld-linux.so.2` |
+| `build-evidence/bhl-base/client.so` | 27,761,892 | `113981e51dee0943d6ef803e4fc92c2b6c7a9531c44d3d22b5688ee8423b6b45` | ELF32 / Intel 80386 | 4,932 | 311 | `Initialize`, `HUD_Init`, `HUD_VidInit`, `HUD_Redraw`, `HUD_UpdateClientData`, `HUD_Reset`, `HUD_Frame`, `HUD_Shutdown`, `HUD_Key_Event`, `V_CalcRefdef` | `libSDL2-2.0.so.0`, `libtier0.so`, `libvstdlib.so`, `libm.so.6`, `libc.so.6`, `ld-linux.so.2` |
+| `build-evidence/bhl-base/hl.so` | 21,231,824 | `44ed987023adcccf0d7f8e6f81b84339dbea393d27acfe66781010638bc41e7a` | ELF32 / Intel 80386 | 4,467 | 156 | `GetEntityAPI`, `GetEntityAPI2`, `GetNewDLLFunctions`, `GiveFnptrsToDll` | `libm.so.6`, `libc.so.6`, `ld-linux.so.2` |
 
 الـ 311/157 undefined هي رموز يوفّرها المحرك/النظام (tier0/vstdlib، SDL2،
 libc/libm، C++ ABI) ويوفّرها المحرك عند التحميل؛ ليست فجوات من بنائنا.

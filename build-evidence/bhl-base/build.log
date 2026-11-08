@@ -8,8 +8,8 @@ zig    : /tmp/zenv/lib/python3.11/site-packages/ziglang/zig (clang for i386-unkn
 [gen] appversion.h from bhl-op4/src/common/appversion.h.in
 [gen] PCRE1 config.h / pcre.h from pcre.h.generic, config.h.generic
 [compat] 3 build fixes written to /home/user/Bugfixhl-speedrun-op4/build-evidence/bhl-base/patches
-[cmake] client=138 server=179 common=8
-[compile] client: 138/138 clean
+[cmake] client=139 server=179 common=8
+[compile] client: 139/139 clean
 [compile] server: 179/179 clean
 [cmake] tier1=35 tier2=3 vgui_controls=68
 [compile] tier1: 35/35 clean
@@ -24,20 +24,20 @@ zig    : /tmp/zenv/lib/python3.11/site-packages/ziglang/zig (clang for i386-unkn
 [ar] libglad.a: 1 objects
 [ar] libsemver.a: 1 objects
 [ar] libpcre.a: 20 objects
-[link] client.so: 138 objects, 6 archives, 4 shared libs
-[link] client.so: OK (27753724 bytes)
+[link] client.so: 139 objects, 6 archives, 4 shared libs
+[link] client.so: OK (27761892 bytes)
 [link] hl.so: 179 objects, 1 archives, 0 shared libs
-[link] hl.so: OK (21231808 bytes)
+[link] hl.so: OK (21231824 bytes)
 [audit] client.so: 0 unresolved symbols from our own build
 [audit] hl.so: 0 unresolved symbols from our own build
-[done] 4.5s
+[done] 59.8s
 {
   "client.so": {
     "path": "build-evidence/bhl-base/client.so",
-    "bytes": 27753724,
-    "sha256": "37a09c5202c1db3021d0f6c88b6137b24330e040cc4844b8aaf25a8bdaa84f57",
+    "bytes": 27761892,
+    "sha256": "113981e51dee0943d6ef803e4fc92c2b6c7a9531c44d3d22b5688ee8423b6b45",
     "elf32": true,
-    "exported_symbol_count": 4931,
+    "exported_symbol_count": 4932,
     "exported_game_entry_points": [
       "HUD_Frame",
       "HUD_Init",
@@ -63,8 +63,8 @@ zig    : /tmp/zenv/lib/python3.11/site-packages/ziglang/zig (clang for i386-unkn
   },
   "hl.so": {
     "path": "build-evidence/bhl-base/hl.so",
-    "bytes": 21231808,
-    "sha256": "3eabfa02bf75799ff422c949874ce376a9e4fca64b48d9e38b3520302a594744",
+    "bytes": 21231824,
+    "sha256": "44ed987023adcccf0d7f8e6f81b84339dbea393d27acfe66781010638bc41e7a",
     "elf32": true,
     "exported_symbol_count": 4467,
     "exported_game_entry_points": [

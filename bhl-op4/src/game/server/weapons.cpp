@@ -375,6 +375,10 @@ void EXPORT W_Precache(void)
 	}
 #endif
 
+
+	/* OP4-MERGE: OP4 dlls/weapons.cpp weapon registration (additive) */
+	UTIL_PrecacheOtherWeapon("weapon_eagle");
+
 	g_sModelIndexFireball = PRECACHE_MODEL("sprites/zerogxplode.spr"); // fireball
 	g_sModelIndexWExplosion = PRECACHE_MODEL("sprites/WXplo1.spr"); // underwater fireball
 	g_sModelIndexSmoke = PRECACHE_MODEL("sprites/steam1.spr"); // smoke

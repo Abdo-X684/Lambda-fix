@@ -22,10 +22,10 @@
 
 | الطبقة | المصدر | عدد الملفات | الحالة |
 | --- | --- | --- | --- |
-| **BASE** | `tmp64/BugfixedHL-Rebased @ 4d32095e3c33` (GPL-3.0) | **694** | **680 ملفاً حرفياً** (مطابقة بايت-ببايت للـ commit) + 14 ملفاً عليها دمج معلن |
+| **BASE** | `tmp64/BugfixedHL-Rebased @ 4d32095e3c33` (GPL-3.0) | **694** | **678 ملفاً حرفياً** (مطابقة بايت-ببايت للـ commit) + 16 ملفاً عليها دمج معلن |
 | **ADD / MERGE** | `twhl-community/halflife-op4-updated @ 5368be7f8eba` | **154** | أسلحة، CTF، rope، كيانات OP4، أحداث العميل |
-| **GLUE** | هذا المستودع | **7** | `op4_compat.h`, `op4_compat_late.h`, `op4_compat.cpp`, `op4_link_fixups.cpp`, `op4_entity_enumerator.h`, `op4_weapon_timing.{h,cpp}` |
-| بيان المصدر | — | **855** مدخلاً | لكل ملف: الأصل، `commit`، `sha256`، `action`، أسماء القواعد |
+| **GLUE** | هذا المستودع | **10** | `op4_compat.h`, `op4_compat_late.h`, `op4_compat.cpp`, `op4_link_fixups.cpp`, `op4_entity_enumerator.h`, `op4_ctf_player.cpp`, `op4_weapon_timing.{h,cpp}`, `op4/op4_weapon_events.{h,cpp}` |
+| بيان المصدر | — | **858** مدخلاً | لكل ملف: الأصل، `commit`، `sha256`، `action`، أسماء القواعد |
 
 الشجرة كاملة **متتبَّعة في Git** داخل `bhl-op4/` (وليست في `.cache/` المستثنى)،
 ومعها `PROVENANCE.json`: `action` يكون `verbatim` / `bhl+op4-merge` /
@@ -112,17 +112,17 @@ cvars ورسائل OP4 أُضيفت في glue مُوسوم `op4_ctf_player.cpp` 
   `CGrappleTip`, `CKnife`, `CM249`, `CPenguin`, `CPipewrench`, `CShockBeam`,
   `CShockRifle`, `CSniperRifle`, `CSpore`, `CSporeLauncher`.
   `readelf -h` على `CEagle.o`: `ELF32 / REL / Intel 80386`.
-* **102 / 107 من مصادر خادم BHL نفسها** (المنسوخة حرفياً، لا هيدرات فقط)
+* **101 / 106 من مصادر خادم BHL نفسها** (المنسوخة حرفياً، لا هيدرات فقط)
   تُترجم إلى كائنات ELF32 داخل الشجرة المدمجة. الخمسة المتعثرة مفصّلة في
   `PORT_STATUS.json` (`appversion.h` يُولّده CMake، مسار Windows في
   `stats.cpp`، `Make2D` من نسخة SDK أخرى، …). مصادر BHL الحقيقية كلها تُترجم
   داخل البناء الفعلي (`server: 179/179 clean`).
-* **66 / 70** من مصادر OP4 تُترجم بنجاح إلى كائنات ELF32، منها 15/15 سلاحاً
+* **68 / 71** من مصادر OP4 تُترجم بنجاح إلى كائنات ELF32، منها 15/15 سلاحاً
   وCTF وrope وكيانات (`CTFGoal`, `CTFSpawn`, `CRope`, `CRopeSegment`,
   `CDrillSergeant`, `hgrunt_medic`, `shocktrooper`, `voltigore`, …).
 * **66 مصدراً** موصولة بـ `src/game/server/CMakeLists.txt` — هدف البناء لا
   يضمّ ملفاً معطوباً ولا ملفاً فيه فجوة ربط معلنة؛ `--check` يتحقق من أن كل
-  ملف موصول نظيف (0 فشل). البناء الفعلي أنتج 177 كائن خادم وصفر فجوة ربط.
+  ملف موصول نظيف (0 فشل). البناء الفعلي أنتج 179 كائن خادم وصفر فجوة ربط.
 * **26 ملف `port_pending`** (21 عميل + 5 خادم). الأربعة التي لا تُترجم بعد
   (`Wxdebug.cpp`، `squeakgrenade.cpp`، `world.cpp`،
   `ctf/ctfplay_gamerules.cpp`) ومصدران نظيفان مستبعدان لتكرار أنظمة BHL

@@ -33,6 +33,7 @@ import sys
 from pathlib import Path
 
 from . import op4_fixups
+from . import op4_weapon_events
 
 ROOT = Path(__file__).resolve().parent.parent
 CACHE = ROOT / ".cache" / "upstreams"
@@ -1035,6 +1036,44 @@ def apply_merges(tree: Path, provenance: dict) -> None:
     provenance["src/game/server/gamerules.cpp"].setdefault("merge_rules", []).extend(
         ("op4-install-gamerules-decls", "op4-install-gamerules-branch"))
 
+    # 23. DECLARED BHL base change: register OP4 weapons in W_Precache().
+    #     Source: OP4 dlls/weapons.cpp:345-362. Without
+    #     UTIL_PrecacheOtherWeapon() the compiled weapon classes are never
+    #     entered into CBasePlayerItem::ItemInfoArray / AmmoInfoArray, so the
+    #     client never receives their WeaponList entry and the weapon cannot
+    #     be given, selected or shown. Purely additive, weapon-scoped, and no
+    #     BHL weapon line is changed or removed.
+    _prec = "\n".join('\tUTIL_PrecacheOtherWeapon("{}");'.format(w["cls"])
+                      for w in op4_weapon_events.WEAPONS)
+    _ammo = "\n".join('\tUTIL_PrecacheOther("{}");'.format(w["ammo"])
+                      for w in op4_weapon_events.WEAPONS if w["ammo"])
+    _both = _prec + (("\n" + _ammo) if _ammo else "")
+    edit("src/game/server/weapons.cpp",
+         '\tg_sModelIndexFireball = PRECACHE_MODEL("sprites/zerogxplode.spr"); // fireball',
+         "\n\t/* OP4-MERGE: OP4 dlls/weapons.cpp weapon registration (additive) */\n"
+         + _both + "\n",
+         "op4-wprecache-op4-weapons", before=True)
+
+    # 24. DECLARED BHL base change: hook OP4 weapon playback events in the
+    #     client. Source: OP4 cl_dll/hl/hl_events.cpp:31-40. The callbacks
+    #     themselves are the verbatim OP4 bodies in the labelled client glue
+    #     src/game/client/op4/op4_weapon_events.cpp. No BHL event is removed.
+    _decls = "\n".join('\tvoid {}(struct event_args_s *args);'.format(w["func"])
+                       for w in op4_weapon_events.WEAPONS)
+    _hooks = "\n".join('\tgEngfuncs.pfnHookEvent("{}", {});'.format(
+                        w["event"], w["func"])
+                       for w in op4_weapon_events.WEAPONS)
+    edit("src/game/client/hl/hl_events.cpp",
+         "\tvoid EV_SnarkFire(struct event_args_s *args);",
+         "\n\t/* OP4-MERGE: OP4 cl_dll/hl/hl_events.cpp weapon playback events */\n"
+         + _decls + "\n",
+         "op4-client-weapon-event-decls")
+    edit("src/game/client/hl/hl_events.cpp",
+         '\tgEngfuncs.pfnHookEvent("events/snarkfire.sc", EV_SnarkFire);',
+         "\n\t/* OP4-MERGE: OP4 cl_dll/hl/hl_events.cpp weapon event hooks */\n"
+         + _hooks + "\n",
+         "op4-client-weapon-event-hooks")
+
 
 # Only sources proven to compile against BHL headers are wired into the BHL
 # CMake targets. Everything else is present in the tree as a ported OP4 source
@@ -1048,6 +1087,7 @@ BUILD_SOURCE_FILES = (
     "src/game/server/op4/op4_compat.cpp",
     "src/game/server/op4/op4_link_fixups.cpp",
     "src/game/server/op4/op4_ctf_player.cpp",
+    "src/game/client/op4/op4_weapon_events.cpp",
     "src/game/server/op4/dlls/ctf/ctfplay_gamerules.cpp",
     "src/game/server/op4/dlls/ctf/CItemAcceleratorCTF.cpp",
     "src/game/server/op4/dlls/ctf/CItemCTF.cpp",
@@ -1232,6 +1272,10 @@ def build(out: Path) -> dict:
         ("src/game/server/op4/op4_compat.cpp", GLUE_CPP),
           ("src/game/server/op4/op4_link_fixups.cpp", op4_fixups.FIXUPS_CPP),
           ("src/game/server/op4/op4_ctf_player.cpp", op4_fixups.CTF_PLAYER_CPP),
+          ("src/game/client/op4/op4_weapon_events.h",
+           op4_weapon_events.WEAPON_EVENTS_H),
+          ("src/game/client/op4/op4_weapon_events.cpp",
+           op4_weapon_events.WEAPON_EVENTS_CPP),
           ("src/game/server/op4/op4_entity_enumerator.h",
            op4_fixups.ENTITY_ENUMERATOR_H),
           ("src/game/shared/op4_weapon_timing.h", op4_fixups.TIMING_H),

@@ -306,8 +306,9 @@ endif()
 source_group( TREE ${PROJECT_SOURCE_DIR} FILES ${SOURCE_FILES} )
 
 # OP4-MERGE: OP4 subsystem sources proven to compile against BHL headers
-# client OP4 sources are present under src/game/client/op4/ and
-# listed in PORT_STATUS.json as port-pending; none are wired yet.
+list( APPEND SOURCE_FILES
+	op4/op4_weapon_events.cpp
+)
 
 add_library( client SHARED ${SOURCE_FILES} )
 add_auto_deploy( client client PublishPathClient.txt )

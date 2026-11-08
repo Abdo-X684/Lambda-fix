@@ -50,7 +50,7 @@
 ### 1.1 مرحلة المتابعة: 36 ملف OP4 حقيقي إضافي + فجوة جديدة أُغلقت
 
 وُصل 29 مصدر OP4 نظيفاً (كيانات/CTF/NPC)، ثم 7 مصادر أخرى بعد إصلاح توافق
-مُعلَن. الآن **66 مصدر OP4/glue موصول بهدف خادم BHL** (كانت 29).
+مُعلَن. الآن **66 مصدر OP4/glue موصول بهدف خادم BHL** (كانت 29)، أُضيف إليها مصدر glue واحد موصول بهدف العميل لحدث سلاح OP4.
 
 وصل الـ29 كشف فجوة ربط حقيقية واحدة في `hl.so`:
 `IsFacing(entvars_s*, Vector const&)` — يستدعيها `otis.cpp` و`CDrillSergeant.cpp`
@@ -81,16 +81,16 @@
 
 ## 2. حماية الهوية
 
-`bhl-op4/PROVENANCE.json` (855 ملفاً):
+`bhl-op4/PROVENANCE.json` (858 ملفاً):
 
 | الأصل | العدد | الحالة |
 |---|---|---|
-| BugfixedHL-Rebased | 694 | **680 مطابقة بايت-ببايت** للمصدر المثبّت + **13 دمجاً مُعلَناً** |
+| BugfixedHL-Rebased | 694 | **678 مطابقة بايت-ببايت** للمصدر المثبّت + **16 دمجاً مُعلَناً** |
 | halflife-op4-updated | 154 | ملفات OP4 بـ`upstream_path` |
-| glue (هذا المستودع) | 8 | `action: compat-glue`، كل واحد موسوم بمصدره العلوي |
+| glue (هذا المستودع) | 10 | `action: compat-glue`، كل واحد موسوم بمصدره العلوي |
 | `base.tree_sha256` | `48f2511ebd7a2e830daf59e99f2f3c48caaaf6c9f70509e9d115aba23e606e2d` | يُعاد حسابه ويتحقق منه `--check` |
 
-**كل تغيير على ملفات BHL مُعلَن بالاسم والسبب** (14 ملفاً). القواعد الجديدة في
+**كل تغيير على ملفات BHL مُعلَن بالاسم والسبب** (16 ملفاً). القواعد الجديدة في
 هذه المرحلة:
 
 | ملف BHL | القاعدة | السبب |
@@ -99,10 +99,11 @@
 | `src/game/server/monsters.h` | `op4-gibdata-spawn-overload` | إعلان التحميل الزائد لـ `GibData` (الجسم في glue) |
 | `src/game/server/cbase.h` | `op4-entity-eflags` | `pitworm_up.cpp` يضبط `EFLAG_SLERP` عبر `m_EFlags` |
 | `src/game/server/player.h` | `op4-player-state` (عُدّل) | أُزيل `m_EFlags` المكرر ونُقل إلى `CBaseEntity` كما في OP4 |
-| `src/game/server/CMakeLists.txt` | `op4-cmake-sources` | 66 مصدر OP4/glue موصول بالهدف |
+| `src/game/server/CMakeLists.txt` | `op4-cmake-sources` | 66 مصدر OP4/glue موصول بالخادم |
+| `src/game/client/CMakeLists.txt` | `op4-cmake-client-weapon-events` | 1 مصدر `op4/op4_weapon_events.cpp` موصول بالعميل |
 
 `python3 -m merge.bhl_base --check --out bhl-op4` يتحقق من كل بصمة،
-و`tests/test_bhl_base.py::test_07` يقارن الـ680 ملفاً بايت-ببايت بالمصدر المثبّت،
+و`tests/test_bhl_base.py::test_07` يقارن الـ678 ملفاً بايت-ببايت بالمصدر المثبّت،
 و`test_op4_link_fixups.py::test_06` يثبت أن القواعد معلَنة بأسماء،
 و`test_09` يثبت أن المصادر السبعة الجديدة أصلها `op4` لا glue.
 
@@ -121,13 +122,13 @@ python3 tools/build_bhl_base.py
 
 | البند | القيمة |
 |---|---|
-| وحدات ترجمة | **445** (كلها `ok`) — عميل 138، خادم 179، tier1 35، tier2 3، vgui 68، glad/semver 2، PCRE 20 |
-| أوامر موثّقة | 453 في `BUILD_COMMANDS.txt` |
-| بصمات مصادر الإدخال | 445 في `SOURCES.sha256` |
+| وحدات ترجمة | **446** (كلها `ok`) — عميل 139، خادم 179، tier1 35، tier2 3، vgui 68، glad/semver 2، PCRE 20 |
+| أوامر موثّقة | 454 في `BUILD_COMMANDS.txt` |
+| بصمات مصادر الإدخال | 446 في `SOURCES.sha256` |
 | مكتبات ثابتة | 6 أرشيفات، ربط بلا `--allow-shlib-undefined` |
-| `client.so` | 27,753,724 B — `37a09c5202c1db3021d0f6c88b6137b24330e040cc4844b8aaf25a8bdaa84f57` |
-| `hl.so` | 21,231,808 B — `3eabfa02bf75799ff422c949874ce376a9e4fca64b48d9e38b3520302a594744` |
-| رموز مُصدَّرة / undefined | عميل 4,931 / 311، خادم 4,467 / 156 (كلها يوفّرها المحرك/النظام) |
+| `client.so` | 27,761,892 B — `113981e51dee0943d6ef803e4fc92c2b6c7a9531c44d3d22b5688ee8423b6b45` |
+| `hl.so` | 21,231,824 B — `44ed987023adcccf0d7f8e6f81b84339dbea393d27acfe66781010638bc41e7a` |
+| رموز مُصدَّرة / undefined | عميل 4,932 / 311، خادم 4,467 / 156 (كلها يوفّرها المحرك/النظام) |
 | المعمارية | ELF32 / Intel 80386 (مُثبت بـ`readelf -h`) |
 | فجوات البناء | 0 / 0 |
 
@@ -174,8 +175,8 @@ python3 tools/build_bhl_base.py
 | الاختبار | الأمر | النتيجة |
 |---|---|---|
 | سلامة الشجرة / المطابقة بايت-ببايت | `python3 -m merge.bhl_base --check --out bhl-op4` | `BHL-BASE PROVENANCE OK` |
-| ترجمة مصادر OP4 + مصادر BHL إلى ELF32 | `python3 tools/verify_bhl_base.py --compile` | OP4 `68/71` نظيفة، BHL `102/107`، **كل ملف موصول بـ CMake نظيف (0 فشل)** |
-| الرموز الـ12 + الرمزان الجديدان / الأجسام / البيانات / القواعد / المصادر الموصولة | `python3 -m unittest tests.test_bhl_base tests.test_op4_link_fixups -v` | **22/22 OK** (منها `test_10` يثبت وصل قواعد CTF و`IsCTF()`) |
+| ترجمة مصادر OP4 + مصادر BHL إلى ELF32 | `python3 tools/verify_bhl_base.py --compile` | OP4 `68/71` نظيفة، BHL `101/106`، glue العميل `1/1`، **كل ملف موصول بـ CMake نظيف (0 فشل)** |
+| الرموز الـ12 + الرمزان الجديدان / الأجسام / البيانات / القواعد / المصادر الموصولة + الأسلحة | `python3 -m unittest tests.test_bhl_base tests.test_op4_link_fixups tests.test_op4_weapons -v` | **29/29 OK** (منها `test_10` يثبت وصل قواعد CTF و`IsCTF()`) |
 | خوارزمية `GetNextAttackDelay` + مُعدّد كيانات OP4 | `make test-op4` | **14 تحقّق PASS** |
 | أجسام الإصلاحات الحقيقية مُستخرجة نصّاً من الشجرة (بما فيها `IsFacing`) | `make test-op4-fixups` | **55 تحقّق PASS** |
 | نظافة الملفات النصية | `python3 tools/check_hygiene.py` | `hygiene: OK` |
