@@ -46,6 +46,20 @@ static globalvars_t Globals;
 
 static CBasePlayerWeapon *g_pWpns[32];
 
+/* OP4-MERGE (declared): OP4 cl_dll/hl/hl_weapons.cpp:622
+ * SetLocalBody(). OP4 uses GetLocalWeapon(id) over its own client
+ * weapon objects; BHL owns the equivalent g_pWpns[] array here.
+ * Required by the verbatim OP4 EV_FireM249 playback-event body,
+ * which sets the M249 viewmodel body on alternating eject. */
+void SetLocalBody(int id, int body)
+{
+	if (id < 0 || id >= (int)(sizeof(g_pWpns) / sizeof(g_pWpns[0])))
+		return;
+	if (CBasePlayerWeapon *pWeapon = g_pWpns[id])
+		pWeapon->pev->body = body;
+}
+
+
 float g_flApplyVel = 0.0;
 int g_irunninggausspred = 0;
 

@@ -11,15 +11,17 @@
 
 | البند | الوضع |
 | --- | --- |
-| الأساس | `tmp64/BugfixedHL-Rebased @ 4d32095e3c33` — 694 ملف BHL، **678 مطابق بايت-ببايت** + 16 دمجاً معلَناً |
+| الأساس | `tmp64/BugfixedHL-Rebased @ 4d32095e3c33` — 694 ملف BHL، **677 مطابق بايت-ببايت** + 17 دمجاً معلَناً |
 | إضافة OP4 | 154 ملفاً من `twhl-community/halflife-op4-updated @ 5368be7f8eba` + 10 ملفات glue موسومة |
 | بناء `client.so` / `hl.so` من `bhl-op4/` | ✅ ELF32، 446 وحدة ترجمة، 66 مصدر OP4/glue بالخادم + 1 بحدث العميل، **صفر رمز ربط غير محلول** |
-| الثنائيات | `client.so` = `113981e51dee0943d6ef803e4fc92c2b6c7a9531c44d3d22b5688ee8423b6b45` · `hl.so` = `44ed987023adcccf0d7f8e6f81b84339dbea393d27acfe66781010638bc41e7a` |
+| الثنائيات | `client.so` = `3cae1d779c5a2a2d47e138baa43a45bb06d870037dd6da995f581532d32d9100` · `hl.so` = `09550d9b2acc2f0fca05857d8d6eaf3112f1fcf32d0fd40a6404884463f46cf1` |
+| أسلحة OP4 | 10 أسلحة مسجّلة في `W_Precache()` + 9 أحداث عرض أصلية حرفياً + 3 ذخائر + 3 أصوات؛ [`سجل المراحل`](docs/OP4_WEAPON_PHASES.md) — **إثبات بناء/ربط فقط** |
 | اختبار داخل Opposing Force | ❌ **لم يُنفَّذ** — لا محرك، لا `vgui.so`، لا أصول شرعية، لا محمّل ELF32 ديناميكي |
 | إعلان الاكتمال | ❌ **لا** — المشروع غير مكتمل؛ قائمة النواقص في التقرير النهائي |
 
 ## الدليل والبرهان
 
+* [`docs/OP4_WEAPON_PHASES.md`](docs/OP4_WEAPON_PHASES.md) — سجل دمج أسلحة OP4 مرحلة بمرحلة: الملفات، الفرق، بناء العميل/الخادم، الاختبارات، الأخطاء، والنواقص.
 * [`docs/BHL_FINAL_AUDIT.md`](docs/BHL_FINAL_AUDIT.md) — التقرير الجامع: كل رمز، كل تغيير على BHL، كل اختبار ونتيجته، النواقص صراحةً.
 * [`docs/BHL_BASE_BUILD.md`](docs/BHL_BASE_BUILD.md) و
   [`build-evidence/bhl-base/MANIFEST.json`](build-evidence/bhl-base/MANIFEST.json)
@@ -31,7 +33,7 @@
 * [`build-evidence/bhl-base/RUNTIME_ENVIRONMENT.md`](build-evidence/bhl-base/RUNTIME_ENVIRONMENT.md)
   — أدلة قابلة لإعادة التشغيل على استحالة الاختبار داخل اللعبة.
 * `python3 -m merge.bhl_base --check --out bhl-op4` يتحقق من كل بصمة،
-  و`tests/test_bhl_base.py::test_07` يقارن الـ678 ملفاً بالمصدر المثبّت.
+  و`tests/test_bhl_base.py::test_07` يقارن الـ677 ملفاً بالمصدر المثبّت.
 
 ```bash
 make fetch                                  # الشجرتان المثبّتتان + sha256

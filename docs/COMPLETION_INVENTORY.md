@@ -18,8 +18,8 @@
 | البند | العدد | الدليل |
 |---|---|---|
 | ملفات BHL في `bhl-op4/` | 694 | `PROVENANCE.json` |
-| مطابقة بايت-ببايت للـ commit المثبّت | 678 | `tests/test_bhl_base.py::test_07` |
-| ملفات BHL عليها دمج مُعلَن بالاسم والسبب | 16 | `merge_rules` في `PROVENANCE.json` |
+| مطابقة بايت-ببايت للـ commit المثبّت | 677 | `tests/test_bhl_base.py::test_07` |
+| ملفات BHL عليها دمج مُعلَن بالاسم والسبب | 17 | `merge_rules` في `PROVENANCE.json` |
 | مصادر خادم BHL تُترجم في البناء الفعلي | 179/179 | `build.log` (مع مصادر OP4) |
 | مصادر عميل BHL تُترجم في البناء الفعلي | 139/139 | `build.log` |
 

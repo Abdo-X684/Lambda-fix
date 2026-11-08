@@ -1,0 +1,86 @@
+=== bhl-op4 real 32-bit build ===
+tree   : /home/user/Bugfixhl-speedrun-op4/bhl-op4
+sdk    : /home/user/Bugfixhl-speedrun-op4/.cache/upstreams/hl1_source_sdk
+out    : /home/user/Bugfixhl-speedrun-op4/build-evidence/bhl-base
+zig    : /tmp/zenv/lib/python3.11/site-packages/ziglang/zig (clang for i386-unknown-linux-gnu)
+[deps] nlohmann: nlohmann-json-3.11.3.tar.gz sha256=0d8ef5af7f9794e3263480193c491549b2ba6cc74bb018906202ada498a79406
+[deps] pcre: pcre-master.tar.gz sha256=5aa545145f0c5a584b54a34f04c2d61c01d31724d3fbae2ee20cd8e3c422594d
+[gen] appversion.h from bhl-op4/src/common/appversion.h.in
+[gen] PCRE1 config.h / pcre.h from pcre.h.generic, config.h.generic
+[compat] 3 build fixes written to /home/user/Bugfixhl-speedrun-op4/build-evidence/bhl-base/patches
+[cmake] client=139 server=179 common=8
+[compile] client: 139/139 clean
+[compile] server: 179/179 clean
+[cmake] tier1=35 tier2=3 vgui_controls=68
+[compile] tier1: 35/35 clean
+[compile] tier2: 3/3 clean
+[compile] vgui_controls: 68/68 clean
+[compile] glad: 1/1 clean
+[compile] semver: 1/1 clean
+[compile] pcre: 20/20 clean
+[ar] libvgui_controls.a: 68 objects
+[ar] libtier2.a: 3 objects
+[ar] libtier1.a: 35 objects
+[ar] libglad.a: 1 objects
+[ar] libsemver.a: 1 objects
+[ar] libpcre.a: 20 objects
+[link] client.so: 139 objects, 6 archives, 4 shared libs
+[link] client.so: OK (27802960 bytes)
+[link] hl.so: 179 objects, 1 archives, 0 shared libs
+[link] hl.so: OK (21232496 bytes)
+[audit] client.so: 0 unresolved symbols from our own build
+[audit] hl.so: 0 unresolved symbols from our own build
+[done] 47.2s
+{
+  "client.so": {
+    "path": "build-evidence/bhl-base/client.so",
+    "bytes": 27802960,
+    "sha256": "3cae1d779c5a2a2d47e138baa43a45bb06d870037dd6da995f581532d32d9100",
+    "elf32": true,
+    "exported_symbol_count": 4941,
+    "exported_game_entry_points": [
+      "HUD_Frame",
+      "HUD_Init",
+      "HUD_Key_Event",
+      "HUD_Redraw",
+      "HUD_Reset",
+      "HUD_Shutdown",
+      "HUD_UpdateClientData",
+      "HUD_VidInit",
+      "Initialize",
+      "V_CalcRefdef"
+    ],
+    "undefined_symbol_count": 311,
+    "needed": [
+      "libSDL2-2.0.so.0",
+      "libtier0.so",
+      "libvstdlib.so",
+      "libm.so.6",
+      "libc.so.6",
+      "ld-linux.so.2"
+    ],
+    "unresolved_own_build_symbols": []
+  },
+  "hl.so": {
+    "path": "build-evidence/bhl-base/hl.so",
+    "bytes": 21232496,
+    "sha256": "db0d770cbcc3b2557f77aea07fc2208975229472aab57902529cca049ab336a1",
+    "elf32": true,
+    "exported_symbol_count": 4467,
+    "exported_game_entry_points": [
+      "GetEntityAPI",
+      "GetEntityAPI2",
+      "GetNewDLLFunctions",
+      "GiveFnptrsToDll"
+    ],
+    "undefined_symbol_count": 156,
+    "needed": [
+      "libm.so.6",
+      "libc.so.6",
+      "ld-linux.so.2"
+    ],
+    "unresolved_own_build_symbols": []
+  }
+}
+
+=== STDERR ===

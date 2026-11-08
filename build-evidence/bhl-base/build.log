@@ -25,19 +25,19 @@ zig    : /tmp/zenv/lib/python3.11/site-packages/ziglang/zig (clang for i386-unkn
 [ar] libsemver.a: 1 objects
 [ar] libpcre.a: 20 objects
 [link] client.so: 139 objects, 6 archives, 4 shared libs
-[link] client.so: OK (27768648 bytes)
+[link] client.so: OK (27802960 bytes)
 [link] hl.so: 179 objects, 1 archives, 0 shared libs
-[link] hl.so: OK (21231840 bytes)
+[link] hl.so: OK (21232512 bytes)
 [audit] client.so: 0 unresolved symbols from our own build
 [audit] hl.so: 0 unresolved symbols from our own build
-[done] 45.9s
+[done] 48.2s
 {
   "client.so": {
     "path": "build-evidence/bhl-base/client.so",
-    "bytes": 27768648,
-    "sha256": "bf288b41dc386752e9b91f59736d2bfe4bbbce0409555523bad84ec3a6fd617a",
+    "bytes": 27802960,
+    "sha256": "3cae1d779c5a2a2d47e138baa43a45bb06d870037dd6da995f581532d32d9100",
     "elf32": true,
-    "exported_symbol_count": 4933,
+    "exported_symbol_count": 4941,
     "exported_game_entry_points": [
       "HUD_Frame",
       "HUD_Init",
@@ -63,8 +63,8 @@ zig    : /tmp/zenv/lib/python3.11/site-packages/ziglang/zig (clang for i386-unkn
   },
   "hl.so": {
     "path": "build-evidence/bhl-base/hl.so",
-    "bytes": 21231840,
-    "sha256": "731cb09e5163aeae8a74cae590a6702d12c5e9dd15bd784e28e89280ad01e255",
+    "bytes": 21232512,
+    "sha256": "09550d9b2acc2f0fca05857d8d6eaf3112f1fcf32d0fd40a6404884463f46cf1",
     "elf32": true,
     "exported_symbol_count": 4467,
     "exported_game_entry_points": [

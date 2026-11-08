@@ -1,0 +1,28 @@
+{
+  "client_compile": "[compile] client: 139/139 clean",
+  "errors": [],
+  "in_game_test": false,
+  "libraries": {
+    "client.so": {
+      "bytes": 27789672,
+      "sha256": "16a62b9411363f5946483bf9964ec382bc23b9e84b580c8b5266ba55939de1e7"
+    },
+    "hl.so": {
+      "bytes": 21232400,
+      "sha256": "b20e35be2c0ecc8e10ab9c612e83517185b6dd57a7ba2ff3b0d1a632fdc0d014"
+    }
+  },
+  "link_gaps": "\"unresolved_own_build_symbols\": []",
+  "make_verify": "rc=0 ALL CHECKS PASSED",
+  "provenance": {
+    "glue_files": 10,
+    "merged_files": 17,
+    "verbatim_files": 677
+  },
+  "regen": "rc=0",
+  "remaining": "No in-game firing/reload/ammo/model/sound test: no GoldSrc engine and no legal OP4 assets in this sandbox.",
+  "server_compile": "[compile] server: 179/179 clean",
+  "test_kind": "build + link + source/symbol checks (NOT in-game)",
+  "weapon": "weapon_sporelauncher",
+  "weapon_tests": "rc=0 7/7 OK"
+}

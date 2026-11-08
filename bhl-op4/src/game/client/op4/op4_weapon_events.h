@@ -46,6 +46,127 @@ enum pipewrench_e
 	PIPEWRENCH_BIG_SWING_IDLE
 };
 
+/* dlls/weapons/CM249.h : M249Anim (verbatim) */
+enum M249Anim
+{
+	M249_SLOWIDLE = 0,
+	M249_IDLE2,
+	M249_RELOAD_START,
+	M249_RELOAD_END,
+	M249_HOLSTER,
+	M249_DRAW,
+	M249_SHOOT1,
+	M249_SHOOT2,
+	M249_SHOOT3
+};
+
+/* dlls/weapons/CDisplacer.h : DisplacerAnim (verbatim) */
+enum DisplacerAnim
+{
+	DISPLACER_IDLE1 = 0,
+	DISPLACER_IDLE2,
+	DISPLACER_SPINUP,
+	DISPLACER_SPIN,
+	DISPLACER_FIRE,
+	DISPLACER_DRAW,
+	DISPLACER_HOLSTER1
+};
+
+/* dlls/weapons/CDisplacer.h : DisplacerMode (verbatim) */
+enum class DisplacerMode
+{
+	STARTED = 0,
+	SPINNING_UP,
+	SPINNING,
+	FIRED
+};
+
+/* dlls/weapons/CDisplacer.h (verbatim) */
+static const size_t DISPLACER_NUM_BEAMS = 4;
+
+/* dlls/weapons/CShockRifle.h : ShockRifleAnim (verbatim) */
+enum ShockRifleAnim
+{
+	SHOCKRIFLE_IDLE1 = 0,
+	SHOCKRIFLE_FIRE,
+	SHOCKRIFLE_DRAW,
+	SHOCKRIFLE_HOLSTER,
+	SHOCKRIFLE_IDLE3
+};
+
+/* dlls/weapons/CSporeLauncher.h : SporeLauncherAnim (verbatim) */
+enum SporeLauncherAnim
+{
+	SPLAUNCHER_IDLE = 0,
+	SPLAUNCHER_FIDGET,
+	SPLAUNCHER_RELOAD_REACH,
+	SPLAUNCHER_RELOAD,
+	SPLAUNCHER_AIM,
+	SPLAUNCHER_FIRE,
+	SPLAUNCHER_HOLSTER1,
+	SPLAUNCHER_DRAW1,
+	SPLAUNCHER_IDLE2
+};
+
+/* dlls/weapons/CSniperRifle.h : SniperRifleAnim (verbatim) */
+enum SniperRifleAnim
+{
+	SNIPERRIFLE_DRAW = 0,
+	SNIPERRIFLE_SLOWIDLE,
+	SNIPERRIFLE_FIRE,
+	SNIPERRIFLE_FIRELASTROUND,
+	SNIPERRIFLE_RELOAD1,
+	SNIPERRIFLE_RELOAD2,
+	SNIPERRIFLE_RELOAD3,
+	SNIPERRIFLE_SLOWIDLE2,
+	SNIPERRIFLE_HOLSTER
+};
+
+/* dlls/weapons/CKnife.h : KnifeAnim (verbatim) */
+enum KnifeAnim
+{
+	KNIFE_IDLE1 = 0,
+	KNIFE_DRAW,
+	KNIFE_HOLSTER,
+	KNIFE_ATTACK1,
+	KNIFE_ATTACK1MISS,
+	KNIFE_ATTACK2,
+	KNIFE_ATTACK2HIT,
+	KNIFE_ATTACK3,
+	KNIFE_ATTACK3HIT,
+	KNIFE_IDLE2,
+	KNIFE_IDLE3,
+	KNIFE_CHARGE,
+	KNIFE_STAB
+};
+
+/* dlls/weapons/CPenguin.h : PenguinAnim (verbatim) */
+enum PenguinAnim
+{
+	PENGUIN_IDLE1 = 0,
+	PENGUIN_FIDGETFIT,
+	PENGUIN_FIDGETNIP,
+	PENGUIN_DOWN,
+	PENGUIN_UP,
+	PENGUIN_THROW,
+};
+
+/* dlls/weapons/CGrapple.h : BarnacleGrappleAnim (verbatim) */
+enum BarnacleGrappleAnim
+{
+	BGRAPPLE_BREATHE = 0,
+	BGRAPPLE_LONGIDLE,
+	BGRAPPLE_SHORTIDLE,
+	BGRAPPLE_COUGH,
+	BGRAPPLE_DOWN,
+	BGRAPPLE_UP,
+	BGRAPPLE_FIRE,
+	BGRAPPLE_FIREWAITING,
+	BGRAPPLE_FIREREACHED,
+	BGRAPPLE_FIRETRAVEL,
+	BGRAPPLE_FIRERELEASE
+};
+
 /* OP4-MERGE bullet ids (verbatim OP4 dlls/weapons.h Bullet enum tail).
  * BHL's client ev_hldm.h stops at BULLET_MONSTER_12MM; these extend it
  * without editing that stable header: EV_HLDM_DecalGunshot/CheckTracer

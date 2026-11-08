@@ -4,11 +4,11 @@
     "commit": "4d32095e3c33",
     "files": 694,
     "license": "GPL-3.0",
-    "merged_files": 16,
+    "merged_files": 17,
     "repo": "tmp64/BugfixedHL-Rebased",
-    "tree_sha256": "7b167761d23d2ae641ef14c585ad977433a35f3fe088765056d31a16ad457fbe",
+    "tree_sha256": "2b77e2fcc67f9384b28e4e7dff7e9e2b0fd858321a852540a60fb2911b1953d9",
     "tree_sha256_note": "sha256 over sorted '<path>  <file sha256>' for every BHL-origin file on disk; verified by --check",
-    "verbatim_files": 678
+    "verbatim_files": 677
   },
   "cmake": {
     "src/game/client/CMakeLists.txt": [
@@ -2114,7 +2114,7 @@
         "op4-client-weapon-event-hooks"
       ],
       "origin": "bugfixhl",
-      "sha256": "28638be60ab8ac2c2e3f6fe8001fc04c162294fc8ab3761b7620ec2e5876d9fb"
+      "sha256": "61b49bdf1e824e287b69f8b694f289130f1e5f94444dc38d6a9eb66786824a24"
     },
     "src/game/client/hl/hl_objects.cpp": {
       "action": "verbatim",
@@ -2123,10 +2123,13 @@
       "sha256": "f49691908f6c6c8621a4d5e191c54d86c7568e672576fb4dc680d2561b3cce6a"
     },
     "src/game/client/hl/hl_weapons.cpp": {
-      "action": "verbatim",
+      "action": "bhl+op4-merge",
       "commit": "4d32095e3c33",
+      "merge_rules": [
+        "op4-client-setlocalbody"
+      ],
       "origin": "bugfixhl",
-      "sha256": "41e98ccdadf0958b85b4e1492f964e7ace9a82e677061a83fd82c20f68bbfa9a"
+      "sha256": "eb6b2d7c098d5cdcfd26b39f8559be7b4e0d85782a3d91ec20d2ff3ee7e8cd6d"
     },
     "src/game/client/hud.cpp": {
       "action": "verbatim",
@@ -2802,13 +2805,13 @@
       "action": "compat-glue",
       "commit": null,
       "origin": "this-repo",
-      "sha256": "1eadea679b1437b78e5cc471bc11c209cc5ce8df269b64694b735765ff69d3ee"
+      "sha256": "b121a6441aa56b49a3c056f17729cf5579d10b814216de0b73acdadc6692cbee"
     },
     "src/game/client/op4/op4_weapon_events.h": {
       "action": "compat-glue",
       "commit": null,
       "origin": "this-repo",
-      "sha256": "aa40795442ad5a5b6af6b8cb51656adf73599d754dc1a01f6641e2a2b69d8028"
+      "sha256": "14091315dd7c9c6a7a81ff8928454632edf7d51b395d34516b7c1c157b8d114b"
     },
     "src/game/client/op4/overview.cpp": {
       "action": "verbatim",
@@ -7274,7 +7277,7 @@
         "op4-wprecache-op4-weapons"
       ],
       "origin": "bugfixhl",
-      "sha256": "29a18b2a6eed125f3c066a17c09dbc6fce0932d4bebc48db7c919e2452d27003"
+      "sha256": "7e5d25211f15c65857e08e84ef7c68e63f4499ac201400c66fa2b810d1561170"
     },
     "src/game/server/weapons.h": {
       "action": "bhl+op4-merge",

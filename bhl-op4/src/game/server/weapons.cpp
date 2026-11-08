@@ -379,6 +379,20 @@ void EXPORT W_Precache(void)
 	/* OP4-MERGE: OP4 dlls/weapons.cpp weapon registration (additive) */
 	UTIL_PrecacheOtherWeapon("weapon_eagle");
 	UTIL_PrecacheOtherWeapon("weapon_pipewrench");
+	UTIL_PrecacheOtherWeapon("weapon_m249");
+	UTIL_PrecacheOtherWeapon("weapon_displacer");
+	UTIL_PrecacheOtherWeapon("weapon_shockrifle");
+	UTIL_PrecacheOtherWeapon("weapon_sporelauncher");
+	UTIL_PrecacheOtherWeapon("weapon_sniperrifle");
+	UTIL_PrecacheOtherWeapon("weapon_knife");
+	UTIL_PrecacheOtherWeapon("weapon_penguin");
+	UTIL_PrecacheOtherWeapon("weapon_grapple");
+	UTIL_PrecacheOther("ammo_556");
+	UTIL_PrecacheOther("ammo_spore");
+	UTIL_PrecacheOther("ammo_762");
+	PRECACHE_SOUND("weapons/spore_hit1.wav");
+	PRECACHE_SOUND("weapons/spore_hit2.wav");
+	PRECACHE_SOUND("weapons/spore_hit3.wav");
 
 	g_sModelIndexFireball = PRECACHE_MODEL("sprites/zerogxplode.spr"); // fireball
 	g_sModelIndexWExplosion = PRECACHE_MODEL("sprites/WXplo1.spr"); // underwater fireball

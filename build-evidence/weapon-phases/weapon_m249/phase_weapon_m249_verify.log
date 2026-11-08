@@ -1,0 +1,314 @@
+python3 tools/check_hygiene.py
+hygiene: OK (152 text files checked)
+python3 -m unittest discover -s tests -p 'test_*.py' -v
+python3 tools/gen_route_header.py --check
+src/speedrun/sr_route_data.h is in sync with data/op4_route.json
+python3 -m merge.cli route --check
+OK: 13 chapters, 39 maps, 5 boot camp maps, C++ header in sync
+g++ -std=c++17 -fno-exceptions -Isrc/speedrun -fsyntax-only src/speedrun/sr_core.cpp
+mkdir -p build
+g++ -std=c++17 -O2 -Wall -Wextra -Wpedantic -Isrc/speedrun \
+	src/speedrun/sr_core.cpp tests/cpp/test_speedrun.cpp -o build/speedrun_test
+./build/speedrun_test
+speedrun core: 77 checks, 0 failure(s)
+mkdir -p build
+g++ -std=c++17 -O1 -Wall -Wextra -Wpedantic tests/cpp/test_op4_algorithms.cpp -o build/op4_algorithm_test
+./build/op4_algorithm_test
+== real OP4 algorithm functional tests ==
+OP4 dlls/weapons.cpp:1069-1099 GetNextAttackDelay:
+  [PASS] first shot returns timeBase + delay (10.5)
+  [PASS] first shot stores lastFireTime
+  [PASS] first shot stores prevPrimaryAttack
+  [PASS] rapid fire: negative creep (-0.4) -> 11.0
+  [PASS] rapid fire: prevPrimaryAttack = 0.9
+  [PASS] slow fire: positive creep (+0.5) -> 11.5
+  [PASS] slow fire: prevPrimaryAttack = 0.0
+  [PASS] client-stopped reset ignores stale prevPrimaryAttack
+  [PASS] reset stores lastFireTime
+  [PASS] reset stores prevPrimaryAttack
+OP4 dlls/util.h:597-735 UTIL_FindEntitiesByClassname:
+  [PASS] enumerates every matching classname in order (0,2,4)
+  [PASS] no match yields an empty range
+  [PASS] start-entity overload resumes after the given entity
+  [PASS] targetname enumerator filters correctly
+== ALL OP4 ALGORITHM TESTS PASSED ==
+mkdir -p build
+python3 tools/gen_op4_fixup_harness.py
+  extracted OP4_RegisterGameDLLHooks                1308 bytes
+  extracted CWorld::CWorld                           135 bytes
+  extracted CWorld::~CWorld                           76 bytes
+  extracted CBaseMonster::AddShockEffect             752 bytes
+  extracted CBaseMonster::UpdateShockEffect          415 bytes
+  extracted CBaseMonster::ClearShockEffect           357 bytes
+  extracted SendFlagIcon                             594 bytes
+  extracted SendFlagIcons                           1177 bytes
+  extracted DisplayTeamFlags                         717 bytes
+  extracted GetLosingTeam                            345 bytes
+  extracted GetTeamName                              599 bytes
+  extracted IsFacing                                 420 bytes
+  extracted CRope::DetachObject                       93 bytes
+  extracted CTFGoalFlag::DropFlag                    682 bytes
+  wrote build/op4_fixup_harness.cpp
+g++ -std=c++17 -O1 -Wall -Wextra -Wpedantic build/op4_fixup_harness.cpp -o build/op4_fixup_harness
+./build/op4_fixup_harness
+== executable tests of the real OP4 fixup bodies ==
+OP4 game.cpp:1189-1193 / UserMessages.cpp:75:
+  [PASS] 9 real OP4 cvars registered
+  [PASS] oldgrapple has OP4's real name/default
+  [PASS] oldweapons has OP4's real name/default
+  [PASS] multipower has OP4's real name/default
+  [PASS] ctfplay has OP4's real name/default
+  [PASS] coopweprespawn has OP4's real name/default
+  [PASS] FlagIcon user message registered into gmsgFlagIcon
+  [PASS] 13 OP4-only user messages registered
+  [PASS] SetMenuTeam user message registered
+  [PASS] CTFScore user message registered
+OP4 world.cpp:483-501 CWorld singleton:
+  [PASS] World starts null
+  [PASS] ctor sets World = this
+  [PASS] second worldspawn does not steal the singleton
+  [PASS] dtor of a non-owner leaves World intact
+  [PASS] dtor of the owner clears World
+OP4 monsters.cpp:3448-3503 CBaseMonster shock effect:
+  [PASS] AddShockEffect activates the effect
+  [PASS] AddShockEffect applies OP4's glow-shell colour/size
+  [PASS] AddShockEffect sets kRenderFxGlowShell / kRenderNormal
+  [PASS] AddShockEffect stores duration and start time
+  [PASS] re-application accumulates duration
+  [PASS] effect still active before duration expires
+  [PASS] UpdateShockEffect expires the effect
+  [PASS] UpdateShockEffect restores the original render state
+  [PASS] ClearShockEffect restores the original render state immediately
+OP4 rope/CRope.cpp CRope::DetachObject:
+  [PASS] object attached before detach
+  [PASS] DetachObject clears m_bObjectAttached
+  [PASS] DetachObject records gpGlobals->time
+OP4 ctfplay_gamerules.cpp:126-138 GetLosingTeam:
+  [PASS] losing team 1 with score diff 3
+  [PASS] equal scores -> no losing team
+OP4 ctfplay_gamerules.cpp:92-112 GetTeamName:
+  [PASS] CTF mode returns OP4's real team name
+  [PASS] CTF mode returns Black Mesa for team 1
+  [PASS] teamplay DM returns the player model
+  [PASS] otherwise returns the engine user id
+OP4 ctfplay_gamerules.cpp:141-263 DisplayTeamFlags:
+  [PASS] no HUD traffic when FlagIcon is unregistered
+  [PASS] 2 players x 2 team flag icons = 4 messages
+  [PASS] each message carries the real team score
+  [PASS] BM score icon name is OP4's default
+OP4 ctf/CTFGoalFlag.cpp CTFGoalFlag::DropFlag:
+  [PASS] DropFlag clears the carrier's m_pFlag
+  [PASS] DropFlag removes both flag bits, keeps other items
+  [PASS] DropFlag sets OP4 goal state 3 (dropped)
+  [PASS] DropFlag calls the real DoDrop once
+  [PASS] DropFlag uses OP4's non-ducking height 16 (30+16)
+  [PASS] DropFlag sets SOLID_TRIGGER / MOVETYPE_NONE
+  [PASS] DropFlag clears owner and aiment
+  [PASS] DropFlag resets animation to the OP4 'not_carried' sequence
+  [PASS] DropFlag refreshes team flag HUD icons
+  [PASS] DropFlag uses OP4's ducking height 34 (30+34)
+OP4 h_ai.cpp:196-210 IsFacing:
+  [PASS] target dead ahead -> facing
+  [PASS] target 5.7 degrees off -> facing
+  [PASS] target 16.7 degrees off -> outside OP4's 0.96 cone
+  [PASS] target behind -> not facing
+  [PASS] IsFacing zeroes Z (OP4's 2-D cone), large height ignored
+  [PASS] target directly overhead -> zero 2-D direction -> not facing
+  [PASS] yaw 90 degrees -> facing +Y
+  [PASS] yaw 90 degrees -> +X is not facing
+== ALL OP4 FIXUP BODY TESTS PASSED ==
+python3 -m merge.bhl_base --check --out bhl-op4
+  base(BHL)   : 694 files (677 verbatim, 17 merged)
+  added(OP4)  : 154 files
+  glue        : 10 files
+  provenance  : 858 entries
+  == BHL-BASE PROVENANCE OK ==
+python3 tools/verify_bhl_base.py --check
+  compile:       68/71 clean, 3 port-pending
+  client glue:   1/1 client weapon-event TUs compile
+  BHL sources:   101/106 verbatim BHL server .cpp compile
+  BHL base:      694 files
+  OP4 merged:    154 files
+  glue:          10 files
+  CMake wired:   67 sources
+  port pending:  26 sources
+  == BHL-BASE TREE OK ==
+python3 -m merge.cli run --offline
+mode=offline  tree=/home/user/Bugfixhl-speedrun-op4/build/merged  files=36  tree_sha256=0277dc097a7e3ff6...
+  merged=0 unchanged=0 conflicts=0 deferred=0 added=15 injected=10 generated=2 patched=4
+  anchor_drift=0 missing=0 errors=0
+report: /home/user/Bugfixhl-speedrun-op4/build/merged/MERGE_REPORT.md
+python3 -m merge.bhl --tree build/merged
+BHL merge: tree=/home/user/Bugfixhl-speedrun-op4/build/merged  copied=16 injections_added=11 build_files_patched=4
+  systems=7  report: /home/user/Bugfixhl-speedrun-op4/build/merged/BHL_MERGE_REPORT.json
+python3 tools/package_mod.py
+wrote /home/user/Bugfixhl-speedrun-op4/dist/bhl-op4-speedrun-overlay.zip (30613 bytes, 27 files)
+sha256=ee69c47e789bcf60a5f9c97a913829a6feafd546ec93113948c9e7c01a60ed6e
+python3 tools/create_mod.py
+wrote /home/user/Bugfixhl-speedrun-op4/dist/bhlop4 (9 files)
+wrote /home/user/Bugfixhl-speedrun-op4/dist/bhl-op4-mod.zip (9354891 bytes, sha256=87b5f5b12fc0710a…)
+== ALL CHECKS PASSED ==
+
+=== STDERR ===
+test_all_equivalences_found (test_audit.AuditTests.test_all_equivalences_found) ... ok
+test_invalid_regex_rejected_by_manifest_validation (test_audit.AuditTests.test_invalid_regex_rejected_by_manifest_validation) ... ok
+test_missing_equivalence_is_reported_not_hidden (test_audit.AuditTests.test_missing_equivalence_is_reported_not_hidden) ... ok
+test_regex_expectation (test_audit.AuditTests.test_regex_expectation) ... ok
+test_shipped_plan_audits_are_three (test_audit.AuditTests.test_shipped_plan_audits_are_three) ... ok
+test_01_architecture_is_bhl_first (test_bhl_base.BhlBaseTreeTests.test_01_architecture_is_bhl_first) ... ok
+test_02_every_provenance_entry_matches_disk (test_bhl_base.BhlBaseTreeTests.test_02_every_provenance_entry_matches_disk) ... ok
+test_03_no_conflict_markers_in_tree (test_bhl_base.BhlBaseTreeTests.test_03_no_conflict_markers_in_tree) ... ok
+test_04_driver_check_passes (test_bhl_base.BhlBaseTreeTests.test_04_driver_check_passes) ... ok
+test_05_every_cmake_wired_source_compiled_clean (test_bhl_base.BhlBaseTreeTests.test_05_every_cmake_wired_source_compiled_clean) ... ok
+test_06_all_op4_weapons_compile_into_elf32_objects (test_bhl_base.BhlBaseTreeTests.test_06_all_op4_weapons_compile_into_elf32_objects) ... ok
+test_07_verbatim_bhl_files_still_match_pinned_upstream (test_bhl_base.BhlBaseTreeTests.test_07_verbatim_bhl_files_still_match_pinned_upstream) ... ok
+test_08_merged_headers_carry_both_bhl_and_op4 (test_bhl_base.BhlBaseTreeTests.test_08_merged_headers_carry_both_bhl_and_op4) ... ok
+test_09_glue_is_explicitly_labelled (test_bhl_base.BhlBaseTreeTests.test_09_glue_is_explicitly_labelled) ... ok
+test_10_port_pending_matches_documented_count (test_bhl_base.BhlBaseTreeTests.test_10_port_pending_matches_documented_count) ... ok
+test_11_base_tree_fingerprint_matches_disk (test_bhl_base.BhlBaseTreeTests.test_11_base_tree_fingerprint_matches_disk) ... ok
+test_12_verbatim_bhl_server_sources_compile (test_bhl_base.BhlBaseTreeTests.test_12_verbatim_bhl_server_sources_compile) ... ok
+test_bhl_merge_documents_the_correction (test_bhl_merge.BhlMergeTests.test_bhl_merge_documents_the_correction) ... ok
+test_bhl_sources_carry_gpl_provenance (test_bhl_merge.BhlMergeTests.test_bhl_sources_carry_gpl_provenance) ... ok
+test_install_guide_explains_the_merge_not_the_addon (test_bhl_merge.BhlMergeTests.test_install_guide_explains_the_merge_not_the_addon) ... ok
+test_merge_bhl_applies_systems_and_compat_to_a_tree (test_bhl_merge.BhlMergeTests.test_merge_bhl_applies_systems_and_compat_to_a_tree) ... ok
+test_merge_plan_lists_all_bhl_subsystems (test_bhl_merge.BhlMergeTests.test_merge_plan_lists_all_bhl_subsystems) ... ok
+test_real_bhl_systems_are_present (test_bhl_merge.BhlMergeTests.test_real_bhl_systems_are_present) ... ok
+test_shipped_binaries_contain_the_bhl_systems (test_bhl_merge.BhlMergeTests.test_shipped_binaries_contain_the_bhl_systems) ... ok
+test_speedrun_cfg_enables_the_bhl_systems_by_default (test_bhl_merge.BhlMergeTests.test_speedrun_cfg_enables_the_bhl_systems_by_default) ... ok
+test_build_refuses_when_toolchain_missing (test_build_dlls.ArtifactTests.test_build_refuses_when_toolchain_missing) ... ok
+test_check_mode_is_json_and_does_not_build (test_build_dlls.ArtifactTests.test_check_mode_is_json_and_does_not_build) ... ok
+test_elf32_detection (test_build_dlls.ArtifactTests.test_elf32_detection) ... ok
+test_manifest_and_install (test_build_dlls.ArtifactTests.test_manifest_and_install) ... ok
+test_downloadable_binaries_match_manifest (test_build_dlls.CommittedBinaryTests.test_downloadable_binaries_match_manifest) ... ok
+test_blockers_are_honest (test_build_dlls.PreflightTests.test_blockers_are_honest) ... ok
+test_complete_tree_is_ready (test_build_dlls.PreflightTests.test_complete_tree_is_ready) ... ok
+test_explicit_vgui_wins (test_build_dlls.PreflightTests.test_explicit_vgui_wins) ... ok
+test_missing_build_file_is_flagged (test_build_dlls.PreflightTests.test_missing_build_file_is_flagged) ... ok
+test_missing_source_is_flagged (test_build_dlls.PreflightTests.test_missing_source_is_flagged) ... ok
+test_unpatched_build_file_is_flagged (test_build_dlls.PreflightTests.test_unpatched_build_file_is_flagged) ... ok
+test_config_stdout (test_cli.CliTests.test_config_stdout) ... ok
+test_plan (test_cli.CliTests.test_plan) ... ok
+test_route_check (test_cli.CliTests.test_route_check) ... ok
+test_run_offline_strict_json (test_cli.CliTests.test_run_offline_strict_json) ... ok
+test_run_without_fetched_upstreams_fails_clearly (test_cli.CliTests.test_run_without_fetched_upstreams_fails_clearly) ... ok
+test_duplicate_map_is_detected (test_configgen.ConfigGenTests.test_duplicate_map_is_detected) ... ok
+test_render_config_is_deterministic_and_legal (test_configgen.ConfigGenTests.test_render_config_is_deterministic_and_legal) ... ok
+test_shipped_route_is_valid (test_configgen.ConfigGenTests.test_shipped_route_is_valid) ... ok
+test_write_config (test_configgen.ConfigGenTests.test_write_config) ... ok
+test_build_is_deterministic (test_create_mod.ModContentTests.test_build_is_deterministic) ... ok
+test_build_produces_folder_zip_and_valid_manifest (test_create_mod.ModContentTests.test_build_produces_folder_zip_and_valid_manifest) ... ok
+test_liblist_points_at_gearbox_not_a_valve_dir (test_create_mod.ModContentTests.test_liblist_points_at_gearbox_not_a_valve_dir) ... ok
+test_non_elf32_binary_is_refused (test_create_mod.ModContentTests.test_non_elf32_binary_is_refused) ... ok
+test_valve_dir_name_is_refused_by_build (test_create_mod.ModContentTests.test_valve_dir_name_is_refused_by_build) ... ok
+test_every_valve_prefix_is_rejected (test_create_mod.ModNameTests.test_every_valve_prefix_is_rejected) ... ok
+test_invalid_characters_rejected (test_create_mod.ModNameTests.test_invalid_characters_rejected) ... ok
+test_prefix_list_matches_the_sdk_source (test_create_mod.ModNameTests.test_prefix_list_matches_the_sdk_source) ... ok
+test_safe_names_accepted (test_create_mod.ModNameTests.test_safe_names_accepted) ... ok
+test_fail_policy_records_error (test_engine.ConflictPolicyTests.test_fail_policy_records_error) ... ok
+test_marker_policy_quarantines (test_engine.ConflictPolicyTests.test_marker_policy_quarantines) ... ok
+test_ours_policy_defers (test_engine.ConflictPolicyTests.test_ours_policy_defers) ... ok
+test_strict_fails_on_anchor_drift (test_engine.ConflictPolicyTests.test_strict_fails_on_anchor_drift) ... ok
+test_theirs_policy (test_engine.ConflictPolicyTests.test_theirs_policy) ... ok
+test_build_files_include_all_new_sources (test_engine.OfflineMergeTests.test_build_files_include_all_new_sources) ... ok
+test_equivalence_audits_recorded_with_evidence (test_engine.OfflineMergeTests.test_equivalence_audits_recorded_with_evidence) ... ok
+test_finished_report_has_no_outstanding_work (test_engine.OfflineMergeTests.test_finished_report_has_no_outstanding_work) ... ok
+test_generated_config_and_route (test_engine.OfflineMergeTests.test_generated_config_and_route) ... ok
+test_injects_are_on_their_own_lines (test_engine.OfflineMergeTests.test_injects_are_on_their_own_lines) ... ok
+test_no_conflict_markers_in_buildable_sources (test_engine.OfflineMergeTests.test_no_conflict_markers_in_buildable_sources) ... ok
+test_op4_only_content_survives (test_engine.OfflineMergeTests.test_op4_only_content_survives) ... ok
+test_ported_gpl_files_are_quarantined_with_banner (test_engine.OfflineMergeTests.test_ported_gpl_files_are_quarantined_with_banner) ... ok
+test_report_written_and_json_matches (test_engine.OfflineMergeTests.test_report_written_and_json_matches) ... ok
+test_tree_hash_is_deterministic (test_engine.OfflineMergeTests.test_tree_hash_is_deterministic) ... ok
+test_client_draws_brand_banner_without_waiting_for_a_split (test_hud_visibility.HudVisibilityTests.test_client_draws_brand_banner_without_waiting_for_a_split) ... ok
+test_client_registers_cvars_with_visible_defaults (test_hud_visibility.HudVisibilityTests.test_client_registers_cvars_with_visible_defaults) ... ok
+test_client_timer_starts_at_init (test_hud_visibility.HudVisibilityTests.test_client_timer_starts_at_init) ... ok
+test_install_guide_explains_how_to_verify_the_dlls_are_loaded (test_hud_visibility.HudVisibilityTests.test_install_guide_explains_how_to_verify_the_dlls_are_loaded) ... ok
+test_manifest_matches_the_rebuilt_binaries (test_hud_visibility.HudVisibilityTests.test_manifest_matches_the_rebuilt_binaries) ... ok
+test_mod_folder_zip_uses_the_new_binaries (test_hud_visibility.HudVisibilityTests.test_mod_folder_zip_uses_the_new_binaries) ... ok
+test_server_registers_cvars_and_status_command (test_hud_visibility.HudVisibilityTests.test_server_registers_cvars_and_status_command) ... ok
+test_shipped_binaries_contain_the_visible_markers (test_hud_visibility.HudVisibilityTests.test_shipped_binaries_contain_the_visible_markers) ... ok
+test_speedrun_cfg_ships_the_banner_cvar (test_hud_visibility.HudVisibilityTests.test_speedrun_cfg_ships_the_banner_cvar) ... ok
+test_broken_link_is_detected (test_hygiene.HygieneTests.test_broken_link_is_detected) ... ok
+test_repository_is_clean (test_hygiene.HygieneTests.test_repository_is_clean) ... ok
+test_site_absolute_links_are_not_treated_as_files (test_hygiene.HygieneTests.test_site_absolute_links_are_not_treated_as_files) ... ok
+test_bhl_to_classic (test_layout.LayoutTests.test_bhl_to_classic) ... ok
+test_normalises_backslashes (test_layout.LayoutTests.test_normalises_backslashes) ... ok
+test_rewrite_includes_default_layout (test_layout.LayoutTests.test_rewrite_includes_default_layout) ... ok
+test_rewrite_includes_explicit_rule_wins (test_layout.LayoutTests.test_rewrite_includes_explicit_rule_wins) ... ok
+test_round_trip (test_layout.LayoutTests.test_round_trip) ... ok
+test_safe_relative (test_layout.LayoutTests.test_safe_relative) ... ok
+test_missing_file_raises (test_manifest.ManifestTests.test_missing_file_raises) ... ok
+test_pins_are_full_shas_with_checksums (test_manifest.ManifestTests.test_pins_are_full_shas_with_checksums) ... ok
+test_rule_ids_unique (test_manifest.ManifestTests.test_rule_ids_unique) ... ok
+test_shipped_plan_is_valid (test_manifest.ManifestTests.test_shipped_plan_is_valid) ... ok
+test_split_spec (test_manifest.ManifestTests.test_split_spec) ... ok
+test_three_way_requires_all_inputs_and_valid_policy (test_manifest.ManifestTests.test_three_way_requires_all_inputs_and_valid_policy) ... ok
+test_validation_catches_bad_rules (test_manifest.ManifestTests.test_validation_catches_bad_rules) ... ok
+test_every_document_renders (test_markdown.DocumentStoreTests.test_every_document_renders) ... ok
+test_index_and_whitelist (test_markdown.DocumentStoreTests.test_index_and_whitelist) ... ok
+test_readme_is_fully_rendered (test_markdown.DocumentStoreTests.test_readme_is_fully_rendered) ... ok
+test_code_span_inside_link_label_stays_intact (test_markdown.MarkdownRendererTests.test_code_span_inside_link_label_stays_intact) ... ok
+test_external_and_internal_links (test_markdown.MarkdownRendererTests.test_external_and_internal_links) ... ok
+test_headings_toc_and_duplicate_slugs (test_markdown.MarkdownRendererTests.test_headings_toc_and_duplicate_slugs) ... ok
+test_html_is_escaped (test_markdown.MarkdownRendererTests.test_html_is_escaped) ... ok
+test_relative_links_resolve_from_the_doc_directory (test_markdown.MarkdownRendererTests.test_relative_links_resolve_from_the_doc_directory) ... ok
+test_site_absolute_download_link_stays_clickable (test_markdown.MarkdownRendererTests.test_site_absolute_download_link_stays_clickable) ... ok
+test_tables_lists_quotes_and_fences (test_markdown.MarkdownRendererTests.test_tables_lists_quotes_and_fences) ... ok
+test_unsafe_url_never_becomes_a_link (test_markdown.MarkdownRendererTests.test_unsafe_url_never_becomes_a_link) ... ok
+test_01_manifest_reports_zero_own_build_gaps (test_op4_link_fixups.LinkGapClosureTests.test_01_manifest_reports_zero_own_build_gaps) ... ok
+test_02_all_12_symbols_are_defined_and_no_longer_undefined (test_op4_link_fixups.LinkGapClosureTests.test_02_all_12_symbols_are_defined_and_no_longer_undefined) ... ok
+test_03_code_bodies_are_real_not_empty_stubs (test_op4_link_fixups.LinkGapClosureTests.test_03_code_bodies_are_real_not_empty_stubs) ... ok
+test_04_data_symbols_have_nonzero_size (test_op4_link_fixups.LinkGapClosureTests.test_04_data_symbols_have_nonzero_size) ... ok
+test_05_provenance_of_every_fixup_is_recorded (test_op4_link_fixups.LinkGapClosureTests.test_05_provenance_of_every_fixup_is_recorded) ... ok
+test_06_bhl_changes_are_declared_and_reasoned (test_op4_link_fixups.LinkGapClosureTests.test_06_bhl_changes_are_declared_and_reasoned) ... ok
+test_07_real_upstream_bodies_back_the_fixups (test_op4_link_fixups.LinkGapClosureTests.test_07_real_upstream_bodies_back_the_fixups)
+Key statements from the pinned OP4 sources must be present verbatim. ... ok
+test_08_new_fixups_are_defined_with_real_bodies (test_op4_link_fixups.LinkGapClosureTests.test_08_new_fixups_are_defined_with_real_bodies)
+The two new gap closures must be real code, not undefined/stubs. ... ok
+test_09_newly_wired_sources_are_real_op4_files (test_op4_link_fixups.LinkGapClosureTests.test_09_newly_wired_sources_are_real_op4_files)
+The 7 additional wired files are verbatim OP4, not glue copies. ... ok
+test_10_real_ctf_rules_are_wired_and_isctf_is_live (test_op4_link_fixups.LinkGapClosureTests.test_10_real_ctf_rules_are_wired_and_isctf_is_live)
+The real OP4 CTF rules file must be wired, own its symbols once, and ... ok
+test_01_server_registers_each_weapon (test_op4_weapons.Op4WeaponIntegrationTests.test_01_server_registers_each_weapon)
+W_Precache must precache every merged OP4 weapon (else no WeaponList). ... ok
+test_02_client_hooks_each_weapon_event (test_op4_weapons.Op4WeaponIntegrationTests.test_02_client_hooks_each_weapon_event)
+Game_HookEvents must route each OP4 .sc script to its callback. ... ok
+test_03_event_bodies_are_verbatim_op4 (test_op4_weapons.Op4WeaponIntegrationTests.test_03_event_bodies_are_verbatim_op4)
+The shipped callback is byte-for-byte OP4's, not a rewrite/stub. ... ok
+test_04_merges_are_declared_by_name (test_op4_weapons.Op4WeaponIntegrationTests.test_04_merges_are_declared_by_name) ... ok
+test_05_elf32_symbols_are_real_and_non_empty (test_op4_weapons.Op4WeaponIntegrationTests.test_05_elf32_symbols_are_real_and_non_empty)
+client.so owns the event callback; hl.so owns the weapon class. ... ok
+test_06_link_has_no_own_build_gaps (test_op4_weapons.Op4WeaponIntegrationTests.test_06_link_has_no_own_build_gaps) ... ok
+test_07_this_is_not_an_in_game_test (test_op4_weapons.Op4WeaponIntegrationTests.test_07_this_is_not_an_in_game_test)
+Guard against accidentally claiming runtime proof. ... ok
+test_every_declared_input_exists (test_package.PackageTests.test_every_declared_input_exists) ... ok
+test_no_upstream_sdk_code_is_packaged (test_package.PackageTests.test_no_upstream_sdk_code_is_packaged) ... ok
+test_package_contents_and_manifest (test_package.PackageTests.test_package_contents_and_manifest) ... ok
+test_package_is_deterministic_without_report (test_package.PackageTests.test_package_is_deterministic_without_report) ... ok
+test_report_timestamp_does_not_break_determinism (test_package.PackageTests.test_report_timestamp_does_not_break_determinism) ... ok
+test_makefile_is_idempotent (test_projects.ProjectPatchTests.test_makefile_is_idempotent) ... ok
+test_missing_anchor_raises (test_projects.ProjectPatchTests.test_missing_anchor_raises) ... ok
+test_patch_tree_on_fixture (test_projects.ProjectPatchTests.test_patch_tree_on_fixture) ... ok
+test_vcxproj_is_idempotent_and_valid_xml (test_projects.ProjectPatchTests.test_vcxproj_is_idempotent_and_valid_xml) ... ok
+test_boot_camp_is_a_separate_category (test_route.RouteTests.test_boot_camp_is_a_separate_category) ... ok
+test_chapter_order_and_ids (test_route.RouteTests.test_chapter_order_and_ids) ... ok
+test_counts_in_header (test_route.RouteTests.test_counts_in_header) ... ok
+test_every_map_in_header (test_route.RouteTests.test_every_map_in_header) ... ok
+test_generated_header_in_sync (test_route.RouteTests.test_generated_header_in_sync) ... ok
+test_clean_tree (test_verify_sdk.VerifySdkTests.test_clean_tree) ... ok
+test_markers_detected (test_verify_sdk.VerifySdkTests.test_markers_detected) ... ok
+test_real_merged_tree_is_clean (test_verify_sdk.VerifySdkTests.test_real_merged_tree_is_clean) ... ok
+test_all_documents_are_renderable (test_web.WebTests.test_all_documents_are_renderable) ... ok
+test_all_js_element_ids_exist_in_html (test_web.WebTests.test_all_js_element_ids_exist_in_html) ... ok
+test_api_paths_in_js_are_served (test_web.WebTests.test_api_paths_in_js_are_served) ... ok
+test_dashboard_binds_all_interfaces (test_web.WebTests.test_dashboard_binds_all_interfaces) ... ok
+test_doc_payload_renders_readme (test_web.WebTests.test_doc_payload_renders_readme) ... ok
+test_docs_payload_lists_all_documents (test_web.WebTests.test_docs_payload_lists_all_documents) ... ok
+test_static_assets_exist (test_web.WebTests.test_static_assets_exist) ... ok
+test_status_payload (test_web.WebTests.test_status_payload) ... ok
+test_unknown_document_is_rejected (test_web.WebTests.test_unknown_document_is_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 148 tests in 10.233s
+
+OK

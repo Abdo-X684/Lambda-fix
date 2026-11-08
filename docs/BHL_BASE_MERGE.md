@@ -22,7 +22,7 @@
 
 | الطبقة | المصدر | عدد الملفات | الحالة |
 | --- | --- | --- | --- |
-| **BASE** | `tmp64/BugfixedHL-Rebased @ 4d32095e3c33` (GPL-3.0) | **694** | **678 ملفاً حرفياً** (مطابقة بايت-ببايت للـ commit) + 16 ملفاً عليها دمج معلن |
+| **BASE** | `tmp64/BugfixedHL-Rebased @ 4d32095e3c33` (GPL-3.0) | **694** | **677 ملفاً حرفياً** (مطابقة بايت-ببايت للـ commit) + 17 ملفاً عليها دمج معلن |
 | **ADD / MERGE** | `twhl-community/halflife-op4-updated @ 5368be7f8eba` | **154** | أسلحة، CTF، rope، كيانات OP4، أحداث العميل |
 | **GLUE** | هذا المستودع | **10** | `op4_compat.h`, `op4_compat_late.h`, `op4_compat.cpp`, `op4_link_fixups.cpp`, `op4_entity_enumerator.h`, `op4_ctf_player.cpp`, `op4_weapon_timing.{h,cpp}`, `op4/op4_weapon_events.{h,cpp}` |
 | بيان المصدر | — | **858** مدخلاً | لكل ملف: الأصل، `commit`، `sha256`، `action`، أسماء القواعد |
