@@ -1,0 +1,11 @@
+--- original
++++ build-overlay
+@@ -397,7 +397,7 @@
+ {
+ 	std::filesystem::path p = m_fsFullGameDirPath;
+ 
+-	for (auto &i : relPath)
++	for (const auto &i : relPath)
+ 	{
+ 		using std::filesystem::file_type;
+ 

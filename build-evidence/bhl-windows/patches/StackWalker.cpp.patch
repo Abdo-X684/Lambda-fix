@@ -1,0 +1,16 @@
+--- 
++++ 
+@@ -89,5 +89,5 @@
+ #include <tchar.h>
+ #include <windows.h>
+-#include <new>
++#include "win_new_shim.h"
+ 
+ #pragma comment(lib, "version.lib") // for "VerQueryValue"
+@@ -232,5 +232,5 @@
+ 
+ // secure-CRT_functions are only available starting with VC8
+-#if _MSC_VER < 1400
++#if defined(_MSC_VER) && _MSC_VER < 1400
+ #define strcpy_s(dst, len, src) strcpy(dst, src)
+ #define strncpy_s(dst, len, src, maxLen) strncpy(dst, len, src)

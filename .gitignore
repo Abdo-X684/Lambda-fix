@@ -14,6 +14,11 @@ __pycache__/
 # (docs/BHL_BASE_BUILD.md). They are NOT the legacy dist/dlls binaries.
 !build-evidence/bhl-base/client.so
 !build-evidence/bhl-base/hl.so
+# The Windows PE32 twin is also deliberate, documented evidence
+# (docs/BHL_WINDOWS_BUILD.md). Linux files above remain untouched.
+!build-evidence/bhl-windows/client.dll
+!build-evidence/bhl-windows/hl.dll
+!build-evidence/bhl-windows/SDL2.lib
 CMakeFiles/
 CMakeCache.txt
 cmake_install.cmake

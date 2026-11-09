@@ -1,0 +1,20 @@
+--- original
++++ build-overlay
+@@ -139,8 +139,15 @@
+ {
+ 	std::swap( m_pMemory, mem.m_pMemory );
+     std::swap( m_nBlocks, mem.m_nBlocks );
+-    std::swap( m_nIndexMask, mem.m_nIndexMask );
+-    std::swap( m_nIndexShift, mem.m_nIndexShift );
++	/* BUILD-COMPAT: std::swap cannot bind a non-const reference to a bit-field
++	 * (C++ [dcl.init.ref]). Manual swap preserves the bit-field layout and the
++	 * semantics of CUtlBlockMemory::Swap. See docs/BHL_BASE_BUILD.md. */
++	int tmpMask = m_nIndexMask;
++	m_nIndexMask = mem.m_nIndexMask;
++	mem.m_nIndexMask = tmpMask;
++	int tmpShift = m_nIndexShift;
++	m_nIndexShift = mem.m_nIndexShift;
++	mem.m_nIndexShift = tmpShift;
+ }
+ 
+ 

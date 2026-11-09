@@ -1,0 +1,13 @@
+TEST KIND: build + link + source (NOT in-game)
+Windows PE32 client objects, OP4 weapon symbols:
+EV_FireEagle           _EV_FireEagle
+EV_Pipewrench          _EV_Pipewrench
+EV_FireM249            _EV_FireM249
+EV_FireDisplacer       _EV_FireDisplacer
+EV_FireShockRifle      _EV_FireShockRifle
+EV_FireSpore           _EV_FireSpore
+EV_SniperRifle         _EV_SniperRifle
+EV_Knife               _EV_Knife
+EV_PenguinFire         _EV_PenguinFire
+SetLocalBody           __Z12SetLocalBodyii
+g_iClub                _g_iClub

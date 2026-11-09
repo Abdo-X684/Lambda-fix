@@ -1,0 +1,32 @@
+{
+  "compile_units": 449,
+  "exports": {
+    "client.dll": 102,
+    "hl.dll": 716
+  },
+  "libraries": {
+    "client.dll": {
+      "bytes": 14618112,
+      "is_windows_dll": true,
+      "path": "build-evidence/bhl-windows/client.dll",
+      "pe32_i386": true,
+      "sha256": "cd3e192283d011511c0deb77566cd4fb6bfc3336066a1bc4090bbecaaa3d5509"
+    },
+    "hl.dll": {
+      "bytes": 13909504,
+      "is_windows_dll": true,
+      "path": "build-evidence/bhl-windows/hl.dll",
+      "pe32_i386": true,
+      "sha256": "4e635472b6a11f90cbd6561d44cabcaf3be95542aaa8d74d17aa13db81157af7"
+    }
+  },
+  "note": "Cross-compiled with Zig clang. The engine supplies SDL2.dll, tier0.dll, vstdlib.dll and steam_api.dll at load time. Windows-specific BHL sources and the external StackWalker crash-handler dependency are compiled from upstream.",
+  "op4_weapon_symbols": "OP4_SYMBOLS.txt (9 EV_* callbacks, SetLocalBody, g_iClub)",
+  "source_lists": {
+    "client": 139,
+    "server": 179
+  },
+  "target": "x86-windows-gnu / PE32 i386 (MinGW-style import libs)",
+  "test_kind": "compile + PE32 link (NOT an in-game / Windows runtime test)",
+  "tree": "bhl-op4 (same generated tree as the Linux build)"
+}

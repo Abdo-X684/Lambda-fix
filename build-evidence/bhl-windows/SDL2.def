@@ -1,0 +1,14 @@
+LIBRARY SDL2.dll
+EXPORTS
+    SDL_GL_GetProcAddress
+    SDL_GameControllerClose
+    SDL_GameControllerGetAxis
+    SDL_GameControllerGetButton
+    SDL_GameControllerName
+    SDL_GameControllerOpen
+    SDL_GetRelativeMouseState
+    SDL_IsGameController
+    SDL_JoystickUpdate
+    SDL_NumJoysticks
+    SDL_SetRelativeMouseMode
+    SDL_ShowSimpleMessageBox

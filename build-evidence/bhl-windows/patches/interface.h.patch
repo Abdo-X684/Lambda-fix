@@ -1,0 +1,11 @@
+--- pinned-SDK
++++ windows-overlay
+@@ -36,7 +36,7 @@
+ #pragma once
+ #endif
+ 
+-#ifdef _LINUX
++#if defined(_LINUX) && !defined(_WIN32)
+ #include <dlfcn.h> // dlopen,dlclose, et al
+ #include <unistd.h>
+ 

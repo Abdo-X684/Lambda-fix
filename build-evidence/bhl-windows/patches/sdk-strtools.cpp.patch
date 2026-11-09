@@ -1,0 +1,20 @@
+--- pinned-SDK
++++ windows-overlay
+@@ -46,7 +46,7 @@
+ #include <stdio.h>
+ #include <stdarg.h>
+ 
+-#ifdef POSIX
++#if defined(POSIX) && !defined(_WIN32)
+ #include <iconv.h>
+ #include <ctype.h>
+ #include <unistd.h>
+@@ -2924,7 +2924,7 @@
+ 		// Convert it to our local time
+ 		struct tm tmStruct;
+ 		struct tm tmToDisplay = *( Plat_localtime( ( const time_t* )&timeVal, &tmStruct ) );
+-#ifdef POSIX
++#if defined(POSIX) && !defined(_WIN32)
+ 		if ( pchDate != NULL )
+ 		{
+ 			pchDate[ 0 ] = 0;

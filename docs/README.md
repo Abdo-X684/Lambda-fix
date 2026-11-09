@@ -7,6 +7,7 @@
 | [BHL_BASE_MERGE.md](BHL_BASE_MERGE.md) | ✅ **المرجع المعماري الحالي**: BHL أساساً + دمج أنظمة/أسلحة OP4، قواعد الدمج، إثبات الترجمة، ما لم يُنجز |
 | [BHL_FINAL_AUDIT.md](BHL_FINAL_AUDIT.md) | 🛑 **التقرير النهائي**: إغلاق الـ12 رمزاً، البناء النهائي، كل اختبار ونتيجته، وقائمة النواقص صراحةً |
 | [BHL_BASE_BUILD.md](BHL_BASE_BUILD.md) | 🔧 **إثبات البناء الحقيقي**: أوامر/سجلات/بصمات بناء `client.so` و`hl.so` من `bhl-op4/`، صفر فجوة ربط، الإصلاحات المعلنة |
+| [BHL_WINDOWS_BUILD.md](BHL_WINDOWS_BUILD.md) | 🪟 **نسخة ويندوز**: `client.dll` / `hl.dll` PE32 من نفس الشجرة، مع إثبات البناء/الربط وحدوده الصريحة |
 | [LEGACY.md](LEGACY.md) | ⚠️ ما صُنّف قديماً (الثنائيات، الـ Release، `sr_*`، وثائق المرحلة السابقة) |
 | [BUILDING.md](BUILDING.md) | *(legacy)* بناء `client.so` / `hl.so` من شجرة OP4-أساس |
 | [ARCHITECTURE.md](ARCHITECTURE.md) | *(legacy)* طبقات المرحلة السابقة |

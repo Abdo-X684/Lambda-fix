@@ -1,0 +1,38 @@
+--- bhl-op4
++++ windows-overlay
+@@ -111,7 +111,7 @@
+ //static hlds_run wants to use this function
+ static void *Sys_GetProcAddress(const char *pModuleName, const char *pName)
+ {
+-	return GetProcAddress(GetModuleHandle(pModuleName), pName);
++	return (void *)GetProcAddress(GetModuleHandle(pModuleName), pName);
+ }
+ 
+ //-----------------------------------------------------------------------------
+@@ -123,7 +123,7 @@
+ void *Sys_GetProcAddress(void *pModuleHandle, const char *pName)
+ {
+ #if defined(_WIN32)
+-	return GetProcAddress((HINSTANCE)pModuleHandle, pName);
++	return (void *)GetProcAddress((HINSTANCE)pModuleHandle, pName);
+ #else
+ 	return GetProcAddress(pModuleHandle, pName);
+ #endif
+@@ -215,7 +215,7 @@
+ 
+ 	HMODULE hDLL = reinterpret_cast<HMODULE>(pModule);
+ #if defined(_WIN32)
+-	return reinterpret_cast<CreateInterfaceFn>(GetProcAddress(hDLL, CREATEINTERFACE_PROCNAME));
++	return (CreateInterfaceFn)GetProcAddress(hDLL, CREATEINTERFACE_PROCNAME);
+ #else
+ 	// Linux gives this error:
+ 	//../public/interface.cpp: In function `IBaseInterface *(*Sys_GetFactory
+@@ -249,7 +249,7 @@
+ CreateInterfaceFn Sys_GetFactory(const char *pModuleName)
+ {
+ #if defined(_WIN32)
+-	return static_cast<CreateInterfaceFn>(Sys_GetProcAddress(pModuleName, CREATEINTERFACE_PROCNAME));
++	return (CreateInterfaceFn)Sys_GetProcAddress(pModuleName, CREATEINTERFACE_PROCNAME);
+ #else
+ 	// Linux gives this error:
+ 	//../public/interface.cpp: In function `IBaseInterface *(*Sys_GetFactory

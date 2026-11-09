@@ -1,0 +1,40 @@
+--- pinned-SDK
++++ windows-overlay
+@@ -95,7 +95,7 @@
+ 
+ 
+ 
+-#ifdef POSIX
++#if defined(POSIX) && !defined(_WIN32)
+ // Linux doesn't have this function so this emulates its functionality
+ void *GetModuleHandle(const char *name)
+ {
+@@ -337,7 +337,7 @@
+ 
+ #ifdef _WIN32
+ 	FreeLibrary( hDLL );
+-#elif defined(POSIX)
++#elif defined(POSIX) && !defined(_WIN32)
+ 	dlclose((void *)hDLL);
+ #endif
+ }
+@@ -356,7 +356,7 @@
+ 	HMODULE	hDLL = reinterpret_cast<HMODULE>(pModule);
+ #ifdef _WIN32
+ 	return reinterpret_cast<CreateInterfaceFn>(GetProcAddress( hDLL, CREATEINTERFACE_PROCNAME ));
+-#elif defined(POSIX)
++#elif defined(POSIX) && !defined(_WIN32)
+ 	// Linux gives this error:
+ 	//../public/interface.cpp: In function `IBaseInterface *(*Sys_GetFactory
+ 	//(CSysModule *)) (const char *, int *)':
+@@ -385,8 +385,8 @@
+ CreateInterfaceFn Sys_GetFactory( const char *pModuleName )
+ {
+ #ifdef _WIN32
+-	return static_cast<CreateInterfaceFn>( Sys_GetProcAddress( pModuleName, CREATEINTERFACE_PROCNAME ) );
+-#elif defined(POSIX)
++	return (CreateInterfaceFn)Sys_GetProcAddress( pModuleName, CREATEINTERFACE_PROCNAME );
++#elif defined(POSIX) && !defined(_WIN32)
+ 	// see Sys_GetFactory( CSysModule *pModule ) for an explanation
+ 	return (CreateInterfaceFn)( Sys_GetProcAddress( pModuleName, CREATEINTERFACE_PROCNAME ) );
+ #endif

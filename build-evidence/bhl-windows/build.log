@@ -1,0 +1,46 @@
+=== bhl-op4 32-bit WINDOWS cross-build (Linux tree untouched) ===
+out  : /home/user/Bugfixhl-speedrun-op4/build-evidence/bhl-windows
+zig  : /tmp/zenv/lib/python3.11/site-packages/ziglang/zig (x86-windows-gnu / PE32 i386)
+[deps] nlohmann: nlohmann-json-3.11.3.tar.gz sha256=0d8ef5af7f9794e3263480193c491549b2ba6cc74bb018906202ada498a79406
+[deps] pcre: pcre-master.tar.gz sha256=5aa545145f0c5a584b54a34f04c2d61c01d31724d3fbae2ee20cd8e3c422594d
+[gen] appversion.h from bhl-op4/src/common/appversion.h.in
+[gen] PCRE1 config.h / pcre.h from pcre.h.generic, config.h.generic
+[compat] 3 build fixes written to /home/user/Bugfixhl-speedrun-op4/build-evidence/bhl-windows/patches
+[compat] Windows build overlays written to /home/user/Bugfixhl-speedrun-op4/build-evidence/bhl-windows/patches
+[cmake] client=139 server=179 common=8 (Windows branches)
+[compile] client: 139/139 clean
+[compile] win_support: 1/1 clean
+[compile] server: 179/179 clean
+[compile] tier1: 35/35 clean
+[compile] tier2: 3/3 clean
+[compile] vgui_controls: 68/68 clean
+[compile] glad: 1/1 clean
+[compile] semver: 1/1 clean
+[compile] pcre: 21/21 clean
+[ar] libvgui_controls.a: 68 objects
+[ar] libtier2.a: 3 objects
+[ar] libtier1.a: 35 objects
+[ar] libglad.a: 1 objects
+[ar] libsemver.a: 1 objects
+[ar] libpcre.a: 21 objects
+[link] client.dll: 141 objects, 6 archives, 4 import libs
+[link] client.dll: OK (14618112 bytes)
+[ar] libsemver.a: 1 objects
+[link] hl.dll: 179 objects, 1 archives, 0 import libs
+[link] hl.dll: OK (13909504 bytes)
+{
+  "client.dll": {
+    "path": "build-evidence/bhl-windows/client.dll",
+    "bytes": 14618112,
+    "sha256": "cd3e192283d011511c0deb77566cd4fb6bfc3336066a1bc4090bbecaaa3d5509",
+    "pe32_i386": true,
+    "is_windows_dll": true
+  },
+  "hl.dll": {
+    "path": "build-evidence/bhl-windows/hl.dll",
+    "bytes": 13909504,
+    "sha256": "4e635472b6a11f90cbd6561d44cabcaf3be95542aaa8d74d17aa13db81157af7",
+    "pe32_i386": true,
+    "is_windows_dll": true
+  }
+}
