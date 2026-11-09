@@ -19,6 +19,11 @@ __pycache__/
 !build-evidence/bhl-windows/client.dll
 !build-evidence/bhl-windows/hl.dll
 !build-evidence/bhl-windows/SDL2.lib
+# Playable BHL-root mod folder (supersedes the legacy OP4-root dist kit)
+!build-evidence/bhl-base/mod/cl_dlls/client.so
+!build-evidence/bhl-base/mod/dlls/hl.so
+!build-evidence/bhl-base/mod/cl_dlls/client.dll
+!build-evidence/bhl-base/mod/dlls/hl.dll
 CMakeFiles/
 CMakeCache.txt
 cmake_install.cmake

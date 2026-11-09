@@ -1,0 +1,247 @@
+{
+  "base": "BugfixedHL-Rebased",
+  "files": {
+    "INSTALL-BHLROOT.md": {
+      "bytes": 829,
+      "sha256": "2399f2fb36c6b490695a330b2ba566d52794c51c4f3250653f1b324343aef6af"
+    },
+    "addons/amxmodx/scripting/bhl_api_example.sma": {
+      "bytes": 593,
+      "sha256": "2b4bbc1948f1ca9dfffab12e6b2c08ff627a8573fd4c5f4acd5e7f3f7602f4d2"
+    },
+    "addons/amxmodx/scripting/include/bugfixedapi.inc": {
+      "bytes": 3939,
+      "sha256": "f7812fd030226889cfcbd5992e896fe0af6e3a3be99116363d4daec267217c74"
+    },
+    "cl_dlls/client.dll": {
+      "bytes": 14618091,
+      "sha256": "899f2942709329d8b40ba628b4828cdae0391a563c5b26953a43fb0755593767"
+    },
+    "cl_dlls/client.so": {
+      "bytes": 27802726,
+      "sha256": "4a5e14129f7d5cbce9d01e33e808603a6b59f3c903a4ccd5bf3adaf308de93b8"
+    },
+    "commandmenu_default.txt": {
+      "bytes": 1367,
+      "sha256": "9c5ec58db86e6b7bbe06e489c829f9a20a95b181392adcae37daa53b3379dea0"
+    },
+    "delta.lst": {
+      "bytes": 12544,
+      "sha256": "5251f80955b3a199429e316f851002f30620c443a5b6f197e96f1d063e4d3b0f"
+    },
+    "dlls/hl.dll": {
+      "bytes": 13909464,
+      "sha256": "2fe57a6fd4dba8048f9b080bd9328da0877d44cd5fe45af4bdef8ff6754b57c9"
+    },
+    "dlls/hl.so": {
+      "bytes": 21232356,
+      "sha256": "00ea3fa06f302635ba132249a7f4712f3652149ce4216519c5bff90ded63fd3f"
+    },
+    "liblist.gam": {
+      "bytes": 211,
+      "sha256": "c7d8e6717c6452a446a91b0204c6240e002e4137594629d90d0d6a91dfa36ff1"
+    },
+    "resource/GameMenu.res": {
+      "bytes": 1661,
+      "sha256": "d01b50b6f2cdabe0525d69fd75f606c80cc6a6f06d61f226d87b18c05140aef4"
+    },
+    "sprites/ag_ctf.spr": {
+      "bytes": 7230,
+      "sha256": "e8f89ec71c0245a032367aa0a341fbcd63fad37884139a407bba431fc505ff3c"
+    },
+    "sprites/ag_ctf_score.spr": {
+      "bytes": 1086,
+      "sha256": "1e493db898d0baeea73498573ab327f40739d6f2fe76da4f05d016f12899120b"
+    },
+    "steam_appid.txt": {
+      "bytes": 3,
+      "sha256": "6442bc26a7c562f5afe6467dab36365c709909f6a81afcecfc0c25cff0f1bab0"
+    },
+    "ui/resource/Chat.res": {
+      "bytes": 811,
+      "sha256": "c9a4983dead854532b6313acb1a1e6b46216043ebac4ad39fbf4a2c0b321a308"
+    },
+    "ui/resource/ChatScheme.res": {
+      "bytes": 571,
+      "sha256": "35791709cc624d08210eb5b2b570ee46aeec98953367cad1773a1d6d07aad657"
+    },
+    "ui/resource/ChatSchemeBase.res": {
+      "bytes": 13554,
+      "sha256": "bc85d307a7913157d84f9a56c96c99752ce45c474c59d881b56033c601efe178"
+    },
+    "ui/resource/ClientScheme.res": {
+      "bytes": 1036,
+      "sha256": "b1d05f0651d08006218bd85d5b0a7cff6a9ea9d3b05efa47865afcdca2580b69"
+    },
+    "ui/resource/ClientSchemeBase.res": {
+      "bytes": 18039,
+      "sha256": "bc5a4b289a3adf62ab5430cf395ea80a40a00bcacdf29b55583eaaa8c171695c"
+    },
+    "ui/resource/ClientSourceScheme.res": {
+      "bytes": 405,
+      "sha256": "f65787019118011c940d01999232dbbb6520e618dbd833b429e2e68a513efb22"
+    },
+    "ui/resource/ClientSourceSchemeBase.res": {
+      "bytes": 17359,
+      "sha256": "53fef16d4071541cc16d7a0168fc5eeed3fabda2e0a60fdafb9a648a2bb77ce1"
+    },
+    "ui/resource/HudAmmo.res": {
+      "bytes": 8557,
+      "sha256": "0c1a89415356caf7715943e3ca2c8f9ac032be8034e9319b8b0c616643f274dc"
+    },
+    "ui/resource/HudAmmoSecondary.res": {
+      "bytes": 4739,
+      "sha256": "2fed8187d7fd1d7f41c810d5c48e8df9890630ab4b72709320f9180e1c2b3551"
+    },
+    "ui/resource/HudBattery.res": {
+      "bytes": 5410,
+      "sha256": "22d13bf95197faa93725d3f5102d1d14cdcaaef6ad5abd40da634455fb20b670"
+    },
+    "ui/resource/HudHealth.res": {
+      "bytes": 5556,
+      "sha256": "642e7633d02289c58d1500b2bf3fec1b8661c951b49c94babe52b419e320a70a"
+    },
+    "ui/resource/MOTD.res": {
+      "bytes": 1529,
+      "sha256": "b429c4f095037be16cc493ee6aa8137cf00d0853452f0491ef6ab5ab6ab496f7"
+    },
+    "ui/resource/ScorePanel.res": {
+      "bytes": 2242,
+      "sha256": "b66b360df64a014023b9e74252d49e636985e090157cc378b3860f106e580646"
+    },
+    "ui/resource/SpectatorInfoPanel.res": {
+      "bytes": 2977,
+      "sha256": "85bbf8180c977c76f0c319b5ab51af57e1e588d5ab345c8850f5130762644351"
+    },
+    "ui/resource/TeamMenu.res": {
+      "bytes": 11102,
+      "sha256": "d5bed56eab2707a67cf5149536800bd6480f70ce39252b3e5a0a725fb534a344"
+    },
+    "ui/resource/fonts/HemiHead426-Linux-Regular.ttf": {
+      "bytes": 29248,
+      "sha256": "53e98aa980bbf915ff5e76d22caf902ace722b7441fac53c74ad5ca673a00996"
+    },
+    "ui/resource/fonts/HemiHead426-Regular.ttf": {
+      "bytes": 28970,
+      "sha256": "e21083d64f3e97de846dfee60fed90f76c1c73f6784ea1cc7f204bf16d885c42"
+    },
+    "ui/resource/fonts/boxrocket.ttf": {
+      "bytes": 55443,
+      "sha256": "906a3a18d306c44cf48ba7d59adfb86b4fb8371cea189c3e571848cd2b6137c1"
+    },
+    "ui/resource/language/bugfixedhl_english.utf8.txt": {
+      "bytes": 10769,
+      "sha256": "c24360bb7e2e4153e836dd6e3cf68c8fef515a9d330c83e4eac689aab61b1651"
+    },
+    "ui/resource/language/bugfixedhl_russian.utf8.txt": {
+      "bytes": 14709,
+      "sha256": "525fef3dc63dc7675e33532de8b86287e5e6db1543ac70072b4aaf6852a33b76"
+    },
+    "ui/resource/language/chat_english.utf8.txt": {
+      "bytes": 349,
+      "sha256": "56f6f804a6223b5cbac246c5bbac58849a4482c810bd8405da899ea88aec3185"
+    },
+    "ui/resource/language/chat_french.utf8.txt": {
+      "bytes": 993,
+      "sha256": "f3f805515fc89c5594d89264dd12ecdd6328fe7f26c6b6f4ce91abfeaeb19ca6"
+    },
+    "ui/resource/language/chat_german.utf8.txt": {
+      "bytes": 759,
+      "sha256": "2075798aebee83cd12476861c88c5ff9084a78cc3fe32ba0071035116a3c880c"
+    },
+    "ui/resource/language/chat_italian.utf8.txt": {
+      "bytes": 994,
+      "sha256": "c583e9ed5e96fd32fe8bca36a6e7d47e27c4d76df206bc780775dc3cc0024bd0"
+    },
+    "ui/resource/language/chat_korean.utf8.txt": {
+      "bytes": 967,
+      "sha256": "40f78899d2036e3019c9d2b74a8c63e42f85f9b055bfdc082680d54c0c52d9d2"
+    },
+    "ui/resource/language/chat_russian.utf8.txt": {
+      "bytes": 1137,
+      "sha256": "cb615daf32136603bed8414071e48cf61f898570adf3ddf33d937424ebfd2c42"
+    },
+    "ui/resource/language/chat_schinese.utf8.txt": {
+      "bytes": 994,
+      "sha256": "da50df1767b75afcf62d1fcc3586993bc0525c98e0453d8340b75a5f4288e544"
+    },
+    "ui/resource/language/chat_spanish.utf8.txt": {
+      "bytes": 746,
+      "sha256": "fa09283fbaad7abafe40ede73a328481b6852cdbf8dd15e27a92ef5eccb563b0"
+    },
+    "ui/resource/language/chat_tchinese.utf8.txt": {
+      "bytes": 732,
+      "sha256": "66cf25e2632de05c42365ef4198eea1f7640596658cd5caa06f7115f17f423a5"
+    },
+    "ui/resource/open_source_software.txt": {
+      "bytes": 70255,
+      "sha256": "440c15c73f3136d7454cb244525293ece75af1ec0d85f7e9de473d72ff6f1ed6"
+    },
+    "ui/resource/options/AboutSubOptions.res": {
+      "bytes": 7176,
+      "sha256": "8b8505b4c530e3b9b158b74b714b7aca20447999628679c9062ef2e675788503"
+    },
+    "ui/resource/options/ChatSubOptions.res": {
+      "bytes": 5225,
+      "sha256": "df020f36ca798773fb63788bc675d24bfd165f47c2a68b91c87b4bc880cce054"
+    },
+    "ui/resource/options/ColorPicker.res": {
+      "bytes": 2403,
+      "sha256": "acd95e3d58a8d3fb2d30968beb782bc0f4f43c03f1d9d2a78dad448a0f759262"
+    },
+    "ui/resource/options/CrosshairSubOptions.res": {
+      "bytes": 5262,
+      "sha256": "7b24988724f6e36028115411deb9747f71f83a92897399c3d41e36255c8716c5"
+    },
+    "ui/resource/options/GeneralSubOptions.res": {
+      "bytes": 11515,
+      "sha256": "0321f150f26b5bb5b63e4ee8e3b5c08973fdcddf73362f46fb1bebd9fba5f498"
+    },
+    "ui/resource/options/HudSubOptions.res": {
+      "bytes": 11755,
+      "sha256": "e3893421859817ab108982d4aca7ae6a67d43fc14ddb6e1bdda94c9bd60faee5"
+    },
+    "ui/resource/options/HudSubOptionsColors.res": {
+      "bytes": 5811,
+      "sha256": "ae242dc070f6447c2e547ba06697ad269f6d7cd49d9c18d4590387b5fa7f373d"
+    },
+    "ui/resource/options/ModelSubOptions.res": {
+      "bytes": 10348,
+      "sha256": "39b6e4ecae33dab67bf862f6ad41dce6215704ef6ac53c7d359ce97ddff8043f"
+    },
+    "ui/resource/options/ScoreboardSubOptions.res": {
+      "bytes": 7069,
+      "sha256": "eff5d824168c42cc674e2f2304f9ec3cb374543f3e0928cb065fde37fd9a6eb2"
+    },
+    "ui/resource/updater/UpdateDownloadStatusDialog.res": {
+      "bytes": 8058,
+      "sha256": "61f64b56f0a7db62811eeaada3469e4a66109d88f885be6ff7606a66157d86d0"
+    },
+    "ui/resource/updater/UpdateFileProgressDialog.res": {
+      "bytes": 8602,
+      "sha256": "56ef467526fcbe9ef9e6084cde3a53f5a1b038f808d0f7750bcc350926f7a07b"
+    },
+    "ui/resource/updater/UpdateFileReplaceDialog.res": {
+      "bytes": 11130,
+      "sha256": "fc5a32356c8c07588a30dd13b76dfee6e1741afb8abe7d6d72d37c87b0a51c45"
+    },
+    "ui/resource/updater/UpdateNotificationDialog.res": {
+      "bytes": 11459,
+      "sha256": "1dec03cac3032944811c6f00e6794da772b28dbaa771549202d3382809b1c40a"
+    },
+    "ui/scripts/HudAnimations.txt": {
+      "bytes": 1169,
+      "sha256": "d713c0ec602bebfbd76959acded9813275767ee6b3a9651bc0bfe10d0f30eabe"
+    },
+    "ui/scripts/HudLayout.res": {
+      "bytes": 501,
+      "sha256": "28ed6dc7dc166bd99c95b590698035293f77954db5f0d86b9f345ffa56e07636"
+    },
+    "ui/scripts/HudLayoutBase.res": {
+      "bytes": 2416,
+      "sha256": "a228265b302248ea90f9092caf07360744462836537ecfd30a3069c44d6638c4"
+    }
+  },
+  "kind": "goldsrc-mod-folder",
+  "note": "BHL-root binaries; supersedes dist/bhlop4 (OP4-root legacy)"
+}

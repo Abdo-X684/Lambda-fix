@@ -20,6 +20,15 @@
 | اختبار داخل Opposing Force | ❌ **لم يُنفَّذ** — لا محرك، لا `vgui.so`، لا أصول شرعية، لا محمّل ELF32 ديناميكي |
 | إعلان الاكتمال | ❌ **لا** — المشروع غير مكتمل؛ قائمة النواقص في التقرير النهائي |
 
+## ⚠️ تصحيح التسليم (مهم)
+
+الحزمة التي كانت قابلة للتشغيل سابقاً `dist/bhlop4/` و`dist/bhl-op4-mod.zip` هي من المسار **القديم OP4-أساس** (`bhl-systems-1`): OP4 مع بعض أنظمة BHL — **هذه هي التي تظهر كـ Opposing Force عادية، ولا تمثل المطلوب**. لم أحذفها لكن لا تستخدمها.
+
+الحزمة الصحيحة المبنية على ثنائيات **BHL-أساس**:
+[`build-evidence/bhl-base/bhl-base-mod.zip`](build-evidence/bhl-base/bhl-base-mod.zip) — `liblist.gam` يعرّف اللعبة كـ BugfixedHL، `startmap c0a0`، `steam_appid 70`، موارد BHL VGUI2، و`fallback_dir gearbox` لأصول أسلحة OP4 فقط. التفاصيل: [`INSTALL-BHLROOT.md`](build-evidence/bhl-base/mod/INSTALL-BHLROOT.md).
+
+**ما زال غير مكتمل:** لا Client Prediction ولا اختيار أسلحة OP4 في HUD، ولا اختبار داخل GoldSrc من جهتي. تصحيح الهوية فقط، لا ادّعاء بعمل الأسلحة.
+
 ## الدليل والبرهان
 
 * [`docs/OP4_WEAPON_PHASES.md`](docs/OP4_WEAPON_PHASES.md) — سجل دمج أسلحة OP4 مرحلة بمرحلة: الملفات، الفرق، بناء العميل/الخادم، الاختبارات، الأخطاء، والنواقص.
