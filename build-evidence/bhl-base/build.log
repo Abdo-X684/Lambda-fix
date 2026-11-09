@@ -30,12 +30,12 @@ zig    : /tmp/zenv/lib/python3.11/site-packages/ziglang/zig (clang for i386-unkn
 [link] hl.so: OK (21232512 bytes)
 [audit] client.so: 0 unresolved symbols from our own build
 [audit] hl.so: 0 unresolved symbols from our own build
-[done] 48.2s
+[done] 113.9s
 {
   "client.so": {
     "path": "build-evidence/bhl-base/client.so",
     "bytes": 27802960,
-    "sha256": "3cae1d779c5a2a2d47e138baa43a45bb06d870037dd6da995f581532d32d9100",
+    "sha256": "0d4b0937fe6cf93b75dda705138d07e8513a28299d97e89896932c67e2683b5f",
     "elf32": true,
     "exported_symbol_count": 4941,
     "exported_game_entry_points": [
@@ -64,7 +64,7 @@ zig    : /tmp/zenv/lib/python3.11/site-packages/ziglang/zig (clang for i386-unkn
   "hl.so": {
     "path": "build-evidence/bhl-base/hl.so",
     "bytes": 21232512,
-    "sha256": "09550d9b2acc2f0fca05857d8d6eaf3112f1fcf32d0fd40a6404884463f46cf1",
+    "sha256": "ac61ec58cc2be162d82cf2fa1c109d2a47a7ef6e619daee6aa51680886eb432d",
     "elf32": true,
     "exported_symbol_count": 4467,
     "exported_game_entry_points": [

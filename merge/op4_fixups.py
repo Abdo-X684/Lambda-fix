@@ -357,9 +357,22 @@ FIXUPS_CPP = r'''/* ------------------------------------------------------------
 /* OP4 dlls/UserMessages.h:62 -- defined below, registered from GameDLLInit. */
 extern int gmsgFlagIcon;
 
-/* ===== dlls/game.cpp:588-589,592 (verbatim) ============================== */
+/* ===== dlls/game.cpp:588-589,592 ========================================= *
+ * The three cvar definitions are verbatim OP4 except for the documented
+ * sv_oldweapons default below.                                             */
 cvar_t oldgrapple = {"sv_oldgrapple", "0", FCVAR_SERVER};
-cvar_t oldweapons = {"sv_oldweapons", "0", FCVAR_SERVER};
+/* OP4's upstream default is "0" (client-predicted weapons). This build has
+ * OP4 SERVER weapon classes but BHL's client DLL keeps BHL's own prediction
+ * objects for its 14 original weapons; there is no OP4 client weapon class
+ * to predict with. With "0", OP4 firing uses FEV_NOTHOST / skiplocal=1, so
+ * the local player sees no animation, sound or effect at all.
+ *
+ * OP4 itself ships sv_oldweapons for exactly this case: "1" makes the
+ * weapons fully server-authoritative (SVC_WEAPONANIM + playback events +
+ * ammo messages are sent to the local player). BHL's 14 original weapons
+ * still use client prediction: their UseDecrement() is unconditional and
+ * never reads this cvar. No BHL system is disabled or replaced.           */
+cvar_t oldweapons = {"sv_oldweapons", "1", FCVAR_SERVER};
 cvar_t multipower = {"mp_multipower", "0", FCVAR_SERVER};
 
 /* ===== dlls/game.cpp:1189-1190,1193 (verbatim registrations) ============ *

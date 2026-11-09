@@ -697,6 +697,17 @@ def apply_merges(tree: Path, provenance: dict) -> None:
         p.write_text(s, errors="surrogateescape")
         provenance[rel].setdefault("merge_rules", []).append(rule)
 
+    def subst(rel: str, old: str, new: str, rule: str):
+        """Replace one existing BHL line with a wider OP4-compatible bound."""
+        p = tree / rel
+        s = p.read_text(errors="surrogateescape")
+        if new in s:
+            return
+        if old not in s:
+            raise RuntimeError(f"merge rule {rule}: anchor missing in {rel}: {old!r}")
+        p.write_text(s.replace(old, new, 1), errors="surrogateescape")
+        provenance[rel].setdefault("merge_rules", []).append(rule)
+
     # 1. OP4-only constants from dlls/weapons.h into BHL weapons.h
     op4w = (OP4 / "dlls/weapons.h").read_text(errors="surrogateescape")
     bhlw = (tree / "src/game/server/weapons.h").read_text(errors="surrogateescape")
@@ -744,6 +755,16 @@ def apply_merges(tree: Path, provenance: dict) -> None:
          "\n/* OP4-MERGE: WeaponId from halflife-op4-updated dlls/cdll_dll.h */\n"
          "enum WeaponId\n{\n\t" + ",\n\t".join(ids) + "\n};\n/* END OP4-MERGE */\n",
          "op4-weaponid-enum")
+
+    # 6b. OP4's shockrifle and sporelauncher live in HUD bucket 6. BHL's
+    #     WeaponsResource::rgSlots is sized MAX_WEAPON_SLOTS; with 6 the two
+    #     weapons are rejected by PickupWeapon() and can never be selected
+    #     from the HUD. Widening the bound to 7 is additive: BHL's buckets
+    #     0..5, the health counter and VGUI2 panels are untouched.
+    subst("src/game/server/cdll_dll.h",
+          "#define MAX_WEAPON_SLOTS     6 // hud item selection slots on a client",
+          "#define MAX_WEAPON_SLOTS     7 // hud item selection slots on a client (OP4 bucket 6)",
+          "op4-hud-bucket-7")
 
     # 7. OP4 WaterLevel enum into BHL const.h
     c = (OP4 / "common/const.h").read_text(errors="surrogateescape")

@@ -25,9 +25,11 @@
 الحزمة التي كانت قابلة للتشغيل سابقاً `dist/bhlop4/` و`dist/bhl-op4-mod.zip` هي من المسار **القديم OP4-أساس** (`bhl-systems-1`): OP4 مع بعض أنظمة BHL — **هذه هي التي تظهر كـ Opposing Force عادية، ولا تمثل المطلوب**. لم أحذفها لكن لا تستخدمها.
 
 الحزمة الصحيحة المبنية على ثنائيات **BHL-أساس**:
-[`build-evidence/bhl-base/bhl-base-mod.zip`](build-evidence/bhl-base/bhl-base-mod.zip) — `liblist.gam` يعرّف اللعبة كـ BugfixedHL، `startmap c0a0`، `steam_appid 70`، موارد BHL VGUI2، و`fallback_dir gearbox` لأصول أسلحة OP4 فقط. التفاصيل: [`INSTALL-BHLROOT.md`](build-evidence/bhl-base/mod/INSTALL-BHLROOT.md).
+[`build-evidence/bhl-base/bhl-base-mod.zip`](build-evidence/bhl-base/bhl-base-mod.zip) — مجلد لعبة جاهز: `liblist.gam` يبدأ `c0a0`، `steam_appid 70`، موارد BHL VGUI2، ثنائيات BHL لينكس/ويندوز، و`fallback_dir gearbox` لأصول أسلحة OP4 من نسختك المثبّتة. التفاصيل: [`INSTALL.md`](build-evidence/bhl-base/mod/INSTALL.md).
 
-**ما زال غير مكتمل:** لا Client Prediction ولا اختيار أسلحة OP4 في HUD، ولا اختبار داخل GoldSrc من جهتي. تصحيح الهوية فقط، لا ادّعاء بعمل الأسلحة.
+التغييرات الوظيفية في هذه النسخة: توسيع سلة HUD إلى 7 حتى تُنتقى أسلحة OP4، وجعل `sv_oldweapons` الافتراضي `1` حتى تُرسل أنيميشن/أصوات/أحداث/ذخيرة أسلحة OP4 من سيرفر BHL إلى اللاعب (أسلحة BHL الـ14 تحتفظ بـ Client Prediction الأصلي)، وإضافة `autoexec.cfg` + `op4weapons.cfg` (F9 يعطي الأسلحة العشرة).
+
+**حد صريح:** لا يوجد محرك GoldSrc ولا أصول OP4 شرعية في هذه البيئة ⇒ **لم تُختبر داخل اللعبة هنا**. تشغيل الأسلحة الفعلي يجب أن يتحقق منه المستخدم على جهازه.
 
 ## الدليل والبرهان
 

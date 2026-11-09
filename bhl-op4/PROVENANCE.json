@@ -6,7 +6,7 @@
     "license": "GPL-3.0",
     "merged_files": 17,
     "repo": "tmp64/BugfixedHL-Rebased",
-    "tree_sha256": "2b77e2fcc67f9384b28e4e7dff7e9e2b0fd858321a852540a60fb2911b1953d9",
+    "tree_sha256": "c612f2241f06b11b6cc572a979e29531ee8b66b01a09325490b0b31e6f86dc02",
     "tree_sha256_note": "sha256 over sorted '<path>  <file sha256>' for every BHL-origin file on disk; verified by --check",
     "verbatim_files": 677
   },
@@ -3466,10 +3466,11 @@
       "action": "bhl+op4-merge",
       "commit": "4d32095e3c33",
       "merge_rules": [
-        "op4-weaponid-enum"
+        "op4-weaponid-enum",
+        "op4-hud-bucket-7"
       ],
       "origin": "bugfixhl",
-      "sha256": "cace1645b9455a2339201e9df052b94aa7966e84c42ab42c440ef44f7b276b2e"
+      "sha256": "6d0080eb1b3c48931c489fef969aa803d6980e88689952ab53c10bc1616cfa93"
     },
     "src/game/server/client.cpp": {
       "action": "verbatim",
@@ -6839,7 +6840,7 @@
           "rule": "op4-compat-late-include"
         }
       ],
-      "sha256": "a4639e763ba7b06e781acef2aa1d2e0913cca34056fc68b6eac4f94a0b037dee"
+      "sha256": "43e271305c26a965fa624d82e991f867d66b7be711332c9c3472a0098936b9d9"
     },
     "src/game/server/op4/reference/dlls/cdll_dll.h": {
       "action": "reference-only",
