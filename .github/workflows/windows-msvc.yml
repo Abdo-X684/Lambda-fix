@@ -1,0 +1,81 @@
+name: Build MSVC-ABI Windows DLLs
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - arena/dd30bd22-bugfixhl-speedrun-op4
+
+permissions:
+  contents: read
+
+jobs:
+  msvc:
+    runs-on: windows-2022
+    env:
+      VCPKG_DEFAULT_TRIPLET: x86-windows-static
+      VCPKG_DEFAULT_HOST_TRIPLET: x64-windows
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Fetch pinned clean upstreams and regenerate the BHL-based tree
+        shell: pwsh
+        run: |
+          python -m merge.cli fetch
+          python -m merge.bhl_base --out bhl-op4
+          python -c "import sys; sys.path.insert(0, 'tools'); import verify_bhl_base as v; assert v.ensure_source_sdk(True); print('source_sdk ready')"
+          python -c "import shutil, pathlib; shutil.copytree('.cache/upstreams/hl1_source_sdk', 'bhl-op4/source_sdk', dirs_exist_ok=True); print('source_sdk copied')"
+
+      - uses: lukka/get-cmake@latest
+        with:
+          cmakeVersion: 3.30.9
+
+      - uses: lukka/run-vcpkg@v11
+        with:
+          vcpkgGitCommitId: 47313591da1d14a8a9b209f4bee39d29acc39b31
+          vcpkgJsonGlob: '**/bhl-op4/vcpkg.json'
+          runVcpkgInstall: true
+          vcpkgTriplet: x86-windows-static
+
+      - name: Install SDL2 import library for BHL's Windows client
+        shell: pwsh
+        run: |
+          & "$env:VCPKG_ROOT\vcpkg.exe" install sdl2:x86-windows --host-triplet x64-windows
+          $sdl = Get-ChildItem -Path "$env:VCPKG_ROOT/installed/x86-windows/lib" -Filter SDL2.lib -Recurse | Select-Object -First 1
+          if (-not $sdl) { throw "SDL2.lib not found in vcpkg" }
+          Copy-Item $sdl.FullName "bhl-op4/lib/public/SDL2.lib" -Force
+
+      - uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: x86
+
+      - name: Configure MSVC/Win32 CMake build
+        shell: pwsh
+        run: |
+          cmake -S bhl-op4 -B build-msvc -G "Visual Studio 17 2022" -A Win32 `
+            -DCMAKE_TOOLCHAIN_FILE="$env:VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake" `
+            -DVCPKG_TARGET_TRIPLET=x86-windows-static `
+            -DVCPKG_HOST_TRIPLET=x64-windows `
+            -DVCPKG_MANIFEST_MODE=ON `
+            -DUSE_UPDATER=OFF `
+            -DAUTO_DEPLOY=OFF `
+            -DGENERATE_AMXX_OFFSETS=OFF `
+            -DBUILD_TESTING=OFF `
+            -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build client.dll and hl.dll with MSVC
+        shell: pwsh
+        run: cmake --build build-msvc --config Release --target client server -- /m
+
+      - name: Upload MSVC-ABI DLLs
+        uses: actions/upload-artifact@v4
+        with:
+          name: msvc-dlls
+          path: |
+            build-msvc/src/game/client/Release/client.dll
+            build-msvc/src/game/server/Release/hl.dll
+          if-no-files-found: error
