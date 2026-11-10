@@ -1,0 +1,139 @@
+name: Load MSVC client under Wine with stub dependencies
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - arena/dd30bd22-bugfixhl-speedrun-op4
+    paths:
+      - .github/workflows/wine-dummy-load.yml
+
+permissions:
+  contents: write
+
+jobs:
+  load:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: arena/dd30bd22-bugfixhl-speedrun-op4
+          persist-credentials: true
+
+      - name: Install 32-bit Wine, MinGW compiler and pefile
+        run: |
+          sudo dpkg --add-architecture i386
+          sudo apt-get update -qq
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq wine32:i386 gcc-mingw-w64-i686
+          python3 -m pip install --quiet --break-system-packages pefile
+
+      - name: Make stub DLLs for engine-provided imports and a no-TLS copy
+        run: |
+          mkdir -p wineenv
+          cp build-evidence/bhl-windows/client.dll wineenv/client.dll
+          python3 - <<'PY'
+          import json, pathlib, pefile, struct
+          pe = pefile.PE('build-evidence/bhl-windows/client.dll')
+          custom = {'steam_api.dll', 'tier0.dll', 'vstdlib.dll'}
+          imports = {}
+          for e in pe.DIRECTORY_ENTRY_IMPORT:
+              dll = e.dll.decode()
+              imports[dll] = []
+              for imp in e.imports:
+                  if imp.name:
+                      imports[dll].append(imp.name.decode())
+          for dll in custom:
+              lines = ['EXPORTS']
+              for sym in imports[dll]:
+                  lines.append('    %s=dummy' % json.dumps(sym))
+              pathlib.Path('wineenv/%s.def' % dll).write_text('\n'.join(lines) + '\n')
+          pathlib.Path('wineenv/dummy.c').write_text(
+              'void __declspec(dllexport) dummy(void) {}\n')
+          for dll in custom:
+              print(dll, len(imports[dll]), 'stub exports')
+
+          # Patch a second copy with an empty TLS callback array.
+          tls = pe.DIRECTORY_ENTRY_TLS.struct
+          rva = tls.AddressOfCallBacks - pe.OPTIONAL_HEADER.ImageBase
+          pe.set_bytes_at_rva(rva, b'\x00' * 16)
+          pe.write('wineenv/client_notls.dll')
+          print('patched TLS callbacks at RVA', hex(rva))
+          PY
+          for dll in steam_api tier0 vstdlib; do
+            i686-w64-mingw32-gcc -shared -Wl,--subsystem,windows \
+              -o "wineenv/$dll.dll" wineenv/dummy.c "wineenv/$dll.def"
+          done
+          ls -l wineenv
+
+      - name: Generate a Win32 loader that checks imports and both DLLs
+        run: |
+          python3 - <<'PY'
+          import json, pathlib, pefile
+          pe = pefile.PE('build-evidence/bhl-windows/client.dll')
+          checks = []
+          for e in pe.DIRECTORY_ENTRY_IMPORT:
+              dll = e.dll.decode()
+              for imp in e.imports:
+                  if imp.name:
+                      checks.append((dll, imp.name.decode()))
+          lines = [
+              '#include <windows.h>',
+              '#include <stdio.h>',
+              '#ifndef LOAD_WITH_ALTERED_SEARCH_PATH',
+              '#define LOAD_WITH_ALTERED_SEARCH_PATH 0x00000008',
+              '#endif',
+              'struct Check { const char *dll; const char *sym; };',
+              'static const struct Check checks[] = {',
+          ]
+          for dll, sym in checks:
+              lines.append('    {%s, %s},' % (json.dumps(dll), json.dumps(sym)))
+          lines.extend([
+              '    {NULL, NULL}',
+              '};',
+              'int main(int argc, char **argv) {',
+              '    if (argc > 1) SetDllDirectoryA(argv[1]);',
+              '    for (const struct Check *c = checks; c->dll; ++c) {',
+              '        SetLastError(0);',
+              '        HMODULE h = LoadLibraryA(c->dll);',
+              '        if (!h) { printf("LOADFAIL %s %lu\\n", c->dll, GetLastError()); continue; }',
+              '        SetLastError(0);',
+              '        FARPROC p = GetProcAddress(h, c->sym);',
+              '        if (!p) printf("SYMFAIL %s %s %lu\\n", c->dll, c->sym, GetLastError());',
+              '    }',
+              '    for (int i = 2; i < argc; ++i) {',
+              '        SetLastError(0);',
+              '        HMODULE c = LoadLibraryExA(argv[i], NULL, LOAD_WITH_ALTERED_SEARCH_PATH);',
+              '        printf("CLIENT %s %p %lu\\n", argv[i], (void *)c, GetLastError());',
+              '    }',
+              '    return 0;',
+              '}',
+          ])
+          pathlib.Path('wine_loader.c').write_text('\n'.join(lines) + '\n')
+          print('generated checks:', len(checks))
+          PY
+          i686-w64-mingw32-gcc -mconsole -O0 -o wine_loader.exe wine_loader.c -lkernel32
+
+      - name: Run under 32-bit Wine and capture the result
+        run: |
+          export WINEARCH=win32
+          export WINEPREFIX=/tmp/wineprefix
+          WINEDEBUG=-all wineboot -u >/dev/null 2>&1 || true
+          mkdir -p "$WINEPREFIX/drive_c/windows/system32"
+          cp wineenv/*.dll "$WINEPREFIX/drive_c/windows/system32/" || true
+          wine_dir="$(winepath -w "$PWD/wineenv")"
+          client="$(winepath -w "$PWD/wineenv/client.dll")"
+          notls="$(winepath -w "$PWD/wineenv/client_notls.dll")"
+          (WINEDEBUG=+loaddll wine wine_loader.exe "$wine_dir" "$client" "$notls" > wine_output.txt 2>&1 || true)
+          echo '=== summary ==='
+          grep -iE 'LOADFAIL|SYMFAIL|CLIENT|err:|failed|not found' wine_output.txt | tail -80 || true
+          mkdir -p build-evidence/bhl-windows
+          cp wine_output.txt build-evidence/bhl-windows/WINE_DUMMY_LOAD_REPORT.txt
+
+      - name: Push the Wine stub-load report
+        run: |
+          git config user.name "arena-bot"
+          git config user.email "arena-bot@users.noreply.github.com"
+          git add build-evidence/bhl-windows/WINE_DUMMY_LOAD_REPORT.txt
+          git commit -m "Add Wine stub-load report for MSVC-ABI build" || echo "no changes"
+          git pull --rebase origin arena/dd30bd22-bugfixhl-speedrun-op4
+          git push origin HEAD:arena/dd30bd22-bugfixhl-speedrun-op4
