@@ -64,7 +64,7 @@ jobs:
             -DUSE_UPDATER=OFF `
             -DAUTO_DEPLOY=OFF `
             -DGENERATE_AMXX_OFFSETS=OFF `
-            -DBUILD_TESTING=OFF `
+            -DBUILD_TESTING=ON `
             -DCMAKE_BUILD_TYPE=Release
 
       - name: Build client.dll and hl.dll with MSVC
