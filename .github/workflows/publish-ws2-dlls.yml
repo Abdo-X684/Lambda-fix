@@ -1,12 +1,12 @@
-name: Publish ws2_32 MSVC DLL artifact
+name: Publish rebuilt MSVC DLL artifact
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - arena/dd30bd22-bugfixhl-speedrun-op4
-    paths:
-      - .github/workflows/publish-ws2-dlls.yml
+    inputs:
+      run_id:
+        description: 'Windows MSVC workflow run id to publish'
+        required: false
+        default: '42903838345'
 
 permissions:
   actions: read
@@ -24,7 +24,7 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           name: msvc-dlls
-          run-id: 42890607926
+          run-id: ${{ inputs.run_id }}
           github-token: ${{ github.token }}
           path: downloaded
 
@@ -33,8 +33,10 @@ jobs:
 
       - name: Install the rebuilt DLLs and refresh the package
         run: |
+          python3 -m pip install --quiet --break-system-packages pefile
           python3 - <<'PY'
-          import hashlib, json, pathlib, shutil
+          import hashlib, json, pathlib, shutil, struct
+          import pefile
           root = pathlib.Path('.')
           downloaded = pathlib.Path('downloaded')
           client = next(downloaded.rglob('client.dll'))
@@ -53,6 +55,18 @@ jobs:
               for dst in dsts:
                   shutil.copy2(src, dst)
               print(src, src.stat().st_size, hashlib.sha256(src.read_bytes()).hexdigest())
+          pe = pefile.PE(client)
+          ordinals = [(e.dll.decode(), imp.ordinal)
+                      for e in pe.DIRECTORY_ENTRY_IMPORT
+                      for imp in e.imports if not imp.name]
+          if ordinals:
+              raise SystemExit(f'ordinal-only imports remain: {ordinals}')
+          tls = getattr(pe, 'DIRECTORY_ENTRY_TLS', None)
+          callbacks = []
+          if tls and tls.struct.AddressOfCallBacks:
+              rva = tls.struct.AddressOfCallBacks - pe.OPTIONAL_HEADER.ImageBase
+              callbacks = [x for x in struct.unpack_from('<8I', pe.get_data(rva, 32)) if x]
+          print('TLS callbacks:', [hex(x) for x in callbacks])
           manifest_path = root / 'build-evidence/bhl-windows/MANIFEST.json'
           manifest = json.loads(manifest_path.read_text())
           for name, rec in manifest['libraries'].items():
@@ -61,9 +75,10 @@ jobs:
               rec['sha256'] = hashlib.sha256(p.read_bytes()).hexdigest()
           manifest['note'] = (
               'Built from the BHL-based bhl-op4 tree with Visual Studio 2022 MSVC / Win32 '
-              'and the static MSVC runtime. Winsock is linked by name through ws2_32.lib '
-              'instead of ordinal-only wsock32.lib for Wine compatibility. All ten OP4 '
-              'weapons remain wired for client prediction. NOT tested in-game here.'
+              'and the static MSVC runtime. Thread-safe static initialization is disabled '
+              'on the client target so no MSVC TLS callbacks run before DllMain, matching '
+              'the loader shape of the original BHL client.dll. All ten OP4 weapons remain '
+              'wired for client prediction. NOT tested in-game here.'
           )
           manifest_path.write_text(json.dumps(manifest, indent=2, sort_keys=True) + '\n')
           PY
@@ -82,6 +97,6 @@ jobs:
             build-evidence/bhl-windows/MANIFEST.json build-evidence/bhl-base/bhl-base-mod.zip \
             build-evidence/bhl-base/MOD_MANIFEST.json build-evidence/bhl-base/mod/MOD_MANIFEST.json \
             build-evidence/bhl-base/mod/INSTALL.md docs/WEAPON_INVENTORY.md
-          git commit -m "Publish ws2_32 MSVC-ABI build package for Wine loader" || echo "no changes"
+          git commit -m "Publish MSVC-ABI build package with client TLS callbacks disabled" || echo "no changes"
           git pull --rebase origin arena/dd30bd22-bugfixhl-speedrun-op4
           git push origin HEAD:arena/dd30bd22-bugfixhl-speedrun-op4
