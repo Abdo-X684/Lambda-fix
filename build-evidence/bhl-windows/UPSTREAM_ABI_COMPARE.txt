@@ -2,7 +2,7 @@ UPSTREAM: /tmp/bhl-upstream/BugfixedHL-1.13.2-client/valve_addon/cl_dlls/client.
 upstream.size = 5473792
 ours.size = 2015744
 upstream.sha256 = 'd1fbc38d5d3678f8a2f353ec811db8c8869ded68b2b4e5191f845d9bf955b620'
-ours.sha256 = '8b92f173f3153ed8d79325726ef21220335ddcd3ced64bbf24a72c6591441553'
+ours.sha256 = '3dc63d3c959e0d72bc80913ea3421c3a3c9e458332248fa8bff066bd3600a37b'
 upstream.image_base = '0x10000000'
 ours.image_base = '0x10000000'
 upstream.size_of_image = '0x579000'
