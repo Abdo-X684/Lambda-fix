@@ -24,7 +24,10 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           TAG: bhl-op4-msvc-20261110
         run: |
-          files="build-evidence/bhl-base/bhl-base-mod.zip build-evidence/bhl-windows/client.dll build-evidence/bhl-windows/hl.dll"
+          mkdir -p /tmp/linux-so
+          cp build-evidence/bhl-base/mod/cl_dlls/client.so /tmp/linux-so/client.so
+          cp build-evidence/bhl-base/mod/dlls/hl.so /tmp/linux-so/hl.so
+          files="build-evidence/bhl-base/bhl-base-mod.zip build-evidence/bhl-windows/client.dll build-evidence/bhl-windows/hl.dll /tmp/linux-so/client.so /tmp/linux-so/hl.so"
           if gh release view "$TAG" >/dev/null 2>&1; then
             gh release upload "$TAG" $files --clobber
           else
