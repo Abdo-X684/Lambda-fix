@@ -7,7 +7,7 @@ on:
       - arena/dd30bd22-bugfixhl-speedrun-op4
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   msvc:
@@ -17,6 +17,9 @@ jobs:
       VCPKG_DEFAULT_HOST_TRIPLET: x64-windows
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+          persist-credentials: true
 
       - uses: actions/setup-python@v5
         with:
@@ -29,6 +32,7 @@ jobs:
           python -m merge.bhl_base --out bhl-op4
           python -c "import sys; sys.path.insert(0, 'tools'); import verify_bhl_base as v; assert v.ensure_source_sdk(True); print('source_sdk ready')"
           python -c "import shutil, pathlib; shutil.copytree('.cache/upstreams/hl1_source_sdk', 'bhl-op4/source_sdk', dirs_exist_ok=True); print('source_sdk copied')"
+          git clone --depth 1 https://github.com/alliedmodders/metamod-hl1.git bhl-op4/external/metamod
 
       - uses: lukka/get-cmake@latest
         with:
@@ -40,11 +44,6 @@ jobs:
           vcpkgJsonGlob: '**/bhl-op4/vcpkg.json'
           runVcpkgInstall: true
           vcpkgTriplet: x86-windows-static
-
-      - name: Fetch Metamod headers for BHL's AMXX module
-        shell: pwsh
-        run: |
-          git clone --depth 1 https://github.com/alliedmodders/metamod-hl1.git bhl-op4/external/metamod
 
       - name: Persist the vcpkg root before MSVC resets it
         shell: pwsh
@@ -98,3 +97,23 @@ jobs:
             build-msvc/src/game/client/Release/client.dll
             build-msvc/src/game/server/Release/hl.dll
           if-no-files-found: error
+
+      - name: Publish rebuilt DLLs to the working branch
+        if: ${{ github.event_name == 'workflow_dispatch' || !contains(github.event.head_commit.message, 'MSVC-ABI build') }}
+        shell: pwsh
+        run: |
+          $branch = 'arena/dd30bd22-bugfixhl-speedrun-op4'
+          git checkout -B $branch
+          git config user.name "arena-bot"
+          git config user.email "arena-bot@users.noreply.github.com"
+          Copy-Item "build-msvc/src/game/client/Release/client.dll" "build-evidence/bhl-windows/client.dll" -Force
+          Copy-Item "build-msvc/src/game/server/Release/hl.dll" "build-evidence/bhl-windows/hl.dll" -Force
+          Copy-Item "build-msvc/src/game/client/Release/client.dll" "build-evidence/bhl-base/mod/cl_dlls/client.dll" -Force
+          Copy-Item "build-msvc/src/game/server/Release/hl.dll" "build-evidence/bhl-base/mod/dlls/hl.dll" -Force
+          git add build-evidence/bhl-windows/client.dll build-evidence/bhl-windows/hl.dll build-evidence/bhl-base/mod/cl_dlls/client.dll build-evidence/bhl-base/mod/dlls/hl.dll
+          if (git diff --cached --quiet) {
+            Write-Host "No DLL changes to publish"
+          } else {
+            git commit -m "Replace Windows DLLs with MSVC-ABI build (VGUI2-compatible)"
+            git push origin "HEAD:$branch"
+          }
