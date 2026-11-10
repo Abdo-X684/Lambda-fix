@@ -41,13 +41,21 @@ jobs:
           runVcpkgInstall: true
           vcpkgTriplet: x86-windows-static
 
-      - name: Install SDL2 import library for BHL's Windows client
+      - name: Install SDL2 and DirectInput import libraries for BHL's Windows client
         shell: pwsh
         run: |
           & "$env:VCPKG_ROOT\vcpkg.exe" install sdl2:x86-windows --host-triplet x64-windows
           $sdl = Get-ChildItem -Path "$env:VCPKG_ROOT/installed/x86-windows/lib" -Filter SDL2.lib -Recurse | Select-Object -First 1
           if (-not $sdl) { throw "SDL2.lib not found in vcpkg" }
           Copy-Item $sdl.FullName "bhl-op4/lib/public/SDL2.lib" -Force
+          $dinput = Get-ChildItem -Path "$env:WindowsSdkDir/Lib" -Recurse -Filter dinput8.lib |
+            Where-Object { $_.FullName -like '*\um\x86\*' } | Select-Object -First 1
+          $dxguid = Get-ChildItem -Path "$env:WindowsSdkDir/Lib" -Recurse -Filter dxguid.lib |
+            Where-Object { $_.FullName -like '*\um\x86\*' } | Select-Object -First 1
+          if (-not $dinput -or -not $dxguid) { throw "Windows SDK dinput8.lib/dxguid.lib not found" }
+          New-Item -ItemType Directory -Force -Path "bhl-op4/external/windows/dinput/lib" | Out-Null
+          Copy-Item $dinput.FullName "bhl-op4/external/windows/dinput/lib/dinput8.lib" -Force
+          Copy-Item $dxguid.FullName "bhl-op4/external/windows/dinput/lib/dxguid.lib" -Force
 
       - uses: ilammy/msvc-dev-cmd@v1
         with:
