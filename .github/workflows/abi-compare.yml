@@ -2,6 +2,11 @@ name: Compare MSVC DLL with original BHL client ABI
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - arena/dd30bd22-bugfixhl-speedrun-op4
+    paths:
+      - .github/workflows/abi-compare.yml
 
 permissions:
   contents: write
