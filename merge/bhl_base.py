@@ -773,6 +773,14 @@ def apply_merges(tree: Path, provenance: dict) -> None:
           "#define MAX_WEAPON_SLOTS     7 // hud item selection slots on a client (OP4 bucket 6)",
           "op4-hud-bucket-7")
 
+    # 6c. Windows client: link Winsock by name through ws2_32.lib. The
+    #     Windows SDK's wsock32.lib emits ordinal-only WSOCK32.dll imports;
+    #     Wine's loader can fail those ordinals and refuse to load client.dll.
+    subst("src/game/client/CMakeLists.txt",
+          "\t\twsock32\n",
+          "\t\tws2_32\n",
+          "windows-winsock-by-name")
+
     # 7. OP4 WaterLevel enum into BHL const.h
     c = (OP4 / "common/const.h").read_text(errors="surrogateescape")
     m = re.search(r"(enum WaterLevel\s*\{.*?\};)", c, re.S)
