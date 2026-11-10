@@ -1,24 +1,24 @@
 {
-  "compile_units": 459,
+  "compile_units": 462,
   "libraries": {
     "client.dll": {
-      "bytes": 14903808,
+      "bytes": 14987264,
       "is_windows_dll": true,
       "path": "build-evidence/bhl-windows/client.dll",
       "pe32_i386": true,
-      "sha256": "6eac8275611b8dd643448e0abd851c541818d0e6c0cbb333c6f443563eece6c3"
+      "sha256": "17523acea18a19dfa24d87af5749a566fc0f504659f1bcfe769bc68a7b6b38d9"
     },
     "hl.dll": {
       "bytes": 13909504,
       "is_windows_dll": true,
       "path": "build-evidence/bhl-windows/hl.dll",
       "pe32_i386": true,
-      "sha256": "466824961c2aa8cfff142421700d304b9d764d5bed2fe07e9c928d526df3e752"
+      "sha256": "c11e7eedf4e4b309755c5456b391be84d384297d553ffc4e242febbbfee6ba11"
     }
   },
   "note": "Cross-compiled with Zig clang. The engine supplies SDL2.dll, tier0.dll, vstdlib.dll and steam_api.dll at load time. Windows-specific BHL sources and the external StackWalker crash-handler dependency are compiled from upstream.",
   "source_lists": {
-    "client": 149,
+    "client": 152,
     "server": 179
   },
   "target": "x86-windows-gnu / PE32 i386 (MinGW-style import libs)",

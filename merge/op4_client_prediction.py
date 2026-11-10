@@ -1,11 +1,13 @@
-"""Client-DLL glue for OP4 weapon prediction on the BugfixedHL base.
+"""Client-DLL prediction for all ten OP4 weapons on the BugfixedHL base.
 
 BHL's client DLL already compiles BHL's *server* weapon .cpp files with
 CLIENT_DLL to implement client prediction (see src/game/client/CMakeLists.txt,
-`../server/glock.cpp` ...). The nine OP4 weapons that have no server-only
-beam/tip entity dependency are compiled the same way. This file supplies only
-the five OP4 helpers those weapon bodies call; all weapon logic stays in the
-verbatim OP4 sources.
+`../server/glock.cpp` ...). OP4's own hl_cdll Makefile and VS project compile
+the same ten weapon bodies, plus CGrappleTip.cpp and ehandle.cpp, into its
+client DLL. This module reproduces that wiring on BHL without replacing BHL's
+prediction loop: the weapon logic stays in the pinned OP4 sources and the glue
+below only supplies the OP4 helpers plus two BHL/OP4 header-compatibility
+symbols. No BHL system is replaced or disabled.
 """
 
 CLIENT_PREDICTION_CPP = r'''/* ---------------------------------------------------------------------------
@@ -22,12 +24,31 @@ CLIENT_PREDICTION_CPP = r'''/* -------------------------------------------------
  * 1 = server-authoritative weapons. Both DLLs read the same engine cvar, so
  * client and server always agree. If the cvar is not visible on the client
  * yet, prediction mode is assumed, matching the server's default of 0.
+ *
+ * OP4's CGrappleTip.cpp and ehandle.cpp are also compiled into this DLL with
+ * CLIENT_DLL, exactly as in OP4's own hl_cdll build. OP4's cbase.h declares
+ * CWorld::World as an inline static pointer; the merged BHL cbase.h declares
+ * it out of line and adds EHANDLE::operator int(). The two definitions below
+ * close those two header-only link gaps. They contain no weapon behaviour;
+ * CWorld::World is null on the client in OP4 as well.
  * -------------------------------------------------------------------------*/
 #include "extdll.h"
+#include "util.h"
+#include "cbase.h"
+#include "weapons.h"
 #include "wrect.h"
 #include "cl_dll.h"
 #include "event_flags.h"
 #include "op4_compat.h"
+
+#ifdef CLIENT_DLL
+CWorld *CWorld::World = nullptr;
+
+EHANDLE::operator int()
+{
+	return Get() != nullptr;
+}
+#endif
 
 static int OP4_OldWeapons()
 {
@@ -62,13 +83,13 @@ bool UTIL_IsCTF()
 }
 '''
 
-# Nine OP4 weapons are predicted client-side. CGrapple is deliberately
-# server-authoritative: its beam/tip entities and EHANDLE helpers are
-# server-only, and importing them into the client DLL would require stubbing
-# out real OP4 code. Its UseDecrement() is overridden to FALSE instead.
+# All ten OP4 player weapons are predicted client-side. CGrapple, its tip
+# entity and OP4's ehandle.cpp are compiled with CLIENT_DLL exactly as in the
+# pinned OP4 client project; no weapon is left server-authoritative.
 CLIENT_PREDICTED_WEAPONS = (
     "CDisplacer",
     "CEagle",
+    "CGrapple",
     "CKnife",
     "CM249",
     "CPenguin",
@@ -78,11 +99,19 @@ CLIENT_PREDICTED_WEAPONS = (
     "CSporeLauncher",
 )
 
+# Extra OP4 sources from the pinned reference that OP4's own client DLL also
+# compiles; required by the real CGrapple/CGrappleTip bodies.
+CLIENT_EXTRA_SOURCES = (
+    "../server/op4/dlls/weapons/CGrappleTip.cpp",
+    "../server/op4/dlls/ehandle.cpp",
+)
+
 # (class name, WeaponId enum name) -- ids come from the OP4 WeaponId enum
 # merged into BHL's cdll_dll.h.
 CLIENT_PREDICTED_IDS = (
     ("CDisplacer", "WEAPON_DISPLACER"),
     ("CEagle", "WEAPON_EAGLE"),
+    ("CGrapple", "WEAPON_GRAPPLE"),
     ("CKnife", "WEAPON_KNIFE"),
     ("CM249", "WEAPON_M249"),
     ("CPenguin", "WEAPON_PENGUIN"),

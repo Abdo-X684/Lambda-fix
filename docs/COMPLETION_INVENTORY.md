@@ -59,20 +59,21 @@
 | الحالة | العدد | التفصيل |
 |---|---|---|
 | موصولة بـ `src/game/server/CMakeLists.txt` | 66 | 15 سلاحاً + CTF كاملاً + rope + NPC/كيانات + coop + glue |
-| `port_pending` بسبب مثبت | 5 | انظر §3.1 |
+| `port_pending` بسبب مثبت | 4 | انظر §3.1 |
 
-### 3.1 المستبعدات الخمس — أسباب جذرية مثبتة
+### 3.1 المستبعدات الأربع — أسباب جذرية مثبتة
 
 | الملف | الخطأ الجذري | التصنيف |
 |---|---|---|
 | `dlls/Wxdebug.cpp` | `#include <tchar.h>` غير موجود؛ الجسم كله داخل `#ifdef _DEBUG` ويستخدم Win32 registry | (ج) Windows-only، لا كود يُنتَج على Linux |
 | `dlls/squeakgrenade.cpp` | `SQUEAK_UP/DOWN/IDLE1/...` غير معرّفة؛ يعرّف `CSqueak`/`CSqueakGrenade` الموجودين في BHL | (ج) تكرار نظام BHL |
 | `dlls/world.cpp` | `g_pBodyQueueHead`, `CSave`/`CRestore` حديثة، `InstallGameRules(pWorld)`؛ يعرّف `CWorld` الموجود في BHL | (ج) تكرار؛ الـ singleton منقول نصّاً إلى glue |
-| `dlls/ehandle.cpp` | يعيد تعريف `EHANDLE` الخاص بـ BHL | (ج) تكرار ABI |
 | `dlls/UserMessages.cpp` | يعيد تعريف `LinkUserMessages()` الخاص بـ BHL | (ج) تكرار؛ رسائل OP4 سُجّلت من `GameDLLInit` بديلاً عنه |
 
 **ليست «ملفات معلّقة بلا توثيق»**: كل واحد مذكور هنا بالاسم والسبب، وموجود
 في الشجرة كمرجع، ومصنّف `port_pending` في `PROVENANCE.json`/`PORT_STATUS.json`.
+`dlls/ehandle.cpp` لم يعد ضمنها: يُترجم الآن داخل `client` مع `CLIENT_DLL`
+كما في مشروع عميل OP4 الأصلي، لدعم prediction الخاص بالـ Grapple.
 
 ### 3.2 تعارضات الربط التي حُلّت
 

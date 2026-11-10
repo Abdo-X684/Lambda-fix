@@ -6,14 +6,17 @@
     "license": "GPL-3.0",
     "merged_files": 17,
     "repo": "tmp64/BugfixedHL-Rebased",
-    "tree_sha256": "e0afd32cd7fa834ad36c78d45d8d109302f7eedcc512b640ad31814c0c6d5ddd",
+    "tree_sha256": "59c291a037749835b208e343e9343eea32861ede2038dcff56fecbd3cb6ffa77",
     "tree_sha256_note": "sha256 over sorted '<path>  <file sha256>' for every BHL-origin file on disk; verified by --check",
     "verbatim_files": 677
   },
   "cmake": {
     "src/game/client/CMakeLists.txt": [
+      "../server/op4/dlls/ehandle.cpp",
       "../server/op4/dlls/weapons/CDisplacer.cpp",
       "../server/op4/dlls/weapons/CEagle.cpp",
+      "../server/op4/dlls/weapons/CGrapple.cpp",
+      "../server/op4/dlls/weapons/CGrappleTip.cpp",
       "../server/op4/dlls/weapons/CKnife.cpp",
       "../server/op4/dlls/weapons/CM249.cpp",
       "../server/op4/dlls/weapons/CPenguin.cpp",
@@ -1587,7 +1590,7 @@
         "op4-cmake-sources"
       ],
       "origin": "bugfixhl",
-      "sha256": "373dc3c05ba7f966ce04955cb65cfe4bb818a326b2332f5b486282d02ac3323e"
+      "sha256": "97fd54fb78a1229745032dc9c64335fc2f10dc721d1f24b09690234ba42803c5"
     },
     "src/game/client/Exports.h": {
       "action": "verbatim",
@@ -2144,7 +2147,7 @@
         "op4-client-weapon-cases"
       ],
       "origin": "bugfixhl",
-      "sha256": "71f5731eda40b68ee80d0b814679cf4200258a543f46409b13f275430f36d8e0"
+      "sha256": "75a458d043f709f1407a84e1e75382b0d5c66717b94e4fa17580795c5b33a777"
     },
     "src/game/client/hud.cpp": {
       "action": "verbatim",
@@ -2820,7 +2823,7 @@
       "action": "compat-glue",
       "commit": null,
       "origin": "this-repo",
-      "sha256": "d5ad9a217e3c6a2433c07dfd9f254324cfbb7d4a0c829b3cc92a3496a950691c"
+      "sha256": "a6e81e21d959670862198f245050618f56e5aa8afeec906b6239d7438f9664c1"
     },
     "src/game/client/op4/op4_weapon_events.cpp": {
       "action": "compat-glue",
@@ -6081,13 +6084,9 @@
         {
           "count": 1,
           "rule": "bhl-holster-skiplocal"
-        },
-        {
-          "count": 1,
-          "rule": "bhl-grapple-server-authoritative"
         }
       ],
-      "sha256": "ea5777384e0558fdf95d2c4b6d8220f8fdca8ba5a37a037514015aa539409ee5",
+      "sha256": "ef6465c3baf46ca722f98b1ab101cfa59ff2321545cf8a2a2dae916219fb2529",
       "upstream_path": "dlls/weapons/CGrapple.h"
     },
     "src/game/server/op4/dlls/weapons/CGrappleTip.cpp": {
@@ -7631,7 +7630,7 @@
     "repo": "twhl-community/halflife-op4-updated"
   },
   "port_pending": {
-    "count": 26,
+    "count": 25,
     "files": [
       "src/game/client/op4/com_weapons.cpp",
       "src/game/client/op4/death.cpp",
@@ -7656,7 +7655,6 @@
       "src/game/client/op4/util.cpp",
       "src/game/server/op4/dlls/UserMessages.cpp",
       "src/game/server/op4/dlls/Wxdebug.cpp",
-      "src/game/server/op4/dlls/ehandle.cpp",
       "src/game/server/op4/dlls/squeakgrenade.cpp",
       "src/game/server/op4/dlls/world.cpp"
     ],

@@ -1,17 +1,17 @@
 {
   "binaries": "built from bhl-op4/ (BHL base + OP4 weapon sources)",
   "files": {
-    "INSTALL.md": "5afbe545f19ac3662d2452e02d78c7cd3fc95124bd0f0fdcb654eb813c51de13",
+    "INSTALL.md": "1b27261efb3d378c234cd4e3eb32a6dd230e524a22a89ed7e0010b40de87a383",
     "addons/amxmodx/scripting/bhl_api_example.sma": "2b4bbc1948f1ca9dfffab12e6b2c08ff627a8573fd4c5f4acd5e7f3f7602f4d2",
     "addons/amxmodx/scripting/include/bugfixedapi.inc": "f7812fd030226889cfcbd5992e896fe0af6e3a3be99116363d4daec267217c74",
     "autoexec.cfg": "f43f51ebf1eb6bfc790b58b1e40fae0700f6eb3019b44344cb1815f52379bdb6",
     "cfg/op4weapons.cfg": "6b97d8e4ba137bedc957bd57ed7f936b5cf73f42a54027727b165c5a82239614",
-    "cl_dlls/client.dll": "6eac8275611b8dd643448e0abd851c541818d0e6c0cbb333c6f443563eece6c3",
-    "cl_dlls/client.so": "af7b0053508e0ad175905e6abe5a21e82ee0060bf7ec535493e3690c4b4dc497",
+    "cl_dlls/client.dll": "17523acea18a19dfa24d87af5749a566fc0f504659f1bcfe769bc68a7b6b38d9",
+    "cl_dlls/client.so": "a99e135d845effae57b4275e12bdf0ce6019aee627b5521b09d98e55bf85c099",
     "commandmenu_default.txt": "9c5ec58db86e6b7bbe06e489c829f9a20a95b181392adcae37daa53b3379dea0",
     "delta.lst": "5251f80955b3a199429e316f851002f30620c443a5b6f197e96f1d063e4d3b0f",
-    "dlls/hl.dll": "466824961c2aa8cfff142421700d304b9d764d5bed2fe07e9c928d526df3e752",
-    "dlls/hl.so": "aed59a28a7c93d8373c2fe57e3a44bdd6bf5ca0766fe7c4afa192893af1dec34",
+    "dlls/hl.dll": "c11e7eedf4e4b309755c5456b391be84d384297d553ffc4e242febbbfee6ba11",
+    "dlls/hl.so": "34e53fc509c59818390943d9e19ab0167ebe1928c15343d6e40baeea7e308218",
     "liblist.gam": "9e327b2bdb1a59e9b1aa6917b1354e6304f9298c9977782cb89fdac13af0b8cc",
     "op4weapons.cfg": "6b97d8e4ba137bedc957bd57ed7f936b5cf73f42a54027727b165c5a82239614",
     "resource/GameMenu.res": "d01b50b6f2cdabe0525d69fd75f606c80cc6a6f06d61f226d87b18c05140aef4",
@@ -67,12 +67,12 @@
   },
   "in_game_tested_here": false,
   "linux": {
-    "cl_dlls/client.so": "af7b0053508e0ad175905e6abe5a21e82ee0060bf7ec535493e3690c4b4dc497",
-    "dlls/hl.so": "aed59a28a7c93d8373c2fe57e3a44bdd6bf5ca0766fe7c4afa192893af1dec34"
+    "cl_dlls/client.so": "a99e135d845effae57b4275e12bdf0ce6019aee627b5521b09d98e55bf85c099",
+    "dlls/hl.so": "34e53fc509c59818390943d9e19ab0167ebe1928c15343d6e40baeea7e308218"
   },
   "root": "BugfixedHL-Rebased (clean gamedir, byte-identical)",
   "windows": {
-    "cl_dlls/client.dll": "6eac8275611b8dd643448e0abd851c541818d0e6c0cbb333c6f443563eece6c3",
-    "dlls/hl.dll": "466824961c2aa8cfff142421700d304b9d764d5bed2fe07e9c928d526df3e752"
+    "cl_dlls/client.dll": "17523acea18a19dfa24d87af5749a566fc0f504659f1bcfe769bc68a7b6b38d9",
+    "dlls/hl.dll": "c11e7eedf4e4b309755c5456b391be84d384297d553ffc4e242febbbfee6ba11"
   }
 }

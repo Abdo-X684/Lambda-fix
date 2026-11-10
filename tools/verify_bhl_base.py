@@ -20,6 +20,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import posixpath
 import re
 import subprocess
 import sys
@@ -209,16 +210,17 @@ def compile_all(tree: Path, fetch_sdk: bool = True) -> dict:
         def compile_set(file_list: list[Path], argv: list[str] | None = None) -> dict:
             res = {}
             for src in file_list:
+                key = posixpath.normpath(str(src.relative_to(tree)))
                 cmd = (argv or args) + ["-o", str(obj), str(src)]
                 try:
                     r = subprocess.run(cmd, capture_output=True, text=True,
                                        env=env, timeout=90)
                 except subprocess.TimeoutExpired:
-                    res[str(src.relative_to(tree))] = {
+                    res[key] = {
                         "ok": False, "errors": 1, "gaps": ["compiler timeout"]}
                     continue
                 errs = re.findall(r"error: (.+)", r.stderr)
-                res[str(src.relative_to(tree))] = {
+                res[key] = {
                     "ok": r.returncode == 0 and not errs,
                     "errors": len(errs),
                     "gaps": sorted(set(errs))[:8],
@@ -284,7 +286,7 @@ def check(tree: Path) -> int:
             for rel, srcs in prov["cmake"].items():
                 side = "server" if "server" in rel else "client"
                 for s in srcs:
-                    key = f"src/game/{side}/{s}"
+                    key = posixpath.normpath(f"src/game/{side}/{s}")
                     if key not in st["files"] or not st["files"][key]["ok"]:
                         errors.append(f"wired source did not compile: {key}")
             print(f"  compile:       {st['clean']}/{st['total']} clean, {st['pending']} port-pending")

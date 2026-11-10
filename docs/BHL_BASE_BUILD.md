@@ -74,7 +74,7 @@ make verify
 | ملف | المحتوى |
 |---|---|
 | `BUILD_COMMANDS.txt` | 454 أمر ترجمة/ربط فعلي |
-| `SOURCES.sha256` | بصمة 446 ملف مصدر مُدخل |
+| `SOURCES.sha256` | بصمة 459 ملف مصدر مُدخل |
 | `compile-units.json` | 446 وحدة ترجمة، كلها `ok` |
 | `build.log` | سجل الترجمة والربط الكامل |
 | `UNDEFINED_SYMBOLS.txt` | `nm -u` الكامل للمكتبتين |
@@ -164,5 +164,5 @@ libc/libm، C++ ABI) ويوفّرها المحرك عند التحميل؛ لي�
   ولا أسلحة، ولا Monster/Rope/Grapple/CTF وقت تشغيل، ولا مراقبة أعطال.
   الأسباب والأدلة: `../build-evidence/bhl-base/RUNTIME_ENVIRONMENT.md`.
   - `dlls/ctf/ctfplay_gamerules.cpp` (قواعد CTF الفعلية) غير موصول؛
-    و**26 ملف OP4** ما زالت `port-pending` (21 عميل + 5 خادم مستبعدة بأسباب
+    و**25 ملف OP4** ما زالت `port-pending` (21 عميل + 4 خادم مستبعدة بأسباب
     معلَنة). التفاصيل في `BHL_FINAL_AUDIT.md` §7 و`LINK_GAP_CLOSURE.md`.

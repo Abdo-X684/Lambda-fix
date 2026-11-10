@@ -28,10 +28,11 @@ then launch Half-Life with `-game <folder name> -console`
   all ten OP4 weapons. `slot1`..`slot7` select them; `use weapon_eagle` etc.
   also work.
 
-Technical note: nine OP4 weapons are client-predicted from OP4's real shared
-weapon .cpp files, compiled into the BHL-based client DLL with CLIENT_DLL
-(the same mechanism BHL uses for its own 14 weapons). The barnacle grapple
-stays server-authoritative because its beam/tip entities are server-only.
+Technical note: all ten OP4 weapons are client-predicted from OP4's real
+shared weapon .cpp files, compiled into the BHL-based client DLL with
+CLIENT_DLL (the same mechanism BHL uses for its own 14 weapons). OP4's
+CGrappleTip.cpp and ehandle.cpp are compiled the same way, following OP4's
+own client project; no OP4 weapon is left server-authoritative.
 `sv_oldweapons 0` is the default; setting it to 1 switches all OP4 weapons
 to server-authoritative mode for troubleshooting. BHL's own 14 weapons and
 their prediction are unchanged.

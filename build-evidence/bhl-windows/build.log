@@ -7,8 +7,8 @@ zig  : /tmp/zenv/lib/python3.11/site-packages/ziglang/zig (x86-windows-gnu / PE3
 [gen] PCRE1 config.h / pcre.h from pcre.h.generic, config.h.generic
 [compat] 3 build fixes written to /home/user/Bugfixhl-speedrun-op4/build-evidence/bhl-windows/patches
 [compat] Windows build overlays written to /home/user/Bugfixhl-speedrun-op4/build-evidence/bhl-windows/patches
-[cmake] client=149 server=179 common=8 (Windows branches)
-[compile] client: 149/149 clean
+[cmake] client=152 server=179 common=8 (Windows branches)
+[compile] client: 152/152 clean
 [compile] win_support: 1/1 clean
 [compile] server: 179/179 clean
 [compile] tier1: 35/35 clean
@@ -23,23 +23,23 @@ zig  : /tmp/zenv/lib/python3.11/site-packages/ziglang/zig (x86-windows-gnu / PE3
 [ar] libglad.a: 1 objects
 [ar] libsemver.a: 1 objects
 [ar] libpcre.a: 21 objects
-[link] client.dll: 151 objects, 6 archives, 4 import libs
-[link] client.dll: OK (14903808 bytes)
+[link] client.dll: 154 objects, 6 archives, 4 import libs
+[link] client.dll: OK (14987264 bytes)
 [ar] libsemver.a: 1 objects
 [link] hl.dll: 179 objects, 1 archives, 0 import libs
 [link] hl.dll: OK (13909504 bytes)
 {
   "client.dll": {
     "path": "build-evidence/bhl-windows/client.dll",
-    "bytes": 14903808,
-    "sha256": "6eac8275611b8dd643448e0abd851c541818d0e6c0cbb333c6f443563eece6c3",
+    "bytes": 14987264,
+    "sha256": "17523acea18a19dfa24d87af5749a566fc0f504659f1bcfe769bc68a7b6b38d9",
     "pe32_i386": true,
     "is_windows_dll": true
   },
   "hl.dll": {
     "path": "build-evidence/bhl-windows/hl.dll",
     "bytes": 13909504,
-    "sha256": "466824961c2aa8cfff142421700d304b9d764d5bed2fe07e9c928d526df3e752",
+    "sha256": "c11e7eedf4e4b309755c5456b391be84d384297d553ffc4e242febbbfee6ba11",
     "pe32_i386": true,
     "is_windows_dll": true
   }

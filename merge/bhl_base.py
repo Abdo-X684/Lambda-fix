@@ -27,6 +27,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import posixpath
 import re
 import shutil
 import sys
@@ -1134,16 +1135,16 @@ def apply_merges(tree: Path, provenance: dict) -> None:
              "op4-client-setlocalbody")
 
     # ------------------------------------------------------------------
-    # Real client-side prediction for the nine OP4 weapons whose bodies are
-    # shared between the server and client DLLs. This mirrors exactly what
+    # Real client-side prediction for all ten OP4 weapons. This mirrors what
     # BHL already does for its own 14 weapons (see ../server/glock.cpp in the
     # client CMake source list): the same .cpp is compiled with CLIENT_DLL.
-    # CGrapple is intentionally server-authoritative (see the patch below).
+    # OP4's own client project also compiles CGrappleTip.cpp and ehandle.cpp.
     # ------------------------------------------------------------------
     headers = ("\n\t/* OP4-MERGE: OP4 client prediction weapon classes. The helpers\n"
-               "\t * are implemented in op4/op4_client_prediction.cpp; declaring\n"
-               "\t * them here avoids pulling server-only compat definitions\n"
-               "\t * into BHL's client translation unit. */\n"
+               "\t * and BHL/OP4 header-compatibility symbols are implemented in\n"
+               "\t * op4/op4_client_prediction.cpp; declaring them here avoids\n"
+               "\t * pulling server-only compat definitions into BHL's client\n"
+               "\t * translation unit. */\n"
                "\textern BOOL UTIL_DefaultUseDecrement();\n"
                "\textern int UTIL_DefaultPlaybackFlags();\n\n")
     for n in op4_client_prediction.CLIENT_PREDICTED_WEAPONS:
@@ -1280,10 +1281,12 @@ def apply_cmake(tree: Path, provenance: dict) -> None:
         srcs = build_sources(tree, side)
         if side == "client":
             # OP4's weapon bodies are shared with the client DLL, exactly like
-            # BHL's own ../server/glock.cpp etc. Nine of them have no
-            # server-only entity dependency; CGrapple is server-authoritative.
+            # BHL's own ../server/glock.cpp etc. All ten are compiled with
+            # CLIENT_DLL, together with OP4's own grapple-tip and EHANDLE
+            # sources from its hl_cdll target.
             srcs += [f"../server/op4/dlls/weapons/{n}.cpp"
                      for n in op4_client_prediction.CLIENT_PREDICTED_WEAPONS]
+            srcs += list(op4_client_prediction.CLIENT_EXTRA_SOURCES)
             srcs.append("op4/op4_client_prediction.cpp")
             srcs = sorted(set(srcs))
             inc_anchor = "target_include_directories( client PRIVATE\n\t.\n"
@@ -1426,16 +1429,6 @@ def build(out: Path) -> dict:
         s, n = fix_keyvalue_returns(s)
         if n:
             applied.append({"rule": "bhl-keyvalue-void-returns", "count": n})
-        if p.name == "CGrapple.h":
-            # CGrapple's beam/tip entities and EHANDLE helpers are server-only
-            # and are deliberately NOT imported into BHL's client DLL. Keep
-            # this one weapon server-authoritative: the server sends its
-            # animation/effects to the local player, and the client prediction
-            # loop has no case for WEAPON_GRAPPLE (so no double simulation).
-            old = "return UTIL_DefaultUseDecrement();"
-            if old in s:
-                s = s.replace(old, "return FALSE; /* OP4-MERGE: grapple is server-authoritative */", 1)
-                applied.append({"rule": "bhl-grapple-server-authoritative", "count": 1})
         if p.suffix == ".cpp" and 'op4_compat.h' not in s:
             s = s.replace('#include "extdll.h"',
                           '#include "extdll.h"\n#include "op4_compat.h"', 1)
@@ -1465,7 +1458,9 @@ def build(out: Path) -> dict:
     wired = set()
     for rel, srcs in cmake_sources.items():
         side = "server" if "server" in rel else "client"
-        wired.update(f"src/game/{side}/{s}" for s in srcs)
+        # Client CMake paths such as ../server/op4/... must normalize to the
+        # same src/game/server/op4/... keys used for the on-disk tree.
+        wired.update(posixpath.normpath(f"src/game/{side}/{s}") for s in srcs)
     pending = sorted(
         str(p.relative_to(out)) for p in out.rglob("*.cpp")
         if str(p.relative_to(out)).startswith("src/game/")

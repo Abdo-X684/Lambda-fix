@@ -368,7 +368,9 @@ CSysModule *Sys_LoadModule(const char *pModuleName)
         self.source_records.append({
             "set": "stackwalker", "source": "external/StackWalker.cpp",
             "sha256": hashlib.sha256(src.read_bytes()).hexdigest(),
-            "compiled_from": str(src), "object": obj.name, "status": "ok"})
+            "compiled_from": (str(src.relative_to(B.ROOT))
+                              if src.is_relative_to(B.ROOT) else str(src)),
+            "object": obj.name, "status": "ok"})
         return obj
 
     def link(self, name, objs, libs, archives=None):

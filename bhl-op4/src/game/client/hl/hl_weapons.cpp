@@ -20,14 +20,16 @@
 #include "nodes.h"
 
 	/* OP4-MERGE: OP4 client prediction weapon classes. The helpers
-	 * are implemented in op4/op4_client_prediction.cpp; declaring
-	 * them here avoids pulling server-only compat definitions
-	 * into BHL's client translation unit. */
+	 * and BHL/OP4 header-compatibility symbols are implemented in
+	 * op4/op4_client_prediction.cpp; declaring them here avoids
+	 * pulling server-only compat definitions into BHL's client
+	 * translation unit. */
 	extern BOOL UTIL_DefaultUseDecrement();
 	extern int UTIL_DefaultPlaybackFlags();
 
 	#include "weapons/CDisplacer.h"
 	#include "weapons/CEagle.h"
+	#include "weapons/CGrapple.h"
 	#include "weapons/CKnife.h"
 	#include "weapons/CM249.h"
 	#include "weapons/CPenguin.h"
@@ -102,6 +104,7 @@ CSqueak g_Snark;
 	/* OP4-MERGE: local client weapon objects (prediction) */
 	CDisplacer g_Displacer;
 	CEagle g_Eagle;
+	CGrapple g_Grapple;
 	CKnife g_Knife;
 	CM249 g_M249;
 	CPenguin g_Penguin;
@@ -672,6 +675,7 @@ void HUD_InitClientWeapons(void)
 	/* OP4-MERGE: register the OP4 weapons into g_pWpns[] */
 	HUD_PrepEntity(&g_Displacer, &player);
 	HUD_PrepEntity(&g_Eagle, &player);
+	HUD_PrepEntity(&g_Grapple, &player);
 	HUD_PrepEntity(&g_Knife, &player);
 	HUD_PrepEntity(&g_M249, &player);
 	HUD_PrepEntity(&g_Penguin, &player);
@@ -807,6 +811,10 @@ void HUD_WeaponsPostThink(local_state_s *from, local_state_s *to, usercmd_t *cmd
 
 	case WEAPON_EAGLE:
 		pWeapon = &g_Eagle;
+		break;
+
+	case WEAPON_GRAPPLE:
+		pWeapon = &g_Grapple;
 		break;
 
 	case WEAPON_KNIFE:

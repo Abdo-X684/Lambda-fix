@@ -44,7 +44,7 @@ ab576d01804dca58999d578b51a11b1f5517a5d6ab2a46dcb5d3f8e3cb93fd26  bhl-op4/src/ga
 fcde99813aa1645ca73be70df813e0b96fc684739c97e12028e04d088de6dbca  bhl-op4/src/game/client/hl/hl_baseentity.cpp
 61b49bdf1e824e287b69f8b694f289130f1e5f94444dc38d6a9eb66786824a24  bhl-op4/src/game/client/hl/hl_events.cpp
 f49691908f6c6c8621a4d5e191c54d86c7568e672576fb4dc680d2561b3cce6a  bhl-op4/src/game/client/hl/hl_objects.cpp
-71f5731eda40b68ee80d0b814679cf4200258a543f46409b13f275430f36d8e0  bhl-op4/src/game/client/hl/hl_weapons.cpp
+75a458d043f709f1407a84e1e75382b0d5c66717b94e4fa17580795c5b33a777  bhl-op4/src/game/client/hl/hl_weapons.cpp
 9f9c9a7da76a6e38bfcb05dc3fff59d5fe4d91ef5e0adf2f0cff1b887e935764  bhl-op4/src/game/client/hud/ag/ag_countdown.cpp
 b4bad70c668307bc0844320f1e296667ff8aa2cc3951c2a3044e12090e2615b4  bhl-op4/src/game/client/hud/ag/ag_ctf.cpp
 62d348a6fcae4d08c8297ca12ad4478f97b356f43e91fdb9a490ccd7b1a9e5b1  bhl-op4/src/game/client/hud/ag/ag_global.cpp
@@ -92,12 +92,12 @@ f9d1d7cbee446f598e605f9b3f76600f2991d6f99699766debbfa573ab735191  bhl-op4/src/ga
 923ee8a1ecd9abe99206793d2d6958c5e124f8cb836715366d72288939cc4120  bhl-op4/src/game/client/inputw32.cpp
 d60e9f5a6e32cc6792976253c5559a9fa621e57451f5366b37b31c8c321d925c  bhl-op4/src/game/client/interpolation.cpp
 d423a9ca1c6f72f4500803369879e0841f36ccaa03fcba8dcd015cdd43d51d98  bhl-op4/src/game/client/net_linux.cpp
-d5ad9a217e3c6a2433c07dfd9f254324cfbb7d4a0c829b3cc92a3496a950691c  bhl-op4/src/game/client/op4/op4_client_prediction.cpp
+a6e81e21d959670862198f245050618f56e5aa8afeec906b6239d7438f9664c1  bhl-op4/src/game/client/op4/op4_client_prediction.cpp
 b121a6441aa56b49a3c056f17729cf5579d10b814216de0b73acdadc6692cbee  bhl-op4/src/game/client/op4/op4_weapon_events.cpp
 f1ae1a895d0b9b2b820aed5fc2e2b06073cad5e44c72d387df4e38052f86df0d  bhl-op4/src/game/client/opengl.cpp
 b04318ab4f7ba23a8f9bf053077b2bfad7f1f1ab230f23c10fa21aa968d479fd  bhl-op4/src/game/client/player_info.cpp
 6b32279d8e6aa4180db78b85c74ad72e6f0a82da1a7b6949b530a18e27003fc7  bhl-op4/src/game/client/rainbow.cpp
-0473057bdd38eb13ab49958a42ae08470863b3d5ba3ec7f19b86837c24565f3e  /tmp/bhlbuild/compat/src/game/client/results.cpp
+ec11c2d1580c6edc56094bcc9a537f5b2ceb718936d7650acd09db18ddf521bd  build-evidence/bhl-base/compat/src/game/client/results.cpp
 4d021b8c6c03429843e26b4f8dc6f470caab63b9cb31e42ee75b7eecf343d852  bhl-op4/src/game/client/sdl_rt.cpp
 0df5c5d8066a2541b31100afc68ee5ad0953bd99aa2d6c3622c575fdfe503b8d  bhl-op4/src/game/client/studio_util.cpp
 77d891b3d76b9f80e15cd5ca500ecd2ad6dc88960a84f88b88f045c7c61feb50  bhl-op4/src/game/client/svc_messages.cpp
@@ -124,8 +124,11 @@ a7b640765d33faa456bc218381dfef5a2df997004ad5e1a56daef380d134da96  bhl-op4/src/ga
 ac593572610640d6fd8d094e0f11e125d08a566816a1cb24681def81c5ba7c31  bhl-op4/src/game/server/handgrenade.cpp
 c8e047bdfede5b3a02d4c3262922f65717c0801f13df35fb8307ad8b7f196560  bhl-op4/src/game/server/hornetgun.cpp
 f3b2b6491525045a017f7012638a2a1ae6c256b412adb2ee44d48666d74335b8  bhl-op4/src/game/server/mp5.cpp
+df5623c910ccb2142695e321f2772dd0a90315c96a771c739ae8451bab759c53  bhl-op4/src/game/server/op4/dlls/ehandle.cpp
 141d6d6f80f633c9c039e9d260ee04b8944a01aca165b2a14d57d56917f3f16c  bhl-op4/src/game/server/op4/dlls/weapons/CDisplacer.cpp
 10b701b6afb04bde98e0208ead0b157fce91be1493c915cf8bfed445d06bead6  bhl-op4/src/game/server/op4/dlls/weapons/CEagle.cpp
+280d2a52aa632002e69742c6004dabd5e1b5d4fef32a0ebf042353077b2acd9d  bhl-op4/src/game/server/op4/dlls/weapons/CGrapple.cpp
+ca3745e0c7244faab9ee7b733335c106a8057a5c451d9b3b605471a5af8640c2  bhl-op4/src/game/server/op4/dlls/weapons/CGrappleTip.cpp
 784451daf1e89b4d2e6ee2e9d75e059039bdef524691141691b7d6bd3e546c9e  bhl-op4/src/game/server/op4/dlls/weapons/CKnife.cpp
 f199164e9427d8953aa16c45cacc055763e087ea9f58982745f73afe1ef3f3cf  bhl-op4/src/game/server/op4/dlls/weapons/CM249.cpp
 5b9f296fd2288fb17994200e777030e39c403c7c0d81cdcc5e2848e1ce3022bc  bhl-op4/src/game/server/op4/dlls/weapons/CPenguin.cpp

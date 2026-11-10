@@ -29,7 +29,7 @@ help:
 	@echo "mod           - create the standalone bhlop4/ mod folder + zip (never gearbox/)"
 	@echo "clean         - remove build/, dist/ and fetched SDK cache"
 
-verify: hygiene test-py gen route-check noexcept-check test-cpp test-op4 test-op4-fixups verify-bhl-base merge-offline package mod
+verify: hygiene test-py gen route-check noexcept-check test-cpp test-op4 test-op4-fixups verify-bhl-base verify-weapon-inventory merge-offline package mod
 	@echo "== ALL CHECKS PASSED =="
 
 test: test-py test-cpp
@@ -112,6 +112,9 @@ bhl-base:
 verify-bhl-base:
 	$(PYTHON) -m merge.bhl_base --check --out bhl-op4
 	$(PYTHON) tools/verify_bhl_base.py --check
+
+verify-weapon-inventory:
+	$(PYTHON) tools/weapon_inventory.py --check
 
 fetch:
 	$(PYTHON) -m merge.cli fetch

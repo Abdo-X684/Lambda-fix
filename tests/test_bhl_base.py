@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import posixpath
 import subprocess
 import sys
 import unittest
@@ -83,7 +84,7 @@ class BhlBaseTreeTests(unittest.TestCase):
             for s in srcs:
                 if s not in cmake_text:
                     errors.append(f"not in CMake: {s}")
-                key = f"src/game/{side}/{s}"
+                key = posixpath.normpath(f"src/game/{side}/{s}")
                 rec = self.status["files"].get(key)
                 if not rec or not rec["ok"]:
                     errors.append(f"did not compile: {key}")
@@ -159,7 +160,8 @@ class BhlBaseTreeTests(unittest.TestCase):
         wired = set()
         for rel, srcs in self.prov["cmake"].items():
             side = "server" if "server" in rel else "client"
-            wired.update(f"src/game/{side}/{s}" for s in srcs)
+            wired.update(posixpath.normpath(f"src/game/{side}/{s}")
+                         for s in srcs)
         pending = sorted(
             str(p.relative_to(TREE)) for p in TREE.rglob("*.cpp")
             if "/op4/" in str(p.relative_to(TREE))

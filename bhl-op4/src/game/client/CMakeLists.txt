@@ -307,8 +307,11 @@ source_group( TREE ${PROJECT_SOURCE_DIR} FILES ${SOURCE_FILES} )
 
 # OP4-MERGE: OP4 subsystem sources proven to compile against BHL headers
 list( APPEND SOURCE_FILES
+	../server/op4/dlls/ehandle.cpp
 	../server/op4/dlls/weapons/CDisplacer.cpp
 	../server/op4/dlls/weapons/CEagle.cpp
+	../server/op4/dlls/weapons/CGrapple.cpp
+	../server/op4/dlls/weapons/CGrappleTip.cpp
 	../server/op4/dlls/weapons/CKnife.cpp
 	../server/op4/dlls/weapons/CM249.cpp
 	../server/op4/dlls/weapons/CPenguin.cpp

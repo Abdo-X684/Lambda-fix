@@ -53,7 +53,7 @@ python3 tools/probe_runtime_environment.py
 ## ما لم يُكتمل صراحةً
 
 - **`dlls/ctf/ctfplay_gamerules.cpp` وُصل في هذه الجولة**: نُقلت ملكية الـ15 رمزاً CTF إلى الملف الحقيقي، وحُذفت نسخ glue، وأضيفت القوائم/cvars/الرسائل/virtuals، وصار `InstallGameRules` ينشئ قواعد CTF و`IsCTF()` يعيد `true`. يبقى أن HUD عميل OP4 غير موصول (VGUI1/VGUI2) وأن **مباراة CTF غير مُختبَرة داخل اللعبة**.
-- **26 ملف OP4 ما زالت `port-pending`** (21 عميل + 5 خادم). الخمسة الخادم مستبعدة بأسباب معلَنة: `ehandle.cpp`، `UserMessages.cpp`، `squeakgrenade.cpp`، `world.cpp` تكرّر أنظمة BHL؛ `Wxdebug.cpp` Windows-only. `ctfplay_gamerules.cpp` لم يعد ضمنها. أسباب الـ21 عميل مفصّلة في `docs/COMPLETION_INVENTORY.md` §4.
+- **25 ملف OP4 ما زالت `port-pending`** (21 عميل + 4 خادم). الأربعة الخادم مستبعدة بأسباب معلَنة: `UserMessages.cpp`، `squeakgrenade.cpp`، `world.cpp` تكرّر أنظمة BHL؛ `Wxdebug.cpp` Windows-only. `ehandle.cpp` موصول الآن في عميل OP4. `ctfplay_gamerules.cpp` لم يعد ضمنها. أسباب الـ21 عميل مفصّلة في `docs/COMPLETION_INVENTORY.md` §4.
 - ملفات OP4 الأساسية (`weapons.cpp`، `monsters.cpp`، `world.cpp`، `game.cpp`، `util.cpp`، `gamerules.cpp`) تبقى `reference-only`؛ لم تُدمج ككتلة واحدة.
 - **لا اختبار داخل Opposing Force**: لا محرك، لا `vgui.so`، لا أصول شرعية، ولا محمّل ELF32 ديناميكي. مفصّل في `RUNTIME_ENVIRONMENT.md`.
 - لم يُنفَّذ `cmake` كاملاً (استُخدم استنساخ أمين لقوائم/تعريفات CMake مع clang/Zig موجّه إلى i386).

@@ -157,7 +157,7 @@ git diff c067b51~1 -- merge/op4_weapon_events.py merge/bhl_base.py \
 3. **أصول HUD/النماذج/الأصوات:** ملفات `sprites/*.spr` و`models/v_*.mdl` وملفات
    `weapon_*.txt` وأصوات OP4 غير مضمّنة قانونياً في المستودع؛ `Precache()` الأصلي
    والحدث الأصلي يشيران إليها، لكن تشغيلها الفعلي غير مُثبت.
-4. **26 ملف OP4 ما زالت `port_pending`** — ليست أخطاء في هذه المرحلة؛ أسبابها معلَنة
+4. **25 ملف OP4 ما زالت `port_pending`** — ليست أخطاء في هذه المرحلة؛ أسبابها معلَنة
    في [`COMPLETION_INVENTORY.md`](COMPLETION_INVENTORY.md) ولا تُنقل بالجملة.
 5. `weapon_shockroach` صنف خادم مرتبط لكن OP4 نفسه لا يسجّله في `W_Precache()`
    (سلاح وحش)؛ لم يُضف تسجيلاً غير موجود في المصدر.

@@ -124,7 +124,7 @@ python3 tools/build_bhl_base.py
 |---|---|
 | وحدات ترجمة | **446** (كلها `ok`) — عميل 139، خادم 179، tier1 35، tier2 3، vgui 68، glad/semver 2، PCRE 20 |
 | أوامر موثّقة | 454 في `BUILD_COMMANDS.txt` |
-| بصمات مصادر الإدخال | 446 في `SOURCES.sha256` |
+| بصمات مصادر الإدخال | 459 في `SOURCES.sha256` |
 | مكتبات ثابتة | 6 أرشيفات، ربط بلا `--allow-shlib-undefined` |
 | `client.so` | 27,802,960 B — `3cae1d779c5a2a2d47e138baa43a45bb06d870037dd6da995f581532d32d9100` |
 | `hl.so` | 21,232,512 B — `09550d9b2acc2f0fca05857d8d6eaf3112f1fcf32d0fd40a6404884463f46cf1` |
@@ -200,9 +200,8 @@ python3 tools/build_bhl_base.py
 
 1. لا اختبار داخل Opposing Force (السبب الكامل في القسم 4)؛ ولا إعادة اختبار
    داخل اللعبة بعد آخر تعديل.
-2. **26 ملف `port_pending`** إجمالاً (21 عميل + 5 خادم). أسباب الخمسة الخادم
+2. **25 ملف `port_pending`** إجمالاً (21 عميل + 4 خادم). أسباب الأربعة الخادم
    معلَنة، لا مُخفاة:
-   - `dlls/ehandle.cpp`: يكرّر `EHANDLE` مع `cbase.cpp` في BHL.
    - `dlls/UserMessages.cpp`: يكرّر `LinkUserMessages()` في BHL (رسائل OP4
      سُجّلت من `GameDLLInit` بديلاً عنه).
    - `dlls/squeakgrenade.cpp`: يكرّر `CSqueak`/`CSqueakGrenade` في BHL.

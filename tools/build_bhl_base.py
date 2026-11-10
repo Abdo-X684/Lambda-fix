@@ -387,7 +387,10 @@ class Builder:
         self.sdk = args.sdk
         self.deps = args.deps
         self.gen = self.work / "gen"
-        self.compat = self.work / "compat"
+        # Keep the compiled source overlays under the evidence tree, with
+        # repo-relative paths. SOURCES.sha256 must point at real, persistent
+        # files and hash the bytes that were actually compiled.
+        self.compat = self.out / "compat"
         self.sdkinc = self.work / "sdkinc"
         self.obj = self.work / "obj"
         self.cache = self.work / "zigcache"
@@ -401,6 +404,8 @@ class Builder:
             shutil.rmtree(self.out / "failed")
         for stale in self.out.glob("*.link.log"):
             stale.unlink()
+        if self.compat.exists():
+            shutil.rmtree(self.compat)
         for p in (self.gen, self.compat, self.cache, self.out):
             p.mkdir(parents=True, exist_ok=True)
         if self.sdkinc.exists():
@@ -457,6 +462,18 @@ class Builder:
             (patches / name).write_text("".join(difflib.unified_diff(
                 orig, new, fromfile="original", tofile="build-overlay", n=3)))
         (patches / "vgui_pch.h").write_text(VGUI_PCH_TEXT)
+        # The overlays are committed build evidence; keep them hygiene-clean.
+        # Stripping trailing whitespace has no semantic effect for C++ files.
+        for f in self.compat.rglob("*"):
+            if not f.is_file():
+                continue
+            try:
+                t = f.read_text()
+            except UnicodeDecodeError:
+                continue
+            clean = "\n".join(line.rstrip() for line in t.splitlines()) + "\n"
+            if clean != t:
+                f.write_text(clean)
         log("[compat] 3 build fixes written to " + str(patches), self.logf)
 
     def includes(self, kind: str) -> list[str]:
@@ -526,7 +543,7 @@ class Builder:
             self.commands.append(" ".join(cmd))
             rel = str(src.relative_to(ROOT))
             self.source_records.append({
-                "set": tag, "source": rel, "sha256": sha256(src),
+                "set": tag, "source": rel, "sha256": sha256(use),
                 "compiled_from": (str(use.relative_to(ROOT)) if use.is_relative_to(ROOT)
                                   else str(use)) if use != src else rel,
                 "object": o.name, "status": "ok" if rc == 0 else "error"})

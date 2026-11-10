@@ -25,7 +25,7 @@
 | **BASE** | `tmp64/BugfixedHL-Rebased @ 4d32095e3c33` (GPL-3.0) | **694** | **677 ملفاً حرفياً** (مطابقة بايت-ببايت للـ commit) + 17 ملفاً عليها دمج معلن |
 | **ADD / MERGE** | `twhl-community/halflife-op4-updated @ 5368be7f8eba` | **154** | أسلحة، CTF، rope، كيانات OP4، أحداث العميل |
 | **GLUE** | هذا المستودع | **10** | `op4_compat.h`, `op4_compat_late.h`, `op4_compat.cpp`, `op4_link_fixups.cpp`, `op4_entity_enumerator.h`, `op4_ctf_player.cpp`, `op4_weapon_timing.{h,cpp}`, `op4/op4_weapon_events.{h,cpp}` |
-| بيان المصدر | — | **858** مدخلاً | لكل ملف: الأصل، `commit`، `sha256`، `action`، أسماء القواعد |
+| بيان المصدر | — | **859** مدخلاً | لكل ملف: الأصل، `commit`، `sha256`، `action`، أسماء القواعد |
 
 الشجرة كاملة **متتبَّعة في Git** داخل `bhl-op4/` (وليست في `.cache/` المستثنى)،
 ومعها `PROVENANCE.json`: `action` يكون `verbatim` / `bhl+op4-merge` /
@@ -123,10 +123,10 @@ cvars ورسائل OP4 أُضيفت في glue مُوسوم `op4_ctf_player.cpp` 
 * **66 مصدراً** موصولة بـ `src/game/server/CMakeLists.txt` — هدف البناء لا
   يضمّ ملفاً معطوباً ولا ملفاً فيه فجوة ربط معلنة؛ `--check` يتحقق من أن كل
   ملف موصول نظيف (0 فشل). البناء الفعلي أنتج 179 كائن خادم وصفر فجوة ربط.
-* **26 ملف `port_pending`** (21 عميل + 5 خادم). الأربعة التي لا تُترجم بعد
+* **25 ملف `port_pending`** (21 عميل + 4 خادم). الأربعة التي لا تُترجم بعد
   (`Wxdebug.cpp`، `squeakgrenade.cpp`، `world.cpp`،
   `ctf/ctfplay_gamerules.cpp`) ومصدران نظيفان مستبعدان لتكرار أنظمة BHL
-  (`ehandle.cpp`, `UserMessages.cpp`) مفصّلة بأسبابها في `BHL_FINAL_AUDIT.md` §7.
+  (`UserMessages.cpp`) مفصّلة بأسبابها؛ `ehandle.cpp` موصول الآن في عميل OP4 في `BHL_FINAL_AUDIT.md` §7.
 
 > `--check` يفشل إذا أي مصدر موصول بـ CMake لم يُترجم بنجاح. لا يمكن إدعاء
 > «مدموج» لملف لا يُترجم.

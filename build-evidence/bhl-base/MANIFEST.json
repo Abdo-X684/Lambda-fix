@@ -7,7 +7,7 @@
   ],
   "libraries": {
     "client.so": {
-      "bytes": 28159316,
+      "bytes": 28261832,
       "elf32": true,
       "exported_game_entry_points": [
         "HUD_Frame",
@@ -21,7 +21,7 @@
         "Initialize",
         "V_CalcRefdef"
       ],
-      "exported_symbol_count": 5075,
+      "exported_symbol_count": 5104,
       "needed": [
         "libSDL2-2.0.so.0",
         "libtier0.so",
@@ -31,7 +31,7 @@
         "ld-linux.so.2"
       ],
       "path": "build-evidence/bhl-base/client.so",
-      "sha256": "af7b0053508e0ad175905e6abe5a21e82ee0060bf7ec535493e3690c4b4dc497",
+      "sha256": "a99e135d845effae57b4275e12bdf0ce6019aee627b5521b09d98e55bf85c099",
       "undefined_symbol_count": 311,
       "unresolved_own_build_symbols": []
     },
@@ -51,7 +51,7 @@
         "ld-linux.so.2"
       ],
       "path": "build-evidence/bhl-base/hl.so",
-      "sha256": "aed59a28a7c93d8373c2fe57e3a44bdd6bf5ca0766fe7c4afa192893af1dec34",
+      "sha256": "34e53fc509c59818390943d9e19ab0167ebe1928c15343d6e40baeea7e308218",
       "undefined_symbol_count": 156,
       "unresolved_own_build_symbols": []
     }
@@ -59,7 +59,7 @@
   "note": "Built and ELF-verified only. NOT tested inside Opposing Force: this sandbox has no HL engine, real vgui.so or legitimate OP4 assets. See docs/BHL_BASE_BUILD.md.",
   "purpose": "real 32-bit build from the BugfixedHL-root bhl-op4/ tree",
   "source_lists": {
-    "client": 149,
+    "client": 152,
     "pcre": 20,
     "server": 179,
     "tier1": 35,
