@@ -43,10 +43,11 @@ jobs:
                   if imp.name:
                       imports[dll].append(imp.name.decode())
           for dll in custom:
+              base = dll.split('.')[0]
               lines = ['EXPORTS']
               for sym in imports[dll]:
                   lines.append('    %s=dummy' % json.dumps(sym))
-              pathlib.Path('wineenv/%s.def' % dll).write_text('\n'.join(lines) + '\n')
+              pathlib.Path('wineenv/%s.def' % base).write_text('\n'.join(lines) + '\n')
           pathlib.Path('wineenv/dummy.c').write_text(
               'void __declspec(dllexport) dummy(void) {}\n')
           for dll in custom:
