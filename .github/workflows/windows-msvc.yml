@@ -41,6 +41,11 @@ jobs:
           runVcpkgInstall: true
           vcpkgTriplet: x86-windows-static
 
+      - name: Fetch Metamod headers for BHL's AMXX module
+        shell: pwsh
+        run: |
+          git clone --depth 1 https://github.com/alliedmodders/metamod-hl1.git bhl-op4/external/metamod
+
       - name: Persist the vcpkg root before MSVC resets it
         shell: pwsh
         run: |
