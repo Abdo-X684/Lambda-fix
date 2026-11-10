@@ -41,6 +41,10 @@ jobs:
           runVcpkgInstall: true
           vcpkgTriplet: x86-windows-static
 
+      - uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: x86
+
       - name: Install SDL2 and DirectInput import libraries for BHL's Windows client
         shell: pwsh
         run: |
@@ -48,18 +52,25 @@ jobs:
           $sdl = Get-ChildItem -Path "$env:VCPKG_ROOT/installed/x86-windows/lib" -Filter SDL2.lib -Recurse | Select-Object -First 1
           if (-not $sdl) { throw "SDL2.lib not found in vcpkg" }
           Copy-Item $sdl.FullName "bhl-op4/lib/public/SDL2.lib" -Force
-          $dinput = Get-ChildItem -Path "$env:WindowsSdkDir/Lib" -Recurse -Filter dinput8.lib |
-            Where-Object { $_.FullName -like '*\um\x86\*' } | Select-Object -First 1
-          $dxguid = Get-ChildItem -Path "$env:WindowsSdkDir/Lib" -Recurse -Filter dxguid.lib |
-            Where-Object { $_.FullName -like '*\um\x86\*' } | Select-Object -First 1
+          $roots = @('C:\Program Files (x86)\Windows Kits\10\Lib')
+          if ($env:WindowsSdkDir) { $roots += (Join-Path $env:WindowsSdkDir 'Lib') }
+          $dinput = $null
+          $dxguid = $null
+          foreach ($root in $roots) {
+            if (-not (Test-Path $root)) { continue }
+            if (-not $dinput) {
+              $dinput = Get-ChildItem -Path $root -Recurse -Filter dinput8.lib -ErrorAction SilentlyContinue |
+                Where-Object { $_.FullName -like '*\um\x86\*' } | Select-Object -First 1
+            }
+            if (-not $dxguid) {
+              $dxguid = Get-ChildItem -Path $root -Recurse -Filter dxguid.lib -ErrorAction SilentlyContinue |
+                Where-Object { $_.FullName -like '*\um\x86\*' } | Select-Object -First 1
+            }
+          }
           if (-not $dinput -or -not $dxguid) { throw "Windows SDK dinput8.lib/dxguid.lib not found" }
           New-Item -ItemType Directory -Force -Path "bhl-op4/external/windows/dinput/lib" | Out-Null
           Copy-Item $dinput.FullName "bhl-op4/external/windows/dinput/lib/dinput8.lib" -Force
           Copy-Item $dxguid.FullName "bhl-op4/external/windows/dinput/lib/dxguid.lib" -Force
-
-      - uses: ilammy/msvc-dev-cmd@v1
-        with:
-          arch: x86
 
       - name: Configure MSVC/Win32 CMake build
         shell: pwsh
