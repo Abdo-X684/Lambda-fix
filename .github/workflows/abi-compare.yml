@@ -84,7 +84,8 @@ jobs:
           PY
           git config user.name "arena-bot"
           git config user.email "arena-bot@users.noreply.github.com"
-          git add build-evidence/bhl-windows/UPSTREAM_ABI_COMPARE.txt build-evidence/bhl-windows/UPSTREAM_client.dll
+          git add build-evidence/bhl-windows/UPSTREAM_ABI_COMPARE.txt
+          git add -f build-evidence/bhl-windows/UPSTREAM_client.dll
           git commit -m "Add upstream client DLL for MSVC-ABI build comparison" || echo "no changes"
           git pull --rebase origin arena/dd30bd22-bugfixhl-speedrun-op4
           git push origin HEAD:arena/dd30bd22-bugfixhl-speedrun-op4
