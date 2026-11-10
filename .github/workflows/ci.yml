@@ -13,6 +13,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+      - name: Fetch pinned clean BHL/OP4 sources for the live weapon inventory
+        run: make fetch
       - name: Verify the BHL-based merge tree (provenance + compiled OP4 sources)
         run: make verify-bhl-base
       - name: Full verification (python + C++ + generation + offline merge + package)
