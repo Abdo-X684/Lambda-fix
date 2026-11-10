@@ -1,0 +1,22 @@
+UPSTREAM: /tmp/bhl-upstream/BugfixedHL-1.13.2-client/valve_addon/cl_dlls/client.dll
+upstream.size = 5473792
+ours.size = 2015744
+upstream.sha256 = 'd1fbc38d5d3678f8a2f353ec811db8c8869ded68b2b4e5191f845d9bf955b620'
+ours.sha256 = '8b92f173f3153ed8d79325726ef21220335ddcd3ced64bbf24a72c6591441553'
+upstream.image_base = '0x10000000'
+ours.image_base = '0x10000000'
+upstream.size_of_image = '0x579000'
+ours.size_of_image = '0x221000'
+upstream.subsystem = (6, 0)
+ours.subsystem = (6, 0)
+upstream.dll_characteristics = '0x140'
+ours.dll_characteristics = '0x140'
+
+DLLs only in ours: []
+DLLs only in upstream: ['CRYPT32.dll', 'WS2_32.dll', 'bcrypt.dll']
+ADVAPI32.dll: ONLY_OURS=[] ONLY_UPSTREAM=['CryptAcquireContextA', 'CryptAcquireContextW', 'CryptCreateHash', 'CryptDestroyHash', 'CryptGenRandom', 'CryptGetHashParam', 'CryptHashData', 'CryptReleaseContext']
+KERNEL32.dll: ONLY_OURS=[] ONLY_UPSTREAM=['AcquireSRWLockShared', 'CloseThreadpoolTimer', 'CloseThreadpoolWait', 'CloseThreadpoolWork', 'CompareStringEx', 'CopyFileW', 'CreateDirectoryExW', 'CreateEventExW', 'CreateHardLinkW', 'CreateMutexA', 'CreateSemaphoreExW', 'CreateSymbolicLinkW', 'CreateThreadpoolTimer', 'CreateThreadpoolWait', 'CreateThreadpoolWork', 'DeleteFileW', 'DeviceIoControl', 'FileTimeToLocalFileTime', 'FlushProcessWriteBuffers', 'FormatMessageW', 'FreeLibraryWhenCallbackReturns', 'GetCurrentProcessorNumber', 'GetDiskFreeSpaceExW', 'GetFileAttributesW', 'GetFileTime', 'GetFinalPathNameByHandleW', 'GetNativeSystemInfo', 'GetSystemDirectoryW', 'GetSystemInfo', 'GetTempPathW', 'GetTickCount', 'GetTickCount64', 'InitOnceBeginInitialize', 'InitOnceComplete', 'InitOnceExecuteOnce', 'InterlockedPushEntrySList', 'IsThreadAFiber', 'MoveFileExW', 'OutputDebugStringW', 'QueryPerformanceFrequency', 'ReleaseMutex', 'ReleaseSRWLockShared', 'RtlCaptureStackBackTrace', 'SetConsoleCtrlHandler', 'SetCurrentDirectoryW', 'SetFileAttributesW', 'SetFileTime', 'SetThreadpoolTimer', 'SetThreadpoolWait', 'Sleep', 'SleepEx', 'SubmitThreadpoolWork', 'SwitchToThread', 'TryAcquireSRWLockShared', 'VerSetConditionMask', 'VerifyVersionInfoW', 'VirtualAlloc', 'VirtualFree', 'WaitForThreadpoolTimerCallbacks', 'WakeConditionVariable']
+WSOCK32.dll: ONLY_OURS=[] ONLY_UPSTREAM=['WSASetLastError', 'accept', 'bind', 'connect', 'getpeername', 'getsockname', 'getsockopt', 'htonl', 'htons', 'inet_addr', 'listen', 'ntohs', 'recv', 'send', 'setsockopt']
+
+Exports only in ours: []
+Exports only in upstream: []
