@@ -28,6 +28,9 @@ jobs:
           github-token: ${{ github.token }}
           path: downloaded
 
+      - name: Fetch pinned clean upstreams for the inventory generator
+        run: make fetch
+
       - name: Install the rebuilt DLLs and refresh the package
         run: |
           python3 - <<'PY'
