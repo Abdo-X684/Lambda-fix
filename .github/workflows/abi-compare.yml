@@ -75,10 +75,16 @@ jobs:
           print('\n'.join(lines))
           PY
 
-      - name: Push the comparison report to the branch
+      - name: Push the comparison report and original client DLL to the branch
         run: |
+          python3 - <<'PY'
+          import pathlib, shutil
+          upstream = next(pathlib.Path('/tmp/bhl-upstream').rglob('client.dll'))
+          shutil.copy2(upstream, 'build-evidence/bhl-windows/UPSTREAM_client.dll')
+          PY
           git config user.name "arena-bot"
           git config user.email "arena-bot@users.noreply.github.com"
-          git add build-evidence/bhl-windows/UPSTREAM_ABI_COMPARE.txt
-          git commit -m "Add upstream ABI comparison for MSVC-ABI build" || echo "no changes"
+          git add build-evidence/bhl-windows/UPSTREAM_ABI_COMPARE.txt build-evidence/bhl-windows/UPSTREAM_client.dll
+          git commit -m "Add upstream client DLL for MSVC-ABI build comparison" || echo "no changes"
+          git pull --rebase origin arena/dd30bd22-bugfixhl-speedrun-op4
           git push origin HEAD:arena/dd30bd22-bugfixhl-speedrun-op4
