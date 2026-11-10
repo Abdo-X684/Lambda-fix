@@ -1,0 +1,88 @@
+name: Publish ws2_32 MSVC DLL artifact
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - arena/dd30bd22-bugfixhl-speedrun-op4
+    paths:
+      - .github/workflows/publish-ws2-dlls.yml
+
+permissions:
+  actions: read
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: arena/dd30bd22-bugfixhl-speedrun-op4
+          persist-credentials: true
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: msvc-dlls
+          run-id: 42890607926
+          github-token: ${{ github.token }}
+          path: downloaded
+
+      - name: Install the rebuilt DLLs and refresh the package
+        run: |
+          python3 - <<'PY'
+          import hashlib, json, pathlib, shutil
+          root = pathlib.Path('.')
+          downloaded = pathlib.Path('downloaded')
+          client = next(downloaded.rglob('client.dll'))
+          server = next(downloaded.rglob('hl.dll'))
+          targets = {
+              client: [
+                  'build-evidence/bhl-windows/client.dll',
+                  'build-evidence/bhl-base/mod/cl_dlls/client.dll',
+              ],
+              server: [
+                  'build-evidence/bhl-windows/hl.dll',
+                  'build-evidence/bhl-base/mod/dlls/hl.dll',
+              ],
+          }
+          for src, dsts in targets.items():
+              for dst in dsts:
+                  shutil.copy2(src, dst)
+              print(src, src.stat().st_size, hashlib.sha256(src.read_bytes()).hexdigest())
+          manifest_path = root / 'build-evidence/bhl-windows/MANIFEST.json'
+          manifest = json.loads(manifest_path.read_text())
+          for name, rec in manifest['libraries'].items():
+              p = root / 'build-evidence/bhl-windows' / name
+              rec['bytes'] = p.stat().st_size
+              rec['sha256'] = hashlib.sha256(p.read_bytes()).hexdigest()
+          manifest['note'] = (
+              'Built from the BHL-based bhl-op4 tree with Visual Studio 2022 MSVC / Win32 '
+              'and the static MSVC runtime. Winsock is linked by name through ws2_32.lib '
+              'instead of ordinal-only wsock32.lib for Wine compatibility. All ten OP4 '
+              'weapons remain wired for client prediction. NOT tested in-game here.'
+          )
+          manifest_path.write_text(json.dumps(manifest, indent=2, sort_keys=True) + '\n')
+          PY
+          python3 tools/weapon_inventory.py --write
+          python3 tools/create_playable_mod.py
+          python3 tools/weapon_inventory.py --check
+          echo '=== Windows client DLL imports ==='
+          objdump -p build-evidence/bhl-windows/client.dll | grep 'DLL Name' | sort -u
+          if objdump -p build-evidence/bhl-windows/client.dll | grep -qi 'WSOCK32.dll'; then
+            echo 'ERROR: ordinal-only WSOCK32.dll import is still present'
+            exit 1
+          fi
+
+      - name: Push the refreshed package to the working branch
+        run: |
+          git config user.name "arena-bot"
+          git config user.email "arena-bot@users.noreply.github.com"
+          git add build-evidence/bhl-windows/client.dll build-evidence/bhl-windows/hl.dll \
+            build-evidence/bhl-base/mod/cl_dlls/client.dll build-evidence/bhl-base/mod/dlls/hl.dll \
+            build-evidence/bhl-windows/MANIFEST.json build-evidence/bhl-base/bhl-base-mod.zip \
+            build-evidence/bhl-base/MOD_MANIFEST.json build-evidence/bhl-base/mod/MOD_MANIFEST.json \
+            build-evidence/bhl-base/mod/INSTALL.md docs/WEAPON_INVENTORY.md
+          git commit -m "Publish ws2_32 MSVC-ABI build package for Wine loader" || echo "no changes"
+          git pull --rebase origin arena/dd30bd22-bugfixhl-speedrun-op4
+          git push origin HEAD:arena/dd30bd22-bugfixhl-speedrun-op4
