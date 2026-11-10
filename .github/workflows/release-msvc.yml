@@ -1,0 +1,36 @@
+name: Publish current MSVC package
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - arena/dd30bd22-bugfixhl-speedrun-op4
+    paths:
+      - .github/workflows/release-msvc.yml
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: arena/dd30bd22-bugfixhl-speedrun-op4
+
+      - name: Attach the current MSVC package to a GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: bhl-op4-msvc-20261110
+        run: |
+          files="build-evidence/bhl-base/bhl-base-mod.zip build-evidence/bhl-windows/client.dll build-evidence/bhl-windows/hl.dll"
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" $files --clobber
+          else
+            gh release create "$TAG" $files \
+              --target arena/dd30bd22-bugfixhl-speedrun-op4 \
+              --title "BHL + OP4 current package (MSVC ABI)" \
+              --notes "MSVC/Win32 client.dll and hl.dll; all ten OP4 weapons client-predicted. Main menu not tested in-game here."
+          fi
+          gh release view "$TAG" --json assets
