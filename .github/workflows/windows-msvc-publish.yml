@@ -1,0 +1,111 @@
+name: Build and publish MSVC-ABI Windows DLLs
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: Branch to publish the rebuilt DLLs to
+        required: true
+        default: arena/dd30bd22-bugfixhl-speedrun-op4
+
+permissions:
+  contents: write
+
+jobs:
+  msvc:
+    runs-on: windows-2022
+    env:
+      VCPKG_DEFAULT_TRIPLET: x86-windows-static
+      VCPKG_DEFAULT_HOST_TRIPLET: x64-windows
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.branch }}
+          persist-credentials: true
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Fetch pinned clean upstreams and regenerate the BHL-based tree
+        shell: pwsh
+        run: |
+          python -m merge.cli fetch
+          python -m merge.bhl_base --out bhl-op4
+          python -c "import sys; sys.path.insert(0, 'tools'); import verify_bhl_base as v; assert v.ensure_source_sdk(True); print('source_sdk ready')"
+          python -c "import shutil, pathlib; shutil.copytree('.cache/upstreams/hl1_source_sdk', 'bhl-op4/source_sdk', dirs_exist_ok=True); print('source_sdk copied')"
+          git clone --depth 1 https://github.com/alliedmodders/metamod-hl1.git bhl-op4/external/metamod
+
+      - uses: lukka/get-cmake@latest
+        with:
+          cmakeVersion: 3.30.9
+
+      - uses: lukka/run-vcpkg@v11
+        with:
+          vcpkgGitCommitId: 47313591da1d14a8a9b209f4bee39d29acc39b31
+          vcpkgJsonGlob: '**/bhl-op4/vcpkg.json'
+          runVcpkgInstall: true
+          vcpkgTriplet: x86-windows-static
+
+      - name: Persist the vcpkg root before MSVC resets it
+        shell: pwsh
+        run: |
+          Add-Content -Path $env:GITHUB_ENV -Value "CUSTOM_VCPKG_ROOT=$env:VCPKG_ROOT"
+
+      - name: Install SDL2 and DirectInput import libraries for BHL's Windows client
+        shell: pwsh
+        run: |
+          & "$env:CUSTOM_VCPKG_ROOT\vcpkg.exe" install sdl2:x86-windows --host-triplet x64-windows
+          $sdl = Get-ChildItem -Path "$env:CUSTOM_VCPKG_ROOT/installed/x86-windows/lib" -Filter SDL2.lib -Recurse | Select-Object -First 1
+          if (-not $sdl) { throw "SDL2.lib not found in vcpkg" }
+          Copy-Item $sdl.FullName "bhl-op4/lib/public/SDL2.lib" -Force
+          $root = 'C:\Program Files (x86)\Windows Kits\10\Lib'
+          $dinput = Get-ChildItem -Path $root -Recurse -Filter dinput8.lib -ErrorAction SilentlyContinue |
+            Where-Object { $_.FullName -like '*\um\x86\*' } | Select-Object -First 1
+          $dxguid = Get-ChildItem -Path $root -Recurse -Filter dxguid.lib -ErrorAction SilentlyContinue |
+            Where-Object { $_.FullName -like '*\um\x86\*' } | Select-Object -First 1
+          if (-not $dinput -or -not $dxguid) { throw "Windows SDK dinput8.lib/dxguid.lib not found" }
+          New-Item -ItemType Directory -Force -Path "bhl-op4/external/windows/dinput/lib" | Out-Null
+          Copy-Item $dinput.FullName "bhl-op4/external/windows/dinput/lib/dinput8.lib" -Force
+          Copy-Item $dxguid.FullName "bhl-op4/external/windows/dinput/lib/dxguid.lib" -Force
+
+      - uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: x86
+
+      - name: Configure MSVC/Win32 CMake build
+        shell: pwsh
+        run: |
+          cmake -S bhl-op4 -B build-msvc -G "Visual Studio 17 2022" -A Win32 `
+            -DCMAKE_TOOLCHAIN_FILE="$env:CUSTOM_VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake" `
+            -DVCPKG_TARGET_TRIPLET=x86-windows-static `
+            -DVCPKG_HOST_TRIPLET=x64-windows `
+            -DVCPKG_MANIFEST_MODE=ON `
+            -DUSE_UPDATER=OFF `
+            -DAUTO_DEPLOY=OFF `
+            -DGENERATE_AMXX_OFFSETS=OFF `
+            -DBUILD_TESTING=ON `
+            -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build client.dll and hl.dll with MSVC
+        shell: pwsh
+        run: cmake --build build-msvc --config Release --target client server -- /m
+
+      - name: Publish rebuilt DLLs to the working branch
+        shell: pwsh
+        run: |
+          $branch = '${{ github.event.inputs.branch }}'
+          git checkout -B $branch
+          git config user.name "arena-bot"
+          git config user.email "arena-bot@users.noreply.github.com"
+          Copy-Item "build-msvc/src/game/client/Release/client.dll" "build-evidence/bhl-windows/client.dll" -Force
+          Copy-Item "build-msvc/src/game/server/Release/hl.dll" "build-evidence/bhl-windows/hl.dll" -Force
+          Copy-Item "build-msvc/src/game/client/Release/client.dll" "build-evidence/bhl-base/mod/cl_dlls/client.dll" -Force
+          Copy-Item "build-msvc/src/game/server/Release/hl.dll" "build-evidence/bhl-base/mod/dlls/hl.dll" -Force
+          git add build-evidence/bhl-windows/client.dll build-evidence/bhl-windows/hl.dll build-evidence/bhl-base/mod/cl_dlls/client.dll build-evidence/bhl-base/mod/dlls/hl.dll
+          if (git diff --cached --quiet) {
+            Write-Host "No DLL changes to publish"
+          } else {
+            git commit -m "Replace Windows DLLs with MSVC-ABI build (VGUI2-compatible)"
+            git push origin "HEAD:$branch"
+          }
