@@ -449,12 +449,26 @@ def main() -> int:
     ap.add_argument("--deps", type=pathlib.Path,
                     default=ROOT / ".cache/bhl-build/deps")
     ap.add_argument("--jobs", type=int, default=8)
+    ap.add_argument("--force-mingw", action="store_true",
+                    help="Overwrite the MSVC-ABI evidence DLLs with this "
+                         "MinGW/Zig build (known to crash in vgui2.dll).")
     args = ap.parse_args()
     args.out = args.out.resolve()
     args.work = args.work.resolve()
     args.sdk = args.sdk.resolve()
     args.deps = args.deps.resolve()
     args.out.mkdir(parents=True, exist_ok=True)
+    manifest_path = args.out / "MANIFEST.json"
+    if not args.force_mingw and manifest_path.is_file():
+        try:
+            current = json.loads(manifest_path.read_text())
+        except json.JSONDecodeError:
+            current = {}
+        if current.get("abi") == "msvc":
+            raise SystemExit(
+                "Refusing to overwrite MSVC-ABI Windows DLLs with the "
+                "MinGW/Zig build. Use --force-mingw only if you intend to "
+                "restore the crashing build.")
     logf = (args.out / "build.log").open("w")
 
     B.log("=== bhl-op4 32-bit WINDOWS cross-build (Linux tree untouched) ===",

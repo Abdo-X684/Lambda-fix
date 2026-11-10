@@ -153,6 +153,8 @@ def collect() -> tuple[list[str], str]:
 
     linux = json.loads((ROOT / "build-evidence/bhl-base/MANIFEST.json").read_text())
     windows = json.loads((ROOT / "build-evidence/bhl-windows/MANIFEST.json").read_text())
+    chk(windows.get("abi") == "msvc",
+        "Windows DLL manifest is not the MSVC-ABI build")
     for side, manifest in (("bhl-base", linux), ("bhl-windows", windows)):
         n, bad, skipped = source_hashes(
             ROOT / f"build-evidence/{side}/SOURCES.sha256")
@@ -215,9 +217,11 @@ def collect() -> tuple[list[str], str]:
 * لينكس: `client.so` `{linux_client['bytes']}` بايت، sha256
   `{linux_client['sha256']}`؛ `hl.so` `{linux_server['bytes']}` بايت، sha256
   `{linux_server['sha256']}`.
-* ويندوز: `client.dll` `{win_client['bytes']}` بايت، sha256
-  `{win_client['sha256']}`؛ `hl.dll` `{win_server['bytes']}` بايت، sha256
-  `{win_server['sha256']}`.
+* ويندوز (`{windows['target']}`, `{windows['toolchain']}`, ABI متوافق مع MSVC/VGUI2):
+  `client.dll` `{win_client['bytes']}` بايت، sha256 `{win_client['sha256']}`؛
+  `hl.dll` `{win_server['bytes']}` بايت، sha256 `{win_server['sha256']}`.
+  هذه تبني MSVC بديلاً عن بناء MinGW/Zig الذي انهار في `vgui2.dll`، لكنها
+  **غير مُختبَرة داخل اللعبة**.
 * بصمات `SOURCES.sha256` تُتحقق لكل ملف موجود، ويكون عدد المخالفات صفراً؛
   مسارات `.cache/` لتبعيات SDK/deps ليست داخل git ويعيدها سكربت البناء،
   فيُتخطى الغائب منها صراحةً ولا يُحتسب نجاحاً. ثنائيات `mod/cl_dlls/`
