@@ -347,9 +347,14 @@ target_compile_definitions( client PRIVATE
 
 target_precompile_headers( client PRIVATE pch.h )
 
+
+if( MSVC )
+	target_compile_options( client PRIVATE /Zc:threadSafeInit- )
+endif()
+
 if( WIN32 )
 	set( CLIENT_PLAT_LIBS
-		wsock32
+		ws2_32
 		psapi
 		DInput
 		DXGUID

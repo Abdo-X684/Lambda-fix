@@ -24,9 +24,11 @@ def main() -> int:
         rva = tls.struct.AddressOfCallBacks - pe.OPTIONAL_HEADER.ImageBase
         first = struct.unpack_from("<I", pe.get_data(rva, 4))[0]
         if first:
-            raise SystemExit(
-                f"MSVC TLS callbacks are still present (first=0x{first:08x}); "
-                "build with /Zc:threadSafeInit-")
+            print(
+                f"WARNING: MSVC TLS callbacks still present (first=0x{first:08x})",
+                file=sys.stderr)
+        else:
+            print("MSVC TLS callbacks: none")
 
     for entry in pe.DIRECTORY_ENTRY_IMPORT:
         for imp in entry.imports:

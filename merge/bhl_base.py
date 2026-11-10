@@ -781,6 +781,18 @@ def apply_merges(tree: Path, provenance: dict) -> None:
           "\t\tws2_32\n",
           "windows-winsock-by-name")
 
+    # 6d. MSVC 19.44 emits TLS callbacks for thread-safe static locals. They
+    #     run before DllMain, i.e. before GoldSrc has filled gEngfuncs, while
+    #     the original BHL client.dll has no TLS callbacks at all. Disable the
+    #     feature on the client target only (a global CXX_FLAGS override breaks
+    #     the VGUI2 member-pointer casts in source_sdk).
+    edit("src/game/client/CMakeLists.txt",
+         "target_precompile_headers( client PRIVATE pch.h )\n",
+         "\nif( MSVC )\n"
+         "\ttarget_compile_options( client PRIVATE /Zc:threadSafeInit- )\n"
+         "endif()\n",
+         "windows-disable-threadsafe-statics")
+
     # 7. OP4 WaterLevel enum into BHL const.h
     c = (OP4 / "common/const.h").read_text(errors="surrogateescape")
     m = re.search(r"(enum WaterLevel\s*\{.*?\};)", c, re.S)

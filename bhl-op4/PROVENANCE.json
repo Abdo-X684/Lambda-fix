@@ -6,7 +6,7 @@
     "license": "GPL-3.0",
     "merged_files": 17,
     "repo": "tmp64/BugfixedHL-Rebased",
-    "tree_sha256": "59c291a037749835b208e343e9343eea32861ede2038dcff56fecbd3cb6ffa77",
+    "tree_sha256": "829ddb60d310154804d2951ac64320d0ffc7236d2cd7ff153f467e37ded75fb8",
     "tree_sha256_note": "sha256 over sorted '<path>  <file sha256>' for every BHL-origin file on disk; verified by --check",
     "verbatim_files": 677
   },
@@ -1586,11 +1586,13 @@
       "action": "bhl+op4-merge",
       "commit": "4d32095e3c33",
       "merge_rules": [
+        "windows-winsock-by-name",
+        "windows-disable-threadsafe-statics",
         "op4-client-include-dirs",
         "op4-cmake-sources"
       ],
       "origin": "bugfixhl",
-      "sha256": "97fd54fb78a1229745032dc9c64335fc2f10dc721d1f24b09690234ba42803c5"
+      "sha256": "48db619e1258c4813d9754651c91c3ff663d8050b97c41c671a8375a696febe7"
     },
     "src/game/client/Exports.h": {
       "action": "verbatim",
