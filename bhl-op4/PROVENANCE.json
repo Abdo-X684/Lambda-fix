@@ -6,12 +6,22 @@
     "license": "GPL-3.0",
     "merged_files": 17,
     "repo": "tmp64/BugfixedHL-Rebased",
-    "tree_sha256": "c612f2241f06b11b6cc572a979e29531ee8b66b01a09325490b0b31e6f86dc02",
+    "tree_sha256": "e0afd32cd7fa834ad36c78d45d8d109302f7eedcc512b640ad31814c0c6d5ddd",
     "tree_sha256_note": "sha256 over sorted '<path>  <file sha256>' for every BHL-origin file on disk; verified by --check",
     "verbatim_files": 677
   },
   "cmake": {
     "src/game/client/CMakeLists.txt": [
+      "../server/op4/dlls/weapons/CDisplacer.cpp",
+      "../server/op4/dlls/weapons/CEagle.cpp",
+      "../server/op4/dlls/weapons/CKnife.cpp",
+      "../server/op4/dlls/weapons/CM249.cpp",
+      "../server/op4/dlls/weapons/CPenguin.cpp",
+      "../server/op4/dlls/weapons/CPipewrench.cpp",
+      "../server/op4/dlls/weapons/CShockRifle.cpp",
+      "../server/op4/dlls/weapons/CSniperRifle.cpp",
+      "../server/op4/dlls/weapons/CSporeLauncher.cpp",
+      "op4/op4_client_prediction.cpp",
       "op4/op4_weapon_events.cpp"
     ],
     "src/game/server/CMakeLists.txt": [
@@ -1573,10 +1583,11 @@
       "action": "bhl+op4-merge",
       "commit": "4d32095e3c33",
       "merge_rules": [
+        "op4-client-include-dirs",
         "op4-cmake-sources"
       ],
       "origin": "bugfixhl",
-      "sha256": "d41d41688541d1cd40acde8bcc2293490cf06758551de51c01da09ddf434c504"
+      "sha256": "373dc3c05ba7f966ce04955cb65cfe4bb818a326b2332f5b486282d02ac3323e"
     },
     "src/game/client/Exports.h": {
       "action": "verbatim",
@@ -2126,10 +2137,14 @@
       "action": "bhl+op4-merge",
       "commit": "4d32095e3c33",
       "merge_rules": [
-        "op4-client-setlocalbody"
+        "op4-client-setlocalbody",
+        "op4-client-weapon-headers",
+        "op4-client-weapon-globals",
+        "op4-client-weapon-prep",
+        "op4-client-weapon-cases"
       ],
       "origin": "bugfixhl",
-      "sha256": "eb6b2d7c098d5cdcfd26b39f8559be7b4e0d85782a3d91ec20d2ff3ee7e8cd6d"
+      "sha256": "71f5731eda40b68ee80d0b814679cf4200258a543f46409b13f275430f36d8e0"
     },
     "src/game/client/hud.cpp": {
       "action": "verbatim",
@@ -2800,6 +2815,12 @@
       "origin": "op4",
       "sha256": "a6dc4b38709ba5e38d66cc6f51a3ac4f4e9c83cf5bd6ec992531b6f9246da7ff",
       "upstream_path": "cl_dll/hud_spectator.h"
+    },
+    "src/game/client/op4/op4_client_prediction.cpp": {
+      "action": "compat-glue",
+      "commit": null,
+      "origin": "this-repo",
+      "sha256": "d5ad9a217e3c6a2433c07dfd9f254324cfbb7d4a0c829b3cc92a3496a950691c"
     },
     "src/game/client/op4/op4_weapon_events.cpp": {
       "action": "compat-glue",
@@ -6060,9 +6081,13 @@
         {
           "count": 1,
           "rule": "bhl-holster-skiplocal"
+        },
+        {
+          "count": 1,
+          "rule": "bhl-grapple-server-authoritative"
         }
       ],
-      "sha256": "ef6465c3baf46ca722f98b1ab101cfa59ff2321545cf8a2a2dae916219fb2529",
+      "sha256": "ea5777384e0558fdf95d2c4b6d8220f8fdca8ba5a37a037514015aa539409ee5",
       "upstream_path": "dlls/weapons/CGrapple.h"
     },
     "src/game/server/op4/dlls/weapons/CGrappleTip.cpp": {
@@ -6796,7 +6821,7 @@
       "action": "compat-glue",
       "commit": null,
       "origin": "this-repo",
-      "sha256": "5db1baa8cd58a8be54ef92573b3c2e89aaf99783681075ba6e8f45f11b65aeeb"
+      "sha256": "d16545126d7236e7a8f79c88ea3e479ef6848694e661c9d5fde21d996a1d05d7"
     },
     "src/game/server/op4/op4_compat_late.h": {
       "action": "compat-glue",
@@ -6840,7 +6865,7 @@
           "rule": "op4-compat-late-include"
         }
       ],
-      "sha256": "43e271305c26a965fa624d82e991f867d66b7be711332c9c3472a0098936b9d9"
+      "sha256": "a4639e763ba7b06e781acef2aa1d2e0913cca34056fc68b6eac4f94a0b037dee"
     },
     "src/game/server/op4/reference/dlls/cdll_dll.h": {
       "action": "reference-only",
@@ -7595,6 +7620,7 @@
     "src/game/server/op4/op4_ctf_player.cpp",
     "src/game/client/op4/op4_weapon_events.h",
     "src/game/client/op4/op4_weapon_events.cpp",
+    "src/game/client/op4/op4_client_prediction.cpp",
     "src/game/server/op4/op4_entity_enumerator.h",
     "src/game/shared/op4_weapon_timing.h",
     "src/game/shared/op4_weapon_timing.cpp"

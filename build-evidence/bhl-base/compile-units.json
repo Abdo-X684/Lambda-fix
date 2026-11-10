@@ -371,7 +371,7 @@
     "compiled_from": "bhl-op4/src/game/client/hl/hl_weapons.cpp",
     "object": "0046_hl_weapons.o",
     "set": "client",
-    "sha256": "eb6b2d7c098d5cdcfd26b39f8559be7b4e0d85782a3d91ec20d2ff3ee7e8cd6d",
+    "sha256": "71f5731eda40b68ee80d0b814679cf4200258a543f46409b13f275430f36d8e0",
     "source": "bhl-op4/src/game/client/hl/hl_weapons.cpp",
     "status": "ok"
   },
@@ -752,8 +752,16 @@
     "status": "ok"
   },
   {
+    "compiled_from": "bhl-op4/src/game/client/op4/op4_client_prediction.cpp",
+    "object": "0094_op4_client_prediction.o",
+    "set": "client",
+    "sha256": "d5ad9a217e3c6a2433c07dfd9f254324cfbb7d4a0c829b3cc92a3496a950691c",
+    "source": "bhl-op4/src/game/client/op4/op4_client_prediction.cpp",
+    "status": "ok"
+  },
+  {
     "compiled_from": "bhl-op4/src/game/client/op4/op4_weapon_events.cpp",
-    "object": "0094_op4_weapon_events.o",
+    "object": "0095_op4_weapon_events.o",
     "set": "client",
     "sha256": "b121a6441aa56b49a3c056f17729cf5579d10b814216de0b73acdadc6692cbee",
     "source": "bhl-op4/src/game/client/op4/op4_weapon_events.cpp",
@@ -761,7 +769,7 @@
   },
   {
     "compiled_from": "bhl-op4/src/game/client/opengl.cpp",
-    "object": "0095_opengl.o",
+    "object": "0096_opengl.o",
     "set": "client",
     "sha256": "f1ae1a895d0b9b2b820aed5fc2e2b06073cad5e44c72d387df4e38052f86df0d",
     "source": "bhl-op4/src/game/client/opengl.cpp",
@@ -769,7 +777,7 @@
   },
   {
     "compiled_from": "bhl-op4/src/game/client/player_info.cpp",
-    "object": "0096_player_info.o",
+    "object": "0097_player_info.o",
     "set": "client",
     "sha256": "b04318ab4f7ba23a8f9bf053077b2bfad7f1f1ab230f23c10fa21aa968d479fd",
     "source": "bhl-op4/src/game/client/player_info.cpp",
@@ -777,7 +785,7 @@
   },
   {
     "compiled_from": "bhl-op4/src/game/client/rainbow.cpp",
-    "object": "0097_rainbow.o",
+    "object": "0098_rainbow.o",
     "set": "client",
     "sha256": "6b32279d8e6aa4180db78b85c74ad72e6f0a82da1a7b6949b530a18e27003fc7",
     "source": "bhl-op4/src/game/client/rainbow.cpp",
@@ -785,7 +793,7 @@
   },
   {
     "compiled_from": "/tmp/bhlbuild/compat/src/game/client/results.cpp",
-    "object": "0098_results.o",
+    "object": "0099_results.o",
     "set": "client",
     "sha256": "0473057bdd38eb13ab49958a42ae08470863b3d5ba3ec7f19b86837c24565f3e",
     "source": "bhl-op4/src/game/client/results.cpp",
@@ -793,7 +801,7 @@
   },
   {
     "compiled_from": "bhl-op4/src/game/client/sdl_rt.cpp",
-    "object": "0099_sdl_rt.o",
+    "object": "0100_sdl_rt.o",
     "set": "client",
     "sha256": "4d021b8c6c03429843e26b4f8dc6f470caab63b9cb31e42ee75b7eecf343d852",
     "source": "bhl-op4/src/game/client/sdl_rt.cpp",
@@ -801,7 +809,7 @@
   },
   {
     "compiled_from": "bhl-op4/src/game/client/studio_util.cpp",
-    "object": "0100_studio_util.o",
+    "object": "0101_studio_util.o",
     "set": "client",
     "sha256": "0df5c5d8066a2541b31100afc68ee5ad0953bd99aa2d6c3622c575fdfe503b8d",
     "source": "bhl-op4/src/game/client/studio_util.cpp",
@@ -809,7 +817,7 @@
   },
   {
     "compiled_from": "bhl-op4/src/game/client/svc_messages.cpp",
-    "object": "0101_svc_messages.o",
+    "object": "0102_svc_messages.o",
     "set": "client",
     "sha256": "77d891b3d76b9f80e15cd5ca500ecd2ad6dc88960a84f88b88f045c7c61feb50",
     "source": "bhl-op4/src/game/client/svc_messages.cpp",
@@ -817,7 +825,7 @@
   },
   {
     "compiled_from": "bhl-op4/src/game/client/tri.cpp",
-    "object": "0102_tri.o",
+    "object": "0103_tri.o",
     "set": "client",
     "sha256": "a5b8e72f4077f47c2c44ac4027563ef0daaf9d8b6abaa8690498aff21c5c2bd5",
     "source": "bhl-op4/src/game/client/tri.cpp",
@@ -825,7 +833,7 @@
   },
   {
     "compiled_from": "bhl-op4/src/game/client/vgui/avatar_image.cpp",
-    "object": "0103_avatar_image.o",
+    "object": "0104_avatar_image.o",
     "set": "client",
     "sha256": "600add82d60b37c21cf5d9b22d61cb5f82c19ed6bbbb72a60294aa00ff226410",
     "source": "bhl-op4/src/game/client/vgui/avatar_image.cpp",
@@ -833,7 +841,7 @@
   },
   {
     "compiled_from": "bhl-op4/src/game/client/vgui/client_motd.cpp",
-    "object": "0104_client_motd.o",
+    "object": "0105_client_motd.o",
     "set": "client",
     "sha256": "e48cc11a7ff75d5b24b438af3efce53cbfe3e15ded2c3437170118399aaa4f31",
     "source": "bhl-op4/src/game/client/vgui/client_motd.cpp",
@@ -841,7 +849,7 @@
   },
   {
     "compiled_from": "bhl-op4/src/game/client/vgui/client_viewport.cpp",
-    "object": "0105_client_viewport.o",
+    "object": "0106_client_viewport.o",
     "set": "client",
     "sha256": "262fd63310a686b22eb2f8a8abd1c30026971eff5c626b3a03cc966f21cc0f19",
     "source": "bhl-op4/src/game/client/vgui/client_viewport.cpp",
@@ -849,7 +857,7 @@
   },
   {
     "compiled_from": "bhl-op4/src/game/client/vgui/command_menu.cpp",
-    "object": "0106_command_menu.o",
+    "object": "0107_command_menu.o",
     "set": "client",
     "sha256": "2c5903a4f40e029dbc6e0a60dd0d7920e70527efa0702770cbc0ad6fce3ff90a",
     "source": "bhl-op4/src/game/client/vgui/command_menu.cpp",
@@ -857,7 +865,7 @@
   },
   {
     "compiled_from": "bhl-op4/src/game/client/vgui/crosshair_image.cpp",
-    "object": "0107_crosshair_image.o",
+    "object": "0108_crosshair_image.o",
     "set": "client",
     "sha256": "aa6a0606544bdbe46d0fc295faaf15819e5e3707f352234128afc6697ce3e812",
     "source": "bhl-op4/src/game/client/vgui/crosshair_image.cpp",
@@ -865,7 +873,7 @@
   },
   {
     "compiled_from": "bhl-op4/src/game/client/vgui/hud_ammo.cpp",
-    "object": "0108_hud_ammo.o",
+    "object": "0109_hud_ammo.o",
     "set": "client",
     "sha256": "1788fbccfc6ab01e9377433ade75c980e71142cf5701bbde035708cc3ccee730",
     "source": "bhl-op4/src/game/client/vgui/hud_ammo.cpp",
@@ -873,7 +881,7 @@
   },
   {
     "compiled_from": "bhl-op4/src/game/client/vgui/hud_ammo_secondary.cpp",
-    "object": "0109_hud_ammo_secondary.o",
+    "object": "0110_hud_ammo_secondary.o",
     "set": "client",
     "sha256": "8cab46f4f6f8ca19011c497e8ff21566b1e66ed0c5d1df7a6e3d7638ebb9dc8c",
     "source": "bhl-op4/src/game/client/vgui/hud_ammo_secondary.cpp",
@@ -881,7 +889,7 @@
   },
   {
     "compiled_from": "bhl-op4/src/game/client/vgui/hud_battery.cpp",
-    "object": "0110_hud_battery.o",
+    "object": "0111_hud_battery.o",
     "set": "client",
     "sha256": "c9305195f5f5761bb464344475836c6200c8270bc2e8560d73208b9d1a498d29",
     "source": "bhl-op4/src/game/client/vgui/hud_battery.cpp",
@@ -889,7 +897,7 @@
   },
   {
     "compiled_from": "bhl-op4/src/game/client/vgui/hud_health.cpp",
-    "object": "0111_hud_health.o",
+    "object": "0112_hud_health.o",
     "set": "client",
     "sha256": "cf79b60be3a137753ccf0cefbca7ba46954c5f2544706bc370b32674b408898a",
     "source": "bhl-op4/src/game/client/vgui/hud_health.cpp",
@@ -897,7 +905,7 @@
   },
   {
     "compiled_from": "bhl-op4/src/game/client/vgui/score_panel.cpp",
-    "object": "0112_score_panel.o",
+    "object": "0113_score_panel.o",
     "set": "client",
     "sha256": "a7b640765d33faa456bc218381dfef5a2df997004ad5e1a56daef380d134da96",
     "source": "bhl-op4/src/game/client/vgui/score_panel.cpp",
@@ -905,7 +913,7 @@
   },
   {
     "compiled_from": "bhl-op4/src/game/client/vgui/spectator_panel.cpp",
-    "object": "0113_spectator_panel.o",
+    "object": "0114_spectator_panel.o",
     "set": "client",
     "sha256": "7b8862ccd024ec29b9c258e1195a429ba64cfed8ab91542e65499e5576b2df59",
     "source": "bhl-op4/src/game/client/vgui/spectator_panel.cpp",
@@ -913,7 +921,7 @@
   },
   {
     "compiled_from": "bhl-op4/src/game/client/vgui/team_menu.cpp",
-    "object": "0114_team_menu.o",
+    "object": "0115_team_menu.o",
     "set": "client",
     "sha256": "936fd9994dc01577d300e111df658ab688700422ed2d4d617b1080611b26338f",
     "source": "bhl-op4/src/game/client/vgui/team_menu.cpp",
@@ -921,7 +929,7 @@
   },
   {
     "compiled_from": "bhl-op4/src/game/client/vgui/tga_image.cpp",
-    "object": "0115_tga_image.o",
+    "object": "0116_tga_image.o",
     "set": "client",
     "sha256": "34030574c52622735fb48c7d311a3186f42fcdae670d974b96522ad79ab594be",
     "source": "bhl-op4/src/game/client/vgui/tga_image.cpp",
@@ -929,7 +937,7 @@
   },
   {
     "compiled_from": "bhl-op4/src/game/client/view.cpp",
-    "object": "0116_view.o",
+    "object": "0117_view.o",
     "set": "client",
     "sha256": "79f6d1c659a1281c64379c9a1d8e3b55ce162d1851dfdf72ba907cc01f5f7190",
     "source": "bhl-op4/src/game/client/view.cpp",
@@ -937,7 +945,7 @@
   },
   {
     "compiled_from": "bhl-op4/src/game/client/voice_banmgr.cpp",
-    "object": "0117_voice_banmgr.o",
+    "object": "0118_voice_banmgr.o",
     "set": "client",
     "sha256": "072c07d8f7cd3d152a9a0ccf0a73f6f961a3e73cc5b49c96f47f22120ceb1745",
     "source": "bhl-op4/src/game/client/voice_banmgr.cpp",
@@ -945,7 +953,7 @@
   },
   {
     "compiled_from": "bhl-op4/src/game/server/crossbow.cpp",
-    "object": "0118_crossbow.o",
+    "object": "0119_crossbow.o",
     "set": "client",
     "sha256": "2807da976130b9b70b8dc5cb83cda56cc12b7e9a18c81298911612f1700e9bf2",
     "source": "bhl-op4/src/game/server/crossbow.cpp",
@@ -953,7 +961,7 @@
   },
   {
     "compiled_from": "bhl-op4/src/game/server/crowbar.cpp",
-    "object": "0119_crowbar.o",
+    "object": "0120_crowbar.o",
     "set": "client",
     "sha256": "0ede0be568600a63f4d6dab9f1828ea660893f878350224e3857b63638295ba6",
     "source": "bhl-op4/src/game/server/crowbar.cpp",
@@ -961,7 +969,7 @@
   },
   {
     "compiled_from": "bhl-op4/src/game/server/egon.cpp",
-    "object": "0120_egon.o",
+    "object": "0121_egon.o",
     "set": "client",
     "sha256": "88864f6e56131faee08817598505c3c533cd60e70efae42edc12eb7ed6e11d01",
     "source": "bhl-op4/src/game/server/egon.cpp",
@@ -969,7 +977,7 @@
   },
   {
     "compiled_from": "bhl-op4/src/game/server/gauss.cpp",
-    "object": "0121_gauss.o",
+    "object": "0122_gauss.o",
     "set": "client",
     "sha256": "73afefc04faff5f01fce7b19ddcb4fdcceed30eca12f4336ae461acd0b18d94a",
     "source": "bhl-op4/src/game/server/gauss.cpp",
@@ -977,7 +985,7 @@
   },
   {
     "compiled_from": "bhl-op4/src/game/server/handgrenade.cpp",
-    "object": "0122_handgrenade.o",
+    "object": "0123_handgrenade.o",
     "set": "client",
     "sha256": "ac593572610640d6fd8d094e0f11e125d08a566816a1cb24681def81c5ba7c31",
     "source": "bhl-op4/src/game/server/handgrenade.cpp",
@@ -985,7 +993,7 @@
   },
   {
     "compiled_from": "bhl-op4/src/game/server/hornetgun.cpp",
-    "object": "0123_hornetgun.o",
+    "object": "0124_hornetgun.o",
     "set": "client",
     "sha256": "c8e047bdfede5b3a02d4c3262922f65717c0801f13df35fb8307ad8b7f196560",
     "source": "bhl-op4/src/game/server/hornetgun.cpp",
@@ -993,15 +1001,87 @@
   },
   {
     "compiled_from": "bhl-op4/src/game/server/mp5.cpp",
-    "object": "0124_mp5.o",
+    "object": "0125_mp5.o",
     "set": "client",
     "sha256": "f3b2b6491525045a017f7012638a2a1ae6c256b412adb2ee44d48666d74335b8",
     "source": "bhl-op4/src/game/server/mp5.cpp",
     "status": "ok"
   },
   {
+    "compiled_from": "bhl-op4/src/game/server/op4/dlls/weapons/CDisplacer.cpp",
+    "object": "0126_CDisplacer.o",
+    "set": "client",
+    "sha256": "141d6d6f80f633c9c039e9d260ee04b8944a01aca165b2a14d57d56917f3f16c",
+    "source": "bhl-op4/src/game/server/op4/dlls/weapons/CDisplacer.cpp",
+    "status": "ok"
+  },
+  {
+    "compiled_from": "bhl-op4/src/game/server/op4/dlls/weapons/CEagle.cpp",
+    "object": "0127_CEagle.o",
+    "set": "client",
+    "sha256": "10b701b6afb04bde98e0208ead0b157fce91be1493c915cf8bfed445d06bead6",
+    "source": "bhl-op4/src/game/server/op4/dlls/weapons/CEagle.cpp",
+    "status": "ok"
+  },
+  {
+    "compiled_from": "bhl-op4/src/game/server/op4/dlls/weapons/CKnife.cpp",
+    "object": "0128_CKnife.o",
+    "set": "client",
+    "sha256": "784451daf1e89b4d2e6ee2e9d75e059039bdef524691141691b7d6bd3e546c9e",
+    "source": "bhl-op4/src/game/server/op4/dlls/weapons/CKnife.cpp",
+    "status": "ok"
+  },
+  {
+    "compiled_from": "bhl-op4/src/game/server/op4/dlls/weapons/CM249.cpp",
+    "object": "0129_CM249.o",
+    "set": "client",
+    "sha256": "f199164e9427d8953aa16c45cacc055763e087ea9f58982745f73afe1ef3f3cf",
+    "source": "bhl-op4/src/game/server/op4/dlls/weapons/CM249.cpp",
+    "status": "ok"
+  },
+  {
+    "compiled_from": "bhl-op4/src/game/server/op4/dlls/weapons/CPenguin.cpp",
+    "object": "0130_CPenguin.o",
+    "set": "client",
+    "sha256": "5b9f296fd2288fb17994200e777030e39c403c7c0d81cdcc5e2848e1ce3022bc",
+    "source": "bhl-op4/src/game/server/op4/dlls/weapons/CPenguin.cpp",
+    "status": "ok"
+  },
+  {
+    "compiled_from": "bhl-op4/src/game/server/op4/dlls/weapons/CPipewrench.cpp",
+    "object": "0131_CPipewrench.o",
+    "set": "client",
+    "sha256": "0bd468537b7d6239a2be2ac9475ebd42023a7bc67620c6d875db02a91239afd5",
+    "source": "bhl-op4/src/game/server/op4/dlls/weapons/CPipewrench.cpp",
+    "status": "ok"
+  },
+  {
+    "compiled_from": "bhl-op4/src/game/server/op4/dlls/weapons/CShockRifle.cpp",
+    "object": "0132_CShockRifle.o",
+    "set": "client",
+    "sha256": "63136b67f0e7730830dc1f5461720a719b058d0db6b009cac46b18067ff46e86",
+    "source": "bhl-op4/src/game/server/op4/dlls/weapons/CShockRifle.cpp",
+    "status": "ok"
+  },
+  {
+    "compiled_from": "bhl-op4/src/game/server/op4/dlls/weapons/CSniperRifle.cpp",
+    "object": "0133_CSniperRifle.o",
+    "set": "client",
+    "sha256": "a4a8e89a59c12a11926446adff3465cb0331f93cfe766f743a22e48c3b12f9ea",
+    "source": "bhl-op4/src/game/server/op4/dlls/weapons/CSniperRifle.cpp",
+    "status": "ok"
+  },
+  {
+    "compiled_from": "bhl-op4/src/game/server/op4/dlls/weapons/CSporeLauncher.cpp",
+    "object": "0134_CSporeLauncher.o",
+    "set": "client",
+    "sha256": "fdfe8be1cda35196deb9cc06e7196ae26be89ce263cbe1c007d553cae5f9afb8",
+    "source": "bhl-op4/src/game/server/op4/dlls/weapons/CSporeLauncher.cpp",
+    "status": "ok"
+  },
+  {
     "compiled_from": "bhl-op4/src/game/server/python.cpp",
-    "object": "0125_python.o",
+    "object": "0135_python.o",
     "set": "client",
     "sha256": "f7e20d58c1271e616dc68107c54945b1549ef70a84c3a2d953d814b278023a77",
     "source": "bhl-op4/src/game/server/python.cpp",
@@ -1009,7 +1089,7 @@
   },
   {
     "compiled_from": "bhl-op4/src/game/server/rpg.cpp",
-    "object": "0126_rpg.o",
+    "object": "0136_rpg.o",
     "set": "client",
     "sha256": "e8aee6dc223307e3a1990f8593e8035ba60e26ca946afa9a787b94cace5ffb6e",
     "source": "bhl-op4/src/game/server/rpg.cpp",
@@ -1017,7 +1097,7 @@
   },
   {
     "compiled_from": "bhl-op4/src/game/server/satchel.cpp",
-    "object": "0127_satchel.o",
+    "object": "0137_satchel.o",
     "set": "client",
     "sha256": "1e4de4cbdb740a69f8d14fb7e5588a36f7dc483f4e3d055e2131cf89ab2a9009",
     "source": "bhl-op4/src/game/server/satchel.cpp",
@@ -1025,7 +1105,7 @@
   },
   {
     "compiled_from": "bhl-op4/src/game/server/shotgun.cpp",
-    "object": "0128_shotgun.o",
+    "object": "0138_shotgun.o",
     "set": "client",
     "sha256": "759eaafd39fe72cdf69eba6275cd1b4a75cd4f01830b76cb57a7816256738a61",
     "source": "bhl-op4/src/game/server/shotgun.cpp",
@@ -1033,7 +1113,7 @@
   },
   {
     "compiled_from": "bhl-op4/src/game/server/squeakgrenade.cpp",
-    "object": "0129_squeakgrenade.o",
+    "object": "0139_squeakgrenade.o",
     "set": "client",
     "sha256": "62bf6b8ecea44a98a935a1732bdea6e8f2f6510e60f9962bcbfae4e9afdf1e90",
     "source": "bhl-op4/src/game/server/squeakgrenade.cpp",
@@ -1041,7 +1121,7 @@
   },
   {
     "compiled_from": "bhl-op4/src/game/server/tripmine.cpp",
-    "object": "0130_tripmine.o",
+    "object": "0140_tripmine.o",
     "set": "client",
     "sha256": "e2a679f8c951d6e71788510eceb0888e72004a14eca61073683acabe29bae667",
     "source": "bhl-op4/src/game/server/tripmine.cpp",
@@ -1049,7 +1129,7 @@
   },
   {
     "compiled_from": "bhl-op4/src/game/server/util_shared.cpp",
-    "object": "0131_util_shared.o",
+    "object": "0141_util_shared.o",
     "set": "client",
     "sha256": "dfa3bf2001fdcd5134dad04a6c9f91425a5b444cae982b334950fe03c808cb74",
     "source": "bhl-op4/src/game/server/util_shared.cpp",
@@ -1057,7 +1137,7 @@
   },
   {
     "compiled_from": "bhl-op4/src/game/server/wpn_shared/hl_wpn_glock.cpp",
-    "object": "0132_hl_wpn_glock.o",
+    "object": "0142_hl_wpn_glock.o",
     "set": "client",
     "sha256": "763709fb8f85bef3eb1a8876afdffcda4c409308ecad4a81f3d5d4b518f3a850",
     "source": "bhl-op4/src/game/server/wpn_shared/hl_wpn_glock.cpp",
@@ -1065,7 +1145,7 @@
   },
   {
     "compiled_from": "bhl-op4/src/game/shared/CGameVersion.cpp",
-    "object": "0133_CGameVersion.o",
+    "object": "0143_CGameVersion.o",
     "set": "client",
     "sha256": "4bd2f91a99a5ac666c9c7b937e06f1898a81944127dff09e2e3e88a73ea4cb0f",
     "source": "bhl-op4/src/game/shared/CGameVersion.cpp",
@@ -1073,7 +1153,7 @@
   },
   {
     "compiled_from": "bhl-op4/src/game/shared/mathlib.cpp",
-    "object": "0134_mathlib.o",
+    "object": "0144_mathlib.o",
     "set": "client",
     "sha256": "d047c64628dbee8045ae3cac8de8af593726d9318bfb856dfded1867cd657845",
     "source": "bhl-op4/src/game/shared/mathlib.cpp",
@@ -1081,7 +1161,7 @@
   },
   {
     "compiled_from": "bhl-op4/src/game/shared/op4_weapon_timing.cpp",
-    "object": "0135_op4_weapon_timing.o",
+    "object": "0145_op4_weapon_timing.o",
     "set": "client",
     "sha256": "5295e609b6eee1fbe023f2e533148c73bd7fecea930b4637dc4c84b94cc2120f",
     "source": "bhl-op4/src/game/shared/op4_weapon_timing.cpp",
@@ -1089,7 +1169,7 @@
   },
   {
     "compiled_from": "bhl-op4/src/pm_shared/pm_debug.cpp",
-    "object": "0136_pm_debug.o",
+    "object": "0146_pm_debug.o",
     "set": "client",
     "sha256": "d63d2826da56607a772f8fb974ca78526894a67f775afbc1608ab19ba7021865",
     "source": "bhl-op4/src/pm_shared/pm_debug.cpp",
@@ -1097,7 +1177,7 @@
   },
   {
     "compiled_from": "bhl-op4/src/pm_shared/pm_math.cpp",
-    "object": "0137_pm_math.o",
+    "object": "0147_pm_math.o",
     "set": "client",
     "sha256": "73496f2434add1f7799aa721adc45455f1b9303e7820144200ea9676dfaec9ed",
     "source": "bhl-op4/src/pm_shared/pm_math.cpp",
@@ -1105,7 +1185,7 @@
   },
   {
     "compiled_from": "bhl-op4/src/pm_shared/pm_shared.cpp",
-    "object": "0138_pm_shared.o",
+    "object": "0148_pm_shared.o",
     "set": "client",
     "sha256": "61eb91115ac18c0a022698b128a420943e5bc49bfb2a2f78d92168cc4a634d46",
     "source": "bhl-op4/src/pm_shared/pm_shared.cpp",
@@ -2171,7 +2251,7 @@
     "compiled_from": "bhl-op4/src/game/server/op4/op4_link_fixups.cpp",
     "object": "0132_op4_link_fixups.o",
     "set": "server",
-    "sha256": "43e271305c26a965fa624d82e991f867d66b7be711332c9c3472a0098936b9d9",
+    "sha256": "a4639e763ba7b06e781acef2aa1d2e0913cca34056fc68b6eac4f94a0b037dee",
     "source": "bhl-op4/src/game/server/op4/op4_link_fixups.cpp",
     "status": "ok"
   },

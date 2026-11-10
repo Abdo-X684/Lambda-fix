@@ -83,12 +83,17 @@ bool UTIL_IsCTF();
   #define RGB_GREENISH  0x0000A000 /* 0,160,0 */
   #define RGB_HUD_COLOR RGB_GREENISH
   #endif
+#ifndef CLIENT_DLL
+  /* BHL's client cl_util.h already defines UnpackRGB() in the global
+   * namespace; the client build only needs OP4's declarations, not this
+   * definition. Server (CTF) sources still get the verbatim OP4 body. */
   inline void UnpackRGB(int &r, int &g, int &b, unsigned long ulRGB)
   {
       r = (ulRGB & 0xFF0000) >> 16;
       g = (ulRGB & 0xFF00) >> 8;
       b = ulRGB & 0xFF;
   }
+#endif
 
   /* OP4 dlls/world.h:21 -- the worldspawn flag that selects CTF rules. */
   #ifndef SF_WORLD_CTF

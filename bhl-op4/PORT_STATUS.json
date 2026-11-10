@@ -551,8 +551,58 @@
   },
   "clean": 68,
   "client_glue": {
-    "clean": 1,
+    "clean": 11,
     "files": {
+      "src/game/client/../server/op4/dlls/weapons/CDisplacer.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/client/../server/op4/dlls/weapons/CEagle.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/client/../server/op4/dlls/weapons/CKnife.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/client/../server/op4/dlls/weapons/CM249.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/client/../server/op4/dlls/weapons/CPenguin.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/client/../server/op4/dlls/weapons/CPipewrench.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/client/../server/op4/dlls/weapons/CShockRifle.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/client/../server/op4/dlls/weapons/CSniperRifle.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/client/../server/op4/dlls/weapons/CSporeLauncher.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
+      "src/game/client/op4/op4_client_prediction.cpp": {
+        "errors": 0,
+        "gaps": [],
+        "ok": true
+      },
       "src/game/client/op4/op4_weapon_events.cpp": {
         "errors": 0,
         "gaps": [],
@@ -561,10 +611,60 @@
     },
     "note": "Generated client weapon-event glue wired into the client CMake target; compiled as real client TUs with BHL's PCH.",
     "pending": 0,
-    "total": 1
+    "total": 11
   },
   "compiler": "/tmp/zig32",
   "files": {
+    "src/game/client/../server/op4/dlls/weapons/CDisplacer.cpp": {
+      "errors": 0,
+      "gaps": [],
+      "ok": true
+    },
+    "src/game/client/../server/op4/dlls/weapons/CEagle.cpp": {
+      "errors": 0,
+      "gaps": [],
+      "ok": true
+    },
+    "src/game/client/../server/op4/dlls/weapons/CKnife.cpp": {
+      "errors": 0,
+      "gaps": [],
+      "ok": true
+    },
+    "src/game/client/../server/op4/dlls/weapons/CM249.cpp": {
+      "errors": 0,
+      "gaps": [],
+      "ok": true
+    },
+    "src/game/client/../server/op4/dlls/weapons/CPenguin.cpp": {
+      "errors": 0,
+      "gaps": [],
+      "ok": true
+    },
+    "src/game/client/../server/op4/dlls/weapons/CPipewrench.cpp": {
+      "errors": 0,
+      "gaps": [],
+      "ok": true
+    },
+    "src/game/client/../server/op4/dlls/weapons/CShockRifle.cpp": {
+      "errors": 0,
+      "gaps": [],
+      "ok": true
+    },
+    "src/game/client/../server/op4/dlls/weapons/CSniperRifle.cpp": {
+      "errors": 0,
+      "gaps": [],
+      "ok": true
+    },
+    "src/game/client/../server/op4/dlls/weapons/CSporeLauncher.cpp": {
+      "errors": 0,
+      "gaps": [],
+      "ok": true
+    },
+    "src/game/client/op4/op4_client_prediction.cpp": {
+      "errors": 0,
+      "gaps": [],
+      "ok": true
+    },
     "src/game/client/op4/op4_weapon_events.cpp": {
       "errors": 0,
       "gaps": [],

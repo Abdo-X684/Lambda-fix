@@ -37,7 +37,9 @@ class BhlBaseTreeTests(unittest.TestCase):
                          "twhl-community/halflife-op4-updated")
         self.assertGreaterEqual(self.prov["base"]["files"], 690)
         self.assertGreater(self.prov["op4"]["files"], 100)
-        self.assertEqual(len(self.prov["glue_files"]), 10)
+        self.assertEqual(len(self.prov["glue_files"]), 11)
+        self.assertIn("src/game/client/op4/op4_client_prediction.cpp",
+                      self.prov["glue_files"])
 
     def test_02_every_provenance_entry_matches_disk(self):
         bad = []

@@ -18,6 +18,24 @@
 #include "monsters.h"
 #include "weapons.h"
 #include "nodes.h"
+
+	/* OP4-MERGE: OP4 client prediction weapon classes. The helpers
+	 * are implemented in op4/op4_client_prediction.cpp; declaring
+	 * them here avoids pulling server-only compat definitions
+	 * into BHL's client translation unit. */
+	extern BOOL UTIL_DefaultUseDecrement();
+	extern int UTIL_DefaultPlaybackFlags();
+
+	#include "weapons/CDisplacer.h"
+	#include "weapons/CEagle.h"
+	#include "weapons/CKnife.h"
+	#include "weapons/CM249.h"
+	#include "weapons/CPenguin.h"
+	#include "weapons/CPipewrench.h"
+	#include "weapons/CShockRifle.h"
+	#include "weapons/CSniperRifle.h"
+	#include "weapons/CSporeLauncher.h"
+
 #include "player.h"
 
 #include "usercmd.h"
@@ -80,6 +98,18 @@ CHandGrenade g_HandGren;
 CSatchel g_Satchel;
 CTripmine g_Tripmine;
 CSqueak g_Snark;
+
+	/* OP4-MERGE: local client weapon objects (prediction) */
+	CDisplacer g_Displacer;
+	CEagle g_Eagle;
+	CKnife g_Knife;
+	CM249 g_M249;
+	CPenguin g_Penguin;
+	CPipewrench g_Pipewrench;
+	CShockRifle g_ShockRifle;
+	CSniperRifle g_SniperRifle;
+	CSporeLauncher g_SporeLauncher;
+
 
 /*
 ======================
@@ -638,6 +668,18 @@ void HUD_InitClientWeapons(void)
 	HUD_PrepEntity(&g_Satchel, &player);
 	HUD_PrepEntity(&g_Tripmine, &player);
 	HUD_PrepEntity(&g_Snark, &player);
+
+	/* OP4-MERGE: register the OP4 weapons into g_pWpns[] */
+	HUD_PrepEntity(&g_Displacer, &player);
+	HUD_PrepEntity(&g_Eagle, &player);
+	HUD_PrepEntity(&g_Knife, &player);
+	HUD_PrepEntity(&g_M249, &player);
+	HUD_PrepEntity(&g_Penguin, &player);
+	HUD_PrepEntity(&g_Pipewrench, &player);
+	HUD_PrepEntity(&g_ShockRifle, &player);
+	HUD_PrepEntity(&g_SniperRifle, &player);
+	HUD_PrepEntity(&g_SporeLauncher, &player);
+
 }
 
 /*
@@ -757,6 +799,42 @@ void HUD_WeaponsPostThink(local_state_s *from, local_state_s *to, usercmd_t *cmd
 
 	case WEAPON_SNARK:
 		pWeapon = &g_Snark;
+		break;
+
+	case WEAPON_DISPLACER:
+		pWeapon = &g_Displacer;
+		break;
+
+	case WEAPON_EAGLE:
+		pWeapon = &g_Eagle;
+		break;
+
+	case WEAPON_KNIFE:
+		pWeapon = &g_Knife;
+		break;
+
+	case WEAPON_M249:
+		pWeapon = &g_M249;
+		break;
+
+	case WEAPON_PENGUIN:
+		pWeapon = &g_Penguin;
+		break;
+
+	case WEAPON_PIPEWRENCH:
+		pWeapon = &g_Pipewrench;
+		break;
+
+	case WEAPON_SHOCKRIFLE:
+		pWeapon = &g_ShockRifle;
+		break;
+
+	case WEAPON_SNIPERRIFLE:
+		pWeapon = &g_SniperRifle;
+		break;
+
+	case WEAPON_SPORELAUNCHER:
+		pWeapon = &g_SporeLauncher;
 		break;
 	}
 

@@ -307,6 +307,16 @@ source_group( TREE ${PROJECT_SOURCE_DIR} FILES ${SOURCE_FILES} )
 
 # OP4-MERGE: OP4 subsystem sources proven to compile against BHL headers
 list( APPEND SOURCE_FILES
+	../server/op4/dlls/weapons/CDisplacer.cpp
+	../server/op4/dlls/weapons/CEagle.cpp
+	../server/op4/dlls/weapons/CKnife.cpp
+	../server/op4/dlls/weapons/CM249.cpp
+	../server/op4/dlls/weapons/CPenguin.cpp
+	../server/op4/dlls/weapons/CPipewrench.cpp
+	../server/op4/dlls/weapons/CShockRifle.cpp
+	../server/op4/dlls/weapons/CSniperRifle.cpp
+	../server/op4/dlls/weapons/CSporeLauncher.cpp
+	op4/op4_client_prediction.cpp
 	op4/op4_weapon_events.cpp
 )
 
@@ -316,6 +326,8 @@ bhl_version_info( client "client.dll" "BugfixedHL-Rebased Client" )
 
 target_include_directories( client PRIVATE
 	.
+	${CMAKE_CURRENT_SOURCE_DIR}/../server/op4/dlls
+	${CMAKE_CURRENT_SOURCE_DIR}/../server/op4/dlls/ctf
 	${GAME_COMMON_INCLUDE_PATHS}
 	${SOURCE_SDK_INCLUDE_PATHS}
 	${UPDATER_INCLUDE_PATHS}

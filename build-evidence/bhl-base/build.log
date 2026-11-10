@@ -8,8 +8,8 @@ zig    : /tmp/zenv/lib/python3.11/site-packages/ziglang/zig (clang for i386-unkn
 [gen] appversion.h from bhl-op4/src/common/appversion.h.in
 [gen] PCRE1 config.h / pcre.h from pcre.h.generic, config.h.generic
 [compat] 3 build fixes written to /home/user/Bugfixhl-speedrun-op4/build-evidence/bhl-base/patches
-[cmake] client=139 server=179 common=8
-[compile] client: 139/139 clean
+[cmake] client=149 server=179 common=8
+[compile] client: 149/149 clean
 [compile] server: 179/179 clean
 [cmake] tier1=35 tier2=3 vgui_controls=68
 [compile] tier1: 35/35 clean
@@ -24,20 +24,20 @@ zig    : /tmp/zenv/lib/python3.11/site-packages/ziglang/zig (clang for i386-unkn
 [ar] libglad.a: 1 objects
 [ar] libsemver.a: 1 objects
 [ar] libpcre.a: 20 objects
-[link] client.so: 139 objects, 6 archives, 4 shared libs
-[link] client.so: OK (27802960 bytes)
+[link] client.so: 149 objects, 6 archives, 4 shared libs
+[link] client.so: OK (28159316 bytes)
 [link] hl.so: 179 objects, 1 archives, 0 shared libs
 [link] hl.so: OK (21232512 bytes)
 [audit] client.so: 0 unresolved symbols from our own build
 [audit] hl.so: 0 unresolved symbols from our own build
-[done] 113.9s
+[done] 25.0s
 {
   "client.so": {
     "path": "build-evidence/bhl-base/client.so",
-    "bytes": 27802960,
-    "sha256": "0d4b0937fe6cf93b75dda705138d07e8513a28299d97e89896932c67e2683b5f",
+    "bytes": 28159316,
+    "sha256": "af7b0053508e0ad175905e6abe5a21e82ee0060bf7ec535493e3690c4b4dc497",
     "elf32": true,
-    "exported_symbol_count": 4941,
+    "exported_symbol_count": 5075,
     "exported_game_entry_points": [
       "HUD_Frame",
       "HUD_Init",
@@ -64,7 +64,7 @@ zig    : /tmp/zenv/lib/python3.11/site-packages/ziglang/zig (clang for i386-unkn
   "hl.so": {
     "path": "build-evidence/bhl-base/hl.so",
     "bytes": 21232512,
-    "sha256": "ac61ec58cc2be162d82cf2fa1c109d2a47a7ef6e619daee6aa51680886eb432d",
+    "sha256": "aed59a28a7c93d8373c2fe57e3a44bdd6bf5ca0766fe7c4afa192893af1dec34",
     "elf32": true,
     "exported_symbol_count": 4467,
     "exported_game_entry_points": [

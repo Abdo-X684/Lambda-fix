@@ -42,7 +42,7 @@ fallback_dir "gearbox"
 
 AUTOEXEC = '''// BugfixedHL + OP4 weapons. Executed from this mod directory at startup.
 sv_cheats 1
-sv_oldweapons 1
+sv_oldweapons 0
 bind F9 "exec op4weapons.cfg"
 echo "BHL+OP4: press F9 in-game to receive all ten OP4 weapons"
 '''
@@ -68,6 +68,20 @@ give ammo_357
 
 INSTALL = '''# BugfixedHL + Opposing Force weapons (playable mod)
 
+## Arabic - خطوات التشغيل
+
+1. فكّ ضغط المجلد داخل مجلد Half-Life بجانب `valve/` و`gearbox/`
+   (مثلاً `Half-Life/bhlop4`). لا تضعه داخل `gearbox/`.
+2. شغّل Half-Life بهذا الخيار:
+   `hl.exe -game bhlop4 -console` (ويندوز) أو `hl_linux -game bhlop4 -console` (لينكس).
+3. داخل اللعبة اضغط **F9** ستحصل على أسلحة OP4 العشرة وذخائرها.
+   أو اكتب في الكونسول: `exec op4weapons.cfg`.
+4. اختر الأسلحة بـ `slot1` … `slot7` أو `use weapon_eagle` وهكذا.
+5. يجب أن تكون Opposing Force مثبّتة: الموديلات والأصوات والسبرايت
+   وملفات `events/*.sc` تُقرأ من `gearbox/` عبر `fallback_dir`.
+
+## English
+
 Put this folder next to `valve/` and `gearbox/` in your Half-Life directory,
 then launch Half-Life with `-game <folder name> -console`
 (Windows: `hl.exe`, Linux: `hl_linux`).
@@ -82,10 +96,13 @@ then launch Half-Life with `-game <folder name> -console`
   all ten OP4 weapons. `slot1`..`slot7` select them; `use weapon_eagle` etc.
   also work.
 
-Technical note: OP4 weapons run server-authoritatively (`sv_oldweapons 1`),
-so their firing, reload, animations, sounds, effects, ammo and HUD updates
-are delivered by the BHL-based server DLL. BHL's own 14 weapons keep their
-original client prediction. There is no OP4 client-side prediction here.
+Technical note: nine OP4 weapons are client-predicted from OP4's real shared
+weapon .cpp files, compiled into the BHL-based client DLL with CLIENT_DLL
+(the same mechanism BHL uses for its own 14 weapons). The barnacle grapple
+stays server-authoritative because its beam/tip entities are server-only.
+`sv_oldweapons 0` is the default; setting it to 1 switches all OP4 weapons
+to server-authoritative mode for troubleshooting. BHL's own 14 weapons and
+their prediction are unchanged.
 
 HONEST LIMIT: this sandbox has no GoldSrc engine and no legal OP4 assets, so
 this build has NOT been tested in-game here. Test it on your machine; if a

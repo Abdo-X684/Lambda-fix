@@ -72,7 +72,7 @@ public:
 	BOOL UseDecrement() override
 	{
 #if defined(CLIENT_WEAPONS)
-		return UTIL_DefaultUseDecrement();
+		return FALSE; /* OP4-MERGE: grapple is server-authoritative */
 #else
 		return false;
 #endif

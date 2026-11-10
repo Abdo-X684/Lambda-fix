@@ -34,6 +34,7 @@ from pathlib import Path
 
 from . import op4_fixups
 from . import op4_weapon_events
+from . import op4_client_prediction
 
 ROOT = Path(__file__).resolve().parent.parent
 CACHE = ROOT / ".cache" / "upstreams"
@@ -338,12 +339,17 @@ bool UTIL_IsCTF();
   #define RGB_GREENISH  0x0000A000 /* 0,160,0 */
   #define RGB_HUD_COLOR RGB_GREENISH
   #endif
+#ifndef CLIENT_DLL
+  /* BHL's client cl_util.h already defines UnpackRGB() in the global
+   * namespace; the client build only needs OP4's declarations, not this
+   * definition. Server (CTF) sources still get the verbatim OP4 body. */
   inline void UnpackRGB(int &r, int &g, int &b, unsigned long ulRGB)
   {
       r = (ulRGB & 0xFF0000) >> 16;
       g = (ulRGB & 0xFF00) >> 8;
       b = ulRGB & 0xFF;
   }
+#endif
 
   /* OP4 dlls/world.h:21 -- the worldspawn flag that selects CTF rules. */
   #ifndef SF_WORLD_CTF
@@ -1127,6 +1133,46 @@ def apply_merges(tree: Path, provenance: dict) -> None:
              "}\n",
              "op4-client-setlocalbody")
 
+    # ------------------------------------------------------------------
+    # Real client-side prediction for the nine OP4 weapons whose bodies are
+    # shared between the server and client DLLs. This mirrors exactly what
+    # BHL already does for its own 14 weapons (see ../server/glock.cpp in the
+    # client CMake source list): the same .cpp is compiled with CLIENT_DLL.
+    # CGrapple is intentionally server-authoritative (see the patch below).
+    # ------------------------------------------------------------------
+    headers = ("\n\t/* OP4-MERGE: OP4 client prediction weapon classes. The helpers\n"
+               "\t * are implemented in op4/op4_client_prediction.cpp; declaring\n"
+               "\t * them here avoids pulling server-only compat definitions\n"
+               "\t * into BHL's client translation unit. */\n"
+               "\textern BOOL UTIL_DefaultUseDecrement();\n"
+               "\textern int UTIL_DefaultPlaybackFlags();\n\n")
+    for n in op4_client_prediction.CLIENT_PREDICTED_WEAPONS:
+        headers += f'\t#include "weapons/{n}.h"\n'
+    edit("src/game/client/hl/hl_weapons.cpp", '#include "nodes.h"',
+         headers, "op4-client-weapon-headers")
+
+    globals_ = "\n\t/* OP4-MERGE: local client weapon objects (prediction) */\n"
+    for n in op4_client_prediction.CLIENT_PREDICTED_WEAPONS:
+        globals_ += f"\t{n} g_{n[1:]};\n"
+    edit("src/game/client/hl/hl_weapons.cpp", "CSqueak g_Snark;",
+         globals_, "op4-client-weapon-globals")
+
+    prep = "\n\t/* OP4-MERGE: register the OP4 weapons into g_pWpns[] */\n"
+    for n in op4_client_prediction.CLIENT_PREDICTED_WEAPONS:
+        prep += f"\tHUD_PrepEntity(&g_{n[1:]}, &player);\n"
+    edit("src/game/client/hl/hl_weapons.cpp",
+         "\tHUD_PrepEntity(&g_Snark, &player);",
+         prep, "op4-client-weapon-prep")
+
+    cases = "\n"
+    for n, wid in op4_client_prediction.CLIENT_PREDICTED_IDS:
+        cases += (f"\tcase {wid}:\n"
+                  f"\t\tpWeapon = &g_{n[1:]};\n"
+                  "\t\tbreak;\n\n")
+    edit("src/game/client/hl/hl_weapons.cpp",
+         "\tcase WEAPON_SNARK:\n\t\tpWeapon = &g_Snark;\n\t\tbreak;",
+         cases.rstrip("\n"), "op4-client-weapon-cases")
+
 
 # Only sources proven to compile against BHL headers are wired into the BHL
 # CMake targets. Everything else is present in the tree as a ported OP4 source
@@ -1232,6 +1278,23 @@ def apply_cmake(tree: Path, provenance: dict) -> None:
         p = tree / rel
         s = p.read_text(errors="surrogateescape")
         srcs = build_sources(tree, side)
+        if side == "client":
+            # OP4's weapon bodies are shared with the client DLL, exactly like
+            # BHL's own ../server/glock.cpp etc. Nine of them have no
+            # server-only entity dependency; CGrapple is server-authoritative.
+            srcs += [f"../server/op4/dlls/weapons/{n}.cpp"
+                     for n in op4_client_prediction.CLIENT_PREDICTED_WEAPONS]
+            srcs.append("op4/op4_client_prediction.cpp")
+            srcs = sorted(set(srcs))
+            inc_anchor = "target_include_directories( client PRIVATE\n\t.\n"
+            if inc_anchor in s and "${CMAKE_CURRENT_SOURCE_DIR}/../server/op4/dlls" not in s:
+                s = s.replace(
+                    inc_anchor,
+                    inc_anchor + "\t${CMAKE_CURRENT_SOURCE_DIR}/../server/op4/dlls\n"
+                    "\t${CMAKE_CURRENT_SOURCE_DIR}/../server/op4/dlls/ctf\n",
+                    1)
+                provenance[rel].setdefault("merge_rules", []).append(
+                    "op4-client-include-dirs")
         block = ("\n# OP4-MERGE: OP4 subsystem sources proven to compile against BHL headers\n"
                  + ("list( APPEND SOURCE_FILES\n\t" + "\n\t".join(srcs) + "\n)\n"
                     if srcs else
@@ -1329,6 +1392,8 @@ def build(out: Path) -> dict:
            op4_weapon_events.weapon_events_h()),
           ("src/game/client/op4/op4_weapon_events.cpp",
            op4_weapon_events.weapon_events_cpp()),
+          ("src/game/client/op4/op4_client_prediction.cpp",
+           op4_client_prediction.CLIENT_PREDICTION_CPP),
           ("src/game/server/op4/op4_entity_enumerator.h",
            op4_fixups.ENTITY_ENUMERATOR_H),
           ("src/game/shared/op4_weapon_timing.h", op4_fixups.TIMING_H),
@@ -1361,6 +1426,16 @@ def build(out: Path) -> dict:
         s, n = fix_keyvalue_returns(s)
         if n:
             applied.append({"rule": "bhl-keyvalue-void-returns", "count": n})
+        if p.name == "CGrapple.h":
+            # CGrapple's beam/tip entities and EHANDLE helpers are server-only
+            # and are deliberately NOT imported into BHL's client DLL. Keep
+            # this one weapon server-authoritative: the server sends its
+            # animation/effects to the local player, and the client prediction
+            # loop has no case for WEAPON_GRAPPLE (so no double simulation).
+            old = "return UTIL_DefaultUseDecrement();"
+            if old in s:
+                s = s.replace(old, "return FALSE; /* OP4-MERGE: grapple is server-authoritative */", 1)
+                applied.append({"rule": "bhl-grapple-server-authoritative", "count": 1})
         if p.suffix == ".cpp" and 'op4_compat.h' not in s:
             s = s.replace('#include "extdll.h"',
                           '#include "extdll.h"\n#include "op4_compat.h"', 1)
@@ -1384,8 +1459,13 @@ def build(out: Path) -> dict:
 
     # --- PROVENANCE --------------------------------------------------------
     cmake_sources = prov.pop("_cmake", {})
-    wired = {f"src/game/{side}/{s}" for side in ("server", "client")
-             for s in build_sources(out, side)}
+    # Use the exact lists written into CMake (they include the client-only
+    # shared OP4 weapon bodies and the client prediction glue), not just
+    # build_sources(), so a wired file is never reported as port-pending.
+    wired = set()
+    for rel, srcs in cmake_sources.items():
+        side = "server" if "server" in rel else "client"
+        wired.update(f"src/game/{side}/{s}" for s in srcs)
     pending = sorted(
         str(p.relative_to(out)) for p in out.rglob("*.cpp")
         if str(p.relative_to(out)).startswith("src/game/")
