@@ -1,0 +1,61 @@
+0140:trace:loaddll:build_module Loaded L"Z:\\home\\runner\\work\\Bugfixhl-speedrun-op4\\Bugfixhl-speedrun-op4\\wine_loader.exe" at 00400000: native
+0140:trace:loaddll:build_module Loaded L"C:\\windows\\system32\\kernelbase.dll" at 7B650000: builtin
+0140:trace:loaddll:build_module Loaded L"C:\\windows\\system32\\kernel32.dll" at 7BB90000: builtin
+0140:trace:loaddll:build_module Loaded L"C:\\windows\\system32\\msvcrt.dll" at 7B2A0000: builtin
+LOADFAIL steam_api.dll 126
+LOADFAIL steam_api.dll 126
+LOADFAIL steam_api.dll 126
+LOADFAIL steam_api.dll 126
+LOADFAIL steam_api.dll 126
+LOADFAIL steam_api.dll 126
+LOADFAIL tier0.dll 126
+LOADFAIL tier0.dll 126
+LOADFAIL tier0.dll 126
+LOADFAIL tier0.dll 126
+LOADFAIL tier0.dll 126
+LOADFAIL tier0.dll 126
+LOADFAIL tier0.dll 126
+LOADFAIL tier0.dll 126
+LOADFAIL tier0.dll 126
+LOADFAIL tier0.dll 126
+LOADFAIL tier0.dll 126
+LOADFAIL tier0.dll 126
+LOADFAIL tier0.dll 126
+LOADFAIL tier0.dll 126
+LOADFAIL tier0.dll 126
+LOADFAIL tier0.dll 126
+LOADFAIL tier0.dll 126
+LOADFAIL tier0.dll 126
+LOADFAIL vstdlib.dll 126
+LOADFAIL vstdlib.dll 126
+0140:trace:loaddll:build_module Loaded L"C:\\windows\\system32\\ucrtbase.dll" at 7AEE0000: builtin
+0140:trace:loaddll:build_module Loaded L"C:\\windows\\system32\\sechost.dll" at 7B200000: builtin
+0140:trace:loaddll:build_module Loaded L"C:\\windows\\system32\\advapi32.dll" at 7B550000: builtin
+0140:trace:loaddll:build_module Loaded L"C:\\windows\\system32\\dnsapi.dll" at 779C0000: builtin
+0140:trace:loaddll:build_module Loaded L"C:\\windows\\system32\\nsi.dll" at 77990000: builtin
+0140:trace:loaddll:build_module Loaded L"C:\\windows\\system32\\ws2_32.dll" at 7AE40000: builtin
+0140:trace:loaddll:build_module Loaded L"C:\\windows\\system32\\iphlpapi.dll" at 77A10000: builtin
+0140:trace:loaddll:build_module Loaded L"C:\\windows\\system32\\WSOCK32.dll" at 789F0000: builtin
+0140:trace:loaddll:build_module Loaded L"C:\\windows\\system32\\zlib1.dll" at 7A520000: builtin
+0140:trace:loaddll:build_module Loaded L"C:\\windows\\system32\\win32u.dll" at 7A280000: builtin
+0140:trace:loaddll:build_module Loaded L"C:\\windows\\system32\\user32.dll" at 7A560000: builtin
+0140:trace:loaddll:build_module Loaded L"C:\\windows\\system32\\gdi32.dll" at 7A2D0000: builtin
+0140:trace:loaddll:build_module Loaded L"C:\\windows\\system32\\imm32.dll" at 7A200000: builtin
+0140:trace:loaddll:build_module Loaded L"C:\\windows\\system32\\comctl32.dll" at 78420000: builtin
+0140:trace:loaddll:build_module Loaded L"C:\\windows\\system32\\hid.dll" at 783E0000: builtin
+0140:trace:loaddll:build_module Loaded L"C:\\windows\\system32\\rpcrt4.dll" at 7AC10000: builtin
+0140:trace:loaddll:build_module Loaded L"C:\\windows\\system32\\combase.dll" at 78E60000: builtin
+0140:trace:loaddll:build_module Loaded L"C:\\windows\\system32\\coml2.dll" at 78E00000: builtin
+0140:trace:loaddll:build_module Loaded L"C:\\windows\\system32\\ole32.dll" at 78FC0000: builtin
+0140:trace:loaddll:build_module Loaded L"C:\\windows\\system32\\setupapi.dll" at 7AA80000: builtin
+0140:trace:loaddll:build_module Loaded L"C:\\windows\\system32\\DINPUT8.dll" at 788E0000: builtin
+0140:trace:loaddll:build_module Loaded L"C:\\windows\\system32\\uxtheme.dll" at 78AF0000: builtin
+0140:trace:loaddll:build_module Loaded L"C:\\windows\\system32\\dbghelp.dll" at 78170000: builtin
+0140:trace:loaddll:build_module Loaded L"C:\\windows\\system32\\shcore.dll" at 79410000: builtin
+0140:trace:loaddll:build_module Loaded L"C:\\windows\\system32\\shlwapi.dll" at 79470000: builtin
+0140:trace:loaddll:build_module Loaded L"C:\\windows\\system32\\SHELL32.dll" at 79570000: builtin
+0140:trace:loaddll:build_module Loaded L"C:\\windows\\system32\\VERSION.dll" at 78C30000: builtin
+0140:err:module:import_dll Library steam_api.dll (which is needed by L"Z:\\home\\runner\\work\\Bugfixhl-speedrun-op4\\Bugfixhl-speedrun-op4\\wineenv\\client.dll") not found
+0140:err:module:import_dll Library tier0.dll (which is needed by L"Z:\\home\\runner\\work\\Bugfixhl-speedrun-op4\\Bugfixhl-speedrun-op4\\wineenv\\client.dll") not found
+0140:err:module:import_dll Library vstdlib.dll (which is needed by L"Z:\\home\\runner\\work\\Bugfixhl-speedrun-op4\\Bugfixhl-speedrun-op4\\wineenv\\client.dll") not found
+CLIENT 00000000 126
