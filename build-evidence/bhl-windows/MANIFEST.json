@@ -7,17 +7,17 @@
       "is_windows_dll": true,
       "path": "build-evidence/bhl-windows/client.dll",
       "pe32_i386": true,
-      "sha256": "8b92f173f3153ed8d79325726ef21220335ddcd3ced64bbf24a72c6591441553"
+      "sha256": "3dc63d3c959e0d72bc80913ea3421c3a3c9e458332248fa8bff066bd3600a37b"
     },
     "hl.dll": {
       "bytes": 1196544,
       "is_windows_dll": true,
       "path": "build-evidence/bhl-windows/hl.dll",
       "pe32_i386": true,
-      "sha256": "a8d7fbcbf0cacee17341c14d8f5654456c40210992998364f028850a80752cb2"
+      "sha256": "33c11b5456d2d276d8bf480a8d69e605f6e0a1ddced8f218ede0637dd7be98bd"
     }
   },
-  "note": "Built from the BHL-based bhl-op4 tree with Visual Studio 2022 MSVC / Win32 and the static MSVC runtime. This replaces the MinGW/Zig x86-windows-gnu DLLs, which crashed in vgui2.dll with EXCEPTION_ACCESS_VIOLATION. All ten OP4 weapons remain wired for client prediction. NOT loaded in GoldSrc or tested in-game here.",
+  "note": "Built from the BHL-based bhl-op4 tree with Visual Studio 2022 MSVC / Win32 and the static MSVC runtime. Winsock is linked by name through ws2_32.lib instead of ordinal-only wsock32.lib for Wine compatibility. All ten OP4 weapons remain wired for client prediction. NOT tested in-game here.",
   "source_lists": {
     "client": 152,
     "server": 179

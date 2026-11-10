@@ -46,8 +46,8 @@
   `a99e135d845effae57b4275e12bdf0ce6019aee627b5521b09d98e55bf85c099`؛ `hl.so` `21232512` بايت، sha256
   `34e53fc509c59818390943d9e19ab0167ebe1928c15343d6e40baeea7e308218`.
 * ويندوز (`x86-windows-msvc / PE32 i386`, `MSVC 19.44 / Visual Studio 2022 / CMake 3.30.9 / vcpkg x86-windows-static`, ABI متوافق مع MSVC/VGUI2):
-  `client.dll` `2015744` بايت، sha256 `8b92f173f3153ed8d79325726ef21220335ddcd3ced64bbf24a72c6591441553`؛
-  `hl.dll` `1196544` بايت، sha256 `a8d7fbcbf0cacee17341c14d8f5654456c40210992998364f028850a80752cb2`.
+  `client.dll` `2015744` بايت، sha256 `3dc63d3c959e0d72bc80913ea3421c3a3c9e458332248fa8bff066bd3600a37b`؛
+  `hl.dll` `1196544` بايت، sha256 `33c11b5456d2d276d8bf480a8d69e605f6e0a1ddced8f218ede0637dd7be98bd`.
   هذه تبني MSVC بديلاً عن بناء MinGW/Zig الذي انهار في `vgui2.dll`، لكنها
   **غير مُختبَرة داخل اللعبة**.
 * بصمات `SOURCES.sha256` تُتحقق لكل ملف موجود، ويكون عدد المخالفات صفراً؛
