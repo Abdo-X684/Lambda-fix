@@ -1,0 +1,79 @@
+name: Compare MSVC DLL with original BHL client ABI
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  compare:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: arena/dd30bd22-bugfixhl-speedrun-op4
+          persist-credentials: true
+
+      - name: Download original BugfixedHL 1.13.2 Windows client
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release download v1.13.2 --repo tmp64/BugfixedHL-Rebased --pattern 'BugfixedHL-1.13.2-client.zip' --dir /tmp
+          unzip -o /tmp/BugfixedHL-1.13.2-client.zip -d /tmp/bhl-upstream
+          find /tmp/bhl-upstream -iname 'client.dll' -print
+
+      - name: Produce a plain-text import/export comparison
+        run: |
+          python3 -m pip install --quiet pefile
+          python3 - <<'PY'
+          import pathlib, pefile, hashlib
+          upstream_path = next(pathlib.Path('/tmp/bhl-upstream').rglob('client.dll'))
+          ours = pathlib.Path('build-evidence/bhl-windows/client.dll')
+          def info(p):
+              pe = pefile.PE(str(p))
+              imports = {}
+              for e in pe.DIRECTORY_ENTRY_IMPORT:
+                  imports[e.dll.decode()] = sorted(
+                      (i.name.decode() if i.name else 'ord:%d' % i.ordinal)
+                      for i in e.imports)
+              exports = sorted(e.name.decode() for e in pe.DIRECTORY_ENTRY_EXPORT.symbols if e.name)
+              return {
+                  'size': p.stat().st_size,
+                  'sha256': hashlib.sha256(p.read_bytes()).hexdigest(),
+                  'image_base': hex(pe.OPTIONAL_HEADER.ImageBase),
+                  'size_of_image': hex(pe.OPTIONAL_HEADER.SizeOfImage),
+                  'subsystem': (pe.OPTIONAL_HEADER.MajorSubsystemVersion,
+                                pe.OPTIONAL_HEADER.MinorSubsystemVersion),
+                  'dll_characteristics': hex(pe.OPTIONAL_HEADER.DllCharacteristics),
+                  'imports': imports,
+                  'exports': exports,
+              }
+          a, b = info(upstream_path), info(ours)
+          lines = []
+          lines.append('UPSTREAM: %s' % upstream_path)
+          for k in ('size','sha256','image_base','size_of_image','subsystem','dll_characteristics'):
+              lines.append('upstream.%s = %r' % (k, a[k]))
+              lines.append('ours.%s = %r' % (k, b[k]))
+          lines.append('')
+          lines.append('DLLs only in ours: %r' % sorted(set(b['imports']) - set(a['imports'])))
+          lines.append('DLLs only in upstream: %r' % sorted(set(a['imports']) - set(b['imports'])))
+          for dll in sorted(set(a['imports']) & set(b['imports'])):
+              extra = sorted(set(b['imports'][dll]) - set(a['imports'][dll]))
+              missing = sorted(set(a['imports'][dll]) - set(b['imports'][dll]))
+              if extra or missing:
+                  lines.append('%s: ONLY_OURS=%r ONLY_UPSTREAM=%r' % (dll, extra, missing))
+          lines.append('')
+          lines.append('Exports only in ours: %r' % sorted(set(b['exports']) - set(a['exports'])))
+          lines.append('Exports only in upstream: %r' % sorted(set(a['exports']) - set(b['exports'])))
+          pathlib.Path('build-evidence/bhl-windows/UPSTREAM_ABI_COMPARE.txt').write_text('\n'.join(lines) + '\n')
+          print('\n'.join(lines))
+          PY
+
+      - name: Push the comparison report to the branch
+        run: |
+          git config user.name "arena-bot"
+          git config user.email "arena-bot@users.noreply.github.com"
+          git add build-evidence/bhl-windows/UPSTREAM_ABI_COMPARE.txt
+          git commit -m "Add upstream ABI comparison for MSVC-ABI build" || echo "no changes"
+          git push origin HEAD:arena/dd30bd22-bugfixhl-speedrun-op4
