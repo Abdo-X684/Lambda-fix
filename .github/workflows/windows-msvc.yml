@@ -41,42 +41,37 @@ jobs:
           runVcpkgInstall: true
           vcpkgTriplet: x86-windows-static
 
-      - uses: ilammy/msvc-dev-cmd@v1
-        with:
-          arch: x86
+      - name: Persist the vcpkg root before MSVC resets it
+        shell: pwsh
+        run: |
+          Add-Content -Path $env:GITHUB_ENV -Value "CUSTOM_VCPKG_ROOT=$env:VCPKG_ROOT"
 
       - name: Install SDL2 and DirectInput import libraries for BHL's Windows client
         shell: pwsh
         run: |
-          & "$env:VCPKG_ROOT\vcpkg.exe" install sdl2:x86-windows --host-triplet x64-windows
-          $sdl = Get-ChildItem -Path "$env:VCPKG_ROOT/installed/x86-windows/lib" -Filter SDL2.lib -Recurse | Select-Object -First 1
+          & "$env:CUSTOM_VCPKG_ROOT\vcpkg.exe" install sdl2:x86-windows --host-triplet x64-windows
+          $sdl = Get-ChildItem -Path "$env:CUSTOM_VCPKG_ROOT/installed/x86-windows/lib" -Filter SDL2.lib -Recurse | Select-Object -First 1
           if (-not $sdl) { throw "SDL2.lib not found in vcpkg" }
           Copy-Item $sdl.FullName "bhl-op4/lib/public/SDL2.lib" -Force
-          $roots = @('C:\Program Files (x86)\Windows Kits\10\Lib')
-          if ($env:WindowsSdkDir) { $roots += (Join-Path $env:WindowsSdkDir 'Lib') }
-          $dinput = $null
-          $dxguid = $null
-          foreach ($root in $roots) {
-            if (-not (Test-Path $root)) { continue }
-            if (-not $dinput) {
-              $dinput = Get-ChildItem -Path $root -Recurse -Filter dinput8.lib -ErrorAction SilentlyContinue |
-                Where-Object { $_.FullName -like '*\um\x86\*' } | Select-Object -First 1
-            }
-            if (-not $dxguid) {
-              $dxguid = Get-ChildItem -Path $root -Recurse -Filter dxguid.lib -ErrorAction SilentlyContinue |
-                Where-Object { $_.FullName -like '*\um\x86\*' } | Select-Object -First 1
-            }
-          }
+          $root = 'C:\Program Files (x86)\Windows Kits\10\Lib'
+          $dinput = Get-ChildItem -Path $root -Recurse -Filter dinput8.lib -ErrorAction SilentlyContinue |
+            Where-Object { $_.FullName -like '*\um\x86\*' } | Select-Object -First 1
+          $dxguid = Get-ChildItem -Path $root -Recurse -Filter dxguid.lib -ErrorAction SilentlyContinue |
+            Where-Object { $_.FullName -like '*\um\x86\*' } | Select-Object -First 1
           if (-not $dinput -or -not $dxguid) { throw "Windows SDK dinput8.lib/dxguid.lib not found" }
           New-Item -ItemType Directory -Force -Path "bhl-op4/external/windows/dinput/lib" | Out-Null
           Copy-Item $dinput.FullName "bhl-op4/external/windows/dinput/lib/dinput8.lib" -Force
           Copy-Item $dxguid.FullName "bhl-op4/external/windows/dinput/lib/dxguid.lib" -Force
 
+      - uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: x86
+
       - name: Configure MSVC/Win32 CMake build
         shell: pwsh
         run: |
           cmake -S bhl-op4 -B build-msvc -G "Visual Studio 17 2022" -A Win32 `
-            -DCMAKE_TOOLCHAIN_FILE="$env:VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake" `
+            -DCMAKE_TOOLCHAIN_FILE="$env:CUSTOM_VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake" `
             -DVCPKG_TARGET_TRIPLET=x86-windows-static `
             -DVCPKG_HOST_TRIPLET=x64-windows `
             -DVCPKG_MANIFEST_MODE=ON `
