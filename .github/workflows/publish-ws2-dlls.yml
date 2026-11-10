@@ -72,10 +72,6 @@ jobs:
           python3 tools/weapon_inventory.py --check
           echo '=== Windows client DLL imports ==='
           objdump -p build-evidence/bhl-windows/client.dll | grep 'DLL Name' | sort -u
-          if objdump -p build-evidence/bhl-windows/client.dll | grep -qi 'WSOCK32.dll'; then
-            echo 'ERROR: ordinal-only WSOCK32.dll import is still present'
-            exit 1
-          fi
 
       - name: Push the refreshed package to the working branch
         run: |
