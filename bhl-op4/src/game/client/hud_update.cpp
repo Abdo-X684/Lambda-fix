@@ -29,6 +29,7 @@ extern float v_idlescale;
 float in_fov;
 float g_flRenderFOV = 0; //!< FOV that is used to render this frame
 extern void HUD_SetCmdBits(int bits);
+extern bool g_bOP4WeaponBits;
 
 int CHud::UpdateClientData(client_data_t *cdata, float time)
 {
@@ -36,7 +37,8 @@ int CHud::UpdateClientData(client_data_t *cdata, float time)
 	memcpy(m_vecAngles, cdata->viewangles, sizeof(Vector));
 
 	m_iKeyBits = CL_ButtonBits(0);
-	m_iWeaponBits = cdata->iWeaponBits;
+	if (!g_bOP4WeaponBits)
+		m_iWeaponBits = cdata->iWeaponBits;
 
 	in_fov = cdata->fov;
 

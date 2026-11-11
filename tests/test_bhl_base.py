@@ -104,7 +104,7 @@ class BhlBaseTreeTests(unittest.TestCase):
             self.skipTest("pinned BHL cache not present (run: make fetch)")
         verbatim = [(rel, rec) for rel, rec in self.prov["files"].items()
                     if rec["action"] == "verbatim" and rec["origin"] == "bugfixhl"]
-        self.assertGreaterEqual(len(verbatim), 677)
+        self.assertGreaterEqual(len(verbatim), 670)
         bad = []
         for rel, rec in verbatim:
             src = upstream / rel
@@ -155,6 +155,22 @@ class BhlBaseTreeTests(unittest.TestCase):
             rec = self.prov["files"][rel]
             self.assertEqual(rec["origin"], "bugfixhl", rel)
             self.assertEqual(rec["action"], "verbatim", rel)
+
+    def test_13_op4_server_network_compat(self):
+        checks = {
+            "src/game/server/cdll_dll.h": ("MAX_WEAPONS 64", "MAX_WEAPON_SLOTS     7"),
+            "src/game/server/weapons.h": ("MAX_WEAPONS 64",),
+            "src/common/entity_state.h": ("weapondata[64]",),
+            "src/game/client/entity.cpp": ("MAX_WEAPONS * sizeof(weapon_data_t)",),
+            "src/game/client/hud.cpp": ('pfnHookUserMsg((char *)"Weapons"',),
+            "src/game/client/hud_update.cpp": ("g_bOP4WeaponBits",),
+            "src/game/client/op4/op4_client_prediction.cpp":
+                ("OP4_MsgFunc_Weapons", "g_bOP4WeaponBits"),
+        }
+        for rel, markers in checks.items():
+            text = (TREE / rel).read_text()
+            for marker in markers:
+                self.assertIn(marker, text, f"{rel} missing {marker}")
 
     def test_10_port_pending_matches_documented_count(self):
         wired = set()

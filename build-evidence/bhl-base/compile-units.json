@@ -131,7 +131,7 @@
     "compiled_from": "bhl-op4/src/game/client/entity.cpp",
     "object": "0016_entity.o",
     "set": "client",
-    "sha256": "a20647c82393e94d8c0e4581a6a057efa3ddf676244a35b0fd26af61759c9f59",
+    "sha256": "b77d0a09c1eb76483dd9b79fa36013e0de20013dad4699367ee1c3b5da91a0d3",
     "source": "bhl-op4/src/game/client/entity.cpp",
     "status": "ok"
   },
@@ -675,7 +675,7 @@
     "compiled_from": "bhl-op4/src/game/client/hud.cpp",
     "object": "0084_hud.o",
     "set": "client",
-    "sha256": "83a655834fdc6e8dc8cfeb10cd7cd026e0c37ef7697ead3d89203ab683eee4b0",
+    "sha256": "04bb7712ed4c6ab1024b8ac80a1654b83c7c4f6fdc02044fc276f88f11eca16c",
     "source": "bhl-op4/src/game/client/hud.cpp",
     "status": "ok"
   },
@@ -707,7 +707,7 @@
     "compiled_from": "bhl-op4/src/game/client/hud_update.cpp",
     "object": "0088_hud_update.o",
     "set": "client",
-    "sha256": "740441966f1bbb53429de89eb900efbe8f386d25cc35bd9df895a7ef2608ae1d",
+    "sha256": "2bd97c002b6cf4ec1dd29e0383b1aa5c06b13b03d1d04ec0b12602953d994a24",
     "source": "bhl-op4/src/game/client/hud_update.cpp",
     "status": "ok"
   },
@@ -755,7 +755,7 @@
     "compiled_from": "bhl-op4/src/game/client/op4/op4_client_prediction.cpp",
     "object": "0094_op4_client_prediction.o",
     "set": "client",
-    "sha256": "a6e81e21d959670862198f245050618f56e5aa8afeec906b6239d7438f9664c1",
+    "sha256": "995349bc5dfa9512863cdb0df85fd8dc7774cc56410d9bf8fb019e5b2b101701",
     "source": "bhl-op4/src/game/client/op4/op4_client_prediction.cpp",
     "status": "ok"
   },

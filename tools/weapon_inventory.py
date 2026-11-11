@@ -168,6 +168,9 @@ def collect() -> tuple[list[str], str]:
     windows = json.loads((ROOT / "build-evidence/bhl-windows/MANIFEST.json").read_text())
     chk(windows.get("abi") == "msvc",
         "Windows DLL manifest is not the MSVC-ABI build")
+    for name in ("client.so", "hl.so"):
+        chk(linux["libraries"][name].get("glibc_max") == "GLIBC_2.17",
+            f"{name} is not linked to the GLIBC_2.17 baseline")
     for side, manifest in (("bhl-base", linux), ("bhl-windows", windows)):
         n, bad, skipped = source_hashes(
             ROOT / f"build-evidence/{side}/SOURCES.sha256")
@@ -241,14 +244,18 @@ def collect() -> tuple[list[str], str]:
   `CGrapple` لم يعد server-authoritative؛ لا يوجد `UseDecrement()` مجبر على `FALSE`.
 * `MAX_WEAPON_SLOTS = 7` وأمر `slot7` موصولان في كود BHL؛ سبرايت السلة السابعة
   داخل `sprites/hud.txt` ما زال غير مُختبَر في اللعبة.
+* توافق شبكة OP4: `MAX_WEAPONS = 64`، `local_state_t.weapondata[64]`، نقل
+  بيانات التنبؤ لـ64 سلاحاً، وربط رسالة `Weapons` ذات 8 بايتات في عميل BHL
+  حتى لا تُقرأ بتات الأسلحة من حقل المحرك القديم ذي 32 بت فقط.
 * `liblist.gam` يبدأ `of0a0` و`ofboot0`، `steam_appid.txt = 50`،
   `delta.lst` هو ملف OP4، و`fallback_dir "gearbox"` يجلب أصول OP4 المثبّتة.
 * `autoexec.cfg` يضبط `sv_oldweapons 0`؛ `op4weapons.cfg` يعطي الأسلحة العشرة
   والذخائر عبر F9. خادم ويندوز المرقّع يجعل `impulse 101` يعطيها أيضاً،
   بما فيها `weapon_penguin`؛ لينكس يستخدم F9/F10 مع خادم `gearbox` الأصلي.
 * لينكس: `client.so` `{linux_client['bytes']}` بايت، sha256
-  `{linux_client['sha256']}`؛ خادم `hl.so` القديم (`{linux_server['bytes']}` بايت)
-  ليس داخل الحزمة، ويستخدم `../gearbox/dlls/opfor.so` بدلاً منه.
+  `{linux_client['sha256']}`، مرتبط بأساس `GLIBC_2.17`؛ خادم `hl.so` القديم
+  (`{linux_server['bytes']}` بايت) ليس داخل الحزمة، ويستخدم
+  `../gearbox/dlls/opfor.so` بدلاً منه.
 * ويندوز (`{windows['target']}`, `{windows['toolchain']}`, ABI متوافق مع MSVC/VGUI2):
   `client.dll` `{win_client['bytes']}` بايت، sha256 `{win_client['sha256']}`؛
   `opfor.dll` `{opfor_size}` بايت، sha256 `{opfor_hash}`. خادم `hl.dll`

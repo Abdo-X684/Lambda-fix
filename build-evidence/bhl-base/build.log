@@ -8,6 +8,7 @@ zig    : /tmp/zenv/lib/python3.11/site-packages/ziglang/zig (clang for i386-unkn
 [gen] appversion.h from bhl-op4/src/common/appversion.h.in
 [gen] PCRE1 config.h / pcre.h from pcre.h.generic, config.h.generic
 [compat] 3 build fixes written to /home/user/Bugfixhl-speedrun-op4/build-evidence/bhl-base/patches
+[cmake] note: condition 'MSVC' treated as false
 [cmake] client=152 server=179 common=8
 [compile] client: 152/152 clean
 [compile] server: 179/179 clean
@@ -25,19 +26,19 @@ zig    : /tmp/zenv/lib/python3.11/site-packages/ziglang/zig (clang for i386-unkn
 [ar] libsemver.a: 1 objects
 [ar] libpcre.a: 20 objects
 [link] client.so: 152 objects, 6 archives, 4 shared libs
-[link] client.so: OK (28261832 bytes)
+[link] client.so: OK (28290380 bytes)
 [link] hl.so: 179 objects, 1 archives, 0 shared libs
-[link] hl.so: OK (21232512 bytes)
+[link] hl.so: OK (21252376 bytes)
 [audit] client.so: 0 unresolved symbols from our own build
 [audit] hl.so: 0 unresolved symbols from our own build
-[done] 168.1s
+[done] 189.5s
 {
   "client.so": {
     "path": "build-evidence/bhl-base/client.so",
-    "bytes": 28261832,
-    "sha256": "a99e135d845effae57b4275e12bdf0ce6019aee627b5521b09d98e55bf85c099",
+    "bytes": 28290380,
+    "sha256": "d9356782f72f6c5ac7e8579202fae5cb5d042838c364a6ca143864b6ee968f4d",
     "elf32": true,
-    "exported_symbol_count": 5104,
+    "exported_symbol_count": 5105,
     "exported_game_entry_points": [
       "HUD_Frame",
       "HUD_Init",
@@ -50,21 +51,23 @@ zig    : /tmp/zenv/lib/python3.11/site-packages/ziglang/zig (clang for i386-unkn
       "Initialize",
       "V_CalcRefdef"
     ],
-    "undefined_symbol_count": 311,
+    "undefined_symbol_count": 308,
     "needed": [
       "libSDL2-2.0.so.0",
       "libtier0.so",
       "libvstdlib.so",
       "libm.so.6",
       "libc.so.6",
-      "ld-linux.so.2"
+      "ld-linux.so.2",
+      "libpthread.so.0",
+      "libdl.so.2"
     ],
     "unresolved_own_build_symbols": []
   },
   "hl.so": {
     "path": "build-evidence/bhl-base/hl.so",
-    "bytes": 21232512,
-    "sha256": "34e53fc509c59818390943d9e19ab0167ebe1928c15343d6e40baeea7e308218",
+    "bytes": 21252376,
+    "sha256": "da0c7b2887e86b25c6c33460b8096310451ce8d651429cdfdfb10d3990b31bb8",
     "elf32": true,
     "exported_symbol_count": 4467,
     "exported_game_entry_points": [
@@ -73,11 +76,13 @@ zig    : /tmp/zenv/lib/python3.11/site-packages/ziglang/zig (clang for i386-unkn
       "GetNewDLLFunctions",
       "GiveFnptrsToDll"
     ],
-    "undefined_symbol_count": 156,
+    "undefined_symbol_count": 154,
     "needed": [
       "libm.so.6",
       "libc.so.6",
-      "ld-linux.so.2"
+      "ld-linux.so.2",
+      "libpthread.so.0",
+      "libdl.so.2"
     ],
     "unresolved_own_build_symbols": []
   }

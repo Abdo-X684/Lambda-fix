@@ -4,11 +4,11 @@
     "commit": "4d32095e3c33",
     "files": 694,
     "license": "GPL-3.0",
-    "merged_files": 17,
+    "merged_files": 21,
     "repo": "tmp64/BugfixedHL-Rebased",
-    "tree_sha256": "829ddb60d310154804d2951ac64320d0ffc7236d2cd7ff153f467e37ded75fb8",
+    "tree_sha256": "fa0f8279c09aa955ab93e87f5fff6f6f2ec0f531d12c2024db94e2d02054aaea",
     "tree_sha256_note": "sha256 over sorted '<path>  <file sha256>' for every BHL-origin file on disk; verified by --check",
-    "verbatim_files": 677
+    "verbatim_files": 673
   },
   "cmake": {
     "src/game/client/CMakeLists.txt": [
@@ -1331,10 +1331,13 @@
       "sha256": "9c6e37a1932654f86e34a7fa3c7fe8c7970d5b8412c1259155734a7c73d17bed"
     },
     "src/common/entity_state.h": {
-      "action": "verbatim",
+      "action": "bhl+op4-merge",
       "commit": "4d32095e3c33",
+      "merge_rules": [
+        "op4-local-state-64"
+      ],
       "origin": "bugfixhl",
-      "sha256": "55c7defd99bfa3d6a57ec90f32152eae233cef535c4c2244dc46048e36e0666e"
+      "sha256": "10274634fda00828820c660ea0cc6619a2147383bc409eb4230f2b852b63af3a"
     },
     "src/common/entity_types.h": {
       "action": "verbatim",
@@ -1799,10 +1802,13 @@
       "sha256": "8669b9d08759c54b2087810a74866b38c78134d6b67d20be1066d3dd6e688413"
     },
     "src/game/client/entity.cpp": {
-      "action": "verbatim",
+      "action": "bhl+op4-merge",
       "commit": "4d32095e3c33",
+      "merge_rules": [
+        "op4-prediction-transfer-64"
+      ],
       "origin": "bugfixhl",
-      "sha256": "a20647c82393e94d8c0e4581a6a057efa3ddf676244a35b0fd26af61759c9f59"
+      "sha256": "b77d0a09c1eb76483dd9b79fa36013e0de20013dad4699367ee1c3b5da91a0d3"
     },
     "src/game/client/ev_common.cpp": {
       "action": "verbatim",
@@ -2152,10 +2158,13 @@
       "sha256": "75a458d043f709f1407a84e1e75382b0d5c66717b94e4fa17580795c5b33a777"
     },
     "src/game/client/hud.cpp": {
-      "action": "verbatim",
+      "action": "bhl+op4-merge",
       "commit": "4d32095e3c33",
+      "merge_rules": [
+        "op4-weapons-message-hook"
+      ],
       "origin": "bugfixhl",
-      "sha256": "83a655834fdc6e8dc8cfeb10cd7cd026e0c37ef7697ead3d89203ab683eee4b0"
+      "sha256": "04bb7712ed4c6ab1024b8ac80a1654b83c7c4f6fdc02044fc276f88f11eca16c"
     },
     "src/game/client/hud.h": {
       "action": "verbatim",
@@ -2638,10 +2647,14 @@
       "sha256": "66e2050aa3d83d4bba7a50e94c90de0147cadc2a01d0cc475102288d8d90a6eb"
     },
     "src/game/client/hud_update.cpp": {
-      "action": "verbatim",
+      "action": "bhl+op4-merge",
       "commit": "4d32095e3c33",
+      "merge_rules": [
+        "op4-weapons-message-flag-decl",
+        "op4-weapons-message-flag-use"
+      ],
       "origin": "bugfixhl",
-      "sha256": "740441966f1bbb53429de89eb900efbe8f386d25cc35bd9df895a7ef2608ae1d"
+      "sha256": "2bd97c002b6cf4ec1dd29e0383b1aa5c06b13b03d1d04ec0b12602953d994a24"
     },
     "src/game/client/in_camera.cpp": {
       "action": "verbatim",
@@ -2825,7 +2838,7 @@
       "action": "compat-glue",
       "commit": null,
       "origin": "this-repo",
-      "sha256": "a6e81e21d959670862198f245050618f56e5aa8afeec906b6239d7438f9664c1"
+      "sha256": "995349bc5dfa9512863cdb0df85fd8dc7774cc56410d9bf8fb019e5b2b101701"
     },
     "src/game/client/op4/op4_weapon_events.cpp": {
       "action": "compat-glue",
@@ -3493,10 +3506,11 @@
       "commit": "4d32095e3c33",
       "merge_rules": [
         "op4-weaponid-enum",
-        "op4-hud-bucket-7"
+        "op4-hud-bucket-7",
+        "op4-max-weapons-64"
       ],
       "origin": "bugfixhl",
-      "sha256": "6d0080eb1b3c48931c489fef969aa803d6980e88689952ab53c10bc1616cfa93"
+      "sha256": "e0fd3d1505f8730a141ae7e9096c5bab1ec6fc006b1304487944d4ca67a312a1"
     },
     "src/game/server/client.cpp": {
       "action": "verbatim",
@@ -7315,11 +7329,12 @@
         "op4-weaponinfo-include",
         "op4-weapon-prediction-api",
         "op4-findhull-decl",
+        "op4-max-weapons-64-server",
         "op4-laserspot-public-spawn",
         "op4-weapon-timing-state"
       ],
       "origin": "bugfixhl",
-      "sha256": "6cf4378889d028123afdacbbb993a6c4ed1699d5162cc2fca298c925ddbd5f53"
+      "sha256": "17d89cf527853d08c0072e302a04509e04b807827dd152d981b2e8e9d5925230"
     },
     "src/game/server/world.cpp": {
       "action": "verbatim",

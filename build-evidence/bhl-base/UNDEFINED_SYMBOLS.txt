@@ -35,8 +35,11 @@
          U __ctype_toupper_loc
          U __cxa_atexit
          U __errno_location
+         U __fxstat
          U __isoc99_sscanf
          U __isoc99_swscanf
+         U __lxstat
+         U __xstat
          U _exit
          U _pcre_default_tables
          U abort
@@ -54,13 +57,13 @@
          U catgets
          U catopen
          U chdir
+         U chmod
          U clock_getres
          U clock_gettime
          U clock_nanosleep
          U close
          U closedir
          U connect
-         U copy_file_range
          U div
          U dl_iterate_phdr
          U dladdr
@@ -70,7 +73,6 @@
          U dlsym
          U dup2
          U execve
-         U execveat
          U exit
          U faccessat
          U fchdir
@@ -94,7 +96,6 @@
          U freelocale
          U fseek
          U fseeko
-         U fstat
          U fsync
          U ftell
          U ftello
@@ -105,7 +106,6 @@
          U getcwd
          U getenv
          U getpid
-         U getrandom
          U htons
          U hypot
          U hypotf
@@ -141,7 +141,6 @@
          U localeconv
          U localtime
          U lseek64
-         U lstat
          U malloc
          U mbrtowc
          U mbsnrtowcs
@@ -229,9 +228,7 @@
          U socket
          U sprintf
          U srand
-         U stat
          U statvfs
-         U statx
          U stderr
          U strcasecmp
          U strcat
@@ -327,12 +324,12 @@
          U bind
          U calloc
          U chdir
+         U chmod
          U clock_getres
          U clock_gettime
          U clock_nanosleep
          U close
          U connect
-         U copy_file_range
          U dl_iterate_phdr
          U dladdr
          U dlclose
@@ -341,7 +338,6 @@
          U dlsym
          U dup2
          U execve
-         U execveat
          U faccessat
          U fchdir
          U fchmod
@@ -362,7 +358,6 @@
          U fwrite
          U getcwd
          U getpid
-         U getrandom
          U gettimeofday
          U ioctl
          U isalnum
@@ -383,6 +378,7 @@
          U mremap
          U munmap
          U open64
+         U openat
          U openat64
          U pipe2
          U poll
@@ -427,7 +423,6 @@
          U snprintf
          U socket
          U sprintf
-         U statx
          U stderr
          U strcasecmp
          U strcat

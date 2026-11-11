@@ -17,8 +17,10 @@ This is NOT a replacement build system.  It reproduces, step by step, what
 
 The compiler is Zig's bundled clang targeting ``i386-unknown-linux-gnu``
 (this sandbox has no 32-bit libstdc++ / gcc multilib, and the HL engine is a
-32-bit process).  See ``docs/BHL_BASE_BUILD.md`` for the exact environment
-setup, all commands, and the complete build log.
+32-bit process). The final link uses a GLIBC_2.17 baseline so older Half-Life
+Linux installations can load the resulting .so. See
+``docs/BHL_BASE_BUILD.md`` for the exact environment setup, all commands,
+and the complete build log.
 
 Deliberately disclosed compatibility fixes (see ``patches/*.patch``):
   1. ``hl1_source_sdk/public/tier1/utlblockmemory.h`` calls ``std::swap`` on
@@ -80,6 +82,10 @@ DEPS = {
 ZIG = pathlib.Path("/tmp/zenv/lib/python3.11/site-packages/ziglang/zig")
 ZIG_CXX = [str(ZIG), "c++", "-target", "x86-linux-gnu"]
 ZIG_CC = [str(ZIG), "cc", "-target", "x86-linux-gnu"]
+# The object files are target-independent i386 System V; linking them with a
+# 2.17 glibc baseline keeps the resulting .so loadable on older Half-Life
+# Linux installations. The previous GLIBC_2.34 link was rejected by the user.
+ZIG_LINK_CXX = [str(ZIG), "c++", "-target", "x86-linux-gnu.2.17"]
 
 # COMMON_DEFINES + GAME_COMMON_DEFINES + SOURCE_SDK_DEFINES, Linux branch.
 BHL_DEFS = [
@@ -592,7 +598,7 @@ class Builder:
         if archives:
             group = ["-Wl,--start-group"] + [str(a) for a in archives] \
                     + ["-Wl,--end-group"]
-        cmd = ZIG_CXX + ["-shared", "-o", str(target)] + [str(o) for o in objs] \
+        cmd = ZIG_LINK_CXX + ["-shared", "-o", str(target)] + [str(o) for o in objs] \
               + group + [str(l) for l in libs] + ["-ldl", "-lpthread", "-lm"]
         log(f"[link] {name}: {len(objs)} objects, "
             f"{len(archives or [])} archives, {len(libs)} shared libs", self.logf)
@@ -617,6 +623,12 @@ class Builder:
                                  text=True).stdout
             needed = subprocess.run(["readelf", "-d", str(p)], capture_output=True,
                                     text=True).stdout
+            versions = subprocess.run(["readelf", "-V", str(p)], capture_output=True,
+                                      text=True).stdout
+            glibc_versions = re.findall(r"GLIBC_[0-9.]+", versions)
+            glibc_max = max(glibc_versions,
+                            key=lambda v: tuple(map(int, v.split("_", 1)[1].split(".")))) \
+                        if glibc_versions else "none"
             exported = set(re.findall(r"^\S+ T (\S+)$", dyn, re.M))
             info[name] = {
                 "path": str(p.relative_to(ROOT)), "bytes": p.stat().st_size,
@@ -633,6 +645,7 @@ class Builder:
                 "undefined_symbol_count": len(
                     [l for l in und.splitlines() if l.strip().startswith("U ")]),
                 "needed": re.findall(r"Shared library: \[([^\]]+)\]", needed),
+                "glibc_max": glibc_max,
             }
             if not info[name]["elf32"]:
                 raise SystemExit(f"[verify] {name} is not ELF32 i386")
@@ -770,7 +783,7 @@ def main() -> int:
         "base_repo": "tmp64/BugfixedHL-Rebased @ 4d32095e3c33",
         "source_sdk": "tmp64/hl1_source_sdk @ 11f26656677c881c7c630d03957900e7701da62e",
         "toolchain": {"zig": "0.17.1 (clang 22.1.8)",
-                      "target": "i386-unknown-linux5.10.0-gnu2.34.0",
+                      "target": "i386-unknown-linux-gnu / GLIBC_2.17 baseline",
                       "cmake_available": "3.30.9 (dependency probe)"},
         "source_lists": {"client": len(client), "server": len(server),
                          "tier1": len(tier1), "tier2": len(tier2),

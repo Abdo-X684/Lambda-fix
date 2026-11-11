@@ -294,6 +294,8 @@ void CHud::Init(void)
 	HookHudMessage<&CHud::MsgFunc_Concuss>("Concuss");
 	HookHudMessage<&CHud::MsgFunc_Logo>("Logo");
 	HookHudMessage<&CHud::MsgFunc_Fog>("Fog");
+	extern int OP4_MsgFunc_Weapons(const char *, int, void *);
+	gEngfuncs.pfnHookUserMsg((char *)"Weapons", OP4_MsgFunc_Weapons);
 
 	// TFFree CommandMenu
 	HookCommand("+commandmenu", [] {

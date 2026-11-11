@@ -31,6 +31,13 @@ CLIENT_PREDICTION_CPP = r'''/* -------------------------------------------------
  * it out of line and adds EHANDLE::operator int(). The two definitions below
  * close those two header-only link gaps. They contain no weapon behaviour;
  * CWorld::World is null on the client in OP4 as well.
+ *
+ * A full OP4 server sends the 64-bit weapon bitmask through the `Weapons`
+ * user message instead of writing client_data_t::iWeaponBits. BHL's HUD
+ * normally trusts that 32-bit engine field, so this glue hooks the OP4
+ * message and records that the authoritative lower 32 bits have arrived.
+ * All ten shipped OP4 weapon IDs are below 32; the upper half is read and
+ * discarded deliberately. No BHL HUD system is replaced.
  * -------------------------------------------------------------------------*/
 #include "extdll.h"
 #include "util.h"
@@ -38,8 +45,22 @@ CLIENT_PREDICTION_CPP = r'''/* -------------------------------------------------
 #include "weapons.h"
 #include "wrect.h"
 #include "cl_dll.h"
+#include "hud.h"
+#include "parsemsg.h"
 #include "event_flags.h"
 #include "op4_compat.h"
+
+bool g_bOP4WeaponBits = false;
+
+int OP4_MsgFunc_Weapons(const char *pszName, int iSize, void *pbuf)
+{
+    BEGIN_READ(pbuf, iSize);
+    const int lowerBits = READ_LONG();
+    (void)READ_LONG(); // OP4's upper 32 bits; all shipped weapon IDs are < 32.
+    gHUD.m_iWeaponBits = lowerBits;
+    g_bOP4WeaponBits = true;
+    return 1;
+}
 
 #ifdef CLIENT_DLL
 CWorld *CWorld::World = nullptr;

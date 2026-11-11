@@ -793,6 +793,44 @@ def apply_merges(tree: Path, provenance: dict) -> None:
          "endif()\n",
          "windows-disable-threadsafe-statics")
 
+    # 6e. A real OP4 server owns 64 weapon slots and sends its weapon bitmask
+    #     via the 8-byte `Weapons` user message. BHL's HL-era client assumes
+    #     32 slots and reads client_data_t::iWeaponBits. Widen the shared
+    #     prediction structures, then hook OP4's message (implementation is in
+    #     the existing prediction glue) so BHL's VGUI2 HUD stays authoritative.
+    subst("src/game/server/cdll_dll.h",
+          "#define MAX_WEAPONS     32 // ???",
+          "#define MAX_WEAPONS 64 // OP4-MERGE",
+          "op4-max-weapons-64")
+    subst("src/game/server/weapons.h",
+          "#define MAX_WEAPONS 32",
+          "#define MAX_WEAPONS 64 // OP4-MERGE",
+          "op4-max-weapons-64-server")
+    subst("src/common/entity_state.h",
+          "\tweapon_data_t weapondata[32];",
+          "\tweapon_data_t weapondata[64]; // OP4-MERGE",
+          "op4-local-state-64")
+    subst("src/game/client/entity.cpp",
+          "memcpy(wd, pwd, 32 * sizeof(weapon_data_t));",
+          "memcpy(wd, pwd, MAX_WEAPONS * sizeof(weapon_data_t)); // OP4-MERGE",
+          "op4-prediction-transfer-64")
+    subst("src/game/client/hud.cpp",
+          '\tHookHudMessage<&CHud::MsgFunc_Fog>("Fog");',
+          '\tHookHudMessage<&CHud::MsgFunc_Fog>("Fog");\n'
+          '\textern int OP4_MsgFunc_Weapons(const char *, int, void *);\n'
+          '\tgEngfuncs.pfnHookUserMsg((char *)"Weapons", OP4_MsgFunc_Weapons);',
+          "op4-weapons-message-hook")
+    subst("src/game/client/hud_update.cpp",
+          "extern void HUD_SetCmdBits(int bits);",
+          "extern void HUD_SetCmdBits(int bits);\n"
+          "extern bool g_bOP4WeaponBits;",
+          "op4-weapons-message-flag-decl")
+    subst("src/game/client/hud_update.cpp",
+          "\tm_iWeaponBits = cdata->iWeaponBits;",
+          "\tif (!g_bOP4WeaponBits)\n"
+          "\t\tm_iWeaponBits = cdata->iWeaponBits;",
+          "op4-weapons-message-flag-use")
+
     # 7. OP4 WaterLevel enum into BHL const.h
     c = (OP4 / "common/const.h").read_text(errors="surrogateescape")
     m = re.search(r"(enum WaterLevel\s*\{.*?\};)", c, re.S)
