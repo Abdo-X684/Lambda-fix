@@ -42,12 +42,12 @@
   داخل `sprites/hud.txt` ما زال غير مُختبَر في اللعبة.
 * `autoexec.cfg` يضبط `sv_oldweapons 0`؛ `op4weapons.cfg` يعطي الأسلحة العشرة
   والذخائر. أسلحة BHL الـ14 وعداد الصحة وVGUI2 لم تُستبدل.
-* لينكس: `client.so` `28261832` بايت، sha256
-  `a99e135d845effae57b4275e12bdf0ce6019aee627b5521b09d98e55bf85c099`؛ `hl.so` `21232512` بايت، sha256
-  `34e53fc509c59818390943d9e19ab0167ebe1928c15343d6e40baeea7e308218`.
+* لينكس: `client.so` `28288088` بايت، sha256
+  `0a0bdf634f65a257b2f1e2962f488759ac8ff2ec4203ac4c1bf89c7571588ec3`؛ `hl.so` `21252748` بايت، sha256
+  `4320ba468d2dcaef8846b76621eccd8955ed6b88f050f2aa708409fcd877e5c1`.
 * ويندوز (`x86-windows-msvc / PE32 i386`, `MSVC 19.44 / Visual Studio 2022 / CMake 3.30.9 / vcpkg x86-windows-static`, ABI متوافق مع MSVC/VGUI2):
-  `client.dll` `2015744` بايت، sha256 `3dc63d3c959e0d72bc80913ea3421c3a3c9e458332248fa8bff066bd3600a37b`؛
-  `hl.dll` `1196544` بايت، sha256 `33c11b5456d2d276d8bf480a8d69e605f6e0a1ddced8f218ede0637dd7be98bd`.
+  `client.dll` `2015744` بايت، sha256 `ee87ac651e0fc96a21a022bc0cc0b263ab64bfc7b6e5511e9b36df67a15a0035`؛
+  `hl.dll` `1196544` بايت، sha256 `fbacb9c289a2211ea26908be6edefa3ebf369f67430848a455e8b66deccfe963`.
   هذه تبني MSVC بديلاً عن بناء MinGW/Zig الذي انهار في `vgui2.dll`، لكنها
   **غير مُختبَرة داخل اللعبة**.
 * بصمات `SOURCES.sha256` تُتحقق لكل ملف موجود، ويكون عدد المخالفات صفراً؛

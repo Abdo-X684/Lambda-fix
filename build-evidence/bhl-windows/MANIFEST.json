@@ -7,14 +7,14 @@
       "is_windows_dll": true,
       "path": "build-evidence/bhl-windows/client.dll",
       "pe32_i386": true,
-      "sha256": "3dc63d3c959e0d72bc80913ea3421c3a3c9e458332248fa8bff066bd3600a37b"
+      "sha256": "ee87ac651e0fc96a21a022bc0cc0b263ab64bfc7b6e5511e9b36df67a15a0035"
     },
     "hl.dll": {
       "bytes": 1196544,
       "is_windows_dll": true,
       "path": "build-evidence/bhl-windows/hl.dll",
       "pe32_i386": true,
-      "sha256": "33c11b5456d2d276d8bf480a8d69e605f6e0a1ddced8f218ede0637dd7be98bd"
+      "sha256": "fbacb9c289a2211ea26908be6edefa3ebf369f67430848a455e8b66deccfe963"
     }
   },
   "note": "Built from the BHL-based bhl-op4 tree with Visual Studio 2022 MSVC / Win32 and the static MSVC runtime. Winsock is linked by name through ws2_32.lib instead of ordinal-only wsock32.lib for Wine compatibility. All ten OP4 weapons remain wired for client prediction. NOT tested in-game here.",

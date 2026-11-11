@@ -7,7 +7,7 @@
   ],
   "libraries": {
     "client.so": {
-      "bytes": 28261832,
+      "bytes": 28288088,
       "elf32": true,
       "exported_game_entry_points": [
         "HUD_Frame",
@@ -21,22 +21,25 @@
         "Initialize",
         "V_CalcRefdef"
       ],
-      "exported_symbol_count": 5104,
+      "exported_symbol_count": 14002,
+      "glibc_max": "GLIBC_2.17",
       "needed": [
         "libSDL2-2.0.so.0",
         "libtier0.so",
         "libvstdlib.so",
         "libm.so.6",
         "libc.so.6",
-        "ld-linux.so.2"
+        "ld-linux.so.2",
+        "libpthread.so.0",
+        "libdl.so.2"
       ],
       "path": "build-evidence/bhl-base/client.so",
-      "sha256": "a99e135d845effae57b4275e12bdf0ce6019aee627b5521b09d98e55bf85c099",
-      "undefined_symbol_count": 311,
+      "sha256": "0a0bdf634f65a257b2f1e2962f488759ac8ff2ec4203ac4c1bf89c7571588ec3",
+      "undefined_symbol_count": 616,
       "unresolved_own_build_symbols": []
     },
     "hl.so": {
-      "bytes": 21232512,
+      "bytes": 21252748,
       "elf32": true,
       "exported_game_entry_points": [
         "GetEntityAPI",
@@ -44,15 +47,18 @@
         "GetNewDLLFunctions",
         "GiveFnptrsToDll"
       ],
-      "exported_symbol_count": 4467,
+      "exported_symbol_count": 13914,
+      "glibc_max": "GLIBC_2.17",
       "needed": [
         "libm.so.6",
         "libc.so.6",
-        "ld-linux.so.2"
+        "ld-linux.so.2",
+        "libpthread.so.0",
+        "libdl.so.2"
       ],
       "path": "build-evidence/bhl-base/hl.so",
-      "sha256": "34e53fc509c59818390943d9e19ab0167ebe1928c15343d6e40baeea7e308218",
-      "undefined_symbol_count": 156,
+      "sha256": "4320ba468d2dcaef8846b76621eccd8955ed6b88f050f2aa708409fcd877e5c1",
+      "undefined_symbol_count": 308,
       "unresolved_own_build_symbols": []
     }
   },
