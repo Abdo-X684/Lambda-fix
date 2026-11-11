@@ -1,19 +1,27 @@
 #!/usr/bin/env python3
-"""Assemble the playable BHL-root mod folder and its single ZIP.
+"""Assemble the full Opposing Force campaign on a BugfixedHL client.
 
-The folder is a real Half-Life mod directory:
+The folder is a real GoldSrc mod directory:
 
-  * BugfixedHL-Rebased gamedir resources (VGUI2 ui/, resource/, delta.lst, ...)
-  * BHL-based client/server DLLs built from ``bhl-op4/`` for Linux and Windows
-  * ``liblist.gam`` rooted in Half-Life (``c0a0``, appid 70) with OP4's
-    ``gearbox`` as the asset fallback directory
-  * a small config so all ten OP4 weapons can be obtained in-game
+  * BugfixedHL-Rebased gamedir resources (VGUI2 ui/, resource/, ...)
+  * the BHL VGUI2 client DLLs (Windows + Linux), including all ten OP4
+    weapon prediction sources
+  * a patched, MSVC-built OP4 SDK server ``dlls/opfor.dll`` with OP4's
+    campaign/entities/gamerules, BHL server cvars, speedrun hooks and an
+    ``impulse 101`` that gives all ten OP4 weapons
+  * OP4 identity: ``of0a0``, ``ofboot0``, appid 50, OP4 ``delta.lst``,
+    ``fallback_dir gearbox``
+  * BHL's UTF-16LE VGUI2 localisation files, so menu tokens are not shown
+    literally
 
-It does NOT contain OP4's copyrighted models/sounds/sprites/events: those
-are resolved at runtime from the player's installed ``gearbox`` folder.
+OP4's copyrighted maps/models/sounds/sprites/events are NOT bundled: they
+come from the player's installed ``gearbox`` folder. On Linux the stock
+``gearbox/dlls/opfor.so`` is used as the server; the custom BHL-HUD client
+still loads from this mod.
 """
 from __future__ import annotations
 
+import codecs
 import hashlib
 import json
 import shutil
@@ -26,25 +34,29 @@ ZIP = ROOT / "build-evidence/bhl-base/bhl-base-mod.zip"
 GAMEDIR = ROOT / ".cache/upstreams/bugfixhl/gamedir"
 LINUX = ROOT / "build-evidence/bhl-base"
 WINDOWS = ROOT / "build-evidence/bhl-windows"
+OP4_DELTA = ROOT / "data/delta.lst"
 
-LIBLIST = '''game "BugfixedHL + OP4 weapons"
-type "both"
-startmap "c0a0"
-trainmap "t0a0"
+LIBLIST = '''game "BugfixedHL + Opposing Force"
+type "singleplayer_only"
+startmap "of0a0"
+trainmap "ofboot0"
 cldll "1"
 secure "0"
 svonly "0"
-version "bhl-root-op4-weapons-2"
-gamedll "dlls\\hl.dll"
-gamedll_linux "dlls/hl.so"
+version "bhl-op4-full-1"
+gamedll "dlls\\opfor.dll"
+gamedll_linux "../gearbox/dlls/opfor.so"
+gamedll_osx "../gearbox/dlls/opfor.dylib"
 fallback_dir "gearbox"
 '''
 
-AUTOEXEC = '''// BugfixedHL + OP4 weapons. Executed from this mod directory at startup.
+AUTOEXEC = '''// Full OP4 campaign with BugfixedHL client. Executed at startup.
 sv_cheats 1
 sv_oldweapons 0
-bind F9 "exec op4weapons.cfg"
-echo "BHL+OP4: press F9 in-game to receive all ten OP4 weapons"
+alias op4all "exec op4weapons.cfg"
+bind F9 "op4all"
+bind F10 "give weapon_penguin"
+echo "BHL+OP4: New Game starts of0a0; F9 gives all ten OP4 weapons + ammo"
 '''
 
 OP4_CFG = '''// All ten Opposing Force weapons + their ammo. Requires sv_cheats 1
@@ -66,49 +78,44 @@ give ammo_spore
 give ammo_357
 '''
 
-INSTALL = '''# BugfixedHL + Opposing Force weapons (playable mod)
+INSTALL = '''# BugfixedHL + full Opposing Force
 
 ## Arabic - خطوات التشغيل
 
 1. فكّ ضغط المجلد داخل مجلد Half-Life بجانب `valve/` و`gearbox/`
-   (مثلاً `Half-Life/bhlop4`). لا تضعه داخل `gearbox/`.
-2. شغّل Half-Life بهذا الخيار:
-   `hl.exe -game bhlop4 -console` (ويندوز) أو `hl_linux -game bhlop4 -console` (لينكس).
-3. داخل اللعبة اضغط **F9** ستحصل على أسلحة OP4 العشرة وذخائرها.
-   أو اكتب في الكونسول: `exec op4weapons.cfg`.
-4. اختر الأسلحة بـ `slot1` … `slot7` أو `use weapon_eagle` وهكذا.
-5. يجب أن تكون Opposing Force مثبّتة: الموديلات والأصوات والسبرايت
-   وملفات `events/*.sc` تُقرأ من `gearbox/` عبر `fallback_dir`.
+   (مثلاً `Half-Life/bhlop4`). لا تضعه داخل `gearbox/` ولا تغيّر اسم المجلد.
+2. شغّل: `hl.exe -game bhlop4 -console`.
+3. **New Game** يبدأ حملة Opposing Force من `of0a0`، لا حملة Half-Life.
+4. `impulse 101` يعطي كل أسلحة OP4 العشرة في ويندوز؛ **F9** يعيد إعطاءها
+   مع الذخيرة، و**F10** يعطي `weapon_penguin` على لينكس أيضاً.
+5. يجب أن تكون Opposing Force مثبّتة: الخرائط والموديلات والأصوات
+   والسبرايت تُقرأ من `gearbox/` عبر `fallback_dir`.
 
 ## English
 
-Put this folder next to `valve/` and `gearbox/` in your Half-Life directory,
-then launch Half-Life with `-game <folder name> -console`
-(Windows: `hl.exe`, Linux: `hl_linux`).
+Put this folder next to `valve/` and `gearbox/`, then launch
+`hl.exe -game <folder name> -console`. Do not rename the folder.
 
-* `liblist.gam` starts `c0a0` and uses `steam_appid.txt` = 70 (Half-Life).
-  The BHL VGUI2 HUD, health counter, movement and all 14 BHL weapons are the
-  BHL-based DLLs in `cl_dlls/` and `dlls/`. Nothing from OP4 replaces them.
-* OP4's models, sounds, sprites and `events/*.sc` are NOT bundled: they are
-  read from your installed `gearbox/` via `fallback_dir`. OP4 must be
-  installed. Do not copy this folder inside `gearbox/`.
-* In-game press F9 (or type `exec op4weapons.cfg` in the console) to receive
-  all ten OP4 weapons. `slot1`..`slot7` select them; `use weapon_eagle` etc.
-  also work.
+* `startmap "of0a0"`, `trainmap "ofboot0"`, `steam_appid.txt = 50`, OP4
+  `delta.lst` and `fallback_dir "gearbox"` give the real OP4 campaign.
+* Windows `dlls/opfor.dll` is built from the full OP4 SDK server, with
+  BHL `sv_bhl_*` cvars, speedrun hooks, and a patched `impulse 101` that
+  includes `weapon_penguin` and OP4 ammunition. It has OP4's monsters,
+  gamerules and entities, not the Half-Life campaign.
+* Linux uses the installed `../gearbox/dlls/opfor.so`; the custom BHL
+  client still loads from this mod. Linux therefore lacks the BHL server
+  cvars and the patched impulse 101, but F9/F10 cover the ten weapons.
+* `cl_dlls/client.dll` and `client.so` are the BugfixedHL VGUI2 clients
+  with all ten OP4 weapon prediction sources compiled in.
+* `ui/resource/language/*.txt` are UTF-16LE BOM conversions of BHL's
+  `.utf8.txt` files: VGUI2 needs these to resolve `#BHL_*` menu tokens.
+* OP4 copyright assets are not bundled; they come from your installed
+  `gearbox/` folder.
 
-Technical note: all ten OP4 weapons are client-predicted from OP4's real
-shared weapon .cpp files, compiled into the BHL-based client DLL with
-CLIENT_DLL (the same mechanism BHL uses for its own 14 weapons). OP4's
-CGrappleTip.cpp and ehandle.cpp are compiled the same way, following OP4's
-own client project; no OP4 weapon is left server-authoritative. The Windows
-client.dll/hl.dll are MSVC-ABI builds so VGUI2 matches the original BHL ABI.
-`sv_oldweapons 0` is the default; setting it to 1 switches all OP4 weapons
-to server-authoritative mode for troubleshooting. BHL's own 14 weapons and
-their prediction are unchanged.
-
-HONEST LIMIT: this sandbox has no GoldSrc engine and no legal OP4 assets, so
-this build has NOT been tested in-game here. Test it on your machine; if a
-weapon misbehaves, that is a real bug, not a completed merge.
+HONEST LIMIT: no GoldSrc runtime or legal OP4 assets exist in this sandbox.
+This package has NOT been tested in-game here. Bare `impulse 101` giving all
+ten weapons is a source-level Windows-server fix, not a user-confirmed
+runtime result. Test campaign start, menus, and every weapon on your machine.
 '''
 
 
@@ -116,52 +123,67 @@ def sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def write_utf16le(src: Path, dst: Path) -> None:
+    """Mirror BHL's CMake/reencode_text_file.py conversion for VGUI2."""
+    text = src.read_text(encoding="utf-8")
+    with dst.open("wb") as f:
+        f.write(codecs.BOM_UTF16_LE)
+        for line in text.splitlines(keepends=True):
+            f.write(line.encode("utf-16-le"))
+
+
 def build() -> None:
     if not GAMEDIR.is_dir():
         raise SystemExit("clean BugfixedHL gamedir missing (run make fetch)")
-    for p in (LINUX / "client.so", LINUX / "hl.so",
-              WINDOWS / "client.dll", WINDOWS / "hl.dll"):
+    needed = (
+        LINUX / "client.so",
+        WINDOWS / "client.dll",
+        WINDOWS / "opfor.dll",
+        OP4_DELTA,
+    )
+    for p in needed:
         if not p.is_file():
-            raise SystemExit(f"missing built DLL: {p}")
+            raise SystemExit(f"missing required build input: {p}")
 
     if OUT.exists():
         shutil.rmtree(OUT)
     OUT.mkdir(parents=True)
 
-    # 1. Clean BHL gamedir, byte for byte.
+    # 1. Clean BHL gamedir resources.
     for src in sorted(GAMEDIR.rglob("*")):
         if not src.is_file() or src.name == "CMakeLists.txt":
             continue
         dst = OUT / src.relative_to(GAMEDIR)
         dst.parent.mkdir(parents=True, exist_ok=True)
         raw = src.read_bytes()
-        if b"\x00" in raw:  # binary: fonts, sprites -- copy byte for byte
+        if b"\x00" in raw:
             dst.write_bytes(raw)
         else:
-            # tools/check_hygiene.py forbids trailing whitespace in text files.
-            # This only removes spaces/tabs at end-of-line; content is unchanged.
             text = raw.decode("utf-8", errors="surrogateescape")
             lines = [ln.rstrip(" \t\r") for ln in text.split("\n")]
             clean = "\n".join(lines)
             if not clean.endswith("\n"):
-                clean += "\n"  # hygiene: every text file ends with a newline
+                clean += "\n"
             dst.write_text(clean, encoding="utf-8", errors="surrogateescape")
 
-    # 2. BHL-based DLLs (Linux + Windows), inside the mod where the engine
-    #    expects them, not as loose files.
+    # 2. BHL VGUI2 client DLLs + full OP4 server DLL. No scattered DLLs and
+    #    no BugfixedHL Half-Life server DLL in this package.
     for src, rel in (
         (LINUX / "client.so", "cl_dlls/client.so"),
-        (LINUX / "hl.so", "dlls/hl.so"),
         (WINDOWS / "client.dll", "cl_dlls/client.dll"),
-        (WINDOWS / "hl.dll", "dlls/hl.dll"),
+        (WINDOWS / "opfor.dll", "dlls/opfor.dll"),
     ):
         dst = OUT / rel
         dst.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(src, dst)
 
-    # 3. Mod identity rooted in Half-Life, plus the two config files.
+    # 3. OP4 identity and BHL's UTF-16LE localisation files.
     (OUT / "liblist.gam").write_text(LIBLIST)
-    (OUT / "steam_appid.txt").write_text("70\n")
+    (OUT / "steam_appid.txt").write_text("50\n")
+    shutil.copy2(OP4_DELTA, OUT / "delta.lst")
+    lang = OUT / "ui/resource/language"
+    for src in sorted(lang.glob("*.utf8.txt")):
+        write_utf16le(src, src.with_name(src.name.replace(".utf8.txt", ".txt")))
     (OUT / "autoexec.cfg").write_text(AUTOEXEC)
     (OUT / "op4weapons.cfg").write_text(OP4_CFG)
     (OUT / "cfg").mkdir(exist_ok=True)
@@ -170,21 +192,26 @@ def build() -> None:
 
     files = sorted(p for p in OUT.rglob("*") if p.is_file())
     manifest = {
-        "root": "BugfixedHL-Rebased (clean gamedir, byte-identical)",
-        "binaries": "built from bhl-op4/ (BHL base + OP4 weapon sources)",
-        "linux": {"cl_dlls/client.so": sha256(LINUX / "client.so"),
-                  "dlls/hl.so": sha256(LINUX / "hl.so")},
-        "windows": {"cl_dlls/client.dll": sha256(WINDOWS / "client.dll"),
-                    "dlls/hl.dll": sha256(WINDOWS / "hl.dll")},
+        "architecture": "full OP4 campaign/server + BugfixedHL VGUI2 client",
+        "root": "BugfixedHL-Rebased gamedir + OP4 SDK server",
+        "campaign": {"startmap": "of0a0", "trainmap": "ofboot0", "steam_appid": 50},
+        "server": {
+            "windows": "dlls/opfor.dll (patched OP4 SDK, BHL cvars, speedrun hooks, all-ten impulse 101)",
+            "linux": "../gearbox/dlls/opfor.so (stock installed OP4 server)",
+        },
+        "binaries": {
+            "cl_dlls/client.so": sha256(LINUX / "client.so"),
+            "cl_dlls/client.dll": sha256(WINDOWS / "client.dll"),
+            "dlls/opfor.dll": sha256(WINDOWS / "opfor.dll"),
+        },
         "in_game_tested_here": False,
         "files": {str(p.relative_to(OUT)).replace("\\", "/"): sha256(p)
                   for p in files},
     }
     manifest_text = json.dumps(manifest, indent=2, sort_keys=True) + "\n"
     (OUT / "MOD_MANIFEST.json").write_text(manifest_text)
-    # Keep the historical root-level manifest in sync instead of leaving a
-    # stale hash table that describes a different build.
-    (ROOT / "build-evidence/bhl-base/MOD_MANIFEST.json").write_text(manifest_text)
+    (ROOT / "build-evidence/bhl-base/MOD_MANIFEST.json").write_text(
+        manifest_text)
 
     with zipfile.ZipFile(ZIP, "w", zipfile.ZIP_DEFLATED) as z:
         for p in sorted(OUT.rglob("*")):

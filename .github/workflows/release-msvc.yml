@@ -1,4 +1,4 @@
-name: Publish current MSVC package
+name: Publish full OP4 package
 
 on:
   workflow_dispatch:
@@ -19,21 +19,18 @@ jobs:
         with:
           ref: arena/dd30bd22-bugfixhl-speedrun-op4
 
-      - name: Attach the current MSVC package to a GitHub Release
+      - name: Attach the full-OP4 mod ZIP to a GitHub Release
         env:
           GH_TOKEN: ${{ github.token }}
-          TAG: bhl-op4-msvc-20261110
+          TAG: bhl-op4-full-20261111
         run: |
-          mkdir -p /tmp/linux-so
-          cp build-evidence/bhl-base/mod/cl_dlls/client.so /tmp/linux-so/client.so
-          cp build-evidence/bhl-base/mod/dlls/hl.so /tmp/linux-so/hl.so
-          files="build-evidence/bhl-base/bhl-base-mod.zip build-evidence/bhl-windows/client.dll build-evidence/bhl-windows/hl.dll /tmp/linux-so/client.so /tmp/linux-so/hl.so"
+          files="build-evidence/bhl-base/bhl-base-mod.zip"
           if gh release view "$TAG" >/dev/null 2>&1; then
             gh release upload "$TAG" $files --clobber
           else
             gh release create "$TAG" $files \
               --target arena/dd30bd22-bugfixhl-speedrun-op4 \
-              --title "BHL + OP4 current package (MSVC ABI)" \
-              --notes "MSVC/Win32 client.dll and hl.dll; all ten OP4 weapons client-predicted. Main menu not tested in-game here."
+              --title "BugfixedHL + full Opposing Force campaign" \
+              --notes "OP4 campaign/server (of0a0) with BHL VGUI2 client, BHL UTF-16LE menus, all-ten OP4 prediction, and patched impulse 101. Not in-game tested here."
           fi
           gh release view "$TAG" --json assets

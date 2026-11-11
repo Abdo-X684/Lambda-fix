@@ -9,6 +9,7 @@ imports, local markdown links, the docs index, fixture directories and
 from __future__ import annotations
 
 import ast
+import codecs
 import json
 import re
 import sys
@@ -33,6 +34,11 @@ def iter_text_files(root: Path):
         if not path.is_file() or any(part in SKIP_DIRS for part in path.parts):
             continue
         if path.suffix in TEXT_SUFFIXES or path.name in TEXT_NAMES:
+            # VGUI2 localisation files are UTF-16LE BOM by design; the LF/UTF-8
+            # text checks below must not treat their null bytes as source text.
+            with path.open("rb") as f:
+                if f.read(2) == codecs.BOM_UTF16_LE:
+                    continue
             yield path
 
 

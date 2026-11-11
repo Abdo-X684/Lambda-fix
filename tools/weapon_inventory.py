@@ -11,6 +11,7 @@ regenerates docs/WEAPON_INVENTORY.md.
 from __future__ import annotations
 
 import argparse
+import codecs
 import hashlib
 import json
 import re
@@ -118,6 +119,18 @@ def collect() -> tuple[list[str], str]:
     chk("sv_oldweapons 0" in autoexec, "autoexec does not enable OP4 prediction")
     chk(mod_manifest.get("in_game_tested_here") is False,
         "mod manifest does not explicitly say it was NOT tested in-game")
+    liblist = (MOD / "liblist.gam").read_text()
+    for marker in ('startmap "of0a0"', 'trainmap "ofboot0"',
+                   'fallback_dir "gearbox"', 'gamedll "dlls\\\\opfor.dll"'):
+        chk(marker in liblist, f"liblist.gam missing {marker}")
+    chk((MOD / "steam_appid.txt").read_text() == "50\n",
+        "steam_appid.txt is not Opposing Force (50)")
+    chk(sha256(MOD / "delta.lst") == sha256(ROOT / "data/delta.lst"),
+        "mod/delta.lst is not OP4's network delta")
+    lang_files = sorted((MOD / "ui/resource/language").glob("*.txt"))
+    chk(len(lang_files) == 11, "BHL UTF-16LE language files are missing")
+    chk(all(p.read_bytes().startswith(codecs.BOM_UTF16_LE) for p in lang_files),
+        "BHL language files are not UTF-16LE BOM")
 
     for cls in op4_only:
         cxx = clean_links.get(cls)
@@ -163,10 +176,23 @@ def collect() -> tuple[list[str], str]:
             p = ROOT / f"build-evidence/{side}/{name}"
             chk(p.is_file() and sha256(p) == rec["sha256"],
                 f"{side}/{name} does not match MANIFEST.json")
+            # The full-OP4 package ships only the BHL clients and the patched
+            # OP4 server. The historical BHL-root hl.so/hl.dll remain build
+            # evidence but are deliberately NOT copied into the mod folder.
+            if name.startswith("hl."):
+                continue
             mod_rel = ("cl_dlls/" if name.startswith("client") else "dlls/") + name
             mod_file = MOD / mod_rel
             chk(mod_file.is_file() and sha256(mod_file) == rec["sha256"],
                 f"mod/{mod_rel} does not match built {side}/{name}")
+
+    opfor_built = ROOT / "build-evidence/bhl-windows/opfor.dll"
+    opfor_mod = MOD / "dlls/opfor.dll"
+    chk(opfor_built.is_file(), "full OP4 server opfor.dll is missing")
+    if opfor_built.is_file():
+        chk(opfor_mod.is_file()
+            and sha256(opfor_mod) == sha256(opfor_built),
+            "mod/dlls/opfor.dll does not match the built OP4 server")
 
     zip_path = ROOT / "build-evidence/bhl-base/bhl-base-mod.zip"
     chk(zip_path.is_file(), "playable mod ZIP missing")
@@ -177,6 +203,8 @@ def collect() -> tuple[list[str], str]:
     linux_server = linux["libraries"]["hl.so"]
     win_client = windows["libraries"]["client.dll"]
     win_server = windows["libraries"]["hl.dll"]
+    opfor_size = opfor_built.stat().st_size
+    opfor_hash = sha256(opfor_built)
     rows = [f"| `{cls}` | لا | نعم | ناقص | نعم | غير مختبر |"
             for cls in op4_only]
     doc = f"""# جرد أسلحة Opposing Force على أساس BugfixedHL
@@ -184,7 +212,8 @@ def collect() -> tuple[list[str], str]:
 > مولّد آلياً بأمر `python3 tools/weapon_inventory.py --write` من نسختي
 > `.cache/upstreams/bugfixhl/` و`.cache/upstreams/op4/` النظيفتين، والشجرة المدمجة
 > `bhl-op4/`، و`PORT_STATUS.json`، و manifest الخاص ببنائي لينكس وويندوز، وحزمة `mod/`.
-> لا يُقرأ أي تقرير سابق أو نتيجة CI كدليل.
+> الحزمة الآن تبدأ حملة OP4 كاملة (`of0a0`) بخادم OP4 حقيقي، وليس حملة
+> Half-Life مع أسلحة OP4. لا يُقرأ أي تقرير سابق أو نتيجة CI كدليل.
 
 ## الجدول المطلوب
 
@@ -212,20 +241,23 @@ def collect() -> tuple[list[str], str]:
   `CGrapple` لم يعد server-authoritative؛ لا يوجد `UseDecrement()` مجبر على `FALSE`.
 * `MAX_WEAPON_SLOTS = 7` وأمر `slot7` موصولان في كود BHL؛ سبرايت السلة السابعة
   داخل `sprites/hud.txt` ما زال غير مُختبَر في اللعبة.
+* `liblist.gam` يبدأ `of0a0` و`ofboot0`، `steam_appid.txt = 50`،
+  `delta.lst` هو ملف OP4، و`fallback_dir "gearbox"` يجلب أصول OP4 المثبّتة.
 * `autoexec.cfg` يضبط `sv_oldweapons 0`؛ `op4weapons.cfg` يعطي الأسلحة العشرة
-  والذخائر. أسلحة BHL الـ14 وعداد الصحة وVGUI2 لم تُستبدل.
+  والذخائر عبر F9. خادم ويندوز المرقّع يجعل `impulse 101` يعطيها أيضاً،
+  بما فيها `weapon_penguin`؛ لينكس يستخدم F9/F10 مع خادم `gearbox` الأصلي.
 * لينكس: `client.so` `{linux_client['bytes']}` بايت، sha256
-  `{linux_client['sha256']}`؛ `hl.so` `{linux_server['bytes']}` بايت، sha256
-  `{linux_server['sha256']}`.
+  `{linux_client['sha256']}`؛ خادم `hl.so` القديم (`{linux_server['bytes']}` بايت)
+  ليس داخل الحزمة، ويستخدم `../gearbox/dlls/opfor.so` بدلاً منه.
 * ويندوز (`{windows['target']}`, `{windows['toolchain']}`, ABI متوافق مع MSVC/VGUI2):
   `client.dll` `{win_client['bytes']}` بايت، sha256 `{win_client['sha256']}`؛
-  `hl.dll` `{win_server['bytes']}` بايت، sha256 `{win_server['sha256']}`.
-  هذه تبني MSVC بديلاً عن بناء MinGW/Zig الذي انهار في `vgui2.dll`، لكنها
-  **غير مُختبَرة داخل اللعبة**.
+  `opfor.dll` `{opfor_size}` بايت، sha256 `{opfor_hash}`. خادم `hl.dll`
+  القديم (`{win_server['bytes']}` بايت) ليس داخل الحزمة.
+  هذه ثنائيات MSVC، لكنها **غير مُختبَرة داخل اللعبة**.
 * بصمات `SOURCES.sha256` تُتحقق لكل ملف موجود، ويكون عدد المخالفات صفراً؛
   مسارات `.cache/` لتبعيات SDK/deps ليست داخل git ويعيدها سكربت البناء،
   فيُتخطى الغائب منها صراحةً ولا يُحتسب نجاحاً. ثنائيات `mod/cl_dlls/`
-  و`mod/dlls/` تطابق البناءين تماماً.
+  و`mod/dlls/opfor.dll` تطابق البناء الموجود تماماً.
 * `MOD_MANIFEST.json` يقول صراحة: `in_game_tested_here: false`.
 
 ## النواقص التي تمنع علامة «مكتمل»
@@ -234,8 +266,11 @@ def collect() -> tuple[list[str], str]:
    فعلي، ولا اختبار أعطال أو تعدد لاعبين.
 2. لا أصول OP4 قانونية مرفقة: الموديلات، الأصوات، سبرايت HUD، و`events/*.sc`
    تُقرأ من نسخة `gearbox/` المثبّتة لدى المستخدم عبر `fallback_dir`.
-3. لا اختبار لنظام Windows runtime ولا لسلّة HUD السابعة داخل اللعبة.
-4. البناء/الترجمة/الفحوص الآلية ليست بديلاً عن هذه الاختبارات.
+3. لا اختبار لنظام Windows runtime ولا لسلّة HUD السابعة داخل اللعبة، ولا
+   تأكيد من المستخدم أن حملة OP4 والقوائم وكل سلاح تعمل بعد هذا التغيير.
+4. خادم لينكس هو `gearbox` الأصلي: لا يحمل `sv_bhl_*` ولا ترقيع
+   `impulse 101`، وهذا فرق صريح عن نسخة ويندوز.
+5. البناء/الترجمة/الفحوص الآلية ليست بديلاً عن هذه الاختبارات.
 """
     return errors, doc
 

@@ -43,7 +43,7 @@
 الحزمة التي كانت قابلة للتشغيل سابقاً `dist/bhlop4/` و`dist/bhl-op4-mod.zip` هي من المسار **القديم OP4-أساس** (`bhl-systems-1`): OP4 مع بعض أنظمة BHL — **هذه هي التي تظهر كـ Opposing Force عادية، ولا تمثل المطلوب**. لم أحذفها لكن لا تستخدمها.
 
 الحزمة الصحيحة المبنية على ثنائيات **BHL-أساس**:
-[`build-evidence/bhl-base/bhl-base-mod.zip`](build-evidence/bhl-base/bhl-base-mod.zip) — مجلد لعبة جاهز: `liblist.gam` يبدأ `c0a0`، `steam_appid 70`، موارد BHL VGUI2، ثنائيات BHL لينكس/ويندوز، و`fallback_dir gearbox` لأصول أسلحة OP4 من نسختك المثبّتة. التفاصيل: [`INSTALL.md`](build-evidence/bhl-base/mod/INSTALL.md).
+[`build-evidence/bhl-base/bhl-base-mod.zip`](build-evidence/bhl-base/bhl-base-mod.zip) — مجلد لعبة جاهز: حملة Opposing Force كاملة تبدأ `of0a0`/`ofboot0`، `steam_appid 50`، خادم `opfor.dll` المبني من OP4 SDK مع أنظمة BHL، عميل BHL VGUI2 وتنبؤ أسلحة OP4 العشرة، و`fallback_dir gearbox` لأصول OP4 من نسختك المثبّتة. التفاصيل: [`INSTALL.md`](build-evidence/bhl-base/mod/INSTALL.md).
 
 التغييرات الوظيفية في هذه النسخة: توسيع سلة HUD إلى 7؛ تجميع ملفات أسلحة OP4 العشرة ذات الكود المشترك داخل `client` مع `CLIENT_DLL` بنفس آلية BHL لأسلحته الـ14، ومعها `CGrappleTip.cpp`/`ehandle.cpp` من مشروع عميل OP4 الأصلي (Client Prediction على مستوى المصدر/البناء، بلا إثبات وقت تشغيل)؛ وإضافة `autoexec.cfg` + `op4weapons.cfg` (F9 يعطي الأسلحة العشرة). لا سلاح OP4 متروك server-authoritative. أسلحة BHL الـ14 وعداد الصحة وVGUI2 لم تتغير.
 
