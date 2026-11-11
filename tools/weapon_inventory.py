@@ -126,7 +126,31 @@ def collect() -> tuple[list[str], str]:
     chk((MOD / "steam_appid.txt").read_text() == "50\n",
         "steam_appid.txt is not Opposing Force (50)")
     chk(sha256(MOD / "delta.lst") == sha256(ROOT / "data/delta.lst"),
-        "mod/delta.lst is not OP4's network delta")
+        "mod/delta.lst is not the merged BHL+OP4 network delta")
+    delta = (ROOT / "data/delta.lst").read_text()
+    chk("DEFINE_DELTA( iuser4, DT_INTEGER, 8, 1.0 )" in delta
+        and "DEFINE_DELTA( m_iId, DT_INTEGER, 6, 1.0 )" in delta
+        and "DEFINE_DELTA( health, DT_SIGNED | DT_FLOAT, 11, 1.0 )" in delta,
+        "merged delta is missing OP4 iuser4/6-bit m_iId or BHL 11-bit health")
+    for rel, markers in {
+        "src/game/client/hl/hl_weapons.cpp": (
+            "CBasePlayerItem::ItemInfoArray[info.iId] = info;",
+            "AddAmmoNameToAmmoRegistry(info.pszAmmo1, weaponName);",
+            "player.ammo_spores", "player.ammo_762", "player.m_iItems",
+            "g_pWpns[MAX_WEAPONS]", "for (i = 0; i < MAX_WEAPONS; i++)"),
+        "src/game/client/op4/op4_client_prediction.cpp": (
+            "CBasePlayerItem::AmmoInfoArray[MAX_AMMO_SLOTS]",
+            "OP4_GetAmmoIndex", "OP4_MsgFunc_OldWeapon", "OP4_MsgFunc_HudColor"),
+        "src/game/client/hud.cpp": (
+            'pfnHookUserMsg((char *)"OldWeapon"',
+            'pfnHookUserMsg((char *)"HudColor"'),
+        "src/game/client/hl/hl_baseentity.cpp": ("OP4_GetAmmoIndex",),
+    }.items():
+        text = (TREE / rel).read_text()
+        for marker in markers:
+            chk(marker in text, f"{rel} missing {marker}")
+    for required in ("setup_op4_media.bat", "SOURCE_AUDIT.md", "RUNTIME_TESTS.md"):
+        chk((MOD / required).is_file(), f"mod/{required} missing")
     lang_files = sorted(p for p in (MOD / "ui/resource/language").glob("*.txt")
                         if not p.name.endswith(".utf8.txt"))
     chk(len(lang_files) == 11, "BHL UTF-16LE language files are missing")
@@ -232,8 +256,9 @@ def collect() -> tuple[list[str], str]:
 يعني توصيل ملف السلاح الحقيقي داخل `client` مع `CLIENT_DLL` وحالة `GetLocalWeapon`
 و`UseDecrement()`، لا إثبات تنبؤ وقت التشغيل.
 
-`weapon_shockroach` ليس سلاحاً حادي عشر: هو اسم كيان بديل لـ `CShockRifle` في
-مصدر OP4 النظيف ولا يظهر في `W_Precache()`.
+`weapon_shockroach` ليس سلاحاً حادي عشر: هو اسم بديل لـ `CShockRifle` في
+مصدر OP4 النظيف ولا يظهر في `W_Precache()`؛ أما `monster_shockroach`
+فكيان وحش منفصل في `dlls/shockroach.cpp`.
 
 ## ما تحقق منه الفحص فعلياً
 
@@ -249,7 +274,13 @@ def collect() -> tuple[list[str], str]:
   بيانات التنبؤ لـ64 سلاحاً، وربط رسالة `Weapons` ذات 8 بايتات في عميل BHL
   حتى لا تُقرأ بتات الأسلحة من حقل المحرك القديم ذي 32 بت فقط.
 * `liblist.gam` يبدأ `of0a0` و`ofboot0`، `steam_appid.txt = 50`،
-  `delta.lst` هو ملف OP4، و`fallback_dir "gearbox"` يجلب أصول OP4 المثبّتة.
+  `delta.lst` مدمج BHL+OP4 (يحافظ على `health`/`eflags` ويضيف `iuser4`
+  و`m_iId` بـ6 بتات)، و`fallback_dir "gearbox"` يجلب أصول OP4 المثبّتة.
+* بعد بلاغ الخلل: عُولجت فجوات تنبؤ العميل (`ItemInfoArray`، تسجيل الذخيرة،
+  `GetAmmoIndex`، `ammo_spores/ammo_762/m_iItems`، حلقات 64 خانة،
+  `OldWeapon`/`HudColor`، وتفريغ الحالة عند ResetHUD) على مستوى المصدر فقط.
+* الموسيقى: `setup_op4_media.bat` ينسخ MP3 الأصلية من `gearbox/media` فقط؛
+  لا ملف MP3 داخل ZIP، ولا موسيقى مُولّدة. التفاصيل في `SOURCE_AUDIT.md`.
 * `autoexec.cfg` يضبط `sv_oldweapons 0`؛ `op4weapons.cfg` يعطي الأسلحة العشرة
   والذخائر عبر F9. خادم ويندوز المرقّع يجعل `impulse 101` يعطيها أيضاً،
   بما فيها `weapon_penguin`؛ لينكس يستخدم F9/F10 مع خادم `gearbox` الأصلي.
@@ -275,7 +306,8 @@ def collect() -> tuple[list[str], str]:
 2. لا أصول OP4 قانونية مرفقة: الموديلات، الأصوات، سبرايت HUD، و`events/*.sc`
    تُقرأ من نسخة `gearbox/` المثبّتة لدى المستخدم عبر `fallback_dir`.
 3. لا اختبار لنظام Windows runtime ولا لسلّة HUD السابعة داخل اللعبة، ولا
-   تأكيد من المستخدم أن حملة OP4 والقوائم وكل سلاح تعمل بعد هذا التغيير.
+   تأكيد من المستخدم أن حملة OP4 والقوائم والموسيقى وكل سلاح تعمل بعد هذا التغيير؛
+   جدول `RUNTIME_TESTS.md` يحمل `غير مُختبَر` لكل صف.
 4. خادم لينكس هو `gearbox` الأصلي: لا يحمل `sv_bhl_*` ولا ترقيع
    `impulse 101`، وهذا فرق صريح عن نسخة ويندوز.
 5. البناء/الترجمة/الفحوص الآلية ليست بديلاً عن هذه الاختبارات.

@@ -1,53 +1,33 @@
-# BugfixedHL × Opposing Force — **BHL هو الأساس**
+# BugfixedHL × Opposing Force — الأساس هو BugfixedHL
 
-> **الشجرة المعتمدة:** [`bhl-op4/PROVENANCE.json`](bhl-op4/PROVENANCE.json).
-> [**جرد الأسلحة الحالي**](docs/WEAPON_INVENTORY.md) ·
-> [**سجل دمج الأسلحة**](docs/OP4_WEAPON_PHASES.md) ·
-> [**التقرير النهائي**](docs/BHL_FINAL_AUDIT.md) ·
-> [**إثبات البناء**](docs/BHL_BASE_BUILD.md) ·
-> [**إغلاق رموز الربط**](build-evidence/bhl-base/LINK_GAP_CLOSURE.md) ·
-> [**بيئة التشغيل**](build-evidence/bhl-base/RUNTIME_ENVIRONMENT.md)
+> **الحزمة الحالية:** [`build-evidence/bhl-base/bhl-base-mod.zip`](build-evidence/bhl-base/bhl-base-mod.zip)
+> · [**Release مباشر**](https://github.com/Abdo-X684/Bugfixhl-speedrun-op4/releases/download/bhl-op4-full-20261111/bhl-base-mod.zip)
+> · [**تدقيق المصادر والأصول**](docs/OP4_SOURCE_AUDIT.md)
+> · [**جدول اختبارات GoldSrc**](docs/OP4_RUNTIME_TESTS.md)
+> · [**جرد الأسلحة**](docs/WEAPON_INVENTORY.md)
+> · [**INSTALL**](build-evidence/bhl-base/mod/INSTALL.md)
 
 ## الحالة بصراحة
 
 | البند | الوضع |
 | --- | --- |
-| الأساس | `tmp64/BugfixedHL-Rebased @ 4d32095e3c33` — 694 ملف BHL، **677 مطابق بايت-ببايت** + 17 دمجاً معلَناً |
-| إضافة OP4 | 154 ملفاً من `twhl-community/halflife-op4-updated @ 5368be7f8eba` + 11 ملف glue موسوماً |
-| بناء `client.so` / `hl.so` من `bhl-op4/` | ✅ ELF32، `152/152` عميل و`179/179` خادم، 459 بصمة مصدر، **صفر رمز ربط غير محلول من بنائنا** |
-| الثنائيات | `client.so` = `a99e135d845effae57b4275e12bdf0ce6019aee627b5521b09d98e55bf85c099` · `hl.so` = `34e53fc509c59818390943d9e19ab0167ebe1928c15343d6e40baeea7e308218` |
-| ويندوز (نفس الشجرة) | ✅ `client.dll` / `hl.dll` — **PE32 i386 بـ MSVC/Win32 و ABI متوافق مع VGUI2**، الأسلحة العشرة و Client Prediction باقية؛ بديل عن بناء MinGW/Zig الذي انهار في `vgui2.dll`. **بناء/ربط فقط، القائمة الرئيسية لم تُختبر هنا** |
-| أسلحة OP4 | 10 أسلحة مسجّلة في `W_Precache()` + 9 أحداث عرض + 3 ذخائر + 3 أصوات + **10 ملفات أسلحة OP4 مترجمة داخل `client` مع `CLIENT_DLL`** + `CGrappleTip.cpp`/`ehandle.cpp` + سلة HUD سابعة؛ **إثبات بناء/ربط فقط، بلا اختبار لعبة** |
-| اختبار داخل Opposing Force | ❌ **لم يُنفَّذ** — لا محرك، لا `vgui.so`، لا أصول شرعية، لا محمّل ELF32 ديناميكي |
-| إعلان الاكتمال | ❌ **لا** — المشروع غير مكتمل؛ قائمة النواقص في التقرير النهائي |
+| البنية | عميل BHL/VGUI2/الحركة/Bhop + خادم OP4 كامل وحملة `of0a0`؛ `bhlop4` بجانب `valve/` و`gearbox/` |
+| المصادر | [`bhl-op4/PROVENANCE.json`](bhl-op4/PROVENANCE.json): 694 ملف BHL (671 مطابق + 23 مدمج)، 154 ملف OP4، 11 ملف glue، بالالتزامات المثبّتة في [`upstreams.json`](upstreams.json) |
+| بعد بلاغ «الأسلحة لا تعمل» | إصلاحات مصدرية موثّقة: `ItemInfoArray`/تسجيل الذخيرة/`GetAmmoIndex`، نقل `iuser4`/`ammo_spores`/`ammo_762`، حلقات 64، `OldWeapon`/`HudColor`، `delta.lst` مدمج BHL+OP4 |
+| الموسيقى | `setup_op4_media.bat` ينسخ MP3 الأصلية من `gearbox/media` فقط؛ لا MP3 داخل ZIP ولا ملف مُولّد |
+| البناء | Linux ELF32 `152/152` عميل و`179/179` خادم؛ Windows `client.dll`/`opfor.dll` عبر CI/MSVC؛ التفاصيل في [`MANIFEST`](build-evidence/bhl-base/MANIFEST.json) |
+| اختبار داخل GoldSrc | ❌ **لم يُنفَّذ هنا** — لا محرك ولا أصول OP4 شرعية؛ كل صف في [`RUNTIME_TESTS.md`](docs/OP4_RUNTIME_TESTS.md) يحمل `غير مُختبَر` |
+| إعلان الاكتمال | ❌ **لا** — المستخدم بلّغ أن اللعبة تبدأ لكن الموسيقى والأسلحة ليست صحيحة؛ الإصلاحات الجديدة تحتاج تحققاً داخل اللعبة |
 
-## جدول الأسلحة العشرة (مولّد من المصادر النظيفة)
+## التشغيل
 
-| السلاح | موجود في BHL | موجود في OP4 | حالة الدمج | Prediction | اختبار اللعبة |
-| --- | --- | --- | --- | --- | --- |
-| `weapon_displacer` | لا | نعم | ناقص | نعم | غير مختبر |
-| `weapon_eagle` | لا | نعم | ناقص | نعم | غير مختبر |
-| `weapon_grapple` | لا | نعم | ناقص | نعم | غير مختبر |
-| `weapon_knife` | لا | نعم | ناقص | نعم | غير مختبر |
-| `weapon_m249` | لا | نعم | ناقص | نعم | غير مختبر |
-| `weapon_penguin` | لا | نعم | ناقص | نعم | غير مختبر |
-| `weapon_pipewrench` | لا | نعم | ناقص | نعم | غير مختبر |
-| `weapon_shockrifle` | لا | نعم | ناقص | نعم | غير مختبر |
-| `weapon_sniperrifle` | لا | نعم | ناقص | نعم | غير مختبر |
-| `weapon_sporelauncher` | لا | نعم | ناقص | نعم | غير مختبر |
+1. فكّ ZIP إلى `Half-Life/bhlop4/` (ليس `gearbox_addon`، ولا تغيير اسم `gearbox`).
+2. شغّل `setup_op4_media.bat` مرة واحدة قبل اللعبة.
+3. شغّل `hl.exe -game bhlop4 -console`.
+4. اختبر الحملة، الموسيقى، وكل سلاح بحسب [`RUNTIME_TESTS.md`](docs/OP4_RUNTIME_TESTS.md).
 
-**«ناقص» يعني أن اختبار اللعبة والأصول القانونية غائبان، لا أن ملفاً مفقوداً؛ «نعم» في Prediction تعني توصيل المصدر والبناء فقط.** التفاصيل والبصمات: [`docs/WEAPON_INVENTORY.md`](docs/WEAPON_INVENTORY.md).
-
-## ⚠️ تصحيح التسليم (مهم)
-
-الحزمة التي كانت قابلة للتشغيل سابقاً `dist/bhlop4/` و`dist/bhl-op4-mod.zip` هي من المسار **القديم OP4-أساس** (`bhl-systems-1`): OP4 مع بعض أنظمة BHL — **هذه هي التي تظهر كـ Opposing Force عادية، ولا تمثل المطلوب**. لم أحذفها لكن لا تستخدمها.
-
-الحزمة الصحيحة المبنية على ثنائيات **BHL-أساس**:
-[`build-evidence/bhl-base/bhl-base-mod.zip`](build-evidence/bhl-base/bhl-base-mod.zip) — مجلد لعبة جاهز: حملة Opposing Force كاملة تبدأ `of0a0`/`ofboot0`، `steam_appid 50`، خادم `opfor.dll` المبني من OP4 SDK مع أنظمة BHL، عميل BHL VGUI2 وتنبؤ أسلحة OP4 العشرة، و`fallback_dir gearbox` لأصول OP4 من نسختك المثبّتة. التفاصيل: [`INSTALL.md`](build-evidence/bhl-base/mod/INSTALL.md).
-
-التغييرات الوظيفية في هذه النسخة: توسيع سلة HUD إلى 7؛ تجميع ملفات أسلحة OP4 العشرة ذات الكود المشترك داخل `client` مع `CLIENT_DLL` بنفس آلية BHL لأسلحته الـ14، ومعها `CGrappleTip.cpp`/`ehandle.cpp` من مشروع عميل OP4 الأصلي (Client Prediction على مستوى المصدر/البناء، بلا إثبات وقت تشغيل)؛ وإضافة `autoexec.cfg` + `op4weapons.cfg` (F9 يعطي الأسلحة العشرة). لا سلاح OP4 متروك server-authoritative. أسلحة BHL الـ14 وعداد الصحة وVGUI2 لم تتغير.
-
-**حد صريح:** لا يوجد محرك GoldSrc ولا أصول OP4 شرعية في هذه البيئة ⇒ **لم تُختبر داخل اللعبة هنا**. تشغيل الأسلحة الفعلي يجب أن يتحقق منه المستخدم على جهازه.
+**حد ملزم:** لا توجد علامة نجاح لأي سلاح أو للموسيقى حتى يختبرها المستخدم داخل GoldSrc.
+التجميع وCI ووجود الملفات ليست دليل تشغيل. لا تستخدم حزم `dist/` القديمة.
 
 ## الدليل والبرهان
 

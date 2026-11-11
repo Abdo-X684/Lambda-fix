@@ -126,6 +126,7 @@ public:
 	int m_rgItems[MAX_ITEMS];
 
 	/* OP4-MERGE: OP4 weapon / CTF / grapple player state and helpers */
+	int ammo_spores;
 	int ammo_762;
 	unsigned int m_iItems;
 	Vector m_DisplacerReturn;

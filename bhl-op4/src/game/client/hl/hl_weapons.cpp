@@ -55,7 +55,7 @@ extern globalvars_t *gpGlobals;
 extern int g_iUser1;
 
 // Pool of client side entities/entvars_t
-static entvars_t ev[32];
+static entvars_t ev[MAX_WEAPONS + 1];
 static int num_ents = 0;
 
 // The entity we'll use to represent the local client
@@ -64,7 +64,7 @@ static CBasePlayer player;
 // Local version of game .dll global variables ( time, etc. )
 static globalvars_t Globals;
 
-static CBasePlayerWeapon *g_pWpns[32];
+static CBasePlayerWeapon *g_pWpns[MAX_WEAPONS];
 
 /* OP4-MERGE (declared): OP4 cl_dll/hl/hl_weapons.cpp:622
  * SetLocalBody(). OP4 uses GetLocalWeapon(id) over its own client
@@ -156,6 +156,9 @@ we set up the m_pPlayer field.
 */
 void HUD_PrepEntity(CBaseEntity *pEntity, CBasePlayer *pWeaponOwner)
 {
+	if (num_ents >= MAX_WEAPONS)
+		return;
+
 	memset(&ev[num_ents], 0, sizeof(entvars_t));
 	pEntity->pev = &ev[num_ents++];
 
@@ -165,12 +168,25 @@ void HUD_PrepEntity(CBaseEntity *pEntity, CBasePlayer *pWeaponOwner)
 	if (pWeaponOwner)
 	{
 		ItemInfo info;
+		memset(&info, 0, sizeof(info));
 
 		((CBasePlayerWeapon *)pEntity)->m_pPlayer = pWeaponOwner;
-
 		((CBasePlayerWeapon *)pEntity)->GetItemInfo(&info);
 
-		g_pWpns[info.iId] = (CBasePlayerWeapon *)pEntity;
+		if (info.iId >= 0 && info.iId < MAX_WEAPONS)
+		{
+			CBasePlayerItem::ItemInfoArray[info.iId] = info;
+
+			const char *weaponName = (info.iFlags & ITEM_FLAG_EXHAUSTIBLE)
+				? STRING(pEntity->pev->classname) : nullptr;
+
+			if (info.pszAmmo1 && '\0' != *info.pszAmmo1)
+				AddAmmoNameToAmmoRegistry(info.pszAmmo1, weaponName);
+			if (info.pszAmmo2 && '\0' != *info.pszAmmo2)
+				AddAmmoNameToAmmoRegistry(info.pszAmmo2, weaponName);
+
+			g_pWpns[info.iId] = (CBasePlayerWeapon *)pEntity;
+		}
 	}
 }
 
@@ -629,6 +645,7 @@ void HUD_InitClientWeapons(void)
 		return;
 
 	initialized = 1;
+	OP4_ResetAmmoRegistry();
 
 	// Set up pointer ( dummy object )
 	gpGlobals = &Globals;
@@ -871,7 +888,7 @@ void HUD_WeaponsPostThink(local_state_s *from, local_state_s *to, usercmd_t *cmd
 	if (!pWeapon)
 		return;
 
-	for (i = 0; i < 32; i++)
+	for (i = 0; i < MAX_WEAPONS; i++)
 	{
 		pCurrent = g_pWpns[i];
 		if (!pCurrent)
@@ -947,6 +964,9 @@ void HUD_WeaponsPostThink(local_state_s *from, local_state_s *to, usercmd_t *cmd
 	player.ammo_uranium = (int)from->client.ammo_cells;
 	player.ammo_hornets = (int)from->client.vuser2[0];
 	player.ammo_rockets = (int)from->client.ammo_rockets;
+	player.ammo_spores = (int)from->client.vuser2.y;
+	player.ammo_762 = (int)from->client.vuser2.z;
+	player.m_iItems = (unsigned int)from->client.iuser4;
 
 	// Point to current weapon object
 	if (from->client.m_iId)
@@ -1009,6 +1029,7 @@ void HUD_WeaponsPostThink(local_state_s *from, local_state_s *to, usercmd_t *cmd
 	to->client.fuser2 = player.m_flNextAmmoBurn;
 	to->client.fuser3 = player.m_flAmmoStartCharge;
 	to->client.maxspeed = player.pev->maxspeed;
+	to->client.iuser4 = player.m_iItems;
 
 	//HL Weapons
 	to->client.vuser1[0] = player.ammo_9mm;
@@ -1020,6 +1041,8 @@ void HUD_WeaponsPostThink(local_state_s *from, local_state_s *to, usercmd_t *cmd
 	to->client.ammo_cells = player.ammo_uranium;
 	to->client.vuser2[0] = player.ammo_hornets;
 	to->client.ammo_rockets = player.ammo_rockets;
+	to->client.vuser2.y = player.ammo_spores;
+	to->client.vuser2.z = player.ammo_762;
 
 	if (player.m_pActiveItem->m_iId == WEAPON_RPG)
 	{
@@ -1045,7 +1068,7 @@ void HUD_WeaponsPostThink(local_state_s *from, local_state_s *to, usercmd_t *cmd
 		HUD_SendWeaponAnim(to->client.weaponanim, body, 1);
 	}
 
-	for (i = 0; i < 32; i++)
+	for (i = 0; i < MAX_WEAPONS; i++)
 	{
 		pCurrent = g_pWpns[i];
 

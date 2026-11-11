@@ -295,7 +295,11 @@ void CHud::Init(void)
 	HookHudMessage<&CHud::MsgFunc_Logo>("Logo");
 	HookHudMessage<&CHud::MsgFunc_Fog>("Fog");
 	extern int OP4_MsgFunc_Weapons(const char *, int, void *);
+	extern int OP4_MsgFunc_OldWeapon(const char *, int, void *);
+	extern int OP4_MsgFunc_HudColor(const char *, int, void *);
 	gEngfuncs.pfnHookUserMsg((char *)"Weapons", OP4_MsgFunc_Weapons);
+	gEngfuncs.pfnHookUserMsg((char *)"OldWeapon", OP4_MsgFunc_OldWeapon);
+	gEngfuncs.pfnHookUserMsg((char *)"HudColor", OP4_MsgFunc_HudColor);
 
 	// TFFree CommandMenu
 	HookCommand("+commandmenu", [] {

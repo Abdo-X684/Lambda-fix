@@ -715,6 +715,17 @@ def apply_merges(tree: Path, provenance: dict) -> None:
         p.write_text(s.replace(old, new, 1), errors="surrogateescape")
         provenance[rel].setdefault("merge_rules", []).append(rule)
 
+    def subst_all(rel: str, old: str, new: str, rule: str):
+        """Replace every identical bound in one generated BHL source."""
+        p = tree / rel
+        s = p.read_text(errors="surrogateescape")
+        if old not in s:
+            if new in s:
+                return
+            raise RuntimeError(f"merge rule {rule}: anchor missing in {rel}: {old!r}")
+        p.write_text(s.replace(old, new), errors="surrogateescape")
+        provenance[rel].setdefault("merge_rules", []).append(rule)
+
     # 1. OP4-only constants from dlls/weapons.h into BHL weapons.h
     op4w = (OP4 / "dlls/weapons.h").read_text(errors="surrogateescape")
     bhlw = (tree / "src/game/server/weapons.h").read_text(errors="surrogateescape")
@@ -818,7 +829,11 @@ def apply_merges(tree: Path, provenance: dict) -> None:
           '\tHookHudMessage<&CHud::MsgFunc_Fog>("Fog");',
           '\tHookHudMessage<&CHud::MsgFunc_Fog>("Fog");\n'
           '\textern int OP4_MsgFunc_Weapons(const char *, int, void *);\n'
-          '\tgEngfuncs.pfnHookUserMsg((char *)"Weapons", OP4_MsgFunc_Weapons);',
+          '\textern int OP4_MsgFunc_OldWeapon(const char *, int, void *);\n'
+          '\textern int OP4_MsgFunc_HudColor(const char *, int, void *);\n'
+          '\tgEngfuncs.pfnHookUserMsg((char *)"Weapons", OP4_MsgFunc_Weapons);\n'
+          '\tgEngfuncs.pfnHookUserMsg((char *)"OldWeapon", OP4_MsgFunc_OldWeapon);\n'
+          '\tgEngfuncs.pfnHookUserMsg((char *)"HudColor", OP4_MsgFunc_HudColor);',
           "op4-weapons-message-hook")
     subst("src/game/client/hud_update.cpp",
           "extern void HUD_SetCmdBits(int bits);",
@@ -830,6 +845,23 @@ def apply_merges(tree: Path, provenance: dict) -> None:
           "\tif (!g_bOP4WeaponBits)\n"
           "\t\tm_iWeaponBits = cdata->iWeaponBits;",
           "op4-weapons-message-flag-use")
+    subst("src/game/client/hud_msg.cpp",
+          '#include "parsemsg.h"',
+          '#include "parsemsg.h"\n'
+          'extern void OP4_ResetNetworkState();',
+          "op4-network-reset-decl")
+    subst("src/game/client/hud_msg.cpp",
+          "int CHud::MsgFunc_InitHUD(const char *pszName, int iSize, void *pbuf)\n"
+          "{\n\t// prepare all hud data",
+          "int CHud::MsgFunc_InitHUD(const char *pszName, int iSize, void *pbuf)\n"
+          "{\n\tOP4_ResetNetworkState();\n\t// prepare all hud data",
+          "op4-network-reset-inithud")
+    subst("src/game/client/hud_msg.cpp",
+          "int CHud::MsgFunc_ResetHUD(const char *pszName, int iSize, void *pbuf)\n"
+          "{\n\t// clear all hud data",
+          "int CHud::MsgFunc_ResetHUD(const char *pszName, int iSize, void *pbuf)\n"
+          "{\n\tOP4_ResetNetworkState();\n\t// clear all hud data",
+          "op4-network-reset-resethud")
 
     # 7. OP4 WaterLevel enum into BHL const.h
     c = (OP4 / "common/const.h").read_text(errors="surrogateescape")
@@ -858,7 +890,7 @@ def apply_merges(tree: Path, provenance: dict) -> None:
     # 9. OP4-only CBasePlayer members / helpers used by OP4 weapons
     edit("src/game/server/player.h", "\n\tint m_rgItems[MAX_ITEMS];",
          "\n\t/* OP4-MERGE: OP4 weapon / CTF / grapple player state and helpers */\n"
-         "\tint ammo_762;\n\tunsigned int m_iItems;\n"
+         "\tint ammo_spores;\n\tint ammo_762;\n\tunsigned int m_iItems;\n"
          "\tVector m_DisplacerReturn;\n\tint m_DisplacerSndRoomtype = 0;\n"
          "\tint m_SndRoomtype = 0;\n\tint m_iTeamNum = 0;\n"
          "\tint m_iCTFScore = 0;\n\tEHANDLE m_pFlag;\n"
@@ -1231,6 +1263,152 @@ def apply_merges(tree: Path, provenance: dict) -> None:
     edit("src/game/client/hl/hl_weapons.cpp",
          "\tcase WEAPON_SNARK:\n\t\tpWeapon = &g_Snark;\n\t\tbreak;",
          cases.rstrip("\n"), "op4-client-weapon-cases")
+
+    # A real OP4 server has MAX_WEAPONS = 64. BHL's HL-era prediction array
+    # and its two transfer loops still used 32; OP4's own cl_dll/hl/hl_weapons.cpp
+    # uses MAX_WEAPONS. This is a source-level protocol correction, not a
+    # gameplay claim.
+    subst("src/game/client/hl/hl_weapons.cpp",
+          "static CBasePlayerWeapon *g_pWpns[32];",
+          "static CBasePlayerWeapon *g_pWpns[MAX_WEAPONS];",
+          "op4-client-weapon-array-64")
+    subst_all("src/game/client/hl/hl_weapons.cpp",
+              "for (i = 0; i < 32; i++)",
+              "for (i = 0; i < MAX_WEAPONS; i++)",
+              "op4-client-weapon-loops-64")
+    subst("src/game/client/hl/hl_weapons.cpp",
+          "\t\tg_pWpns[info.iId] = (CBasePlayerWeapon *)pEntity;",
+          "\t\tif (info.iId >= 0 && info.iId < MAX_WEAPONS)\n"
+          "\t\t\tg_pWpns[info.iId] = (CBasePlayerWeapon *)pEntity;",
+          "op4-client-prep-bounds-64")
+
+    # OP4's client DLL mirrors the OP4 server's clientdata_t fields into the
+    # local CBasePlayer before running the verbatim weapon prediction bodies.
+    # BHL's HL-era transfer omitted ammo_spores, ammo_762 and m_iItems, so
+    # Spore Launcher / Sniper Rifle / CTF-dependent weapon logic could read
+    # zero. These exact fields come from OP4 cl_dll/hl/hl_weapons.cpp lines
+    # 749-761 and 826-839 at the pinned commit.
+    edit("src/game/client/hl/hl_weapons.cpp",
+         "\tplayer.ammo_rockets = (int)from->client.ammo_rockets;",
+         "\tplayer.ammo_spores = (int)from->client.vuser2.y;\n"
+         "\tplayer.ammo_762 = (int)from->client.vuser2.z;\n"
+         "\tplayer.m_iItems = (unsigned int)from->client.iuser4;",
+         "op4-client-prediction-state-in")
+    edit("src/game/client/hl/hl_weapons.cpp",
+         "\tto->client.maxspeed = player.pev->maxspeed;",
+         "\tto->client.iuser4 = player.m_iItems;",
+         "op4-client-prediction-items-out")
+    edit("src/game/client/hl/hl_weapons.cpp",
+         "\tto->client.ammo_rockets = player.ammo_rockets;",
+         "\tto->client.vuser2.y = player.ammo_spores;\n"
+         "\tto->client.vuser2.z = player.ammo_762;",
+         "op4-client-prediction-ammo-out")
+
+    # OP4's HUD_PrepEntity not only stores the weapon pointer: it fills
+    # ItemInfoArray and registers each ammo name (with the exhaustible-weapon
+    # classname) in AmmoInfoArray. BHL's HL-era stub omitted both, so OP4
+    # weapon bodies that call iMaxClip()/pszAmmo1()/GetAmmoIndex() were reading
+    # zero/null during client prediction. Reproduce OP4's pinned registration
+    # block here; the registry itself lives in the authored client glue.
+    subst("src/game/client/hl/hl_weapons.cpp",
+          "static entvars_t ev[32];",
+          "static entvars_t ev[MAX_WEAPONS + 1];",
+          "op4-client-entvars-pool-64")
+    subst("src/game/client/hl/hl_weapons.cpp",
+          """void HUD_PrepEntity(CBaseEntity *pEntity, CBasePlayer *pWeaponOwner)
+{
+	memset(&ev[num_ents], 0, sizeof(entvars_t));
+	pEntity->pev = &ev[num_ents++];
+
+	pEntity->Precache();
+	pEntity->Spawn();
+
+	if (pWeaponOwner)
+	{
+		ItemInfo info;
+
+		((CBasePlayerWeapon *)pEntity)->m_pPlayer = pWeaponOwner;
+
+		((CBasePlayerWeapon *)pEntity)->GetItemInfo(&info);
+
+		if (info.iId >= 0 && info.iId < MAX_WEAPONS)
+			g_pWpns[info.iId] = (CBasePlayerWeapon *)pEntity;
+	}
+}""",
+          """void HUD_PrepEntity(CBaseEntity *pEntity, CBasePlayer *pWeaponOwner)
+{
+	if (num_ents >= MAX_WEAPONS)
+		return;
+
+	memset(&ev[num_ents], 0, sizeof(entvars_t));
+	pEntity->pev = &ev[num_ents++];
+
+	pEntity->Precache();
+	pEntity->Spawn();
+
+	if (pWeaponOwner)
+	{
+		ItemInfo info;
+		memset(&info, 0, sizeof(info));
+
+		((CBasePlayerWeapon *)pEntity)->m_pPlayer = pWeaponOwner;
+		((CBasePlayerWeapon *)pEntity)->GetItemInfo(&info);
+
+		if (info.iId >= 0 && info.iId < MAX_WEAPONS)
+		{
+			CBasePlayerItem::ItemInfoArray[info.iId] = info;
+
+			const char *weaponName = (info.iFlags & ITEM_FLAG_EXHAUSTIBLE)
+				? STRING(pEntity->pev->classname) : nullptr;
+
+			if (info.pszAmmo1 && '\\0' != *info.pszAmmo1)
+				AddAmmoNameToAmmoRegistry(info.pszAmmo1, weaponName);
+			if (info.pszAmmo2 && '\\0' != *info.pszAmmo2)
+				AddAmmoNameToAmmoRegistry(info.pszAmmo2, weaponName);
+
+			g_pWpns[info.iId] = (CBasePlayerWeapon *)pEntity;
+		}
+	}
+}""",
+          "op4-client-iteminfo-ammo-registry")
+    subst("src/game/client/hl/hl_weapons.cpp",
+          "\tinitialized = 1;\n",
+          "\tinitialized = 1;\n\tOP4_ResetAmmoRegistry();\n",
+          "op4-client-ammo-reset")
+
+    # Client-side AmmoInfo needs OP4's exhaustible-weapon field, and the
+    # prediction lookup must agree with the server's ammo-index messages.
+    subst("src/game/server/weapons.h",
+          """typedef struct
+{
+	const char *pszName;
+	int iId;
+} AmmoInfo;""",
+          """typedef struct
+{
+	const char *pszName;
+	int iId;
+	const char *WeaponName; // OP4-MERGE: exhaustible-weapon classname
+} AmmoInfo;""",
+          "op4-amminfo-weaponname")
+    edit("src/game/server/weapons.h", "\n\n#endif // WEAPONS_H",
+         "\n/* OP4-MERGE: client ammo registry / prediction lookup */\n"
+         "extern int OP4_GetAmmoIndex(const char *psz);\n"
+         "extern void OP4_ResetAmmoRegistry(void);\n"
+         "void AddAmmoNameToAmmoRegistry(const char *szAmmoname);\n"
+         "void AddAmmoNameToAmmoRegistry(const char *szAmmoname, const char *weaponName);\n",
+         "op4-client-ammo-registry-decls", before=True)
+    subst("src/game/client/hl/hl_baseentity.cpp",
+          "int CBasePlayer::GetAmmoIndex(const char *psz) { return -1; }",
+          "int CBasePlayer::GetAmmoIndex(const char *psz) { return OP4_GetAmmoIndex(psz); }",
+          "op4-client-getammoindex-real")
+
+    # iuser4 is OP4's CTF item bitmask on a full OP4 server. BHL copied it as
+    # an unused "fire prevention" field; the comment must not mislead the audit.
+    subst_all("src/game/client/entity.cpp",
+              "\t// Fire prevention\n",
+              "\t// OP4 CTF items (BHL's fire-prevention field is unused)\n",
+              "op4-iuser4-semantic-comment")
 
 
 # Only sources proven to compile against BHL headers are wired into the BHL

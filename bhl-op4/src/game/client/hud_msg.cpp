@@ -19,6 +19,7 @@
 #include "hud.h"
 #include "cl_util.h"
 #include "parsemsg.h"
+extern void OP4_ResetNetworkState();
 #include "r_efx.h"
 #include "hud/ammo.h"
 #include "hud/status_icons.h"
@@ -53,6 +54,7 @@ float IN_GetMouseSensitivity();
 
 int CHud::MsgFunc_InitHUD(const char *pszName, int iSize, void *pbuf)
 {
+	OP4_ResetNetworkState();
 	// prepare all hud data
 	for (CHudElem *i : m_HudList)
 		i->InitHudData();
@@ -77,6 +79,7 @@ int CHud::MsgFunc_InitHUD(const char *pszName, int iSize, void *pbuf)
 
 int CHud::MsgFunc_ResetHUD(const char *pszName, int iSize, void *pbuf)
 {
+	OP4_ResetNetworkState();
 	// clear all hud data
 	for (CHudElem *i : m_HudList)
 		i->Reset();

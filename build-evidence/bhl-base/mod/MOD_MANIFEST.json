@@ -2,7 +2,7 @@
   "architecture": "full OP4 campaign/server + BugfixedHL VGUI2 client",
   "binaries": {
     "cl_dlls/client.dll": "1d5ce9d01ade90a7b4a1de415775f108aba45260742b0d6def42edc92e9f636d",
-    "cl_dlls/client.so": "d9356782f72f6c5ac7e8579202fae5cb5d042838c364a6ca143864b6ee968f4d",
+    "cl_dlls/client.so": "57c26765f9a9219ba388fb8349b3f56fe3b3e6a1ce920fbdb2c023584eba3b95",
     "dlls/opfor.dll": "866d4dd3392b7cf906141f0520d032f89fc166fab3095cbec3b87e951996143a"
   },
   "campaign": {
@@ -11,19 +11,22 @@
     "trainmap": "ofboot0"
   },
   "files": {
-    "INSTALL.md": "8805227d2692f290703190a65e4895b78717d2834ab71cd4a78183ef32dc89d7",
+    "INSTALL.md": "5030c306dcdf2c5d945f3704406104ba8b5d46bee1b5275f8260442be2ae4cdb",
+    "RUNTIME_TESTS.md": "53a64242a3939b7a695f45b3a8d8072c81b2d7a6753863fecce65af64c717c98",
+    "SOURCE_AUDIT.md": "ad83362768a15f23f894bec64e01689d75ecb3c7ac837272c4722f1a2abc79af",
     "addons/amxmodx/scripting/bhl_api_example.sma": "2b4bbc1948f1ca9dfffab12e6b2c08ff627a8573fd4c5f4acd5e7f3f7602f4d2",
     "addons/amxmodx/scripting/include/bugfixedapi.inc": "f7812fd030226889cfcbd5992e896fe0af6e3a3be99116363d4daec267217c74",
     "autoexec.cfg": "ef856b394f0e49664f3b7ac1472ba7b0f9865fecbdaf8b762defe0f25c40d7cf",
     "cfg/op4weapons.cfg": "6b97d8e4ba137bedc957bd57ed7f936b5cf73f42a54027727b165c5a82239614",
     "cl_dlls/client.dll": "1d5ce9d01ade90a7b4a1de415775f108aba45260742b0d6def42edc92e9f636d",
-    "cl_dlls/client.so": "d9356782f72f6c5ac7e8579202fae5cb5d042838c364a6ca143864b6ee968f4d",
+    "cl_dlls/client.so": "57c26765f9a9219ba388fb8349b3f56fe3b3e6a1ce920fbdb2c023584eba3b95",
     "commandmenu_default.txt": "9c5ec58db86e6b7bbe06e489c829f9a20a95b181392adcae37daa53b3379dea0",
-    "delta.lst": "9e64b874fe331b52db29d13ed70a52410b0d91059719f8803e6e4058eda44f15",
+    "delta.lst": "6a68fca712a6b06719aa37efaf44ca47be48ab8b4afb6551d277018d8e11e1ef",
     "dlls/opfor.dll": "866d4dd3392b7cf906141f0520d032f89fc166fab3095cbec3b87e951996143a",
     "liblist.gam": "26b87eb5a9fd60c24e48afeb3aba201e1ec7652a99d3677c34ae3d14704593f0",
     "op4weapons.cfg": "6b97d8e4ba137bedc957bd57ed7f936b5cf73f42a54027727b165c5a82239614",
     "resource/GameMenu.res": "d01b50b6f2cdabe0525d69fd75f606c80cc6a6f06d61f226d87b18c05140aef4",
+    "setup_op4_media.bat": "5c132373cbdf505f33a29b45317388b2f55fa7d1e92f0695edcf7678fd36a2a2",
     "sprites/ag_ctf.spr": "e8f89ec71c0245a032367aa0a341fbcd63fad37884139a407bba431fc505ff3c",
     "sprites/ag_ctf_score.spr": "1e493db898d0baeea73498573ab327f40739d6f2fe76da4f05d016f12899120b",
     "steam_appid.txt": "7ea9844ae84eccbf55e8330640865e36c43521e45a1baec24233327aab7e6595",
@@ -86,9 +89,13 @@
     "ui/scripts/HudLayoutBase.res": "a228265b302248ea90f9092caf07360744462836537ecfd30a3069c44d6638c4"
   },
   "in_game_tested_here": false,
+  "music_setup_required": true,
+  "music_source": "installed gearbox/media via setup_op4_media.bat; no MP3 bundled",
   "root": "BugfixedHL-Rebased gamedir + OP4 SDK server",
+  "runtime_tests": "RUNTIME_TESTS.md",
   "server": {
     "linux": "../gearbox/dlls/opfor.so (stock installed OP4 server)",
     "windows": "dlls/opfor.dll (patched OP4 SDK, BHL cvars, speedrun hooks, all-ten impulse 101)"
-  }
+  },
+  "source_audit": "SOURCE_AUDIT.md"
 }

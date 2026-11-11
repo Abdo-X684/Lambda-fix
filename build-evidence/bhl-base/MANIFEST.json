@@ -7,7 +7,7 @@
   ],
   "libraries": {
     "client.so": {
-      "bytes": 28290380,
+      "bytes": 28303100,
       "elf32": true,
       "exported_game_entry_points": [
         "HUD_Frame",
@@ -21,7 +21,7 @@
         "Initialize",
         "V_CalcRefdef"
       ],
-      "exported_symbol_count": 5105,
+      "exported_symbol_count": 5111,
       "glibc_max": "GLIBC_2.17",
       "needed": [
         "libSDL2-2.0.so.0",
@@ -34,12 +34,12 @@
         "libdl.so.2"
       ],
       "path": "build-evidence/bhl-base/client.so",
-      "sha256": "d9356782f72f6c5ac7e8579202fae5cb5d042838c364a6ca143864b6ee968f4d",
+      "sha256": "57c26765f9a9219ba388fb8349b3f56fe3b3e6a1ce920fbdb2c023584eba3b95",
       "undefined_symbol_count": 308,
       "unresolved_own_build_symbols": []
     },
     "hl.so": {
-      "bytes": 21252376,
+      "bytes": 21252408,
       "elf32": true,
       "exported_game_entry_points": [
         "GetEntityAPI",
@@ -57,7 +57,7 @@
         "libdl.so.2"
       ],
       "path": "build-evidence/bhl-base/hl.so",
-      "sha256": "da0c7b2887e86b25c6c33460b8096310451ce8d651429cdfdfb10d3990b31bb8",
+      "sha256": "b0cfa0f17ebab3caebda9cf6a5be022dd538a58843b879ac582bd97c41eb1407",
       "undefined_symbol_count": 154,
       "unresolved_own_build_symbols": []
     }

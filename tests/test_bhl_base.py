@@ -172,6 +172,47 @@ class BhlBaseTreeTests(unittest.TestCase):
             for marker in markers:
                 self.assertIn(marker, text, f"{rel} missing {marker}")
 
+    def test_14_op4_client_prediction_registry(self):
+        checks = {
+            "src/game/client/hl/hl_weapons.cpp": (
+                "CBasePlayerItem::ItemInfoArray[info.iId] = info;",
+                "AddAmmoNameToAmmoRegistry(info.pszAmmo1, weaponName);",
+                "player.ammo_spores = (int)from->client.vuser2.y;",
+                "player.ammo_762 = (int)from->client.vuser2.z;",
+                "player.m_iItems = (unsigned int)from->client.iuser4;",
+                "g_pWpns[MAX_WEAPONS]", "for (i = 0; i < MAX_WEAPONS; i++)",
+                "OP4_ResetAmmoRegistry();"),
+            "src/game/client/op4/op4_client_prediction.cpp": (
+                "CBasePlayerItem::AmmoInfoArray[MAX_AMMO_SLOTS]",
+                "OP4_GetAmmoIndex", "OP4_ResetAmmoRegistry",
+                "OP4_MsgFunc_OldWeapon", "OP4_MsgFunc_HudColor"),
+            "src/game/client/hl/hl_baseentity.cpp": ("OP4_GetAmmoIndex",),
+            "src/game/server/weapons.h": ("WeaponName; // OP4-MERGE",),
+            "src/game/client/hud.cpp": (
+                '"Weapons", OP4_MsgFunc_Weapons',
+                '"OldWeapon", OP4_MsgFunc_OldWeapon',
+                '"HudColor", OP4_MsgFunc_HudColor'),
+            "src/game/client/hud_msg.cpp": ("OP4_ResetNetworkState();",),
+            "src/game/client/entity.cpp": ("OP4 CTF items",),
+        }
+        for rel, markers in checks.items():
+            text = (TREE / rel).read_text()
+            for marker in markers:
+                self.assertIn(marker, text, f"{rel} missing {marker}")
+
+    def test_15_merged_delta_and_audit_assets(self):
+        delta = (ROOT / "data/delta.lst").read_text()
+        for marker in ("DEFINE_DELTA( iuser4, DT_INTEGER, 8, 1.0 )",
+                       "DEFINE_DELTA( m_iId, DT_INTEGER, 6, 1.0 )",
+                       "DEFINE_DELTA( health, DT_SIGNED | DT_FLOAT, 11, 1.0 )",
+                       "DEFINE_DELTA( eflags, DT_INTEGER, 2, 1.0 )"):
+            self.assertIn(marker, delta)
+        setup = (ROOT / "tools/packaging/setup_op4_media.bat").read_text()
+        self.assertIn("gearbox\\media", setup)
+        self.assertNotIn("valve\\media", setup.lower())
+        for rel in ("docs/OP4_SOURCE_AUDIT.md", "docs/OP4_RUNTIME_TESTS.md"):
+            self.assertTrue((ROOT / rel).is_file(), rel)
+
     def test_10_port_pending_matches_documented_count(self):
         wired = set()
         for rel, srcs in self.prov["cmake"].items():

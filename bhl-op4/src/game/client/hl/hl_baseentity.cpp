@@ -279,7 +279,7 @@ int CBasePlayer::RemovePlayerItem(CBasePlayerItem *pItem) { return FALSE; }
 void CBasePlayer::ItemPreFrame() { }
 void CBasePlayer::ItemPostFrame() { }
 int CBasePlayer::AmmoInventory(int iAmmoIndex) { return -1; }
-int CBasePlayer::GetAmmoIndex(const char *psz) { return -1; }
+int CBasePlayer::GetAmmoIndex(const char *psz) { return OP4_GetAmmoIndex(psz); }
 void CBasePlayer::SendAmmoUpdate(CBasePlayer *pPlayer) { }
 void CBasePlayer::UpdateClientData(void) { }
 BOOL CBasePlayer::FBecomeProne(void) { return TRUE; }

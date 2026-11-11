@@ -131,7 +131,7 @@
     "compiled_from": "bhl-op4/src/game/client/entity.cpp",
     "object": "0016_entity.o",
     "set": "client",
-    "sha256": "b77d0a09c1eb76483dd9b79fa36013e0de20013dad4699367ee1c3b5da91a0d3",
+    "sha256": "8a0303c50a1b965e05c4e7f0e734e9003ec467e06aeada76ac9ecf16d3657096",
     "source": "bhl-op4/src/game/client/entity.cpp",
     "status": "ok"
   },
@@ -347,7 +347,7 @@
     "compiled_from": "bhl-op4/src/game/client/hl/hl_baseentity.cpp",
     "object": "0043_hl_baseentity.o",
     "set": "client",
-    "sha256": "fcde99813aa1645ca73be70df813e0b96fc684739c97e12028e04d088de6dbca",
+    "sha256": "33983073a30e73fde6d2131b7ee5f9f4f9eab131a83babf06f1aecd09e8e2287",
     "source": "bhl-op4/src/game/client/hl/hl_baseentity.cpp",
     "status": "ok"
   },
@@ -371,7 +371,7 @@
     "compiled_from": "bhl-op4/src/game/client/hl/hl_weapons.cpp",
     "object": "0046_hl_weapons.o",
     "set": "client",
-    "sha256": "75a458d043f709f1407a84e1e75382b0d5c66717b94e4fa17580795c5b33a777",
+    "sha256": "1661787fb2e079629f0e93248b720ebd208f02963d4e874abc27332600bbfb82",
     "source": "bhl-op4/src/game/client/hl/hl_weapons.cpp",
     "status": "ok"
   },
@@ -675,7 +675,7 @@
     "compiled_from": "bhl-op4/src/game/client/hud.cpp",
     "object": "0084_hud.o",
     "set": "client",
-    "sha256": "04bb7712ed4c6ab1024b8ac80a1654b83c7c4f6fdc02044fc276f88f11eca16c",
+    "sha256": "4ec765a8b4671536938561e07605c779164f6d914cb2de5f83c1cf3c61915837",
     "source": "bhl-op4/src/game/client/hud.cpp",
     "status": "ok"
   },
@@ -683,7 +683,7 @@
     "compiled_from": "bhl-op4/src/game/client/hud_msg.cpp",
     "object": "0085_hud_msg.o",
     "set": "client",
-    "sha256": "413864913a34b8296f47600c68b63e84a7d2bba94484a2e8a31731ee8a464667",
+    "sha256": "b700fc50e54c596f0efefe447644db8f6adcd10225debfa911f109c4cd6cd882",
     "source": "bhl-op4/src/game/client/hud_msg.cpp",
     "status": "ok"
   },
@@ -755,7 +755,7 @@
     "compiled_from": "bhl-op4/src/game/client/op4/op4_client_prediction.cpp",
     "object": "0094_op4_client_prediction.o",
     "set": "client",
-    "sha256": "995349bc5dfa9512863cdb0df85fd8dc7774cc56410d9bf8fb019e5b2b101701",
+    "sha256": "f77bb72d8c36e65e42c97c8529e0b271e0687b8b5f8d36897fd5ad5a67542787",
     "source": "bhl-op4/src/game/client/op4/op4_client_prediction.cpp",
     "status": "ok"
   },

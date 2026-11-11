@@ -28,8 +28,9 @@
 يعني توصيل ملف السلاح الحقيقي داخل `client` مع `CLIENT_DLL` وحالة `GetLocalWeapon`
 و`UseDecrement()`، لا إثبات تنبؤ وقت التشغيل.
 
-`weapon_shockroach` ليس سلاحاً حادي عشر: هو اسم كيان بديل لـ `CShockRifle` في
-مصدر OP4 النظيف ولا يظهر في `W_Precache()`.
+`weapon_shockroach` ليس سلاحاً حادي عشر: هو اسم بديل لـ `CShockRifle` في
+مصدر OP4 النظيف ولا يظهر في `W_Precache()`؛ أما `monster_shockroach`
+فكيان وحش منفصل في `dlls/shockroach.cpp`.
 
 ## ما تحقق منه الفحص فعلياً
 
@@ -45,13 +46,19 @@
   بيانات التنبؤ لـ64 سلاحاً، وربط رسالة `Weapons` ذات 8 بايتات في عميل BHL
   حتى لا تُقرأ بتات الأسلحة من حقل المحرك القديم ذي 32 بت فقط.
 * `liblist.gam` يبدأ `of0a0` و`ofboot0`، `steam_appid.txt = 50`،
-  `delta.lst` هو ملف OP4، و`fallback_dir "gearbox"` يجلب أصول OP4 المثبّتة.
+  `delta.lst` مدمج BHL+OP4 (يحافظ على `health`/`eflags` ويضيف `iuser4`
+  و`m_iId` بـ6 بتات)، و`fallback_dir "gearbox"` يجلب أصول OP4 المثبّتة.
+* بعد بلاغ الخلل: عُولجت فجوات تنبؤ العميل (`ItemInfoArray`، تسجيل الذخيرة،
+  `GetAmmoIndex`، `ammo_spores/ammo_762/m_iItems`، حلقات 64 خانة،
+  `OldWeapon`/`HudColor`، وتفريغ الحالة عند ResetHUD) على مستوى المصدر فقط.
+* الموسيقى: `setup_op4_media.bat` ينسخ MP3 الأصلية من `gearbox/media` فقط؛
+  لا ملف MP3 داخل ZIP، ولا موسيقى مُولّدة. التفاصيل في `SOURCE_AUDIT.md`.
 * `autoexec.cfg` يضبط `sv_oldweapons 0`؛ `op4weapons.cfg` يعطي الأسلحة العشرة
   والذخائر عبر F9. خادم ويندوز المرقّع يجعل `impulse 101` يعطيها أيضاً،
   بما فيها `weapon_penguin`؛ لينكس يستخدم F9/F10 مع خادم `gearbox` الأصلي.
-* لينكس: `client.so` `28290380` بايت، sha256
-  `d9356782f72f6c5ac7e8579202fae5cb5d042838c364a6ca143864b6ee968f4d`، مرتبط بأساس `GLIBC_2.17`؛ خادم `hl.so` القديم
-  (`21252376` بايت) ليس داخل الحزمة، ويستخدم
+* لينكس: `client.so` `28303100` بايت، sha256
+  `57c26765f9a9219ba388fb8349b3f56fe3b3e6a1ce920fbdb2c023584eba3b95`، مرتبط بأساس `GLIBC_2.17`؛ خادم `hl.so` القديم
+  (`21252408` بايت) ليس داخل الحزمة، ويستخدم
   `../gearbox/dlls/opfor.so` بدلاً منه.
 * ويندوز (`x86-windows-msvc / PE32 i386`, `MSVC 19.44 / Visual Studio 2022 / CMake 3.30.9 / vcpkg x86-windows-static`, ABI متوافق مع MSVC/VGUI2):
   `client.dll` `2015744` بايت، sha256 `1d5ce9d01ade90a7b4a1de415775f108aba45260742b0d6def42edc92e9f636d`؛
@@ -71,7 +78,8 @@
 2. لا أصول OP4 قانونية مرفقة: الموديلات، الأصوات، سبرايت HUD، و`events/*.sc`
    تُقرأ من نسخة `gearbox/` المثبّتة لدى المستخدم عبر `fallback_dir`.
 3. لا اختبار لنظام Windows runtime ولا لسلّة HUD السابعة داخل اللعبة، ولا
-   تأكيد من المستخدم أن حملة OP4 والقوائم وكل سلاح تعمل بعد هذا التغيير.
+   تأكيد من المستخدم أن حملة OP4 والقوائم والموسيقى وكل سلاح تعمل بعد هذا التغيير؛
+   جدول `RUNTIME_TESTS.md` يحمل `غير مُختبَر` لكل صف.
 4. خادم لينكس هو `gearbox` الأصلي: لا يحمل `sv_bhl_*` ولا ترقيع
    `impulse 101`، وهذا فرق صريح عن نسخة ويندوز.
 5. البناء/الترجمة/الفحوص الآلية ليست بديلاً عن هذه الاختبارات.

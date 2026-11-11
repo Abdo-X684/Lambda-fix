@@ -190,7 +190,28 @@ make verify                                 # كل فحوصات المستودع
   بالحقل القديم بعد وصول الرسالة.
 
 `liblist.gam` في الحزمة يستخدم `startmap "of0a0"`, `trainmap "ofboot0"`,
-`steam_appid.txt = 50`, ملف `delta.lst` الخاص بـOP4، و`fallback_dir "gearbox"`.
-ملفات `ui/resource/language/*.txt` تُولَّد بترميز UTF-16LE BOM لأن VGUI2
-يطلب `.txt` وليس `.utf8.txt`؛ هذا هو سبب ظهور `#BHL_*` حرفياً سابقاً.
+`steam_appid.txt = 50`, و`fallback_dir "gearbox"`. `data/delta.lst` لم يعد نسخة
+OP4 خاماً ولا نسخة BHL خاماً: يولّده `tools/make_merged_delta.py` من الملفين
+المثبّتين، فيحافظ على `health` بـ11 بتاً و`eflags` بـ2 بتين من BHL ويضيف
+`m_iId` بـ6 بتات و`iuser4` بـ8 بتات من OP4. ملفات `ui/resource/language/*.txt`
+تُولَّد بترميز UTF-16LE BOM لأن VGUI2 يطلب `.txt` وليس `.utf8.txt`.
+
+بعد بلاغ المستخدم أن الأسلحة لا تعمل أُضيفت قواعد مسماة أيضاً:
+`op4-client-iteminfo-ammo-registry` يملأ `ItemInfoArray` ويسجّل الذخيرة بصيغة
+OP4 ذات المعاملين؛ `op4-client-getammoindex-real` يستبدل stub القيمة `-1`؛
+`op4-client-prediction-state-in/out` ينقل `ammo_spores`/`ammo_762`/`m_iItems`؛
+`op4-client-weapon-array-64` و`op4-client-weapon-loops-64` يوسّعان التنبؤ؛
+ورسائل `OldWeapon`/`HudColor` تُربط وتُفرَّغ عند `InitHUD`/`ResetHUD`.
 هذه تغييرات مصدر/حزمة، وليست ادعاء اختبار داخل اللعبة.
+
+## 10. الموسيقى وحدود الاختبار
+
+ OP4 `dlls/triggers.cpp::PlayCDTrack()` يرسل `cd play <track>` إلى المحرك؛
+لا يوجد مسار MP3 داخل كود اللعبة ولا أمر `cd/mp3/media` في ملفات cfg. لأن مجلد
+المود لا يحتوي `media/`، يقع المحرك على موسيقى `valve`، ولا يكفي `fallback_dir`
+لإجبار `gearbox/media`. لذلك ينسخ `setup_op4_media.bat` ملفات MP3 الأصلية فقط
+من نسخة `gearbox` المثبّتة إلى `bhlop4/media/`؛ لا يُنشأ ولا يُحمّل أي ملف.
+التفاصيل الكاملة وكل ملف أصلي/معدّل/مكتوب ذاتياً في
+[`docs/OP4_SOURCE_AUDIT.md`](OP4_SOURCE_AUDIT.md)، وجدول
+[`docs/OP4_RUNTIME_TESTS.md`](OP4_RUNTIME_TESTS.md) لا يحوي علامة نجاح واحدة:
+**لم يُشغَّل GoldSrc في هذه البيئة**.

@@ -84,11 +84,13 @@ INSTALL = '''# BugfixedHL + full Opposing Force
 
 1. فكّ ضغط المجلد داخل مجلد Half-Life بجانب `valve/` و`gearbox/`
    (مثلاً `Half-Life/bhlop4`). لا تضعه داخل `gearbox/` ولا تغيّر اسم المجلد.
-2. شغّل: `hl.exe -game bhlop4 -console`.
-3. **New Game** يبدأ حملة Opposing Force من `of0a0`، لا حملة Half-Life.
-4. `impulse 101` يعطي كل أسلحة OP4 العشرة في ويندوز؛ **F9** يعيد إعطاءها
+2. شغّل `setup_op4_media.bat` مرة واحدة: ينسخ موسيقى OP4 الأصلية فقط من
+   `gearbox/media/` إلى `bhlop4/media/`؛ لا يُنشئ ولا يحمّل أي ملف MP3.
+3. شغّل: `hl.exe -game bhlop4 -console`.
+4. **New Game** يبدأ حملة Opposing Force من `of0a0`، لا حملة Half-Life.
+5. `impulse 101` يعطي كل أسلحة OP4 العشرة في ويندوز؛ **F9** يعيد إعطاءها
    مع الذخيرة، و**F10** يعطي `weapon_penguin` على لينكس أيضاً.
-5. يجب أن تكون Opposing Force مثبّتة: الخرائط والموديلات والأصوات
+6. يجب أن تكون Opposing Force مثبّتة: الخرائط والموديلات والأصوات
    والسبرايت تُقرأ من `gearbox/` عبر `fallback_dir`.
 
 ## English
@@ -110,12 +112,17 @@ Put this folder next to `valve/` and `gearbox/`, then launch
 * `ui/resource/language/*.txt` are UTF-16LE BOM conversions of BHL's
   `.utf8.txt` files: VGUI2 needs these to resolve `#BHL_*` menu tokens.
 * OP4 copyright assets are not bundled; they come from your installed
-  `gearbox/` folder.
+  `gearbox/` folder. Run `setup_op4_media.bat` first: GoldSrc otherwise falls
+  back to the Half-Life soundtrack because this mod has no `media/` folder.
+* `SOURCE_AUDIT.md` lists the exact pinned repo/commit, original, modified and
+  authored files for all ten weapons, Penguin and the music path.
+* `RUNTIME_TESTS.md` is the GoldSrc test table: no row is marked successful.
 
 HONEST LIMIT: no GoldSrc runtime or legal OP4 assets exist in this sandbox.
 This package has NOT been tested in-game here. Bare `impulse 101` giving all
 ten weapons is a source-level Windows-server fix, not a user-confirmed
-runtime result. Test campaign start, menus, and every weapon on your machine.
+runtime result. Test campaign start, menus, music, and every weapon on your
+machine; see `RUNTIME_TESTS.md`.
 '''
 
 
@@ -190,6 +197,13 @@ def build() -> None:
     (OUT / "cfg/op4weapons.cfg").write_text(OP4_CFG)
     (OUT / "INSTALL.md").write_text(INSTALL)
 
+    # User's installed OP4 soundtrack only; no MP3 is bundled or generated.
+    setup = (ROOT / "tools/packaging/setup_op4_media.bat").read_text()
+    (OUT / "setup_op4_media.bat").write_bytes(
+        setup.replace("\r\n", "\n").replace("\n", "\r\n").encode("ascii"))
+    shutil.copy2(ROOT / "docs/OP4_SOURCE_AUDIT.md", OUT / "SOURCE_AUDIT.md")
+    shutil.copy2(ROOT / "docs/OP4_RUNTIME_TESTS.md", OUT / "RUNTIME_TESTS.md")
+
     files = sorted(p for p in OUT.rglob("*") if p.is_file())
     manifest = {
         "architecture": "full OP4 campaign/server + BugfixedHL VGUI2 client",
@@ -205,6 +219,10 @@ def build() -> None:
             "dlls/opfor.dll": sha256(WINDOWS / "opfor.dll"),
         },
         "in_game_tested_here": False,
+        "music_setup_required": True,
+        "music_source": "installed gearbox/media via setup_op4_media.bat; no MP3 bundled",
+        "source_audit": "SOURCE_AUDIT.md",
+        "runtime_tests": "RUNTIME_TESTS.md",
         "files": {str(p.relative_to(OUT)).replace("\\", "/"): sha256(p)
                   for p in files},
     }

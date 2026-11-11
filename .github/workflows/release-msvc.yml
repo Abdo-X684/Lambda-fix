@@ -19,13 +19,14 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           TAG: bhl-op4-full-20261111
         run: |
-          files="build-evidence/bhl-base/bhl-base-mod.zip"
+          files="build-evidence/bhl-base/bhl-base-mod.zip docs/OP4_SOURCE_AUDIT.md docs/OP4_RUNTIME_TESTS.md"
           if gh release view "$TAG" >/dev/null 2>&1; then
             gh release upload "$TAG" $files --clobber
           else
             gh release create "$TAG" $files \
               --target arena/dd30bd22-bugfixhl-speedrun-op4 \
               --title "BugfixedHL + full Opposing Force campaign" \
-              --notes "OP4 campaign/server (of0a0) with BHL VGUI2 client, BHL UTF-16LE menus, all-ten OP4 prediction, and patched impulse 101. Not in-game tested here."
+              --notes "OP4 campaign/server with BHL VGUI2 client. Run setup_op4_media.bat before launch. Source fixes for OP4 prediction/HUD and merged BHL+OP4 delta are included. NOT in-game tested here; no weapon or music row is marked successful."
           fi
+          gh release edit "$TAG" --notes "OP4 campaign/server with BHL VGUI2 client. Run setup_op4_media.bat before launch. Source fixes for OP4 prediction/HUD and merged BHL+OP4 delta are included. NOT in-game tested here; no weapon or music row is marked successful."
           gh release view "$TAG" --json assets

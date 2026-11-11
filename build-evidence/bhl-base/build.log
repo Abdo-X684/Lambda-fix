@@ -26,19 +26,19 @@ zig    : /tmp/zenv/lib/python3.11/site-packages/ziglang/zig (clang for i386-unkn
 [ar] libsemver.a: 1 objects
 [ar] libpcre.a: 20 objects
 [link] client.so: 152 objects, 6 archives, 4 shared libs
-[link] client.so: OK (28290380 bytes)
+[link] client.so: OK (28303100 bytes)
 [link] hl.so: 179 objects, 1 archives, 0 shared libs
-[link] hl.so: OK (21252376 bytes)
+[link] hl.so: OK (21252408 bytes)
 [audit] client.so: 0 unresolved symbols from our own build
 [audit] hl.so: 0 unresolved symbols from our own build
-[done] 189.5s
+[done] 54.9s
 {
   "client.so": {
     "path": "build-evidence/bhl-base/client.so",
-    "bytes": 28290380,
-    "sha256": "d9356782f72f6c5ac7e8579202fae5cb5d042838c364a6ca143864b6ee968f4d",
+    "bytes": 28303100,
+    "sha256": "57c26765f9a9219ba388fb8349b3f56fe3b3e6a1ce920fbdb2c023584eba3b95",
     "elf32": true,
-    "exported_symbol_count": 5105,
+    "exported_symbol_count": 5111,
     "exported_game_entry_points": [
       "HUD_Frame",
       "HUD_Init",
@@ -62,12 +62,13 @@ zig    : /tmp/zenv/lib/python3.11/site-packages/ziglang/zig (clang for i386-unkn
       "libpthread.so.0",
       "libdl.so.2"
     ],
+    "glibc_max": "GLIBC_2.17",
     "unresolved_own_build_symbols": []
   },
   "hl.so": {
     "path": "build-evidence/bhl-base/hl.so",
-    "bytes": 21252376,
-    "sha256": "da0c7b2887e86b25c6c33460b8096310451ce8d651429cdfdfb10d3990b31bb8",
+    "bytes": 21252408,
+    "sha256": "b0cfa0f17ebab3caebda9cf6a5be022dd538a58843b879ac582bd97c41eb1407",
     "elf32": true,
     "exported_symbol_count": 4467,
     "exported_game_entry_points": [
@@ -84,6 +85,7 @@ zig    : /tmp/zenv/lib/python3.11/site-packages/ziglang/zig (clang for i386-unkn
       "libpthread.so.0",
       "libdl.so.2"
     ],
+    "glibc_max": "GLIBC_2.17",
     "unresolved_own_build_symbols": []
   }
 }

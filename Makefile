@@ -29,8 +29,14 @@ help:
 	@echo "mod           - create the standalone bhlop4/ mod folder + zip (never gearbox/)"
 	@echo "clean         - remove build/, dist/ and fetched SDK cache"
 
-verify: hygiene test-py gen route-check noexcept-check test-cpp test-op4 test-op4-fixups verify-bhl-base verify-weapon-inventory merge-offline package mod
+verify: hygiene test-py gen route-check noexcept-check test-cpp test-op4 test-op4-fixups verify-bhl-base verify-delta verify-op4-audit verify-weapon-inventory merge-offline package mod
 	@echo "== ALL CHECKS PASSED =="
+
+verify-delta:
+	$(PYTHON) tools/make_merged_delta.py --check
+
+verify-op4-audit:
+	$(PYTHON) tools/audit_op4_sources.py --check
 
 test: test-py test-cpp
 

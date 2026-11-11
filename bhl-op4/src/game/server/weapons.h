@@ -220,6 +220,7 @@ typedef struct
 {
 	const char *pszName;
 	int iId;
+	const char *WeaponName; // OP4-MERGE: exhaustible-weapon classname
 } AmmoInfo;
 
 // Items that the player has in their inventory that they can use
@@ -1088,6 +1089,13 @@ private:
 
 /* OP4-MERGE: OP4 weapon helper declarations */
 void FindHullIntersection(const Vector &vecSrc, TraceResult &tr, float *mins, float *maxs, edict_t *pEntity);
+
+/* OP4-MERGE: client ammo registry / prediction lookup */
+extern int OP4_GetAmmoIndex(const char *psz);
+extern void OP4_ResetAmmoRegistry(void);
+void AddAmmoNameToAmmoRegistry(const char *szAmmoname);
+void AddAmmoNameToAmmoRegistry(const char *szAmmoname, const char *weaponName);
+
 
 
 #endif // WEAPONS_H

@@ -4,11 +4,11 @@
     "commit": "4d32095e3c33",
     "files": 694,
     "license": "GPL-3.0",
-    "merged_files": 21,
+    "merged_files": 23,
     "repo": "tmp64/BugfixedHL-Rebased",
-    "tree_sha256": "fa0f8279c09aa955ab93e87f5fff6f6f2ec0f531d12c2024db94e2d02054aaea",
+    "tree_sha256": "bc569a756e4d408ac2d33ec49381f6377c5ba29b795245ec2f0bfd8765ab68b1",
     "tree_sha256_note": "sha256 over sorted '<path>  <file sha256>' for every BHL-origin file on disk; verified by --check",
-    "verbatim_files": 673
+    "verbatim_files": 671
   },
   "cmake": {
     "src/game/client/CMakeLists.txt": [
@@ -1805,10 +1805,11 @@
       "action": "bhl+op4-merge",
       "commit": "4d32095e3c33",
       "merge_rules": [
-        "op4-prediction-transfer-64"
+        "op4-prediction-transfer-64",
+        "op4-iuser4-semantic-comment"
       ],
       "origin": "bugfixhl",
-      "sha256": "b77d0a09c1eb76483dd9b79fa36013e0de20013dad4699367ee1c3b5da91a0d3"
+      "sha256": "8a0303c50a1b965e05c4e7f0e734e9003ec467e06aeada76ac9ecf16d3657096"
     },
     "src/game/client/ev_common.cpp": {
       "action": "verbatim",
@@ -2123,10 +2124,13 @@
       "sha256": "39933ce29a0b7c235b1b2dd11cf356a5c972adceb1cf2437f18119705b2cfc13"
     },
     "src/game/client/hl/hl_baseentity.cpp": {
-      "action": "verbatim",
+      "action": "bhl+op4-merge",
       "commit": "4d32095e3c33",
+      "merge_rules": [
+        "op4-client-getammoindex-real"
+      ],
       "origin": "bugfixhl",
-      "sha256": "fcde99813aa1645ca73be70df813e0b96fc684739c97e12028e04d088de6dbca"
+      "sha256": "33983073a30e73fde6d2131b7ee5f9f4f9eab131a83babf06f1aecd09e8e2287"
     },
     "src/game/client/hl/hl_events.cpp": {
       "action": "bhl+op4-merge",
@@ -2152,10 +2156,19 @@
         "op4-client-weapon-headers",
         "op4-client-weapon-globals",
         "op4-client-weapon-prep",
-        "op4-client-weapon-cases"
+        "op4-client-weapon-cases",
+        "op4-client-weapon-array-64",
+        "op4-client-weapon-loops-64",
+        "op4-client-prep-bounds-64",
+        "op4-client-prediction-state-in",
+        "op4-client-prediction-items-out",
+        "op4-client-prediction-ammo-out",
+        "op4-client-entvars-pool-64",
+        "op4-client-iteminfo-ammo-registry",
+        "op4-client-ammo-reset"
       ],
       "origin": "bugfixhl",
-      "sha256": "75a458d043f709f1407a84e1e75382b0d5c66717b94e4fa17580795c5b33a777"
+      "sha256": "1661787fb2e079629f0e93248b720ebd208f02963d4e874abc27332600bbfb82"
     },
     "src/game/client/hud.cpp": {
       "action": "bhl+op4-merge",
@@ -2164,7 +2177,7 @@
         "op4-weapons-message-hook"
       ],
       "origin": "bugfixhl",
-      "sha256": "04bb7712ed4c6ab1024b8ac80a1654b83c7c4f6fdc02044fc276f88f11eca16c"
+      "sha256": "4ec765a8b4671536938561e07605c779164f6d914cb2de5f83c1cf3c61915837"
     },
     "src/game/client/hud.h": {
       "action": "verbatim",
@@ -2623,10 +2636,15 @@
       "sha256": "488bb865ed1a4fbef04d6851d2883c45eaaedd85dc85387d1f8abe3e46b28896"
     },
     "src/game/client/hud_msg.cpp": {
-      "action": "verbatim",
+      "action": "bhl+op4-merge",
       "commit": "4d32095e3c33",
+      "merge_rules": [
+        "op4-network-reset-decl",
+        "op4-network-reset-inithud",
+        "op4-network-reset-resethud"
+      ],
       "origin": "bugfixhl",
-      "sha256": "413864913a34b8296f47600c68b63e84a7d2bba94484a2e8a31731ee8a464667"
+      "sha256": "b700fc50e54c596f0efefe447644db8f6adcd10225debfa911f109c4cd6cd882"
     },
     "src/game/client/hud_redraw.cpp": {
       "action": "verbatim",
@@ -2838,7 +2856,7 @@
       "action": "compat-glue",
       "commit": null,
       "origin": "this-repo",
-      "sha256": "995349bc5dfa9512863cdb0df85fd8dc7774cc56410d9bf8fb019e5b2b101701"
+      "sha256": "f77bb72d8c36e65e42c97c8529e0b271e0687b8b5f8d36897fd5ad5a67542787"
     },
     "src/game/client/op4/op4_weapon_events.cpp": {
       "action": "compat-glue",
@@ -7036,7 +7054,7 @@
         "op4-player-ctf-stats"
       ],
       "origin": "bugfixhl",
-      "sha256": "1247d054ae356d28d0d4c452d881112bd21d23161532fd3fad5c93c598729669"
+      "sha256": "75d846b6940e6840155d43505e7c706f02e420570570d69c9a62633e9eb55da3"
     },
     "src/game/server/playermonster.cpp": {
       "action": "verbatim",
@@ -7331,10 +7349,12 @@
         "op4-findhull-decl",
         "op4-max-weapons-64-server",
         "op4-laserspot-public-spawn",
-        "op4-weapon-timing-state"
+        "op4-weapon-timing-state",
+        "op4-amminfo-weaponname",
+        "op4-client-ammo-registry-decls"
       ],
       "origin": "bugfixhl",
-      "sha256": "17d89cf527853d08c0072e302a04509e04b807827dd152d981b2e8e9d5925230"
+      "sha256": "268725bcfda9426d94b09e9c48bb41dd7be23a2584f536677174eabed3a2142b"
     },
     "src/game/server/world.cpp": {
       "action": "verbatim",

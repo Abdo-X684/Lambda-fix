@@ -124,7 +124,7 @@ void CL_DLLEXPORT HUD_TxferLocalOverrides(struct entity_state_s *state, const st
 	// Duck prevention
 	state->iuser3 = client->iuser3;
 
-	// Fire prevention
+	// OP4 CTF items (BHL's fire-prevention field is unused)
 	state->iuser4 = client->iuser4;
 }
 
@@ -250,7 +250,7 @@ void CL_DLLEXPORT HUD_TxferPredictionData(struct entity_state_s *ps, const struc
 		pcd->iuser3 = g_iUser3; // second target
 	}
 
-	// Fire prevention
+	// OP4 CTF items (BHL's fire-prevention field is unused)
 	pcd->iuser4 = ppcd->iuser4;
 
 	pcd->fuser2 = ppcd->fuser2;

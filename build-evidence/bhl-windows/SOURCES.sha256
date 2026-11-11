@@ -14,7 +14,7 @@ b1b5a1e70982491e11c54dfbd23b825af9256a39c48ea7eb15d76ce1b9609787  bhl-op4/src/ga
 76da34d9ca3402ac0d4fbe26b5c09091349de57009987f7dd74f110c6ee036b0  bhl-op4/src/game/client/engfuncs.cpp
 5d979ac177e281512cf18945db22514ff6bb41269d9586bf16c242619117ee22  bhl-op4/src/game/client/engine_patches.cpp
 8669b9d08759c54b2087810a74866b38c78134d6b67d20be1066d3dd6e688413  bhl-op4/src/game/client/engine_patches_windows.cpp
-b77d0a09c1eb76483dd9b79fa36013e0de20013dad4699367ee1c3b5da91a0d3  bhl-op4/src/game/client/entity.cpp
+8a0303c50a1b965e05c4e7f0e734e9003ec467e06aeada76ac9ecf16d3657096  bhl-op4/src/game/client/entity.cpp
 4698303c05bf833ad5a35373da6b060672f0f1f8f95f0d7f0a3130dff445f2bd  bhl-op4/src/game/client/ev_common.cpp
 fec3b48e3a4dcf6a4fcede3b667b33071eefbad2fcb56ee4ca9b2e82e25bd870  bhl-op4/src/game/client/ev_hldm.cpp
 d44eaee30738df466038c5fbcbe9cf3658e895016e1915fd9583fa03c0631c93  bhl-op4/src/game/client/events.cpp
@@ -41,10 +41,10 @@ de9c5b0b8ba81719aa29686adfee2d24877cb81d8f84f160e47be8fce538e300  bhl-op4/src/ga
 abee13dcfc9549d2d5d50853cf8bfb15c936fae87b06411730c8db4857ea1139  bhl-op4/src/game/client/gameui/options/options_hud_root.cpp
 38352ee97d67436f4fcfffb3320b787fc2b33c2250945af3d0290166399dae67  bhl-op4/src/game/client/gameui/options/options_models.cpp
 ab576d01804dca58999d578b51a11b1f5517a5d6ab2a46dcb5d3f8e3cb93fd26  bhl-op4/src/game/client/gameui/options/options_scoreboard.cpp
-fcde99813aa1645ca73be70df813e0b96fc684739c97e12028e04d088de6dbca  bhl-op4/src/game/client/hl/hl_baseentity.cpp
+33983073a30e73fde6d2131b7ee5f9f4f9eab131a83babf06f1aecd09e8e2287  bhl-op4/src/game/client/hl/hl_baseentity.cpp
 61b49bdf1e824e287b69f8b694f289130f1e5f94444dc38d6a9eb66786824a24  bhl-op4/src/game/client/hl/hl_events.cpp
 f49691908f6c6c8621a4d5e191c54d86c7568e672576fb4dc680d2561b3cce6a  bhl-op4/src/game/client/hl/hl_objects.cpp
-75a458d043f709f1407a84e1e75382b0d5c66717b94e4fa17580795c5b33a777  bhl-op4/src/game/client/hl/hl_weapons.cpp
+1661787fb2e079629f0e93248b720ebd208f02963d4e874abc27332600bbfb82  bhl-op4/src/game/client/hl/hl_weapons.cpp
 9f9c9a7da76a6e38bfcb05dc3fff59d5fe4d91ef5e0adf2f0cff1b887e935764  bhl-op4/src/game/client/hud/ag/ag_countdown.cpp
 b4bad70c668307bc0844320f1e296667ff8aa2cc3951c2a3044e12090e2615b4  bhl-op4/src/game/client/hud/ag/ag_ctf.cpp
 62d348a6fcae4d08c8297ca12ad4478f97b356f43e91fdb9a490ccd7b1a9e5b1  bhl-op4/src/game/client/hud/ag/ag_global.cpp
@@ -82,8 +82,8 @@ ba317c0183410703506cc8963d59b2892d18d99b08b5a3e38cbe6eba1d24bcb3  bhl-op4/src/ga
 b52341ed7b4cafa9d2a623ba816f3004f104acc926060b4f42792c38c89595dd  bhl-op4/src/game/client/hud/train.cpp
 e2adc95d499ff01c70977f266ccd182ae623656ad502af8499f2e11be230dc24  bhl-op4/src/game/client/hud/voice_status.cpp
 d57a01bfc4b92c28555b7c336a3f9de1727cd360b6479c91415c9a0b212114cb  bhl-op4/src/game/client/hud/voice_status_self.cpp
-04bb7712ed4c6ab1024b8ac80a1654b83c7c4f6fdc02044fc276f88f11eca16c  bhl-op4/src/game/client/hud.cpp
-413864913a34b8296f47600c68b63e84a7d2bba94484a2e8a31731ee8a464667  bhl-op4/src/game/client/hud_msg.cpp
+4ec765a8b4671536938561e07605c779164f6d914cb2de5f83c1cf3c61915837  bhl-op4/src/game/client/hud.cpp
+b700fc50e54c596f0efefe447644db8f6adcd10225debfa911f109c4cd6cd882  bhl-op4/src/game/client/hud_msg.cpp
 1cd4ad92b90e572357e282188010ee09370873b3d503e95d1cf2f19f4a9f4986  bhl-op4/src/game/client/hud_redraw.cpp
 dc7d16c0d44c25df13f1ad6b735647df3503820eed69b0ac56b6bab87d83c9df  bhl-op4/src/game/client/hud_renderer.cpp
 2bd97c002b6cf4ec1dd29e0383b1aa5c06b13b03d1d04ec0b12602953d994a24  bhl-op4/src/game/client/hud_update.cpp
@@ -92,7 +92,7 @@ f9d1d7cbee446f598e605f9b3f76600f2991d6f99699766debbfa573ab735191  bhl-op4/src/ga
 923ee8a1ecd9abe99206793d2d6958c5e124f8cb836715366d72288939cc4120  bhl-op4/src/game/client/inputw32.cpp
 d60e9f5a6e32cc6792976253c5559a9fa621e57451f5366b37b31c8c321d925c  bhl-op4/src/game/client/interpolation.cpp
 17c55f135f51e3fd94c5caa412451cd0f59a27b95451302e7691dcc7a143486b  bhl-op4/src/game/client/net_windows.cpp
-995349bc5dfa9512863cdb0df85fd8dc7774cc56410d9bf8fb019e5b2b101701  bhl-op4/src/game/client/op4/op4_client_prediction.cpp
+f77bb72d8c36e65e42c97c8529e0b271e0687b8b5f8d36897fd5ad5a67542787  bhl-op4/src/game/client/op4/op4_client_prediction.cpp
 b121a6441aa56b49a3c056f17729cf5579d10b814216de0b73acdadc6692cbee  bhl-op4/src/game/client/op4/op4_weapon_events.cpp
 f1ae1a895d0b9b2b820aed5fc2e2b06073cad5e44c72d387df4e38052f86df0d  bhl-op4/src/game/client/opengl.cpp
 b04318ab4f7ba23a8f9bf053077b2bfad7f1f1ab230f23c10fa21aa968d479fd  bhl-op4/src/game/client/player_info.cpp

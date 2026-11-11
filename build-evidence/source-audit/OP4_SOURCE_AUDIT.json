@@ -1,0 +1,1321 @@
+{
+  "audit_type": "source and package provenance; NOT gameplay verification",
+  "authored_files": [
+    {
+      "action": "compat-glue",
+      "exists": true,
+      "merge_rules": [],
+      "origin": "this-repo",
+      "patch_rules": [],
+      "path": "src/game/client/op4/op4_client_prediction.cpp",
+      "sha256": "f77bb72d8c36e65e42c97c8529e0b271e0687b8b5f8d36897fd5ad5a67542787",
+      "upstream_commit": null,
+      "upstream_path": null
+    },
+    {
+      "action": "compat-glue",
+      "exists": true,
+      "merge_rules": [],
+      "origin": "this-repo",
+      "patch_rules": [],
+      "path": "src/game/client/op4/op4_weapon_events.cpp",
+      "sha256": "b121a6441aa56b49a3c056f17729cf5579d10b814216de0b73acdadc6692cbee",
+      "upstream_commit": null,
+      "upstream_path": null
+    },
+    {
+      "action": "compat-glue",
+      "exists": true,
+      "merge_rules": [],
+      "origin": "this-repo",
+      "patch_rules": [],
+      "path": "src/game/client/op4/op4_weapon_events.h",
+      "sha256": "14091315dd7c9c6a7a81ff8928454632edf7d51b395d34516b7c1c157b8d114b",
+      "upstream_commit": null,
+      "upstream_path": null
+    },
+    {
+      "action": "op4+compat-patch",
+      "exists": true,
+      "merge_rules": [],
+      "origin": "this-repo",
+      "patch_rules": [
+        "op4-compat-late-include"
+      ],
+      "path": "src/game/server/op4/op4_compat.cpp",
+      "sha256": "ee6f4fad01260282e42ffe8b9a4070bc9d813a800aae3984954a40815651da4d",
+      "upstream_commit": null,
+      "upstream_path": null
+    },
+    {
+      "action": "compat-glue",
+      "exists": true,
+      "merge_rules": [],
+      "origin": "this-repo",
+      "patch_rules": [],
+      "path": "src/game/server/op4/op4_compat.h",
+      "sha256": "d16545126d7236e7a8f79c88ea3e479ef6848694e661c9d5fde21d996a1d05d7",
+      "upstream_commit": null,
+      "upstream_path": null
+    },
+    {
+      "action": "compat-glue",
+      "exists": true,
+      "merge_rules": [],
+      "origin": "this-repo",
+      "patch_rules": [],
+      "path": "src/game/server/op4/op4_compat_late.h",
+      "sha256": "3134950f90e278cd87a9d304c46466162646a972ac9b0accda00d4a679c8d34f",
+      "upstream_commit": null,
+      "upstream_path": null
+    },
+    {
+      "action": "op4+compat-patch",
+      "exists": true,
+      "merge_rules": [],
+      "origin": "this-repo",
+      "patch_rules": [
+        "op4-compat-late-include"
+      ],
+      "path": "src/game/server/op4/op4_link_fixups.cpp",
+      "sha256": "a4639e763ba7b06e781acef2aa1d2e0913cca34056fc68b6eac4f94a0b037dee",
+      "upstream_commit": null,
+      "upstream_path": null
+    },
+    {
+      "action": "op4+compat-patch",
+      "exists": true,
+      "merge_rules": [],
+      "origin": "this-repo",
+      "patch_rules": [
+        "bhl-ctfteam-scoped-enum-cast",
+        "op4-compat-include",
+        "op4-compat-late-include"
+      ],
+      "path": "src/game/server/op4/op4_ctf_player.cpp",
+      "sha256": "ccd459bf803218462bab72d50436f9a78341c4b5dacd43c59ab3f10d5c73cec7",
+      "upstream_commit": null,
+      "upstream_path": null
+    },
+    {
+      "action": "compat-glue",
+      "exists": true,
+      "merge_rules": [],
+      "origin": "this-repo",
+      "patch_rules": [],
+      "path": "src/game/server/op4/op4_entity_enumerator.h",
+      "sha256": "2081813b05f7cf3afc0ffb359b2acdc47913d81909cc874901a5f6c92b0c842a",
+      "upstream_commit": null,
+      "upstream_path": null
+    },
+    {
+      "action": "compat-glue",
+      "exists": true,
+      "merge_rules": [],
+      "origin": "this-repo",
+      "patch_rules": [],
+      "path": "src/game/shared/op4_weapon_timing.cpp",
+      "sha256": "5295e609b6eee1fbe023f2e533148c73bd7fecea930b4637dc4c84b94cc2120f",
+      "upstream_commit": null,
+      "upstream_path": null
+    },
+    {
+      "action": "compat-glue",
+      "exists": true,
+      "merge_rules": [],
+      "origin": "this-repo",
+      "patch_rules": [],
+      "path": "src/game/shared/op4_weapon_timing.h",
+      "sha256": "7c24e4ebcc3dc396e30f5f8196025af3d68d3ded6c7ecd399b426c03d8a319de",
+      "upstream_commit": null,
+      "upstream_path": null
+    },
+    {
+      "action": null,
+      "exists": true,
+      "merge_rules": [],
+      "origin": null,
+      "patch_rules": [],
+      "path": "tools/packaging/setup_op4_media.bat",
+      "sha256": "41a3f146d7d6c509d74d397f303db80f7e8af5a4180efe5d95eaa33e5f176d58",
+      "upstream_commit": null,
+      "upstream_path": null
+    }
+  ],
+  "in_game_tested_here": false,
+  "modified_bhl_files": [
+    {
+      "action": "bhl+op4-merge",
+      "exists": true,
+      "merge_rules": [
+        "op4-weapons-message-hook"
+      ],
+      "origin": "bugfixhl",
+      "patch_rules": [],
+      "path": "src/game/client/hud.cpp",
+      "sha256": "4ec765a8b4671536938561e07605c779164f6d914cb2de5f83c1cf3c61915837",
+      "upstream_commit": "4d32095e3c33",
+      "upstream_path": null
+    },
+    {
+      "action": "bhl+op4-merge",
+      "exists": true,
+      "merge_rules": [
+        "op4-network-reset-decl",
+        "op4-network-reset-inithud",
+        "op4-network-reset-resethud"
+      ],
+      "origin": "bugfixhl",
+      "patch_rules": [],
+      "path": "src/game/client/hud_msg.cpp",
+      "sha256": "b700fc50e54c596f0efefe447644db8f6adcd10225debfa911f109c4cd6cd882",
+      "upstream_commit": "4d32095e3c33",
+      "upstream_path": null
+    },
+    {
+      "action": "bhl+op4-merge",
+      "exists": true,
+      "merge_rules": [
+        "op4-weapons-message-flag-decl",
+        "op4-weapons-message-flag-use"
+      ],
+      "origin": "bugfixhl",
+      "patch_rules": [],
+      "path": "src/game/client/hud_update.cpp",
+      "sha256": "2bd97c002b6cf4ec1dd29e0383b1aa5c06b13b03d1d04ec0b12602953d994a24",
+      "upstream_commit": "4d32095e3c33",
+      "upstream_path": null
+    },
+    {
+      "action": "bhl+op4-merge",
+      "exists": true,
+      "merge_rules": [
+        "op4-prediction-transfer-64",
+        "op4-iuser4-semantic-comment"
+      ],
+      "origin": "bugfixhl",
+      "patch_rules": [],
+      "path": "src/game/client/entity.cpp",
+      "sha256": "8a0303c50a1b965e05c4e7f0e734e9003ec467e06aeada76ac9ecf16d3657096",
+      "upstream_commit": "4d32095e3c33",
+      "upstream_path": null
+    },
+    {
+      "action": "bhl+op4-merge",
+      "exists": true,
+      "merge_rules": [
+        "op4-client-weapon-event-decls",
+        "op4-client-weapon-event-hooks"
+      ],
+      "origin": "bugfixhl",
+      "patch_rules": [],
+      "path": "src/game/client/hl/hl_events.cpp",
+      "sha256": "61b49bdf1e824e287b69f8b694f289130f1e5f94444dc38d6a9eb66786824a24",
+      "upstream_commit": "4d32095e3c33",
+      "upstream_path": null
+    },
+    {
+      "action": "bhl+op4-merge",
+      "exists": true,
+      "merge_rules": [
+        "op4-client-setlocalbody",
+        "op4-client-weapon-headers",
+        "op4-client-weapon-globals",
+        "op4-client-weapon-prep",
+        "op4-client-weapon-cases",
+        "op4-client-weapon-array-64",
+        "op4-client-weapon-loops-64",
+        "op4-client-prep-bounds-64",
+        "op4-client-prediction-state-in",
+        "op4-client-prediction-items-out",
+        "op4-client-prediction-ammo-out",
+        "op4-client-entvars-pool-64",
+        "op4-client-iteminfo-ammo-registry",
+        "op4-client-ammo-reset"
+      ],
+      "origin": "bugfixhl",
+      "patch_rules": [],
+      "path": "src/game/client/hl/hl_weapons.cpp",
+      "sha256": "1661787fb2e079629f0e93248b720ebd208f02963d4e874abc27332600bbfb82",
+      "upstream_commit": "4d32095e3c33",
+      "upstream_path": null
+    },
+    {
+      "action": "bhl+op4-merge",
+      "exists": true,
+      "merge_rules": [
+        "op4-client-getammoindex-real"
+      ],
+      "origin": "bugfixhl",
+      "patch_rules": [],
+      "path": "src/game/client/hl/hl_baseentity.cpp",
+      "sha256": "33983073a30e73fde6d2131b7ee5f9f4f9eab131a83babf06f1aecd09e8e2287",
+      "upstream_commit": "4d32095e3c33",
+      "upstream_path": null
+    },
+    {
+      "action": "bhl+op4-merge",
+      "exists": true,
+      "merge_rules": [
+        "windows-winsock-by-name",
+        "windows-disable-threadsafe-statics",
+        "op4-client-include-dirs",
+        "op4-cmake-sources"
+      ],
+      "origin": "bugfixhl",
+      "patch_rules": [],
+      "path": "src/game/client/CMakeLists.txt",
+      "sha256": "48db619e1258c4813d9754651c91c3ff663d8050b97c41c671a8375a696febe7",
+      "upstream_commit": "4d32095e3c33",
+      "upstream_path": null
+    },
+    {
+      "action": "bhl+op4-merge",
+      "exists": true,
+      "merge_rules": [
+        "op4-wprecache-op4-weapons"
+      ],
+      "origin": "bugfixhl",
+      "patch_rules": [],
+      "path": "src/game/server/weapons.cpp",
+      "sha256": "7e5d25211f15c65857e08e84ef7c68e63f4499ac201400c66fa2b810d1561170",
+      "upstream_commit": "4d32095e3c33",
+      "upstream_path": null
+    },
+    {
+      "action": "bhl+op4-merge",
+      "exists": true,
+      "merge_rules": [
+        "op4-weapon-constants",
+        "op4-bullet-enum",
+        "op4-weaponinfo-include",
+        "op4-weapon-prediction-api",
+        "op4-findhull-decl",
+        "op4-max-weapons-64-server",
+        "op4-laserspot-public-spawn",
+        "op4-weapon-timing-state",
+        "op4-amminfo-weaponname",
+        "op4-client-ammo-registry-decls"
+      ],
+      "origin": "bugfixhl",
+      "patch_rules": [],
+      "path": "src/game/server/weapons.h",
+      "sha256": "268725bcfda9426d94b09e9c48bb41dd7be23a2584f536677174eabed3a2142b",
+      "upstream_commit": "4d32095e3c33",
+      "upstream_path": null
+    },
+    {
+      "action": "bhl+op4-merge",
+      "exists": true,
+      "merge_rules": [
+        "op4-weaponid-enum",
+        "op4-hud-bucket-7",
+        "op4-max-weapons-64"
+      ],
+      "origin": "bugfixhl",
+      "patch_rules": [],
+      "path": "src/game/server/cdll_dll.h",
+      "sha256": "e0fd3d1505f8730a141ae7e9096c5bab1ec6fc006b1304487944d4ca67a312a1",
+      "upstream_commit": "4d32095e3c33",
+      "upstream_path": null
+    },
+    {
+      "action": "bhl+op4-merge",
+      "exists": true,
+      "merge_rules": [
+        "op4-player-state",
+        "op4-rope-forward-decl",
+        "op4-player-ctf-stats"
+      ],
+      "origin": "bugfixhl",
+      "patch_rules": [],
+      "path": "src/game/server/player.h",
+      "sha256": "75d846b6940e6840155d43505e7c706f02e420570570d69c9a62633e9eb55da3",
+      "upstream_commit": "4d32095e3c33",
+      "upstream_path": null
+    },
+    {
+      "action": "bhl+op4-merge",
+      "exists": true,
+      "merge_rules": [
+        "op4-local-state-64"
+      ],
+      "origin": "bugfixhl",
+      "patch_rules": [],
+      "path": "src/common/entity_state.h",
+      "sha256": "10274634fda00828820c660ea0cc6619a2147383bc409eb4230f2b852b63af3a",
+      "upstream_commit": "4d32095e3c33",
+      "upstream_path": null
+    },
+    {
+      "action": "bhl+op4-merge",
+      "exists": true,
+      "merge_rules": [
+        "op4-cmake-sources"
+      ],
+      "origin": "bugfixhl",
+      "patch_rules": [],
+      "path": "src/game/server/CMakeLists.txt",
+      "sha256": "ce5b734e725f6fe7c87866be618a241cb2f5d806e3be7fe387f6de972fde9e18",
+      "upstream_commit": "4d32095e3c33",
+      "upstream_path": null
+    }
+  ],
+  "music": {
+    "code_path": "OP4 dlls/triggers.cpp PlayCDTrack() sends engine 'cd play <track>' (and 'cd stop' for -1). The engine, not the game DLL, maps the track ID to media/*.mp3. Shipped autoexec.cfg/op4weapons.cfg contain no cd/mp3/media command.",
+    "diagnosis": "The ZIP contains no media/*.mp3 and no gamestartup.mp3. GoldSrc looks in the active mod's media/ folder and then valve/media; fallback_dir gearbox supplies maps/models/sounds but is not a reliable media/ lookup for CD/MP3 tracks. Therefore an unmodified bhlop4 folder plays the Half-Life soundtrack.",
+    "engine_behavior_sources": [
+      "https://developer.valvesoftware.com/wiki/List_of_HL1_soundtracks",
+      "https://twhl.info/wiki/page/Tutorial:_Making_Music_Play_in_Maps_[GoldSource]/5984",
+      "https://github.com/UCyborg/hl-mp3-fix"
+    ],
+    "fix": "setup_op4_media.bat copies only the user's original gearbox/media/*.mp3 (plus gearbox_downloads/media/*.mp3 when present) into bhlop4/media/. No track is invented, renamed, or downloaded.",
+    "runtime_test": "\u063a\u064a\u0631 \u0645\u064f\u062e\u062a\u0628\u064e\u0631 \u062f\u0627\u062e\u0644 GoldSrc \u0641\u064a \u0647\u0630\u0647 \u0627\u0644\u0628\u064a\u0626\u0629",
+    "startup_music": "gamestartup.mp3 is copied only if the installed OP4 copy provides it; it is never fabricated."
+  },
+  "package_policy": {
+    "bundled_legal_assets": [],
+    "in_game_tested_here": false,
+    "music_setup": "setup_op4_media.bat copies the original OP4 MP3s into <mod>/media/; no MP3 is generated or bundled",
+    "music_source": "user's installed Half-Life/gearbox/media/*.mp3 (and gearbox_downloads/media when present)",
+    "required_docs": [
+      "SOURCE_AUDIT.md",
+      "RUNTIME_TESTS.md",
+      "INSTALL.md"
+    ],
+    "required_setup": [
+      "setup_op4_media.bat"
+    ]
+  },
+  "penguin": {
+    "fgd_label": "Killer Penguin",
+    "function": "CPenguin::PrimaryAttack() plays events/penguinfire.sc and, server-side, creates monster_penguin at the trace endpoint with forward velocity. CPenguinGrenade::Spawn() sets models/w_penguin.mdl and HuntThink() makes it seek a target before exploding.",
+    "model_provenance": "Only from the user's installed gearbox/models/*.mdl via fallback_dir; the repository and ZIP contain no .mdl file.",
+    "projectile_classname": "monster_penguin",
+    "projectile_entity": "CPenguinGrenade",
+    "source_files": [
+      {
+        "action": "op4+compat-patch",
+        "exists": true,
+        "merge_rules": [],
+        "origin": "op4",
+        "patch_rules": [
+          "bhl-bool-to-bool-deploy",
+          "bhl-bool-to-int-iteminfo",
+          "bhl-holster-skiplocal-def",
+          "op4-compat-include",
+          "op4-compat-late-include"
+        ],
+        "path": "src/game/server/op4/dlls/weapons/CPenguin.cpp",
+        "sha256": "5b9f296fd2288fb17994200e777030e39c403c7c0d81cdcc5e2848e1ce3022bc",
+        "upstream_commit": "5368be7f8eba",
+        "upstream_path": "dlls/weapons/CPenguin.cpp"
+      },
+      {
+        "action": "op4+compat-patch",
+        "exists": true,
+        "merge_rules": [],
+        "origin": "op4",
+        "patch_rules": [
+          "bhl-bool-to-int-save",
+          "bhl-bool-to-int-restore",
+          "bhl-bool-to-bool-deploy",
+          "bhl-bool-to-int-iteminfo",
+          "bhl-bool-to-bool-decrement",
+          "bhl-holster-skiplocal"
+        ],
+        "path": "src/game/server/op4/dlls/weapons/CPenguin.h",
+        "sha256": "5be8446415fb0a30c45919c67ba39233b5be7b5bcb6024c8ba81804c4e95f2a3",
+        "upstream_commit": "5368be7f8eba",
+        "upstream_path": "dlls/weapons/CPenguin.h"
+      },
+      {
+        "action": "op4+compat-patch",
+        "exists": true,
+        "merge_rules": [],
+        "origin": "op4",
+        "patch_rules": [
+          "bhl-bool-to-int-save",
+          "bhl-bool-to-int-restore",
+          "bhl-vector-normalize",
+          "op4-compat-include",
+          "op4-compat-late-include"
+        ],
+        "path": "src/game/server/op4/dlls/penguin_grenade.cpp",
+        "sha256": "ce55c653282dd21462e979530b21603fd18d544da741645fc8dcbde6977e5692",
+        "upstream_commit": "5368be7f8eba",
+        "upstream_path": "dlls/penguin_grenade.cpp"
+      }
+    ],
+    "weapon_class": "CPenguin",
+    "weapon_classname": "weapon_penguin"
+  },
+  "shock_roach_definition": "weapon_shockroach is an alternate classname for CShockRifle, not a separate player weapon. monster_shockroach / COFShockRoach in dlls/shockroach.cpp is a separate OP4 creature entity. W_Precache registers weapon_shockrifle only.",
+  "static_wiring": {
+    "all_ten_prediction_cases": true,
+    "all_ten_prediction_objects": true,
+    "client_ammoinfoarray_definition": true,
+    "client_getammoindex_real": true,
+    "event_hooks": {
+      "weapon_displacer": true,
+      "weapon_eagle": true,
+      "weapon_knife": true,
+      "weapon_m249": true,
+      "weapon_penguin": true,
+      "weapon_pipewrench": true,
+      "weapon_shockrifle": true,
+      "weapon_sniperrifle": true,
+      "weapon_sporelauncher": true
+    },
+    "g_pWpns_max_weapons": true,
+    "hud_curweapon_ammox": true,
+    "hud_weaponlist": true,
+    "hudcolor_hook": true,
+    "hudcolor_message_glue": true,
+    "iteminfoarray_populated": true,
+    "max_weapon_slots_7": true,
+    "oldweapon_hook": true,
+    "oldweapon_message_glue": true,
+    "op4_ammo_state_transfer": true,
+    "prediction_loops_max_weapons": true,
+    "reset_on_init_and_reset_hud": true,
+    "slot7": true,
+    "two_arg_ammo_registry": true,
+    "weapons_hook": true
+  },
+  "upstreams": [
+    {
+      "about": "Opposing Force SDK based on Half-Life Updated: OP4 weapons, NPCs, CTF and gamerules.",
+      "layout": "hlsdk-classic",
+      "license": "Valve HALF-LIFE SDK license (non-commercial) + TWHL fixes",
+      "name": "op4",
+      "ref": "5368be7f8eba14b05236c7c52ad5f6b11fd95e55",
+      "repo": "twhl-community/halflife-op4-updated",
+      "role": "target",
+      "tarball": {
+        "bytes": 4566940,
+        "sha256": "c65e53713b5ef2d3a8a65dfea4010ccb87afb096944e310ce094f9fbdef43753",
+        "url": "https://codeload.github.com/twhl-community/halflife-op4-updated/tar.gz/5368be7f8eba14b05236c7c52ad5f6b11fd95e55"
+      }
+    },
+    {
+      "about": "BugfixedHL: crash fixes, bunnyhopping, ConVar system, auto demo recording and a HUD timer.",
+      "layout": "bhl-rebased",
+      "license": "GPL-3.0",
+      "name": "bugfixhl",
+      "ref": "4d32095e3c33d5ca60809d9c51f8aafe51c0a521",
+      "repo": "tmp64/BugfixedHL-Rebased",
+      "role": "donor",
+      "tarball": {
+        "bytes": 6498684,
+        "sha256": "a70ab961de1c40f6d4df025fbd37f14c81951afef9b6175023518ed4f81228dc",
+        "url": "https://codeload.github.com/tmp64/BugfixedHL-Rebased/tar.gz/4d32095e3c33d5ca60809d9c51f8aafe51c0a521"
+      }
+    },
+    {
+      "about": "Vanilla HLSDK 2.3: common ancestor used as the 3-way merge base.",
+      "layout": "hlsdk-classic",
+      "license": "Valve HALF-LIFE SDK license (non-commercial)",
+      "name": "valve_hlsdk",
+      "ref": "b1b5cf5892918535619b2937bb927e46cb097ba1",
+      "repo": "ValveSoftware/halflife",
+      "role": "base",
+      "tarball": {
+        "bytes": 10294393,
+        "sha256": "f5e7793f974bc02d1e1c4e29a9733df23c2f8dfbaa97c888bb738c2d9b2b5726",
+        "url": "https://codeload.github.com/ValveSoftware/halflife/tar.gz/b1b5cf5892918535619b2937bb927e46cb097ba1"
+      }
+    }
+  ],
+  "weapons": [
+    {
+      "all_source_files_from_op4": true,
+      "all_source_files_present": true,
+      "ammo": "357",
+      "classname": "weapon_eagle",
+      "cxx": "CEagle",
+      "event": "events/eagle.sc",
+      "event_func": "EV_FireEagle",
+      "id": "WEAPON_EAGLE",
+      "name": "Desert Eagle",
+      "referenced_assets": [
+        "events/eagle.sc",
+        "models/p_desert_eagle.mdl",
+        "models/shell.mdl",
+        "models/v_desert_eagle.mdl",
+        "models/w_9mmclip.mdl",
+        "models/w_desert_eagle.mdl"
+      ],
+      "runtime_test": "\u063a\u064a\u0631 \u0645\u064f\u062e\u062a\u0628\u064e\u0631 \u062f\u0627\u062e\u0644 GoldSrc \u0641\u064a \u0647\u0630\u0647 \u0627\u0644\u0628\u064a\u0626\u0629",
+      "source_commit": "5368be7f8eba14b05236c7c52ad5f6b11fd95e55",
+      "source_files": [
+        {
+          "action": "op4+compat-patch",
+          "exists": true,
+          "merge_rules": [],
+          "origin": "op4",
+          "patch_rules": [
+            "bhl-bool-to-bool-deploy",
+            "bhl-bool-to-int-iteminfo",
+            "bhl-bool-to-bool-addammo",
+            "bhl-holster-skiplocal-def",
+            "op4-compat-include",
+            "op4-compat-late-include"
+          ],
+          "path": "src/game/server/op4/dlls/weapons/CEagle.cpp",
+          "sha256": "10b701b6afb04bde98e0208ead0b157fce91be1493c915cf8bfed445d06bead6",
+          "upstream_commit": "5368be7f8eba",
+          "upstream_path": "dlls/weapons/CEagle.cpp"
+        },
+        {
+          "action": "op4+compat-patch",
+          "exists": true,
+          "merge_rules": [],
+          "origin": "op4",
+          "patch_rules": [
+            "bhl-bool-to-int-save",
+            "bhl-bool-to-int-restore",
+            "bhl-bool-to-bool-deploy",
+            "bhl-bool-to-bool-shouldidle",
+            "bhl-bool-to-int-iteminfo",
+            "bhl-bool-to-bool-decrement",
+            "bhl-holster-skiplocal",
+            "bhl-drop-override-prediction",
+            "bhl-drop-override-increment"
+          ],
+          "path": "src/game/server/op4/dlls/weapons/CEagle.h",
+          "sha256": "5af3622f96dd01a1f82c906154a05a790b4d37e46c376ce6a440bdd13f1cfb2b",
+          "upstream_commit": "5368be7f8eba",
+          "upstream_path": "dlls/weapons/CEagle.h"
+        },
+        {
+          "action": "op4+compat-patch",
+          "exists": true,
+          "merge_rules": [],
+          "origin": "op4",
+          "patch_rules": [
+            "op4-compat-include",
+            "op4-compat-late-include"
+          ],
+          "path": "src/game/server/op4/dlls/weapons/CEagleLaser.cpp",
+          "sha256": "0ffdbf108c96584534de956333abe1b0ea802370d11d53eb25f5b35bd2e1e04e",
+          "upstream_commit": "5368be7f8eba",
+          "upstream_path": "dlls/weapons/CEagleLaser.cpp"
+        },
+        {
+          "action": "verbatim",
+          "exists": true,
+          "merge_rules": [],
+          "origin": "op4",
+          "patch_rules": [],
+          "path": "src/game/server/op4/dlls/weapons/CEagleLaser.h",
+          "sha256": "610fbf49cc5b956079246508752e1b62df78c912f33671e6e31f4751f93a8283",
+          "upstream_commit": "5368be7f8eba",
+          "upstream_path": "dlls/weapons/CEagleLaser.h"
+        }
+      ],
+      "source_repo": "twhl-community/halflife-op4-updated"
+    },
+    {
+      "all_source_files_from_op4": true,
+      "all_source_files_present": true,
+      "ammo": null,
+      "classname": "weapon_pipewrench",
+      "cxx": "CPipewrench",
+      "event": "events/pipewrench.sc",
+      "event_func": "EV_Pipewrench",
+      "id": "WEAPON_PIPEWRENCH",
+      "name": "Pipe Wrench",
+      "referenced_assets": [
+        "events/pipewrench.sc",
+        "models/p_pipe_wrench.mdl",
+        "models/v_pipe_wrench.mdl",
+        "models/w_pipe_wrench.mdl"
+      ],
+      "runtime_test": "\u063a\u064a\u0631 \u0645\u064f\u062e\u062a\u0628\u064e\u0631 \u062f\u0627\u062e\u0644 GoldSrc \u0641\u064a \u0647\u0630\u0647 \u0627\u0644\u0628\u064a\u0626\u0629",
+      "source_commit": "5368be7f8eba14b05236c7c52ad5f6b11fd95e55",
+      "source_files": [
+        {
+          "action": "op4+compat-patch",
+          "exists": true,
+          "merge_rules": [],
+          "origin": "op4",
+          "patch_rules": [
+            "bhl-bool-to-bool-deploy",
+            "bhl-bool-to-int-iteminfo",
+            "bhl-holster-skiplocal-def",
+            "bhl-bool-returns-from-bhl-virtuals",
+            "op4-compat-include",
+            "op4-compat-late-include"
+          ],
+          "path": "src/game/server/op4/dlls/weapons/CPipewrench.cpp",
+          "sha256": "0bd468537b7d6239a2be2ac9475ebd42023a7bc67620c6d875db02a91239afd5",
+          "upstream_commit": "5368be7f8eba",
+          "upstream_path": "dlls/weapons/CPipewrench.cpp"
+        },
+        {
+          "action": "op4+compat-patch",
+          "exists": true,
+          "merge_rules": [],
+          "origin": "op4",
+          "patch_rules": [
+            "bhl-bool-to-int-save",
+            "bhl-bool-to-int-restore",
+            "bhl-bool-to-bool-deploy",
+            "bhl-bool-to-int-iteminfo",
+            "bhl-bool-to-bool-decrement",
+            "bhl-holster-skiplocal",
+            "bhl-drop-override-prediction",
+            "bhl-bool-returns-from-bhl-virtuals"
+          ],
+          "path": "src/game/server/op4/dlls/weapons/CPipewrench.h",
+          "sha256": "48e53a36ca608cfbd801b5e918d1037e390399bdfb23e80893f2ba88a3db7f17",
+          "upstream_commit": "5368be7f8eba",
+          "upstream_path": "dlls/weapons/CPipewrench.h"
+        }
+      ],
+      "source_repo": "twhl-community/halflife-op4-updated"
+    },
+    {
+      "all_source_files_from_op4": true,
+      "all_source_files_present": true,
+      "ammo": "556",
+      "classname": "weapon_m249",
+      "cxx": "CM249",
+      "event": "events/m249.sc",
+      "event_func": "EV_FireM249",
+      "id": "WEAPON_M249",
+      "name": "M249",
+      "referenced_assets": [
+        "events/m249.sc",
+        "models/p_saw.mdl",
+        "models/saw_link.mdl",
+        "models/saw_shell.mdl",
+        "models/v_saw.mdl",
+        "models/w_saw.mdl",
+        "models/w_saw_clip.mdl",
+        "sprites/wep_smoke_01.spr",
+        "sprites/xfire.spr"
+      ],
+      "runtime_test": "\u063a\u064a\u0631 \u0645\u064f\u062e\u062a\u0628\u064e\u0631 \u062f\u0627\u062e\u0644 GoldSrc \u0641\u064a \u0647\u0630\u0647 \u0627\u0644\u0628\u064a\u0626\u0629",
+      "source_commit": "5368be7f8eba14b05236c7c52ad5f6b11fd95e55",
+      "source_files": [
+        {
+          "action": "op4+compat-patch",
+          "exists": true,
+          "merge_rules": [],
+          "origin": "op4",
+          "patch_rules": [
+            "bhl-bool-to-bool-deploy",
+            "bhl-bool-to-int-iteminfo",
+            "bhl-bool-to-bool-addammo",
+            "bhl-holster-skiplocal-def",
+            "op4-compat-include",
+            "op4-compat-late-include"
+          ],
+          "path": "src/game/server/op4/dlls/weapons/CM249.cpp",
+          "sha256": "f199164e9427d8953aa16c45cacc055763e087ea9f58982745f73afe1ef3f3cf",
+          "upstream_commit": "5368be7f8eba",
+          "upstream_path": "dlls/weapons/CM249.cpp"
+        },
+        {
+          "action": "op4+compat-patch",
+          "exists": true,
+          "merge_rules": [],
+          "origin": "op4",
+          "patch_rules": [
+            "bhl-bool-to-int-save",
+            "bhl-bool-to-int-restore",
+            "bhl-bool-to-bool-deploy",
+            "bhl-bool-to-int-iteminfo",
+            "bhl-bool-to-bool-decrement",
+            "bhl-holster-skiplocal",
+            "bhl-drop-override-prediction",
+            "bhl-drop-override-increment"
+          ],
+          "path": "src/game/server/op4/dlls/weapons/CM249.h",
+          "sha256": "da34aa1d62cf7a0f0965db6b28c7f957ca29aad24c277d860109cb3969853a59",
+          "upstream_commit": "5368be7f8eba",
+          "upstream_path": "dlls/weapons/CM249.h"
+        }
+      ],
+      "source_repo": "twhl-community/halflife-op4-updated"
+    },
+    {
+      "all_source_files_from_op4": true,
+      "all_source_files_present": true,
+      "ammo": "uranium",
+      "classname": "weapon_displacer",
+      "cxx": "CDisplacer",
+      "event": "events/displacer.sc",
+      "event_func": "EV_FireDisplacer",
+      "id": "WEAPON_DISPLACER",
+      "name": "Displacer",
+      "referenced_assets": [
+        "events/displacer.sc",
+        "models/p_displacer.mdl",
+        "models/v_displacer.mdl",
+        "models/w_displacer.mdl",
+        "sprites/disp_ring.spr",
+        "sprites/exit1.spr",
+        "sprites/lgtning.spr",
+        "sprites/shockwave.spr"
+      ],
+      "runtime_test": "\u063a\u064a\u0631 \u0645\u064f\u062e\u062a\u0628\u064e\u0631 \u062f\u0627\u062e\u0644 GoldSrc \u0641\u064a \u0647\u0630\u0647 \u0627\u0644\u0628\u064a\u0626\u0629",
+      "source_commit": "5368be7f8eba14b05236c7c52ad5f6b11fd95e55",
+      "source_files": [
+        {
+          "action": "op4+compat-patch",
+          "exists": true,
+          "merge_rules": [],
+          "origin": "op4",
+          "patch_rules": [
+            "bhl-bool-to-bool-deploy",
+            "bhl-bool-to-int-iteminfo",
+            "bhl-holster-skiplocal-def",
+            "bhl-getprivate-template",
+            "op4-compat-include",
+            "op4-compat-late-include"
+          ],
+          "path": "src/game/server/op4/dlls/weapons/CDisplacer.cpp",
+          "sha256": "141d6d6f80f633c9c039e9d260ee04b8944a01aca165b2a14d57d56917f3f16c",
+          "upstream_commit": "5368be7f8eba",
+          "upstream_path": "dlls/weapons/CDisplacer.cpp"
+        },
+        {
+          "action": "op4+compat-patch",
+          "exists": true,
+          "merge_rules": [],
+          "origin": "op4",
+          "patch_rules": [
+            "bhl-bool-to-bool-deploy",
+            "bhl-bool-to-int-iteminfo",
+            "bhl-bool-to-bool-decrement",
+            "bhl-holster-skiplocal",
+            "bhl-drop-override-increment"
+          ],
+          "path": "src/game/server/op4/dlls/weapons/CDisplacer.h",
+          "sha256": "9be2b15b1a04b2d4403f7c41e460c72a993a0b869e5915a9a0158b1334e079b5",
+          "upstream_commit": "5368be7f8eba",
+          "upstream_path": "dlls/weapons/CDisplacer.h"
+        },
+        {
+          "action": "op4+compat-patch",
+          "exists": true,
+          "merge_rules": [],
+          "origin": "op4",
+          "patch_rules": [
+            "bhl-ctfteam-scoped-enum-cast",
+            "op4-compat-include",
+            "op4-compat-late-include"
+          ],
+          "path": "src/game/server/op4/dlls/weapons/CDisplacerBall.cpp",
+          "sha256": "a5b2b49ae9b6889a1d1aaacdb331432003d7b878d9211d69d625e5b2ab389809",
+          "upstream_commit": "5368be7f8eba",
+          "upstream_path": "dlls/weapons/CDisplacerBall.cpp"
+        },
+        {
+          "action": "verbatim",
+          "exists": true,
+          "merge_rules": [],
+          "origin": "op4",
+          "patch_rules": [],
+          "path": "src/game/server/op4/dlls/weapons/CDisplacerBall.h",
+          "sha256": "b99f1e5a7e5ada0c92f6bc92baaec839b6322597c6f50669f48f1cdc56d4fb5f",
+          "upstream_commit": "5368be7f8eba",
+          "upstream_path": "dlls/weapons/CDisplacerBall.h"
+        }
+      ],
+      "source_repo": "twhl-community/halflife-op4-updated"
+    },
+    {
+      "all_source_files_from_op4": true,
+      "all_source_files_present": true,
+      "ammo": "shock charges (recharging)",
+      "classname": "weapon_shockrifle",
+      "cxx": "CShockRifle",
+      "event": "events/shock.sc",
+      "event_func": "EV_FireShockRifle",
+      "id": "WEAPON_SHOCKRIFLE",
+      "name": "Shock Rifle / weapon_shockroach alias",
+      "note": "OP4's clean source links BOTH weapon_shockrifle and weapon_shockroach to CShockRifle (CShockRifle.cpp lines 39-40); W_Precache registers only weapon_shockrifle. dlls/shockroach.cpp defines monster_shockroach / COFShockRoach, a separate creature entity, not an eleventh weapon.",
+      "referenced_assets": [
+        "events/shock.sc",
+        "models/p_shock.mdl",
+        "models/shock_effect.mdl",
+        "models/v_shock.mdl",
+        "models/w_shock_rifle.mdl",
+        "sprites/flare3.spr",
+        "sprites/glow01.spr",
+        "sprites/lgtning.spr",
+        "sprites/shockwave.spr"
+      ],
+      "runtime_test": "\u063a\u064a\u0631 \u0645\u064f\u062e\u062a\u0628\u064e\u0631 \u062f\u0627\u062e\u0644 GoldSrc \u0641\u064a \u0647\u0630\u0647 \u0627\u0644\u0628\u064a\u0626\u0629",
+      "source_commit": "5368be7f8eba14b05236c7c52ad5f6b11fd95e55",
+      "source_files": [
+        {
+          "action": "op4+compat-patch",
+          "exists": true,
+          "merge_rules": [],
+          "origin": "op4",
+          "patch_rules": [
+            "bhl-bool-to-bool-deploy",
+            "bhl-bool-to-int-iteminfo",
+            "bhl-bool-to-bool-candeploy",
+            "bhl-holster-skiplocal-def",
+            "op4-compat-include",
+            "op4-compat-late-include"
+          ],
+          "path": "src/game/server/op4/dlls/weapons/CShockRifle.cpp",
+          "sha256": "63136b67f0e7730830dc1f5461720a719b058d0db6b009cac46b18067ff46e86",
+          "upstream_commit": "5368be7f8eba",
+          "upstream_path": "dlls/weapons/CShockRifle.cpp"
+        },
+        {
+          "action": "op4+compat-patch",
+          "exists": true,
+          "merge_rules": [],
+          "origin": "op4",
+          "patch_rules": [
+            "bhl-bool-to-int-save",
+            "bhl-bool-to-int-restore",
+            "bhl-bool-to-bool-deploy",
+            "bhl-bool-to-int-iteminfo",
+            "bhl-bool-to-bool-decrement",
+            "bhl-bool-to-bool-candeploy",
+            "bhl-holster-skiplocal"
+          ],
+          "path": "src/game/server/op4/dlls/weapons/CShockRifle.h",
+          "sha256": "b178e3dd971c3c3f0bf713dbcfed9bb6917152a19071138c9796a23196ad2ef5",
+          "upstream_commit": "5368be7f8eba",
+          "upstream_path": "dlls/weapons/CShockRifle.h"
+        },
+        {
+          "action": "op4+compat-patch",
+          "exists": true,
+          "merge_rules": [],
+          "origin": "op4",
+          "patch_rules": [
+            "bhl-vector-normalize",
+            "op4-compat-include",
+            "op4-compat-late-include"
+          ],
+          "path": "src/game/server/op4/dlls/weapons/CShockBeam.cpp",
+          "sha256": "b21d03525199e4b0855bdb05d2148dcdbc35357d66f7b6f4022b950db9d7aafc",
+          "upstream_commit": "5368be7f8eba",
+          "upstream_path": "dlls/weapons/CShockBeam.cpp"
+        },
+        {
+          "action": "op4+compat-patch",
+          "exists": true,
+          "merge_rules": [],
+          "origin": "op4",
+          "patch_rules": [
+            "bhl-bool-to-int-save",
+            "bhl-bool-to-int-restore"
+          ],
+          "path": "src/game/server/op4/dlls/weapons/CShockBeam.h",
+          "sha256": "43be589d9ee64cd7acfa7247f9e2b740d1c31b03a5dcdc3cfeb62890dc77d75b",
+          "upstream_commit": "5368be7f8eba",
+          "upstream_path": "dlls/weapons/CShockBeam.h"
+        },
+        {
+          "action": "op4+compat-patch",
+          "exists": true,
+          "merge_rules": [],
+          "origin": "op4",
+          "patch_rules": [
+            "bhl-bool-to-int-save",
+            "bhl-bool-to-int-restore",
+            "bhl-bool-to-int-takedamage",
+            "bhl-bool-returns-from-bhl-virtuals",
+            "op4-compat-include",
+            "op4-compat-late-include"
+          ],
+          "path": "src/game/server/op4/dlls/shockroach.cpp",
+          "sha256": "b0f5a3535112cc7f9aa73dbe39fad675ec6036eb87b31add30aa99f75b84f007",
+          "upstream_commit": "5368be7f8eba",
+          "upstream_path": "dlls/shockroach.cpp"
+        }
+      ],
+      "source_repo": "twhl-community/halflife-op4-updated"
+    },
+    {
+      "all_source_files_from_op4": true,
+      "all_source_files_present": true,
+      "ammo": "spores",
+      "classname": "weapon_sporelauncher",
+      "cxx": "CSporeLauncher",
+      "event": "events/spore.sc",
+      "event_func": "EV_FireSpore",
+      "id": "WEAPON_SPORELAUNCHER",
+      "name": "Spore Launcher",
+      "referenced_assets": [
+        "events/spore.sc",
+        "models/p_spore_launcher.mdl",
+        "models/spore.mdl",
+        "models/spore_ammo.mdl",
+        "models/v_spore_launcher.mdl",
+        "models/w_spore_launcher.mdl",
+        "sprites/glow01.spr",
+        "sprites/spore_exp_01.spr",
+        "sprites/spore_exp_c_01.spr",
+        "sprites/tinyspit.spr"
+      ],
+      "runtime_test": "\u063a\u064a\u0631 \u0645\u064f\u062e\u062a\u0628\u064e\u0631 \u062f\u0627\u062e\u0644 GoldSrc \u0641\u064a \u0647\u0630\u0647 \u0627\u0644\u0628\u064a\u0626\u0629",
+      "source_commit": "5368be7f8eba14b05236c7c52ad5f6b11fd95e55",
+      "source_files": [
+        {
+          "action": "op4+compat-patch",
+          "exists": true,
+          "merge_rules": [],
+          "origin": "op4",
+          "patch_rules": [
+            "bhl-bool-to-bool-deploy",
+            "bhl-bool-to-bool-shouldidle",
+            "bhl-bool-to-int-iteminfo",
+            "bhl-bool-to-bool-addammo",
+            "bhl-bool-to-int-takedamage",
+            "bhl-holster-skiplocal-def",
+            "op4-compat-include",
+            "op4-compat-late-include"
+          ],
+          "path": "src/game/server/op4/dlls/weapons/CSporeLauncher.cpp",
+          "sha256": "fdfe8be1cda35196deb9cc06e7196ae26be89ce263cbe1c007d553cae5f9afb8",
+          "upstream_commit": "5368be7f8eba",
+          "upstream_path": "dlls/weapons/CSporeLauncher.cpp"
+        },
+        {
+          "action": "op4+compat-patch",
+          "exists": true,
+          "merge_rules": [],
+          "origin": "op4",
+          "patch_rules": [
+            "bhl-bool-to-int-save",
+            "bhl-bool-to-int-restore",
+            "bhl-bool-to-bool-deploy",
+            "bhl-bool-to-bool-shouldidle",
+            "bhl-bool-to-int-iteminfo",
+            "bhl-bool-to-bool-decrement",
+            "bhl-holster-skiplocal",
+            "bhl-drop-override-prediction",
+            "bhl-drop-override-increment"
+          ],
+          "path": "src/game/server/op4/dlls/weapons/CSporeLauncher.h",
+          "sha256": "08967915b6f8d0b85d9b29321a5a4d5b779386cda205064015097ab6456ba9bc",
+          "upstream_commit": "5368be7f8eba",
+          "upstream_path": "dlls/weapons/CSporeLauncher.h"
+        },
+        {
+          "action": "op4+compat-patch",
+          "exists": true,
+          "merge_rules": [],
+          "origin": "op4",
+          "patch_rules": [
+            "bhl-vector-normalize",
+            "op4-compat-include",
+            "op4-compat-late-include"
+          ],
+          "path": "src/game/server/op4/dlls/weapons/CSpore.cpp",
+          "sha256": "65f5bd70daed2026cc7034e856d2f2bb2c47f451f75b3534c2bc2b3597ecbbe4",
+          "upstream_commit": "5368be7f8eba",
+          "upstream_path": "dlls/weapons/CSpore.cpp"
+        },
+        {
+          "action": "op4+compat-patch",
+          "exists": true,
+          "merge_rules": [],
+          "origin": "op4",
+          "patch_rules": [
+            "bhl-bool-to-int-save",
+            "bhl-bool-to-int-restore"
+          ],
+          "path": "src/game/server/op4/dlls/weapons/CSpore.h",
+          "sha256": "1b90ad3ed0fd9b1324a67766f48fc1f2f9ffb7504241177bbe8d7fb9ae029915",
+          "upstream_commit": "5368be7f8eba",
+          "upstream_path": "dlls/weapons/CSpore.h"
+        }
+      ],
+      "source_repo": "twhl-community/halflife-op4-updated"
+    },
+    {
+      "all_source_files_from_op4": true,
+      "all_source_files_present": true,
+      "ammo": "762",
+      "classname": "weapon_sniperrifle",
+      "cxx": "CSniperRifle",
+      "event": "events/sniper.sc",
+      "event_func": "EV_SniperRifle",
+      "id": "WEAPON_SNIPERRIFLE",
+      "name": "Sniper Rifle",
+      "referenced_assets": [
+        "events/sniper.sc",
+        "models/p_m40a1.mdl",
+        "models/v_m40a1.mdl",
+        "models/w_m40a1.mdl",
+        "models/w_m40a1clip.mdl"
+      ],
+      "runtime_test": "\u063a\u064a\u0631 \u0645\u064f\u062e\u062a\u0628\u064e\u0631 \u062f\u0627\u062e\u0644 GoldSrc \u0641\u064a \u0647\u0630\u0647 \u0627\u0644\u0628\u064a\u0626\u0629",
+      "source_commit": "5368be7f8eba14b05236c7c52ad5f6b11fd95e55",
+      "source_files": [
+        {
+          "action": "op4+compat-patch",
+          "exists": true,
+          "merge_rules": [],
+          "origin": "op4",
+          "patch_rules": [
+            "bhl-bool-to-bool-deploy",
+            "bhl-bool-to-int-iteminfo",
+            "bhl-bool-to-bool-addammo",
+            "bhl-holster-skiplocal-def",
+            "op4-compat-include",
+            "op4-compat-late-include"
+          ],
+          "path": "src/game/server/op4/dlls/weapons/CSniperRifle.cpp",
+          "sha256": "a4a8e89a59c12a11926446adff3465cb0331f93cfe766f743a22e48c3b12f9ea",
+          "upstream_commit": "5368be7f8eba",
+          "upstream_path": "dlls/weapons/CSniperRifle.cpp"
+        },
+        {
+          "action": "op4+compat-patch",
+          "exists": true,
+          "merge_rules": [],
+          "origin": "op4",
+          "patch_rules": [
+            "bhl-bool-to-int-save",
+            "bhl-bool-to-int-restore",
+            "bhl-bool-to-bool-deploy",
+            "bhl-bool-to-int-iteminfo",
+            "bhl-bool-to-bool-decrement",
+            "bhl-holster-skiplocal",
+            "bhl-drop-override-increment"
+          ],
+          "path": "src/game/server/op4/dlls/weapons/CSniperRifle.h",
+          "sha256": "d0e520d162171b7b130a8a74148bcbf66052deb8f736fd31d50a0773bc6f70d0",
+          "upstream_commit": "5368be7f8eba",
+          "upstream_path": "dlls/weapons/CSniperRifle.h"
+        }
+      ],
+      "source_repo": "twhl-community/halflife-op4-updated"
+    },
+    {
+      "all_source_files_from_op4": true,
+      "all_source_files_present": true,
+      "ammo": null,
+      "classname": "weapon_knife",
+      "cxx": "CKnife",
+      "event": "events/knife.sc",
+      "event_func": "EV_Knife",
+      "id": "WEAPON_KNIFE",
+      "name": "Knife",
+      "referenced_assets": [
+        "events/knife.sc",
+        "models/p_knife.mdl",
+        "models/v_knife.mdl",
+        "models/w_knife.mdl"
+      ],
+      "runtime_test": "\u063a\u064a\u0631 \u0645\u064f\u062e\u062a\u0628\u064e\u0631 \u062f\u0627\u062e\u0644 GoldSrc \u0641\u064a \u0647\u0630\u0647 \u0627\u0644\u0628\u064a\u0626\u0629",
+      "source_commit": "5368be7f8eba14b05236c7c52ad5f6b11fd95e55",
+      "source_files": [
+        {
+          "action": "op4+compat-patch",
+          "exists": true,
+          "merge_rules": [],
+          "origin": "op4",
+          "patch_rules": [
+            "bhl-bool-to-bool-deploy",
+            "bhl-bool-to-int-iteminfo",
+            "bhl-holster-skiplocal-def",
+            "bhl-bool-returns-from-bhl-virtuals",
+            "op4-compat-include",
+            "op4-compat-late-include"
+          ],
+          "path": "src/game/server/op4/dlls/weapons/CKnife.cpp",
+          "sha256": "784451daf1e89b4d2e6ee2e9d75e059039bdef524691141691b7d6bd3e546c9e",
+          "upstream_commit": "5368be7f8eba",
+          "upstream_path": "dlls/weapons/CKnife.cpp"
+        },
+        {
+          "action": "op4+compat-patch",
+          "exists": true,
+          "merge_rules": [],
+          "origin": "op4",
+          "patch_rules": [
+            "bhl-bool-to-bool-deploy",
+            "bhl-bool-to-int-iteminfo",
+            "bhl-bool-to-bool-decrement",
+            "bhl-holster-skiplocal",
+            "bhl-bool-returns-from-bhl-virtuals"
+          ],
+          "path": "src/game/server/op4/dlls/weapons/CKnife.h",
+          "sha256": "ae773705df378b3b3b490dfef204e36ed6ab4f528b437471c7cd5c699122e316",
+          "upstream_commit": "5368be7f8eba",
+          "upstream_path": "dlls/weapons/CKnife.h"
+        }
+      ],
+      "source_repo": "twhl-community/halflife-op4-updated"
+    },
+    {
+      "all_source_files_from_op4": true,
+      "all_source_files_present": true,
+      "ammo": "exhaustible nests",
+      "classname": "weapon_penguin",
+      "cxx": "CPenguin",
+      "event": "events/penguinfire.sc",
+      "event_func": "EV_PenguinFire",
+      "id": "WEAPON_PENGUIN",
+      "name": "Penguin",
+      "referenced_assets": [
+        "events/penguinfire.sc",
+        "models/p_penguin.mdl",
+        "models/v_penguin.mdl",
+        "models/w_penguin.mdl",
+        "models/w_penguinnest.mdl"
+      ],
+      "runtime_test": "\u063a\u064a\u0631 \u0645\u064f\u062e\u062a\u0628\u064e\u0631 \u062f\u0627\u062e\u0644 GoldSrc \u0641\u064a \u0647\u0630\u0647 \u0627\u0644\u0628\u064a\u0626\u0629",
+      "source_commit": "5368be7f8eba14b05236c7c52ad5f6b11fd95e55",
+      "source_files": [
+        {
+          "action": "op4+compat-patch",
+          "exists": true,
+          "merge_rules": [],
+          "origin": "op4",
+          "patch_rules": [
+            "bhl-bool-to-bool-deploy",
+            "bhl-bool-to-int-iteminfo",
+            "bhl-holster-skiplocal-def",
+            "op4-compat-include",
+            "op4-compat-late-include"
+          ],
+          "path": "src/game/server/op4/dlls/weapons/CPenguin.cpp",
+          "sha256": "5b9f296fd2288fb17994200e777030e39c403c7c0d81cdcc5e2848e1ce3022bc",
+          "upstream_commit": "5368be7f8eba",
+          "upstream_path": "dlls/weapons/CPenguin.cpp"
+        },
+        {
+          "action": "op4+compat-patch",
+          "exists": true,
+          "merge_rules": [],
+          "origin": "op4",
+          "patch_rules": [
+            "bhl-bool-to-int-save",
+            "bhl-bool-to-int-restore",
+            "bhl-bool-to-bool-deploy",
+            "bhl-bool-to-int-iteminfo",
+            "bhl-bool-to-bool-decrement",
+            "bhl-holster-skiplocal"
+          ],
+          "path": "src/game/server/op4/dlls/weapons/CPenguin.h",
+          "sha256": "5be8446415fb0a30c45919c67ba39233b5be7b5bcb6024c8ba81804c4e95f2a3",
+          "upstream_commit": "5368be7f8eba",
+          "upstream_path": "dlls/weapons/CPenguin.h"
+        },
+        {
+          "action": "op4+compat-patch",
+          "exists": true,
+          "merge_rules": [],
+          "origin": "op4",
+          "patch_rules": [
+            "bhl-bool-to-int-save",
+            "bhl-bool-to-int-restore",
+            "bhl-vector-normalize",
+            "op4-compat-include",
+            "op4-compat-late-include"
+          ],
+          "path": "src/game/server/op4/dlls/penguin_grenade.cpp",
+          "sha256": "ce55c653282dd21462e979530b21603fd18d544da741645fc8dcbde6977e5692",
+          "upstream_commit": "5368be7f8eba",
+          "upstream_path": "dlls/penguin_grenade.cpp"
+        }
+      ],
+      "source_repo": "twhl-community/halflife-op4-updated"
+    },
+    {
+      "all_source_files_from_op4": true,
+      "all_source_files_present": true,
+      "ammo": null,
+      "classname": "weapon_grapple",
+      "cxx": "CGrapple",
+      "event": null,
+      "event_func": null,
+      "id": "WEAPON_GRAPPLE",
+      "name": "Grapple",
+      "note": "OP4's clean source has no .sc playback event for the grapple.",
+      "referenced_assets": [
+        "models/p_bgrap.mdl",
+        "models/shock_effect.mdl",
+        "models/v_bgrap.mdl",
+        "models/w_bgrap.mdl",
+        "sprites/tongue.spr"
+      ],
+      "runtime_test": "\u063a\u064a\u0631 \u0645\u064f\u062e\u062a\u0628\u064e\u0631 \u062f\u0627\u062e\u0644 GoldSrc \u0641\u064a \u0647\u0630\u0647 \u0627\u0644\u0628\u064a\u0626\u0629",
+      "source_commit": "5368be7f8eba14b05236c7c52ad5f6b11fd95e55",
+      "source_files": [
+        {
+          "action": "op4+compat-patch",
+          "exists": true,
+          "merge_rules": [],
+          "origin": "op4",
+          "patch_rules": [
+            "bhl-bool-to-bool-deploy",
+            "bhl-bool-to-int-iteminfo",
+            "bhl-holster-skiplocal-def",
+            "bhl-vector-normalize",
+            "bhl-getprivate-template",
+            "op4-compat-include",
+            "op4-compat-late-include"
+          ],
+          "path": "src/game/server/op4/dlls/weapons/CGrapple.cpp",
+          "sha256": "280d2a52aa632002e69742c6004dabd5e1b5d4fef32a0ebf042353077b2acd9d",
+          "upstream_commit": "5368be7f8eba",
+          "upstream_path": "dlls/weapons/CGrapple.cpp"
+        },
+        {
+          "action": "op4+compat-patch",
+          "exists": true,
+          "merge_rules": [],
+          "origin": "op4",
+          "patch_rules": [
+            "bhl-bool-to-int-save",
+            "bhl-bool-to-int-restore",
+            "bhl-bool-to-bool-deploy",
+            "bhl-bool-to-int-iteminfo",
+            "bhl-bool-to-bool-decrement",
+            "bhl-holster-skiplocal"
+          ],
+          "path": "src/game/server/op4/dlls/weapons/CGrapple.h",
+          "sha256": "ef6465c3baf46ca722f98b1ab101cfa59ff2321545cf8a2a2dae916219fb2529",
+          "upstream_commit": "5368be7f8eba",
+          "upstream_path": "dlls/weapons/CGrapple.h"
+        },
+        {
+          "action": "op4+compat-patch",
+          "exists": true,
+          "merge_rules": [],
+          "origin": "op4",
+          "patch_rules": [
+            "bhl-vector-normalize",
+            "op4-compat-include",
+            "op4-compat-late-include"
+          ],
+          "path": "src/game/server/op4/dlls/weapons/CGrappleTip.cpp",
+          "sha256": "ca3745e0c7244faab9ee7b733335c106a8057a5c451d9b3b605471a5af8640c2",
+          "upstream_commit": "5368be7f8eba",
+          "upstream_path": "dlls/weapons/CGrappleTip.cpp"
+        },
+        {
+          "action": "verbatim",
+          "exists": true,
+          "merge_rules": [],
+          "origin": "op4",
+          "patch_rules": [],
+          "path": "src/game/server/op4/dlls/weapons/CGrappleTip.h",
+          "sha256": "347ce4b96fda729bf0f99c04fec56d3f11c759be99ceb5d26531abade35b8c53",
+          "upstream_commit": "5368be7f8eba",
+          "upstream_path": "dlls/weapons/CGrappleTip.h"
+        }
+      ],
+      "source_repo": "twhl-community/halflife-op4-updated"
+    }
+  ]
+}
