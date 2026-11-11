@@ -121,13 +121,14 @@ def collect() -> tuple[list[str], str]:
         "mod manifest does not explicitly say it was NOT tested in-game")
     liblist = (MOD / "liblist.gam").read_text()
     for marker in ('startmap "of0a0"', 'trainmap "ofboot0"',
-                   'fallback_dir "gearbox"', 'gamedll "dlls\\\\opfor.dll"'):
+                   'fallback_dir "gearbox"', 'gamedll "dlls\\opfor.dll"'):
         chk(marker in liblist, f"liblist.gam missing {marker}")
     chk((MOD / "steam_appid.txt").read_text() == "50\n",
         "steam_appid.txt is not Opposing Force (50)")
     chk(sha256(MOD / "delta.lst") == sha256(ROOT / "data/delta.lst"),
         "mod/delta.lst is not OP4's network delta")
-    lang_files = sorted((MOD / "ui/resource/language").glob("*.txt"))
+    lang_files = sorted(p for p in (MOD / "ui/resource/language").glob("*.txt")
+                        if not p.name.endswith(".utf8.txt"))
     chk(len(lang_files) == 11, "BHL UTF-16LE language files are missing")
     chk(all(p.read_bytes().startswith(codecs.BOM_UTF16_LE) for p in lang_files),
         "BHL language files are not UTF-16LE BOM")

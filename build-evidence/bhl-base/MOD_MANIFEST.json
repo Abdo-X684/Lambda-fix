@@ -1,23 +1,32 @@
 {
-  "binaries": "built from bhl-op4/ (BHL base + OP4 weapon sources)",
+  "architecture": "full OP4 campaign/server + BugfixedHL VGUI2 client",
+  "binaries": {
+    "cl_dlls/client.dll": "1d5ce9d01ade90a7b4a1de415775f108aba45260742b0d6def42edc92e9f636d",
+    "cl_dlls/client.so": "d9356782f72f6c5ac7e8579202fae5cb5d042838c364a6ca143864b6ee968f4d",
+    "dlls/opfor.dll": "866d4dd3392b7cf906141f0520d032f89fc166fab3095cbec3b87e951996143a"
+  },
+  "campaign": {
+    "startmap": "of0a0",
+    "steam_appid": 50,
+    "trainmap": "ofboot0"
+  },
   "files": {
-    "INSTALL.md": "07016080b7104253b8a657f3f4d8bbf20ac466cd97d8b30675b3701f27b114e9",
+    "INSTALL.md": "8805227d2692f290703190a65e4895b78717d2834ab71cd4a78183ef32dc89d7",
     "addons/amxmodx/scripting/bhl_api_example.sma": "2b4bbc1948f1ca9dfffab12e6b2c08ff627a8573fd4c5f4acd5e7f3f7602f4d2",
     "addons/amxmodx/scripting/include/bugfixedapi.inc": "f7812fd030226889cfcbd5992e896fe0af6e3a3be99116363d4daec267217c74",
-    "autoexec.cfg": "f43f51ebf1eb6bfc790b58b1e40fae0700f6eb3019b44344cb1815f52379bdb6",
+    "autoexec.cfg": "ef856b394f0e49664f3b7ac1472ba7b0f9865fecbdaf8b762defe0f25c40d7cf",
     "cfg/op4weapons.cfg": "6b97d8e4ba137bedc957bd57ed7f936b5cf73f42a54027727b165c5a82239614",
-    "cl_dlls/client.dll": "ec020d2198f8e553cee02c2f9d01655fb186712e8095d2d6961df83ba9b11fe4",
-    "cl_dlls/client.so": "0a0bdf634f65a257b2f1e2962f488759ac8ff2ec4203ac4c1bf89c7571588ec3",
+    "cl_dlls/client.dll": "1d5ce9d01ade90a7b4a1de415775f108aba45260742b0d6def42edc92e9f636d",
+    "cl_dlls/client.so": "d9356782f72f6c5ac7e8579202fae5cb5d042838c364a6ca143864b6ee968f4d",
     "commandmenu_default.txt": "9c5ec58db86e6b7bbe06e489c829f9a20a95b181392adcae37daa53b3379dea0",
-    "delta.lst": "5251f80955b3a199429e316f851002f30620c443a5b6f197e96f1d063e4d3b0f",
-    "dlls/hl.dll": "1e07fc512c82a34881999d059d39bb478a1948b4cee4028d771a871e4126050c",
-    "dlls/hl.so": "4320ba468d2dcaef8846b76621eccd8955ed6b88f050f2aa708409fcd877e5c1",
-    "liblist.gam": "9e327b2bdb1a59e9b1aa6917b1354e6304f9298c9977782cb89fdac13af0b8cc",
+    "delta.lst": "9e64b874fe331b52db29d13ed70a52410b0d91059719f8803e6e4058eda44f15",
+    "dlls/opfor.dll": "866d4dd3392b7cf906141f0520d032f89fc166fab3095cbec3b87e951996143a",
+    "liblist.gam": "26b87eb5a9fd60c24e48afeb3aba201e1ec7652a99d3677c34ae3d14704593f0",
     "op4weapons.cfg": "6b97d8e4ba137bedc957bd57ed7f936b5cf73f42a54027727b165c5a82239614",
     "resource/GameMenu.res": "d01b50b6f2cdabe0525d69fd75f606c80cc6a6f06d61f226d87b18c05140aef4",
     "sprites/ag_ctf.spr": "e8f89ec71c0245a032367aa0a341fbcd63fad37884139a407bba431fc505ff3c",
     "sprites/ag_ctf_score.spr": "1e493db898d0baeea73498573ab327f40739d6f2fe76da4f05d016f12899120b",
-    "steam_appid.txt": "6442bc26a7c562f5afe6467dab36365c709909f6a81afcecfc0c25cff0f1bab0",
+    "steam_appid.txt": "7ea9844ae84eccbf55e8330640865e36c43521e45a1baec24233327aab7e6595",
     "ui/resource/Chat.res": "c9a4983dead854532b6313acb1a1e6b46216043ebac4ad39fbf4a2c0b321a308",
     "ui/resource/ChatScheme.res": "35791709cc624d08210eb5b2b570ee46aeec98953367cad1773a1d6d07aad657",
     "ui/resource/ChatSchemeBase.res": "bc85d307a7913157d84f9a56c96c99752ce45c474c59d881b56033c601efe178",
@@ -36,16 +45,27 @@
     "ui/resource/fonts/HemiHead426-Linux-Regular.ttf": "a3726c8088d7858d27c0c06b3c5ffc3096753f2e5ede8051c047b1b61c05d392",
     "ui/resource/fonts/HemiHead426-Regular.ttf": "41967f7f5906e1302de7ec4647adc730153a9edd2f22a4cf7cb3f2be4e86ffea",
     "ui/resource/fonts/boxrocket.ttf": "83110e5dba6b8cade754dd577d29e918937669a35fb316111634aa0c60347403",
+    "ui/resource/language/bugfixedhl_english.txt": "50cea8bc5f73e685b73c71f532c3ab4853efb28d7b1e0030b4a3c75309bce612",
     "ui/resource/language/bugfixedhl_english.utf8.txt": "c24360bb7e2e4153e836dd6e3cf68c8fef515a9d330c83e4eac689aab61b1651",
+    "ui/resource/language/bugfixedhl_russian.txt": "42f39cfd70ba753287dff567c7fe9b7a2f388243d7836cc10c70f5746268c1c3",
     "ui/resource/language/bugfixedhl_russian.utf8.txt": "525fef3dc63dc7675e33532de8b86287e5e6db1543ac70072b4aaf6852a33b76",
+    "ui/resource/language/chat_english.txt": "5012a23e90715c1cec43b725b8909e3eaf47fba7af8a732439ddcf2d39ed45d5",
     "ui/resource/language/chat_english.utf8.txt": "56f6f804a6223b5cbac246c5bbac58849a4482c810bd8405da899ea88aec3185",
+    "ui/resource/language/chat_french.txt": "24e119a39e1536bef94f199bc21130e41951ef335d8ef03e795a1896b179ae42",
     "ui/resource/language/chat_french.utf8.txt": "f3f805515fc89c5594d89264dd12ecdd6328fe7f26c6b6f4ce91abfeaeb19ca6",
+    "ui/resource/language/chat_german.txt": "6d419ed110fdd5e35e305fd8f8680d6b57db944e0a1b95fa8bd440cac3a7cbdd",
     "ui/resource/language/chat_german.utf8.txt": "2075798aebee83cd12476861c88c5ff9084a78cc3fe32ba0071035116a3c880c",
+    "ui/resource/language/chat_italian.txt": "82a272cc25ed8a6faccefdeff90e2c50844c2f37de1944dbca2291798d7c9a03",
     "ui/resource/language/chat_italian.utf8.txt": "c583e9ed5e96fd32fe8bca36a6e7d47e27c4d76df206bc780775dc3cc0024bd0",
+    "ui/resource/language/chat_korean.txt": "6d0025df06349fc7b4ee438c551d12b635561c368b813587c3f11eeaaf404fd3",
     "ui/resource/language/chat_korean.utf8.txt": "40f78899d2036e3019c9d2b74a8c63e42f85f9b055bfdc082680d54c0c52d9d2",
+    "ui/resource/language/chat_russian.txt": "19be41fad1a8f0a3ebc9ecc2b74e19907d610496b997c33e64fb9e853a47a963",
     "ui/resource/language/chat_russian.utf8.txt": "cb615daf32136603bed8414071e48cf61f898570adf3ddf33d937424ebfd2c42",
+    "ui/resource/language/chat_schinese.txt": "f39f958340be49a467fcc4d5577d875f17868dd21d789f79783668c554db4637",
     "ui/resource/language/chat_schinese.utf8.txt": "da50df1767b75afcf62d1fcc3586993bc0525c98e0453d8340b75a5f4288e544",
+    "ui/resource/language/chat_spanish.txt": "86b4c81b0ac8e4b3e1a7e04022d0b614d4659994463c173cb666382fb07f3d84",
     "ui/resource/language/chat_spanish.utf8.txt": "fa09283fbaad7abafe40ede73a328481b6852cdbf8dd15e27a92ef5eccb563b0",
+    "ui/resource/language/chat_tchinese.txt": "1dac943bc4fdd15ea31471dbb41fdabf853e1bd03c0a9197ea79078c512fa82f",
     "ui/resource/language/chat_tchinese.utf8.txt": "66cf25e2632de05c42365ef4198eea1f7640596658cd5caa06f7115f17f423a5",
     "ui/resource/open_source_software.txt": "440c15c73f3136d7454cb244525293ece75af1ec0d85f7e9de473d72ff6f1ed6",
     "ui/resource/options/AboutSubOptions.res": "8b8505b4c530e3b9b158b74b714b7aca20447999628679c9062ef2e675788503",
@@ -66,13 +86,9 @@
     "ui/scripts/HudLayoutBase.res": "a228265b302248ea90f9092caf07360744462836537ecfd30a3069c44d6638c4"
   },
   "in_game_tested_here": false,
-  "linux": {
-    "cl_dlls/client.so": "0a0bdf634f65a257b2f1e2962f488759ac8ff2ec4203ac4c1bf89c7571588ec3",
-    "dlls/hl.so": "4320ba468d2dcaef8846b76621eccd8955ed6b88f050f2aa708409fcd877e5c1"
-  },
-  "root": "BugfixedHL-Rebased (clean gamedir, byte-identical)",
-  "windows": {
-    "cl_dlls/client.dll": "ec020d2198f8e553cee02c2f9d01655fb186712e8095d2d6961df83ba9b11fe4",
-    "dlls/hl.dll": "1e07fc512c82a34881999d059d39bb478a1948b4cee4028d771a871e4126050c"
+  "root": "BugfixedHL-Rebased gamedir + OP4 SDK server",
+  "server": {
+    "linux": "../gearbox/dlls/opfor.so (stock installed OP4 server)",
+    "windows": "dlls/opfor.dll (patched OP4 SDK, BHL cvars, speedrun hooks, all-ten impulse 101)"
   }
 }
