@@ -2,11 +2,6 @@ name: Publish full OP4 package
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - arena/dd30bd22-bugfixhl-speedrun-op4
-    paths:
-      - .github/workflows/release-msvc.yml
 
 permissions:
   contents: write

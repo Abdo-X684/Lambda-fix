@@ -131,23 +131,26 @@ cvars ورسائل OP4 أُضيفت في glue مُوسوم `op4_ctf_player.cpp` 
 > `--check` يفشل إذا أي مصدر موصول بـ CMake لم يُترجم بنجاح. لا يمكن إدعاء
 > «مدموج» لملف لا يُترجم.
 
-## 6. ما لم يُنجز بعد (بصراحة)
+## 6. الحالة الحالية بصراحة
 
-1. **لا يوجد `client.so` / `hl.so` جديد من هذه الشجرة.** البناء الكامل يحتاج
-   أداة BHL الرسمية: CMake ≥ 3.30، حزم vcpkg (`nlohmann-json`, `pcre`,
-   `libzip`, `curl`)، و`tmp64/hl1_source_sdk @ 11f26656677c…` (submodule).
-   هذه الأدوات غير متاحة في بيئة البناء الحالية؛ لم أُنتج ثنائيات وهمية.
-2. **الثنائيات والـ Release الحالية قديمة**: `dist/dlls/*.so`،
-   `dist/bhlop4/`، و`v0.1.0-linux32` مبنية من شجرة **OP4-أساس** السابقة.
-   هي **legacy** وليست ناتج `bhl-op4/`؛ لا تستخدمها كدليل على هذا الدمج.
-3. مصادر عميل OP4 (`hl_events`, `ev_hldm`, HUD, particleman) منسوخة لكنها
-   غير موصولة ببناء العميل بعد (فروق VGUI2/GameUI بين الشجرتين).
-4. CTF كـ gamerules **موصول وحقيقي** الآن (`ctfplay_gamerules.cpp`،
-   `InstallGameRules`، `IsCTF()`، القوائم، 13 رسالة، 9 cvars،
-   `unresolved_own_build_symbols: []`). ما لم يُكمل بعد: HUD عميل OP4
-   (تعارض VGUI1/VGUI2) وأي اختبار داخل اللعبة.
+1. **يوجد `client.so` / `client.dll` حقيقيان من `bhl-op4/`**: عميل BugfixedHL
+   VGUI2 مع أسلحة OP4 العشرة وتنبؤها، ورسالة `Weapons` الخاصة بخادم OP4،
+   وربط لينكس بأساس `GLIBC_2.17`. `hl.so` / `hl.dll` المبنيان من جذر BHL
+   ما زالا موجودين كدليل بناء، لكنهما **ليسا داخل حزمة حملة OP4 الكاملة**:
+   خادم HL لا يملك كيانات/قواعد OP4.
+2. **خادم الحملة الكاملة** هو `opfor.dll` المبني من OP4 SDK بواسطة
+   `.github/workflows/windows-op4-server.yml` و`tools/prepare_op4_msvc_server.py`،
+   مع `sv_bhl_*`, hooks الـ speedrun، و`impulse 101` لكل الأسلحة العشرة. على
+   لينكس تُستخدم `../gearbox/dlls/opfor.so` من نسخة المستخدم؛ لذلك لا توجد
+   بعد نسخة لينكس مخصّصة تحمل أنظمة BHL على الخادم.
+3. مصادر HUD عميل OP4 القديمة (`hl_events`, `ev_hldm`, particleman) تبقى
+   مرجعية بسبب فروق VGUI1/VGUI2؛ العميل الفعلي هو BHL VGUI2، لا عميل OP4
+   العادي مع تعديلات. رسائل OP4 الحرجة موصولة في عميل BHL بدلاً من استيراد
+   عميل OP4 كاملاً.
+4. `dist/dlls/*.so`, `dist/bhlop4/`, و`v0.1.0-linux32` من شجرة **OP4-أساس**
+   السابقة: **legacy** ولا تُستخدم كدليل على الحزمة الحالية.
 5. لا يُدعى أن المود قابل للعب كاملاً، ولا تُضمَّن أصول اللعبة أو
-   `vgui.so` الحقيقي.
+   `vgui.so` الحقيقي، ولا يوجد تأكيد من المستخدم بعد التشغيل داخل GoldSrc.
 
 ## 7. الرخص
 
@@ -161,6 +164,33 @@ BHL: **GPL-3.0**. OP4 / Valve HLSDK: رخصة Valve غير التجارية.
 make fetch                                  # الشجرتان المثبّتتان + sha256
 make bhl-base                               # إعادة بناء bhl-op4/ من الصفر
 python3 tools/verify_bhl_base.py --compile  # كائنات ELF32 + PORT_STATUS.json
+python3 tools/prepare_op4_msvc_server.py --check  # تحقق من رقع خادم OP4
 make verify-bhl-base                        # فحص PROVENANCE + المصادر الموصولة
+python3 tools/create_playable_mod.py        # حزمة حملة OP4 الكاملة
 make verify                                 # كل فحوصات المستودع
 ```
+
+## 9. توافق شبكة خادم OP4 مع عميل BHL
+
+خادم OP4 الحقيقي لا يشبه خادم HL: لديه `MAX_WEAPONS = 64`,
+`local_state_t.weapondata[64]`, ويرسل بتات الأسلحة برسالة المستخدم
+`Weapons` ذات 8 بايتات بدلاً من حقل `client_data_t::iWeaponBits` ذي 32 بت.
+لذلك تُطبّق قواعد مسماة في `merge/bhl_base.py` على عميل BHL:
+
+* `op4-max-weapons-64` و`op4-max-weapons-64-server` و`op4-local-state-64`
+  لتوسيع بنى التنبؤ المشتركة.
+* `op4-prediction-transfer-64` في `entity.cpp` حتى ينقل
+  `HUD_TxferPredictionData` بيانات 64 سلاحاً.
+* `op4-weapons-message-hook` في `hud.cpp` يسجّل
+  `OP4_MsgFunc_Weapons` من `op4_client_prediction.cpp`؛ تقرأ الرسالة
+  النصفين وتحفظ الـ32 بتاً السفلية في `gHUD.m_iWeaponBits` (كل معرّفات
+  أسلحة OP4 العشرة أقل من 32).
+* `op4-weapons-message-flag-decl` و`op4-weapons-message-flag-use` في
+  `hud_update.cpp` يمنعان `UpdateClientData` من الكتابة فوق بتات OP4
+  بالحقل القديم بعد وصول الرسالة.
+
+`liblist.gam` في الحزمة يستخدم `startmap "of0a0"`, `trainmap "ofboot0"`,
+`steam_appid.txt = 50`, ملف `delta.lst` الخاص بـOP4، و`fallback_dir "gearbox"`.
+ملفات `ui/resource/language/*.txt` تُولَّد بترميز UTF-16LE BOM لأن VGUI2
+يطلب `.txt` وليس `.utf8.txt`؛ هذا هو سبب ظهور `#BHL_*` حرفياً سابقاً.
+هذه تغييرات مصدر/حزمة، وليست ادعاء اختبار داخل اللعبة.
