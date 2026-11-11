@@ -7,17 +7,17 @@
       "is_windows_dll": true,
       "path": "build-evidence/bhl-windows/client.dll",
       "pe32_i386": true,
-      "sha256": "d4bbe31ca37012f1f64bf331ecf4579a58eab37d5a2fd0d95537d6f7feccbb98"
+      "sha256": "3965500842f7c0bd798849a87b8f7bc7ef8326c60d43dc561319dd206cdea6d4"
     },
     "hl.dll": {
       "bytes": 1196544,
       "is_windows_dll": true,
       "path": "build-evidence/bhl-windows/hl.dll",
       "pe32_i386": true,
-      "sha256": "85347f7db42337f8f8b784f1fda1284b91f38c7af8bcb7b7d84122afe8e4c8a4"
+      "sha256": "c2439f1e47c50fa0ed545717b169088846e2e4420a81c87e59707fb3dd1896c3"
     }
   },
-  "note": "Built from the BHL-based bhl-op4 tree with Visual Studio 2022 MSVC / Win32 and the static MSVC runtime. The target-only /Zc:threadSafeInit- rule removes pre-DllMain TLS callbacks; no post-hoc binary zeroing is needed. All ten OP4 weapons remain wired for client prediction. NOT tested in-game here.",
+  "note": "Built from the BHL-based bhl-op4 tree with Visual Studio 2022 MSVC / Win32 and the static MSVC runtime. The target-only /Zc:threadSafeInit- rule removes pre-DllMain TLS callbacks; no post-hoc binary zeroing is needed. The BHL client reads OP4's 64-bit Weapons user message and transfers 64 weapon prediction slots. All ten OP4 weapons remain wired for client prediction. NOT tested in-game here.",
   "source_lists": {
     "client": 152,
     "server": 179
@@ -27,5 +27,5 @@
   "toolchain": "MSVC 19.44 / Visual Studio 2022 / CMake 3.30.9 / vcpkg x86-windows-static",
   "tree": "bhl-op4 (same generated tree as the Linux build)",
   "weapon_prediction": "all ten OP4 weapons retained",
-  "workflow_run": "42929880173"
+  "workflow_run": "42995868799"
 }
