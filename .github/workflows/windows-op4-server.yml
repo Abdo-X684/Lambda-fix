@@ -2,6 +2,11 @@ name: Build full OP4 server DLL
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - arena/dd30bd22-bugfixhl-speedrun-op4
+    paths:
+      - .github/workflows/windows-op4-server.yml
 
 permissions:
   contents: write
