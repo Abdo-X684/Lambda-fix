@@ -6,11 +6,11 @@
     "addons/amxmodx/scripting/include/bugfixedapi.inc": "f7812fd030226889cfcbd5992e896fe0af6e3a3be99116363d4daec267217c74",
     "autoexec.cfg": "f43f51ebf1eb6bfc790b58b1e40fae0700f6eb3019b44344cb1815f52379bdb6",
     "cfg/op4weapons.cfg": "6b97d8e4ba137bedc957bd57ed7f936b5cf73f42a54027727b165c5a82239614",
-    "cl_dlls/client.dll": "ee87ac651e0fc96a21a022bc0cc0b263ab64bfc7b6e5511e9b36df67a15a0035",
+    "cl_dlls/client.dll": "ec020d2198f8e553cee02c2f9d01655fb186712e8095d2d6961df83ba9b11fe4",
     "cl_dlls/client.so": "0a0bdf634f65a257b2f1e2962f488759ac8ff2ec4203ac4c1bf89c7571588ec3",
     "commandmenu_default.txt": "9c5ec58db86e6b7bbe06e489c829f9a20a95b181392adcae37daa53b3379dea0",
     "delta.lst": "5251f80955b3a199429e316f851002f30620c443a5b6f197e96f1d063e4d3b0f",
-    "dlls/hl.dll": "fbacb9c289a2211ea26908be6edefa3ebf369f67430848a455e8b66deccfe963",
+    "dlls/hl.dll": "1e07fc512c82a34881999d059d39bb478a1948b4cee4028d771a871e4126050c",
     "dlls/hl.so": "4320ba468d2dcaef8846b76621eccd8955ed6b88f050f2aa708409fcd877e5c1",
     "liblist.gam": "9e327b2bdb1a59e9b1aa6917b1354e6304f9298c9977782cb89fdac13af0b8cc",
     "op4weapons.cfg": "6b97d8e4ba137bedc957bd57ed7f936b5cf73f42a54027727b165c5a82239614",
@@ -72,7 +72,7 @@
   },
   "root": "BugfixedHL-Rebased (clean gamedir, byte-identical)",
   "windows": {
-    "cl_dlls/client.dll": "ee87ac651e0fc96a21a022bc0cc0b263ab64bfc7b6e5511e9b36df67a15a0035",
-    "dlls/hl.dll": "fbacb9c289a2211ea26908be6edefa3ebf369f67430848a455e8b66deccfe963"
+    "cl_dlls/client.dll": "ec020d2198f8e553cee02c2f9d01655fb186712e8095d2d6961df83ba9b11fe4",
+    "dlls/hl.dll": "1e07fc512c82a34881999d059d39bb478a1948b4cee4028d771a871e4126050c"
   }
 }
