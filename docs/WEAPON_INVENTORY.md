@@ -61,7 +61,7 @@
   (`21252408` بايت) ليس داخل الحزمة، ويستخدم
   `../gearbox/dlls/opfor.so` بدلاً منه.
 * ويندوز (`x86-windows-msvc / PE32 i386`, `MSVC 19.44 / Visual Studio 2022 / CMake 3.30.9 / vcpkg x86-windows-static`, ABI متوافق مع MSVC/VGUI2):
-  `client.dll` `2015744` بايت، sha256 `1d5ce9d01ade90a7b4a1de415775f108aba45260742b0d6def42edc92e9f636d`؛
+  `client.dll` `2015744` بايت، sha256 `77897e92bb0772c4351f8e4251108ec7e9b50702883214e32c8b450170de8496`؛
   `opfor.dll` `1860608` بايت، sha256 `866d4dd3392b7cf906141f0520d032f89fc166fab3095cbec3b87e951996143a`. خادم `hl.dll`
   القديم (`1196544` بايت) ليس داخل الحزمة.
   هذه ثنائيات MSVC، لكنها **غير مُختبَرة داخل اللعبة**.
