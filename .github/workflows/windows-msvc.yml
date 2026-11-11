@@ -92,10 +92,6 @@ jobs:
           python -m pip install --quiet pefile
           python tools/check_msvc_pe.py build-msvc/src/game/client/Release/client.dll
 
-      - name: Refresh Windows build evidence
-        shell: pwsh
-        run: python tools/update_windows_manifest.py
-
       - name: Upload MSVC-ABI DLLs
         uses: actions/upload-artifact@v4
         with:
@@ -116,6 +112,7 @@ jobs:
           Copy-Item "build-msvc/src/game/server/Release/hl.dll" "build-evidence/bhl-windows/hl.dll" -Force
           Copy-Item "build-msvc/src/game/client/Release/client.dll" "build-evidence/bhl-base/mod/cl_dlls/client.dll" -Force
           Copy-Item "build-msvc/src/game/server/Release/hl.dll" "build-evidence/bhl-base/mod/dlls/hl.dll" -Force
+          python tools/update_windows_manifest.py
           git add -f build-evidence/bhl-windows/client.dll build-evidence/bhl-windows/hl.dll build-evidence/bhl-windows/MANIFEST.json build-evidence/bhl-windows/SOURCES.sha256 build-evidence/bhl-base/mod/cl_dlls/client.dll build-evidence/bhl-base/mod/dlls/hl.dll
           if (git diff --cached --quiet) {
             Write-Host "No DLL changes to publish"
