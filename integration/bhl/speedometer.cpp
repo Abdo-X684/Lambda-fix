@@ -41,6 +41,10 @@ void CHudSpeedometer::Draw(float time)
 			n0, (int)gHUD.GetSprite(n0), ScreenWidth, ScreenHeight, gHUD.m_iHideHUDDisplay, gEngfuncs.IsSpectateOnly(), hud_draw.GetFloat());
 		gEngfuncs.pfnConsolePrint(buf);
 	}
+	// TEMPORARY diagnostic (remove after testing): plain text, no sprites.
+	// If this text is visible, HUD drawing works and the number sprites are the issue.
+	if (hud_speedometer.GetBool())
+		gEngfuncs.pfnDrawString(10, 10, "BHL-HUD TEST", 255, 255, 0);
 	if ((gHUD.m_iHideHUDDisplay & HIDEHUD_HEALTH) || gEngfuncs.IsSpectateOnly())
 		return;
 
