@@ -1,0 +1,69 @@
+name: EXPERIMENT - cross-compile OP4 BHL client for Windows on the self-hosted ARM64 runner
+
+# Manual only. Experiment: zig cross-compile of cl_dll for Windows x86.
+# Expected blocker: utils/vgui/lib/win32_vc16/vgui.lib is MSVC-ABI (link fails).
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  windows-crosstry:
+    runs-on: [self-hosted, Linux, ARM64]
+    timeout-minutes: 240
+    env:
+      BRANCH: arena/dd30bd22-bugfixhl-speedrun-op4
+      REPO: Abdo-X684/Bugfixhl-speedrun-op4
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Partial sparse clone (build inputs only), with retries
+        run: |
+          set -uo pipefail
+          AUTH=$(printf 'x-access-token:%s' "$GH_TOKEN" | base64 | tr -d '\n')
+          G() { git -c "http.extraheader=AUTHORIZATION: basic $AUTH" "$@"; }
+          ok=0
+          for attempt in 1 2 3 4 5 6; do
+            rm -rf src
+            if G clone --filter=blob:none --sparse --depth 1 --no-checkout \
+                 --branch "$BRANCH" "https://github.com/$REPO.git" src \
+               && cd src \
+               && G sparse-checkout set tools merge integration data upstreams.json \
+               && G checkout -q; then
+              ok=1; cd ..; break
+            fi
+            echo "attempt $attempt failed, retrying in 20s"
+            cd "$GITHUB_WORKSPACE" 2>/dev/null || true
+            sleep 20
+          done
+          [ "$ok" = 1 ] || { echo "clone failed after retries"; exit 1; }
+          git -C src log --oneline -1
+
+      - name: Linux build (produces the generated tree and compile log)
+        working-directory: src
+        run: |
+          mkdir -p build
+          OUT="$PWD/build/linux-op4" bash tools/build_linux_op4_bhl.sh > build/linux-build.log 2>&1
+          echo "linux build rc=$?"
+          tail -3 build/linux-build.log
+
+      - name: Windows cross-compile attempt (zig, x86-windows-gnu) and link
+        working-directory: src
+        run: |
+          python3 tools/windows_crosstry.py \
+            --log build/linux-build.log \
+            --tree build/linux-op4/tree/linux \
+            --zig build/linux-op4/zigvenv/bin/python \
+            --cache .cache/upstreams/op4 \
+            --stub tools/stubinc \
+            --out build/windows-crosstry | tee build/windows-crosstry-stdout.txt
+
+      - name: Upload logs and any produced DLL
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-crosstry-output
+          path: |
+            src/build/windows-crosstry/
+            src/build/linux-build.log
+          if-no-files-found: warn
