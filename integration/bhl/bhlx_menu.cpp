@@ -163,4 +163,5 @@ void BHLX_MenuCommand()
 void BHLX_Init()
 {
     gEngfuncs.pfnAddCommand("bhlx_menu", BHLX_MenuCommand);
+    gEngfuncs.pfnConsolePrint("[BHLX] options menu loaded. Type bhlx_menu to open it.\n");
 }

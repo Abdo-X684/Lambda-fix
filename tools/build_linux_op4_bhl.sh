@@ -29,9 +29,18 @@ python3 -m venv "$OUT/zigvenv"
 "$OUT/zigvenv/bin/pip" install --quiet "ziglang==$ZIG_VERSION"
 cat > "$OUT/cc32" <<WRAP
 #!/bin/bash
+# Compile-only calls get no extra flags. Link calls also get RUNPATH=\$ORIGIN,
+# so client.so finds vgui.so and libSDL2 in its own cl_dlls/ folder.
 args=()
-for a in "\$@"; do [ "\$a" = "-m32" ] || args+=("\$a"); done
-exec "$OUT/zigvenv/bin/python" -m ziglang c++ -target x86-linux-gnu.2.17 -I"$ROOT/tools/stubinc" "\${args[@]}"
+link=1
+for a in "\$@"; do
+  [ "\$a" = "-m32" ] && continue
+  [ "\$a" = "-c" ] && link=0
+  args+=("\$a")
+done
+extra=()
+if [ "\$link" = 1 ]; then extra=(-Wl,-rpath,'\$ORIGIN'); fi
+exec "$OUT/zigvenv/bin/python" -m ziglang c++ -target x86-linux-gnu.2.17 -I"$ROOT/tools/stubinc" "\${args[@]}" "\${extra[@]}"
 WRAP
 chmod +x "$OUT/cc32"
 
