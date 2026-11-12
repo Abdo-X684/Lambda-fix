@@ -1,0 +1,20 @@
+{
+  "built": "static-only (Linux, zig c++ -target x86-linux-gnu.2.17, ELF32 i386)",
+  "source": "OP4 base + BHL systems/autojump (tools/build_op4_bhl.py tree)",
+  "vgui": "OP4 linux/vgui.so (VGUI1), sha256 399d1609... fetched from pinned OP4 commit",
+  "deviations": [
+    "GL/gl.h replaced by 2-constant stub (GL_MODELVIEW_MATRIX/PROJECTION_MATRIX)",
+    "-Map linker flag dropped (zig ld unsupported)",
+    "gendbg.sh run as bash-equivalent objcopy split"
+  ],
+  "client_needed": [
+    "vgui.so",
+    "libSDL2-2.0.so.0",
+    "libm.so.6",
+    "libc.so.6",
+    "ld-linux.so.2",
+    "libpthread.so.0",
+    "libdl.so.2"
+  ],
+  "in_game_tested_here": false
+}
