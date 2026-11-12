@@ -1,0 +1,77 @@
+name: Build OP4-based BugfixedHL client DLL
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - arena/dd30bd22-bugfixhl-speedrun-op4
+    paths:
+      - .github/workflows/windows-op4-bhl-client.yml
+      - tools/build_op4_bhl.py
+      - merge/**
+      - integration/bhl/**
+
+permissions:
+  contents: write
+
+jobs:
+  client:
+    runs-on: windows-2022
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: arena/dd30bd22-bugfixhl-speedrun-op4
+          persist-credentials: true
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Fetch pinned upstreams and generate the OP4-based BHL tree
+        shell: pwsh
+        run: |
+          python -m merge.cli fetch
+          python tools/build_op4_bhl.py --out build/op4bhl
+
+      - uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: x86
+
+      - name: Build client.dll from the OP4 SDK (VGUI1) with MSVC/Win32
+        shell: pwsh
+        run: |
+          msbuild build/op4bhl/projects/vs2019/projects.sln /t:hl_cdll /p:Configuration=Release /p:Platform=Win32 /m /nologo
+          $dll = Get-ChildItem -Path build/op4bhl/projects/vs2019 -Recurse -Filter client.dll | Where-Object { $_.FullName -match 'Release' } | Select-Object -First 1
+          if (-not $dll) { $dll = Get-ChildItem -Path build/op4bhl/projects/vs2019 -Recurse -Filter client.dll | Select-Object -First 1 }
+          if (-not $dll) { throw "client.dll was not produced" }
+          New-Item -ItemType Directory -Force -Path build-evidence/op4-bhl-windows | Out-Null
+          Copy-Item $dll.FullName build-evidence/op4-bhl-windows/client.dll -Force
+          Copy-Item build/op4bhl/OP4_BHL_PROVENANCE.json build-evidence/op4-bhl-windows/OP4_BHL_PROVENANCE.json -Force
+
+      - name: Check PE loader shape
+        shell: pwsh
+        run: |
+          python -m pip install --quiet pefile
+          python tools/check_msvc_pe.py build-evidence/op4-bhl-windows/client.dll
+
+      - name: Upload client.dll
+        uses: actions/upload-artifact@v4
+        with:
+          name: op4-bhl-client-dll
+          path: build-evidence/op4-bhl-windows/
+          if-no-files-found: error
+
+      - name: Publish client.dll to the working branch
+        shell: pwsh
+        run: |
+          $branch = 'arena/dd30bd22-bugfixhl-speedrun-op4'
+          git config user.name "arena-bot"
+          git config user.email "arena-bot@users.noreply.github.com"
+          git add -f build-evidence/op4-bhl-windows/client.dll build-evidence/op4-bhl-windows/OP4_BHL_PROVENANCE.json
+          if (git diff --cached --quiet) {
+            Write-Host "No client.dll changes to publish"
+          } else {
+            git commit -m "Build OP4-based BugfixedHL client DLL (VGUI1)"
+            git pull --rebase origin $branch
+            git push origin "HEAD:$branch"
+          }
