@@ -46,6 +46,8 @@ CLIENT_FILES = (
     ("strafeguide.cpp", "cl_dll/strafeguide.cpp", "BHL strafeguide"),
     ("bhlcfg.h", "cl_dll/bhlcfg.h", "bugfixedhl.cfg"),
     ("bhlcfg.cpp", "cl_dll/bhlcfg.cpp", "bugfixedhl.cfg"),
+    ("bhlx_menu.h", "cl_dll/bhlx_menu.h", "BHLX options menu (VGUI1)"),
+    ("bhlx_menu.cpp", "cl_dll/bhlx_menu.cpp", "BHLX options menu (VGUI1)"),
 )
 SERVER_FILES = (
     ("bhl_systems.h", "dlls/bhl_systems.h", "compatibility layer"),

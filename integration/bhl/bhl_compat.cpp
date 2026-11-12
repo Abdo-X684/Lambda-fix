@@ -12,6 +12,7 @@
 #include "jumpspeed.h"
 #include "strafeguide.h"
 #include "bhlcfg.h"
+#include "bhlx_menu.h"
 #include "ref_params.h"   // OP4: common/ref_params.h (simvel, movevars, cmd)
 
 // ---------------------------------------------------------------------
@@ -197,6 +198,7 @@ void BHL_Init()
     g_BhlReady = true;
 
     CvarSystem::RegisterCvars();
+    BHLX_Init();  // bhlx_menu console command (VGUI1 options panel)
     g_BhlElements[0] = new CHudSpeedometer();
     g_BhlElements[1] = new CHudJumpspeed();
     g_BhlElements[2] = new CHudStrafeGuide();
