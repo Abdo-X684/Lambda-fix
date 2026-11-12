@@ -3,6 +3,10 @@ name: Build OP4 BugfixedHL Linux binaries on the self-hosted ARM64 runner
 # Runs ONLY on the self-hosted Linux ARM64 runner (the user's phone).
 # Produces Linux ELF32 client.so / hl.so / vgui.so. Windows MSVC DLLs are
 # not built here: they require Visual Studio on Windows.
+#
+# The phone has an unstable connection, so instead of actions/checkout (which
+# downloads the whole ~139 MB HEAD tree and failed mid-transfer), this job does
+# a partial sparse clone of only the ~1 MB the build needs, with retries.
 on:
   workflow_dispatch:
   push:
@@ -18,18 +22,40 @@ jobs:
   linux-build:
     runs-on: [self-hosted, Linux, ARM64]
     timeout-minutes: 240
+    env:
+      BRANCH: arena/dd30bd22-bugfixhl-speedrun-op4
+      REPO: Abdo-X684/Bugfixhl-speedrun-op4
+      GH_TOKEN: ${{ github.token }}
     steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: arena/dd30bd22-bugfixhl-speedrun-op4
-          persist-credentials: false
+      - name: Partial sparse clone (build inputs only), with retries
+        run: |
+          set -uo pipefail
+          AUTH=$(printf 'x-access-token:%s' "$GH_TOKEN" | base64 | tr -d '\n')
+          G() { git -c "http.extraheader=AUTHORIZATION: basic $AUTH" "$@"; }
+          ok=0
+          for attempt in 1 2 3 4 5 6; do
+            rm -rf src
+            if G clone --filter=blob:none --sparse --depth 1 --no-checkout \
+                 --branch "$BRANCH" "https://github.com/$REPO.git" src \
+               && cd src \
+               && G sparse-checkout set tools merge integration data upstreams.json \
+               && G checkout -q; then
+              ok=1; cd ..; break
+            fi
+            echo "attempt $attempt failed, retrying in 20s"
+            cd "$GITHUB_WORKSPACE" 2>/dev/null || true
+            sleep 20
+          done
+          [ "$ok" = 1 ] || { echo "clone failed after retries"; exit 1; }
+          git -C src log --oneline -1
 
       - name: Build Linux client.so, hl.so and vgui.so
+        working-directory: src
         run: bash tools/build_linux_op4_bhl.sh
 
       - name: Upload Linux binaries
         uses: actions/upload-artifact@v4
         with:
           name: op4-bhl-linux-binaries
-          path: build/linux-op4/dist/
+          path: src/build/linux-op4/dist/
           if-no-files-found: error
