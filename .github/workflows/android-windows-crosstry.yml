@@ -4,6 +4,12 @@ name: EXPERIMENT - cross-compile OP4 BHL client for Windows on the self-hosted A
 # Expected blocker: utils/vgui/lib/win32_vc16/vgui.lib is MSVC-ABI (link fails).
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - arena/dd30bd22-bugfixhl-speedrun-op4
+    paths:
+      - .github/workflows/android-windows-crosstry.yml
+      - tools/windows_crosstry.py
 
 permissions:
   contents: read
