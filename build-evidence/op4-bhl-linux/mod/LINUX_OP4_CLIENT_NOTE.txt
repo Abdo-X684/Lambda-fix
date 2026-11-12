@@ -14,3 +14,7 @@ Windows client.dll in this ZIP is still the BugfixedHL VGUI2 build (unchanged).
 SERVER (Linux): dlls/hl.so is built from the same source tree as cl_dlls/client.so.
 liblist.gam points gamedll_linux to dlls/hl.so, so the stock gearbox server is no longer used.
 Keep both in the same build. Not runtime-tested.
+
+Fix: bhlx_menu no longer requires gViewPort. If the TF viewport is not created yet,
+the menu attaches to the engine VGUI root. If VGUI is not ready at all, it prints:
+"[BHLX] VGUI is not ready yet. Load a map, then type bhlx_menu again."

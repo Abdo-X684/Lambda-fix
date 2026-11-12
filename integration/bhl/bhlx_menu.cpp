@@ -56,6 +56,7 @@ public:
 };
 
 CBhlxMenu* g_pMenu = NULL;
+Panel* g_pMenuParent = NULL;
 
 void SetCursorArrow(bool bArrow)
 {
@@ -130,16 +131,20 @@ void CBhlxMenu::Refresh()
 
 void BHLX_ToggleMenu()
 {
-    if (!gViewPort)
+    // Prefer the TF viewport. If it is not created yet, use the engine VGUI root
+    // so the menu still opens (VGUI1 root exists before the viewport does).
+    Panel* pParent = gViewPort ? (Panel*)gViewPort : (Panel*)gEngfuncs.VGui_GetPanel();
+    if (!pParent)
     {
-        gEngfuncs.pfnConsolePrint("[BHLX] menu not ready yet (viewport missing)\n");
+        gEngfuncs.pfnConsolePrint("[BHLX] VGUI is not ready yet. Load a map, then type bhlx_menu again.\n");
         return;
     }
-    if (!g_pMenu)
+    if (!g_pMenu || g_pMenuParent != pParent)
     {
         int wide = 360;
-        g_pMenu = new CBhlxMenu((gViewPort->getWide() - wide) / 2, 80, wide, 300);
-        gViewPort->addChild(g_pMenu);
+        g_pMenu = new CBhlxMenu((pParent->getWide() - wide) / 2, 80, wide, 300);
+        pParent->addChild(g_pMenu);
+        g_pMenuParent = pParent;
     }
     if (g_pMenu->isVisible())
     {

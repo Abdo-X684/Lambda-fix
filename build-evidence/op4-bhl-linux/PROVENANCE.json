@@ -244,7 +244,7 @@
     {
       "path": "cl_dll/bhlx_menu.cpp",
       "origin": "generated-or-binary",
-      "sha256": "202dbad0f85b1ab6f12314b481fb196099125bb95187d8a67d97e7d6ab904e0b"
+      "sha256": "8308c8bf55733d5e595d3119f86f0d15460dd29339277216fe6ab7d63b5eef8e"
     },
     {
       "path": "cl_dll/bhlx_menu.h",
