@@ -20,6 +20,7 @@ the menu attaches to the engine VGUI root. If VGUI is not ready at all, it print
 "[BHLX] VGUI is not ready yet. Load a map, then type bhlx_menu again."
 
 Diagnostic: with hud_speedometer 1, the first HUD frame prints one line:
-"[BHL-HUD] n0=<number_0 sprite index> n9=<number_9 sprite index> hide=<HideHUD bits> spectate=<0/1> hud_draw=<value>"
+"[BHL-HUD] n0=<number_0 index> h0=<number_0 sprite handle> sw/sh=<screen size> hide=<HideHUD bits> spectate=<0/1> hud_draw=<value>"
+h0=0 means the number sprite file did not load (missing .spr in bhlop4 or gearbox).
 A sprite index of -1 means HUD sprites did not load (sprites/hud.txt missing).
 hide has bit 8 (value 8) when health is hidden by the server.

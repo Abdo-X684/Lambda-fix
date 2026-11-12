@@ -35,9 +35,10 @@ void CHudSpeedometer::Draw(float time)
 	if (!s_bDiagPrinted && hud_speedometer.GetBool())
 	{
 		s_bDiagPrinted = true;
-		char buf[160];
-		std::snprintf(buf, sizeof(buf), "[BHL-HUD] n0=%d n9=%d hide=%d spectate=%d hud_draw=%g\n",
-			gHUD.GetSpriteIndex("number_0"), gHUD.GetSpriteIndex("number_9"), gHUD.m_iHideHUDDisplay, gEngfuncs.IsSpectateOnly(), hud_draw.GetFloat());
+		int n0 = gHUD.GetSpriteIndex("number_0");
+		char buf[200];
+		std::snprintf(buf, sizeof(buf), "[BHL-HUD] n0=%d h0=%d sw=%d sh=%d hide=%d spectate=%d hud_draw=%g\n",
+			n0, (int)gHUD.GetSprite(n0), ScreenWidth, ScreenHeight, gHUD.m_iHideHUDDisplay, gEngfuncs.IsSpectateOnly(), hud_draw.GetFloat());
 		gEngfuncs.pfnConsolePrint(buf);
 	}
 	if ((gHUD.m_iHideHUDDisplay & HIDEHUD_HEALTH) || gEngfuncs.IsSpectateOnly())
