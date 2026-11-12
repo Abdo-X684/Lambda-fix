@@ -1,0 +1,4251 @@
+{
+  "kind": "op4-base-with-bhl-systems",
+  "base": {
+    "name": "op4",
+    "repo": "twhl-community/halflife-op4-updated",
+    "ref": "5368be7f8eba14b05236c7c52ad5f6b11fd95e55",
+    "tarball_sha256": "c65e53713b5ef2d3a8a65dfea4010ccb87afb096944e310ce094f9fbdef43753"
+  },
+  "bhl_source": "tmp64/BugfixedHL-Rebased @ 4d32095e3c33 (GPL-3.0-or-later)",
+  "vgui": "VGUI1 (OP4 native). BHL VGUI2 menus/options not merged.",
+  "edits": [
+    {
+      "file": "(merge.bhl)",
+      "rule": "bhl-systems",
+      "kind": "bhl-merge",
+      "copied": 18,
+      "injections": 11
+    },
+    {
+      "file": "cl_dll/input.cpp",
+      "rule": "bhl-input-decls",
+      "kind": "feature-edit"
+    },
+    {
+      "file": "cl_dll/input.cpp",
+      "rule": "bhl-input-ducktap-funcs",
+      "kind": "feature-edit"
+    },
+    {
+      "file": "cl_dll/input.cpp",
+      "rule": "bhl-input-cmds",
+      "kind": "feature-edit"
+    },
+    {
+      "file": "cl_dll/input.cpp",
+      "rule": "bhl-input-kb-cvars",
+      "kind": "feature-edit"
+    },
+    {
+      "file": "cl_dll/input.cpp",
+      "rule": "bhl-input-autofuncs",
+      "kind": "feature-edit"
+    },
+    {
+      "file": "cl_dll/input.cpp",
+      "rule": "bhl-input-createmove",
+      "kind": "feature-edit"
+    },
+    {
+      "file": "cl_dll/input.cpp",
+      "rule": "bhl-input-reset-ducktap",
+      "kind": "feature-edit"
+    },
+    {
+      "file": "pm_shared/pm_shared.cpp",
+      "rule": "bhl-pm-accessors",
+      "kind": "feature-edit"
+    },
+    {
+      "file": "projects/vs2019/hl_cdll.vcxproj",
+      "rule": "vs-toolset-v143-no-steam-copy",
+      "kind": "build-fix"
+    },
+    {
+      "file": "projects/vs2019/hldll.vcxproj",
+      "rule": "vs-toolset-v143-no-steam-copy",
+      "kind": "build-fix"
+    }
+  ],
+  "binary_deps": [
+    {
+      "path": "utils/vgui/lib/win32_vc16/vgui.lib",
+      "sha256": "14a98470c100aa3f319d864523d239ecc48fb2a548ffe8c4c7f12a8ac8521182",
+      "origin": "api.github.com contents @ 5368be7f8eba"
+    },
+    {
+      "path": "lib/public/SDL2.lib",
+      "sha256": "26cb03139b3c8d2bc8d0f6a8db839eba74c930be9ef52a42f9f2f46d043e267f",
+      "origin": "api.github.com contents @ 5368be7f8eba"
+    },
+    {
+      "path": "linux/vgui.so",
+      "sha256": "399d1609f0cbe72b94596e05cd229b7a1f9f15ac8e2a1de99649e638dc493489",
+      "origin": "api.github.com contents @ 5368be7f8eba"
+    }
+  ],
+  "counts": {
+    "op4-verbatim": 800,
+    "op4-patched": 11,
+    "bhl-copied": 16,
+    "generated-or-binary": 4
+  },
+  "files": [
+    {
+      "path": ".clang-format",
+      "origin": "op4-verbatim",
+      "sha256": "e5091c49e80847940bd508609f40405d852ff8aac85ce5d8964751e9fb9a38a9"
+    },
+    {
+      "path": ".clang-tidy",
+      "origin": "op4-verbatim",
+      "sha256": "fa27b1e58820ab351d985b671e6d1a2743eae57292cf78e9b9cad71e940f05b0"
+    },
+    {
+      "path": ".gitattributes",
+      "origin": "op4-verbatim",
+      "sha256": "684c689bdd15b2a2a09ac77994c1e77fb7c4c71016995c7afefc741681d0cf47"
+    },
+    {
+      "path": ".gitignore",
+      "origin": "op4-verbatim",
+      "sha256": "8151211e82790cbd5f587795e4bb48eac008f41732be33b9dd53a83c55e0b314"
+    },
+    {
+      "path": "BUILDING.md",
+      "origin": "op4-verbatim",
+      "sha256": "138e429f7fa261c8d3d9623290ccb6c001b8a7ee86a68099a0e35bf10304fc8a"
+    },
+    {
+      "path": "CHANGELOG.md",
+      "origin": "op4-verbatim",
+      "sha256": "d7b981b9afd770d913b329a75f615758dbbc8e62fbf96849f8988278d86f723a"
+    },
+    {
+      "path": "FULL_UPDATED_CHANGELOG.md",
+      "origin": "op4-verbatim",
+      "sha256": "665c58d2c2de51f6f337d473ddd6cd933b5f007d722b4836bbc63a3d0443ca87"
+    },
+    {
+      "path": "INSTALL.md",
+      "origin": "op4-verbatim",
+      "sha256": "55eaa73ec4d37822aecfac47ff99b893c26142d9d9ef3d49e1f8bef08a14b2cf"
+    },
+    {
+      "path": "LICENSE",
+      "origin": "op4-verbatim",
+      "sha256": "131212c5a670489679af77614fed8089c7ed71ce9ae3aa9333ff7718b643af84"
+    },
+    {
+      "path": "README.md",
+      "origin": "op4-verbatim",
+      "sha256": "1439ca72fad2bb64fc4f63a117e7f89e40d8d11bec91bd6e116f0bdd084a087e"
+    },
+    {
+      "path": "cl_dll/Exports.h",
+      "origin": "op4-verbatim",
+      "sha256": "e1213bd44ed259c37cd0d9541aec2d650a51c842f91ed2e1a47abcb26fe9b91b"
+    },
+    {
+      "path": "cl_dll/GameStudioModelRenderer.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "d98a6ca4ad3af28ad111b123015c96f5ef24d28d4d4f4f4f3175c3c7b9fa6086"
+    },
+    {
+      "path": "cl_dll/GameStudioModelRenderer.h",
+      "origin": "op4-verbatim",
+      "sha256": "8b2930db12036f03c736037d57a84188cd943469dc2c0c6ebcd10714abe5f239"
+    },
+    {
+      "path": "cl_dll/GameStudioModelRenderer_Sample.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "30feee9957e005322ebd7c75b953a8f86c6823c8eb640083572ed891f77597b4"
+    },
+    {
+      "path": "cl_dll/GameStudioModelRenderer_Sample.h",
+      "origin": "op4-verbatim",
+      "sha256": "d06227ce9581f90149f2ef07d2efd2ec4283333b1c418ed98c422a0ed40fedb9"
+    },
+    {
+      "path": "cl_dll/StudioModelRenderer.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "50560593a9924e8ffa2e613b2885910e97b11146b4c930a362bb566377217d47"
+    },
+    {
+      "path": "cl_dll/StudioModelRenderer.h",
+      "origin": "op4-verbatim",
+      "sha256": "eddb311e5d19b7500ce1bb50e929a65f6a65a95c33204854fe014f04e45af67a"
+    },
+    {
+      "path": "cl_dll/ammo.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "db3b0ba6d4c7adba8a606b160938ae0a085eece135cad3f9e201cb54e838211b"
+    },
+    {
+      "path": "cl_dll/ammo.h",
+      "origin": "op4-verbatim",
+      "sha256": "8d9142ee72ae63f69255b7f70c4dda35ae48ee0a2a75b05fa2ca9dbb541552c0"
+    },
+    {
+      "path": "cl_dll/ammo_secondary.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "4684c80228603c325cdcac0891914549251668755d3c00df186c9842dede7e6b"
+    },
+    {
+      "path": "cl_dll/ammohistory.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "17342a207bfb08142bf77d5434096ca45fe3fee3f8ecb24920ffddb4e5f2b48e"
+    },
+    {
+      "path": "cl_dll/ammohistory.h",
+      "origin": "op4-verbatim",
+      "sha256": "ff7e0653bf4edc59f12b7eeb99f2e5c9e5e96d4896246235e2a07317b29973b5"
+    },
+    {
+      "path": "cl_dll/base.cpp",
+      "origin": "bhl-copied",
+      "sha256": "b26659a3c3a4eaea75d0a60056b182d6a8270ce30fc741d9acfe2ed03c04fed3"
+    },
+    {
+      "path": "cl_dll/base.h",
+      "origin": "bhl-copied",
+      "sha256": "a98e2b6aac94f8ea8b663a4d238837b464779c7a4b7b424086676d381561b985"
+    },
+    {
+      "path": "cl_dll/battery.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "dc71cc3402c7368e2aa4d923e4e3abda9b000d651b94e5ad141feebe1a7e9cd2"
+    },
+    {
+      "path": "cl_dll/bhl_compat.cpp",
+      "origin": "bhl-copied",
+      "sha256": "13ddf93cdf6986c759f5ed5fe70c28ebf8f4b84003473339df035f803c07003a"
+    },
+    {
+      "path": "cl_dll/bhl_compat.h",
+      "origin": "bhl-copied",
+      "sha256": "55ef09ff68b45a319c6b94212f0f41184b580dd712fbbaff2f96e8eb9d0edaef"
+    },
+    {
+      "path": "cl_dll/bhl_systems.h",
+      "origin": "bhl-copied",
+      "sha256": "2bda2bd5ae6391226decb4cb0810ee43186c65db329faf856eea5d0250765ca3"
+    },
+    {
+      "path": "cl_dll/bhlcfg.cpp",
+      "origin": "bhl-copied",
+      "sha256": "4af7c91a8eb0707635dffb38f6f64356aa68a74c44906b47135b8f19989e0194"
+    },
+    {
+      "path": "cl_dll/bhlcfg.h",
+      "origin": "bhl-copied",
+      "sha256": "ce609b92126a26d92b7de4b209eecaa705778307a8d11970789cc50ead36b3e9"
+    },
+    {
+      "path": "cl_dll/bhlx_menu.cpp",
+      "origin": "generated-or-binary",
+      "sha256": "55776818d3ac765d15a5ac7aaf99b4e09dabe4b3bc59bd2546031b5f84ad882e"
+    },
+    {
+      "path": "cl_dll/bhlx_menu.h",
+      "origin": "generated-or-binary",
+      "sha256": "4c88993036686d467caa37bca9ab398e3b3163552cefcfc524e2da6a7c2c010c"
+    },
+    {
+      "path": "cl_dll/camera.h",
+      "origin": "op4-verbatim",
+      "sha256": "808017ddb2a8b61e66ce76cf4007fcbcdd7278c6a88823b92bed1a2ffa6bbead"
+    },
+    {
+      "path": "cl_dll/cdll_int.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "7748791a6922b95c3e37cc0772db3f7209f7b4bb53f4ecd486b6210205545af5"
+    },
+    {
+      "path": "cl_dll/cl_dll.h",
+      "origin": "op4-verbatim",
+      "sha256": "9f82b096f65f4dea752456ae974f24097f373a29e6be30d37c46609c9a25bf10"
+    },
+    {
+      "path": "cl_dll/cl_util.h",
+      "origin": "op4-verbatim",
+      "sha256": "ab14d2ebaa9772c6a89715f1e1372ee3fbb21104b0b183ae46eab2825ea0bb38"
+    },
+    {
+      "path": "cl_dll/com_weapons.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "56685797b071cf5fa0bbeedd06ebe3d50758d36a67c5ae12cc81b97b699683fb"
+    },
+    {
+      "path": "cl_dll/com_weapons.h",
+      "origin": "op4-verbatim",
+      "sha256": "e848cb1ace624a59648f460b4b7ee54cdb0760cfddb4e4f949e783403b3875bb"
+    },
+    {
+      "path": "cl_dll/death.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "804ac99868abbd9f90f52b144fbfc437c94246f5e5b186ced83eec3c4cbf9937"
+    },
+    {
+      "path": "cl_dll/demo.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "8e8593b52c1e32fb99d1eda6e025c3d92a6dbf1b67d469f4519d9f6ce3e9929c"
+    },
+    {
+      "path": "cl_dll/demo.h",
+      "origin": "op4-verbatim",
+      "sha256": "cf698e477dc9f3785d50a4e0ff4a34144345473e8926d8e68e8bed21a4b6cd58"
+    },
+    {
+      "path": "cl_dll/entity.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "c1f67eed380b1f98b51d9edb463888813120ad90f644c9854741374c428c9635"
+    },
+    {
+      "path": "cl_dll/ev_common.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "51476252e26d30b3e33af12873f42a1abcdcaf782f489dc5d87b483748c7e201"
+    },
+    {
+      "path": "cl_dll/ev_hldm.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "a49e3e6ecb801259f94958d941a6cc57515fe0ecdd4c00abf5ef9d90a8802d20"
+    },
+    {
+      "path": "cl_dll/ev_hldm.h",
+      "origin": "op4-verbatim",
+      "sha256": "5cccf33fc2d99d54f2bfc2a1a6c3e4b4d1c163468cd1ff316239ed8f3be41673"
+    },
+    {
+      "path": "cl_dll/events.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "3aab70efea718b0366041fa4edd440b9a83c1e69985271b644a7a47b3c0b084b"
+    },
+    {
+      "path": "cl_dll/eventscripts.h",
+      "origin": "op4-verbatim",
+      "sha256": "36427594e8a14473d3a8231ab1d3e81c34985cd43ea5efdc3d5b1952ef12bb37"
+    },
+    {
+      "path": "cl_dll/flashlight.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "65217bf830a1963d231afa4eb2fb1df05c9fb4e6f166bff565ed5af77e264ce1"
+    },
+    {
+      "path": "cl_dll/geiger.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "cbc7ddfc90a11c3890d5c3f027d443fb3da1f2e5f91ef6671b1f33358c4af044"
+    },
+    {
+      "path": "cl_dll/global_consts.h",
+      "origin": "op4-verbatim",
+      "sha256": "43ca24bf1eb3d5ca9a4992ff55ac547d6a14fbe4fa7cc1177e7c1df407b44191"
+    },
+    {
+      "path": "cl_dll/health.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "18d8e0f9e0b6e277975e69332180c51cb21c5cfd1dcf2dedc30541a88535c039"
+    },
+    {
+      "path": "cl_dll/health.h",
+      "origin": "op4-verbatim",
+      "sha256": "776f859ea2b74ea1f858a9afb82b387cd10f7c2374a3e71d7d5a95ba62efed4b"
+    },
+    {
+      "path": "cl_dll/hl/hl_baseentity.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "455ad074d51dd2cf3ba996b8cc240434702e011f5a30d67e06698739423e9de0"
+    },
+    {
+      "path": "cl_dll/hl/hl_events.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "c1f05cb771a1b8e97cf1e8279c624faad82fc9c5e82ffc99be7c0baa3769006a"
+    },
+    {
+      "path": "cl_dll/hl/hl_objects.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "8d3fab38bddcda36806d9b38c996c5b23ce017ddab8fc89880dd077827d02482"
+    },
+    {
+      "path": "cl_dll/hl/hl_weapons.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "a1f2d28cbf741e92b3e939e4db9c4856e236c72be8ba6b95b125be29563aaa59"
+    },
+    {
+      "path": "cl_dll/hud.cpp",
+      "origin": "op4-patched",
+      "sha256": "774808c2da0ec0f063c3a1760324bb7f51c2ba3b959eb39015194914808fbeed"
+    },
+    {
+      "path": "cl_dll/hud.h",
+      "origin": "op4-patched",
+      "sha256": "b5beb6901e8b3612242a9a5e8ace9addf662723ef26a759cf92937a698ec5800"
+    },
+    {
+      "path": "cl_dll/hud_flagicons.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "23c6b85348e8feb47308fa00d8a8c146575eed8286d5b49a626f0a40c9f078ec"
+    },
+    {
+      "path": "cl_dll/hud_msg.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "986b15a20c717ea2391f57778c3b156e503d42a3968e5574e21ca4fcfbd6128b"
+    },
+    {
+      "path": "cl_dll/hud_playerbrowse.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "2bf7937c4b27065c6d5673b3bc5432644153523896b27a4fd61af2e3d1403551"
+    },
+    {
+      "path": "cl_dll/hud_redraw.cpp",
+      "origin": "op4-patched",
+      "sha256": "06d48f0e844c75fede6e28d7f9eeaae90a9a72e7d01ea4a2961a1394021e52f7"
+    },
+    {
+      "path": "cl_dll/hud_spectator.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "73a14a2fa8696d7808997af7840629af9f1f8825fde502d153ddffa94ffb0af3"
+    },
+    {
+      "path": "cl_dll/hud_spectator.h",
+      "origin": "op4-verbatim",
+      "sha256": "a6dc4b38709ba5e38d66cc6f51a3ac4f4e9c83cf5bd6ec992531b6f9246da7ff"
+    },
+    {
+      "path": "cl_dll/hud_update.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "54139e5e39c76fa7f3c8e6e0b5e06c586869ec38f65caa0929374e1d175cf576"
+    },
+    {
+      "path": "cl_dll/in_camera.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "02ff1cfa57c2525a5613cd31219907067b83151cd551e3e01e427b841f836537"
+    },
+    {
+      "path": "cl_dll/in_defs.h",
+      "origin": "op4-verbatim",
+      "sha256": "b4b0c20034754b434ffaf28aabd216c2963eb13b266a12b72ccae7381d2a21e1"
+    },
+    {
+      "path": "cl_dll/input.cpp",
+      "origin": "op4-patched",
+      "sha256": "51f36a4ad65af15bcc1830c30428a84a3504137a8a6637e1b4d966185f15fc06"
+    },
+    {
+      "path": "cl_dll/inputw32.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "199bf82e26462808554a7cf11e55f4127f4996b7b08b5dd16bb6e3eb27a4d865"
+    },
+    {
+      "path": "cl_dll/interpolation.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "90e19e8dae0287b1f98ec932fd17ae2de75c501a24fc4734c51a7fecd51b234a"
+    },
+    {
+      "path": "cl_dll/interpolation.h",
+      "origin": "op4-verbatim",
+      "sha256": "bf98c49fc6d2f536cb3cb7827cf03f73296663d9fe13ead9c7708de75b9980fd"
+    },
+    {
+      "path": "cl_dll/jumpspeed.cpp",
+      "origin": "bhl-copied",
+      "sha256": "611297500a884c76aa4745760689ce5ab6b7a567e26311673028455eaf4c6d07"
+    },
+    {
+      "path": "cl_dll/jumpspeed.h",
+      "origin": "bhl-copied",
+      "sha256": "c0beb33becf617439ba87ddd2313645ffe836bf3cca71e867dc03f968ddfe982"
+    },
+    {
+      "path": "cl_dll/kbutton.h",
+      "origin": "op4-verbatim",
+      "sha256": "39a1e0ab01f4c13923d278dcb298ebbf1091a75402c3bd01f8d0b19fa3ef9992"
+    },
+    {
+      "path": "cl_dll/menu.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "0125db034c22324b52049b98662afc98fe2210ef23693fac92477920bd1422b2"
+    },
+    {
+      "path": "cl_dll/message.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "af708b4be755a9a5c0b575bf580a87988d682d5e08bc0a10df83b459af2c2b2c"
+    },
+    {
+      "path": "cl_dll/overview.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "a5796556d00b265bb9028016d4a1ba6527fe1f42a80b87beeb1332a4640472b1"
+    },
+    {
+      "path": "cl_dll/overview.h",
+      "origin": "op4-verbatim",
+      "sha256": "d82a774d34c69e458c23ab7d9011420abfec71574073defdac9f69ae5a3d43df"
+    },
+    {
+      "path": "cl_dll/particleman/CBaseParticle.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "f27808790b51ee8d3fec8dd7c9cfd1aed95ef396b366e7a3aae717c4d8c6ddc9"
+    },
+    {
+      "path": "cl_dll/particleman/CBaseParticle.h",
+      "origin": "op4-verbatim",
+      "sha256": "62abec4df7a016ab69fff3845133a1a9f364e1e3d9d4f2243540c06b8609bcad"
+    },
+    {
+      "path": "cl_dll/particleman/CFrustum.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "12f4f918b602d9ec0c7363678048ae249ad095e9ea9b3442a3008b7b0ddca180"
+    },
+    {
+      "path": "cl_dll/particleman/CFrustum.h",
+      "origin": "op4-verbatim",
+      "sha256": "e7e35ba65b0ab238e61c737f552fb133423bfdff4cee87009f0c3b62ccad7df8"
+    },
+    {
+      "path": "cl_dll/particleman/CMiniMem.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "19789792c3b23e7eab2846dd06d02bee68cbb7413bfbc1aeed63dcee144cb23d"
+    },
+    {
+      "path": "cl_dll/particleman/CMiniMem.h",
+      "origin": "op4-verbatim",
+      "sha256": "1f657bb43b5e93278877a65a7a3620d253e4f53ff2c4088c8908279c7f3bb90d"
+    },
+    {
+      "path": "cl_dll/particleman/IParticleMan_Active.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "43b63f4c84017044cfd3702a506822f3aea99880e2e6880effe84196e7c3938c"
+    },
+    {
+      "path": "cl_dll/particleman/IParticleMan_Active.h",
+      "origin": "op4-verbatim",
+      "sha256": "958446fb2c07bc2cbbeadd8d83da89021e070a4ba3c84db165e57ad73f91565b"
+    },
+    {
+      "path": "cl_dll/particleman/particleman.h",
+      "origin": "op4-verbatim",
+      "sha256": "b9eba5d1be1c9b45661426f49423fe464035abfc22109ebf27f53be830542365"
+    },
+    {
+      "path": "cl_dll/particleman/particleman_internal.h",
+      "origin": "op4-verbatim",
+      "sha256": "5b95139bb7bc10d102ca1e9c60d3a8e043455c87556fc87c2beb183c86c9f284"
+    },
+    {
+      "path": "cl_dll/player_info.h",
+      "origin": "op4-verbatim",
+      "sha256": "df776d0371ab7319145eafac257ae3e6fe396548452373ba2ab8e06fe570405a"
+    },
+    {
+      "path": "cl_dll/readme.txt",
+      "origin": "op4-verbatim",
+      "sha256": "d1d032cc41ff67a214a8f292f6a854bc4fad4ceaa1af9c2d4c0914c7ec3d630d"
+    },
+    {
+      "path": "cl_dll/saytext.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "2ae8c1c2e50fa2c99facabbe5e0c9eba179757b43ccf650f6de68187358c659e"
+    },
+    {
+      "path": "cl_dll/scoreboard.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "fd2154e2d225d3304379e02db59952c7a701bc9e1de8ce056c7996e7ceca27b2"
+    },
+    {
+      "path": "cl_dll/speedometer.cpp",
+      "origin": "bhl-copied",
+      "sha256": "8e397b0ecb159a97f53b904e8fd6f9d0ad8f97fd028e703ca2456f4062c3ef53"
+    },
+    {
+      "path": "cl_dll/speedometer.h",
+      "origin": "bhl-copied",
+      "sha256": "eabeb55fde6f4ee0ff16556b8564d3510823e02f3c89c7122552e5ae26c3579d"
+    },
+    {
+      "path": "cl_dll/status_icons.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "14e5e8a63a27ef70bec1ada739c00ff29fcc82e85f3aff8047c1cf1db4a0c523"
+    },
+    {
+      "path": "cl_dll/statusbar.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "03de5f5522f0bb453e11e55f2b31de9e60bfd76ada1f9dc64ec859fc34e2ae21"
+    },
+    {
+      "path": "cl_dll/strafeguide.cpp",
+      "origin": "bhl-copied",
+      "sha256": "4f731e1136dda5e4f517b8a40b42001f5df34c7ea8232f6b8faa9edf8ea46827"
+    },
+    {
+      "path": "cl_dll/strafeguide.h",
+      "origin": "bhl-copied",
+      "sha256": "d55fc2e752b0fe6630d13881f2183d750365df4ca23bdaf4da085cff92684330"
+    },
+    {
+      "path": "cl_dll/studio_util.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "79d8806d3e01ccdb779afb0e8d1840a0b82ecfe036cb2a1b371fbd7c096e0de3"
+    },
+    {
+      "path": "cl_dll/studio_util.h",
+      "origin": "op4-verbatim",
+      "sha256": "58322a7e8c21977885abc8efa3339632471fbd708406633d558b2d1c19a86693"
+    },
+    {
+      "path": "cl_dll/text_message.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "4c41da4f6a97c83478609e5c0d7ff42867b86ad113cca7553d104955fd2d58d4"
+    },
+    {
+      "path": "cl_dll/tf_defs.h",
+      "origin": "op4-verbatim",
+      "sha256": "e9fb2884610545824e6d7d7705dc38c6f45fb13768c35d65a57d53b3cc6dd7cb"
+    },
+    {
+      "path": "cl_dll/train.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "05f3160d4e35e5a4e49b0dc4ada4dc6d5fc54a240762c72756f24e40ac7f8a75"
+    },
+    {
+      "path": "cl_dll/tri.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "4963f4538cc5cddf03063e665822386b14dd994c9b5acde0a3055fe10abd5855"
+    },
+    {
+      "path": "cl_dll/tri.h",
+      "origin": "op4-verbatim",
+      "sha256": "73dc70d5583a6e10a68d87afcb8b6f3c7be68dd58762627862b80b890277c3f4"
+    },
+    {
+      "path": "cl_dll/util.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "4ca880931526080794cdd4026fa3c311c3cb392afa8398dc737d9e503b597dfb"
+    },
+    {
+      "path": "cl_dll/vgui_ClassMenu.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "b77f48913cffc7c9b9ea937f46f02c7364b74daaa4f63b39a72945235d75ad97"
+    },
+    {
+      "path": "cl_dll/vgui_CustomObjects.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "32a40978c4889549273e30c992191d67830aeff93adf0c0162b75b20685d4c87"
+    },
+    {
+      "path": "cl_dll/vgui_MOTDWindow.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "a3cbdbb88d429dd409f92ac0865c62151182cd8b1c788a9939829586bfe30bd2"
+    },
+    {
+      "path": "cl_dll/vgui_SchemeManager.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "72b0cd99348f72204a0d6f296969172b88612f97310a2f0b1e5e221fe5a6e3ae"
+    },
+    {
+      "path": "cl_dll/vgui_SchemeManager.h",
+      "origin": "op4-verbatim",
+      "sha256": "ad59bd0a5c227eaa993219acb0ec550f4b99a317a8ba0bcc607fb1c967a925b7"
+    },
+    {
+      "path": "cl_dll/vgui_ScorePanel.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "70310c16e2ef8ca79594022e4277641b93f2f512401b1901f78f937392681699"
+    },
+    {
+      "path": "cl_dll/vgui_ScorePanel.h",
+      "origin": "op4-verbatim",
+      "sha256": "fa24a95db0cf08f561ee95664755a21ce109a0f064d30d89a736efd62e3e5fdb"
+    },
+    {
+      "path": "cl_dll/vgui_SpectatorPanel.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "8d3c2d0f3b4a10be7440ab3866bac82957e0bd541c43bf1b150fb899d27ca8fa"
+    },
+    {
+      "path": "cl_dll/vgui_SpectatorPanel.h",
+      "origin": "op4-verbatim",
+      "sha256": "e8eb11dd33b56c10b0790ebd931b5c40aee92f7ce105123c9657fe162362323a"
+    },
+    {
+      "path": "cl_dll/vgui_StatsMenuPanel.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "44e44db559e8dbcad45ab7bbc10011116dd23a56c52525e98c6cad6664238ba5"
+    },
+    {
+      "path": "cl_dll/vgui_StatsMenuPanel.h",
+      "origin": "op4-verbatim",
+      "sha256": "bfc758c7377ff81d8a3b5558745546f7e97d4da0887d5f449683bee9f585f14a"
+    },
+    {
+      "path": "cl_dll/vgui_TeamFortressViewport.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "fb8ee1bc70c6570dca746938f87b4415a93766b78452daf7743bb9665d424f27"
+    },
+    {
+      "path": "cl_dll/vgui_TeamFortressViewport.h",
+      "origin": "op4-verbatim",
+      "sha256": "181969f32e677330ce534ccbc74bb6467b5d31589a832f15c6af2c7433baf8d6"
+    },
+    {
+      "path": "cl_dll/vgui_int.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "f785443f870641aef43da592afcb76e9ff8bcf21c2895de107347a1a911e764f"
+    },
+    {
+      "path": "cl_dll/vgui_int.h",
+      "origin": "op4-verbatim",
+      "sha256": "9231ee42cc66d1edaf2f00849ed9827bdfa7dcb0be33b19b4e3e545fb06f474a"
+    },
+    {
+      "path": "cl_dll/vgui_teammenu.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "ee3fe672c90f19c208b07eafbedff843221ba03b468067e43d22431a526d79d1"
+    },
+    {
+      "path": "cl_dll/view.cpp",
+      "origin": "op4-patched",
+      "sha256": "85686c7fad4a417cf0da283982aca1453d40a5424d17aa4bcf8b0a6c01d2121b"
+    },
+    {
+      "path": "cl_dll/view.h",
+      "origin": "op4-verbatim",
+      "sha256": "01e82a63fb5726898e1e36309cd846ef751bcac4e7c94ac7bbed4f4b5fdd1ca6"
+    },
+    {
+      "path": "cl_dll/voice_status.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "3e77c0a4f3145fd64f0e3d3b346aae7c6fdc9c99f87055956bc46cfc157d82d3"
+    },
+    {
+      "path": "cl_dll/voice_status.h",
+      "origin": "op4-verbatim",
+      "sha256": "7a85316e87b301fb19fcf0e7c5aeb7de7a552a53490961101235015b56aff278"
+    },
+    {
+      "path": "common/Platform.h",
+      "origin": "op4-verbatim",
+      "sha256": "45c90825c14a0368db2520bcc3756422e06197e2546d1a9a28f1ead357b98022"
+    },
+    {
+      "path": "common/PlatformHeaders.h",
+      "origin": "op4-verbatim",
+      "sha256": "ac3754f56ea320a55732fd0878197ff359cda5ee5dd20300f29d65119010d068"
+    },
+    {
+      "path": "common/Sequence.h",
+      "origin": "op4-verbatim",
+      "sha256": "0b53f94682d352fa80933d4f6cbee4ae5127d40abb7b8246eda767d634b21359"
+    },
+    {
+      "path": "common/beamdef.h",
+      "origin": "op4-verbatim",
+      "sha256": "102213938cd6fe77998e7a52b23f3f644b383a6bb46a3a63e5603c15f69e9152"
+    },
+    {
+      "path": "common/cl_entity.h",
+      "origin": "op4-verbatim",
+      "sha256": "f5ab6ad065489b8118c2de24dca4570b13fa0f04895f7a27746d731c0b5fa12c"
+    },
+    {
+      "path": "common/com_model.h",
+      "origin": "op4-verbatim",
+      "sha256": "c3505e604a643b78a1d0342e769dddb2bfd991872839e38c2740298fd27669d0"
+    },
+    {
+      "path": "common/common_types.h",
+      "origin": "op4-verbatim",
+      "sha256": "5d7b529e4accc359b6678ab143208c8299a49b79f669e2dea91006825491dbd3"
+    },
+    {
+      "path": "common/con_nprint.h",
+      "origin": "op4-verbatim",
+      "sha256": "8ecdbfafbd0b7e0d6a7099c6c548661ab5699bc4a9001fdb87a25ef201ebaed4"
+    },
+    {
+      "path": "common/const.h",
+      "origin": "op4-verbatim",
+      "sha256": "a2b740b304889a97f1c0f36ac86ef3fa86902bd4731396b5596d02d642b84580"
+    },
+    {
+      "path": "common/crc.h",
+      "origin": "op4-verbatim",
+      "sha256": "f61e038398ee8f036feaeda6beb042e569f5a02c3f58fd87ab5bcde31e9730e2"
+    },
+    {
+      "path": "common/cvardef.h",
+      "origin": "op4-verbatim",
+      "sha256": "cfa1b676d599588faed6c5467be16051668bc2d203373912f142372c9ac0c2f9"
+    },
+    {
+      "path": "common/demo_api.h",
+      "origin": "op4-verbatim",
+      "sha256": "b36b64ec996bbc4a61433e824d2a84f6491920837c329b9b6d01f112a57f7417"
+    },
+    {
+      "path": "common/director_cmds.h",
+      "origin": "op4-verbatim",
+      "sha256": "7fdc220aa61278ba64f4879ec961c7b536dbbb9574058177c5eb848af6a31997"
+    },
+    {
+      "path": "common/dlight.h",
+      "origin": "op4-verbatim",
+      "sha256": "909cb670df111e8b3a72fffeba38fc28e91f9790e2629f73fc250069fe3311f7"
+    },
+    {
+      "path": "common/dll_state.h",
+      "origin": "op4-verbatim",
+      "sha256": "a5484068b6a4b7e8c17d595cd402bac2b26089fcad4fd03c5fcbac447a803d3b"
+    },
+    {
+      "path": "common/entity_state.h",
+      "origin": "op4-verbatim",
+      "sha256": "342a4f68e073280110d57b3567d6dabaf56ece3dc9a0022e2e521409fe5f619a"
+    },
+    {
+      "path": "common/entity_types.h",
+      "origin": "op4-verbatim",
+      "sha256": "795c703812bc44325d6d9709913c933776ebee7c50fb38717ef070f72d79798b"
+    },
+    {
+      "path": "common/enums.h",
+      "origin": "op4-verbatim",
+      "sha256": "1d78734ea648a3139a38c65ae498ebf6a28bb5189e8c8e3d15275d70567da5c5"
+    },
+    {
+      "path": "common/event_api.h",
+      "origin": "op4-verbatim",
+      "sha256": "df3c37906550b356b2cceab1b151334d0117242a2b5feb3a339db2b53d499794"
+    },
+    {
+      "path": "common/event_args.h",
+      "origin": "op4-verbatim",
+      "sha256": "0e7539b817bc36af3cf0195ec841fc11113fd628b15c5bc2df0616269aa40fc2"
+    },
+    {
+      "path": "common/event_flags.h",
+      "origin": "op4-verbatim",
+      "sha256": "3d63956cc8ca26dc99617ae4dd5b82324f2cbf586b9d2b0e504f8808b4f479a5"
+    },
+    {
+      "path": "common/hltv.h",
+      "origin": "op4-verbatim",
+      "sha256": "5e8adcc5aaf2219e502678accc6a83b3977c311aa2721d4664372fa97fecde39"
+    },
+    {
+      "path": "common/in_buttons.h",
+      "origin": "op4-verbatim",
+      "sha256": "94db9b1221d1ecb58531a8462c64dd9006611f870c5d2447fcbfe45eab9de677"
+    },
+    {
+      "path": "common/ivoicetweak.h",
+      "origin": "op4-verbatim",
+      "sha256": "793c7b92e4065223a492fa19232eb71f12191d12fc86693cfb6373281538e3b7"
+    },
+    {
+      "path": "common/mathlib.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "db2f59b2646b2a1bf13dc7359bbeefd01a2abc04e13e2a437f17e807ced47413"
+    },
+    {
+      "path": "common/mathlib.h",
+      "origin": "op4-verbatim",
+      "sha256": "deaa20fb1636028fa07583de5307f6c5742041e4397f15197c9dedb754b11db0"
+    },
+    {
+      "path": "common/net_api.h",
+      "origin": "op4-verbatim",
+      "sha256": "65243e248bcdc733b9116e13b01f8927852216a3df23dec45e351c31ccfe88f3"
+    },
+    {
+      "path": "common/netadr.h",
+      "origin": "op4-verbatim",
+      "sha256": "97fa3fede3808253888255347e89a237df523447fda69c5b5586b6b03c367c15"
+    },
+    {
+      "path": "common/parsemsg.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "cc8b38880d277ae4f5b06c5d8bdde30a66551c9ac70e4a60d2743605c5e607d5"
+    },
+    {
+      "path": "common/parsemsg.h",
+      "origin": "op4-verbatim",
+      "sha256": "2aa5661cd47abbfa3de88c39ec6baf6907879d25a23b4826c3553473ea57d22c"
+    },
+    {
+      "path": "common/particledef.h",
+      "origin": "op4-verbatim",
+      "sha256": "9943d9b671b563522cf166acbdf842fd96fde7241ff7ec1f48435efee1a868ef"
+    },
+    {
+      "path": "common/pmtrace.h",
+      "origin": "op4-verbatim",
+      "sha256": "65fa0549403498d78348eddd2669cba0a1352dd331cfea748ea7e795e4c3ea34"
+    },
+    {
+      "path": "common/qfont.h",
+      "origin": "op4-verbatim",
+      "sha256": "ca1de1930f349fab7526bc7acaac43ca292be84072844d7b025d23477b6fc69d"
+    },
+    {
+      "path": "common/r_efx.h",
+      "origin": "op4-verbatim",
+      "sha256": "c423ada792312832fb428eda467bce505cfb9e3e519c0ff28c6073d10a4e590c"
+    },
+    {
+      "path": "common/r_studioint.h",
+      "origin": "op4-verbatim",
+      "sha256": "7095e303e5eb2d67fd506d5e911e3703a8cff57aa8dc150d06fcd3843280dd62"
+    },
+    {
+      "path": "common/ref_params.h",
+      "origin": "op4-verbatim",
+      "sha256": "afddf3e2eea95c226f55708428256606acca1b9014179cdd447a0e9cd066055c"
+    },
+    {
+      "path": "common/screenfade.h",
+      "origin": "op4-verbatim",
+      "sha256": "011c19f450873607f6291309395feff46e98add00e9fdc65593afbae819141c0"
+    },
+    {
+      "path": "common/studio_event.h",
+      "origin": "op4-verbatim",
+      "sha256": "6a46b87f21cddd27620e0266fec8f773cb7a470062522e9d5fd4916c709852aa"
+    },
+    {
+      "path": "common/triangleapi.h",
+      "origin": "op4-verbatim",
+      "sha256": "01244a81b4e11e79a74da06ffa34effdd0af139845a95ded84b48cab5dcf13cc"
+    },
+    {
+      "path": "common/usercmd.h",
+      "origin": "op4-verbatim",
+      "sha256": "da4644220aae6cdcb774a0ec5cc8fee07c1cc3e88922b326255ad1f702488a3b"
+    },
+    {
+      "path": "common/weaponinfo.h",
+      "origin": "op4-verbatim",
+      "sha256": "c1b935c9f15c1f77b6f04950be885c97c8d7ab2caf6f96951d10d09594d9af09"
+    },
+    {
+      "path": "dlls/CDrillSergeant.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "e25c52fd9c2d88e0ead33833cd895d73ecf1e69aa1a7144e33b982e81da98ed1"
+    },
+    {
+      "path": "dlls/COFAllyMonster.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "ed7be4204d240b9b929aebd61276cfc9155775d65fd9becfb0d5494fb86d8f71"
+    },
+    {
+      "path": "dlls/COFAllyMonster.h",
+      "origin": "op4-verbatim",
+      "sha256": "7368e4a77a42aff7d7fbbd8b78b61118ea55c22e4a2f2bf79d205071346c14a0"
+    },
+    {
+      "path": "dlls/COFSquadTalkMonster.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "d1ee7f4fa7da14e2f9bccce65716fd41b9f98da7f94273c64dfe8c351c584245"
+    },
+    {
+      "path": "dlls/COFSquadTalkMonster.h",
+      "origin": "op4-verbatim",
+      "sha256": "9faa235c11b38fd278da7f80448baa4f09f83d2aa5f314a2c3a5a978618b9852"
+    },
+    {
+      "path": "dlls/CRecruit.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "39a7788c9a1163c369ec19c103ce130bcfa5045117265f27d6392caf6329b77d"
+    },
+    {
+      "path": "dlls/UserMessages.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "8315c44c30bbec36df631cc5b3ae4f2412a1a67d52020944313241871a26081c"
+    },
+    {
+      "path": "dlls/UserMessages.h",
+      "origin": "op4-verbatim",
+      "sha256": "cf41769ce854a7c8dfb934da98f5d68a43cd8ee4a1d74ec92c47dabf942039b0"
+    },
+    {
+      "path": "dlls/Wxdebug.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "fdb6b6625d8210d0a15224f3e3d3429b9f23aa82a016af204e95c1e5c75060e4"
+    },
+    {
+      "path": "dlls/activity.h",
+      "origin": "op4-verbatim",
+      "sha256": "261e5ef8809f846dbc09283aa5f3260d84302ff7ca0c0f0568b375c58e019b82"
+    },
+    {
+      "path": "dlls/activitymap.h",
+      "origin": "op4-verbatim",
+      "sha256": "a469bc1123be79a5cefda666c1805b37bb9c38f82ad3f5f681e57213a6e4f1ab"
+    },
+    {
+      "path": "dlls/aflock.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "a62c88f8f021be327d1186b9107140e836b5669fe6e8e5fab4b0a8c53baf3a71"
+    },
+    {
+      "path": "dlls/agrunt.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "ec08813836a95c5003614d3c4bfd646e97f5c1d13bb2ea5f3a15c61843304137"
+    },
+    {
+      "path": "dlls/airtank.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "b9125aa3a0646c688f2bfa5b15a8ce8410cadda32941951bb462b883984d86f0"
+    },
+    {
+      "path": "dlls/animating.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "38f619627e12defe783c9ad549da146901d1c5a5dc07c4fe6f9d0e5428ed1672"
+    },
+    {
+      "path": "dlls/animation.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "bd6c3754271b5540a5fa6169b940bc7c3e3f1523fc0aac50295b78ca8a9c860c"
+    },
+    {
+      "path": "dlls/animation.h",
+      "origin": "op4-verbatim",
+      "sha256": "965467068925f64acc0d859a62848298e3d7336926375de1ce2e04fc800c705b"
+    },
+    {
+      "path": "dlls/apache.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "ef4bc5106295522b6dee4594f08e23bf75e7572821624a5a891f94eb26e68c7a"
+    },
+    {
+      "path": "dlls/baby_voltigore.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "67216c397a400147bc0f63e0eafdaa757116d9f12bf21dca06170b4102935d9c"
+    },
+    {
+      "path": "dlls/barnacle.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "2ffce0d13ba9daa457d8efc2a7a52f2ed67c5c22299a22e2d51fb8cfdc7bd809"
+    },
+    {
+      "path": "dlls/barney.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "9b98a01393c7ec7076b75174da7148dd0f97db3d5293913de2204df820e56891"
+    },
+    {
+      "path": "dlls/basemonster.h",
+      "origin": "op4-verbatim",
+      "sha256": "8eefcfd921121e43dc26c4dd42d8c6d9dd8caa7a8c76788224e44c2d19d7b4f8"
+    },
+    {
+      "path": "dlls/bhl_server.cpp",
+      "origin": "bhl-copied",
+      "sha256": "d9efc5bc6718f461cb4f618ddb42af3a16533003aa4365b1c469f026dc1549a7"
+    },
+    {
+      "path": "dlls/bhl_server.h",
+      "origin": "bhl-copied",
+      "sha256": "c71a89f6ed9557dc0efe021fb4f8fab0d183e95e517ea6bc10e3c1f063d9ca10"
+    },
+    {
+      "path": "dlls/bhl_systems.h",
+      "origin": "bhl-copied",
+      "sha256": "2bda2bd5ae6391226decb4cb0810ee43186c65db329faf856eea5d0250765ca3"
+    },
+    {
+      "path": "dlls/bigmomma.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "0bbd6b14cdbb3dddca170678147e5e400103cc6029cd6c30d07dd25ae242dfcd"
+    },
+    {
+      "path": "dlls/blkop_apache.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "a21d2e8978012eefad9865ca25c3224566d5e9f48d72d71aa1de57fe51c55422"
+    },
+    {
+      "path": "dlls/blkop_osprey.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "5dc5c25bfe4013eaf45fb10436fd7e44ded1f09bbec2b4137f7faae7cbdc22dc"
+    },
+    {
+      "path": "dlls/bloater.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "9415f9dfcf8bd8c063aa26588940ce32f45db825342b3bea1197525b9486835c"
+    },
+    {
+      "path": "dlls/blowercannon.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "af53f0e8085980d68b3b20ac26a7094d9aebad21263b7c6b23109f7d93e6a886"
+    },
+    {
+      "path": "dlls/bmodels.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "95217307020cf5b0b3a37f609024981fb5ebb4be2691c9ddc43ec3fcbd2afa10"
+    },
+    {
+      "path": "dlls/bullsquid.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "c1a2105f47ffe043893af34fb374ff9fd7593ce2a2283eb5de0233effe135b8c"
+    },
+    {
+      "path": "dlls/buttons.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "c869a0a8c3135a3772921fc5b6fcb6b9eaa7460331255bf35d74a93ee79980df"
+    },
+    {
+      "path": "dlls/cbase.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "a918a6bff58bc1ee738c593c166bdc21816d434a6957db570823158f0be2bbf5"
+    },
+    {
+      "path": "dlls/cbase.h",
+      "origin": "op4-verbatim",
+      "sha256": "7767ccbaf0bde4b41cdec53d297e88753c6affb16cc45d96373126b6ae80e54b"
+    },
+    {
+      "path": "dlls/cdll_dll.h",
+      "origin": "op4-verbatim",
+      "sha256": "54a622b0011c4f103ffa6270640357cdbabb7a84b84b506a78e6506ffa330f0c"
+    },
+    {
+      "path": "dlls/cleansuit_scientist.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "9ebdb9b1fa1480ef68277897895c28cd4190dce433ec4bec6206c91450012b0d"
+    },
+    {
+      "path": "dlls/client.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "31bad549cb2215b158acb07d91d504995225d5486f25b7ce49b74e07cf3ec4a4"
+    },
+    {
+      "path": "dlls/client.h",
+      "origin": "op4-verbatim",
+      "sha256": "e351bce2d610bc80bddd615066622c078dcdb338a35c2b64e945af49f9d3daf1"
+    },
+    {
+      "path": "dlls/combat.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "088a56f91f1f59d6f2c06d09a8669c39723eea0e23ff3fd1cb71e6c250186a61"
+    },
+    {
+      "path": "dlls/controller.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "34df96b22050054fca00beb4063d15cfc0a5d7bacbc1ea57a035fcc51fbf9002"
+    },
+    {
+      "path": "dlls/coopplay_gamerules.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "a358cf870b58f0c258fc471010e829aff9a6673a27f5c5301c1f0d6f709a62b7"
+    },
+    {
+      "path": "dlls/coopplay_gamerules.h",
+      "origin": "op4-verbatim",
+      "sha256": "9eddfe91b1cb9a509b11a66f477ccf3cca5672fef1898d0ad446f16836401bc8"
+    },
+    {
+      "path": "dlls/crossbow.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "f613d43a941fbfb395d3521f3cc93e795b0c9ed5aa1893e442e8427f8a8a5fa4"
+    },
+    {
+      "path": "dlls/crowbar.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "cb84101d288c395d90ee314846bd81e51b060fd0a2cc4fba62a0f90911a61d50"
+    },
+    {
+      "path": "dlls/ctf/CHUDIconTrigger.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "aff4098b15991f0d5bffce6942464decf647ab109fe00fe850dfd22001f9ef9d"
+    },
+    {
+      "path": "dlls/ctf/CHUDIconTrigger.h",
+      "origin": "op4-verbatim",
+      "sha256": "837340615cd0bdeed0dc16a13a16a6656d44e01ba22f8edf2b8b7f5116a39756"
+    },
+    {
+      "path": "dlls/ctf/CItemAcceleratorCTF.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "812a8654912bf044e30dbe92c4bd40adf630d93f7939ce7183184648ff4faf0f"
+    },
+    {
+      "path": "dlls/ctf/CItemAcceleratorCTF.h",
+      "origin": "op4-verbatim",
+      "sha256": "6a0401026ce590417f33f5bb3b5bdae740fb3868a20f0ca3d56a55d73f975b9a"
+    },
+    {
+      "path": "dlls/ctf/CItemBackpackCTF.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "c0e568c2377a1ac99c45a482e3e5816e1143981b0a8e830baf24b41a4331f82f"
+    },
+    {
+      "path": "dlls/ctf/CItemBackpackCTF.h",
+      "origin": "op4-verbatim",
+      "sha256": "08366f48690c08f3afcdea7b741df9fe11de0badd1e0d5cb5e739dc5213f5566"
+    },
+    {
+      "path": "dlls/ctf/CItemCTF.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "669bee756e685127c8adb785c48711fe90a3b9d9459210220e78dd0095ea784a"
+    },
+    {
+      "path": "dlls/ctf/CItemCTF.h",
+      "origin": "op4-verbatim",
+      "sha256": "53632c08c751b12fadafbdb234f096352f333d1efef1c5975ccb0cbb6f99f336"
+    },
+    {
+      "path": "dlls/ctf/CItemLongJumpCTF.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "a5056564047ddd9dcf64e932578d1f1fa2a9b3b4aed0aa3ad2aa40dbd7c5a918"
+    },
+    {
+      "path": "dlls/ctf/CItemLongJumpCTF.h",
+      "origin": "op4-verbatim",
+      "sha256": "83e33aa8faa02e658dcc193d4d6bb6a9288ad5f8f5c700b662fb4451e3b72df1"
+    },
+    {
+      "path": "dlls/ctf/CItemPortableHEVCTF.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "900e010df3131d4a49698d7b292ee7c67e36865709e5db769f9b835f4bcbea66"
+    },
+    {
+      "path": "dlls/ctf/CItemPortableHEVCTF.h",
+      "origin": "op4-verbatim",
+      "sha256": "5ba21c1f29dd4fd6494a4145926385a7c4a34f31919a0f0a4ec195ca78724ede"
+    },
+    {
+      "path": "dlls/ctf/CItemRegenerationCTF.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "ab9f25305de9dfcbd3a21710eed5ad2199e7767e41e8792c7dd4c01b64b6bf42"
+    },
+    {
+      "path": "dlls/ctf/CItemRegenerationCTF.h",
+      "origin": "op4-verbatim",
+      "sha256": "65e81dc832e48ab9d50cc21ff2e762ee70296b3bce48b06d6dd3f6e833b9cd13"
+    },
+    {
+      "path": "dlls/ctf/CItemSpawnCTF.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "3c7d2ca761d55d84b585cad7be418f6af956c026a69dc8d3fe2e4c5b591a1920"
+    },
+    {
+      "path": "dlls/ctf/CItemSpawnCTF.h",
+      "origin": "op4-verbatim",
+      "sha256": "86e4c1247b18fe4570d42248e599c0d984625f5fa084c285208db6489a7378f5"
+    },
+    {
+      "path": "dlls/ctf/CTFDefs.h",
+      "origin": "op4-verbatim",
+      "sha256": "08b36c0ca349ad5f7d674c65c655d9d1196e136dae1ffbc3ec10593f8a7db4ac"
+    },
+    {
+      "path": "dlls/ctf/CTFDetect.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "86ee3abeb52b8f26ea984e6a997d8f5b2225fefa540fe42868e6c870b8eb7695"
+    },
+    {
+      "path": "dlls/ctf/CTFDetect.h",
+      "origin": "op4-verbatim",
+      "sha256": "22ff46c22de15cb2f0ba5b0543b32e011c61abeb29cee62a945617d59b12e08b"
+    },
+    {
+      "path": "dlls/ctf/CTFGoal.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "1e7f88ba57b513708c7812e12e5059f20268993e3a8b497f1600cb3c1456f589"
+    },
+    {
+      "path": "dlls/ctf/CTFGoal.h",
+      "origin": "op4-verbatim",
+      "sha256": "2b5ddf9394af5a21bb29d4445988b80b307714baf8ed3247d57b8d282121803b"
+    },
+    {
+      "path": "dlls/ctf/CTFGoalBase.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "cce51508094fbf4c1872a159c9cb6ea9da85c102efb09e0ba9717b8ba2cf8d99"
+    },
+    {
+      "path": "dlls/ctf/CTFGoalBase.h",
+      "origin": "op4-verbatim",
+      "sha256": "26ce37eb3a10821db4135c00065f2d4e9f644d034b477a323ac1b2b291128ba2"
+    },
+    {
+      "path": "dlls/ctf/CTFGoalFlag.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "e7c129cd3a92f8a32a16e27d67b5cc52509b386ada165d93009501bc8fdc3008"
+    },
+    {
+      "path": "dlls/ctf/CTFGoalFlag.h",
+      "origin": "op4-verbatim",
+      "sha256": "7c6319c9d14acb7c374950246dbb72fb7a6d9a81ccdea7a8eddde3584dd2b7ad"
+    },
+    {
+      "path": "dlls/ctf/CTFSpawn.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "dcfde17b109b3d123f7c35aedd2b5d64eb27200c630238ca28cc7f7ed7aaf2c0"
+    },
+    {
+      "path": "dlls/ctf/CTFSpawn.h",
+      "origin": "op4-verbatim",
+      "sha256": "3a91c26d6457c338635605b0f5578f8b1d9539a6a9ebbea65cc726a9d0eeafdc"
+    },
+    {
+      "path": "dlls/ctf/ctfplay_gamerules.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "12634189c30046cd61a7df8c48a1a7cff365e6d2306e54a04b7b3e82cd97bc24"
+    },
+    {
+      "path": "dlls/ctf/ctfplay_gamerules.h",
+      "origin": "op4-verbatim",
+      "sha256": "cc9defcb58eabea6148aedf8c583aefbfb52d9faab3c9182f8b9138706ebf7cb"
+    },
+    {
+      "path": "dlls/decals.h",
+      "origin": "op4-verbatim",
+      "sha256": "1d464da4ba6ecfedc990e115fdc36c7c6e0bbc98c308a0d70a0dc57dde1f38ec"
+    },
+    {
+      "path": "dlls/defaultai.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "9fdc81d349bef389f78557b36c615f678b18bce78ff0f7e14c5115173fc7c42b"
+    },
+    {
+      "path": "dlls/defaultai.h",
+      "origin": "op4-verbatim",
+      "sha256": "1ceb2e610e4d163e0e88fad156195a8fbd527efb12d6b216d0b7dfa0d769983b"
+    },
+    {
+      "path": "dlls/doors.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "158dc72a08679643635877ceba52bf6659d917d032c19863d2afa4654dc535b4"
+    },
+    {
+      "path": "dlls/doors.h",
+      "origin": "op4-verbatim",
+      "sha256": "a6990e7125afc989332e506ec80d989bb38fe0b639844710797be6ea3feef03b"
+    },
+    {
+      "path": "dlls/effects.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "ce55eb995e25a6dfb58c71f2903f9ebbdc29b512a846e278277c2d4c12665922"
+    },
+    {
+      "path": "dlls/effects.h",
+      "origin": "op4-verbatim",
+      "sha256": "580434c13ecd6fed48d21cf469fdc7e793e0dd4234cdebef132abcf68b928236"
+    },
+    {
+      "path": "dlls/egon.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "a124e11782fcf4a5954294ad13a4b64a73007e13649140c4f111b0a495795612"
+    },
+    {
+      "path": "dlls/ehandle.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "ce636b3c4eb45501d16155552b4ef8727289a8c5f6fad9090a750c56f5f0d9ee"
+    },
+    {
+      "path": "dlls/enginecallback.h",
+      "origin": "op4-verbatim",
+      "sha256": "c3d34a87c7d0f841a774aad79a16a2da2341a84bd1721af9d3af4a130377e138"
+    },
+    {
+      "path": "dlls/explode.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "d9ec3a97a7f71a0f1270a5b69ad98dd37ca19b63ed565359dbba76f78a697677"
+    },
+    {
+      "path": "dlls/explode.h",
+      "origin": "op4-verbatim",
+      "sha256": "abfed74df08b9cae5b8099f2419a72c6debaa0711552d8987b54463179bff648"
+    },
+    {
+      "path": "dlls/extdll.h",
+      "origin": "op4-verbatim",
+      "sha256": "8520301db11c4f8e19b65d4adc808ddd2fccc3db6b2ca345e1ced9f3ec0aa80c"
+    },
+    {
+      "path": "dlls/flyingmonster.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "dbd53488223f412348f9f1bf7c08adc007a181debfb2bffec802f05d5a635446"
+    },
+    {
+      "path": "dlls/flyingmonster.h",
+      "origin": "op4-verbatim",
+      "sha256": "32240c1ee8d174bc7d7216a6caf6bdd06cefc2880d17fbfae469b0ac311db851"
+    },
+    {
+      "path": "dlls/func_break.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "7bdc8565c59eca8eefe5ceabfd183bce895291eba1b9d881be2bd9fe763ea5ec"
+    },
+    {
+      "path": "dlls/func_break.h",
+      "origin": "op4-verbatim",
+      "sha256": "1735fad36e40baa18fb0bd5de858eaf842d176f1ef8ef4be1009410f0cdfa7b7"
+    },
+    {
+      "path": "dlls/func_tank.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "2d73c92c12a984cae34c44753f13a92858c4bd99b8e6fbca1723ee1d9a5a47db"
+    },
+    {
+      "path": "dlls/func_tank_of.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "cf6552a40bb08852bec508ae703e11fd0d6c4f743bfb51fde49359e133d4c7ba"
+    },
+    {
+      "path": "dlls/game.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "bc0ec467b1b341db1a718ae2e8386271018841e90d6dd52a2ff32c2aaae09590"
+    },
+    {
+      "path": "dlls/game.h",
+      "origin": "op4-verbatim",
+      "sha256": "8f07b3b7a6d04495be00f57e87747d2c41d4bc69c13a47eed8bc444da75722c6"
+    },
+    {
+      "path": "dlls/gamerules.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "0a4496ee234f98cb329a07a8c255ba5ec171e6202df922cf821bd6722ef23382"
+    },
+    {
+      "path": "dlls/gamerules.h",
+      "origin": "op4-verbatim",
+      "sha256": "cc4a6092338d78df73bb2337f96aab1012008f8a1b97930d1dce5d4184f12ae3"
+    },
+    {
+      "path": "dlls/gargantua.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "389d10c79484282463c044c1a0e7c14701730d8e9593e2b8b01f0fb41896792a"
+    },
+    {
+      "path": "dlls/gauss.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "813b5adbf1a6f9f6eef43dcf52bdda8c7b20750283ed1f1529ab96116e314395"
+    },
+    {
+      "path": "dlls/genericmonster.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "23d34f8eb0764959e4768bd9a9ba99473518b951ed81479a5ab3ce50232563e1"
+    },
+    {
+      "path": "dlls/geneworm.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "e81411c31ebe22095dea8476d157c6f8905e2c9130e35cba2f573bd242a7ea51"
+    },
+    {
+      "path": "dlls/ggrenade.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "422b1e59ccbfa8f6222f04b934ae80dffc29f628af320b11f544f27b7028ff32"
+    },
+    {
+      "path": "dlls/glock.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "d7277bd829e388d307cbd72511a0eef75f0e34a0c420f9882808889e7decb7f2"
+    },
+    {
+      "path": "dlls/gman.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "4767a0f5f50525810031507b3aca7cfbdb01576036993787ba8953c56027e5af"
+    },
+    {
+      "path": "dlls/gonome.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "dacea3ddd5031902c2aa6a35bec08a210e6774c96c41c8fde48ca1b63dd7d292"
+    },
+    {
+      "path": "dlls/h_ai.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "4570fe76590f2f19b2b87d47e8c77adcb9522f1e4962725f282a4fb23847384e"
+    },
+    {
+      "path": "dlls/h_battery.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "20f6d5da2114de49ea0fb58ab1e24bf0b8d315895a3b84dcf69f1a7e924a44f7"
+    },
+    {
+      "path": "dlls/h_cine.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "828185701c85c3f8bbab33fdfd62392165f7effa4ee99d6f48f906c8da3b0409"
+    },
+    {
+      "path": "dlls/h_cycler.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "b96a82b36b77e30125de73fa7e56c103eefcfcacbc4118802d8c3935b3d255b2"
+    },
+    {
+      "path": "dlls/h_export.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "db90c4288e4d509cc6ff197b4005a468a9024bbaa0b959b876077c9fc50d63d7"
+    },
+    {
+      "path": "dlls/handgrenade.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "44b42b19cfbdd34bae4347d02c6f8f8b9b5f1d4de36a4d20dd1d5a98b6b72018"
+    },
+    {
+      "path": "dlls/hassassin.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "0385bd791dc1ce9850e0a735b9a3c62935f2184ff2dc179cfa5880a9d2515673"
+    },
+    {
+      "path": "dlls/headcrab.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "d6001bf91bf68b514fabed70b1ed7d6e0f730982f7e141829552ec6174cf6499"
+    },
+    {
+      "path": "dlls/healthkit.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "1a298e6b7a96913c6ef610e98dbc350c34c3d163733103a630f918d3082b5261"
+    },
+    {
+      "path": "dlls/hfgrunt.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "748295c0c2b47104ac303378695891e9c336386413978d9ce773ac19a3f5ab7a"
+    },
+    {
+      "path": "dlls/hgrunt.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "c1804a562ab42a0e2154031d838049cdf1a5d17c9df3d934749f8a5fd729b58e"
+    },
+    {
+      "path": "dlls/hgrunt_ally.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "84022d6f4eb23553cadec8cb151f08f1fd7038c54c0890e94a947b331fc81c8a"
+    },
+    {
+      "path": "dlls/hgrunt_medic.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "0a491afb55ee36e5384b90197d7f9635d96ac04dbf654a3609737ef19364d857"
+    },
+    {
+      "path": "dlls/hgrunt_torch.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "50e88ad2f40e18b24a93ccfe0661f42a1a74db0ef9426f1942bdd59512eb5068"
+    },
+    {
+      "path": "dlls/hl.def",
+      "origin": "op4-verbatim",
+      "sha256": "233fcdab7eda50937aa47f5bdbc134e4522a10f301394fac65403f7c2a45f1bf"
+    },
+    {
+      "path": "dlls/hornet.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "af6175b53a13d84d8f94bb6acf4c4671534aca5e714f042b10f2ca5adbd68d93"
+    },
+    {
+      "path": "dlls/hornet.h",
+      "origin": "op4-verbatim",
+      "sha256": "268041d8a635f74205d5d69fea476c9730c8340b1124abebcbb125203d6f612a"
+    },
+    {
+      "path": "dlls/hornetgun.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "f342089c2f04f2035fc7beae6fb1c26872fcc49d6f7149ba0cba6977bee428b2"
+    },
+    {
+      "path": "dlls/houndeye.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "40487b654521ab454cf076d2d80ddcfeb51b4c57fe633e8d9cdd53ff7e19cb15"
+    },
+    {
+      "path": "dlls/ichthyosaur.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "96c5300bc8552ce3ece824630cfa34d6a4d5eec9f80530622789a9bdd639c021"
+    },
+    {
+      "path": "dlls/islave.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "c369ccb4064fad421b9ec09d321e7328220e319e576bd022b4bea2c1c18d73a3"
+    },
+    {
+      "path": "dlls/item_generic.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "414470f816637347daef8d721137239a97b7c81ca46a8eec573b2b1a37e5fa22"
+    },
+    {
+      "path": "dlls/items.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "201a54fb829fc74122b2b617b7fa6e8b4a620195520e66947265b79f8760fe0a"
+    },
+    {
+      "path": "dlls/items.h",
+      "origin": "op4-verbatim",
+      "sha256": "cbdb5c33403d7c07fc637532afe081412fca7118283695bf23870820a2bf12da"
+    },
+    {
+      "path": "dlls/leech.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "9a64db42b234b71d4760724b067e05e16b29075e9be502098d52505adaed9031"
+    },
+    {
+      "path": "dlls/lights.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "cf49c4288a30f5d7c26009ce3cedfe99c14eb5e79a4f0d170d14d51d8b272c47"
+    },
+    {
+      "path": "dlls/loader.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "aaff55f86ba168c88af5fd5cc48ed7b5bff937ec2b5ed3a5eb80d96a557f25eb"
+    },
+    {
+      "path": "dlls/male_assassin.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "836c69cd1f37d7cbefc224fbc3cea365d46aa0de8286fa446c0139eea2237f02"
+    },
+    {
+      "path": "dlls/maprules.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "f58485fe44992d12ab0624bfd849d732a6f68ce91ba77c871fc0f2e88794a5b8"
+    },
+    {
+      "path": "dlls/maprules.h",
+      "origin": "op4-verbatim",
+      "sha256": "2d694191c7c6c51a7fad96c92e4e3c6c56e94c704cbbc17d3e532da3a6261371"
+    },
+    {
+      "path": "dlls/monsterevent.h",
+      "origin": "op4-verbatim",
+      "sha256": "9cc1055400a876604d00fa742a6e407a44c6a78a40622655c22213374112b811"
+    },
+    {
+      "path": "dlls/monstermaker.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "3a1bb7353602f63bd8747bb521fb1e1d6d40893b724dfeaa1cb477f9086a3803"
+    },
+    {
+      "path": "dlls/monsters.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "4ad91c269d1ea3b846c52ce633681f2fc748ca424bd1b0ab973143705c598190"
+    },
+    {
+      "path": "dlls/monsters.h",
+      "origin": "op4-verbatim",
+      "sha256": "7c406d98422b19b38da396384203f25b61bcdfefef2ad7cbb4557bbf0ccb358d"
+    },
+    {
+      "path": "dlls/monsterstate.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "9bf332d78ec7b2c5afa5d5c5130d0e6eb8110c0c0a1c3eb0368c837b59a5f7b8"
+    },
+    {
+      "path": "dlls/mortar.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "445e3696e2d806911cb3ca4f0d3220a99ac1f642b5979e3e62b0e2711b498349"
+    },
+    {
+      "path": "dlls/mp5.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "91b7c7436b30f34013ec3cbd0b0b6459934b8461b7de1cb01a7927f702f40349"
+    },
+    {
+      "path": "dlls/multiplay_gamerules.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "e52a65d0a9cf8572ea7a3d4aa8a34d914cfeb4e50fb23dd6e40ccb5d2121366d"
+    },
+    {
+      "path": "dlls/nihilanth.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "bf41bda43c7e1f175d6bd5c0f910156dbd44e9072f9ae337c24a985f235fc4ad"
+    },
+    {
+      "path": "dlls/nodes.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "85adf526b55093567c2fc16ab547bbba60e567ff232c437816798cc5fe99a71c"
+    },
+    {
+      "path": "dlls/nodes.h",
+      "origin": "op4-verbatim",
+      "sha256": "f8fca93f160c95c187e0c73217a87ceef48cd3fba1ad2e3615f2cfecbed60b0a"
+    },
+    {
+      "path": "dlls/nuclearbomb.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "931fc4306a2b023965f2297426f1e497ce2e797bad7758ff9ec8e1854b8b23c2"
+    },
+    {
+      "path": "dlls/observer.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "5d9c010f7939e8f6f4d03f3592955b12f867b4264b508b9266d9b24522d5fcb1"
+    },
+    {
+      "path": "dlls/op4mortar.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "f37b651617651de43129b020a17afe15c92ebd7d7c5879aa57f2df61492ddb9a"
+    },
+    {
+      "path": "dlls/osprey.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "0baa1c48ffc73c0074ba81a573d890d52801ff30cff8fd075f63fec6dbe4a315"
+    },
+    {
+      "path": "dlls/otis.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "9f2a2e3d81b8324b99a72c02c058b161c19663748674a3c5261fa61bdb2f393a"
+    },
+    {
+      "path": "dlls/pathcorner.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "858b14b53dbe0975f4fc2f11ae63e3002b37f53ea8d7fa733110a652352ce0ac"
+    },
+    {
+      "path": "dlls/penguin_grenade.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "ee6f78d1d03980d73fe5708454fd20d91fc137c5ea3b20ee058ce01850c51e0f"
+    },
+    {
+      "path": "dlls/pitdrone.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "c9e798bba5297124974bc025d1e83d1d61f453089e358a23ea4f95197a29f7ea"
+    },
+    {
+      "path": "dlls/pitworm_up.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "cbb026948af1d2518b8ba8df4c372e86c28952d9aae6c64edb875fb1658eda09"
+    },
+    {
+      "path": "dlls/plane.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "e9b3a19c3000443838b4ef7dad7245731870082c84c438ac1b84d87de27e52c9"
+    },
+    {
+      "path": "dlls/plane.h",
+      "origin": "op4-verbatim",
+      "sha256": "c8ed9e3823e9017415e977d728b7eb601f1c2a9ef95a5e93a9185c060aa9dd5b"
+    },
+    {
+      "path": "dlls/plats.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "c3e3db914e10249ff81ff5bf3b8bda5645e21c31a9eae5132a4259274fa8ab33"
+    },
+    {
+      "path": "dlls/player.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "a2e6bb90274e988ebf50beabb50307eca0befe3ec5da8981434c4677b2ba3c57"
+    },
+    {
+      "path": "dlls/player.h",
+      "origin": "op4-verbatim",
+      "sha256": "0db8cb3edfb3239ce38cf16853a15d0b39f047518be0bef15790c3ead35decf6"
+    },
+    {
+      "path": "dlls/playermonster.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "6d17417573a6ff22c708efc8a2b0373de66caf3e236cb7c98985252cb276da5b"
+    },
+    {
+      "path": "dlls/python.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "8038a4351fdf4fad9e218b1af8b0e4926a04a1c9807c595ef40f23111e18752a"
+    },
+    {
+      "path": "dlls/rat.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "3890ac035c3c81e2de090a455280bb986b5b66b8ed88cb9f6bd42e3b887808d9"
+    },
+    {
+      "path": "dlls/roach.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "c5549d72c5b8df27baf301ce97ab0e396af6189a9cdb0b7e58a580b6f7ca465d"
+    },
+    {
+      "path": "dlls/rope/CElectrifiedWire.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "13890d1d960fc1e9cf71ce1271ac15d8f15ab602e302c576918e4ae435a1ad38"
+    },
+    {
+      "path": "dlls/rope/CElectrifiedWire.h",
+      "origin": "op4-verbatim",
+      "sha256": "4bd05a2ace59ef233a632a7f9b3d4018865b879a0ac31acaa570d39e7995b8ea"
+    },
+    {
+      "path": "dlls/rope/CRope.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "76ce2ab2835f36ac342f3933560dee779c904b3d762dd2e40f8467b18c1adc5f"
+    },
+    {
+      "path": "dlls/rope/CRope.h",
+      "origin": "op4-verbatim",
+      "sha256": "e96bfd07d66fe1c854cd93633335265ecd8b119ed765afa4d9afa7732647773d"
+    },
+    {
+      "path": "dlls/rope/CRopeSample.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "8ce93179bbca215bf691c72646fbf6b37f2a68c3c7529bb01f3c9e42e578cb4d"
+    },
+    {
+      "path": "dlls/rope/CRopeSample.h",
+      "origin": "op4-verbatim",
+      "sha256": "5d8f78566754fd4276e20a44a953dc96149926e232d7c6de40caa0ba25eca403"
+    },
+    {
+      "path": "dlls/rope/CRopeSegment.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "e8242a6d03968f9a95cb23c4304c0a85cf9d9ddb0dbefc1fb5984d6f4efcbd35"
+    },
+    {
+      "path": "dlls/rope/CRopeSegment.h",
+      "origin": "op4-verbatim",
+      "sha256": "c2f869d9aa1d8e506af60dc525405d010b909f59f41a261471c2b26f315b44b7"
+    },
+    {
+      "path": "dlls/rpg.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "afd0685b2f087b0811850e6ff50f82642fb163a938f0ceca131c92a88e72b545"
+    },
+    {
+      "path": "dlls/satchel.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "fd97463c26052864be68be88f79af4013c09db86a633e4b858a4243df561f017"
+    },
+    {
+      "path": "dlls/saverestore.h",
+      "origin": "op4-verbatim",
+      "sha256": "528f20c629f47b2b23763f2798cb8fccd2ac82f34bb96388a146e34fff327016"
+    },
+    {
+      "path": "dlls/schedule.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "aa68cf1541fc4362490588ebc93ff364a70102d73c6b132c684450016b27db32"
+    },
+    {
+      "path": "dlls/schedule.h",
+      "origin": "op4-verbatim",
+      "sha256": "3587a773de4983c95d0f7ab19b38cd8aaa704f0d9c7e6091b121a6a64d51cfc2"
+    },
+    {
+      "path": "dlls/scientist.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "8e0e97d59232d393c00b206815c5830a05e602952e0badc5a85ec068e038175f"
+    },
+    {
+      "path": "dlls/scripted.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "203281fa3562ff370d1376e6220ba9cb5ca7df187ef544abe3d1ffc2eff6494e"
+    },
+    {
+      "path": "dlls/scripted.h",
+      "origin": "op4-verbatim",
+      "sha256": "5ab6ef08843a49efd38230a72e8958beb63afbc83052170540dfa6f6737b4580"
+    },
+    {
+      "path": "dlls/scriptevent.h",
+      "origin": "op4-verbatim",
+      "sha256": "3fdaef1d7d5c18cd51f4a4c63afd94f11278658ee1d86d85b555f5678eb188dd"
+    },
+    {
+      "path": "dlls/shockroach.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "08ac437977cf2a75f09df0ab90f5b3678be8af0e80871c7c225d6ce137a9c0aa"
+    },
+    {
+      "path": "dlls/shocktrooper.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "9dd3ccad3a546189fef1516dfc58abce7a7434150318a272a1b87438f6999a9a"
+    },
+    {
+      "path": "dlls/shotgun.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "9b34079e03aa9bc2a935863fa22328706b88cccc76189c8fd57e6d6534458a24"
+    },
+    {
+      "path": "dlls/singleplay_gamerules.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "2a632305a21afabd91e5470d94a2fa83a3204150aae251f88a8bd79cadad1a10"
+    },
+    {
+      "path": "dlls/skeleton.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "8b88350f6b7f45d9d44021305268b4c69fb1c427a2c82e44eaf7b250dd925884"
+    },
+    {
+      "path": "dlls/skill.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "5365fdd9a8dfbaa1ca662a63011d59c410738cb3325e214e62212b5cc32d46e6"
+    },
+    {
+      "path": "dlls/skill.h",
+      "origin": "op4-verbatim",
+      "sha256": "782a39f2954806754e246684e60ef600ddb12578cadc7798a5db04ad49ebf4c5"
+    },
+    {
+      "path": "dlls/sound.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "509d46fa599268a36e378f4845daf939aea3d665420f9333906949c45e51fe6e"
+    },
+    {
+      "path": "dlls/soundent.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "098d39d7f913274d63a13418c64d42c8188c481f02828b00f487156aa55e0c78"
+    },
+    {
+      "path": "dlls/soundent.h",
+      "origin": "op4-verbatim",
+      "sha256": "32271175663da6e5c773a451fa3c95b3f9c3c593833c3403d3296ab30903a456"
+    },
+    {
+      "path": "dlls/spectator.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "c2f2fa4a927fc9343ff79e88043f14e991c986c3cfc9debf8d37c5dec49d18c1"
+    },
+    {
+      "path": "dlls/spectator.h",
+      "origin": "op4-verbatim",
+      "sha256": "0a74c38a4d81eca9c3e1fce84c4b7c75e354bc21456b71cb5ead07393573728f"
+    },
+    {
+      "path": "dlls/squad.h",
+      "origin": "op4-verbatim",
+      "sha256": "86f8c2a7a33e00e7b540bb10e025b58e60f2ab28f05ea6ea4690605493591eee"
+    },
+    {
+      "path": "dlls/squadmonster.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "9b062efa432e8a635894cae972406c043e0bf88871cda25e5340c328ddc09e91"
+    },
+    {
+      "path": "dlls/squadmonster.h",
+      "origin": "op4-verbatim",
+      "sha256": "b83d722b1bd6b8a25e1b438fc6791bfb5d409d7f4ac80b7f183aee6e90677cb2"
+    },
+    {
+      "path": "dlls/squeakgrenade.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "dfd4ae9782de6be606fd0a440519d3c21b189b8e5be2fdc4225a5df2aab71877"
+    },
+    {
+      "path": "dlls/stats.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "bb6662a4da5ab86d04a40c20e7bbfbf72d5f9c398e3e16d99163bd3b30aa46d8"
+    },
+    {
+      "path": "dlls/subs.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "7a5001e163d3a2ad92eece58455ce48d6b8911618410eec026b08d5f0a56a413"
+    },
+    {
+      "path": "dlls/talkmonster.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "331e2926ace2eee06c36d7fdb870b1026d53fcf3cb78a9a7f345d099f7f2ce29"
+    },
+    {
+      "path": "dlls/talkmonster.h",
+      "origin": "op4-verbatim",
+      "sha256": "d241224f58a824730fc573968500ab57e023e01817aa8c2d559066eb0f734f83"
+    },
+    {
+      "path": "dlls/teamplay_gamerules.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "b65a90555db34d19a99bebfdd534a380d69cceac6ddc7a8b7174e2f4d9caea11"
+    },
+    {
+      "path": "dlls/teamplay_gamerules.h",
+      "origin": "op4-verbatim",
+      "sha256": "169c1c0e9ecda9c741daa191c0eb4b236f1d5c92e996fed33eb9585c7a8c99da"
+    },
+    {
+      "path": "dlls/tempmonster.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "102d47aafe2b05ee1a755eb7bf6446537fe77d9ef7b82f05cfde1e744762b16d"
+    },
+    {
+      "path": "dlls/tentacle.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "6102978c622e334aed5c66da4bf57729479912cf23b3cb8cfdf84ee56682e28d"
+    },
+    {
+      "path": "dlls/trains.h",
+      "origin": "op4-verbatim",
+      "sha256": "4ced4daa015c047e204a9dd7cea772ca3a762bf3bfd8bd500174a997adfb9bba"
+    },
+    {
+      "path": "dlls/triggers.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "aafb42373bc74e39652dd45071d9d86660fbb7f99648203401070857912847ec"
+    },
+    {
+      "path": "dlls/tripmine.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "e438432e3f998623a58684de7e75eb53cd3fc8685e9bc98bffac6ef0561859f6"
+    },
+    {
+      "path": "dlls/turret.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "51785a0c2e990dd1a036fd042cafe36e01e570a22d5efcb22922941b446323e4"
+    },
+    {
+      "path": "dlls/util.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "5f2eaae3e62cc79a4e3264e3588ec72851af8dea6e0c52ca368acb2c4b97300b"
+    },
+    {
+      "path": "dlls/util.h",
+      "origin": "op4-verbatim",
+      "sha256": "447f4499649ac3324ca9eceb77bcc3d6ee3145937de503fa47a24f90878f863e"
+    },
+    {
+      "path": "dlls/vector.h",
+      "origin": "op4-verbatim",
+      "sha256": "03aac17a984d39fae80862533e4d61e12ff37c3fd92f2b9ad4045a2390e8ab8a"
+    },
+    {
+      "path": "dlls/voltigore.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "ef8f7c9ba20bd4f5b348bf55d6191fea867b312edab07ed4a8c37e5de192195e"
+    },
+    {
+      "path": "dlls/weapons/CDisplacer.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "08096a9c205f15ee636b6c97c95a79b030b7671bf351faa0c9e0cf5a4ea4473c"
+    },
+    {
+      "path": "dlls/weapons/CDisplacer.h",
+      "origin": "op4-verbatim",
+      "sha256": "dccf1edf099a7a7bd96c68e8c0f80a9b851d4f37704c8bf9b712d3be10a4015a"
+    },
+    {
+      "path": "dlls/weapons/CDisplacerBall.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "3d7a84b547e9f529cd167dcc71238ac23ce9849d653c284dd503ce08e13ba640"
+    },
+    {
+      "path": "dlls/weapons/CDisplacerBall.h",
+      "origin": "op4-verbatim",
+      "sha256": "b99f1e5a7e5ada0c92f6bc92baaec839b6322597c6f50669f48f1cdc56d4fb5f"
+    },
+    {
+      "path": "dlls/weapons/CEagle.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "d9513a3330143e347a78e3fb546ab5d437ddea9e3d0fea93be7dac318b7cc184"
+    },
+    {
+      "path": "dlls/weapons/CEagle.h",
+      "origin": "op4-verbatim",
+      "sha256": "2144f9653b6192a3d00d4370f1ba7ae3ffe7b1b689b052e9e62cc34f22bcd664"
+    },
+    {
+      "path": "dlls/weapons/CEagleLaser.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "dc5c3ebd6b17676f62b136d2370090c1e1be1499262dcd8f713ecdb471239732"
+    },
+    {
+      "path": "dlls/weapons/CEagleLaser.h",
+      "origin": "op4-verbatim",
+      "sha256": "610fbf49cc5b956079246508752e1b62df78c912f33671e6e31f4751f93a8283"
+    },
+    {
+      "path": "dlls/weapons/CGrapple.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "8ecfb53db153cffd4cc90512690a2221034e530319fc0c5f2f53bc4a12e7b694"
+    },
+    {
+      "path": "dlls/weapons/CGrapple.h",
+      "origin": "op4-verbatim",
+      "sha256": "b389e2c67ba1f2178c380bf00dfd37ec414ea2169effbd3863f557351c401dad"
+    },
+    {
+      "path": "dlls/weapons/CGrappleTip.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "45b7ec369b19002eb5520179f17e709c5c36946ce1fc7f8133ac54bb79295084"
+    },
+    {
+      "path": "dlls/weapons/CGrappleTip.h",
+      "origin": "op4-verbatim",
+      "sha256": "347ce4b96fda729bf0f99c04fec56d3f11c759be99ceb5d26531abade35b8c53"
+    },
+    {
+      "path": "dlls/weapons/CKnife.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "744669158db750cb57041681b2b8c8285ae18a3fe29f790740a35a60a2dcd090"
+    },
+    {
+      "path": "dlls/weapons/CKnife.h",
+      "origin": "op4-verbatim",
+      "sha256": "e5a1479f65d659fb315bd71f61411aded3b6bb0e499f170e6cbdca6b88199fc8"
+    },
+    {
+      "path": "dlls/weapons/CM249.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "e10f41b15dd340bb8734846112a1aa3bfeba2eb2c2f1663add7b683212292050"
+    },
+    {
+      "path": "dlls/weapons/CM249.h",
+      "origin": "op4-verbatim",
+      "sha256": "f1a262c4a4e1f27c09349cd1d50cb7e92b640225c257a8468425fb0af8ae9756"
+    },
+    {
+      "path": "dlls/weapons/CPenguin.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "bbff3b956fafe4e65a5392db262bb1e7bb41af77e081c5bbc8e9c0ec704ce3a5"
+    },
+    {
+      "path": "dlls/weapons/CPenguin.h",
+      "origin": "op4-verbatim",
+      "sha256": "bf42f738c659f1738e70609251c544c7891aa37cbfe5fc69e2951cab2be31886"
+    },
+    {
+      "path": "dlls/weapons/CPipewrench.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "ce0d6277a7f953c7f6bc3e53909f50e006ef98471afa3d393562800665d42125"
+    },
+    {
+      "path": "dlls/weapons/CPipewrench.h",
+      "origin": "op4-verbatim",
+      "sha256": "750d424f2ee7445a9e092477826f9d061454c62300db4c0ef9a030777d6df50d"
+    },
+    {
+      "path": "dlls/weapons/CShockBeam.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "b83af170e18bdfb85002e65d42dcd79daa98d66d8567eaa27d456ea2f64878b8"
+    },
+    {
+      "path": "dlls/weapons/CShockBeam.h",
+      "origin": "op4-verbatim",
+      "sha256": "32081fda4ea18f69e1fa3c13ad91fb42063a1981538098b6b283ce8d79c957e8"
+    },
+    {
+      "path": "dlls/weapons/CShockRifle.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "90f6c986dfd890a64cfce70d78ae549160856e91fd97a6dc38e38e83b113c6a0"
+    },
+    {
+      "path": "dlls/weapons/CShockRifle.h",
+      "origin": "op4-verbatim",
+      "sha256": "1964765115c0013c406b10a38fa689069334f9f1880232acfa75fba0829a70bf"
+    },
+    {
+      "path": "dlls/weapons/CSniperRifle.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "b36ba160dea2c076f5ffeb0bc5339a5ef27bc18eeb548624e882fc373d493261"
+    },
+    {
+      "path": "dlls/weapons/CSniperRifle.h",
+      "origin": "op4-verbatim",
+      "sha256": "d0c9422e21ceb63d86ca0e940aeae56150cf6989454f842d0734a53655c8b790"
+    },
+    {
+      "path": "dlls/weapons/CSpore.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "baf52a1599d3812ac1aac636ba22a2113430135702be0b9092a93f01deb14ab6"
+    },
+    {
+      "path": "dlls/weapons/CSpore.h",
+      "origin": "op4-verbatim",
+      "sha256": "1321a98ab5ee2ec552b570b056a5ad45d879d9817b1fb9146c0ef97f35998189"
+    },
+    {
+      "path": "dlls/weapons/CSporeLauncher.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "206272cbdbea1bb7cd65a3c229d9a9100425a2a4fd9781c47c3a4b6ba167a7c6"
+    },
+    {
+      "path": "dlls/weapons/CSporeLauncher.h",
+      "origin": "op4-verbatim",
+      "sha256": "d6231dd706dbd235fd9067a2910c3609c7e3878d6f76a1ff2d06c418c9288c14"
+    },
+    {
+      "path": "dlls/weapons.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "2d40a4069bcceb6cc3ab4a30e51d44d6de769407cf0e1e199aaca35bd89c4572"
+    },
+    {
+      "path": "dlls/weapons.h",
+      "origin": "op4-verbatim",
+      "sha256": "7337524f8494ef365509fee8d29cdac9b25f799cdfde26ce713a50a74148e911"
+    },
+    {
+      "path": "dlls/weapons_shared.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "d66e23c4485d644791be5fc2b71553b503d95fffe94bad72dddcc3322671ff95"
+    },
+    {
+      "path": "dlls/world.cpp",
+      "origin": "op4-patched",
+      "sha256": "1f525539a9671d82ffc5baa34e2726b1f679bef1b6e79c887b319c80de591337"
+    },
+    {
+      "path": "dlls/world.h",
+      "origin": "op4-verbatim",
+      "sha256": "1aecddb87976601231cea246dcdca615cc36be7d0645d357a4529bc95c496fea"
+    },
+    {
+      "path": "dlls/wxdebug.h",
+      "origin": "op4-verbatim",
+      "sha256": "e864307ce2ad723ae5f5c2f272ef26acd74bde08d043dd5bee581a8f96b17991"
+    },
+    {
+      "path": "dlls/xen.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "8149285fc02033112803aed71e258747bac344993a2913a8237241a0e8c99126"
+    },
+    {
+      "path": "dlls/zombie.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "1a53f58466fedc50201218df3c748f5524867b7dc7a22d0666a0551f511178d0"
+    },
+    {
+      "path": "dlls/zombie_barney.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "bd65a4d9edf499d79303d9165a0e3bcec463c3639378aff7884044b45cbbd457"
+    },
+    {
+      "path": "dlls/zombie_soldier.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "16e2fc322573f264cefba9005e70cd70bd0e1987ed2f10d9f5a07ef46729b43b"
+    },
+    {
+      "path": "docs/tutorials/extracting-relationship-table.md",
+      "origin": "op4-verbatim",
+      "sha256": "451f0909931e538e8e02e66c47158f88ef61c3b9f55cd5669a4d2934769b3653"
+    },
+    {
+      "path": "docs/tutorials/setting-up-and-using-dotnet-script.md",
+      "origin": "op4-verbatim",
+      "sha256": "f0a98974be28d5a1bdbaff0f505ebe16281fa060d96bb7d19782448fec4301f2"
+    },
+    {
+      "path": "docs/tutorials/setting-up-dotnet-sdk.md",
+      "origin": "op4-verbatim",
+      "sha256": "059b265fbecdcfa6a3f71a4e2ce4f44bafdc9f9efb8800028959734a560377ae"
+    },
+    {
+      "path": "engine/APIProxy.h",
+      "origin": "op4-verbatim",
+      "sha256": "01156bc018ac86f0fb230a781699b00cc8fe31dca1c8584546312bc357a22156"
+    },
+    {
+      "path": "engine/anorms.h",
+      "origin": "op4-verbatim",
+      "sha256": "0a143399f70c34102988b4cb5a9be3a0db05738f99baaf87dd7695a59711bb64"
+    },
+    {
+      "path": "engine/cdll_int.h",
+      "origin": "op4-verbatim",
+      "sha256": "8fe23c055da22c834470aeaff82c01e49ffeff7e64a569a8e3eb647c31000191"
+    },
+    {
+      "path": "engine/custom.h",
+      "origin": "op4-verbatim",
+      "sha256": "c9b29f79b4393fdb66b264c2901332a69f8abbe51fa29ac0461cd67142543c17"
+    },
+    {
+      "path": "engine/customentity.h",
+      "origin": "op4-verbatim",
+      "sha256": "986a869af60265c1ae9bad562c6fa070c615c2e43f6048f7d214cb8232dc1480"
+    },
+    {
+      "path": "engine/edict.h",
+      "origin": "op4-verbatim",
+      "sha256": "97a0113e138e26ee51898bb9b26f294388a6e8a111579177254a01daa09ae088"
+    },
+    {
+      "path": "engine/eiface.h",
+      "origin": "op4-verbatim",
+      "sha256": "804f9c050084f5e7c71b71a8fd018fc6f3ff11f5d838a735a36a407c0d11df3d"
+    },
+    {
+      "path": "engine/progdefs.h",
+      "origin": "op4-verbatim",
+      "sha256": "f94ccc5103140decffd5f495890e95eadff2da25bf1e74c7526571c48cd720d3"
+    },
+    {
+      "path": "engine/progs.h",
+      "origin": "op4-verbatim",
+      "sha256": "5394a767db1b01cda6cf2348bf166eaf778715447119fc22c479f4af3e578263"
+    },
+    {
+      "path": "engine/shake.h",
+      "origin": "op4-verbatim",
+      "sha256": "70cb5a9b116ed86e48b210a57d5ca82eb1f57fae1d7d01c84a517c5ba540455a"
+    },
+    {
+      "path": "engine/studio.h",
+      "origin": "op4-verbatim",
+      "sha256": "f62e4b3eac9bb8a31834d222282bf7c1f63ace8e7d0bb12159d2decbf30047ba"
+    },
+    {
+      "path": "external/SDL2/SDL.h",
+      "origin": "op4-verbatim",
+      "sha256": "f4d6b0cd180b0e6e1423fac314a1bef93f0f9d4f21891e496d8c9de95dccc7b9"
+    },
+    {
+      "path": "external/SDL2/SDL_assert.h",
+      "origin": "op4-verbatim",
+      "sha256": "537353fa26102f232ec8bf02f6c44ec8611f9d66794860e75b6cef3f17d600a1"
+    },
+    {
+      "path": "external/SDL2/SDL_atomic.h",
+      "origin": "op4-verbatim",
+      "sha256": "d9f667d640581e1a0a4685b03541e5096103629d4a1cc489a427e612a8f8d793"
+    },
+    {
+      "path": "external/SDL2/SDL_audio.h",
+      "origin": "op4-verbatim",
+      "sha256": "c0b81743c7385739c96aa358034ccf0ce14cd503c48a577b81edce099a771b1c"
+    },
+    {
+      "path": "external/SDL2/SDL_bits.h",
+      "origin": "op4-verbatim",
+      "sha256": "13b946f9c7c5c0fd0eb542f370e9d4b1d833fee6ae62b19f971483e774b8a54f"
+    },
+    {
+      "path": "external/SDL2/SDL_blendmode.h",
+      "origin": "op4-verbatim",
+      "sha256": "cf176d4d282c8e0a2c9d99ad93a28e6242e2c43fda61e31dabc5e86d94ab86f3"
+    },
+    {
+      "path": "external/SDL2/SDL_clipboard.h",
+      "origin": "op4-verbatim",
+      "sha256": "f632d628d78712a4ab23d9159e1c2dc5e91b1fc784c1aeb859d27eadce3044e6"
+    },
+    {
+      "path": "external/SDL2/SDL_config.h",
+      "origin": "op4-verbatim",
+      "sha256": "01d3316ea7c49213585f821ed9a40b81e9fd38b88f11b0049d19a10c65fdd7d4"
+    },
+    {
+      "path": "external/SDL2/SDL_config.h.cmake",
+      "origin": "op4-verbatim",
+      "sha256": "1fc9dd2e6f9e96d863c43ff88025a3f544abd0288f1112c361ca27132aa8a652"
+    },
+    {
+      "path": "external/SDL2/SDL_config.h.in",
+      "origin": "op4-verbatim",
+      "sha256": "166c9904bd596fad9996f26269a4a1f3239963f5048dccdab12e94d36e3c286c"
+    },
+    {
+      "path": "external/SDL2/SDL_config_android.h",
+      "origin": "op4-verbatim",
+      "sha256": "c8a4e0f6d62979a43097e8de017562dd742efe54f3df60acf8a53ece5d7fd982"
+    },
+    {
+      "path": "external/SDL2/SDL_config_iphoneos.h",
+      "origin": "op4-verbatim",
+      "sha256": "a3c59d2d87908908bda89ab60b202af0e218c142d4c09594eb36c4b59b3acda9"
+    },
+    {
+      "path": "external/SDL2/SDL_config_macosx.h",
+      "origin": "op4-verbatim",
+      "sha256": "01a3e2b9e13e9575acfa12950f78916b092991d3e8bd249758a12dba4f10a66d"
+    },
+    {
+      "path": "external/SDL2/SDL_config_macosx.h.orig",
+      "origin": "op4-verbatim",
+      "sha256": "042704706a903873083d9ef816a9d9834a64392b2672f9baa2246465115c8637"
+    },
+    {
+      "path": "external/SDL2/SDL_config_minimal.h",
+      "origin": "op4-verbatim",
+      "sha256": "7d39198e5d06b7fd4c35d896db30d7055df92a9089417d8fc02b64bd51a33c93"
+    },
+    {
+      "path": "external/SDL2/SDL_config_pandora.h",
+      "origin": "op4-verbatim",
+      "sha256": "3701a27d1cc2473ecd5f38edc0d58cf3683b8f1f15a2867fb9d3b4c920f0b3e8"
+    },
+    {
+      "path": "external/SDL2/SDL_config_psp.h",
+      "origin": "op4-verbatim",
+      "sha256": "d7e7d09089861b6fa94893511c217a1ebc011587167ebf2b1f565e82733b8871"
+    },
+    {
+      "path": "external/SDL2/SDL_config_windows.h",
+      "origin": "op4-verbatim",
+      "sha256": "cd0ed70ac14d66a9f002eefdcac997590fdc500e8e87bd8d9df925be36d170ad"
+    },
+    {
+      "path": "external/SDL2/SDL_config_winrt.h",
+      "origin": "op4-verbatim",
+      "sha256": "4cf1338f9a684083cc0b7e1c70f279a69c8f2e0d230ef7a766e5b8dbfa8681c6"
+    },
+    {
+      "path": "external/SDL2/SDL_config_wiz.h",
+      "origin": "op4-verbatim",
+      "sha256": "373e301dd9a36526b767ffb5f92b69b29612ce74520ef5e653ae6fa7bdd4ef8a"
+    },
+    {
+      "path": "external/SDL2/SDL_copying.h",
+      "origin": "op4-verbatim",
+      "sha256": "c01540c67f77a9e58a919868bc2be29236152a0945f4de4f51ee7a039dc1346f"
+    },
+    {
+      "path": "external/SDL2/SDL_cpuinfo.h",
+      "origin": "op4-verbatim",
+      "sha256": "3a8d6a5710aaf9d93193d9447f4bf4ab03e68db09e2c04cb1f85711b6c9b3108"
+    },
+    {
+      "path": "external/SDL2/SDL_egl.h",
+      "origin": "op4-verbatim",
+      "sha256": "984e674d97e7218194938e9dc2867f9c84889ea701e9c6e9c7e3ae8a31f35be2"
+    },
+    {
+      "path": "external/SDL2/SDL_endian.h",
+      "origin": "op4-verbatim",
+      "sha256": "379a13a9afb2a267f799e4808c67452042b6853350439965bb5f03407e605c8f"
+    },
+    {
+      "path": "external/SDL2/SDL_error.h",
+      "origin": "op4-verbatim",
+      "sha256": "470f04a4562305966d7705b774c1e85fb6e9e8ce4c136f2669bd4cc2cc6c922f"
+    },
+    {
+      "path": "external/SDL2/SDL_events.h",
+      "origin": "op4-verbatim",
+      "sha256": "8eb0d7acb115da008f70ea5e2d00e6437afd5621a0a6a0ac7df5f96b3148be5f"
+    },
+    {
+      "path": "external/SDL2/SDL_filesystem.h",
+      "origin": "op4-verbatim",
+      "sha256": "79488f1cca5904faa69c6dfeb8efe8f6360ded8eee103f1611ba7e9bacdfcfed"
+    },
+    {
+      "path": "external/SDL2/SDL_gamecontroller.h",
+      "origin": "op4-verbatim",
+      "sha256": "c7492846b791ef5f4ffa139b3fe35dd059f7e72fe74525e3d359dd03a9498bef"
+    },
+    {
+      "path": "external/SDL2/SDL_gesture.h",
+      "origin": "op4-verbatim",
+      "sha256": "9fc58622bc0194b0d6766ea56fe32db47c0b199f35b007e370d1d0a88012acf8"
+    },
+    {
+      "path": "external/SDL2/SDL_haptic.h",
+      "origin": "op4-verbatim",
+      "sha256": "ae535dfd03e7d2d52435965de6eb5cd200157fd721200ecc3a401b0cec0f65ad"
+    },
+    {
+      "path": "external/SDL2/SDL_hidapi.h",
+      "origin": "op4-verbatim",
+      "sha256": "f13f679c630c3910d63982d3ff44a9ab0b17892da2a93cfc2a1bf93d65a7b1c4"
+    },
+    {
+      "path": "external/SDL2/SDL_hints.h",
+      "origin": "op4-verbatim",
+      "sha256": "088e90552b98272d6f95fa3c678fee0be1707e699ad2fa53284e5029b88944d6"
+    },
+    {
+      "path": "external/SDL2/SDL_joystick.h",
+      "origin": "op4-verbatim",
+      "sha256": "f759f33d87dfba6993acea802e89ccccebfaf7f6189d377009d8bf604c1dcaaa"
+    },
+    {
+      "path": "external/SDL2/SDL_keyboard.h",
+      "origin": "op4-verbatim",
+      "sha256": "22011cf7a3b57418397d0a6985819d6a04f3d8e4c4e15eeb0b0896e2b9cce609"
+    },
+    {
+      "path": "external/SDL2/SDL_keycode.h",
+      "origin": "op4-verbatim",
+      "sha256": "6e94ee3828d8ea54507221fd00cc2e5316fad77522d067ca88d3d368e7e21023"
+    },
+    {
+      "path": "external/SDL2/SDL_loadso.h",
+      "origin": "op4-verbatim",
+      "sha256": "8e4d0357ad6c8069cd7de68201736065500a8c7b2384e7fd65d4ee4d160091cb"
+    },
+    {
+      "path": "external/SDL2/SDL_locale.h",
+      "origin": "op4-verbatim",
+      "sha256": "9919ace207fad203b24ac916c92b529f74088ed14c797760a32e05b76c6058ec"
+    },
+    {
+      "path": "external/SDL2/SDL_log.h",
+      "origin": "op4-verbatim",
+      "sha256": "5b1827929c323cdfd2e7dca4458fb286d3d39f04bd2b4e1c200567ba788efb58"
+    },
+    {
+      "path": "external/SDL2/SDL_main.h",
+      "origin": "op4-verbatim",
+      "sha256": "035da815471872fae30fbc7df5e9278e8a15c595bb9e4bb50bd0af946edd006c"
+    },
+    {
+      "path": "external/SDL2/SDL_messagebox.h",
+      "origin": "op4-verbatim",
+      "sha256": "9f8e01efd07295e6d0f4ef3350bd217ada6996591c2022b7f9163fbfdfe67eef"
+    },
+    {
+      "path": "external/SDL2/SDL_metal.h",
+      "origin": "op4-verbatim",
+      "sha256": "1c5751d678e64f3f15dec1620c4b7661b37ebe74399e9d953df8186bfa1a4269"
+    },
+    {
+      "path": "external/SDL2/SDL_misc.h",
+      "origin": "op4-verbatim",
+      "sha256": "ee696c2a1135d0110ce6c9efe0d67f9a9e8ec400f6f00c2b53247995193f96ec"
+    },
+    {
+      "path": "external/SDL2/SDL_mouse.h",
+      "origin": "op4-verbatim",
+      "sha256": "9685fd425fc4acd4af0824862b56949eb8293c44139f6e8833a8e1b0457ff7a3"
+    },
+    {
+      "path": "external/SDL2/SDL_mutex.h",
+      "origin": "op4-verbatim",
+      "sha256": "3a656b533b97a5527a89fcfbb709c37024f7ed293d942a6a3f9ce068273f42d0"
+    },
+    {
+      "path": "external/SDL2/SDL_name.h",
+      "origin": "op4-verbatim",
+      "sha256": "d5ac61c047898c64b703a24cad4f7bf3cc287046512f264d71a07f07a5d100cb"
+    },
+    {
+      "path": "external/SDL2/SDL_opengl.h",
+      "origin": "op4-verbatim",
+      "sha256": "457e42e199d59d4e4493184689ce1a9446f8a42c7a6c16af453d2cc25cad402a"
+    },
+    {
+      "path": "external/SDL2/SDL_opengl_glext.h",
+      "origin": "op4-verbatim",
+      "sha256": "47065c604afbe34b2b1acbdb7b88d08476134cdc29f9ed395460e3ab236462be"
+    },
+    {
+      "path": "external/SDL2/SDL_opengles.h",
+      "origin": "op4-verbatim",
+      "sha256": "46e40b49a93a779d069412e0f818e8112ad2235fe49cc8cddaadcaae62c46b00"
+    },
+    {
+      "path": "external/SDL2/SDL_opengles2.h",
+      "origin": "op4-verbatim",
+      "sha256": "38fe067df2f5d19e5108743e023f6ff1d2a7025a72587a2e919c5e4006eaea40"
+    },
+    {
+      "path": "external/SDL2/SDL_opengles2_gl2.h",
+      "origin": "op4-verbatim",
+      "sha256": "f460302b4720f183eb647595a8c1a9c95c0a173dc0cbd5478b2cfbd23cd696d0"
+    },
+    {
+      "path": "external/SDL2/SDL_opengles2_gl2ext.h",
+      "origin": "op4-verbatim",
+      "sha256": "e78d3824e1d71f8a463bad2047fb8b873f735ba7cacbd8ef74cc398b5593729a"
+    },
+    {
+      "path": "external/SDL2/SDL_opengles2_gl2platform.h",
+      "origin": "op4-verbatim",
+      "sha256": "c252914ec99332b9e7898a92bd092525f6fd545d3b274303a6acd839c7e20c36"
+    },
+    {
+      "path": "external/SDL2/SDL_opengles2_khrplatform.h",
+      "origin": "op4-verbatim",
+      "sha256": "7631de0f2ce64747bfd893486eaa41aa08b9e8c5e5c6501b81c045c6ebf04b2a"
+    },
+    {
+      "path": "external/SDL2/SDL_pixels.h",
+      "origin": "op4-verbatim",
+      "sha256": "b1ea3870abcf21584a520e41cdca0e32d957b87c0afb8cdafac95dda80e1810c"
+    },
+    {
+      "path": "external/SDL2/SDL_platform.h",
+      "origin": "op4-verbatim",
+      "sha256": "d876860250fe8df6eb49051b761da292130920881a4b26586381e3f10c3c9caf"
+    },
+    {
+      "path": "external/SDL2/SDL_power.h",
+      "origin": "op4-verbatim",
+      "sha256": "93ae2fad778ff057a582f4940cc83864b4991aeaeaeb5c94f3bc30ebfe6633ef"
+    },
+    {
+      "path": "external/SDL2/SDL_quit.h",
+      "origin": "op4-verbatim",
+      "sha256": "a2fd94238708d48b3262af2a93bfff470ae663939b021a7b2a4453d1ca7c5d53"
+    },
+    {
+      "path": "external/SDL2/SDL_rect.h",
+      "origin": "op4-verbatim",
+      "sha256": "df44438f3eb481f90aa3a72a4895aff979434f4f8f45d495ad255a6265c931cc"
+    },
+    {
+      "path": "external/SDL2/SDL_render.h",
+      "origin": "op4-verbatim",
+      "sha256": "e656354d0d569c4e20ba9dfc9a0479679cf8dfbdd92e779bf3aef3c5cb09e490"
+    },
+    {
+      "path": "external/SDL2/SDL_revision.h",
+      "origin": "op4-verbatim",
+      "sha256": "2754f6e5b0c3f7ecad4f369361f124b93b21f299e53dd078449168f81a896b1d"
+    },
+    {
+      "path": "external/SDL2/SDL_rwops.h",
+      "origin": "op4-verbatim",
+      "sha256": "3f844c7425c5ffd2bde779ba43e7aa557442915cd5015fa15db3a87b77b803a3"
+    },
+    {
+      "path": "external/SDL2/SDL_scancode.h",
+      "origin": "op4-verbatim",
+      "sha256": "38bdd13500f65fdebe931b14d32447e1aa52c7fb4a862dc1c51979d8e1406129"
+    },
+    {
+      "path": "external/SDL2/SDL_sensor.h",
+      "origin": "op4-verbatim",
+      "sha256": "5e66263151bad5fce025f8fbee6191393cb0b8c5ac36044b1b9f7b6e1cfea5e6"
+    },
+    {
+      "path": "external/SDL2/SDL_shape.h",
+      "origin": "op4-verbatim",
+      "sha256": "1d35455675397d3dcd27bef13c62ec4c4c40b2211c27d589af23bfccb6492fa7"
+    },
+    {
+      "path": "external/SDL2/SDL_stdinc.h",
+      "origin": "op4-verbatim",
+      "sha256": "15c7a6606f941a0bd0247571ff468590fc6e0daf7d2e7cf37f252f48ce403001"
+    },
+    {
+      "path": "external/SDL2/SDL_surface.h",
+      "origin": "op4-verbatim",
+      "sha256": "939f0134665cf7775bbf23f8a323041cbecb4cc0a77041d29bb11d711f3bf30e"
+    },
+    {
+      "path": "external/SDL2/SDL_system.h",
+      "origin": "op4-verbatim",
+      "sha256": "b0cc50f61c759ad31a24d5213aeca07c3a50dc4fb5f17ed04959506628055d09"
+    },
+    {
+      "path": "external/SDL2/SDL_syswm.h",
+      "origin": "op4-verbatim",
+      "sha256": "7efeeb92b19f21ae3045f9d5bd364d7cfb48e995e0e4b883eb7035070dcb3ac8"
+    },
+    {
+      "path": "external/SDL2/SDL_test.h",
+      "origin": "op4-verbatim",
+      "sha256": "c0e2982c6d2201b69df402118bf1ba932336b712f6e2feb7d288ae68db830b81"
+    },
+    {
+      "path": "external/SDL2/SDL_test_assert.h",
+      "origin": "op4-verbatim",
+      "sha256": "9fabfde40c8b2f8b2d12db8d2b30c6b6b9e5ffb41470368eedbe489e3ac8e6ca"
+    },
+    {
+      "path": "external/SDL2/SDL_test_common.h",
+      "origin": "op4-verbatim",
+      "sha256": "865a6b56453162391496e68bb8c5f7a2424b90537b9859b8dd5ff85b1751adcf"
+    },
+    {
+      "path": "external/SDL2/SDL_test_compare.h",
+      "origin": "op4-verbatim",
+      "sha256": "99e49fe6c9df8831d86f6681773cc5d6adf60dc8dc6a39b892c2a62b422d50e4"
+    },
+    {
+      "path": "external/SDL2/SDL_test_crc32.h",
+      "origin": "op4-verbatim",
+      "sha256": "e43aeeb383a5a08778d67157336e67ce6fecdd801f401033658c7aa674c0e417"
+    },
+    {
+      "path": "external/SDL2/SDL_test_font.h",
+      "origin": "op4-verbatim",
+      "sha256": "ab81c8f3810cc00e9f5cf874cd5aa3d3219e7e017b12e92b31d6241b4fbab591"
+    },
+    {
+      "path": "external/SDL2/SDL_test_fuzzer.h",
+      "origin": "op4-verbatim",
+      "sha256": "092ee1a9a6d907c077baee1fb53f90cc7034f77be2f3ceca9015d408d3b6d2a4"
+    },
+    {
+      "path": "external/SDL2/SDL_test_harness.h",
+      "origin": "op4-verbatim",
+      "sha256": "07cdda62f7fc5cf24fd14fb95d384703df35c9d4a37434f99a87e86f1d9a662f"
+    },
+    {
+      "path": "external/SDL2/SDL_test_images.h",
+      "origin": "op4-verbatim",
+      "sha256": "1843cd91507acac6f717f07931158dd80cc42cc333d5ba4ed533cdf2f642b6ba"
+    },
+    {
+      "path": "external/SDL2/SDL_test_log.h",
+      "origin": "op4-verbatim",
+      "sha256": "7940fceb265d7c53adfc559bcc516d4e39fe3172a1f37979567b7194303ec99a"
+    },
+    {
+      "path": "external/SDL2/SDL_test_md5.h",
+      "origin": "op4-verbatim",
+      "sha256": "5f1c7488c25a0f8d43a1cac7daf1facc6105af726965b1cab591c3a70055e9bb"
+    },
+    {
+      "path": "external/SDL2/SDL_test_memory.h",
+      "origin": "op4-verbatim",
+      "sha256": "9a9e7298c53db1a5538bbe12e270ec245a6e8323a4c530686ef7e3593dfa2b2c"
+    },
+    {
+      "path": "external/SDL2/SDL_test_random.h",
+      "origin": "op4-verbatim",
+      "sha256": "7ce4790ad9cb82575ef31f8aa443e0ca5bfe2b012ed7936ce193e64b156a158e"
+    },
+    {
+      "path": "external/SDL2/SDL_thread.h",
+      "origin": "op4-verbatim",
+      "sha256": "799af54b869db2d7c739ab4dee8865525f8b9d537e857527edecc1897d9a7294"
+    },
+    {
+      "path": "external/SDL2/SDL_timer.h",
+      "origin": "op4-verbatim",
+      "sha256": "190af3b762fd203ce25c17eda9fb31d698bd75957f59d4ce7cc21671e8a2403a"
+    },
+    {
+      "path": "external/SDL2/SDL_touch.h",
+      "origin": "op4-verbatim",
+      "sha256": "7471eb1df160ad0f904c4ba7b6036c96e02a372930c2bfb7cb7996f9a85cfdaa"
+    },
+    {
+      "path": "external/SDL2/SDL_types.h",
+      "origin": "op4-verbatim",
+      "sha256": "90802dd5e72417d3bf880d384a7bc2f07e5c1b33a575570faed797572181df0a"
+    },
+    {
+      "path": "external/SDL2/SDL_version.h",
+      "origin": "op4-verbatim",
+      "sha256": "f80c39638d72f2b903a991b3fc133309e0150d150e55d957e5d107201c4d34b8"
+    },
+    {
+      "path": "external/SDL2/SDL_video.h",
+      "origin": "op4-verbatim",
+      "sha256": "0cfbc20ec21063441388f7923126cb45c40e5ac4f4a0aba98ab703dcec894772"
+    },
+    {
+      "path": "external/SDL2/SDL_vulkan.h",
+      "origin": "op4-verbatim",
+      "sha256": "3ea0b5d7b4bd81b9ca98a0817fdf75ad00c9ecdd9a93ee3bc865ff80474e1bc7"
+    },
+    {
+      "path": "external/SDL2/begin_code.h",
+      "origin": "op4-verbatim",
+      "sha256": "a83356664b68b11cd53eda4af7ee8c90ff8e20640d52b208a6eed6535d5c23b8"
+    },
+    {
+      "path": "external/SDL2/close_code.h",
+      "origin": "op4-verbatim",
+      "sha256": "f49100335e21a43455ead0e742f7c816d0494171ce10948e3637b9abf3ca953a"
+    },
+    {
+      "path": "fgd/halflife-op4.fgd",
+      "origin": "op4-verbatim",
+      "sha256": "11a30ec8ad87406113deb12b07766b6554a972bf0f38ccb72fce6520124d6ae4"
+    },
+    {
+      "path": "fgd/halflife.fgd",
+      "origin": "op4-verbatim",
+      "sha256": "3d98bd637a7379911030c74ebe9dce348af44d5079eb8f2ebe87251b40af2cd0"
+    },
+    {
+      "path": "filecopy.bat",
+      "origin": "op4-verbatim",
+      "sha256": "d0114b9b3dc279f20f2d58110164a69b9642c4b1d12622c6a460c46805eb1843"
+    },
+    {
+      "path": "game_shared/GameEvent.h",
+      "origin": "op4-verbatim",
+      "sha256": "83bef32fd7a890480a14aecff9b682285a3434c901104b24c1ca98d5646f94a1"
+    },
+    {
+      "path": "game_shared/bitvec.h",
+      "origin": "op4-verbatim",
+      "sha256": "cd0d4328e07c18b453401d210d83b8c6ee72a66ff4bebf9081c5f1358ad700b1"
+    },
+    {
+      "path": "game_shared/bot/bot.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "52ec21e593353b4bef3622071cc7df087fd024ac9a7f880c028ef0783659d15c"
+    },
+    {
+      "path": "game_shared/bot/bot.h",
+      "origin": "op4-verbatim",
+      "sha256": "b6d2c8c35bf16310fef7b1e7d42da67cde551a555d418135dc2e57b6fda26b81"
+    },
+    {
+      "path": "game_shared/bot/bot_constants.h",
+      "origin": "op4-verbatim",
+      "sha256": "36c121687cdf5887e6dda1fe39fd337586c2cb9f7afc8e00d70d8daa006af1f0"
+    },
+    {
+      "path": "game_shared/bot/bot_manager.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "1c4ff24105c9d52d7d733a4e27da4458f74397b8361175b9a9039a87365725f7"
+    },
+    {
+      "path": "game_shared/bot/bot_manager.h",
+      "origin": "op4-verbatim",
+      "sha256": "559ca2ac937ec6e80b6d27e9f05bf029918df8f5d0d9859aa8370ab54a8cdac0"
+    },
+    {
+      "path": "game_shared/bot/bot_profile.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "84cea83070f4319239be1c3b81dd437120b89a8cc76be9dd739464ca7c0f7d7c"
+    },
+    {
+      "path": "game_shared/bot/bot_profile.h",
+      "origin": "op4-verbatim",
+      "sha256": "5a3134b554b89934d00fabb1fa0fc6f211bccda7947034b728abf808272302b5"
+    },
+    {
+      "path": "game_shared/bot/bot_util.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "63c3ac005bca03a1dbe21614ccba1749928d42beb920b3bd0312a047330bb244"
+    },
+    {
+      "path": "game_shared/bot/bot_util.h",
+      "origin": "op4-verbatim",
+      "sha256": "0814914e6377c80b790d97648c0861ed8b84f3db61bde0286ab2477a7ba85df2"
+    },
+    {
+      "path": "game_shared/bot/improv.h",
+      "origin": "op4-verbatim",
+      "sha256": "5c248017f425a343764313b56f2d4f4dd9033cafd060a98db07cf623ff74c566"
+    },
+    {
+      "path": "game_shared/bot/nav.h",
+      "origin": "op4-verbatim",
+      "sha256": "f83350f9d9ed2ab99d2e68f69e7c0f9768a39b893ee0dfd18196bd90c60ee6f8"
+    },
+    {
+      "path": "game_shared/bot/nav_area.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "fb501ead4988eec2c4409213bb263c29ae58c2d9c065df079e2773f63f8b5076"
+    },
+    {
+      "path": "game_shared/bot/nav_area.h",
+      "origin": "op4-verbatim",
+      "sha256": "2e68f9dab553450ea9bf79bfcd1e7312b5680d2c301b7a7979b8b8457b6b948c"
+    },
+    {
+      "path": "game_shared/bot/nav_file.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "e3bcbcb1fd60ab742def6ff1211765dce678b3e3c28fbd91388e5243800c76f0"
+    },
+    {
+      "path": "game_shared/bot/nav_node.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "bdeac2a9bf8ac7f5b3df08c0a11ccc1f1fee4c8978932d8c04e8648bce978d54"
+    },
+    {
+      "path": "game_shared/bot/nav_node.h",
+      "origin": "op4-verbatim",
+      "sha256": "10839416450f9332142a810b1b9acdeca4e2b5505a09cd43a5d1b711db99d440"
+    },
+    {
+      "path": "game_shared/bot/nav_path.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "9d603a0eb5b8316528350a9bcd7df30bf04762f8ef30a386425efd27033c134c"
+    },
+    {
+      "path": "game_shared/bot/nav_path.h",
+      "origin": "op4-verbatim",
+      "sha256": "721f57e758900ea1c64cb195753fa5f88f55d9524f00bd0eb9a87979d77f54d8"
+    },
+    {
+      "path": "game_shared/bot/simple_state_machine.h",
+      "origin": "op4-verbatim",
+      "sha256": "f20b87dc7e5ed85637efacaebbfcf61e4e6ff0445416031641b9bb90bc074827"
+    },
+    {
+      "path": "game_shared/filesystem_utils.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "d00e898b5e5b9a4eadb46e5f9af36e4b778f7a5f6b135d8fec832232c7e1f6db"
+    },
+    {
+      "path": "game_shared/filesystem_utils.h",
+      "origin": "op4-verbatim",
+      "sha256": "f4e41c118aea690c6f309a2e462ac84ab3c4a1089fab2ff052b96a20a86e51a9"
+    },
+    {
+      "path": "game_shared/perf_counter.h",
+      "origin": "op4-verbatim",
+      "sha256": "387621682c5b14486b42a423c2965a9dddb9e348546096a8122fd2c2ab47fc31"
+    },
+    {
+      "path": "game_shared/shared_util.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "cb715953c0e067a0124b1481b29c4ace37af07a80bec04544b9b7e2b1a7d1834"
+    },
+    {
+      "path": "game_shared/shared_util.h",
+      "origin": "op4-verbatim",
+      "sha256": "026604394c27db653c6189a79e6ad06be57ff191ddd3de247b2e75fb95e732d2"
+    },
+    {
+      "path": "game_shared/simple_checksum.h",
+      "origin": "op4-verbatim",
+      "sha256": "e0f2656b4766a204dcb3d789550da1dc7300ec573c23f8ed692a4c1e99cd87f9"
+    },
+    {
+      "path": "game_shared/steam_util.h",
+      "origin": "op4-verbatim",
+      "sha256": "0da0de42c4aa13a8b2fc0d1d8520a56b790e8b15e4a20c8bc6d0080d268df3b7"
+    },
+    {
+      "path": "game_shared/vgui_checkbutton2.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "fc5e3bbcd7a50261b352c79a67b2bde432ec7fedbf2d5c82e11806a134d40fd4"
+    },
+    {
+      "path": "game_shared/vgui_checkbutton2.h",
+      "origin": "op4-verbatim",
+      "sha256": "b57fefb7a3f0c7956e2dffe4248fea204065327e7af4b33ba43d4afa2f672a04"
+    },
+    {
+      "path": "game_shared/vgui_defaultinputsignal.h",
+      "origin": "op4-verbatim",
+      "sha256": "13f39a73f93d2c30d332611292e221dcf916907496d9f8b5d952854c649e276d"
+    },
+    {
+      "path": "game_shared/vgui_grid.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "f0ac93d660db2f0ac5d9ab9d8f765f0547f7dbeb6d0b2e94482c57e030697d95"
+    },
+    {
+      "path": "game_shared/vgui_grid.h",
+      "origin": "op4-verbatim",
+      "sha256": "d83d84fc7a445554a1c817d9e7629b16aadfbc66a6b2c56b4fa87599928b2e11"
+    },
+    {
+      "path": "game_shared/vgui_helpers.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "cd32b874ef1f394b294d4725f7c867cc3fe4df7747f8ffbff668c6f9a8f8f7c1"
+    },
+    {
+      "path": "game_shared/vgui_helpers.h",
+      "origin": "op4-verbatim",
+      "sha256": "ab1f6f3a66dd56108b9cde39337cd197c2bcb0076efb3506e152523a41ea3ce4"
+    },
+    {
+      "path": "game_shared/vgui_listbox.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "b21d731f6768bb235b5c2e9b5226273faba2c623634d7693629202ea89ad76e0"
+    },
+    {
+      "path": "game_shared/vgui_listbox.h",
+      "origin": "op4-verbatim",
+      "sha256": "aa6862b3e630990e447a30bfe9781ec56fdfed0be903227be782ef302204804d"
+    },
+    {
+      "path": "game_shared/vgui_loadtga.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "638879b5152c3f81d07e24736bba9b9ace25491c772a70e083b895a04fb02d54"
+    },
+    {
+      "path": "game_shared/vgui_loadtga.h",
+      "origin": "op4-verbatim",
+      "sha256": "ea45ecbd177bc370d102e53b1086fed1322807629545bd9145e2149f7ff91160"
+    },
+    {
+      "path": "game_shared/vgui_scrollbar2.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "d4ab6b77a6bd69a8655028343068896888324a6c0ebad46a7b03b79547c8aa35"
+    },
+    {
+      "path": "game_shared/vgui_scrollbar2.h",
+      "origin": "op4-verbatim",
+      "sha256": "61eb6e7706f9fefa3946974b9c470b81d5c6c2d8b41ae405850a204db4d505e9"
+    },
+    {
+      "path": "game_shared/vgui_slider2.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "4afc1a518d934ac0bb70ad5ff0e9fec8bb661a6351892e42b5c41fa9959ea544"
+    },
+    {
+      "path": "game_shared/vgui_slider2.h",
+      "origin": "op4-verbatim",
+      "sha256": "731eef3b0555746c5aceea4273bfd2a6509e48fff929ebfff5d0fb3eac860b0d"
+    },
+    {
+      "path": "game_shared/voice_banmgr.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "393d1777e2e234527ff72322fba5530aa08e4b2006c9e9a481c56e6c1d294fbc"
+    },
+    {
+      "path": "game_shared/voice_banmgr.h",
+      "origin": "op4-verbatim",
+      "sha256": "96d34fd24fc9af05eccf50d6833ebefc87e3c3f5b3298730b2b724a29805144a"
+    },
+    {
+      "path": "game_shared/voice_common.h",
+      "origin": "op4-verbatim",
+      "sha256": "6a8d1e0601891c3e058107369fe7eed7d7fedc087e1ce767565633788cc63e7b"
+    },
+    {
+      "path": "game_shared/voice_gamemgr.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "1ea1b1d41b39457373995e70026db21ed44fe1b10e072e680a7d3411a547d0a5"
+    },
+    {
+      "path": "game_shared/voice_gamemgr.h",
+      "origin": "op4-verbatim",
+      "sha256": "d61ee5c1ad47d83853523686fc233124d3f029f782291921947f90fe37013571"
+    },
+    {
+      "path": "game_shared/voice_status.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "4040a3d935306afd1db81770d95671d48d62f321b482a870e848fa227e864916"
+    },
+    {
+      "path": "game_shared/voice_status.h",
+      "origin": "op4-verbatim",
+      "sha256": "0963e65469c24b39b2eb6d43ae5d42c71199b923f42b9026d20fad1044ff171e"
+    },
+    {
+      "path": "game_shared/voice_status_hud.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "129770a64935f0e7578675d2fa452e952cf2d7cb43af98a5e592a0552576ce60"
+    },
+    {
+      "path": "game_shared/voice_status_hud.h",
+      "origin": "op4-verbatim",
+      "sha256": "1eb9c40c346315482fac473995d789a98f4cdb3e7fba1be6a9e3948dcb32f88d"
+    },
+    {
+      "path": "game_shared/voice_vgui_tweakdlg.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "f5c14f50e73b1ac43491c86de365ea9d0def247d964a33daa769c4df9a71493a"
+    },
+    {
+      "path": "game_shared/voice_vgui_tweakdlg.h",
+      "origin": "op4-verbatim",
+      "sha256": "5696ecf9741af51a7bdb194ab45a4b7b77d70fd318fd646aade5c2b0e27f7b8c"
+    },
+    {
+      "path": "lib/public/SDL2.lib",
+      "origin": "op4-verbatim",
+      "sha256": "26cb03139b3c8d2bc8d0f6a8db839eba74c930be9ef52a42f9f2f46d043e267f"
+    },
+    {
+      "path": "linux/.gitignore",
+      "origin": "op4-verbatim",
+      "sha256": "408e659163bb8a1248753d3675b1c50bde301db7277f5a5fddf662e694fa73e7"
+    },
+    {
+      "path": "linux/Makefile",
+      "origin": "op4-verbatim",
+      "sha256": "a7f0df05317938464f2f1980532e9d4177bcf4820dd2f70f5854c02c25faa6e9"
+    },
+    {
+      "path": "linux/Makefile.hl_cdll",
+      "origin": "op4-patched",
+      "sha256": "342f8cf84bc109b8d8558804c257856ce13ccbd6cccc584d6c6ecac81ad5e544"
+    },
+    {
+      "path": "linux/Makefile.hldll",
+      "origin": "op4-patched",
+      "sha256": "9c8a32c44c0eb62536bc3bfa05366ba22c502617695b45fc699b990ce74545a7"
+    },
+    {
+      "path": "linux/gendbg.sh",
+      "origin": "op4-verbatim",
+      "sha256": "b968859326ff7d94af350958374e93c9cfcc1c932a7e1d3e6491dd6540d9ec9d"
+    },
+    {
+      "path": "linux/libSDL2-2.0.so.0",
+      "origin": "op4-verbatim",
+      "sha256": "1c68abc8400f4e058954846ddd203ed7973f8a09f61865f5fb1cfb3ec75c33ed"
+    },
+    {
+      "path": "linux/libSDL2-2.0.so.0.dbg",
+      "origin": "op4-verbatim",
+      "sha256": "e1298dc570090ff25b41c75055eb2ceadee06c7fd84383faee8de7d5150531f7"
+    },
+    {
+      "path": "linux/vgui.so",
+      "origin": "generated-or-binary",
+      "sha256": "399d1609f0cbe72b94596e05cd229b7a1f9f15ac8e2a1de99649e638dc493489"
+    },
+    {
+      "path": "network/Delta.txt",
+      "origin": "op4-verbatim",
+      "sha256": "bcd39b6ab6bf0a3839b2fbb7db28307ba94f50ac5098b88dbd793a6c8b600aa8"
+    },
+    {
+      "path": "network/delta.lst",
+      "origin": "op4-verbatim",
+      "sha256": "9e64b874fe331b52db29d13ed70a52410b0d91059719f8803e6e4058eda44f15"
+    },
+    {
+      "path": "pm_shared/pm_debug.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "afde48ee7ad38027a21fe245bf9d032f6489df5afe493b8d55970a61d9253912"
+    },
+    {
+      "path": "pm_shared/pm_debug.h",
+      "origin": "op4-verbatim",
+      "sha256": "a98b7c95962092e17155daffeaa0645c2d341a66ed8eb2b1adebefe566ba0088"
+    },
+    {
+      "path": "pm_shared/pm_defs.h",
+      "origin": "op4-verbatim",
+      "sha256": "487b22b28a391ff977272074c3b83c87a21865e2ca289eaf957c80b75581c38b"
+    },
+    {
+      "path": "pm_shared/pm_info.h",
+      "origin": "op4-verbatim",
+      "sha256": "1242b252ab5964bee552fbef048efc0d35bf7d64f3cd2644ae57867c0c6bce63"
+    },
+    {
+      "path": "pm_shared/pm_materials.h",
+      "origin": "op4-verbatim",
+      "sha256": "dbd1c26927062450ba52561c40cf3ccb8c580c6de1e041694e8d976fed1017a2"
+    },
+    {
+      "path": "pm_shared/pm_math.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "2d15c7ba4082c0820e9cebfecea35ec37aeaf262dc18d8c9f584e1c56ff50d48"
+    },
+    {
+      "path": "pm_shared/pm_movevars.h",
+      "origin": "op4-verbatim",
+      "sha256": "d0f50ffff7ff35d0fb8f00a448d1bee16fc8b3811f4eb51ccc502e0ea16cf893"
+    },
+    {
+      "path": "pm_shared/pm_shared.cpp",
+      "origin": "op4-patched",
+      "sha256": "0f0952d5e8a2cfe2484fb0c53ad240fd8734004e3a3724e414bf0827f0c6f215"
+    },
+    {
+      "path": "pm_shared/pm_shared.h",
+      "origin": "op4-verbatim",
+      "sha256": "6119c06998846a90931c3ae9d274c083340aa732d2c5334fa06595ea6bce1a4f"
+    },
+    {
+      "path": "projects/.gitignore",
+      "origin": "op4-verbatim",
+      "sha256": "9842f442b12e86b03acd67cd83923f4ffa95fb72f546b6c13ef2269d770f57e7"
+    },
+    {
+      "path": "projects/readme.txt",
+      "origin": "op4-verbatim",
+      "sha256": "84510c2a47b76f9218b7ec1263125e0f30d30b36cfab82151bb0527ee34d0d79"
+    },
+    {
+      "path": "projects/vs2019/bspinfo.vcxproj",
+      "origin": "op4-verbatim",
+      "sha256": "e8dd1e735ee5b84ec3b05d0701ec0f28e40be8dd6b48779cc216ff6d0e61c156"
+    },
+    {
+      "path": "projects/vs2019/bspinfo.vcxproj.filters",
+      "origin": "op4-verbatim",
+      "sha256": "0a7aec10ea996c904a9c7767070ded4bd46dee8e861f2d21ecd1f469ff8ebbb1"
+    },
+    {
+      "path": "projects/vs2019/hl_cdll.vcxproj",
+      "origin": "op4-patched",
+      "sha256": "ea852741cfe6d1372d62b6edbd4a28f081361b236ac900c2a5ec63da80f1bcfd"
+    },
+    {
+      "path": "projects/vs2019/hl_cdll.vcxproj.filters",
+      "origin": "op4-verbatim",
+      "sha256": "2499cfd1434019f5e372790cc75b5ab5d0bed4997884ff1582385cad95bb1422"
+    },
+    {
+      "path": "projects/vs2019/hldll.vcxproj",
+      "origin": "op4-patched",
+      "sha256": "a4aa9a39f06a7483faec5ea5dac224f3e36f745aa59cf5c49ee26ead3e070f80"
+    },
+    {
+      "path": "projects/vs2019/hldll.vcxproj.filters",
+      "origin": "op4-verbatim",
+      "sha256": "a1f7bada2eb6a2c83d2f546c37b5f8b3421a65ad66a0b1c2f39543588eef6899"
+    },
+    {
+      "path": "projects/vs2019/light.vcxproj",
+      "origin": "op4-verbatim",
+      "sha256": "fe3773e3a9c8e97c8cc2e0aa549716a6eefae0d06c9d64bbaef9b420a7714da3"
+    },
+    {
+      "path": "projects/vs2019/light.vcxproj.filters",
+      "origin": "op4-verbatim",
+      "sha256": "2b9ec77481d153ce3bf9eb338c3baac9cf5d804bceee44bfba21af9013bcbe90"
+    },
+    {
+      "path": "projects/vs2019/makefont.vcxproj",
+      "origin": "op4-verbatim",
+      "sha256": "dd2436f0d5a588097b00c002289a58e78121d99bd2f9cd3fa55fbce1c211f4a8"
+    },
+    {
+      "path": "projects/vs2019/makefont.vcxproj.filters",
+      "origin": "op4-verbatim",
+      "sha256": "994ea072087a733a2e608a36ae94c76030b7ec08cab72d5d0bc916d08c6170fe"
+    },
+    {
+      "path": "projects/vs2019/makels.vcxproj",
+      "origin": "op4-verbatim",
+      "sha256": "e59c540dcfd13816dd80d13756ef26de38465b836a428fd9441e84bb88f4d2dc"
+    },
+    {
+      "path": "projects/vs2019/makels.vcxproj.filters",
+      "origin": "op4-verbatim",
+      "sha256": "c77f473c8113bd51cbc35221857e89af20b51764fb316561599cbc9dd2c02688"
+    },
+    {
+      "path": "projects/vs2019/mdlviewer.vcxproj",
+      "origin": "op4-verbatim",
+      "sha256": "6a904aec688dfaaa108a3dce7d32dcfb77c7ff46ae056000eb462c1c7ca5c508"
+    },
+    {
+      "path": "projects/vs2019/mdlviewer.vcxproj.filters",
+      "origin": "op4-verbatim",
+      "sha256": "a1c629f3ca65a935f22b8c1c148fe623060090cf9c1c0d610295a3a36de89571"
+    },
+    {
+      "path": "projects/vs2019/mkmovie.vcxproj",
+      "origin": "op4-verbatim",
+      "sha256": "ec173358669f881828765bbe34b07ea7a27081ed644c6feedd39037705cf0ffd"
+    },
+    {
+      "path": "projects/vs2019/mkmovie.vcxproj.filters",
+      "origin": "op4-verbatim",
+      "sha256": "ac2771d605b6b653295fe6857af4c3dcbdad6f7804ce115ae0fff2290ccda066"
+    },
+    {
+      "path": "projects/vs2019/procinfo.vcxproj",
+      "origin": "op4-verbatim",
+      "sha256": "7f8da42bd92814d82f83ad2c7009f7ca22477c79bb37611aec618ad1d93407c6"
+    },
+    {
+      "path": "projects/vs2019/procinfo.vcxproj.filters",
+      "origin": "op4-verbatim",
+      "sha256": "e887e09cb62a8c254b4547ad300d211e0bb03356818094217841fad0d2748d56"
+    },
+    {
+      "path": "projects/vs2019/projects.sln",
+      "origin": "op4-verbatim",
+      "sha256": "681c54a89fb34fc24cd34c823069e5fbb1548b7ce544008e62aca026824ec8a9"
+    },
+    {
+      "path": "projects/vs2019/qbsp2.vcxproj",
+      "origin": "op4-verbatim",
+      "sha256": "d7e46e6b19fc86354da9bea72c0792a41da2d6ae5eaf44bd74ebd89c3b6fbf27"
+    },
+    {
+      "path": "projects/vs2019/qbsp2.vcxproj.filters",
+      "origin": "op4-verbatim",
+      "sha256": "db4cb4fe1f1823b0a784e60080a48b0c78abe16ad810bcb83cb4593b8cc5c36b"
+    },
+    {
+      "path": "projects/vs2019/qcsg.vcxproj",
+      "origin": "op4-verbatim",
+      "sha256": "2e1b935881f72f699629f9675b56dcf494cc91844613378ebb01dc00dc90e7e9"
+    },
+    {
+      "path": "projects/vs2019/qcsg.vcxproj.filters",
+      "origin": "op4-verbatim",
+      "sha256": "3ebf0cccfdb9fba4594235a5a0bb7cc47ce8509c6ddc322e73eab8c814df2d58"
+    },
+    {
+      "path": "projects/vs2019/qlumpy.vcxproj",
+      "origin": "op4-verbatim",
+      "sha256": "35616b403831d28d19d3c77ff1c0356f8eb632b6203d15ccef795d9a50707af9"
+    },
+    {
+      "path": "projects/vs2019/qlumpy.vcxproj.filters",
+      "origin": "op4-verbatim",
+      "sha256": "dbbd90f6359a0341f680c686dab01c9010ec01676544accb40485846b658239e"
+    },
+    {
+      "path": "projects/vs2019/qrad.vcxproj",
+      "origin": "op4-verbatim",
+      "sha256": "c84a5d62e24a77a0774344c0f0e36ae47602c6c3c8fb7adf7faec5f5dcf076f9"
+    },
+    {
+      "path": "projects/vs2019/qrad.vcxproj.filters",
+      "origin": "op4-verbatim",
+      "sha256": "0b80e06d02c86cb9867ab6cce0b0c3f84ead1f4c2cf225d2396bbcb7f61fd16f"
+    },
+    {
+      "path": "projects/vs2019/readme.txt",
+      "origin": "op4-verbatim",
+      "sha256": "ad19c227e82021271e85493f85f56a85f3d7a4767ede900aaf809885aba9ce50"
+    },
+    {
+      "path": "projects/vs2019/serverctrl.vcxproj",
+      "origin": "op4-verbatim",
+      "sha256": "fa4666ccb5d378400b8ed88121492e186925bb6d3f4d0a7b888a714f93f0a691"
+    },
+    {
+      "path": "projects/vs2019/serverctrl.vcxproj.filters",
+      "origin": "op4-verbatim",
+      "sha256": "80787c42c09bf52cd914901316a73330143764cea28b2bb5b4ea72246c67bd3a"
+    },
+    {
+      "path": "projects/vs2019/smdlexp.vcxproj",
+      "origin": "op4-verbatim",
+      "sha256": "f239ea68a5cb8e402bdbfed2c74b165d313d118eba11fd14cd37917594ea8c6f"
+    },
+    {
+      "path": "projects/vs2019/smdlexp.vcxproj.filters",
+      "origin": "op4-verbatim",
+      "sha256": "469a7ad9ffbc0d28a4a32f8408786f629845e809b63147fb67d37c87d25a4a9b"
+    },
+    {
+      "path": "projects/vs2019/sprgen.vcxproj",
+      "origin": "op4-verbatim",
+      "sha256": "2e4516205fe14db2339878edb6eba1bffe172b41286115ff7b8bb517c24e9c12"
+    },
+    {
+      "path": "projects/vs2019/sprgen.vcxproj.filters",
+      "origin": "op4-verbatim",
+      "sha256": "e9bd35dd268594cb8a6a3f6ddb64e4a64fa39e462359be041bc2f118ddbf689a"
+    },
+    {
+      "path": "projects/vs2019/studiomdl.vcxproj",
+      "origin": "op4-verbatim",
+      "sha256": "952a7efc0d3f9a4454e953732cebc2efc98b228be412defb501f56487cda2d00"
+    },
+    {
+      "path": "projects/vs2019/studiomdl.vcxproj.filters",
+      "origin": "op4-verbatim",
+      "sha256": "c5a7e47912547034ca3d18ad62f7c008c16a2c463c51f1e28f701809c9c140a2"
+    },
+    {
+      "path": "projects/vs2019/utils.sln",
+      "origin": "op4-verbatim",
+      "sha256": "245d34f09fc9ce43ada3995326fc9892a60c703b1449b38339df1c772b17daf7"
+    },
+    {
+      "path": "projects/vs2019/vis.vcxproj",
+      "origin": "op4-verbatim",
+      "sha256": "3e408ed387f7b8d91c34875ed900388d6efbfaf70f983ebc9a799408f66843f2"
+    },
+    {
+      "path": "projects/vs2019/vis.vcxproj.filters",
+      "origin": "op4-verbatim",
+      "sha256": "b4aad6834a00f1db47e9c44e55b842f707d78d905b9cb235136298b0bcc53088"
+    },
+    {
+      "path": "projects/vs2019/xwad.vcxproj",
+      "origin": "op4-verbatim",
+      "sha256": "895c71661e98fac0dd5629626a0d31499e915a3bd70464b04170c6b265ab9d97"
+    },
+    {
+      "path": "projects/vs2019/xwad.vcxproj.filters",
+      "origin": "op4-verbatim",
+      "sha256": "2944867cfe2c6429372eecec128d54a2b5d77e118848ba86e48ae8be3a57948a"
+    },
+    {
+      "path": "public/FileSystem.h",
+      "origin": "op4-verbatim",
+      "sha256": "873b0f2265ddc5ef0f2118b66467f1926dd589bdfe75a8fc03790510d0981684"
+    },
+    {
+      "path": "public/cl_dll/IGameClientExports.h",
+      "origin": "op4-verbatim",
+      "sha256": "f233d5e7bd835b2b4ebc2c395609acb5dd6f0128fdb0fb9ae1685d10eb56a14a"
+    },
+    {
+      "path": "public/interface.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "4386c12a79af61d387f3c4def5349b2ed98357f4aae287a6bda48ef3e94e72a9"
+    },
+    {
+      "path": "public/interface.h",
+      "origin": "op4-verbatim",
+      "sha256": "e81a8bf1fa31ae63332869b5cb0ba74fe26c4557e8556bc3c778788ce26478ee"
+    },
+    {
+      "path": "public/keydefs.h",
+      "origin": "op4-verbatim",
+      "sha256": "2a2a386dad9355aa1cd1415b50c459321c86d81823b3b2f67b1ec43db8dc256a"
+    },
+    {
+      "path": "public/steam/steamtypes.h",
+      "origin": "op4-verbatim",
+      "sha256": "a659ecdd71a3544433e65a842055af72806a295c75388a81c458a700bb63d215"
+    },
+    {
+      "path": "public/tier1/interface.h",
+      "origin": "op4-verbatim",
+      "sha256": "13de767567ff8457329413cc09f65ba9ddad5ec1e8ffb240eb30e08588b3735f"
+    },
+    {
+      "path": "utils/bspinfo/bspinfo.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "fc6650ac75a09e4b559dc7769e9bea044ec37ba792a7b1bc885ab7f5e8825351"
+    },
+    {
+      "path": "utils/common/bspfile.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "86203143922c82326ba854a3a3b4aa8b552c0ef6e021802d9a89b35ed84ee21f"
+    },
+    {
+      "path": "utils/common/bspfile.h",
+      "origin": "op4-verbatim",
+      "sha256": "297189e27cb88d2d2b94b4e98d5479dddfbed02e435cdf90e69ad92248a6f466"
+    },
+    {
+      "path": "utils/common/cmdlib.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "6f72ffabe4a5dc107e6e219b2cf0fbe8ec69e5cebde6581107abfa0482013f99"
+    },
+    {
+      "path": "utils/common/cmdlib.h",
+      "origin": "op4-verbatim",
+      "sha256": "51c5389231e5d41cc40f3cf1c358f4f969b5bf5026cf369c681391ba9d84cb13"
+    },
+    {
+      "path": "utils/common/l3dslib.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "585701fa2750d0e6b021581eba30cca5a7cd7b27b33d32bcea6a14794b50042a"
+    },
+    {
+      "path": "utils/common/l3dslib.h",
+      "origin": "op4-verbatim",
+      "sha256": "52ad0d26a309fd50c894b433148d170ea6893c54b6aaa594ba74330a2360cf19"
+    },
+    {
+      "path": "utils/common/lbmlib.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "9d7a8914553e1e53b1150b5744fe9c8f3aef2d54921639affeb5d83124767a67"
+    },
+    {
+      "path": "utils/common/lbmlib.h",
+      "origin": "op4-verbatim",
+      "sha256": "305f1ef32fc11ddea0c8db57219be4048ff4ab0798516d9eda9d79f9d790a6c2"
+    },
+    {
+      "path": "utils/common/mathlib.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "b3084f03a49cbac9cb0533fcb9b84fdb1e5596f572e82fdddb2ab25b634eef48"
+    },
+    {
+      "path": "utils/common/mathlib.h",
+      "origin": "op4-verbatim",
+      "sha256": "45c48906ad65400c67938d38e918cade1fda69522bfadab9fe38ba78cb8ee04c"
+    },
+    {
+      "path": "utils/common/meter.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "51f2d553d7b4bd84ba6d65479ec87f898def0a3619cdef21be407c500e2d1aae"
+    },
+    {
+      "path": "utils/common/meter.h",
+      "origin": "op4-verbatim",
+      "sha256": "35b9018efb0a94f33d3d9e1a4cb5e693c84e95d637c59b216ab1a43f14d78142"
+    },
+    {
+      "path": "utils/common/movie.h",
+      "origin": "op4-verbatim",
+      "sha256": "74d9c00cead84dd115ed11cf26e922d7b086eb18c227249f665229f498102886"
+    },
+    {
+      "path": "utils/common/polylib.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "9e1a7a18f07e699c6e803117eb1f9106d0e79c447a649dea168d8b4d9d570c97"
+    },
+    {
+      "path": "utils/common/polylib.h",
+      "origin": "op4-verbatim",
+      "sha256": "a3b12f97b6e4e09cbe97b2bce0b316da4c3a9ea751ad386d6f34d90031df0928"
+    },
+    {
+      "path": "utils/common/scriplib.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "a1074cc8a378badf9c57a7ff1e8dcdf55b20eaf27c7f74cdf3ecced12e59f53c"
+    },
+    {
+      "path": "utils/common/scriplib.h",
+      "origin": "op4-verbatim",
+      "sha256": "55062849beea5e6a57d87cb1538c26d9762e7571bf88885879d0c7adf9a5564b"
+    },
+    {
+      "path": "utils/common/threads.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "a7874f0ba67677ae71152f37c6197c1d99c3c8d57ae7b25c296093ef14d5f730"
+    },
+    {
+      "path": "utils/common/threads.h",
+      "origin": "op4-verbatim",
+      "sha256": "62c62fdc8c1bd610b86de579f9c05b15acc4eaf607b91c018a3db045b8593c0e"
+    },
+    {
+      "path": "utils/common/trilib.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "95e548d3d79d98f648760441c31392a04c4c34e219a15a38b0819988a0214890"
+    },
+    {
+      "path": "utils/common/trilib.h",
+      "origin": "op4-verbatim",
+      "sha256": "242647a399825803e886129c9e4ca0a4e7ddbbf99e1a17175bf969216a962b9f"
+    },
+    {
+      "path": "utils/common/wadlib.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "c209515dc5cddf0180b939db0b9eac80a93a33ceab4e3e9748f9ce3975fbaec6"
+    },
+    {
+      "path": "utils/common/wadlib.h",
+      "origin": "op4-verbatim",
+      "sha256": "240e6d060ec74159880ce6ee8062a0ce492a1de61db3dd713d5e95b72a4a2219"
+    },
+    {
+      "path": "utils/light/light.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "6ac586c46864b502c0082b1f7a9679cb345c4559e76026ca686f05e720b7ca00"
+    },
+    {
+      "path": "utils/light/light.h",
+      "origin": "op4-verbatim",
+      "sha256": "58ec8ae4886d7044167ba7b73f6027903888713b9d747fc589254e5b29ed8489"
+    },
+    {
+      "path": "utils/light/ltface.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "4aac2ba8bc9fb2d7dbea86183c1f5644b3f2d49c5e7c7de4c1e47832d7364437"
+    },
+    {
+      "path": "utils/light/trace.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "bcf4c574451b3b3c3b6e2805871c055985b65b766c9136b1cc49ef7c59face85"
+    },
+    {
+      "path": "utils/makefont/makefont.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "63fa740c5791043f8ccae992ff25dff3f1afb62a04fec08f6ea96ca861672ce8"
+    },
+    {
+      "path": "utils/makels/makels.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "8e058f781ae5e83a3ad1314cf3f409fa313cf0421fc594a47e698395b3f95541"
+    },
+    {
+      "path": "utils/mdlviewer/mdlviewer.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "ac65000088124c59a68fb539622624092d618c49bab1e0bd3eda81bb76da7b43"
+    },
+    {
+      "path": "utils/mdlviewer/mdlviewer.h",
+      "origin": "op4-verbatim",
+      "sha256": "9cc085422caddd9736a5c2e8ef3aa45a83580b028712a0bf50960d8fe5b46eb7"
+    },
+    {
+      "path": "utils/mdlviewer/studio_render.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "7a33672db627275769d65613b853b2c17d4ab3fa530b8a06257f1d1fb1c956ba"
+    },
+    {
+      "path": "utils/mdlviewer/studio_utils.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "afead59e66655b01fd54e944d5ce65a7d0e1b534221c882d72c6b2acbad4dbf8"
+    },
+    {
+      "path": "utils/mkmovie/mkmovie.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "1881da063c9bd98fdbb91e4774e02c2f87858559d3f5b50f991aebd770924617"
+    },
+    {
+      "path": "utils/procinfo/procinfo.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "6c3d28b4e09a76ff0f1e9ae5fef1142eaa6dc3505348a6b859ca9d99aa8d69c1"
+    },
+    {
+      "path": "utils/procinfo/procinfo.h",
+      "origin": "op4-verbatim",
+      "sha256": "e36714022417538626af27f04e3a41149857522333e6cdfabf32ab095d9a42e8"
+    },
+    {
+      "path": "utils/qbsp2/bsp5.h",
+      "origin": "op4-verbatim",
+      "sha256": "5e82f2c8c391a450415e2204d7e8946ac41143de584080786a6c04cd7df7b428"
+    },
+    {
+      "path": "utils/qbsp2/cull.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "e6541bf8073854fc64b9f1b4c2620c4d4dce2db6bf4f7e29131e26b883743eb6"
+    },
+    {
+      "path": "utils/qbsp2/gldraw.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "de6db97aaaf4bd8f9fd18ea833199c586ece4de7eed7714c6c6b1b08358017e1"
+    },
+    {
+      "path": "utils/qbsp2/merge.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "14b2fdec588fbd1b62b648be3aef35c899fcc08e7e4cb0caf00d081533b31b4d"
+    },
+    {
+      "path": "utils/qbsp2/nodraw.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "e31cd093d40f3e20452a8c5fc931e73788dfce7e2a493ebf56e478ae4ce23f8c"
+    },
+    {
+      "path": "utils/qbsp2/outside.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "4c4fc8118c2d3b395e39cdee8c5a7e04658e71677e46332ee7fa336bf13bc9e7"
+    },
+    {
+      "path": "utils/qbsp2/portals.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "9deed59fda658bccfddc07a5b323f0bce7fa263e8eb15aa076a228d761d715cc"
+    },
+    {
+      "path": "utils/qbsp2/qbsp.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "a7fb46c8bbc850b5214bb00588c526b262e42eb351292335a1fc2c7622c05cec"
+    },
+    {
+      "path": "utils/qbsp2/solidbsp.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "77c3572ddc60b55fb4e47d1a10294743c18f3646b37c3f87e14f0a9896f50e15"
+    },
+    {
+      "path": "utils/qbsp2/surfaces.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "2e255241807e7fba3d5860b3de51afa794f1647743496aa235cd6265eb87bba4"
+    },
+    {
+      "path": "utils/qbsp2/tjunc.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "bb1768b7c1fbbe7087e0571d0baefa8700a2a5a18d4270091aa466575f1e702e"
+    },
+    {
+      "path": "utils/qbsp2/writebsp.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "871dabc4c2214794e4b900152eb16eca85666404b9076cdc9c7c66948136e063"
+    },
+    {
+      "path": "utils/qcsg/brush.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "4bc623abb8d85dfa2314f31f1e44f677b2ba58920a532674288f07a06d8e6d34"
+    },
+    {
+      "path": "utils/qcsg/csg.h",
+      "origin": "op4-verbatim",
+      "sha256": "614c23e275a9614a957c7ab5ca2945a84bcbb35a3f0d4ce3a8df5ce86b8c9017"
+    },
+    {
+      "path": "utils/qcsg/gldraw.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "07634d947954189b9b61dd7b7da5e8f487486b0d488a1b5c43c6504ecdf5264b"
+    },
+    {
+      "path": "utils/qcsg/hullfile.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "7ae18d225ef46df0f595696a73ea03837fecc87e6e9263084543cf1c5b366634"
+    },
+    {
+      "path": "utils/qcsg/hulls.txt",
+      "origin": "op4-verbatim",
+      "sha256": "9483db8890406790f48d1aa24af8ccd8033e7c8f3221c63c7277a1ca7c43f358"
+    },
+    {
+      "path": "utils/qcsg/map.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "5ba87a23f4a5a7525617432cb0fbae230d8367356111f114619409c8cb73f298"
+    },
+    {
+      "path": "utils/qcsg/qcsg.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "c5f787401e542ea8aaa9c2439e1dac84713ab0e96e109248c4ba245a277b0e1b"
+    },
+    {
+      "path": "utils/qcsg/source.p0",
+      "origin": "op4-verbatim",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "utils/qcsg/source.p1",
+      "origin": "op4-verbatim",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "utils/qcsg/source.p2",
+      "origin": "op4-verbatim",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "utils/qcsg/textures.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "420aee38d450a5dd3e0212cb0a5477248720367dd6ffad45ac9383d92f0a9ba0"
+    },
+    {
+      "path": "utils/qlumpy/qlumpy.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "8550c586fa5c4f79c4362776872ad737f6fddd73df02febb876d19a982094740"
+    },
+    {
+      "path": "utils/qlumpy/qlumpy.doc",
+      "origin": "op4-verbatim",
+      "sha256": "6f2447e757776f5a02fd83abebcf3213c24362bdb51b0cd02f93853d7550018f"
+    },
+    {
+      "path": "utils/qlumpy/qlumpy.h",
+      "origin": "op4-verbatim",
+      "sha256": "eff57ec42ba37eea12f23f83e9c7183dc5ffbc37aea97638b0b00b9f106e6048"
+    },
+    {
+      "path": "utils/qlumpy/quakegrb.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "32a4eb0e706f79a89f4e865c54512860aa36231f5b176e56539b17e5afb2ab60"
+    },
+    {
+      "path": "utils/qrad/lightmap.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "469b827c8bfcaf7f5ed9eafae6b080615d7a9b8c4a3be71381d5b11034b93962"
+    },
+    {
+      "path": "utils/qrad/qrad.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "4dd346b44712d19753765ac5bb11affdb5ea144986d549392cf0761b6d9fbdb3"
+    },
+    {
+      "path": "utils/qrad/qrad.h",
+      "origin": "op4-verbatim",
+      "sha256": "ab40217d0707dddb97c2e7520bc967945e4190878809938d78dcc096d495a005"
+    },
+    {
+      "path": "utils/qrad/qrad.txt",
+      "origin": "op4-verbatim",
+      "sha256": "c456ae4f4c9912f3059eb98a486267230c0553f6d9ebd5b12423c431045478ce"
+    },
+    {
+      "path": "utils/qrad/trace.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "3d95d52123504a328d995e238133dc24a036d633301f478d99c825bcb0c1c813"
+    },
+    {
+      "path": "utils/qrad/vismat.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "d83f4c1e0ea289862c816a5d064e2a419e94b9ca21fe709fd49cc21b016118c7"
+    },
+    {
+      "path": "utils/serverctrl/ServerCtrl.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "dec9c6f90ca0f26d8ea1b5b584ebe1461d4256d6f94fc367d7527d456b096a1c"
+    },
+    {
+      "path": "utils/serverctrl/ServerCtrl.h",
+      "origin": "op4-verbatim",
+      "sha256": "b7cc2a20e782e55974b30bccf5618f5e3a8f3becc597b80b06bf0c5491352886"
+    },
+    {
+      "path": "utils/serverctrl/ServerCtrl.rc",
+      "origin": "op4-verbatim",
+      "sha256": "0a526c57778478fb67d4025a523f0cfec201608e0574b4e7541c2d5c9a9f54ec"
+    },
+    {
+      "path": "utils/serverctrl/ServerCtrlDlg.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "2a0909bf4c135b30feb6e2219c3d4d3b15df142b71f159f2c5795f3ce26785ca"
+    },
+    {
+      "path": "utils/serverctrl/ServerCtrlDlg.h",
+      "origin": "op4-verbatim",
+      "sha256": "087e4c9cb8c1c56e333736b26ea323c35f0dbd55f5a97deb1ecc31d9d77e5947"
+    },
+    {
+      "path": "utils/serverctrl/StdAfx.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "7378d66437cbe539b76b54a1a04f7715d63e3481aeec4a003752429125487412"
+    },
+    {
+      "path": "utils/serverctrl/StdAfx.h",
+      "origin": "op4-verbatim",
+      "sha256": "543e4df7a3984b0579e1cdc8d09fac034610c77261f909aa5c4f8ec8e57c4c9a"
+    },
+    {
+      "path": "utils/serverctrl/res/serverctrl.ico",
+      "origin": "op4-verbatim",
+      "sha256": "17d9ba10a2faf5620bd85df1b7691c1f1de2c29db33c3eef719c90d0d10aea94"
+    },
+    {
+      "path": "utils/serverctrl/res/serverctrl.rc2",
+      "origin": "op4-verbatim",
+      "sha256": "0ef9443ade5ce99f25b6291421cef5e54cfbf691ea0cd77cbe8ae5219f839928"
+    },
+    {
+      "path": "utils/serverctrl/resource.h",
+      "origin": "op4-verbatim",
+      "sha256": "38907df84258f4dc5cd6b775625611a985b8b500550c0d3b52f2197c780f0074"
+    },
+    {
+      "path": "utils/smdlexp/smdlexp.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "d752917ad8e695fd4d0ca0f4f0518304704ff8722d964968b8085e0c9ec814de"
+    },
+    {
+      "path": "utils/smdlexp/smdlexp.def",
+      "origin": "op4-verbatim",
+      "sha256": "44e8b741bf952799872c93428fcc49db7422a312b5040833f8cda96268b089ba"
+    },
+    {
+      "path": "utils/smdlexp/smdlexp.rc",
+      "origin": "op4-verbatim",
+      "sha256": "5d9c7d3e635780fd003821dfff0f16b2a9da3d4bba84a8cb4d254e5460918fc6"
+    },
+    {
+      "path": "utils/smdlexp/smedefs.h",
+      "origin": "op4-verbatim",
+      "sha256": "269597be79054f6dc9caf37debc508f0d0c4b7ddf10f16b1c8ab88d1a1fdcf81"
+    },
+    {
+      "path": "utils/smdlexp/smexprc.h",
+      "origin": "op4-verbatim",
+      "sha256": "e334a37d4e9b5d733bed570854909392b0a1f69c976ae1cf0a543aaa4e64b4d8"
+    },
+    {
+      "path": "utils/sprgen/s_bubble.spr",
+      "origin": "op4-verbatim",
+      "sha256": "bd23b9b7290311f5b6e50892fcdf23348902351c69d70f7dfbf7ddb8806078a4"
+    },
+    {
+      "path": "utils/sprgen/s_explod.spr",
+      "origin": "op4-verbatim",
+      "sha256": "9fb4a5b04fb330984173c6d77b0805d698e383cc220dbe727d814a082b6fffb5"
+    },
+    {
+      "path": "utils/sprgen/s_light.spr",
+      "origin": "op4-verbatim",
+      "sha256": "9e2825f4ecaf6a6ab4c69c296d34a59639f23a2ce777688c4f5a2f9d1bae2b56"
+    },
+    {
+      "path": "utils/sprgen/sprgen.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "ba3a444a7f93e1f5f42364506dd22551545799930b7f54bda3057fbe00c32fc2"
+    },
+    {
+      "path": "utils/sprgen/spritegn.h",
+      "origin": "op4-verbatim",
+      "sha256": "54b575b101b02428bd66cf77fa456e3faa5a525b84b04ceee2b273206fa8a198"
+    },
+    {
+      "path": "utils/studiomdl/bmpread.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "8db8809bad3714cade6d8ea989d1a7776d2e729e1ff481311965e3aee3af477f"
+    },
+    {
+      "path": "utils/studiomdl/studiomdl.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "3623082147857d4f7f0014885516f047726f47306177568f9d2852c7b8f90093"
+    },
+    {
+      "path": "utils/studiomdl/studiomdl.h",
+      "origin": "op4-verbatim",
+      "sha256": "d4b25835223dfa8c0c9556e2e6c288c2b23b251f6983bfaa89ddc36ffb6ea899"
+    },
+    {
+      "path": "utils/studiomdl/tristrip.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "11e5625c1263d055fd4215c7e34ccc88f1c5bf4e02c4def29c10c2f733bac6c8"
+    },
+    {
+      "path": "utils/studiomdl/write.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "f143fa48a60c51163a8772359f3d662e76813385a2098645f9a06188bafc6425"
+    },
+    {
+      "path": "utils/vgui/include/VGUI.h",
+      "origin": "op4-verbatim",
+      "sha256": "daabc113cf8ed843bde6af7083265d1dae9f635a309da0f0c81b63a2a67ece14"
+    },
+    {
+      "path": "utils/vgui/include/VGUI_ActionSignal.h",
+      "origin": "op4-verbatim",
+      "sha256": "cea0d40d2af0176108047e1e6828232bce81b511ac4837ba2e3eb7d25ae8887f"
+    },
+    {
+      "path": "utils/vgui/include/VGUI_App.h",
+      "origin": "op4-verbatim",
+      "sha256": "e106a86b1a729c13403491671ba23892661f20827569efec3918d52dcaf7e31b"
+    },
+    {
+      "path": "utils/vgui/include/VGUI_Bitmap.h",
+      "origin": "op4-verbatim",
+      "sha256": "551864838a93ab5898ba4964c2425cf582ac57a81de59a4295a28c056dd57732"
+    },
+    {
+      "path": "utils/vgui/include/VGUI_BitmapTGA.h",
+      "origin": "op4-verbatim",
+      "sha256": "7174a40db924bbf895ef090e20ccf1c62265e77332004651bf089143dd0517a2"
+    },
+    {
+      "path": "utils/vgui/include/VGUI_Border.h",
+      "origin": "op4-verbatim",
+      "sha256": "4a4d0e360129055b2a258f373d114ebff81cd41e73e59d57e987d82f5493be83"
+    },
+    {
+      "path": "utils/vgui/include/VGUI_BorderLayout.h",
+      "origin": "op4-verbatim",
+      "sha256": "8d9c4b51f95c1c2a7c410dfd2a5a4efcaafccb4afc3c8a32aaaa412ce051a9d1"
+    },
+    {
+      "path": "utils/vgui/include/VGUI_BorderPair.h",
+      "origin": "op4-verbatim",
+      "sha256": "97dddcad1d62bd48b680992478024e193ca10bc2c12a42eb547738f601a10530"
+    },
+    {
+      "path": "utils/vgui/include/VGUI_BuildGroup.h",
+      "origin": "op4-verbatim",
+      "sha256": "07accfcc87fb240e2ac1da3ad6caf72e3e002362c7d662e114289b691329eb1a"
+    },
+    {
+      "path": "utils/vgui/include/VGUI_Button.h",
+      "origin": "op4-verbatim",
+      "sha256": "f149cec634d6a05c23fc0f8e83cf7a9dd40af3653a7f9039410e9a6442d1a159"
+    },
+    {
+      "path": "utils/vgui/include/VGUI_ButtonController.h",
+      "origin": "op4-verbatim",
+      "sha256": "36f2e0cdce9419a0a30f7c036430d5ea8473f800d8cc29ccde61b0c742f9ded9"
+    },
+    {
+      "path": "utils/vgui/include/VGUI_ButtonGroup.h",
+      "origin": "op4-verbatim",
+      "sha256": "32092d79e0e792c81328ebe58d8eed0dec6125977307c9e677854d572df1a1f2"
+    },
+    {
+      "path": "utils/vgui/include/VGUI_ChangeSignal.h",
+      "origin": "op4-verbatim",
+      "sha256": "2d5c505f860ed053d2ff4d6ead05549caccd7925dfb249e8880969e6edf07560"
+    },
+    {
+      "path": "utils/vgui/include/VGUI_CheckButton.h",
+      "origin": "op4-verbatim",
+      "sha256": "5d3ed2ff9d5fb9eefc489165203b7e38b648cc9602a76914097c5b1ce0532561"
+    },
+    {
+      "path": "utils/vgui/include/VGUI_Color.h",
+      "origin": "op4-verbatim",
+      "sha256": "dacaf3396c4867a0e4e371c8504c356b5743a91673fb933dc4e3c302ae5c8b16"
+    },
+    {
+      "path": "utils/vgui/include/VGUI_ComboKey.h",
+      "origin": "op4-verbatim",
+      "sha256": "96781c8144c6d9286dac56c91b822281952ed34146340f399339beb0a5df1dd9"
+    },
+    {
+      "path": "utils/vgui/include/VGUI_ConfigWizard.h",
+      "origin": "op4-verbatim",
+      "sha256": "1708e5dc01521733691f2c583637830e102ddbff36bae790bab780f51db4bbed"
+    },
+    {
+      "path": "utils/vgui/include/VGUI_Cursor.h",
+      "origin": "op4-verbatim",
+      "sha256": "d2a9e8e330451b6221947027b9d752e3045a603b494e3d7d14273bbe84091883"
+    },
+    {
+      "path": "utils/vgui/include/VGUI_Dar.h",
+      "origin": "op4-verbatim",
+      "sha256": "c179234e2719e3d5d45682c766d24821a207dc77989847e8bbcddf206620499e"
+    },
+    {
+      "path": "utils/vgui/include/VGUI_DataInputStream.h",
+      "origin": "op4-verbatim",
+      "sha256": "1b4fdbf576f4e5007d3e40dfc5834e87f3d9516a516ab45c475c146b1b9b3e5f"
+    },
+    {
+      "path": "utils/vgui/include/VGUI_Desktop.h",
+      "origin": "op4-verbatim",
+      "sha256": "05d40aebff3f0be8b35ede01416f52b3b3e7e0017ad30dcb6f6efa3600b26a6a"
+    },
+    {
+      "path": "utils/vgui/include/VGUI_DesktopIcon.h",
+      "origin": "op4-verbatim",
+      "sha256": "709a3d338bf84297b943c8e660162499fc97786f7dcc25ad7ced43043f98209b"
+    },
+    {
+      "path": "utils/vgui/include/VGUI_EditPanel.h",
+      "origin": "op4-verbatim",
+      "sha256": "a13669925ce967c7dd5a2cbfabec15356caea89e03a2e26bf924bf958ee98192"
+    },
+    {
+      "path": "utils/vgui/include/VGUI_EtchedBorder.h",
+      "origin": "op4-verbatim",
+      "sha256": "610018516cfd9377f90159de3ffef9ac46bf624a527afcd8e40428ce57959bda"
+    },
+    {
+      "path": "utils/vgui/include/VGUI_FileInputStream.h",
+      "origin": "op4-verbatim",
+      "sha256": "f48c0f620ed2a37277f23b2ef663b258c25e66cecc59a33cdffae3e0cc25c714"
+    },
+    {
+      "path": "utils/vgui/include/VGUI_FlowLayout.h",
+      "origin": "op4-verbatim",
+      "sha256": "533c404ecc839339fc4c88bbab56ddec9a156a2cf359c63450b01524406079a7"
+    },
+    {
+      "path": "utils/vgui/include/VGUI_FocusChangeSignal.h",
+      "origin": "op4-verbatim",
+      "sha256": "813a5c79ddc78087a0bd000eba618cd93cef23f64dfd9d867acf2feb4e65b05f"
+    },
+    {
+      "path": "utils/vgui/include/VGUI_FocusNavGroup.h",
+      "origin": "op4-verbatim",
+      "sha256": "c7b86dbffd44f226f600701592249b56afc0a613b474ebce76ad2066494b3e10"
+    },
+    {
+      "path": "utils/vgui/include/VGUI_Font.h",
+      "origin": "op4-verbatim",
+      "sha256": "d1a327fd038fc6cabc6f8739ede86e8b74a8939836e956c1fb62f5a6c212bb1e"
+    },
+    {
+      "path": "utils/vgui/include/VGUI_Frame.h",
+      "origin": "op4-verbatim",
+      "sha256": "fa927862fd65b4f94e9bda20bd3a0915dcd13673856dbe44a384793a7caf8d5e"
+    },
+    {
+      "path": "utils/vgui/include/VGUI_FrameSignal.h",
+      "origin": "op4-verbatim",
+      "sha256": "8126d7254456c7aff624c7067c7fa4b7b611f73bf3c6128c61efa88bc9190088"
+    },
+    {
+      "path": "utils/vgui/include/VGUI_GridLayout.h",
+      "origin": "op4-verbatim",
+      "sha256": "a52b40bf6fb9bfe5dc8cb7241ead3f936e0c8cf919d45642f9e08122630473a0"
+    },
+    {
+      "path": "utils/vgui/include/VGUI_HeaderPanel.h",
+      "origin": "op4-verbatim",
+      "sha256": "a9dfb05bf92b3f2153c394713831fe39880eec4ac0a018507b58bec32a431c83"
+    },
+    {
+      "path": "utils/vgui/include/VGUI_Image.h",
+      "origin": "op4-verbatim",
+      "sha256": "3a3f5b3328fbbd70146f41c550ecf3060e2bff20a8803413a2e0422654b04e98"
+    },
+    {
+      "path": "utils/vgui/include/VGUI_ImagePanel.h",
+      "origin": "op4-verbatim",
+      "sha256": "949f7943e0f92ead5f0da08b6d3a1bcfbade863301874425bb3f4fd969e39a87"
+    },
+    {
+      "path": "utils/vgui/include/VGUI_InputSignal.h",
+      "origin": "op4-verbatim",
+      "sha256": "ba0ecf1d20947a6837b2f765cc48b8d28cf0bed7c7644f1ea5b67da6fce897f5"
+    },
+    {
+      "path": "utils/vgui/include/VGUI_InputStream.h",
+      "origin": "op4-verbatim",
+      "sha256": "cbca20cab10a2486ec6deae280083843e0d2fc65feb26ddbca2cca789d208827"
+    },
+    {
+      "path": "utils/vgui/include/VGUI_IntChangeSignal.h",
+      "origin": "op4-verbatim",
+      "sha256": "268f710da86952c4a3871b10bd7c8435a4f6e24a61eb8972acde1ea5803d2646"
+    },
+    {
+      "path": "utils/vgui/include/VGUI_IntLabel.h",
+      "origin": "op4-verbatim",
+      "sha256": "a26ae9f3a03828a2b3200c92581c8befe3f81b3175d1daa256114096adcff533"
+    },
+    {
+      "path": "utils/vgui/include/VGUI_KeyCode.h",
+      "origin": "op4-verbatim",
+      "sha256": "f30c26d5e450b4a5dab53694ce051121278e16a654e5e2344eac6fbd3edc894d"
+    },
+    {
+      "path": "utils/vgui/include/VGUI_Label.h",
+      "origin": "op4-verbatim",
+      "sha256": "52c2dc46bb47a9777329cb426c0fad47e3d23c08220a2fea875e62769210aa80"
+    },
+    {
+      "path": "utils/vgui/include/VGUI_Layout.h",
+      "origin": "op4-verbatim",
+      "sha256": "1df417d241b5d67c0d566369d5ef3eb04c4808878ed25dfe8319d9eefefe2b28"
+    },
+    {
+      "path": "utils/vgui/include/VGUI_LayoutInfo.h",
+      "origin": "op4-verbatim",
+      "sha256": "59445eb11cb3b2e506270c0733e72a25e38ebd284039d2f3eb2125f34829c718"
+    },
+    {
+      "path": "utils/vgui/include/VGUI_LineBorder.h",
+      "origin": "op4-verbatim",
+      "sha256": "0aecfbaa23c77c745424ef6a44b30e6d3b601872e71f99257fb4c847ac293a3c"
+    },
+    {
+      "path": "utils/vgui/include/VGUI_ListPanel.h",
+      "origin": "op4-verbatim",
+      "sha256": "0deb3efadc5ec61ca521cd61f998e94865a33af0a3bf841c457e9b94dc603977"
+    },
+    {
+      "path": "utils/vgui/include/VGUI_LoweredBorder.h",
+      "origin": "op4-verbatim",
+      "sha256": "9a426192f6cf2d2df3884f0763cec529f81b0d3be2b746f10d72c840509002af"
+    },
+    {
+      "path": "utils/vgui/include/VGUI_Menu.h",
+      "origin": "op4-verbatim",
+      "sha256": "f5d1c7a4007314ea04ad45c753b9226257d92d520abe060d6cc1383d4e6223ba"
+    },
+    {
+      "path": "utils/vgui/include/VGUI_MenuItem.h",
+      "origin": "op4-verbatim",
+      "sha256": "252ba3a88bdd20da3961ab0df2ef006a3e38a71ab7f0e343e505b85a6daecb1e"
+    },
+    {
+      "path": "utils/vgui/include/VGUI_MenuSeparator.h",
+      "origin": "op4-verbatim",
+      "sha256": "eeb3f0bf2572df3ede7036781a27ad50dad5df71f1df3d1fbba8b003399e037c"
+    },
+    {
+      "path": "utils/vgui/include/VGUI_MessageBox.h",
+      "origin": "op4-verbatim",
+      "sha256": "5f1a0c32e6bf085da77ea0eaa019c26bc9f3439feb7c0f6f9ee978e826fc4ece"
+    },
+    {
+      "path": "utils/vgui/include/VGUI_MiniApp.h",
+      "origin": "op4-verbatim",
+      "sha256": "d95f9e6a0dc8028c87f1c2ac4890e619513ec779f8e0edc806897683eca449d9"
+    },
+    {
+      "path": "utils/vgui/include/VGUI_MouseCode.h",
+      "origin": "op4-verbatim",
+      "sha256": "0590fe41b435068a56a9e34efd5238f27a85572e161c469b691e6decb822917c"
+    },
+    {
+      "path": "utils/vgui/include/VGUI_Panel.h",
+      "origin": "op4-verbatim",
+      "sha256": "09bfb194e23960d99d4375061cdc14ac1b89223bfb5200cba908f809a459a8c1"
+    },
+    {
+      "path": "utils/vgui/include/VGUI_Point.h",
+      "origin": "op4-verbatim",
+      "sha256": "4b3314724cbd69031d1782daa6746d6b20b17936f5a828dfa8362005d39595cd"
+    },
+    {
+      "path": "utils/vgui/include/VGUI_PopupMenu.h",
+      "origin": "op4-verbatim",
+      "sha256": "b2cdf4324714c3a967aa3dcbdfc4179896b039eb7b2cf3940722586789dd83a8"
+    },
+    {
+      "path": "utils/vgui/include/VGUI_ProgressBar.h",
+      "origin": "op4-verbatim",
+      "sha256": "8cac69848f07bd050a4279ae2be599be8c6e9fcc31127599a7a29236774571a6"
+    },
+    {
+      "path": "utils/vgui/include/VGUI_RadioButton.h",
+      "origin": "op4-verbatim",
+      "sha256": "ef7d0e71e10b991357b5c2c90dbad928447c5b14ce8e6ee15b0d6f54ba1ddee4"
+    },
+    {
+      "path": "utils/vgui/include/VGUI_RaisedBorder.h",
+      "origin": "op4-verbatim",
+      "sha256": "e87f317b4a5d7edb86d8d6a263214273518ade2b58bac7e694ecad7a1182627a"
+    },
+    {
+      "path": "utils/vgui/include/VGUI_RepaintSignal.h",
+      "origin": "op4-verbatim",
+      "sha256": "53b75c7381525472a48910ac27aeadff9a6f25347fa94be2485a20937d0d70c6"
+    },
+    {
+      "path": "utils/vgui/include/VGUI_Scheme.h",
+      "origin": "op4-verbatim",
+      "sha256": "ae1d6bc66e1ca0666d937e7971817514fe9f8c8422d9dce609e100d1d3062af9"
+    },
+    {
+      "path": "utils/vgui/include/VGUI_ScrollBar.h",
+      "origin": "op4-verbatim",
+      "sha256": "73d9b47b2703fffed43631ab84d2126fab7b5a0bface75f2eec305300e70adc4"
+    },
+    {
+      "path": "utils/vgui/include/VGUI_ScrollPanel.h",
+      "origin": "op4-verbatim",
+      "sha256": "2fa488df46afb5f76cb857e2eba5dc34bf4f31b446610d16d3b0825483e02221"
+    },
+    {
+      "path": "utils/vgui/include/VGUI_Slider.h",
+      "origin": "op4-verbatim",
+      "sha256": "65c06dfd3d2af5374ed4e439a107b9d848d27a2a71f555575040bf4fe57602d6"
+    },
+    {
+      "path": "utils/vgui/include/VGUI_StackLayout.h",
+      "origin": "op4-verbatim",
+      "sha256": "7258a3463b6329090c4e495d14c87e6034d3637f9c07cc7983b356f86c5e163f"
+    },
+    {
+      "path": "utils/vgui/include/VGUI_String.h",
+      "origin": "op4-verbatim",
+      "sha256": "7948e8da54817adb7664b5133e824297d2274c3b619b3da357af439490edea06"
+    },
+    {
+      "path": "utils/vgui/include/VGUI_Surface.h",
+      "origin": "op4-verbatim",
+      "sha256": "57e5e8f8afe79119f075e818bc4557fd3b61aa06354be776e78535cf644a3f38"
+    },
+    {
+      "path": "utils/vgui/include/VGUI_SurfaceBase.h",
+      "origin": "op4-verbatim",
+      "sha256": "1b7f515aafad316cd39840747cb6a41b571fa1b5f8c95d9772e49112383a8349"
+    },
+    {
+      "path": "utils/vgui/include/VGUI_SurfaceGL.h",
+      "origin": "op4-verbatim",
+      "sha256": "d6c01c84ff525e7b6a3248d8f62249cc268e0cf865b3d323147024fed04c08f9"
+    },
+    {
+      "path": "utils/vgui/include/VGUI_TabPanel.h",
+      "origin": "op4-verbatim",
+      "sha256": "25a0c2b41b38cca510df4ceec30538680bb5c386cbfdbf2948cc7ab745a9616d"
+    },
+    {
+      "path": "utils/vgui/include/VGUI_TablePanel.h",
+      "origin": "op4-verbatim",
+      "sha256": "870b48cf13cbff3a1eef799736c5b52ed361046b5240aedf5bde86a4a7e67202"
+    },
+    {
+      "path": "utils/vgui/include/VGUI_TaskBar.h",
+      "origin": "op4-verbatim",
+      "sha256": "96bdd8e408e2a529f21d2de7f53c4ead56972b3f93318763be8eb878b8735c2f"
+    },
+    {
+      "path": "utils/vgui/include/VGUI_TextEntry.h",
+      "origin": "op4-verbatim",
+      "sha256": "c913a6bcff6e3e51e56804037d1167a433f6fef618e47e41dc6b0585780efc4a"
+    },
+    {
+      "path": "utils/vgui/include/VGUI_TextGrid.h",
+      "origin": "op4-verbatim",
+      "sha256": "8c32bf119624d2a1ca4708332659f6f729d5d209a3e52777743cc7bc543d0668"
+    },
+    {
+      "path": "utils/vgui/include/VGUI_TextImage.h",
+      "origin": "op4-verbatim",
+      "sha256": "1ddfd42ddf1eaa3bb53a5b423e824fbfd23938a9113c3f3b9bec34ec1b8fa71d"
+    },
+    {
+      "path": "utils/vgui/include/VGUI_TextPanel.h",
+      "origin": "op4-verbatim",
+      "sha256": "c7b76e9a7d48ad517481ad58ad83cbfd6039a836d48adeaa088b5c7a78e5595b"
+    },
+    {
+      "path": "utils/vgui/include/VGUI_TickSignal.h",
+      "origin": "op4-verbatim",
+      "sha256": "d6399f54246fd51f8a7edc5acd8aabab8d7d5eb52778241e05805dcc1ef9f27c"
+    },
+    {
+      "path": "utils/vgui/include/VGUI_ToggleButton.h",
+      "origin": "op4-verbatim",
+      "sha256": "ad4c18e1702254c15d94ee01459d9cc8e188bc6289660faea21bc76b6448c605"
+    },
+    {
+      "path": "utils/vgui/include/VGUI_TreeFolder.h",
+      "origin": "op4-verbatim",
+      "sha256": "19e4268f2f294971dfb1a7050b1f5e6eef8e6f61cedff59662a0346a3ff47684"
+    },
+    {
+      "path": "utils/vgui/include/VGUI_WizardPanel.h",
+      "origin": "op4-verbatim",
+      "sha256": "5c425e9e02dbec2c83168bb748754115174e1a70a248935568b1702048fe5529"
+    },
+    {
+      "path": "utils/vgui/lib/win32_vc16/vgui.lib",
+      "origin": "generated-or-binary",
+      "sha256": "14a98470c100aa3f319d864523d239ecc48fb2a548ffe8c4c7f12a8ac8521182"
+    },
+    {
+      "path": "utils/visx2/flow.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "09ec4fb08403765ef01ab00529dbba1b6542686efe682376f6e1e8ecd9c01531"
+    },
+    {
+      "path": "utils/visx2/soundpvs.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "2c6263a3c4b8b4c74f6418858254241111a46ba819c16ce4e276154299349c90"
+    },
+    {
+      "path": "utils/visx2/vis.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "ffd893c8e60703fa320c0ea05546ea797c104fd95a3da032c30195ca4701a622"
+    },
+    {
+      "path": "utils/visx2/vis.h",
+      "origin": "op4-verbatim",
+      "sha256": "5fa286e3b2e8e5ddb4ac5ed10dc12562d94da8a0ed8fe6d67bf218e31ba6b6df"
+    },
+    {
+      "path": "utils/xwad/xwad.cpp",
+      "origin": "op4-verbatim",
+      "sha256": "7ec7092cc4f88fae81b290f8c7e2a92c6dad20ec7a4d6917b43e29cab3bdda5c"
+    }
+  ],
+  "in_game_tested_here": false
+}
