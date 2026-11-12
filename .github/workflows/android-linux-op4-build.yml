@@ -5,6 +5,11 @@ name: Build OP4 BugfixedHL Linux binaries on the self-hosted ARM64 runner
 # not built here: they require Visual Studio on Windows.
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - arena/dd30bd22-bugfixhl-speedrun-op4
+    paths:
+      - .github/workflows/android-linux-op4-build.yml
 
 permissions:
   contents: read
