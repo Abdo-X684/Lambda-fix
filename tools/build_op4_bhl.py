@@ -50,6 +50,9 @@ BINARY_DEPS = (
      "14a98470c100aa3f319d864523d239ecc48fb2a548ffe8c4c7f12a8ac8521182"),
     ("lib/public/SDL2.lib",
      "26cb03139b3c8d2bc8d0f6a8db839eba74c930be9ef52a42f9f2f46d043e267f"),
+    # Linux VGUI1 runtime library linked by the OP4 Linux client Makefile.
+    ("linux/vgui.so",
+     "399d1609f0cbe72b94596e05cd229b7a1f9f15ac8e2a1de99649e638dc493489"),
 )
 
 # ---------------------------------------------------------------------------

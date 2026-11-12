@@ -1,0 +1,30 @@
+name: Build OP4 BugfixedHL Linux binaries on the self-hosted ARM64 runner
+
+# Runs ONLY on the self-hosted Linux ARM64 runner (the user's phone).
+# Produces Linux ELF32 client.so / hl.so / vgui.so. Windows MSVC DLLs are
+# not built here: they require Visual Studio on Windows.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  linux-build:
+    runs-on: [self-hosted, Linux, ARM64]
+    timeout-minutes: 240
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: arena/dd30bd22-bugfixhl-speedrun-op4
+          persist-credentials: false
+
+      - name: Build Linux client.so, hl.so and vgui.so
+        run: bash tools/build_linux_op4_bhl.sh
+
+      - name: Upload Linux binaries
+        uses: actions/upload-artifact@v4
+        with:
+          name: op4-bhl-linux-binaries
+          path: build/linux-op4/dist/
+          if-no-files-found: error
