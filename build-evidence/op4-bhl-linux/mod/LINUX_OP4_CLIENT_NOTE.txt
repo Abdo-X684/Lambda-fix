@@ -1,0 +1,16 @@
+Linux client in this ZIP = OP4-based BugfixedHL client (VGUI1) with the BHLX
+options menu (console: bhlx_menu). Built from tools/build_op4_bhl.py.
+
+Install: copy the whole cl_dlls/ folder into Half-Life/bhlop4/cl_dlls/.
+client.so finds vgui.so and libSDL2-2.0.so.0 in its own folder (RUNPATH=$ORIGIN),
+so no LD_LIBRARY_PATH is needed.
+Requirement: 32-bit libstdc++ (libstdc++.so.6 i386) must be installed, because the
+OP4 vgui.so needs it. Half-Life on Linux normally already requires it.
+
+On successful load the console prints: "[BHLX] options menu loaded".
+NOT runtime-tested in this sandbox.
+Windows client.dll in this ZIP is still the BugfixedHL VGUI2 build (unchanged).
+
+SERVER (Linux): dlls/hl.so is built from the same source tree as cl_dlls/client.so.
+liblist.gam points gamedll_linux to dlls/hl.so, so the stock gearbox server is no longer used.
+Keep both in the same build. Not runtime-tested.
