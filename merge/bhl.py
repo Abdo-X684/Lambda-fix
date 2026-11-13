@@ -106,6 +106,11 @@ INJECTIONS = (
      "\tBHL_SetActiveWeapon(pWeapon);  // BHL text HUD (ammo)\n", "lifecycle"),
     ("cl_dll/ammo.cpp", "\t\tm_pWeapon = nullptr;\n",
      "\t\tBHL_SetActiveWeapon(nullptr);  // BHL text HUD (ammo)\n", "lifecycle"),
+    # BHL scoreboard option: ping/packet loss column
+    ("cl_dll/vgui_ScorePanel.cpp", '#include "hud.h"\n',
+     '#include "bhl_systems.h"  // BHL systems merged into OP4\n', "lifecycle"),
+    ("cl_dll/vgui_ScorePanel.cpp", '\t\t\t\t\tsprintf(sz, "%d", g_PlayerInfoList[m_iSortedRows[row]].ping);\n',
+     '\t\t\t\t\tif (BHL_ScoreShowLoss())\n\t\t\t\t\t\tsprintf(sz, "%d/%d", g_PlayerInfoList[m_iSortedRows[row]].ping, g_PlayerInfoList[m_iSortedRows[row]].packetloss);  // BHL showloss\n', "lifecycle"),
     ("cl_dll/hud_redraw.cpp", '#include "hud.h"\n',
      '#include "bhl_systems.h"  // BHL systems merged into OP4\n', "lifecycle"),
     ("cl_dll/hud_redraw.cpp",

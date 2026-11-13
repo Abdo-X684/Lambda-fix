@@ -76,6 +76,9 @@ class BhlMergeTests(unittest.TestCase):
                                 'bool CHudAmmo::MsgFunc_CurWeapon()\n{\n'
                                 '\t\tm_pWeapon = nullptr;\n'
                                 '\tm_pWeapon = pWeapon;\n}\n'),
+            "cl_dll/vgui_ScorePanel.cpp": ('#include "hud.h"\n'
+                                           'void CScorePanel::Update()\n{\n'
+                                           '\t\t\t\t\tsprintf(sz, "%d", g_PlayerInfoList[m_iSortedRows[row]].ping);\n}\n'),
             "cl_dll/death.cpp": ('#include "hud.h"\n'
                                  'void CHudDeathNotice::MsgFunc_DeathMsg()\n{\n'
                                  '\tint killer = READ_BYTE();\n\tint victim = READ_BYTE();\n}\n'),

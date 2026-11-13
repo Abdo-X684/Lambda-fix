@@ -55,3 +55,6 @@ Old BugfixedHL Advanced Options (VGUI2 dialog, opened by gameui_cl_open_adv_opti
 Open it in game with: gameui_cl_open_adv_options   (or bhls_settings)
 
 Port: "Angled view bob" now uses OP4's native cl_bobtilt (same effect as BHL cl_bob_angled).
+
+Scoreboard: hud_scoreboard_showloss (default 1) shows ping as "ping/loss" in OP4's scoreboard (vgui_ScorePanel.cpp).
+Not yet ported: hud_scoreboard_showeff (needs new column), hud_scoreboard_showsteamid, hud_scoreboard_showavatars.

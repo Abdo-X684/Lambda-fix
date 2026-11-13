@@ -28,6 +28,7 @@ bool BHL_NoShells();                      // cl_noshells      (ev_common.cpp)
 bool BHL_HideCorpse(bool isDeadPlayer);   // cl_hidecorpses   (StudioModelRenderer.cpp)
 bool BHL_BlockChat(int clientIndex);      // cl_mute_all_comms (saytext.cpp)
 void BHL_ChatSound();                     // hud_saytext_sound (saytext.cpp)
+bool BHL_ScoreShowLoss();                 // hud_scoreboard_showloss (vgui_ScorePanel.cpp)
 
 void BHL_Server_Init();
 

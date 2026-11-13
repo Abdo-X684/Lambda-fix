@@ -358,3 +358,11 @@ void BHL_ChatSound()
     gEngfuncs.pfnPlaySoundByName("misc/talk.wav", vol);
 }
 
+// ---- Scoreboard option (BHL hud_scoreboard_showloss) -----------------------
+ConVar hud_scoreboard_showloss("hud_scoreboard_showloss", "1", FCVAR_BHL_ARCHIVE, "Show packet loss next to ping on the scoreboard");
+
+bool BHL_ScoreShowLoss()
+{
+    return hud_scoreboard_showloss.GetBool();
+}
+
