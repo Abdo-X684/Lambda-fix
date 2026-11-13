@@ -24,3 +24,6 @@ Diagnostic: with hud_speedometer 1, the first HUD frame prints one line:
 h0=0 means the number sprite file did not load (missing .spr in bhlop4 or gearbox).
 A sprite index of -1 means HUD sprites did not load (sprites/hud.txt missing).
 hide has bit 8 (value 8) when health is hidden by the server.
+
+BHLX menu v2: pages General, HUD, Chat, Crosshair, Scoreboard, Models. Grey entries
+("not in this build") have no feature code in this build yet and cannot change behaviour.
