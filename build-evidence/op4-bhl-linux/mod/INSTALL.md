@@ -43,3 +43,8 @@ This package has NOT been tested in-game here. Bare `impulse 101` giving all
 ten weapons is a source-level Windows-server fix, not a user-confirmed
 runtime result. Test campaign start, menus, music, and every weapon on your
 machine; see `RUNTIME_TESTS.md`.
+
+## Settings menu
+- **F8** opens the BHLS Settings menu (same as typing `bhls_settings`).
+- The main menu button is not available from client code (engine GameUI). See LINUX_OP4_CLIENT_NOTE.txt.
+- Speedometer: type `hud_speedometer 1`. Plain-text HP/AMMO: `bhl_hud_text 1` (default).
