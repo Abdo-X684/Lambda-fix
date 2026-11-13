@@ -31,3 +31,8 @@ BHLX menu v2: pages General, HUD, Chat, Crosshair, Scoreboard, Models. Grey entr
 Crosshair (cl_cross_*) is now ported (VGUI1 FillRGBA). Default cl_cross_enable=1, as in BugfixedHL.
 
 Kill sound (cl_killsound, cl_killsound_path) is now ported: plays on your own kills.
+
+Settings menu: title is "BHLS Settings" (English). Open it with the console command
+  bhls_settings   (or the older bhlx_menu, same menu)
+Numeric crosshair options (size, gap, thickness, outline, red, green, blue) are sliders.
+All menu text is English.
