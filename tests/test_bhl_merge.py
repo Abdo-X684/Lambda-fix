@@ -53,7 +53,7 @@ class BhlMergeTests(unittest.TestCase):
         for needle in ("ConVar", "CHudElem", "CHudSpeedometer", "CHudJumpspeed",
                        "CHudStrafeGuide", "bhlcfg", "sv_bhl_query_vars"):
             self.assertIn(needle, joined, needle)
-        self.assertEqual(len(bhl.CLIENT_SOURCES), 6)
+        self.assertEqual(len(bhl.CLIENT_SOURCES), 8)
         self.assertEqual(len(bhl.SERVER_SOURCES), 1)
         self.assertGreaterEqual(len(bhl.INJECTIONS), 10)
 
@@ -72,6 +72,17 @@ class BhlMergeTests(unittest.TestCase):
                                 'void DLLEXPORT V_CalcRefdef(struct ref_params_s* pparams)\n{\n}\n'),
             "cl_dll/input.cpp": ('#include "Exports.h"\n'
                                  'void DLLEXPORT HUD_Shutdown()\n{\n}\n'),
+            "cl_dll/death.cpp": ('#include "hud.h"\n'
+                                 'void CHudDeathNotice::MsgFunc_DeathMsg()\n{\n'
+                                 '\tint killer = READ_BYTE();\n\tint victim = READ_BYTE();\n}\n'),
+            "cl_dll/ev_common.cpp": ('#include "hud.h"\n'
+                                     'void EV_EjectBrass(float* origin, float* velocity, float rotation, int model, int soundtype)\n{\n}\n'),
+            "cl_dll/StudioModelRenderer.cpp": ('#include "hud.h"\n'
+                                               'bool CStudioModelRenderer::StudioDrawModel(int flags)\n{\n\treturn true;\n}\n'),
+            "cl_dll/saytext.cpp": ('#include "hud.h"\n'
+                                   'bool CHudSayText::MsgFunc_SayText()\n{\n'
+                                   '\tint client_index = READ_BYTE(); // the client who spoke the message\n'
+                                   '\tSayTextPrint(READ_STRING(), iSize - 1, client_index);\n}\n'),
             "dlls/world.cpp": ('#include "extdll.h"\n'
                                'void CWorld::Spawn()\n{\n}\n'),
             "linux/Makefile.hl_cdll": "HL1_OBJS = \\\n\t$(HL1_OBJ_DIR)/hud.o \\\n",
@@ -87,8 +98,9 @@ class BhlMergeTests(unittest.TestCase):
                 path.write_text(body, encoding="utf-8")
             report = bhl.merge_into(tree)
             self.assertEqual(report["kind"], "bhl-into-op4-systems-merge")
-            self.assertEqual(report["copied_files"], 16)
+            self.assertEqual(report["copied_files"], 20)
             self.assertEqual(report["injections_added"], len(bhl.INJECTIONS))
+            self.assertEqual(report["injection_targets_missing"], [])
             for rel in ("cl_dll/speedometer.cpp", "cl_dll/base.h",
                         "cl_dll/bhl_compat.cpp", "dlls/bhl_server.cpp"):
                 self.assertTrue((tree / rel).is_file(), rel)

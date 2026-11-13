@@ -278,3 +278,47 @@ void BHL_Shutdown()
         return;
     bhlcfg::Shutdown();
 }
+
+// ---- BHL client options (ported; hooks injected by merge/bhl.py) -----------
+ConVar cl_noshells("cl_noshells", "0", FCVAR_BHL_ARCHIVE, "Disables shells ejected from weapons when firing");
+ConVar cl_hidecorpses("cl_hidecorpses", "0", FCVAR_BHL_ARCHIVE);
+ConVar cl_mute_all_comms("cl_mute_all_comms", "1", FCVAR_BHL_ARCHIVE,
+    "If 1, then all communications from a player will be blocked when that player is muted, including chat messages.");
+ConVar hud_saytext_sound("hud_saytext_sound", "1", FCVAR_BHL_ARCHIVE, "Play sound on new chat message");
+
+bool BHL_NoShells()
+{
+    return cl_noshells.GetBool();
+}
+
+bool BHL_HideCorpse(bool isDeadPlayer)
+{
+    return cl_hidecorpses.GetBool() && isDeadPlayer;
+}
+
+bool BHL_BlockChat(int clientIndex)
+{
+    // Same rule as BugfixedHL: a player muted for voice is also muted for text.
+    if (!cl_mute_all_comms.GetBool())
+        return false;
+    cl_entity_t* pLocal = gEngfuncs.GetLocalPlayer();
+    if (!pLocal || clientIndex == 0 || clientIndex == pLocal->index)
+        return false;
+    CVoiceStatus* pVoice = GetClientVoiceMgr();
+    return pVoice && pVoice->IsPlayerBlocked(clientIndex);
+}
+
+void BHL_ChatSound()
+{
+    // Only the stock HL sound is used; no bundled BHL asset.
+    cvar_t* pSayText = gEngfuncs.pfnGetCvarPointer("hud_saytext");
+    if (!pSayText || pSayText->value == 0.0f)
+        return;
+    float vol = hud_saytext_sound.GetFloat();
+    if (vol <= 0.0f)
+        return;
+    if (vol > 1.0f)
+        vol = 1.0f;
+    gEngfuncs.pfnPlaySoundByName("misc/talk.wav", vol);
+}
+

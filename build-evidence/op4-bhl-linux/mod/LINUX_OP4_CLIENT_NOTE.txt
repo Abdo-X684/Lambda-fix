@@ -36,3 +36,9 @@ Settings menu: title is "BHLS Settings" (English). Open it with the console comm
   bhls_settings   (or the older bhlx_menu, same menu)
 Numeric crosshair options (size, gap, thickness, outline, red, green, blue) are sliders.
 All menu text is English.
+
+Added in this build (static build only, NOT run in game):
+  cl_noshells        shell casings not spawned when firing
+  cl_hidecorpses     dead-player corpses not drawn
+  cl_mute_all_comms  chat from voice-muted players is hidden
+  hud_saytext_sound  plays misc/talk.wav (stock HL file) on chat messages

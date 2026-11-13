@@ -84,6 +84,21 @@ INJECTIONS = (
      '#include "bhl_systems.h"  // BHL systems merged into OP4\n', "lifecycle"),
     ("cl_dll/death.cpp", "\tint victim = READ_BYTE();\n",
      "\tBHL_OnDeathMsg(killer, victim);  // BHL cl_killsound\n", "lifecycle"),
+    # BHL client options (cl_noshells, cl_hidecorpses, cl_mute_all_comms, hud_saytext_sound)
+    ("cl_dll/ev_common.cpp", '#include "hud.h"\n',
+     '#include "bhl_systems.h"  // BHL systems merged into OP4\n', "lifecycle"),
+    ("cl_dll/ev_common.cpp", "void EV_EjectBrass(float* origin, float* velocity, float rotation, int model, int soundtype)\n{\n",
+     "\tif (BHL_NoShells())\n\t\treturn;  // BHL cl_noshells\n", "lifecycle"),
+    ("cl_dll/StudioModelRenderer.cpp", '#include "hud.h"\n',
+     '#include "bhl_systems.h"  // BHL systems merged into OP4\n', "lifecycle"),
+    ("cl_dll/StudioModelRenderer.cpp", "bool CStudioModelRenderer::StudioDrawModel(int flags)\n{\n",
+     "\tif (BHL_HideCorpse(IEngineStudio.GetCurrentEntity()->curstate.renderfx == kRenderFxDeadPlayer))\n\t\treturn false;  // BHL cl_hidecorpses\n", "lifecycle"),
+    ("cl_dll/saytext.cpp", '#include "hud.h"\n',
+     '#include "bhl_systems.h"  // BHL systems merged into OP4\n', "lifecycle"),
+    ("cl_dll/saytext.cpp", "\tint client_index = READ_BYTE(); // the client who spoke the message\n",
+     "\tif (BHL_BlockChat(client_index))\n\t\treturn true;  // BHL cl_mute_all_comms\n", "lifecycle"),
+    ("cl_dll/saytext.cpp", "\tSayTextPrint(READ_STRING(), iSize - 1, client_index);\n",
+     "\tBHL_ChatSound();  // BHL hud_saytext_sound\n", "lifecycle"),
     ("cl_dll/hud_redraw.cpp", '#include "hud.h"\n',
      '#include "bhl_systems.h"  // BHL systems merged into OP4\n', "lifecycle"),
     ("cl_dll/hud_redraw.cpp",
@@ -163,8 +178,15 @@ def merge_into(tree: Path) -> dict[str, Any]:
     write_text(hud_h, text)
 
     injected = 0
+    skipped_missing: list[str] = []
     for path, anchor, snippet, _subsystem in INJECTIONS:
         target = tree / path
+        if not target.is_file():
+            # Offline/partial trees (e.g. build/merged fixtures) lack some OP4
+            # files. Recorded in the report instead of failing silently.
+            if path not in skipped_missing:
+                skipped_missing.append(path)
+            continue
         body = read_text(target)
         body, state = _inject(body, anchor, snippet, path)
         if state == "injected":
@@ -204,6 +226,7 @@ def merge_into(tree: Path) -> dict[str, Any]:
         "server_sources": [s for s, _ in SERVER_SOURCES],
         "copied_files": len(copied),
         "injections_added": injected,
+        "injection_targets_missing": skipped_missing,
         "build_files_patched": patched,
     }
     (tree / "BHL_MERGE_REPORT.json").write_text(
