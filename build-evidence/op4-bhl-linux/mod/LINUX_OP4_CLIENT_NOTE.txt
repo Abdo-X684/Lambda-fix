@@ -50,3 +50,6 @@ Plain-text status (no sprites), drawn in the same path as BHL-HUD TEST:
   Toggle with bhl_hud_text 0/1 (default 1). Static build only, NOT run in game.
 Main-menu options: NOT possible from client.dll. The main menu and ESC menu are in the engine's GameUI,
 whose source is not in this SDK. bhls_settings is an in-game VGUI panel only.
+
+Old BugfixedHL Advanced Options (VGUI2 dialog, opened by gameui_cl_open_adv_options) is routed to the translated VGUI1 menu.
+Open it in game with: gameui_cl_open_adv_options   (or bhls_settings)

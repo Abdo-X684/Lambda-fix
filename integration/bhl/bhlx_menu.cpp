@@ -386,5 +386,7 @@ void BHLX_Init()
 {
     gEngfuncs.pfnAddCommand("bhlx_menu", BHLX_MenuCommand);
     gEngfuncs.pfnAddCommand("bhls_settings", BHLX_MenuCommand);
+    // BugfixedHL opens its old Advanced Options dialog with this command; route it to the translated menu.
+    gEngfuncs.pfnAddCommand("gameui_cl_open_adv_options", BHLX_MenuCommand);
     gEngfuncs.pfnConsolePrint("[BHLS] settings menu loaded. Type bhls_settings (or bhlx_menu) to open it.\n");
 }
