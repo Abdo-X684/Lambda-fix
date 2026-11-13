@@ -53,3 +53,5 @@ whose source is not in this SDK. bhls_settings is an in-game VGUI panel only.
 
 Old BugfixedHL Advanced Options (VGUI2 dialog, opened by gameui_cl_open_adv_options) is routed to the translated VGUI1 menu.
 Open it in game with: gameui_cl_open_adv_options   (or bhls_settings)
+
+Port: "Angled view bob" now uses OP4's native cl_bobtilt (same effect as BHL cl_bob_angled).

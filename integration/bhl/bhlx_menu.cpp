@@ -79,7 +79,7 @@ const BhlxEntry g_Entries[] = {
     {PAGE_MODELS, "cl_hidecorpses", "Hide corpses"},
     {PAGE_MODELS, "cl_noshells", "No shell casings"},
     {PAGE_MODELS, "cl_righthand", "Right-hand viewmodel"},
-    {PAGE_MODELS, "cl_bob_angled", "Angled view bob"},
+    {PAGE_MODELS, "cl_bobtilt", "Angled view bob"},  // OP4 native cvar; same effect as BHL cl_bob_angled (view.cpp)
     {PAGE_MODELS, "r_drawviewmodel", "Draw viewmodel"},
 };
 const int g_NumEntries = sizeof(g_Entries) / sizeof(g_Entries[0]);
