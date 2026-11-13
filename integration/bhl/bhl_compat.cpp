@@ -225,6 +225,27 @@ void BHL_VidInit()
         elem->VidInit();
 }
 
+ConVar cl_killsound("cl_killsound", "1", FCVAR_BHL_ARCHIVE, "Play a sound on kill");
+ConVar cl_killsound_path("cl_killsound_path", "buttons/bell1.wav", FCVAR_BHL_ARCHIVE, "Path to a sound on kill");
+
+void BHL_OnDeathMsg(int killer, int victim)
+{
+    if (!g_BhlReady)
+        return;
+    cl_entity_t* pLocal = gEngfuncs.GetLocalPlayer();
+    if (!pLocal)
+        return;
+    // Only my own kills (not deaths, not suicides) play the sound.
+    if (killer != pLocal->index || victim == pLocal->index)
+        return;
+    float vol = cl_killsound.GetFloat();
+    if (vol <= 0.0f)
+        return;
+    if (vol > 1.0f)
+        vol = 1.0f;
+    gEngfuncs.pfnPlaySoundByName(cl_killsound_path.GetString(), vol);
+}
+
 void BHL_Draw(float flTime)
 {
     if (!g_BhlReady)

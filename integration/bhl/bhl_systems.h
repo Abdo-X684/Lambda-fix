@@ -15,6 +15,7 @@ struct ref_params_s;
 
 void BHL_Init();
 void BHLX_Init();  // bhlx_menu console command (bhlx_menu.cpp)
+void BHL_OnDeathMsg(int killer, int victim);  // cl_killsound (death.cpp injection)
 void BHL_VidInit();
 void BHL_Draw(float flTime);
 void BHL_Think();

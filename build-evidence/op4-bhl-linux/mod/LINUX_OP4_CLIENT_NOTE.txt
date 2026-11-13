@@ -29,3 +29,5 @@ BHLX menu v2: pages General, HUD, Chat, Crosshair, Scoreboard, Models. Grey entr
 ("not in this build") have no feature code in this build yet and cannot change behaviour.
 
 Crosshair (cl_cross_*) is now ported (VGUI1 FillRGBA). Default cl_cross_enable=1, as in BugfixedHL.
+
+Kill sound (cl_killsound, cl_killsound_path) is now ported: plays on your own kills.
