@@ -72,6 +72,10 @@ class BhlMergeTests(unittest.TestCase):
                                 'void DLLEXPORT V_CalcRefdef(struct ref_params_s* pparams)\n{\n}\n'),
             "cl_dll/input.cpp": ('#include "Exports.h"\n'
                                  'void DLLEXPORT HUD_Shutdown()\n{\n}\n'),
+            "cl_dll/ammo.cpp": ('#include "hud.h"\n'
+                                'bool CHudAmmo::MsgFunc_CurWeapon()\n{\n'
+                                '\t\tm_pWeapon = nullptr;\n'
+                                '\tm_pWeapon = pWeapon;\n}\n'),
             "cl_dll/death.cpp": ('#include "hud.h"\n'
                                  'void CHudDeathNotice::MsgFunc_DeathMsg()\n{\n'
                                  '\tint killer = READ_BYTE();\n\tint victim = READ_BYTE();\n}\n'),

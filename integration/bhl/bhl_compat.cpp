@@ -14,6 +14,7 @@
 #include "crosshair.h"
 #include "bhlcfg.h"
 #include "bhlx_menu.h"
+#include "ammohistory.h"  // gWR (OP4 weapon/ammo table)
 #include "ref_params.h"   // OP4: common/ref_params.h (simvel, movevars, cmd)
 
 // ---------------------------------------------------------------------
@@ -246,12 +247,47 @@ void BHL_OnDeathMsg(int killer, int victim)
     gEngfuncs.pfnPlaySoundByName(cl_killsound_path.GetString(), vol);
 }
 
+// ---- Plain-text health and ammo (no sprites). Same path as BHL-HUD TEST. ----
+static WEAPON* g_BhlActiveWeapon = NULL;
+ConVar bhl_hud_text("bhl_hud_text", "1", FCVAR_BHL_ARCHIVE, "Show health and ammo as plain text (no sprites)");
+
+void BHL_SetActiveWeapon(WEAPON* pWeapon)
+{
+    g_BhlActiveWeapon = pWeapon;
+}
+
+static void BHL_DrawStatusText()
+{
+    if (!bhl_hud_text.GetBool())
+        return;
+    if (gHUD.m_iHideHUDDisplay & HIDEHUD_ALL)
+        return;
+    if (gEngfuncs.IsSpectateOnly())
+        return;
+
+    char buf[96];
+    snprintf(buf, sizeof(buf), "HP %d", gHUD.m_Health.m_iHealth);
+    gEngfuncs.pfnDrawString(10, 28, buf, 255, 80, 80);
+
+    WEAPON* w = g_BhlActiveWeapon;
+    if (!w)
+        return;
+    int reserve = (w->iAmmoType >= 0 && w->iAmmoType < MAX_AMMO_TYPES) ? gWR.CountAmmo(w->iAmmoType) : 0;
+    if (w->iClip >= 0)
+        snprintf(buf, sizeof(buf), "AMMO %d / %d", w->iClip, reserve);
+    else
+        snprintf(buf, sizeof(buf), "AMMO %d", reserve);
+    gEngfuncs.pfnDrawString(10, 46, buf, 255, 255, 255);
+    gEngfuncs.pfnDrawString(10, 64, w->szName, 200, 200, 200);
+}
+
 void BHL_Draw(float flTime)
 {
     if (!g_BhlReady)
         return;
     for (CHudElem* elem : g_BhlElements)
         elem->Draw(flTime);
+    BHL_DrawStatusText();
 }
 
 void BHL_Think()

@@ -44,3 +44,9 @@ Added in this build (static build only, NOT run in game):
   hud_saytext_sound  plays misc/talk.wav (stock HL file) on chat messages
 
 Menu fix (from in-game screenshot): opaque dark background, wider panel (600 px) so tab names are not clipped. Not yet confirmed in game.
+
+Plain-text status (no sprites), drawn in the same path as BHL-HUD TEST:
+  HP <health> at y=28, AMMO <clip> / <reserve> at y=46, weapon name at y=64.
+  Toggle with bhl_hud_text 0/1 (default 1). Static build only, NOT run in game.
+Main-menu options: NOT possible from client.dll. The main menu and ESC menu are in the engine's GameUI,
+whose source is not in this SDK. bhls_settings is an in-game VGUI panel only.

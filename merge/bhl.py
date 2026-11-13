@@ -99,6 +99,13 @@ INJECTIONS = (
      "\tif (BHL_BlockChat(client_index))\n\t\treturn true;  // BHL cl_mute_all_comms\n", "lifecycle"),
     ("cl_dll/saytext.cpp", "\tSayTextPrint(READ_STRING(), iSize - 1, client_index);\n",
      "\tBHL_ChatSound();  // BHL hud_saytext_sound\n", "lifecycle"),
+    # BHL text HUD: active weapon for the plain-text ammo line
+    ("cl_dll/ammo.cpp", '#include "hud.h"\n',
+     '#include "bhl_systems.h"  // BHL systems merged into OP4\n', "lifecycle"),
+    ("cl_dll/ammo.cpp", "\tm_pWeapon = pWeapon;\n",
+     "\tBHL_SetActiveWeapon(pWeapon);  // BHL text HUD (ammo)\n", "lifecycle"),
+    ("cl_dll/ammo.cpp", "\t\tm_pWeapon = nullptr;\n",
+     "\t\tBHL_SetActiveWeapon(nullptr);  // BHL text HUD (ammo)\n", "lifecycle"),
     ("cl_dll/hud_redraw.cpp", '#include "hud.h"\n',
      '#include "bhl_systems.h"  // BHL systems merged into OP4\n', "lifecycle"),
     ("cl_dll/hud_redraw.cpp",
