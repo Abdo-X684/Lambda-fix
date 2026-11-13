@@ -27,3 +27,5 @@ hide has bit 8 (value 8) when health is hidden by the server.
 
 BHLX menu v2: pages General, HUD, Chat, Crosshair, Scoreboard, Models. Grey entries
 ("not in this build") have no feature code in this build yet and cannot change behaviour.
+
+Crosshair (cl_cross_*) is now ported (VGUI1 FillRGBA). Default cl_cross_enable=1, as in BugfixedHL.

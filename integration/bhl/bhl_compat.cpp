@@ -11,6 +11,7 @@
 #include "speedometer.h"
 #include "jumpspeed.h"
 #include "strafeguide.h"
+#include "crosshair.h"
 #include "bhlcfg.h"
 #include "bhlx_menu.h"
 #include "ref_params.h"   // OP4: common/ref_params.h (simvel, movevars, cmd)
@@ -187,7 +188,7 @@ int CHud::DrawHudNumberCentered(int x, int y, int number, int r, int g, int b)
 // as BHL's CHud::RegisterHudElem<T>() does.
 // ---------------------------------------------------------------------
 namespace {
-CHudElem* g_BhlElements[3] = {};
+CHudElem* g_BhlElements[4] = {};
 bool g_BhlReady = false;
 }
 
@@ -202,6 +203,7 @@ void BHL_Init()
     g_BhlElements[0] = new CHudSpeedometer();
     g_BhlElements[1] = new CHudJumpspeed();
     g_BhlElements[2] = new CHudStrafeGuide();
+    g_BhlElements[3] = new CHudCrosshair();
     for (CHudElem* elem : g_BhlElements)
         elem->Init();
 
