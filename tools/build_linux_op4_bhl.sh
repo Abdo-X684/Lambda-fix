@@ -14,18 +14,27 @@ ZIG_VERSION="${ZIG_VERSION:-0.17.1}"
 rm -rf "$OUT"
 mkdir -p "$OUT"
 
-for tool in python3 make objcopy; do
-  command -v "$tool" >/dev/null || { echo "missing tool: $tool" >&2; exit 2; }
+# Find a Python 3 interpreter: some hosts (e.g. Termux) only provide `python`.
+PY=""
+for cand in python3 python; do
+  if command -v "$cand" >/dev/null 2>&1 && "$cand" -c 'import sys; assert sys.version_info >= (3, 8)' 2>/dev/null; then
+    PY="$cand"; break
+  fi
+done
+[ -n "$PY" ] || { echo "missing tool: python3 (>=3.8; tried python3 and python). PATH=$PATH" >&2; exit 2; }
+echo "== using python: $PY ($("$PY" -V 2>&1))"
+for tool in make objcopy; do
+  command -v "$tool" >/dev/null || { echo "missing tool: $tool (PATH=$PATH)" >&2; exit 2; }
 done
 
 echo "== 1. fetch pinned OP4 upstream"
-python3 -m merge.cli fetch
+"$PY" -m merge.cli fetch
 
 echo "== 2. generate OP4-based BHL tree (+ linux/vgui.so, SHA-checked)"
-python3 tools/build_op4_bhl.py --out "$OUT/tree"
+"$PY" tools/build_op4_bhl.py --out "$OUT/tree"
 
 echo "== 3. Zig cross compiler (ziglang $ZIG_VERSION)"
-python3 -m venv "$OUT/zigvenv"
+"$PY" -m venv "$OUT/zigvenv"
 "$OUT/zigvenv/bin/pip" install --quiet "ziglang==$ZIG_VERSION"
 cat > "$OUT/cc32" <<WRAP
 #!/bin/bash
@@ -64,7 +73,7 @@ D="$OUT/dist"
 mkdir -p "$D"
 cp "$L/release/client.so" "$L/release/hl.so" "$L/release/vgui.so" "$D/"
 cp "$OUT/tree/OP4_BHL_PROVENANCE.json" "$D/PROVENANCE.json"
-python3 - "$D" <<'PY'
+"$PY" - "$D" <<'PY'
 import hashlib, pathlib, re, struct, sys
 d = pathlib.Path(sys.argv[1])
 lines = []
