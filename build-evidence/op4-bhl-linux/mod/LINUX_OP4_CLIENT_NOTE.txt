@@ -42,3 +42,5 @@ Added in this build (static build only, NOT run in game):
   cl_hidecorpses     dead-player corpses not drawn
   cl_mute_all_comms  chat from voice-muted players is hidden
   hud_saytext_sound  plays misc/talk.wav (stock HL file) on chat messages
+
+Menu fix (from in-game screenshot): opaque dark background, wider panel (600 px) so tab names are not clipped. Not yet confirmed in game.

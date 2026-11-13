@@ -142,6 +142,7 @@ class CBhlxMenu : public Panel
 {
 public:
     CBhlxMenu(int x, int y, int wide, int tall);
+    void paintBackground() override;
     void SetPage(int page);
     void Refresh();
 
@@ -295,6 +296,13 @@ CBhlxMenu::CBhlxMenu(int x, int y, int wide, int tall) : Panel(x, y, wide, tall)
     SetPage(0);
 }
 
+void CBhlxMenu::paintBackground()
+{
+    // Opaque dark fill. Without it the white text sits on the bright game scene and is unreadable.
+    drawSetColor(0, 0, 0, 220);
+    drawFilledRect(0, 0, _size[0], _size[1]);
+}
+
 void CBhlxMenu::SetPage(int page)
 {
     if (page < 0 || page >= NUM_PAGES)
@@ -350,7 +358,7 @@ void BHLX_ToggleMenu()
     }
     if (!g_pMenu || g_pMenuParent != pParent)
     {
-        int wide = 440;
+        int wide = 600;  // wide enough for all six tab names
         g_pMenu = new CBhlxMenu((pParent->getWide() - wide) / 2, 60, wide, 400);
         pParent->addChild(g_pMenu);
         g_pMenuParent = pParent;
