@@ -66,3 +66,11 @@ numeric Size / Gap / Thickness / Outline text fields, live preview.
 Cancel restores values from when the dialog opened (or the last Apply).
 Labels are English / Arabic. Arabic glyphs need an Arabic-capable font; stock OP4 VGUI1 fonts lack them.
 Background fix: VGUI1 alpha 0 is opaque (alpha 255 is transparent). Earlier builds used alpha 220 and were nearly transparent.
+
+Added in this build (from the old BugfixedHL Advanced options):
+- hud_timer (BHL "Timer", shows time elapsed since map start, top centre). The BHL timer modes
+  "time left" and "clock" are not ported; this build shows elapsed time only.
+- hud_scoreboard_showeff, hud_scoreboard_efftype (0/1/2), hud_scoreboard_effpercent: an EFF column on the OP4
+  scoreboard, player rows only (team rows stay blank). Formulas are the BugfixedHL ones.
+Still not ported: hud_rainbow, hud_scale, hud_weapon, hud_menu_fkeys, hud_deathnotice_vgui, results_demo_autorecord,
+hud_scoreboard_showavatars, hud_scoreboard_showsteamid (OP4 engine does not expose SteamID to the client), cl_enable_html_motd.

@@ -78,7 +78,13 @@ class BhlMergeTests(unittest.TestCase):
                                 '\tm_pWeapon = pWeapon;\n}\n'),
             "cl_dll/vgui_ScorePanel.cpp": ('#include "hud.h"\n'
                                            'void CScorePanel::Update()\n{\n'
-                                           '\t\t\t\t\tsprintf(sz, "%d", g_PlayerInfoList[m_iSortedRows[row]].ping);\n}\n'),
+                                           '\t\t\t\t\tsprintf(sz, "%d", g_PlayerInfoList[m_iSortedRows[row]].ping);\n}\n'
+                                           'SBColumnInfo g_ColumnInfo[NUM_COLUMNS] =\n\t{\n'
+                                           '\t\t{"#VOICE", 40, Label::a_east},\n'
+                                           '\t\t{NULL, 2, Label::a_east}, // blank column\n\t};\n'
+                                           'void CScorePanel::Scores()\n{\n\t\t\t\tcase COLUMN_DEATHS:\n'
+                                           '\t\t\t\t\tsprintf(sz, "%d", g_PlayerExtraInfo[m_iSortedRows[row]].deaths);\n\t\t\t\t\tbreak;\n}\n'),
+            "cl_dll/vgui_ScorePanel.h": ('#define COLUMN_VOICE 6\n#define COLUMN_BLANK 7\n#define NUM_COLUMNS 8\n'),
             "cl_dll/death.cpp": ('#include "hud.h"\n'
                                  'void CHudDeathNotice::MsgFunc_DeathMsg()\n{\n'
                                  '\tint killer = READ_BYTE();\n\tint victim = READ_BYTE();\n}\n'),

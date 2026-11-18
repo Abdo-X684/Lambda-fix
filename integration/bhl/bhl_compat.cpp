@@ -281,12 +281,76 @@ static void BHL_DrawStatusText()
     gEngfuncs.pfnDrawString(10, 64, w->szName, 200, 200, 200);
 }
 
+// ---- Timer (hud_timer) and scoreboard efficiency (hud_scoreboard_*) -------
+ConVar hud_timer("hud_timer", "0", FCVAR_BHL_ARCHIVE, "Show time elapsed since map start (0 = off, 1 = on)");
+ConVar hud_scoreboard_showeff("hud_scoreboard_showeff", "0", FCVAR_BHL_ARCHIVE, "Show efficiency column on the scoreboard");
+ConVar hud_scoreboard_efftype("hud_scoreboard_efftype", "0", FCVAR_BHL_ARCHIVE, "Efficiency formula: 0 = K/D, 1 = K/(D+1), 2 = K/(K+D)");
+ConVar hud_scoreboard_effpercent("hud_scoreboard_effpercent", "0", FCVAR_BHL_ARCHIVE, "Show efficiency as a percentage");
+
+static void BHL_DrawTimer(float flTime)
+{
+    // Client time restarts when a new map loads, so a drop in time marks a new start.
+    static float s_flStart = 0.0f;
+    static float s_flLast = -1.0f;
+    if (s_flLast < 0.0f || flTime < s_flLast)
+        s_flStart = flTime;
+    s_flLast = flTime;
+
+    if (!hud_timer.GetBool())
+        return;
+    if (gHUD.m_iHideHUDDisplay & HIDEHUD_ALL)
+        return;
+    float t = flTime - s_flStart;
+    if (t < 0.0f)
+        t = 0.0f;
+    int minutes = (int)(t / 60.0f);
+    char buf[32];
+    snprintf(buf, sizeof(buf), "%02d:%06.3f", minutes, t - minutes * 60.0f);
+    gEngfuncs.pfnDrawString(ScreenWidth / 2 - 40, 6, buf, 255, 255, 255);
+}
+
+// BugfixedHL CScorePanel::CalculateEfficiency (score_panel.cpp), with the same formulas.
+static float BHL_Efficiency(int kills, int deaths)
+{
+    int type = hud_scoreboard_efftype.GetInt();
+    if (type < 0)
+        type = 0;
+    if (type > 2)
+        type = 2;
+    if (type == 0)
+    {
+        if (deaths == 0)
+            deaths = 1;
+        return (float)kills / deaths;
+    }
+    if (type == 1)
+        return (float)kills / (deaths + 1);
+    if (kills + deaths == 0)
+        return 1.0f;
+    return (float)kills / (kills + deaths);
+}
+
+void BHL_FormatEff(char* out, int outLen, int kills, int deaths)
+{
+    if (!out || outLen <= 0)
+        return;
+    out[0] = 0;
+    if (!hud_scoreboard_showeff.GetBool())
+        return;
+    float eff = BHL_Efficiency(kills, deaths);
+    if (hud_scoreboard_effpercent.GetBool())
+        snprintf(out, outLen, "%.0f%%", eff * 100.0f);
+    else
+        snprintf(out, outLen, "%.2f", eff);
+}
+
 void BHL_Draw(float flTime)
 {
     if (!g_BhlReady)
         return;
     for (CHudElem* elem : g_BhlElements)
         elem->Draw(flTime);
+    BHL_DrawTimer(flTime);
     BHL_DrawStatusText();
 }
 

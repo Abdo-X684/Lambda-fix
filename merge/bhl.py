@@ -73,6 +73,12 @@ BUILD_FILES = (
 
 # (target file, anchor, snippet, subsystem). Snippets are injected right
 # AFTER a unique anchor and are idempotent.
+# Exact single-occurrence text replacements (for renumbering OP4 enums; injections only insert).
+REPLACEMENTS = (
+    ("cl_dll/vgui_ScorePanel.h", "#define COLUMN_BLANK 7\n#define NUM_COLUMNS 8\n",
+     "#define COLUMN_EFF 7  // BHL hud_scoreboard_showeff\n#define COLUMN_BLANK 8\n#define NUM_COLUMNS 9\n", "scoreboard"),
+)
+
 INJECTIONS = (
     ("cl_dll/hud.cpp", '#include "hud.h"\n',
      '#include "bhl_systems.h"  // BHL systems merged into OP4\n', "lifecycle"),
@@ -111,6 +117,12 @@ INJECTIONS = (
      '#include "bhl_systems.h"  // BHL systems merged into OP4\n', "lifecycle"),
     ("cl_dll/vgui_ScorePanel.cpp", '\t\t\t\t\tsprintf(sz, "%d", g_PlayerInfoList[m_iSortedRows[row]].ping);\n',
      '\t\t\t\t\tif (BHL_ScoreShowLoss())\n\t\t\t\t\t\tsprintf(sz, "%d/%d", g_PlayerInfoList[m_iSortedRows[row]].ping, g_PlayerInfoList[m_iSortedRows[row]].packetloss);  // BHL showloss\n', "lifecycle"),
+    # BHL scoreboard efficiency column (hud_scoreboard_showeff); column index 7, blank column moves to 8
+    ("cl_dll/vgui_ScorePanel.cpp", '\t\t{"#VOICE", 40, Label::a_east},\n',
+     '\t\t{"EFF / كفاءة", 70, Label::a_east},  // BHL hud_scoreboard_showeff\n', "scoreboard"),
+    ("cl_dll/vgui_ScorePanel.cpp",
+     '\t\t\t\tcase COLUMN_DEATHS:\n\t\t\t\t\tsprintf(sz, "%d", g_PlayerExtraInfo[m_iSortedRows[row]].deaths);\n\t\t\t\t\tbreak;\n',
+     '\t\t\t\tcase COLUMN_EFF:\n\t\t\t\t\tBHL_FormatEff(sz, sizeof(sz), g_PlayerExtraInfo[m_iSortedRows[row]].frags, g_PlayerExtraInfo[m_iSortedRows[row]].deaths);\n\t\t\t\t\tbreak;\n', "scoreboard"),
     ("cl_dll/hud_redraw.cpp", '#include "hud.h"\n',
      '#include "bhl_systems.h"  // BHL systems merged into OP4\n', "lifecycle"),
     ("cl_dll/hud_redraw.cpp",
@@ -189,6 +201,19 @@ def merge_into(tree: Path) -> dict[str, Any]:
         assert state == "injected"
     write_text(hud_h, text)
 
+    replaced = 0
+    for path, old, new, _subsystem in REPLACEMENTS:
+        target = tree / path
+        if not target.is_file():
+            continue
+        body = read_text(target)
+        if new in body:
+            continue
+        if body.count(old) != 1:
+            raise SystemExit(f"BHL merge: replacement anchor drift in {path}: {old!r}")
+        write_text(target, body.replace(old, new, 1))
+        replaced += 1
+
     injected = 0
     skipped_missing: list[str] = []
     for path, anchor, snippet, _subsystem in INJECTIONS:
@@ -238,6 +263,7 @@ def merge_into(tree: Path) -> dict[str, Any]:
         "server_sources": [s for s, _ in SERVER_SOURCES],
         "copied_files": len(copied),
         "injections_added": injected,
+        "replacements_applied": replaced,
         "injection_targets_missing": skipped_missing,
         "build_files_patched": patched,
     }
