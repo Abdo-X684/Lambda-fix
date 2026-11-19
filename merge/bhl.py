@@ -119,7 +119,7 @@ INJECTIONS = (
      '\t\t\t\t\tif (BHL_ScoreShowLoss())\n\t\t\t\t\t\tsprintf(sz, "%d/%d", g_PlayerInfoList[m_iSortedRows[row]].ping, g_PlayerInfoList[m_iSortedRows[row]].packetloss);  // BHL showloss\n', "lifecycle"),
     # BHL scoreboard efficiency column (hud_scoreboard_showeff); column index 7, blank column moves to 8
     ("cl_dll/vgui_ScorePanel.cpp", '\t\t{"#VOICE", 40, Label::a_east},\n',
-     '\t\t{"EFF / كفاءة", 70, Label::a_east},  // BHL hud_scoreboard_showeff\n', "scoreboard"),
+     '\t\t{"EFF", 70, Label::a_east},  // BHL hud_scoreboard_showeff\n', "scoreboard"),
     ("cl_dll/vgui_ScorePanel.cpp",
      '\t\t\t\tcase COLUMN_DEATHS:\n\t\t\t\t\tsprintf(sz, "%d", g_PlayerExtraInfo[m_iSortedRows[row]].deaths);\n\t\t\t\t\tbreak;\n',
      '\t\t\t\tcase COLUMN_EFF:\n\t\t\t\t\tBHL_FormatEff(sz, sizeof(sz), g_PlayerExtraInfo[m_iSortedRows[row]].frags, g_PlayerExtraInfo[m_iSortedRows[row]].deaths);\n\t\t\t\t\tbreak;\n', "scoreboard"),

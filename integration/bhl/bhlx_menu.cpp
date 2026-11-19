@@ -7,10 +7,9 @@
 // Each control reads and writes an existing cvar through the engine. Nothing is
 // sent to the server. Changes apply live; Cancel restores the values from when
 // the dialog was opened (or from the last Apply). A control whose cvar is not
-// registered in this build is shown greyed out with "(missing / غير موجود)".
+// registered in this build is left out of the page, so every control shown works.
 //
-// Every label is English / Arabic. Arabic needs a font with Arabic glyphs; the
-// stock OP4 VGUI1 bitmap fonts do not have them (see the About tab note).
+// Labels are English only: the stock OP4 VGUI1 bitmap fonts have no Arabic glyphs.
 #include "hud.h"
 #include "cl_util.h"
 #include "vgui_TeamFortressViewport.h"
@@ -40,12 +39,12 @@ enum BhlxPage
 };
 
 const char* g_PageNames[NUM_PAGES] = {
-    "General / عام",
-    "HUD / الواجهة",
-    "Chat / الدردشة",
-    "Scoreboard / لوحة النتائج",
-    "Crosshair / المؤشر",
-    "About / حول",
+    "General",
+    "HUD",
+    "Chat",
+    "Scoreboard",
+    "Crosshair",
+    "About",
 };
 
 const int WIDE = 600;
@@ -67,48 +66,48 @@ struct BhlxEntry
 
 const BhlxEntry g_Entries[] = {
     // General, column 1
-    {PAGE_GENERAL, 0, "cl_autojump", "Autojump / القفز التلقائي"},
-    {PAGE_GENERAL, 0, "cl_autojump_priority", "Autojump priority / أولوية القفز"},
-    {PAGE_GENERAL, 0, "cl_killsound", "Kill sound / صوت القتل"},
-    {PAGE_GENERAL, 0, "cl_enable_html_motd", "HTML MOTD / نافذة HTML"},
-    {PAGE_GENERAL, 0, "results_demo_autorecord", "Auto-record demos / تسجيل الديمو تلقائياً"},
+    {PAGE_GENERAL, 0, "cl_autojump", "Autojump"},
+    {PAGE_GENERAL, 0, "cl_autojump_priority", "Autojump priority"},
+    {PAGE_GENERAL, 0, "cl_killsound", "Kill sound"},
+    {PAGE_GENERAL, 0, "cl_enable_html_motd", "HTML MOTD"},
+    {PAGE_GENERAL, 0, "results_demo_autorecord", "Auto-record demos"},
     // General, column 2 (Models)
-    {PAGE_GENERAL, 1, "cl_forceenemycolors", "Enemy colours / ألوان الأعداء"},
-    {PAGE_GENERAL, 1, "cl_forceteammatescolors", "Teammate colours / ألوان الزملاء"},
-    {PAGE_GENERAL, 1, "cl_forceteammatesmodels", "Teammate models / نماذج الزملاء"},
-    {PAGE_GENERAL, 1, "cl_hidecorpses", "Hide corpses / إخفاء الجثث"},
-    {PAGE_GENERAL, 1, "cl_noshells", "No shell casings / بدون أغلفة"},
-    {PAGE_GENERAL, 1, "cl_righthand", "Right-hand view / اليد اليمنى"},
-    {PAGE_GENERAL, 1, "cl_bobtilt", "Angled view bob / ترنح الرؤية"},  // OP4 cvar; same effect as BHL cl_bob_angled
-    {PAGE_GENERAL, 1, "r_drawviewmodel", "Draw viewmodel / إظهار السلاح"},
+    {PAGE_GENERAL, 1, "cl_forceenemycolors", "Enemy colours"},
+    {PAGE_GENERAL, 1, "cl_forceteammatescolors", "Teammate colours"},
+    {PAGE_GENERAL, 1, "cl_forceteammatesmodels", "Teammate models"},
+    {PAGE_GENERAL, 1, "cl_hidecorpses", "Hide corpses"},
+    {PAGE_GENERAL, 1, "cl_noshells", "No shell casings"},
+    {PAGE_GENERAL, 1, "cl_righthand", "Right-hand view"},
+    {PAGE_GENERAL, 1, "cl_bobtilt", "Angled view bob"},  // OP4 cvar; same effect as BHL cl_bob_angled
+    {PAGE_GENERAL, 1, "r_drawviewmodel", "Draw viewmodel"},
     // HUD, column 1
-    {PAGE_HUD, 0, "hud_speedometer", "Speedometer / عداد السرعة"},
-    {PAGE_HUD, 0, "hud_speedometer_below_cross", "Speedometer under cross / السرعة تحت المؤشر"},
-    {PAGE_HUD, 0, "hud_jumpspeed", "Jump speed / سرعة القفز"},
-    {PAGE_HUD, 0, "hud_jumpspeed_below_cross", "Jump speed under cross / سرعة القفز تحت المؤشر"},
-    {PAGE_HUD, 0, "hud_strafeguide", "Strafe guide / دليل الانعطاف"},
-    {PAGE_HUD, 0, "hud_timer", "Timer / المؤقت"},
-    {PAGE_HUD, 0, "hud_rainbow", "Rainbow colour / ألوان قوس قزح"},
+    {PAGE_HUD, 0, "hud_speedometer", "Speedometer"},
+    {PAGE_HUD, 0, "hud_speedometer_below_cross", "Speedometer under cross"},
+    {PAGE_HUD, 0, "hud_jumpspeed", "Jump speed"},
+    {PAGE_HUD, 0, "hud_jumpspeed_below_cross", "Jump speed under cross"},
+    {PAGE_HUD, 0, "hud_strafeguide", "Strafe guide"},
+    {PAGE_HUD, 0, "hud_timer", "Timer"},
+    {PAGE_HUD, 0, "hud_rainbow", "Rainbow colour"},
     // HUD, column 2
-    {PAGE_HUD, 1, "hud_weapon", "Weapon HUD / واجهة السلاح"},
-    {PAGE_HUD, 1, "hud_centerid", "Centre item ID / معرّف الهدف"},
-    {PAGE_HUD, 1, "hud_dim", "Dim when idle / تعتيم عند الخمول"},
-    {PAGE_HUD, 1, "hud_draw", "Draw HUD / إظهار الواجهة"},
-    {PAGE_HUD, 1, "hud_menu_fkeys", "F-key menus / قوائم مفاتيح F"},
-    {PAGE_HUD, 1, "hud_deathnotice_vgui", "VGUI death notices / إشعارات الموت"},
+    {PAGE_HUD, 1, "hud_weapon", "Weapon HUD"},
+    {PAGE_HUD, 1, "hud_centerid", "Centre item ID"},
+    {PAGE_HUD, 1, "hud_dim", "Dim when idle"},
+    {PAGE_HUD, 1, "hud_draw", "Draw HUD"},
+    {PAGE_HUD, 1, "hud_menu_fkeys", "F-key menus"},
+    {PAGE_HUD, 1, "hud_deathnotice_vgui", "VGUI death notices"},
     // Chat
-    {PAGE_CHAT, 0, "hud_saytext", "Show chat text / إظهار نص الدردشة"},
-    {PAGE_CHAT, 0, "hud_saytext_sound", "Chat sound / صوت الدردشة"},
-    {PAGE_CHAT, 0, "cl_mute_all_comms", "Mute all chat / كتم كل الدردشة"},
+    {PAGE_CHAT, 0, "hud_saytext", "Show chat text"},
+    {PAGE_CHAT, 0, "hud_saytext_sound", "Chat sound"},
+    {PAGE_CHAT, 0, "cl_mute_all_comms", "Mute all chat"},
     // Scoreboard
-    {PAGE_SCOREBOARD, 0, "hud_scoreboard_showavatars", "Avatars / الصور الرمزية"},
-    {PAGE_SCOREBOARD, 0, "hud_scoreboard_showsteamid", "SteamID / معرّف SteamID"},
-    {PAGE_SCOREBOARD, 0, "hud_scoreboard_showeff", "Efficiency / الكفاءة"},
-    {PAGE_SCOREBOARD, 0, "hud_scoreboard_showloss", "Packet loss / فقدان الحزم"},
+    {PAGE_SCOREBOARD, 0, "hud_scoreboard_showavatars", "Avatars"},
+    {PAGE_SCOREBOARD, 0, "hud_scoreboard_showsteamid", "SteamID"},
+    {PAGE_SCOREBOARD, 0, "hud_scoreboard_showeff", "Efficiency"},
+    {PAGE_SCOREBOARD, 0, "hud_scoreboard_showloss", "Packet loss"},
     // Crosshair (layout is custom; see BuildCrosshairPage)
-    {PAGE_CROSSHAIR, 0, "cl_cross_enable", "Enable crosshair / تفعيل المؤشر"},
-    {PAGE_CROSSHAIR, 0, "cl_cross_dot", "Show centre dot / النقطة الوسطى"},
-    {PAGE_CROSSHAIR, 0, "cl_cross_t", "Remove top line (T) / إزالة الخط العلوي"},
+    {PAGE_CROSSHAIR, 0, "cl_cross_enable", "Enable crosshair"},
+    {PAGE_CROSSHAIR, 0, "cl_cross_dot", "Show centre dot"},
+    {PAGE_CROSSHAIR, 0, "cl_cross_t", "Remove top line (T)"},
 };
 const int g_NumEntries = sizeof(g_Entries) / sizeof(g_Entries[0]);
 
@@ -123,9 +122,9 @@ struct BhlxSlider
 };
 
 const BhlxSlider g_Sliders[] = {
-    {PAGE_GENERAL, 0, "default_fov", "Default FOV / زاوية الرؤية الافتراضية", 75, 120},
-    {PAGE_HUD, 1, "hud_scale", "HUD scale / حجم الواجهة", 50, 150},
-    {PAGE_CHAT, 0, "hud_saytext_time", "Chat text time / مدة نص الدردشة", 1, 10},
+    {PAGE_GENERAL, 0, "default_fov", "Default FOV", 75, 120},
+    {PAGE_HUD, 1, "hud_scale", "HUD scale", 50, 150},
+    {PAGE_CHAT, 0, "hud_saytext_time", "Chat text time", 1, 10},
 };
 const int g_NumSliders = sizeof(g_Sliders) / sizeof(g_Sliders[0]);
 
@@ -139,10 +138,10 @@ struct BhlxField
 };
 
 const BhlxField g_Fields[] = {
-    {"cl_cross_size", "Size / الحجم", 0, 30},
-    {"cl_cross_gap", "Gap / الفجوة", 0, 30},
-    {"cl_cross_thickness", "Thickness / السماكة", 1, 10},
-    {"cl_cross_outline_thickness", "Outline / الحافة", 0, 5},
+    {"cl_cross_size", "Size", 0, 30},
+    {"cl_cross_gap", "Gap", 0, 30},
+    {"cl_cross_thickness", "Thickness", 1, 10},
+    {"cl_cross_outline_thickness", "Outline", 0, 5},
 };
 const int g_NumFields = sizeof(g_Fields) / sizeof(g_Fields[0]);
 
@@ -227,13 +226,11 @@ void SetCursorArrow(bool bArrow)
     pApp->setCursorOveride(pApp->getScheme()->getCursor(bArrow ? Scheme::scu_arrow : Scheme::scu_none));
 }
 
-// "English / Arabic" label, with a suffix when the cvar is not in this build.
+// Label text for a control. The cvar is checked by the caller.
 void MakeLabel(char* out, int outLen, const char* label, bool bExists)
 {
-    if (bExists)
-        snprintf(out, outLen, "%s", label);
-    else
-        snprintf(out, outLen, "%s  (missing / غير موجود)", label);
+    (void)bExists;  // controls for missing cvars are not created at all
+    snprintf(out, outLen, "%s", label);
 }
 
 class CBhlxMenu;
@@ -517,11 +514,16 @@ CBhlxMenu::CBhlxMenu(int x, int y, int wide, int tall) : Panel(x, y, wide, tall)
 {
     setPaintBackgroundEnabled(true);
     setFgColor(255, 255, 255, 255);
+    memset(m_pChecks, 0, sizeof(m_pChecks));
+    memset(m_pSliders, 0, sizeof(m_pSliders));
+    memset(m_pSliderLabels, 0, sizeof(m_pSliderLabels));
+    memset(m_pFields, 0, sizeof(m_pFields));
+    memset(m_pFieldLabels, 0, sizeof(m_pFieldLabels));
     for (int p = 0; p < NUM_PAGES; p++)
         m_PageItemCount[p] = 0;
 
     // Title bar and close (X) button.
-    Label* pTitle = new Label("BHLS Settings / إعدادات BHLS", 12, 6, wide - 60, 20);
+    Label* pTitle = new Label("BHLS Settings", 12, 6, wide - 60, 20);
     pTitle->setFgColor(255, 200, 0, 255);
     addChild(pTitle);
 
@@ -569,19 +571,19 @@ void CBhlxMenu::BuildTabsAndButtons()
     int by = TALL - 40;
     CBhlxButtonHandler* pOk = &m_ButtonHandlers[NUM_PAGES];
     pOk->m_iAction = ACT_OK;
-    Button* pOkBtn = new Button("OK / موافق", WIDE - 324, by, 96, 26);
+    Button* pOkBtn = new Button("OK", WIDE - 324, by, 96, 26);
     pOkBtn->addActionSignal(pOk);
     addChild(pOkBtn);
 
     CBhlxButtonHandler* pCancel = &m_ButtonHandlers[NUM_PAGES + 1];
     pCancel->m_iAction = ACT_CANCEL;
-    Button* pCancelBtn = new Button("Cancel / إلغاء", WIDE - 216, by, 96, 26);
+    Button* pCancelBtn = new Button("Cancel", WIDE - 216, by, 96, 26);
     pCancelBtn->addActionSignal(pCancel);
     addChild(pCancelBtn);
 
     CBhlxButtonHandler* pApply = &m_ButtonHandlers[NUM_PAGES + 2];
     pApply->m_iAction = ACT_APPLY;
-    Button* pApplyBtn = new Button("Apply / تطبيق", WIDE - 108, by, 96, 26);
+    Button* pApplyBtn = new Button("Apply", WIDE - 108, by, 96, 26);
     pApplyBtn->addActionSignal(pApply);
     addChild(pApplyBtn);
 }
@@ -594,10 +596,10 @@ void CBhlxMenu::BuildGeneralAndHudPages()
             cursorY[p][c] = ROW_TOP;
 
     // Column headers (General and Models).
-    Label* pHdr0 = new Label("General / عام", COL_X[0], 88, COL_W, 18);
+    Label* pHdr0 = new Label("General", COL_X[0], 88, COL_W, 18);
     pHdr0->setFgColor(255, 200, 0, 255);
     AddPageItem(PAGE_GENERAL, pHdr0);
-    Label* pHdr1 = new Label("Models / النماذج", COL_X[1], 88, COL_W, 18);
+    Label* pHdr1 = new Label("Models", COL_X[1], 88, COL_W, 18);
     pHdr1->setFgColor(255, 200, 0, 255);
     AddPageItem(PAGE_GENERAL, pHdr1);
 
@@ -611,6 +613,11 @@ void CBhlxMenu::BuildGeneralAndHudPages()
         cursorY[e.page][e.col] += ROW_H;
 
         bool bExists = CvarExists(e.cvar);
+        if (!bExists)
+        {
+            cursorY[e.page][e.col] -= ROW_H;  // keep the layout tight
+            continue;
+        }
         char text[200];
         MakeLabel(text, sizeof(text), e.label, bExists);
 
@@ -631,8 +638,10 @@ void CBhlxMenu::BuildGeneralAndHudPages()
     {
         const BhlxSlider& s = g_Sliders[i];
         int y = cursorY[s.page][s.col];
-        cursorY[s.page][s.col] += SLIDER_H;
         bool bExists = CvarExists(s.cvar);
+        if (!bExists)
+            continue;
+        cursorY[s.page][s.col] += SLIDER_H;
 
         char text[200];
         MakeLabel(text, sizeof(text), s.label, bExists);
@@ -651,10 +660,6 @@ void CBhlxMenu::BuildGeneralAndHudPages()
         AddPageItem(s.page, pSlider);
     }
 
-    // Greyed-out note for the General/HUD/Chat/Scoreboard pages.
-    Label* pNote = new Label("Grey = not ported to this build yet. / الرمادي = غير منقول بعد", 16, TALL - 66, WIDE - 32, 18);
-    pNote->setFgColor(200, 200, 200, 255);
-    AddPageItem(PAGE_GENERAL, pNote);
 }
 
 void CBhlxMenu::BuildCrosshairPage()
@@ -686,13 +691,13 @@ void CBhlxMenu::BuildCrosshairPage()
 
     // Colour row: label, swatch, Pick button.
     int colorY = ROW_TOP + row * ROW_H + 6;
-    Label* pColorLabel = new Label("Colour / اللون", COL_X[0], colorY, 120, 22);
+    Label* pColorLabel = new Label("Colour", COL_X[0], colorY, 120, 22);
     AddPageItem(PAGE_CROSSHAIR, pColorLabel);
     m_pColorView = new CColorView(140, colorY - 2, 40, 22);
     AddPageItem(PAGE_CROSSHAIR, m_pColorView);
     CBhlxButtonHandler* pPick = &m_ButtonHandlers[NUM_PAGES + 3];
     pPick->m_iAction = ACT_PICK;
-    Button* pPickBtn = new Button("Pick / اختيار", 190, colorY - 2, 110, 24);
+    Button* pPickBtn = new Button("Pick", 190, colorY - 2, 110, 24);
     pPickBtn->addActionSignal(pPick);
     AddPageItem(PAGE_CROSSHAIR, pPickBtn);
 
@@ -702,6 +707,8 @@ void CBhlxMenu::BuildCrosshairPage()
     {
         const BhlxField& f = g_Fields[i];
         bool bExists = CvarExists(f.cvar);
+        if (!bExists)
+            continue;
         char text[200];
         MakeLabel(text, sizeof(text), f.label, bExists);
         Label* pLabel = new Label(text, COL_X[0], fieldY, 150, 20);
@@ -726,15 +733,11 @@ void CBhlxMenu::BuildCrosshairPage()
 void CBhlxMenu::BuildAboutPage()
 {
     const char* lines[] = {
-        "BHLS Settings for OP4 / إعدادات BHLS لمحرك OP4",
+        "BHLS Settings for OP4",
         "Moved from BugfixedHL's Advanced options (VGUI2) to VGUI1.",
-        "منقولة من خيارات BugfixedHL المتقدمة (VGUI2) إلى VGUI1.",
         "Apply saves now. Cancel reverts to the last saved values.",
-        "تطبيق يحفظ الآن. إلغاء يعيد آخر قيم محفوظة.",
-        "Grey items are not ported to this build yet.",
-        "العناصر الرمادية غير منقولة في هذا البناء بعد.",
+        "Controls for features this build lacks are hidden.",
         "Arabic text needs an Arabic-capable font. OP4's stock VGUI1 fonts lack it.",
-        "النص العربي يحتاج خطاً يدعم العربية. خطوط OP4 الأصلية لا تدعمه.",
     };
     int y = ROW_TOP;
     for (unsigned int i = 0; i < sizeof(lines) / sizeof(lines[0]); i++)
@@ -753,7 +756,7 @@ void CBhlxMenu::BuildPicker()
     m_pPicker = new CColorPopup((WIDE - pw) / 2, ROW_TOP, pw, ph);
     m_pPicker->setVisible(false);
 
-    Label* pTitle = new Label("Pick colour / اختر اللون", 10, 8, pw - 20, 20);
+    Label* pTitle = new Label("Pick colour", 10, 8, pw - 20, 20);
     pTitle->setFgColor(255, 200, 0, 255);
     m_pPicker->addChild(pTitle);
 
@@ -767,7 +770,7 @@ void CBhlxMenu::BuildPicker()
 
     CBhlxButtonHandler* pClose = &m_ButtonHandlers[NUM_PAGES + 4];
     pClose->m_iAction = ACT_PICK_CLOSE;
-    Button* pCloseBtn = new Button("Close / إغلاق", (pw - 100) / 2, ph - 34, 100, 24);
+    Button* pCloseBtn = new Button("Close", (pw - 100) / 2, ph - 34, 100, 24);
     pCloseBtn->addActionSignal(pClose);
     m_pPicker->addChild(pCloseBtn);
 
@@ -814,6 +817,8 @@ void CBhlxMenu::Refresh()
 
     for (int i = 0; i < g_NumSliders; i++)
     {
+        if (!m_pSliders[i])
+            continue;
         bool bExists = CvarExists(g_Sliders[i].cvar);
         int value = CvarInt(g_Sliders[i].cvar, g_Sliders[i].min);
         if (value < g_Sliders[i].min)
@@ -830,6 +835,8 @@ void CBhlxMenu::Refresh()
 
     for (int i = 0; i < g_NumFields; i++)
     {
+        if (!m_pFields[i])
+            continue;
         char buf[32];
         int value = CvarInt(g_Fields[i].cvar, g_Fields[i].min);
         if (value < g_Fields[i].min)

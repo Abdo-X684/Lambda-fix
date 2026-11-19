@@ -37,40 +37,13 @@ Settings menu: title is "BHLS Settings" (English). Open it with the console comm
 Numeric crosshair options (size, gap, thickness, outline, red, green, blue) are sliders.
 All menu text is English.
 
-Added in this build (static build only, NOT run in game):
-  cl_noshells        shell casings not spawned when firing
-  cl_hidecorpses     dead-player corpses not drawn
-  cl_mute_all_comms  chat from voice-muted players is hidden
-  hud_saytext_sound  plays misc/talk.wav (stock HL file) on chat messages
-
-Menu fix (from in-game screenshot): opaque dark background, wider panel (600 px) so tab names are not clipped. Not yet confirmed in game.
-
-Plain-text status (no sprites), drawn in the same path as BHL-HUD TEST:
-  HP <health> at y=28, AMMO <clip> / <reserve> at y=46, weapon name at y=64.
-  Toggle with bhl_hud_text 0/1 (default 1). Static build only, NOT run in game.
-Main-menu options: NOT possible from client.dll. The main menu and ESC menu are in the engine's GameUI,
-whose source is not in this SDK. bhls_settings is an in-game VGUI panel only.
-
-Old BugfixedHL Advanced Options (VGUI2 dialog, opened by gameui_cl_open_adv_options) is routed to the translated VGUI1 menu.
-Open it in game with: gameui_cl_open_adv_options   (or bhls_settings)
-
-Port: "Angled view bob" now uses OP4's native cl_bobtilt (same effect as BHL cl_bob_angled).
-
-Scoreboard: hud_scoreboard_showloss (default 1) shows ping as "ping/loss" in OP4's scoreboard (vgui_ScorePanel.cpp).
-Not yet ported: hud_scoreboard_showeff (needs new column), hud_scoreboard_showsteamid, hud_scoreboard_showavatars.
-
-Settings dialog (bhls_settings / bhlx_menu): rebuilt as the BHL "Advanced options" layout in VGUI1.
-Tabs: General, HUD, Chat, Scoreboard, Crosshair, About. OK / Cancel / Apply.
-Crosshair tab: enable / centre dot / T-shape checkboxes, colour swatch with Pick palette,
-numeric Size / Gap / Thickness / Outline text fields, live preview.
-Cancel restores values from when the dialog opened (or the last Apply).
-Labels are English / Arabic. Arabic glyphs need an Arabic-capable font; stock OP4 VGUI1 fonts lack them.
-Background fix: VGUI1 alpha 0 is opaque (alpha 255 is transparent). Earlier builds used alpha 220 and were nearly transparent.
-
 Added in this build (from the old BugfixedHL Advanced options):
 - hud_timer (BHL "Timer", shows time elapsed since map start, top centre). The BHL timer modes
   "time left" and "clock" are not ported; this build shows elapsed time only.
 - hud_scoreboard_showeff, hud_scoreboard_efftype (0/1/2), hud_scoreboard_effpercent: an EFF column on the OP4
   scoreboard, player rows only (team rows stay blank). Formulas are the BugfixedHL ones.
-Still not ported: hud_rainbow, hud_scale, hud_weapon, hud_menu_fkeys, hud_deathnotice_vgui, results_demo_autorecord,
-hud_scoreboard_showavatars, hud_scoreboard_showsteamid (OP4 engine does not expose SteamID to the client), cl_enable_html_motd.
+- bhls_settings labels are English only. Arabic text is not shown in this build because the stock OP4 VGUI1
+  fonts have no Arabic glyphs.
+- Menu controls are shown only when their cvar exists at runtime (checked when the menu opens). Greyed-out
+  items are removed. Which controls are missing in a given build is not written here: it is visible in the menu.
+
