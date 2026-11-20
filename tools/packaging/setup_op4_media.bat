@@ -51,7 +51,7 @@ if exist "%DEST%\gamestartup.mp3" (
 >> "%DEST%\SOURCE.txt" echo No valve media, no downloaded music, and no generated MP3 was used.
 echo.
 echo Done: !COUNT! original OP4 MP3 files are now in "%DEST%".
-echo Start with: hl.exe -game lambda -console
+echo Start with: hl.exe -game lambda-fix -console
 exit /b 0
 
 :fail

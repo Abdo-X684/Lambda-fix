@@ -12,7 +12,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 class ModNameTests(unittest.TestCase):
     def test_safe_names_accepted(self):
-        for name in ("lambda", "op4sr", "speedrun_mod", "bhl-op4-v1"):
+        for name in ("lambda-fix", "op4sr", "speedrun_mod", "bhl-op4-v1"):
             with self.subTest(name=name):
                 self.assertEqual(cm.validate_mod_name(name), name)
 
@@ -43,7 +43,7 @@ class ModNameTests(unittest.TestCase):
 
 class ModContentTests(unittest.TestCase):
     def test_liblist_points_at_gearbox_not_a_valve_dir(self):
-        text = cm.liblist_text("lambda")
+        text = cm.liblist_text("lambda-fix")
         self.assertIn('fallback_dir "gearbox"', text)
         self.assertIn('gamedll_linux "dlls/hl.so"', text)
         self.assertIn('startmap "of0a0"', text)
@@ -51,9 +51,9 @@ class ModContentTests(unittest.TestCase):
 
     def test_build_produces_folder_zip_and_valid_manifest(self):
         with tempfile.TemporaryDirectory() as td:
-            out = Path(td) / "lambda"
+            out = Path(td) / "lambda-fix"
             zpath = Path(td) / "mod.zip"
-            result = cm.build("lambda", out, zpath, ROOT / "dist" / "dlls")
+            result = cm.build("lambda-fix", out, zpath, ROOT / "dist" / "dlls")
             self.assertTrue(result["valve_prefix_safe"])
             self.assertTrue((out / "liblist.gam").is_file())
             self.assertTrue((out / "steam_appid.txt").is_file())
@@ -65,7 +65,7 @@ class ModContentTests(unittest.TestCase):
             self.assertIn("DO NOT put these files inside gearbox",
                           (out / "INSTALL.md").read_text())
             manifest = json.loads((out / "MANIFEST.json").read_text())
-            self.assertEqual(manifest["mod_dir"], "lambda")
+            self.assertEqual(manifest["mod_dir"], "lambda-fix")
             self.assertEqual(manifest["fallback_dir"], "gearbox")
             self.assertEqual(manifest["steam_appid"], 50)
             for rel, info in manifest["files"].items():
@@ -75,17 +75,17 @@ class ModContentTests(unittest.TestCase):
             self.assertTrue((out / "cl_dlls" / "client.so").read_bytes()[:5] == b"\x7fELF\x01")
             with zipfile.ZipFile(zpath) as z:
                 names = z.namelist()
-                self.assertIn("lambda/liblist.gam", names)
-                self.assertIn("lambda/cl_dlls/client.so", names)
-                self.assertIn("lambda/MANIFEST.json", names)
+                self.assertIn("lambda-fix/liblist.gam", names)
+                self.assertIn("lambda-fix/cl_dlls/client.so", names)
+                self.assertIn("lambda-fix/MANIFEST.json", names)
                 self.assertFalse(any(n.startswith("gearbox/") for n in names))
-                self.assertEqual(z.read("lambda/MANIFEST.json"),
+                self.assertEqual(z.read("lambda-fix/MANIFEST.json"),
                                  (out / "MANIFEST.json").read_bytes())
 
     def test_build_is_deterministic(self):
         with tempfile.TemporaryDirectory() as td:
-            a = cm.build("lambda", Path(td) / "a", Path(td) / "a.zip", ROOT / "dist" / "dlls")
-            b = cm.build("lambda", Path(td) / "b", Path(td) / "b.zip", ROOT / "dist" / "dlls")
+            a = cm.build("lambda-fix", Path(td) / "a", Path(td) / "a.zip", ROOT / "dist" / "dlls")
+            b = cm.build("lambda-fix", Path(td) / "b", Path(td) / "b.zip", ROOT / "dist" / "dlls")
             self.assertEqual(a["zip_sha256"], b["zip_sha256"])
 
     def test_valve_dir_name_is_refused_by_build(self):
@@ -100,7 +100,7 @@ class ModContentTests(unittest.TestCase):
             (dlls / "client.so").write_bytes(b"NOT AN ELF")
             (dlls / "hl.so").write_bytes(b"\x7fELF\x01" + b"\0" * 40)
             with self.assertRaisesRegex(ValueError, "not ELF32"):
-                cm.collect_payload("lambda", dlls, ROOT / "data" / "delta.lst")
+                cm.collect_payload("lambda-fix", dlls, ROOT / "data" / "delta.lst")
 
 
 if __name__ == "__main__":

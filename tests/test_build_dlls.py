@@ -92,7 +92,7 @@ class ArtifactTests(unittest.TestCase):
         import hashlib
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
-            src, out, mod = root / "src", root / "out", root / "lambda"
+            src, out, mod = root / "src", root / "out", root / "lambda-fix"
             src.mkdir(); out.mkdir()
             (mod / "cl_dlls").mkdir(parents=True)
             (mod / "cl_dlls" / "client.so").write_bytes(b"STOCK")

@@ -24,8 +24,8 @@
 
 ## Test protocol for the user
 
-1. Unzip into `Half-Life/lambda/` next to `valve/` and `gearbox/`, then run `setup_op4_media.bat` once.
-2. Run `hl.exe -game lambda -console`; record the start of `of0a0`, the intro music, and the music of the first `trigger_cdaudio`.
+1. Unzip into `Half-Life/lambda-fix/` next to `valve/` and `gearbox/`, then run `setup_op4_media.bat` once.
+2. Run `hl.exe -game lambda-fix -console`; record the start of `of0a0`, the intro music, and the music of the first `trigger_cdaudio`.
 3. `sv_cheats 1; impulse 101`; for each weapon: select it, HUD icon/ammo, fire, empty magazine, reload, switch away/to, sound, view/world model, effects.
 4. Special tests: Grapple on a valid surface; Penguin and watch `monster_penguin`; Displacer primary/secondary/self-teleport; Shock Rifle primary/secondary and recharge.
 5. Record video/console for each row. Until then every row stays **not tested**, and nothing is called 'working'.

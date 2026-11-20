@@ -159,7 +159,7 @@ class BhlMergeTests(unittest.TestCase):
 
     def test_install_guide_explains_the_merge_not_the_addon(self) -> None:
         from tools.create_mod import install_text  # noqa: E402
-        text = install_text("lambda")
+        text = install_text("lambda-fix")
         for needle in ("What is actually merged", "bhl_status", "bhl_version",
                        "bugfixedhl.cfg", "optional add-on", "not the merge"):
             self.assertIn(needle, text, needle)

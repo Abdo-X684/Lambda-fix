@@ -6,12 +6,12 @@ of Valve's prefixes (valve, gearbox, bshift, ...): UTIL_IsValveGameDirectory()
 in game_shared/filesystem_utils.cpp prints the fatal error and quits. Putting
 client.so / hl.so inside gearbox/ therefore ALWAYS fails.
 
-This builds a standalone folder (default: lambda) with liblist.gam -> fallback
+This builds a standalone folder (default: lambda-fix) with liblist.gam -> fallback
 "gearbox", steam_appid 50, delta.lst, the two ELF32 binaries, speedrun.cfg and
 the route, plus a deterministic zip + sha256 manifest.
 
 Run:  python3 tools/create_mod.py
-Then: copy dist/lambda/ into <Half-Life>/ and launch -game lambda
+Then: copy dist/lambda-fix/ into <Half-Life>/ and launch -game lambda-fix
 """
 
 from __future__ import annotations
@@ -38,7 +38,7 @@ VALVE_PREFIXES = (
     "cstrike", "czero", "dod", "tfc",
 )
 MOD_NAME_RE = re.compile(r"^[a-z0-9][a-z0-9_-]*$")
-DEFAULT_NAME = "lambda"
+DEFAULT_NAME = "lambda-fix"
 
 
 def validate_mod_name(name: str) -> str:
