@@ -5,8 +5,8 @@
 
 ## الحزمة الحالية (Linux)
 
-- **الرابط:** [bhlop4-bhlbase-linux.zip](https://github.com/Abdo-X684/Bugfixhl-speedrun-op4/raw/c737d429bf9f3773a687137734f0f111d132bbcd/build-evidence/bhl-base-linux-mod/bhlop4-bhlbase-linux.zip)
-- **SHA256:** `203bcb73bc6a45be4970a283b73e4d5c3910edeb5eddb6a4f5e047f5891c22da`
+- **الرابط:** [bhlop4-bhlbase-linux.zip](https://github.com/Abdo-X684/Bugfixhl-speedrun-op4/raw/d79fb84deeea1a19f0dd1b93a0866e3bfe2edc3f/build-evidence/bhl-base-linux-mod/bhlop4-bhlbase-linux.zip)
+- **SHA256:** `93ca8939454dcb1dc9bd7f36708e17f157ad27d7aa42fc87f6959b6c47e10138`
 - **التعليمات:** ملف `INSTALL.md` داخل الحزمة، والخطوات مكتوبة أدناه أيضاً.
 
 ## الحالة
