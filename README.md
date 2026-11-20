@@ -74,4 +74,4 @@ make verify    # full repository checks
 - [`CONTRIBUTING.md`](CONTRIBUTING.md): how to contribute
 ## AI
 
-this was build by arena ai not me
+this was build using arena ai 
