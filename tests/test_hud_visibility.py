@@ -101,9 +101,9 @@ class HudVisibilityTests(unittest.TestCase):
         if str(ROOT) not in sys.path:
             sys.path.insert(0, str(ROOT))
         from tools.create_mod import install_text  # noqa: E402
-        text = install_text("bhlop4")
+        text = install_text("lambda")
         for needle in ("bhl_status", "bhl_version", "sr_status",
-                       "not loading our two DLLs", "-game bhlop4"):
+                       "not loading our two DLLs", "-game lambda"):
             self.assertIn(needle, text, needle)
 
     def test_mod_folder_zip_uses_the_new_binaries(self) -> None:
@@ -113,14 +113,14 @@ class HudVisibilityTests(unittest.TestCase):
         from tools.create_mod import build  # noqa: E402
         import zipfile
         with tempfile.TemporaryDirectory() as tmp:
-            out = Path(tmp) / "bhlop4"
+            out = Path(tmp) / "lambda"
             zp = Path(tmp) / "mod.zip"
-            build("bhlop4", out, zp)
+            build("lambda", out, zp)
             with zipfile.ZipFile(zp) as z:
-                self.assertEqual(z.read("bhlop4/cl_dlls/client.so"),
+                self.assertEqual(z.read("lambda/cl_dlls/client.so"),
                                  (ROOT / "dist" / "dlls" / "client.so").read_bytes())
-                self.assertIn(b"sr_status", z.read("bhlop4/INSTALL.md"))
-                self.assertIn(b'sr_hud_banner "1"', z.read("bhlop4/speedrun.cfg"))
+                self.assertIn(b"sr_status", z.read("lambda/INSTALL.md"))
+                self.assertIn(b'sr_hud_banner "1"', z.read("lambda/speedrun.cfg"))
 
 
 if __name__ == "__main__":

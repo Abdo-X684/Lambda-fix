@@ -277,11 +277,11 @@ def build_audit() -> dict:
                 "The ZIP contains no media/*.mp3 and no gamestartup.mp3. GoldSrc looks in the "
                 "active mod's media/ folder and then valve/media; fallback_dir gearbox supplies "
                 "maps/models/sounds but is not a reliable media/ lookup for CD/MP3 tracks. "
-                "Therefore an unmodified bhlop4 folder plays the Half-Life soundtrack."
+                "Therefore an unmodified lambda folder plays the Half-Life soundtrack."
             ),
             "fix": (
                 "setup_op4_media.bat copies only the user's original gearbox/media/*.mp3 "
-                "(plus gearbox_downloads/media/*.mp3 when present) into bhlop4/media/. "
+                "(plus gearbox_downloads/media/*.mp3 when present) into lambda/media/. "
                 "No track is invented, renamed, or downloaded."
             ),
             "startup_music": (
@@ -376,7 +376,7 @@ def markdown(audit: dict) -> str:
     lines += [
         "", "## 6. Package limits", "",
         "* The ZIP does not include `.mdl`, `.wav`, `.sc`, `.mp3`, or `.bsp`. The only third-party sprites are `sprites/ag_*.spr` (Adrenaline Gamer, license unconfirmed).",
-        "* `setup_op4_media.bat`, `SOURCE_AUDIT.md`, `RUNTIME_TESTS.md`, `INSTALL.md` are included in the ZIP.",
+        "* `SOURCE_AUDIT.md`, `RUNTIME_TESTS.md`, and `INSTALL.md` are included in the ZIP. `setup_op4_media.bat` is a Windows helper in `tools/packaging/` and is **not** in the Linux ZIP, so the Linux package has no `media/` folder.",
         "* `MOD_MANIFEST.json` states `in_game_tested_here: false`.", "",
         "**Summary:** every original, edited, and self-written file is documented above, but there is no GoldSrc test here;",
         "the `RUNTIME_TESTS.md` table in the package has no passing mark.", "",
@@ -404,8 +404,8 @@ def tests_markdown(audit: dict) -> str:
         "| BHL VGUI2 menus | — | BHL client | — | — | — | — | — | — | — | **not tested** |",
         "| `impulse 101` for the ten weapons | OP4 server source | — | — | — | — | — | — | — | — | **not tested** |",
         "", "## Test protocol for the user", "",
-        "1. Unzip into `Half-Life/bhlop4/` next to `valve/` and `gearbox/`, then run `setup_op4_media.bat` once.",
-        "2. Run `hl.exe -game bhlop4 -console`; record the start of `of0a0`, the intro music, and the music of the first `trigger_cdaudio`.",
+        "1. Unzip into `Half-Life/lambda/` next to `valve/` and `gearbox/`, then run `setup_op4_media.bat` once.",
+        "2. Run `hl.exe -game lambda -console`; record the start of `of0a0`, the intro music, and the music of the first `trigger_cdaudio`.",
         "3. `sv_cheats 1; impulse 101`; for each weapon: select it, HUD icon/ammo, fire, empty magazine, reload, switch away/to, sound, view/world model, effects.",
         "4. Special tests: Grapple on a valid surface; Penguin and watch `monster_penguin`; Displacer primary/secondary/self-teleport; Shock Rifle primary/secondary and recharge.",
         "5. Record video/console for each row. Until then every row stays **not tested**, and nothing is called 'working'.", "",

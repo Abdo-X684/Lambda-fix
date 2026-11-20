@@ -83,10 +83,10 @@ INSTALL = '''# BugfixedHL + full Opposing Force
 ## Install steps
 
 1. Unzip this folder inside the Half-Life folder, next to `valve/` and `gearbox/`
-   (for example `Half-Life/bhlop4`). Do not put it inside `gearbox/`, and do not rename it.
+   (for example `Half-Life/lambda`). Do not put it inside `gearbox/`, and do not rename it.
 2. Run `setup_op4_media.bat` once: it copies only the original OP4 music from
-   `gearbox/media/` to `bhlop4/media/`. It does not create or download any MP3 file.
-3. Run: `hl.exe -game bhlop4 -console`.
+   `gearbox/media/` to `lambda/media/`. It does not create or download any MP3 file.
+3. Run: `hl.exe -game lambda -console`.
 4. **New Game** starts the Opposing Force campaign at `of0a0`, not the Half-Life campaign.
 5. `impulse 101` gives all ten OP4 weapons on Windows. **F9** gives them again with ammo,
    and **F10** gives `weapon_penguin` on Linux too.

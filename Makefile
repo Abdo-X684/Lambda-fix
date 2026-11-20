@@ -26,7 +26,7 @@ help:
 	@echo "build-dlls    - build 32-bit client.so + hl.so from build/merged-real"
 	@echo "build-dlls-check - preflight only (toolchain / vgui.so / patched makefiles)"
 	@echo "build-dlls-zig - build ELF32 client.so/hl.so with Zig, no gcc-multilib/vgui.so needed"
-	@echo "mod           - create the standalone bhlop4/ mod folder + zip (never gearbox/)"
+	@echo "mod           - create the standalone lambda/ mod folder + zip (never gearbox/)"
 	@echo "clean         - remove build/, dist/ and fetched SDK cache"
 
 verify: hygiene test-py gen route-check noexcept-check test-cpp test-op4 test-op4-fixups verify-bhl-base verify-delta verify-op4-audit verify-weapon-inventory merge-offline package mod

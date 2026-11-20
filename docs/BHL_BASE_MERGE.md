@@ -208,7 +208,7 @@ OP4 `dlls/triggers.cpp::PlayCDTrack()` sends `cd play <track>` to the engine. Th
 path in the game code and no `cd/mp3/media` command in the cfg files. Because the mod folder has
 no `media/`, the engine looks for music in `valve`, and `fallback_dir` is not enough to force
 `gearbox/media`. So `setup_op4_media.bat` copies the original MP3 files only, from the installed
-`gearbox` copy into `bhlop4/media/`. Nothing is generated or downloaded.
+`gearbox` copy into `lambda/media/`. Nothing is generated or downloaded.
 
 Full details and the original, edited, and self-written file list are in
 [`docs/OP4_SOURCE_AUDIT.md`](OP4_SOURCE_AUDIT.md). The table in

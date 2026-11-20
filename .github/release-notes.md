@@ -41,13 +41,13 @@ no longer presented as the merge.
 ## Install
 
 Extract **`bhl-op4-mod.zip` next to** `valve/` and `gearbox/`
-(`Half-Life/bhlop4/`) and launch
-`hl_linux -game bhlop4 -console -dev +exec speedrun.cfg`.
+(`Half-Life/lambda/`) and launch
+`hl_linux -game lambda -console -dev +exec speedrun.cfg`.
 
 **DO NOT copy `client.so`/`hl.so` into `gearbox/` or `valve/`.** The OP4 SDK's
 `UTIL_IsValveGameDirectory()` aborts startup for any mod folder starting with
 `valve`, `gearbox`, `bshift`, `dmc`, `cstrike`, `czero`, `dod`, `ricochet` or
-`tfc`. `bhlop4/` + `fallback_dir "gearbox"` reads the OP4 assets without
+`tfc`. `lambda/` + `fallback_dir "gearbox"` reads the OP4 assets without
 modifying them. See `INSTALL.md` inside the zip for the full checklist.
 
 | Asset | Size | Purpose |

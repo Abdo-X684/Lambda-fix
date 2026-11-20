@@ -28,7 +28,7 @@ named, recorded rules.
 5. **Speedrun add-on** (optional): `src/speedrun/sr_core.{h,cpp}` is a C++17 core with no engine
    dependency. It contains the run timer, the route, splits, personal bests, and the server mirror. See
    [`SPEEDRUN.md`](SPEEDRUN.md).
-6. **Packaging**: `tools/create_playable_mod.py` creates the standalone `bhlop4/` mod folder and the zip
+6. **Packaging**: `tools/create_playable_mod.py` creates the standalone `lambda/` mod folder and the zip
    with `MOD_MANIFEST.json` (sha256 for every file). The package never contains Valve assets.
 7. **Web dashboard**: `web/app.py` (standard library `http.server`) and `web/markdown.py` (a safe Markdown
    renderer with no dependencies). The dashboard shows the merge status and the README/docs with a side

@@ -12,7 +12,7 @@ then the DLLs were copied into `gearbox/cl_dlls/` or `gearbox/dlls/`. The SDK re
 any mod folder whose name starts with `valve`, `gearbox`, `bshift`, `ricochet`, `dmc`,
 `cstrike`, `czero`, `dod`, or `tfc` (prefix match, so `gearbox_hd` is refused too).
 
-**Fix:** use a separate mod folder named `bhlop4` next to `valve/` and `gearbox/`. Its
+**Fix:** use a separate mod folder named `lambda` next to `valve/` and `gearbox/`. Its
 `fallback_dir "gearbox"` setting reads the Opposing Force assets from the original folder without
 changing it.
 
@@ -20,7 +20,7 @@ changing it.
 Half-Life/
 ├── valve/          do not touch
 ├── gearbox/        do not touch (assets are read from here through fallback_dir)
-└── bhlop4/         the mod folder
+└── lambda/         the mod folder
     ├── liblist.gam
     ├── steam_appid.txt   (50)
     ├── delta.lst
@@ -28,7 +28,7 @@ Half-Life/
     └── dlls/hl.so
 ```
 
-Launch with: `hl_linux -game bhlop4 -console`
+Launch with: `hl_linux -game lambda -console`
 
 `liblist.gam`:
 
@@ -69,7 +69,7 @@ make verify                      # repository checks
 
 ## Packaged builds
 
-* `build-evidence/bhl-base-linux-mod/bhlop4-bhlbase-linux.zip`: the current Linux package
+* `build-evidence/bhl-base-linux-mod/lambda-bhlbase-linux.zip`: the current Linux package
   (see its `MOD_MANIFEST.json`, `INSTALL.md`, and `RUNTIME_TESTS.md`).
 * Windows build: see [`BHL_WINDOWS_BUILD.md`](BHL_WINDOWS_BUILD.md).
 
@@ -80,7 +80,7 @@ They are **legacy** and are not from the current `bhl-op4/` tree.
 
 | Message | Cause / fix |
 |---|---|
-| `This mod has detected that it is being run from a Valve game directory` | Files were copied into `gearbox/` or `valve/`. Use `bhlop4/` with `fallback_dir "gearbox"` |
+| `This mod has detected that it is being run from a Valve game directory` | Files were copied into `gearbox/` or `valve/`. Use `lambda/` with `fallback_dir "gearbox"` |
 | `could not load library client.so` | Built as 64-bit, or `libstdc++6-i386` is missing. Check with `ldd client.so` |
 | `cannot open vgui.so` | Copy `vgui.so` from the Half-Life root folder, where the engine can find it |
 | Missing OP4 maps or models | Check `fallback_dir "gearbox"` and `steam_appid.txt = 50` |

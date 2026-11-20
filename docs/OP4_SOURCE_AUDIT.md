@@ -122,8 +122,8 @@ These are strong causal candidates for the weapon bug, not proof that it works.
 ## 5. Music: cause, path, and fix
 
 * Code path: OP4 dlls/triggers.cpp PlayCDTrack() sends engine 'cd play <track>' (and 'cd stop' for -1). The engine, not the game DLL, maps the track ID to media/*.mp3. Shipped autoexec.cfg/op4weapons.cfg contain no cd/mp3/media command.
-* Diagnosis: The ZIP contains no media/*.mp3 and no gamestartup.mp3. GoldSrc looks in the active mod's media/ folder and then valve/media; fallback_dir gearbox supplies maps/models/sounds but is not a reliable media/ lookup for CD/MP3 tracks. Therefore an unmodified bhlop4 folder plays the Half-Life soundtrack.
-* Fix: setup_op4_media.bat copies only the user's original gearbox/media/*.mp3 (plus gearbox_downloads/media/*.mp3 when present) into bhlop4/media/. No track is invented, renamed, or downloaded.
+* Diagnosis: The ZIP contains no media/*.mp3 and no gamestartup.mp3. GoldSrc looks in the active mod's media/ folder and then valve/media; fallback_dir gearbox supplies maps/models/sounds but is not a reliable media/ lookup for CD/MP3 tracks. Therefore an unmodified lambda folder plays the Half-Life soundtrack.
+* Fix: setup_op4_media.bat copies only the user's original gearbox/media/*.mp3 (plus gearbox_downloads/media/*.mp3 when present) into lambda/media/. No track is invented, renamed, or downloaded.
 * Startup music: gamestartup.mp3 is copied only if the installed OP4 copy provides it; it is never fabricated.
 * In-game result: **not tested inside GoldSrc in this environment**.
 
@@ -135,7 +135,7 @@ Engine behavior sources (for review, not as runtime proof):
 ## 6. Package limits
 
 * The ZIP does not include `.mdl`, `.wav`, `.sc`, `.mp3`, or `.bsp`. The only third-party sprites are `sprites/ag_*.spr` (Adrenaline Gamer, license unconfirmed).
-* `setup_op4_media.bat`, `SOURCE_AUDIT.md`, `RUNTIME_TESTS.md`, `INSTALL.md` are included in the ZIP.
+* `SOURCE_AUDIT.md`, `RUNTIME_TESTS.md`, and `INSTALL.md` are included in the ZIP. `setup_op4_media.bat` is a Windows helper in `tools/packaging/` and is **not** in the Linux ZIP, so the Linux package has no `media/` folder.
 * `MOD_MANIFEST.json` states `in_game_tested_here: false`.
 
 **Summary:** every original, edited, and self-written file is documented above, but there is no GoldSrc test here;

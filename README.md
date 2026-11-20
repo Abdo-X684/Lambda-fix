@@ -1,11 +1,11 @@
-# bhlop4 — BugfixedHL + Opposing Force
+# lambda — BugfixedHL + Opposing Force
 
 A Half-Life mod that combines **BugfixedHL** (the base) with the **ten Opposing Force weapons**.
 The goal is a clean speedrun mod: timer, BHL menus, and no extra features.
 
 ## Current package (Linux)
 
-- **Download:** [bhlop4-bhlbase-linux.zip](build-evidence/bhl-base-linux-mod/bhlop4-bhlbase-linux.zip) (in this repository, `build-evidence/bhl-base-linux-mod/`)
+- **Download:** [lambda-bhlbase-linux.zip](build-evidence/bhl-base-linux-mod/lambda-bhlbase-linux.zip) (in this repository, `build-evidence/bhl-base-linux-mod/`)
 - **SHA256:** `17cd673451fb7ca70c7465c5b54c9f97429efe090a9f089316d76cd7177ee699`
 - **Install steps:** see `INSTALL.md` inside the package, and the summary below.
 
@@ -22,16 +22,16 @@ The repository is private, so the direct GitHub raw links require a GitHub login
 | Game lag | ✅ Greatly reduced after the `-O2` rebuild (reported on a weak PC) |
 | Auto-update removed from Advanced > About | ✅ Implemented in source; not yet tested in game |
 | Default HUD color green (`0 160 0`) | ✅ Implemented in source; not yet tested in game |
-| Localization file `bhlop4_english.txt` | ✅ Added; not yet confirmed in game |
+| Localization file `lambda_english.txt` | ✅ Added; not yet confirmed in game |
 | Music on Linux | ❓ Not tested |
 | Windows build | ❌ Blocked: GitHub Actions runs fail before any step runs |
 
 ## Install on Linux
 
 1. Install Half-Life: Opposing Force. The `gearbox/` folder must sit next to `valve/`.
-2. Delete any old `bhlop4` folder.
+2. Delete any old `lambda` folder.
 3. Unzip the package into the main game folder, next to `valve/` and `gearbox/`.
-4. Launch with `-game bhlop4` (depends on your `hl.sh`).
+4. Launch with `-game lambda` (depends on your `hl.sh`).
 
 The server is the stock `gearbox/dlls/opfor.so`. The client is the built BugfixedHL client.
 SDL2 must be installed on the system.
@@ -66,7 +66,7 @@ make verify    # repository checks (Python tests, C++ checks, generation, merge,
 
 ## Open items
 
-1. **Mod name:** not decided. `bhlop4` is temporary. Renaming requires changing the folder, the localization file, and the code.
+1. **Mod name:** `lambda` (folder, zip, and localization file `resource/lambda_english.txt`). The name was chosen by the project owner. Do not use Valve's Lambda logo or the name "Half-Life" in the logo or the title.
 2. **Trademarks:** do not use the Lambda logo or the name "Half-Life" in the mod name or logo. Both belong to Valve.
 3. **Sprite license:** `sprites/ag_ctf.spr` and `ag_ctf_score.spr` come from the Adrenaline Gamer code base. Their license is not confirmed. They are only used for CTF mode.
 4. **Windows:** no current `client.dll`. The Windows source tree in the repo is based on an older OP4 tree, not the current BHL base.

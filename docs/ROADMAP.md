@@ -25,8 +25,7 @@
 * The Adrenaline Gamer sprites (`sprites/ag_ctf.spr`, `ag_ctf_score.spr`) have no confirmed license.
   They are loaded by the CTF HUD on non-AG clients. Options: confirm the license, or remove them with the
   matching code change.
-* Final mod name. The folder name `bhlop4` is temporary. A rename must change the folder, the
-  localization file, and the strings in the code, without Valve-protected prefixes.
+* Mod name: `lambda` (chosen by the project owner). Confirm that the name is cleared for distribution, and do not use the Lambda logo.
 * Feature list for the final release.
 
 ## Optional later improvements
