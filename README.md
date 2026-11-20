@@ -12,7 +12,7 @@ The repository is private, so the links need a GitHub login with access.
 
 ## Status
 
-Tested on my machine (Linux):
+Tested on linux
 
 | Item | Status |
 | --- | --- |
