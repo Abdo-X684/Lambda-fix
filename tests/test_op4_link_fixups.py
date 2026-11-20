@@ -47,7 +47,7 @@ DATA_GAPS = {"CWorld::World", "oldgrapple", "oldweapons",
              "typeinfo for CBasePlayerWeapon", "vtable for CBasePlayerWeapon"}
 
 # Two more real OP4 bodies added when 7 additional subsystem sources were
-# wired into the BHL server target (see docs/BHL_FINAL_AUDIT.md). Neither may
+# wired into the BHL server target (see docs/BHL_BASE_MERGE.md). Neither may
 # stay undefined, and neither may be an empty stub.
 NEW_SERVER_FIXUPS = [
     "IsFacing(entvars_s*, Vector const&)",

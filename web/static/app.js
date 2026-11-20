@@ -44,14 +44,14 @@ function renderSplits() {
       delta = signed(d); dcls = d < 0 ? 'neg' : 'pos';
     }
     return `<li class="${cls}">
-      <span><b>${esc(ch.name_ar)}</b><span class="maps"> · ${esc(ch.name)} · ${ch.maps.length} خرائط</span></span>
+      <span><b>${esc(ch.name)}</b><span class="maps"> · ${ch.maps.length} maps</span></span>
       <span class="num">${at}</span><span class="num">${best}</span>
       <span class="num delta ${dcls}">${delta}</span></li>`;
   }).join('');
-  $('curChapter').textContent = run.finished ? '✅ اكتمل الرن' : `الفصل الحالي: ${chapters[run.idx]?.name_ar || '—'}`;
+  $('curChapter').textContent = run.finished ? '✅ Run complete' : `Current chapter: ${chapters[run.idx]?.name || '—'}`;
   const total = pb[chapters.length - 1];
-  $('pbTotal').textContent = `أفضل زمن: ${total != null ? fmt(total) : '—'}`;
-  $('runState').textContent = run.finished ? 'مكتمل' : run.running ? 'قيد التشغيل ⏱' : (run.elapsed ? 'متوقف مؤقتاً' : 'جاهز');
+  $('pbTotal').textContent = `Best time: ${total != null ? fmt(total) : '—'}`;
+  $('runState').textContent = run.finished ? 'Finished' : run.running ? 'Running ⏱' : (run.elapsed ? 'Paused' : 'Ready');
 }
 
 function tick() {
@@ -85,9 +85,9 @@ function split() {
       if (pb[i] == null || run.splits[i] < pb[i]) { pb[i] = run.splits[i]; improved = true; }
     }
     localStorage.setItem(PB_KEY, JSON.stringify(pb));
-    toast(improved ? `🎉 رقم شخصي جديد: ${fmt(run.elapsed)}` : `🏁 رن مكتمل: ${fmt(run.elapsed)}`);
+    toast(improved ? `🎉 New personal best: ${fmt(run.elapsed)}` : `🏁 Run complete: ${fmt(run.elapsed)}`);
   } else {
-    toast(`تقسيم ${run.idx}: ${fmt(run.elapsed)}`);
+    toast(`Split ${run.idx}: ${fmt(run.elapsed)}`);
   }
   renderSplits();
 }
@@ -113,53 +113,53 @@ function renderMerge(report) {
   const s = report.summary;
   const pill = (label, value, cls = '') => `<span class="pill ${cls}">${esc(label)}: ${esc(value)}</span>`;
   let html = '<div class="pills">' +
-    pill('الوضع', report.mode) +
-    pill('القواعد', s.rules) +
-    pill('ملفات الشجرة', s.tree_files) +
-    pill('دمج نظيف', s.merged + s.unchanged, 'good') +
-    pill('حقن', s.injected, 'good') +
-    pill('إضافة', s.added, 'good') +
-    pill('توليد', s.generated, 'good') +
-    pill('تعارضات محجورة', s.conflicts, s.conflicts ? 'warn' : 'good') +
-    pill('تدقيقات تكافؤ', s.audited || 0, 'good') +
-    pill('تأجيل يدوي', s.deferred, s.deferred ? 'warn' : 'good') +
-    pill('انحراف/أخطاء', s.anchor_drift + s.missing + s.errors,
+    pill('Mode', report.mode) +
+    pill('Rules', s.rules) +
+    pill('Tree files', s.tree_files) +
+    pill('Clean merge', s.merged + s.unchanged, 'good') +
+    pill('Injected', s.injected, 'good') +
+    pill('Added', s.added, 'good') +
+    pill('Generated', s.generated, 'good') +
+    pill('Held conflicts', s.conflicts, s.conflicts ? 'warn' : 'good') +
+    pill('Parity audits', s.audited || 0, 'good') +
+    pill('Manual deferral', s.deferred, s.deferred ? 'warn' : 'good') +
+    pill('Drift/errors', s.anchor_drift + s.missing + s.errors,
          s.anchor_drift + s.missing + s.errors ? 'bad' : 'good') +
     '</div>';
   html += `<p class="hash">tree sha256: ${esc(report.tree_hash)}</p>`;
   if (!report.conflicts.length && !report.manual_port.length) {
-    html += '<p class="pill good">🎉 لا تعارضات ولا منقولات مؤجلة — الدمج مكتمل</p>';
+    html += '<p class="pill good">🎉 No conflicts and no deferred ports — merge complete</p>';
   }
   if (report.audits && report.audits.length) {
-    html += '<table><thead><tr><th>ملف OP4</th><th>إصلاح BugfixedHL المعادل</th><th>النتيجة</th></tr></thead><tbody>';
+    html += '<table><thead><tr><th>OP4 file</th><th>Equivalent BugfixedHL fix</th><th>Result</th></tr></thead><tbody>';
     for (const a of report.audits) {
       html += `<tr><td class="num">${esc(a.path)}</td><td>${esc(a.feature)}</td>` +
               `<td><span class="tag ${a.verdict === 'equivalent' ? 'merged' : 'error'}">${esc(a.verdict)}</span> ` +
-              `(${a.checks.filter((c) => c.ok).length}/${a.checks.length} فحص)</td></tr>`;
+              `(${a.checks.filter((c) => c.ok).length}/${a.checks.length} checks)</td></tr>`;
     }
     html += '</tbody></table>';
   }
   if (report.conflicts.length) {
-    html += `<p class="notes">⚠ ${report.conflicts.length} تعارض Three-way محجور في <code>integration/conflicts/</code> (لا يلوّث ملفات البناء).</p>`;
+    html += `<p class="notes">⚠ ${report.conflicts.length} three-way conflicts held in <code>integration/conflicts/</code> (they do not touch build files).</p>`;
   }
   if (report.manual_port.length) {
-    html += `<p class="notes">📝 منقول يدوياً لاحقاً: ${report.manual_port.map((m) => esc(m.path)).join('، ')}</p>`;
+    html += `<p class="notes">📝 Ported manually later: ${report.manual_port.map((m) => esc(m.path)).join(', ')}</p>`;
   }
   if (report.warnings.length) {
     html += `<p class="notes">${report.warnings.map((w) => esc(w)).join('<br>')}</p>`;
   }
-  html += '<table><thead><tr><th>القاعدة</th><th>الإجراء</th><th>المسار</th><th>الحالة</th></tr></thead><tbody>';
+  html += '<table><thead><tr><th>Rule</th><th>Action</th><th>Path</th><th>Status</th></tr></thead><tbody>';
   for (const f of report.files) {
     html += `<tr><td>${esc(f.rule)}</td><td>${esc(f.action)}</td><td class="num">${esc(f.path)}</td>` +
             `<td><span class="tag ${esc(f.status)}">${esc(f.status)}</span></td></tr>`;
   }
   html += '</tbody></table>';
   $('mergeResult').innerHTML = html;
-  $('mergeBadge').textContent = `${s.rules} قاعدة نُفّذت`;
+  $('mergeBadge').textContent = `${s.rules} rules applied`;
 }
 
 async function doMerge(mode) {
-  $('mergeResult').innerHTML = '<span class="muted">⏳ جارٍ تشغيل خط الأنابيب…</span>';
+  $('mergeResult').innerHTML = '<span class="muted">⏳ Running the pipeline…</span>';
   try {
     const r = await api('/api/merge', {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
@@ -171,14 +171,14 @@ async function doMerge(mode) {
       return;
     }
     renderMerge(data.report);
-    toast(mode === 'offline' ? '✅ الدمج (offline) اكتمل' : '✅ دمج SDK الحقيقي اكتمل');
+    toast(mode === 'offline' ? '✅ Offline merge complete' : '✅ Real SDK merge complete');
   } catch (e) { $('mergeResult').innerHTML = `<p class="notes">❌ ${esc(e.message)}</p>`; }
 }
 
 $('btnMergeOffline').onclick = () => doMerge('offline');
 $('btnMergeReal').onclick = () => doMerge('upstream');
 $('btnPackage').onclick = async () => {
-  $('packageResult').innerHTML = '<p class="muted">⏳ جارٍ بناء حزمة التوزيع…</p>';
+  $('packageResult').innerHTML = '<p class="muted">⏳ Building the distribution package…</p>';
   try {
     const r = await api('/api/package', {
       method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}',
@@ -186,55 +186,54 @@ $('btnPackage').onclick = async () => {
     const d = await r.json();
     if (!d.ok) { $('packageResult').innerHTML = `<p class="notes">❌ ${esc(d.error)}</p>`; return; }
     $('packageResult').innerHTML = `<div class="result">
-      <p class="pill good">📦 ${esc(d.file_count)} ملفاً · ${esc(d.bytes)} بايت</p>
+      <p class="pill good">📦 ${esc(d.file_count)} files · ${esc(d.bytes)} bytes</p>
       <p class="hash">sha256: ${esc(d.sha256)}</p>
-      <a href="/dist/bhl-op4-speedrun-overlay.zip">⬇ تنزيل الحزمة</a>
-      <span class="muted"> · يحتوي كودنا فقط، بلا أي مصدر SDK مرخّص خارجياً.</span></div>`;
-    toast('✅ حزمة التوزيع جاهزة');
+      <a href="/dist/bhl-op4-speedrun-overlay.zip">⬇ Download package</a>
+      <span class="muted"> · contains only our code, with no externally licensed SDK source.</span></div>`;
+    toast('✅ Distribution package ready');
   } catch (e) { $('packageResult').innerHTML = `<p class="notes">❌ ${esc(e.message)}</p>`; }
 };
 $('btnTests').onclick = async () => {
-  $('mergeResult').innerHTML = '<span class="muted">⏳ جارٍ تشغيل 131 اختبار Python…</span>';
+  $('mergeResult').innerHTML = '<span class="muted">⏳ Running the Python tests…</span>';
   try {
     const r = await api('/api/tests', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}' });
     const d = await r.json();
-    $('mergeResult').innerHTML = `<p class="pill ${d.ok ? 'good' : 'bad'}">${d.ok ? '✅ كل الاختبارات نجحت' : '❌ فشل'}</p><pre class="code">${esc(d.output)}</pre>`;
+    $('mergeResult').innerHTML = `<p class="pill ${d.ok ? 'good' : 'bad'}">${d.ok ? '✅ All tests passed' : '❌ Failed'}</p><pre class="code">${esc(d.output)}</pre>`;
   } catch (e) { $('mergeResult').innerHTML = `<p class="notes">${esc(e.message)}</p>`; }
 };
 
 /* --------------------------------------------------------------- loading --- */
 function renderStatus(st) {
-  $('statusPill').textContent = st.last_report ? `آخر دمج: ${st.last_report.mode}` : 'جاهز للدمج';
+  $('statusPill').textContent = st.last_report ? `Last merge: ${st.last_report.mode}` : 'Ready to merge';
   $('statusPill').classList.add('ok');
   $('stats').innerHTML = [
-    ['قواعد الدمج', st.rules], ['خرائط OP4', st.route.maps], ['فصول', st.route.chapters],
-    ['مصادر مثبّتة', st.upstreams.length], ['اختبارات', '131 + 77'],
+    ['Merge rules', st.rules], ['OP4 maps', st.route.maps], ['Chapters', st.route.chapters],
+    ['Pinned sources', st.upstreams.length], ['Tests', '153'],
   ].map(([label, value]) => `<div class="stat"><b>${esc(value)}</b><span>${esc(label)}</span></div>`).join('');
   $('upstreams').innerHTML = st.upstreams.map((u) => `<div class="up-row">
       <b>${esc(u.name)}</b> <span class="tag">${esc(u.role)}</span>
       <div class="repo">${esc(u.repo)} @ <span class="sha">${esc(u.ref.slice(0, 12))}</span></div>
       <div class="muted">${esc(u.license)}</div></div>`).join('');
   $('sdkHint').textContent = st.sdk_cached
-    ? '✅ SDKات الحقيقية محمّلة في .cache/upstreams — زر «دمج SDK الحقيقي» متاح.'
-    : 'ℹ الدمج الحقيقي يحتاج `make fetch` أولاً (تنزيل مثبّت بـ sha256). الدمج offline يعمل الآن بدون إنترنت.';
+    ? '✅ Real SDKs are loaded in .cache/upstreams — the «Real SDK merge» button is available.'
+    : 'ℹ The real merge needs `make fetch` first (pinned downloads with sha256). The offline merge works now without internet.';
   $('btnMergeReal').disabled = !st.sdk_cached;
   $('ruleCount').textContent = st.rules;
-  $('routeBadge').textContent = `${st.route.maps} خريطة + ${st.route.boot_camp} تدريب`;
+  $('routeBadge').textContent = `${st.route.maps} maps + ${st.route.boot_camp} boot camp`;
   const s = st.last_report && st.last_report.summary;
   $('doneBanner').innerHTML = s
-    ? `✅ <b>الدمج مكتمل</b> · ${esc(s.tree_files)} ملف · ${esc(s.audited || 0)} تدقيق تكافؤ · ` +
-      `${esc(s.injected)} حقن · <b>0</b> تعارضات · <b>0</b> مؤجّل · <b>0</b> أخطاء` +
-      (st.package_ready ? ' · 📦 حزمة التوزيع جاهزة' : '')
-    : '🚧 جارٍ تجهيز الدمج…';
+    ? `✅ <b>Merge complete</b> · ${esc(s.tree_files)} files · ${esc(s.audited || 0)} parity audits · ` +
+      `${esc(s.injected)} injected · <b>0</b> conflicts · <b>0</b> deferred · <b>0</b> errors` +
+      (st.package_ready ? ' · 📦 distribution package ready' : '')
+    : '🚧 Preparing the merge…';
 }
 
 function renderRoute(route) {
   chapters = route.chapters;
   $('routeList').innerHTML = chapters.map((ch, i) => `<div class="chapter">
-      <b>${esc(ch.id)} · ${esc(ch.name)}</b><span class="ar">${esc(ch.name_ar)}</span>
+      <b>${esc(ch.id)} · ${esc(ch.name)}</b>
       ${ch.maps.map((m) => `<span class="map">${esc(m)}</span>`).join('')}</div>`).join('') +
     `<div class="chapter"><b>${esc(route.boot_camp.id)} · ${esc(route.boot_camp.name)}</b>
-      <span class="ar">${esc(route.boot_camp.name_ar)} · فئة منفصلة</span>
       ${route.boot_camp.maps.map((m) => `<span class="map">${esc(m)}</span>`).join('')}</div>`;
   renderSplits();
 }
@@ -253,14 +252,14 @@ async function loadAll() {
       `<div>${esc(r.id.padEnd(28))} ${esc(r.action.padEnd(10))} ${esc(r.path)}</div>`).join('');
     if (st.last_report) {
       const rep = await api('/api/report').then((r) => r.text());
-      $('mergeResult').innerHTML = `<p class="muted">آخر تقرير محفوظ: ${esc(st.last_report.started_at)} · <span class="hash">${esc(st.last_report.tree_hash)}</span></p><pre class="code">${esc(rep.slice(0, 2600))}</pre>`;
+      $('mergeResult').innerHTML = `<p class="muted">Last saved report: ${esc(st.last_report.started_at)} · <span class="hash">${esc(st.last_report.tree_hash)}</span></p><pre class="code">${esc(rep.slice(0, 2600))}</pre>`;
     }
-  } catch (e) { toast(`تعذّر تحميل البيانات: ${e.message}`); }
+  } catch (e) { toast(`Could not load data: ${e.message}`); }
 }
 
 $('btnCopyCfg').onclick = async () => {
   await navigator.clipboard.writeText($('cfg').textContent);
-  toast('📋 نُسخ speedrun.cfg');
+  toast('📋 speedrun.cfg copied');
 };
 $('btnDownloadCfg').onclick = () => {
   const blob = new Blob([$('cfg').textContent], { type: 'text/plain' });
@@ -310,18 +309,18 @@ async function loadDoc(name) {
     docsState.raw = d.markdown;
     docsState.toc = d.toc;
     $('docsTitle').textContent = d.title;
-    $('docPath').textContent = `${d.name} · ${d.bytes} بايت · مُنسّق محلياً بلا مكتبات خارجية`;
+    $('docPath').textContent = `${d.name} · ${d.bytes} bytes · rendered locally, no external libraries`;
     $('btnDownloadMarkdown').href = '/api/doc?name=' + encodeURIComponent(d.name) + '&raw=1';
     $('btnDownloadMarkdown').setAttribute('download', d.name.replace(/\//g, '-'));
     $('docsBody').innerHTML = d.html;
     $('docsToc').innerHTML = d.toc.map((t, i) =>
       `<a class="toc-item lvl-${t.level}${i === 0 ? ' active' : ''}" href="#${encodeURIComponent(t.id)}" data-target="${esc(t.id)}">${esc(t.text)}</a>`).join('');
-    $('docsMeta').textContent = `${d.toc.length} عنواناً · ${d.bytes} بايت`;
+    $('docsMeta').textContent = `${d.toc.length} headings · ${d.bytes} bytes`;
     $('docsList').querySelectorAll('.docs-chip').forEach((c) =>
       c.classList.toggle('active', c.dataset.doc === d.name));
     setView('docs');
     setupObserver();
-  } catch (e) { toast('تعذّر تحميل الوثيقة: ' + e.message); }
+  } catch (e) { toast('Could not load the document: ' + e.message); }
 }
 
 async function loadDocsList() {
@@ -330,7 +329,7 @@ async function loadDocsList() {
     docsState.docs = d.docs;
     $('docsList').innerHTML = d.docs.map((x) =>
       `<button type="button" class="docs-chip" data-doc="${esc(x.name)}" title="${esc(x.name)}">${esc(x.title)}</button>`).join('');
-  } catch (e) { toast('تعذّر تحميل فهرس الوثائق: ' + e.message); }
+  } catch (e) { toast('Could not load the docs index: ' + e.message); }
 }
 
 function viewFromHash() {
@@ -373,7 +372,7 @@ $('btnCopyMarkdown').onclick = async () => {
     ? await api('/api/readme').then((r) => r.text())
     : docsState.raw;
   await navigator.clipboard.writeText(raw);
-  toast('📋 نُسخ مصدر ' + docsState.name);
+  toast('📋 Copied source of ' + docsState.name);
 };
 
 loadAll().then(() => { loadDocsList().then(viewFromHash); });

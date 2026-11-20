@@ -80,18 +80,18 @@ give ammo_357
 
 INSTALL = '''# BugfixedHL + full Opposing Force
 
-## Arabic - خطوات التشغيل
+## Install steps
 
-1. فكّ ضغط المجلد داخل مجلد Half-Life بجانب `valve/` و`gearbox/`
-   (مثلاً `Half-Life/bhlop4`). لا تضعه داخل `gearbox/` ولا تغيّر اسم المجلد.
-2. شغّل `setup_op4_media.bat` مرة واحدة: ينسخ موسيقى OP4 الأصلية فقط من
-   `gearbox/media/` إلى `bhlop4/media/`؛ لا يُنشئ ولا يحمّل أي ملف MP3.
-3. شغّل: `hl.exe -game bhlop4 -console`.
-4. **New Game** يبدأ حملة Opposing Force من `of0a0`، لا حملة Half-Life.
-5. `impulse 101` يعطي كل أسلحة OP4 العشرة في ويندوز؛ **F9** يعيد إعطاءها
-   مع الذخيرة، و**F10** يعطي `weapon_penguin` على لينكس أيضاً.
-6. يجب أن تكون Opposing Force مثبّتة: الخرائط والموديلات والأصوات
-   والسبرايت تُقرأ من `gearbox/` عبر `fallback_dir`.
+1. Unzip this folder inside the Half-Life folder, next to `valve/` and `gearbox/`
+   (for example `Half-Life/bhlop4`). Do not put it inside `gearbox/`, and do not rename it.
+2. Run `setup_op4_media.bat` once: it copies only the original OP4 music from
+   `gearbox/media/` to `bhlop4/media/`. It does not create or download any MP3 file.
+3. Run: `hl.exe -game bhlop4 -console`.
+4. **New Game** starts the Opposing Force campaign at `of0a0`, not the Half-Life campaign.
+5. `impulse 101` gives all ten OP4 weapons on Windows. **F9** gives them again with ammo,
+   and **F10** gives `weapon_penguin` on Linux too.
+6. Opposing Force must be installed: maps, models, sounds, and sprites are read from
+   `gearbox/` through `fallback_dir`.
 
 ## English
 

@@ -103,11 +103,16 @@ class BhlBaseTreeTests(unittest.TestCase):
         if not upstream.is_dir():
             self.skipTest("pinned BHL cache not present (run: make fetch)")
         verbatim = [(rel, rec) for rel, rec in self.prov["files"].items()
-                    if rec["action"] == "verbatim" and rec["origin"] == "bugfixhl"]
+                    if rec["action"] in ("verbatim", "verbatim+edit")
+                    and rec["origin"] == "bugfixhl"]
         self.assertGreaterEqual(len(verbatim), 670)
         bad = []
         for rel, rec in verbatim:
             src = upstream / rel
+            if rec["action"] == "verbatim+edit":
+                # Intentional, recorded edits: must differ from upstream and say why.
+                self.assertTrue(rec.get("edited_after_import"), rel)
+                continue
             if not src.is_file() or sha256(src) != rec["sha256"]:
                 bad.append(rel)
         self.assertEqual(bad, [], "BHL base files altered: " + ", ".join(bad[:5]))

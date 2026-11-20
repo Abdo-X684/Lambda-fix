@@ -40,16 +40,16 @@ class MarkdownRendererTests(unittest.TestCase):
         self.assertIn('data-doc="docs/README.md"', r.html)
 
     def test_headings_toc_and_duplicate_slugs(self):
-        r = render_markdown("# العنوان\n\n## بند\n\n## بند\n\n### تفصيل")
+        r = render_markdown("# Title\n\n## Item\n\n## Item\n\n### Detail")
         self.assertEqual(len(r.toc), 4)
-        self.assertIn('id="العنوان"', r.html)
-        self.assertIn('id="بند"', r.html)
-        self.assertIn('id="بند-2"', r.html)
+        self.assertIn('id="title"', r.html)
+        self.assertIn('id="item"', r.html)
+        self.assertIn('id="item-2"', r.html)
         self.assertEqual(r.toc[0]["level"], 1)
 
     def test_tables_lists_quotes_and_fences(self):
-        md = ("| أ | ب |\n| --- | ---: |\n| 1 | 2 |\n\n"
-              "- أول\n- ثانٍ\n\n> ملاحظة\n\n```bash\nmake verify\n```")
+        md = ("| a | b |\n| --- | ---: |\n| 1 | 2 |\n\n"
+              "- first\n- second\n\n> note\n\n```bash\nmake verify\n```")
         r = render_markdown(md)
         self.assertIn("<table>", r.html)
         self.assertIn("text-align: right", r.html)

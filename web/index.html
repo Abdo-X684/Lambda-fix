@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ar" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -12,12 +12,12 @@
       <span class="logo">BHL<span class="x">×</span>OP4</span>
       <small>Speedrun Merge Kit · v0.1.0</small>
     </div>
-    <nav class="topnav" aria-label="التنقّل الرئيسي">
-      <button id="btnViewDashboard" class="nav-btn active" type="button">🏠 لوحة التحكم</button>
-      <button id="btnViewDocs" class="nav-btn" type="button">📖 README والوثائق</button>
+    <nav class="topnav" aria-label="Main navigation">
+      <button id="btnViewDashboard" class="nav-btn active" type="button">🏠 Dashboard</button>
+      <button id="btnViewDocs" class="nav-btn" type="button">📖 README and docs</button>
     </nav>
-    <div class="prize">🎯 جائزة الإنجاز <b>$100,000</b></div>
-    <div class="status" id="statusPill">جارٍ التحميل…</div>
+    <div class="prize">🎯 Achievement prize <b>$100,000</b></div>
+    <div class="status" id="statusPill">Loading…</div>
   </header>
 
   <main>
@@ -25,155 +25,155 @@
     <div id="viewDashboard">
       <section class="hero">
         <div>
-          <h1>دمج <span class="hl-a">BugfixedHL</span> مع <span class="hl-b">Opposing Force</span></h1>
+          <h1>Merging <span class="hl-a">BugfixedHL</span> with <span class="hl-b">Opposing Force</span></h1>
             <p>
-              <b>BugfixedHL-Rebased هو الأساس الكامل</b> (694 ملفاً)، وفوقه تُدمج أنظمة
-              وأسلحة Opposing Force. لكل ملف بيان مصدر بـ sha256، و15/15 من أسلحة OP4
-              تُترجم إلى كائنات ELF32 مقابل هيدرات BHL المدمجة. الثنائيات المعروضة أدناه
-              تعود للمرحلة السابقة (legacy) وليست من هذه الشجرة.
+              <b>BugfixedHL-Rebased is the full base</b> (694 files). On top of it we merge
+              the Opposing Force systems and weapons. Every file has a sha256 source record, and 15/15 OP4
+              weapons compile to ELF32 objects against the merged BHL headers. The binaries listed below
+              come from an earlier stage (legacy) and are not from this tree.
             </p>
         </div>
         <div class="stats" id="stats"></div>
       </section>
       <div id="doneBanner" class="done-banner"></div>
 
-      <nav class="quicknav" aria-label="انتقال سريع">
-        <span class="quicknav-label">انتقل إلى:</span>
-          <a class="chip chip-accent" href="#cardBhlBase">🧱 BHL أساساً</a>
-          <a class="chip" href="#cardTimer">⏱ المؤقّت</a>
-        <a class="chip" href="#cardMerge">🧬 الدمج</a>
-        <a class="chip" href="#cardConfig">⚙ الإعدادات</a>
-        <a class="chip" href="#cardUpstreams">📌 المصادر</a>
-        <a class="chip" href="#cardRoute">🗺 المسار</a>
-        <a class="chip" href="#cardPrize">💵 الجائزة</a>
-        <button class="chip chip-accent" id="btnQuickReadme" type="button">📖 اقرأ README</button>
-        <button class="chip" id="btnQuickBuild" type="button">🔨 أبني client.so؟</button>
-        <a class="chip chip-accent" href="#cardDll">⬇ حمّل client.so</a>
+      <nav class="quicknav" aria-label="Quick navigation">
+        <span class="quicknav-label">Jump to:</span>
+          <a class="chip chip-accent" href="#cardBhlBase">🧱 BHL base</a>
+          <a class="chip" href="#cardTimer">⏱ Timer</a>
+        <a class="chip" href="#cardMerge">🧬 Merge</a>
+        <a class="chip" href="#cardConfig">⚙ Settings</a>
+        <a class="chip" href="#cardUpstreams">📌 Sources</a>
+        <a class="chip" href="#cardRoute">🗺 Route</a>
+        <a class="chip" href="#cardPrize">💵 Prize</a>
+        <button class="chip chip-accent" id="btnQuickReadme" type="button">📖 Read README</button>
+        <button class="chip" id="btnQuickBuild" type="button">🔨 How do I build client.so?</button>
+        <a class="chip chip-accent" href="#cardDll">⬇ Download client.so</a>
       </nav>
 
         <div class="grid">
           <section class="card merge-card" id="cardBhlBase">
             <div class="card-head">
-              <h2>🧱 الشجرة المعتمدة: BHL أساساً</h2>
+              <h2>🧱 Approved tree: BHL base</h2>
               <span class="badge">694 BHL + 154 OP4 + 3 glue</span>
             </div>
             <p class="hint">
-              <code>bhl-op4/</code> = شجرة <b>BugfixedHL-Rebased @ 4d32095e3c33</b> كاملة:
-              <b>683 / 683</b> ملف منسوخ حرفياً يطابق الـ commit بايتاً ببايت، و11 ملف BHL
-              عليها 20 قاعدة دمج حقيقية، و154 ملفاً من OP4 (أسلحة، CTF، rope، كيانات،
-              أحداث عميل). بيان المصدر وبصمة الشجرة في
-              <a href="/api/bhl-base" target="_blank">PROVENANCE.json</a>، ونتيجة الترجمة في
+              <code>bhl-op4/</code> is the full <b>BugfixedHL-Rebased @ 4d32095e3c33</b> tree:
+              <b>683 / 683</b> files copied verbatim, byte-identical to the commit. 11 BHL files
+              carry 20 real merge rules, and 154 files come from OP4 (weapons, CTF, rope, entities,
+              client events). Source records and the tree fingerprint are in
+              <a href="/api/bhl-base" target="_blank">PROVENANCE.json</a>, and the compile results are in
               <a href="/api/port-status" target="_blank">PORT_STATUS.json</a>.
             </p>
-            <p class="hint ok">✅ <b>103 / 109 مصدر خادم BHL</b> يُترجم إلى كائنات ELF32 · <b>15 / 15 أسلحة OP4</b> · <b>48 / 69</b> من مصادر خادم OP4 · <b>16</b> مصدراً موصولاً بـ CMake.</p>
-            <p class="hint warn">⚠️ لم يُبنَ <code>client.so</code>/<code>hl.so</code> جديد بعد: البناء الكامل يحتاج CMake ≥ 3.30 + vcpkg + <code>hl1_source_sdk</code>. الثنائيات في الأسفل <b>legacy</b>.</p>
+            <p class="hint ok">✅ <b>103 / 109 BHL server sources</b> compile to ELF32 objects · <b>15 / 15 OP4 weapons</b> · <b>48 / 69</b> OP4 server sources · <b>16</b> sources wired into CMake.</p>
+            <p class="hint warn">⚠️ A new <code>client.so</code>/<code>hl.so</code> has not been built yet. The full build needs CMake ≥ 3.30 + vcpkg + <code>hl1_source_sdk</code>. The binaries below are <b>legacy</b>.</p>
             <div class="controls">
-              <button class="primary" type="button" id="btnBhlBaseDoc">📖 اقرأ الدليل المعماري</button>
+              <button class="primary" type="button" id="btnBhlBaseDoc">📖 Read the architecture guide</button>
             </div>
           </section>
 
           <section class="card timer-card" id="cardTimer">
           <div class="card-head">
-            <h2>⏱ مؤقّت الرن الحيّ</h2>
-            <span class="badge" id="runState">جاهز</span>
+            <h2>⏱ Live run timer</h2>
+            <span class="badge" id="runState">Ready</span>
           </div>
           <div class="timer-display" id="rta">0:00.000</div>
           <div class="timer-sub">
-            <span id="curChapter">الفصل الحالي: —</span>
-            <span id="pbTotal">أفضل زمن: —</span>
+            <span id="curChapter">Current chapter: —</span>
+            <span id="pbTotal">Best time: —</span>
           </div>
           <div class="controls">
-            <button id="btnStart" class="primary">▶ ابدأ / استئناف</button>
-            <button id="btnPause">⏸ إيقاف مؤقت</button>
-            <button id="btnSplit" class="accent">⏭ تقسيم <kbd>Space</kbd></button>
-            <button id="btnReset">↺ إعادة <kbd>R</kbd></button>
+            <button id="btnStart" class="primary">▶ Start / resume</button>
+            <button id="btnPause">⏸ Pause</button>
+            <button id="btnSplit" class="accent">⏭ Split <kbd>Space</kbd></button>
+            <button id="btnReset">↺ Reset <kbd>R</kbd></button>
           </div>
-          <p class="hint">التقسيمات تتبع فصول Opposing Force الـ13 (39 خريطة). الزمن من ساعة موحّدة، لا من معدّل الإطارات.</p>
+          <p class="hint">Splits follow the 13 Opposing Force chapters (39 maps). Time comes from a single clock, not from the frame rate.</p>
           <ol class="splits" id="splits"></ol>
         </section>
 
         <section class="card merge-card" id="cardMerge">
           <div class="card-head">
-            <h2>🧬 خط أنابيب الدمج</h2>
-            <span class="badge" id="mergeBadge">30 قاعدة</span>
+            <h2>🧬 Merge pipeline</h2>
+            <span class="badge" id="mergeBadge">30 rules</span>
           </div>
           <div class="controls">
-            <button id="btnMergeOffline" class="primary">تشغيل الدمج (offline fixtures)</button>
-            <button id="btnMergeReal">دمج SDK الحقيقي</button>
-            <button id="btnTests">تشغيل الاختبارات</button>
-            <button id="btnPackage">📦 حزمة التوزيع</button>
+            <button id="btnMergeOffline" class="primary">Run merge (offline fixtures)</button>
+            <button id="btnMergeReal">Real SDK merge</button>
+            <button id="btnTests">Run tests</button>
+            <button id="btnPackage">📦 Distribution package</button>
           </div>
           <p class="hint" id="sdkHint"></p>
           <div id="packageResult"></div>
-          <div id="mergeResult" class="result"><span class="muted">لم يُشغّل الدمج بعد. اضغط الزر أعلاه.</span></div>
+          <div id="mergeResult" class="result"><span class="muted">The merge has not run yet. Press a button above.</span></div>
         </section>
 
         <section class="card config-card" id="cardConfig">
           <div class="card-head">
             <h2>⚙ speedrun.cfg</h2>
             <div>
-              <button id="btnCopyCfg">نسخ</button>
-              <button id="btnDownloadCfg">تنزيل</button>
+              <button id="btnCopyCfg">Copy</button>
+              <button id="btnDownloadCfg">Download</button>
             </div>
           </div>
-          <p class="hint">مولّد من <code>data/cvars.json</code> + <code>data/op4_route.json</code>، و<code>sv_cheats</code> يبقى صفراً دائماً.</p>
-          <pre id="cfg" class="code">جارٍ التحميل…</pre>
+          <p class="hint">Generated from <code>data/cvars.json</code> + <code>data/op4_route.json</code>. <code>sv_cheats</code> always stays at 0.</p>
+          <pre id="cfg" class="code">Loading…</pre>
         </section>
 
         <section class="card upstream-card" id="cardUpstreams">
-          <div class="card-head"><h2>📌 المصادر المثبّتة</h2></div>
+          <div class="card-head"><h2>📌 Pinned sources</h2></div>
           <div id="upstreams" class="upstreams"></div>
           <details>
-            <summary>قواعد الدمج (<span id="ruleCount">…</span>)</summary>
+            <summary>Merge rules (<span id="ruleCount">…</span>)</summary>
             <div id="planRules" class="rules"></div>
           </details>
         </section>
 
         <section class="card route-card" id="cardRoute">
-          <div class="card-head"><h2>🗺 مسار Opposing Force</h2><span class="badge" id="routeBadge">39 خريطة</span></div>
+          <div class="card-head"><h2>🗺 Opposing Force route</h2><span class="badge" id="routeBadge">39 maps</span></div>
           <div id="routeList" class="route-list"></div>
         </section>
 
         <section class="card prize-card" id="cardPrize">
-          <div class="card-head"><h2>💵 ماذا نشتري بـ 100,000$؟</h2></div>
-          <p class="hint">الجائزة تُصرف بعد اجتياز <code>make verify</code> طبعاً.</p>
+          <div class="card-head"><h2>💵 What would we buy with $100,000?</h2></div>
+          <p class="hint">The prize is paid out only after <code>make verify</code> passes.</p>
           <table class="budget">
-            <tr><td>محطة بناء (128GB RAM / 16 نواة)</td><td>18,000$</td></tr>
-            <tr><td>شاشتا 240Hz + أجهزة قياس الإدخال</td><td>6,000$</td></tr>
-            <tr><td>مختبر توافق: Steam Legacy + WON + Linux</td><td>12,000$</td></tr>
-            <tr><td>CI runners و سيرفر اختبار تلقائي</td><td>8,000$</td></tr>
-            <tr><td>قهوة تكفي سبيدرن OP4 كاملاً ☕</td><td>3,000$</td></tr>
-            <tr class="total"><td>الباقي للإصدار 1.0 (وادخار)</td><td>53,000$</td></tr>
+            <tr><td>Build workstation (128 GB RAM / 16 cores)</td><td>$18,000</td></tr>
+            <tr><td>Two 240 Hz monitors + input measurement devices</td><td>$6,000</td></tr>
+            <tr><td>Compatibility lab: Steam Legacy + WON + Linux</td><td>$12,000</td></tr>
+            <tr><td>CI runners and an automated test server</td><td>$8,000</td></tr>
+            <tr><td>Coffee enough to speedrun all of OP4 ☕</td><td>$3,000</td></tr>
+            <tr class="total"><td>Remainder for version 1.0 (and savings)</td><td>$53,000</td></tr>
           </table>
-          <p class="hint">ملاحظة: BugfixedHL مفتوح المصدر، فلا يمكن شراؤه… لحسن الحظ 😄</p>
+          <p class="hint">Note: BugfixedHL is open source, so it cannot be bought… luckily 😄</p>
         </section>
 
         <section class="card dll-card" id="cardDll">
-            <div class="card-head"><h2>⬇ المود الجاهز (legacy)</h2><span class="badge">OP4-أساس · bhl-systems-1</span></div>
-            <p class="hint warn">⚠️ <b>هذه الثنائيات ليست من الشجرة المعتمدة</b> <code>bhl-op4/</code>. بُنيت من شجرة OP4-أساس السابقة؛ <code>hl.so</code> لا يحوي كود BHL. تُركت كأرشيف فقط ولم تُحدَّث.</p>
-            <p class="hint">ثنائيات ELF 32-bit؛ <code>vgui.so</code> الحقيقية تُؤخذ من لعبتك عند التشغيل، وليست مضمّنة هنا.</p>
+            <div class="card-head"><h2>⬇ Ready-made mod (legacy)</h2><span class="badge">OP4-based · bhl-systems-1</span></div>
+            <p class="hint warn">⚠️ <b>These binaries are not from the approved tree</b> <code>bhl-op4/</code>. They were built from the earlier OP4-based tree; <code>hl.so</code> contains no BHL code. Kept as an archive only and not updated.</p>
+            <p class="hint">32-bit ELF binaries. The real <code>vgui.so</code> is taken from your own game at run time and is not included here.</p>
           <div class="controls">
-            <a class="button-link primary" href="/dist/bhl-op4-mod.zip" download>⭐ ⬇ المود الجاهز (zip)</a>
+            <a class="button-link primary" href="/dist/bhl-op4-mod.zip" download>⭐ ⬇ Ready-made mod (zip)</a>
             <a class="button-link" href="/dist/dlls/client.so" download>⬇ client.so</a>
             <a class="button-link" href="/dist/dlls/hl.so" download>⬇ hl.so</a>
             <a class="button-link" href="/dist/dlls/MANIFEST.json" target="_blank">📄 sha256 / MANIFEST</a>
-            <a class="button-link" href="https://github.com/Abdo-X684/Bugfixhl-speedrun-op4/releases/download/v0.1.0-linux32/client.so">⬇ من Release</a>
-            <a class="button-link" href="https://github.com/Abdo-X684/Bugfixhl-speedrun-op4/releases/tag/v0.1.0-linux32" target="_blank">🏷 صفحة Release</a>
+            <a class="button-link" href="https://github.com/Abdo-X684/Bugfixhl-speedrun-op4/releases/download/v0.1.0-linux32/client.so">⬇ From Release</a>
+            <a class="button-link" href="https://github.com/Abdo-X684/Bugfixhl-speedrun-op4/releases/tag/v0.1.0-linux32" target="_blank">🏷 Release page</a>
           </div>
-            <p class="hint">الشجرة الحالية موثّقة في <a href="#cardBhlBase">🧱 BHL أساساً</a>؛ لا تُستخدم هذه المكتبات كإثبات على الدمج الجديد.</p>
-          <p class="hint warn">⚠️ <b>لا تضعهما داخل <code>gearbox/</code></b> — SDK يرفض مجلدات Valve ويغلق اللعبة. فكّ الـ zip ليصير <code>Half-Life/bhlop4/</code> ثم شغّل <code>-game bhlop4</code> (الأصول تُقرأ عبر <code>fallback_dir "gearbox"</code>).</p>
+            <p class="hint">The current tree is documented in <a href="#cardBhlBase">🧱 BHL base</a>. These libraries are not used as proof of the new merge.</p>
+          <p class="hint warn">⚠️ <b>Do not put them inside <code>gearbox/</code></b> — the SDK rejects Valve folders and closes the game. Unzip so the result is <code>Half-Life/bhlop4/</code>, then run <code>-game bhlop4</code> (assets are read through <code>fallback_dir "gearbox"</code>).</p>
         </section>
 
         <section class="card doc-card" id="cardDoc">
-          <div class="card-head"><h2>📖 توثيق المشروع</h2><span class="badge">README.md</span></div>
-          <p class="hint">الـ README كامل، مُنسّق ومقروء داخل الصفحة: جداول، أوامر، فهرس جانبي، وروابط تنتقل بين الوثائق — بلا أي مكتبة خارجية.</p>
+          <div class="card-head"><h2>📖 Project docs</h2><span class="badge">README.md</span></div>
+          <p class="hint">The full README, formatted and readable on this page: tables, commands, a side index, and links between docs. No external libraries.</p>
           <div class="controls">
-            <button id="btnOpenReadme" class="primary" type="button">افتح صفحة README ←</button>
-            <button id="btnOpenBuild" type="button">🔨 كيف أبني client.so؟</button>
+            <button id="btnOpenReadme" class="primary" type="button">Open the README page ←</button>
+            <button id="btnOpenBuild" type="button">🔨 How do I build client.so?</button>
           </div>
           <p class="hint">
-            التقرير الكامل: <a href="/api/report" target="_blank">MERGE_REPORT.md</a> ·
-            الحالة: <a href="/api/status" target="_blank">/api/status</a>
+            Full report: <a href="/api/report" target="_blank">MERGE_REPORT.md</a> ·
+            Status: <a href="/api/status" target="_blank">/api/status</a>
           </p>
         </section>
       </div>
@@ -184,12 +184,12 @@
       <div class="docs-head">
         <div>
           <h1>📖 <span id="docsTitle">README.md</span></h1>
-          <p class="docs-sub" id="docPath">وثائق المشروع · تُقرأ مباشرة من المستودع</p>
+          <p class="docs-sub" id="docPath">Project docs · read directly from the repository</p>
         </div>
         <div class="docs-actions">
-          <button id="btnBackDashboard" type="button">← العودة للوحة</button>
-          <button id="btnCopyMarkdown" type="button">📋 نسخ المصدر</button>
-          <a id="btnDownloadMarkdown" class="button-link" href="/api/doc?name=README.md&amp;raw=1" download>⬇ تنزيل .md</a>
+          <button id="btnBackDashboard" type="button">← Back to dashboard</button>
+          <button id="btnCopyMarkdown" type="button">📋 Copy source</button>
+          <a id="btnDownloadMarkdown" class="button-link" href="/api/doc?name=README.md&amp;raw=1" download>⬇ Download .md</a>
         </div>
       </div>
 
@@ -197,20 +197,20 @@
 
       <div class="docs-shell">
         <aside class="docs-toc-wrap">
-          <div class="toc-title">فهرس الصفحة</div>
-          <nav id="docsToc" class="docs-toc" aria-label="فهرس الوثيقة"></nav>
+          <div class="toc-title">Page index</div>
+          <nav id="docsToc" class="docs-toc" aria-label="Document index"></nav>
           <p class="hint" id="docsMeta"></p>
         </aside>
         <article id="docsBody" class="markdown-body" aria-live="polite">
-          <p class="muted">جارٍ تحميل الوثيقة…</p>
+          <p class="muted">Loading document…</p>
         </article>
       </div>
     </section>
   </main>
 
   <footer>
-    BugfixedHL × Opposing Force — Speedrun Merge Kit · أدوات محلية بالكامل (Python stdlib + C++17) ·
-    لا يُوزّع كود الـ SDK، يُنزّل عند البناء فقط.
+    BugfixedHL × Opposing Force — Speedrun Merge Kit · fully local tools (Python stdlib + C++17) ·
+    SDK code is not distributed; it is downloaded only at build time.
   </footer>
   <div id="toast" class="toast" aria-live="polite"></div>
   <script src="/static/app.js"></script>

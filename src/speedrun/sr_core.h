@@ -15,7 +15,6 @@ using Ms = long long;
 struct ChapterData {
     const char* id;
     const char* name_en;
-    const char* name_ar;
     const char* const* maps;
     int map_count;
 };

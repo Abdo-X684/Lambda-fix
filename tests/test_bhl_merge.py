@@ -166,7 +166,7 @@ class BhlMergeTests(unittest.TestCase):
 
     def test_bhl_merge_documents_the_correction(self) -> None:
         doc = (ROOT / "docs/BHL_MERGE.md").read_text(encoding="utf-8")
-        for needle in ("تصحيح لمسار سابق", "التوافقيات", "GPL-3.0",
+        for needle in ("Correction to an earlier path", "Compatibility layer", "GPL-3.0",
                        "sr_*", "bhl_status"):
             self.assertIn(needle, doc, needle)
 

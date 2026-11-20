@@ -57,6 +57,13 @@ python3 -m venv /tmp/zenv && /tmp/zenv/bin/pip install cmake==3.30.9 ziglang==0.
 
 Output: `client.so` (ELF32, needs at most GLIBC 2.17). It is built with `-O2` and `-fno-sanitize=undefined`.
 
+## Checks
+
+```bash
+make hygiene   # text, JSON, links, docs index
+make verify    # repository checks (Python tests, C++ checks, generation, merge, package)
+```
+
 ## Open items
 
 1. **Mod name:** not decided. `bhlop4` is temporary. Renaming requires changing the folder, the localization file, and the code.

@@ -333,7 +333,7 @@ FIXUPS_CPP = r'''/* ------------------------------------------------------------
  * the RGB constants / UnpackRGB are NO LONGER here: the REAL dlls/ctf/ctfplay_gamerules.cpp
  * is wired into the BHL server target, so it owns those single definitions.
  * op4_ctf_player.cpp (also glue) owns the real CTF menu/cvar/respawn bodies.
- * See PROVENANCE.json and docs/COMPLETION_INVENTORY.md.
+ * See PROVENANCE.json and docs/BHL_BASE_MERGE.md.
  *
  * Upstream: halflife-op4-updated @ 5368be7f8eba.
  * See PROVENANCE.json, docs/BHL_BASE_BUILD.md and LINK_GAPS.md.

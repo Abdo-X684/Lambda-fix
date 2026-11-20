@@ -57,7 +57,7 @@ def _link(match: re.Match, current: str, known: frozenset) -> str:
             f'<a class="doc-link" href="#docs/{html.escape(resolved, quote=True)}" '
             f'data-doc="{html.escape(resolved, quote=True)}">{label}</a>'
         )
-    return f'<span class="doc-missing" title="ملف خارج طاولة الوثائق">{label}</span>'
+    return f'<span class="doc-missing" title="file is outside the docs folder">{label}</span>'
 
 
 def _inline(text: str, current: str, known: frozenset) -> str:

@@ -85,19 +85,19 @@ static const char* const kMaps_ch12[] = {
 };
 
 static const ChapterData kChapters[] = {
-    { "ch00", "Incoming", "الوصول", kMaps_ch00, 1 },
-    { "ch01", "Welcome To Black Mesa", "أهلاً في بلاك ميسا", kMaps_ch01, 5 },
-    { "ch02", "We Are Pulling Out", "نحن ننسحب", kMaps_ch02, 3 },
-    { "ch03", "Missing In Action", "مفقود في المعركة", kMaps_ch03, 4 },
-    { "ch04", "Friendly Fire", "نيران صديقة", kMaps_ch04, 3 },
-    { "ch05", "We Are Not Alone", "لسنا وحدنا", kMaps_ch05, 4 },
-    { "ch06", "Crush Depth", "عمق السحق", kMaps_ch06, 3 },
-    { "ch07", "Vicarious Reality", "واقع غير مباشر", kMaps_ch07, 3 },
-    { "ch08", "Pit Worm's Nest", "عش دودة الحفرة", kMaps_ch08, 2 },
-    { "ch09", "Foxtrot Uniform", "فوكستروت يونيفورم", kMaps_ch09, 4 },
-    { "ch10", "The Package", "الطرد", kMaps_ch10, 4 },
-    { "ch11", "Worlds Collide", "تصادم العوالم", kMaps_ch11, 2 },
-    { "ch12", "Conclusion", "الخاتمة", kMaps_ch12, 1 },
+    { "ch00", "Incoming", kMaps_ch00, 1 },
+    { "ch01", "Welcome To Black Mesa", kMaps_ch01, 5 },
+    { "ch02", "We Are Pulling Out", kMaps_ch02, 3 },
+    { "ch03", "Missing In Action", kMaps_ch03, 4 },
+    { "ch04", "Friendly Fire", kMaps_ch04, 3 },
+    { "ch05", "We Are Not Alone", kMaps_ch05, 4 },
+    { "ch06", "Crush Depth", kMaps_ch06, 3 },
+    { "ch07", "Vicarious Reality", kMaps_ch07, 3 },
+    { "ch08", "Pit Worm's Nest", kMaps_ch08, 2 },
+    { "ch09", "Foxtrot Uniform", kMaps_ch09, 4 },
+    { "ch10", "The Package", kMaps_ch10, 4 },
+    { "ch11", "Worlds Collide", kMaps_ch11, 2 },
+    { "ch12", "Conclusion", kMaps_ch12, 1 },
 };
 static const int kChapterCount = 13;
 

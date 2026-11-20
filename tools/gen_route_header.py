@@ -48,7 +48,7 @@ def expected_header(root: Path = ROOT) -> str:
         lines.append(
             "    { " + ", ".join(
                 [
-                    _cstr(ch["id"]), _cstr(ch["name"]), _cstr(ch["name_ar"]),
+                    _cstr(ch["id"]), _cstr(ch["name"]),
                     f"kMaps_{ch['id']}", str(len(ch["maps"])),
                 ]
             ) + " },"
