@@ -4,13 +4,13 @@
 > وكلتاهما `ELF32 / Intel 80386`، و**صفر** رمز غير مُحلول من بنائنا
 > (`unresolved_own_build_symbols: []`). رموز الربط الإثني عشر أُغلقت بتطبيقات
 > OP4 حقيقية موثّقة رمزاً برمز في
-> [`../build-evidence/bhl-base/LINK_GAP_CLOSURE.md`](../build-evidence/bhl-base/LINK_GAP_CLOSURE.md).
+> `LINK_GAP_CLOSURE.md` (removed).
 >
 > **لكن المكتبتين لم تُحمّلا داخل محرك Half-Life، ولم تُختبرا داخل Opposing Force.**
 > السبب موثّق بأدلة قابلة لإعادة التشغيل في
 > [`../build-evidence/bhl-base/RUNTIME_ENVIRONMENT.md`](../build-evidence/bhl-base/RUNTIME_ENVIRONMENT.md).
 > **لا يُعلَن اكتمال المشروع.** التقرير الجامع:
-> [`BHL_FINAL_AUDIT.md`](BHL_FINAL_AUDIT.md).
+> `BHL_FINAL_AUDIT.md` (removed).
 >
 > لا علاقة لهذا البناء بـ `dist/dlls/*.so` أو `dist/bhl-op4-mod.zip` أو Release
 > `v0.1.0-linux32`؛ تلك ملفات OP4-root قديمة لم تُلمس ولم تُقدَّم كنتيجة.
@@ -79,7 +79,6 @@ make verify
 | `build.log` | سجل الترجمة والربط الكامل |
 | `UNDEFINED_SYMBOLS.txt` | `nm -u` الكامل للمكتبتين |
 | `LINK_GAPS.md` | **فارغ من الرموز** (0 فجوة) |
-| `LINK_GAP_CLOSURE.md` | جدول الرموز الإثني عشر: المصدر، سبب الغياب، التغيير، الدليل، الاختبار |
 | `MANIFEST.json` | البصمات، ELF، التصديرات، `DT_NEEDED`، الفجوات |
 | `patches/` | إصلاحات التوافق الثلاثة المعلَنة للبناء |
 | `RUNTIME_ENVIRONMENT.{json,md}` | أدلة استحالة الاختبار داخل اللعبة |
@@ -165,4 +164,4 @@ libc/libm، C++ ABI) ويوفّرها المحرك عند التحميل؛ لي�
   الأسباب والأدلة: `../build-evidence/bhl-base/RUNTIME_ENVIRONMENT.md`.
   - `dlls/ctf/ctfplay_gamerules.cpp` (قواعد CTF الفعلية) غير موصول؛
     و**25 ملف OP4** ما زالت `port-pending` (21 عميل + 4 خادم مستبعدة بأسباب
-    معلَنة). التفاصيل في `BHL_FINAL_AUDIT.md` §7 و`LINK_GAP_CLOSURE.md`.
+    معلَنة). التفاصيل في the removed audit logs.

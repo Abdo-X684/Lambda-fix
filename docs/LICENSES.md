@@ -5,7 +5,7 @@
 > OP4 and the Valve SDK. This is not "for review only" as in the earlier phase. Any distribution
 > of this tree, or of any binary built from it, is subject to **GPL-3.0** in full, and to the
 > Valve non-commercial license for the OP4 code. This document does not claim legal compliance.
-> See [`BHL_BASE_MERGE.md`](BHL_BASE_MERGE.md) and [`LEGACY.md`](LEGACY.md).
+> See [`BHL_BASE_MERGE.md`](BHL_BASE_MERGE.md).
 
 * **This repository's code** (engine, C++ core, glue, panel, tests, docs): MIT.
   Commercial use is allowed within the limits of the source licenses below.

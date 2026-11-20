@@ -70,7 +70,6 @@ Output: `client.so` (ELF32, needs at most GLIBC 2.17). It is built with `-O2` an
 - `docs/LICENSES.md` — license details
 - `docs/BUILDING.md` — build instructions
 - `docs/UPSTREAMS.md` — pinned upstream sources
-- `docs/LEGACY.md` — older documentation from the earlier OP4-based approach. It does not describe the current state.
 
 ## Contributing
 

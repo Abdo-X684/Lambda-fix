@@ -1,37 +1,30 @@
-# فهرس الوثائق
+# Documentation index
 
-> الحالة الحالية للأسلحة والبناء: [`WEAPON_INVENTORY.md`](WEAPON_INVENTORY.md). الوثائق الأخرى سجل مراحل؛ لا تُقرأ كإثبات تشغيل داخل اللعبة.
+Current status of the weapons and the build: [`WEAPON_INVENTORY.md`](WEAPON_INVENTORY.md).
 
-| ملف | المحتوى |
+| File | Content |
 | --- | --- |
-| [BASE_COMPARISON.md](BASE_COMPARISON.md) | ⚖️ **مقارنة الأساسين**: OP4 مقابل BugfixedHL-Rebased، أرقام ثابتة (كيانات، ملفات، أسلحة)، والفرق الجوهري، والتوصية |
-| [OP4_BHL_CLIENT.md](OP4_BHL_CLIENT.md) | 🎮 **حالة عميل OP4-BHL (VGUI1)**: الأساس OP4 مع ميزات BugfixedHL، قائمة BHLS Settings، الميزات المنقولة والمتبقية، وحدود الاختبار الثابت |
-| [OP4_WEAPON_PHASES.md](OP4_WEAPON_PHASES.md) | 🔫 **سجل مراحل دمج الأسلحة**: سلاحاً بسلاح، الملفات/الفرق/البناء/الاختبارات، مع تمييز صريح بين إثبات البناء والتشغيل داخل اللعبة |
-| [OP4_SOURCE_AUDIT.md](OP4_SOURCE_AUDIT.md) | 🔍 **تدقيق المصادر والأصول**: المستودعات/الالتزامات، ملفات كل سلاح الأصلية والمعدّلة والمكتوبة ذاتياً، Penguin، Shock Roach، ومسار الموسيقى |
-| [OP4_RUNTIME_TESTS.md](OP4_RUNTIME_TESTS.md) | 🧪 **جدول اختبارات GoldSrc**: كل سلاح والموسيقى بصف `غير مُختبَر`؛ لا علامة نجاح |
-| [WEAPON_INVENTORY.md](WEAPON_INVENTORY.md) | ✅ **الحالة الحالية للأسلحة العشرة**: جدول مولّد من نسختي BHL/OP4 النظيفتين، البناءين، وحزمة اللعب؛ لا علامة اكتمال بلا اختبار لعبة |
-| [COMPLETION_INVENTORY.md](COMPLETION_INVENTORY.md) | 📋 **جرد الاكتمال التاريخي**: تصنيف مصادر OP4، الـ25 `port_pending`، تعارض VGUI1/VGUI2، جذور CTF/IsCTF، وحالة مراحل التنفيذ |
-| [BHL_BASE_MERGE.md](BHL_BASE_MERGE.md) | ✅ **المرجع المعماري الحالي**: BHL أساساً + دمج أنظمة/أسلحة OP4، قواعد الدمج، إثبات الترجمة، ما لم يُنجز |
-| [BHL_FINAL_AUDIT.md](BHL_FINAL_AUDIT.md) | 🛑 **التقرير النهائي**: إغلاق الـ12 رمزاً، البناء النهائي، كل اختبار ونتيجته، وقائمة النواقص صراحةً |
-| [BHL_BASE_BUILD.md](BHL_BASE_BUILD.md) | 🔧 **إثبات البناء الحقيقي**: أوامر/سجلات/بصمات بناء `client.so` و`hl.so` من `bhl-op4/`، صفر فجوة ربط، الإصلاحات المعلنة |
-| [BHL_WINDOWS_BUILD.md](BHL_WINDOWS_BUILD.md) | 🪟 **نسخة ويندوز**: `client.dll` / `hl.dll` PE32 من نفس الشجرة، مع إثبات البناء/الربط وحدوده الصريحة |
-| [LEGACY.md](LEGACY.md) | ⚠️ ما صُنّف قديماً (الثنائيات، الـ Release، `sr_*`، وثائق المرحلة السابقة) |
-| [BUILDING.md](BUILDING.md) | *(legacy)* بناء `client.so` / `hl.so` من شجرة OP4-أساس |
-| [ARCHITECTURE.md](ARCHITECTURE.md) | *(legacy)* طبقات المرحلة السابقة |
-| [BHL_MERGE.md](BHL_MERGE.md) | *(legacy)* وصف `bhl-systems-1` على شجرة OP4-أساس |
-| [MERGE_PLAN.md](MERGE_PLAN.md) | أنواع القواعد الـ30، سياسات التعارض، نقاط الحقن، ملفات البناء |
-| [RESOLUTION.md](RESOLUTION.md) | كيف حُلّت التعارضات الـ127 والمنقولات المؤجلة، بأدلة السطور |
-| [SPEEDRUN.md](SPEEDRUN.md) | المؤقّت، `SRSplit`، التقسيمات، PB، الشرعية، demo |
-| [UPSTREAMS.md](UPSTREAMS.md) | المصادر المثبّتة، sha256، الرخص، ولماذا لا تُضمّن |
-| [LICENSES.md](LICENSES.md) | التزامات الرخص قبل أي توزيع |
-| [ROADMAP.md](ROADMAP.md) | ما اكتمل، ما يحتاج بيئة اللعبة، التحسينات الاختيارية |
+| [WEAPON_INVENTORY.md](WEAPON_INVENTORY.md) | Current status of the ten OP4 weapons (generated from source). |
+| [BHL_BASE_MERGE.md](BHL_BASE_MERGE.md) | Current architecture reference: BHL base plus OP4 weapons and systems. |
+| [BHL_BASE_BUILD.md](BHL_BASE_BUILD.md) | Build record for `client.so` and `hl.so`: commands, logs, hashes. |
+| [BHL_WINDOWS_BUILD.md](BHL_WINDOWS_BUILD.md) | Windows build of the same tree (`client.dll` / `hl.dll`, PE32). |
+| [BUILDING.md](BUILDING.md) | Legacy build notes (earlier OP4-based tree). |
+| [ARCHITECTURE.md](ARCHITECTURE.md) | Legacy layers of the earlier phase. |
+| [BHL_MERGE.md](BHL_MERGE.md) | Legacy description of `bhl-systems-1` on the OP4-based tree. |
+| [RESOLUTION.md](RESOLUTION.md) | How the 127 conflicts and deferred ports were resolved. |
+| [OP4_SOURCE_AUDIT.md](OP4_SOURCE_AUDIT.md) | Source and asset audit: repositories, commits, licenses. |
+| [OP4_RUNTIME_TESTS.md](OP4_RUNTIME_TESTS.md) | In-game test table. Every row is untested unless reported. |
+| [SPEEDRUN.md](SPEEDRUN.md) | Timer, `SRSplit`, splits, PB, legitimacy, demos. |
+| [UPSTREAMS.md](UPSTREAMS.md) | Pinned sources, sha256, licenses, and why code is not committed. |
+| [LICENSES.md](LICENSES.md) | License obligations before any distribution. |
+| [ROADMAP.md](ROADMAP.md) | What is done, what needs the game environment, optional improvements. |
 
-من الجذر: [`README.md`](../README.md) للبدء السريع،
-[`CONTRIBUTING.md`](../CONTRIBUTING.md) لإضافة قاعدة أو تحديث pin،
-و[`tests/fixtures/README.md`](../tests/fixtures/README.md) للـ fixtures.
+From the root: [`README.md`](../README.md) for a quick start,
+[`CONTRIBUTING.md`](../CONTRIBUTING.md) to add a rule or update a pin,
+and [`tests/fixtures/README.md`](../tests/fixtures/README.md) for fixtures.
 
-> كل رابط محلي في هذه الوثائق مُختبَر آلياً عبر `make hygiene`.
->
-> 💡 تُقرأ هذه الوثائق أيضاً **داخل واجهة المشروع**: شغّل `make serve` ثم افتح
-> تبويب «📖 README والوثائق» أو الرابط `/#docs`. إضافة ملف `.md` جديد إلى
-> `docs/` تظهر تلقائياً في قائمة الوثائق (بشرط إضافته إلى هذا الفهرس).
+Every local link in these documents is checked by `make hygiene`.
+
+These documents are also shown in the project dashboard: run `make serve` and open the
+"README and docs" tab, or `/#docs`. Any new `.md` file in `docs/` appears automatically
+once it is added to this index.
