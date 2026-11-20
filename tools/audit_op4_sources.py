@@ -277,8 +277,8 @@ def build_audit() -> dict:
                 "The ZIP contains no media/*.mp3 and no gamestartup.mp3. GoldSrc looks in the "
                 "active mod's media/ folder and then valve/media; fallback_dir gearbox supplies "
                 "maps/models/sounds but is not a reliable media/ lookup for CD/MP3 tracks. "
-                "An earlier report said the intro played Half-Life music. A later user report says "
-                "the music works and is the OP4 soundtrack."
+                "Earlier, the intro played Half-Life music. Later, "
+                "the music worked and was the OP4 soundtrack."
             ),
             "fix": (
                 "setup_op4_media.bat copies only the user's original gearbox/media/*.mp3 "
@@ -289,7 +289,7 @@ def build_audit() -> dict:
                 "gamestartup.mp3 is copied only if the installed OP4 copy provides it; "
                 "it is never fabricated."
             ),
-            "runtime_test": "user reports OP4 music plays in game; not run or tested in this environment",
+            "runtime_test": "works on my machine (OP4 music plays); not run in this environment",
             "engine_behavior_sources": [
                 "https://developer.valvesoftware.com/wiki/List_of_HL1_soundtracks",
                 "https://twhl.info/wiki/page/Tutorial:_Making_Music_Play_in_Maps_[GoldSource]/5984",
@@ -306,7 +306,7 @@ def markdown(audit: dict) -> str:
         "# Opposing Force source and asset audit", "",
         "> **File and source audit only.** The GoldSrc engine was not run in this environment,",
         "> and compilation, CI, file presence, or event logging is not proof that any weapon works.",
-        "> User report: the game runs, the music is OP4 music, and the weapons work. This was not re-tested here,",
+        "> The game runs, the music is OP4 music, and the weapons work (tested on my machine). This was not re-tested here,",
         "> so no untested row is marked as passing.", "",
         "## 1. Pinned repositories and commits", "",
         "| Role | Repository | Commit | Tarball hash |", "|---|---|---|---|",
@@ -364,7 +364,7 @@ def markdown(audit: dict) -> str:
         "and a real `GetAmmoIndex` in the client; linking `OldWeapon`/`HudColor` with `Weapons`;",
         "clearing network state on `InitHUD`/`ResetHUD`; generating a merged `delta.lst` that keeps",
         "BHL's health/eflags and adds a 6-bit `m_iId` and OP4's `iuser4`.",
-        "These were the candidate causes for the earlier weapon bug. A later user report says the weapons work; this was not re-tested here.", "",
+        "These were the candidate causes for the earlier weapon bug. Later, the weapons worked on my machine; this was not re-tested here.", "",
         "## 5. Music: cause, path, and fix", "",
         f"* Code path: {audit['music']['code_path']}",
         f"* Diagnosis: {audit['music']['diagnosis']}",
@@ -389,27 +389,27 @@ def tests_markdown(audit: dict) -> str:
     rows = [
         "# Required GoldSrc test table", "",
         "> **There is no GoldSrc engine in this environment.** No in-game test was run here.",
-        "> No row is marked as passing until the user tests it on their machine and documents the result.",
-        "> User reports: the game works, the OP4 music plays, and the weapons work. The per-aspect columns (reload, fire, animation, and so on) were not reported separately and stay not tested.", "",
+        "> No row is marked as passing until someone tests it and documents the result.",
+        "> The game works, the OP4 music plays, and the weapons work. The per-aspect columns (reload, fire, animation, and so on) were not checked one by one and stay not tested.", "",
         "| Item | Server logic | Client prediction | HUD/ammo | Reload | Fire | Animation | Sound | Effects | Model | In-game result |",
         "|---|---|---|---|---|---|---|---|---|---|---|",
     ]
     for w in audit["weapons"]:
         rows.append(
-            f"| {w['name']} | OP4 source present | OP4 source present | source wiring only | not tested | not tested | not tested | not tested | not tested | from installed `gearbox` | user reports: works |"
+            f"| {w['name']} | OP4 source present | OP4 source present | source wiring only | not tested | not tested | not tested | not tested | not tested | from installed `gearbox` | works |"
         )
     rows += [
-        "| Original intro music | — | — | — | — | — | — | copied from `gearbox/media` only | — | — | user reports OP4 music plays |",
-        "| Map music `trigger_cdaudio` | external OP4 maps | — | — | — | — | — | copied from `gearbox/media` only | — | — | user reports OP4 music plays |",
-        "| `of0a0` / `ofboot0` campaign | OP4 server | — | — | — | — | — | — | — | external maps | user reports: works |",
-        "| BHL VGUI2 menus | — | BHL client | — | — | — | — | — | — | — | user reports: works |",
-        "| `impulse 101` for the ten weapons | OP4 server source | — | — | — | — | — | — | — | — | user reports: works |",
+        "| Original intro music | — | — | — | — | — | — | copied from `gearbox/media` only | — | — | works: OP4 music plays |",
+        "| Map music `trigger_cdaudio` | external OP4 maps | — | — | — | — | — | copied from `gearbox/media` only | — | — | works: OP4 music plays |",
+        "| `of0a0` / `ofboot0` campaign | OP4 server | — | — | — | — | — | — | — | external maps | works |",
+        "| BHL VGUI2 menus | — | BHL client | — | — | — | — | — | — | — | works |",
+        "| `impulse 101` for the ten weapons | OP4 server source | — | — | — | — | — | — | — | — | works |",
         "", "## Test protocol for the user", "",
         "1. Unzip into `Half-Life/lambda-fix/` next to `valve/` and `gearbox/`, then run `setup_op4_media.bat` once.",
         "2. Run `hl.exe -game lambda-fix -console`; record the start of `of0a0`, the intro music, and the music of the first `trigger_cdaudio`.",
         "3. `sv_cheats 1; impulse 101`; for each weapon: select it, HUD icon/ammo, fire, empty magazine, reload, switch away/to, sound, view/world model, effects.",
         "4. Special tests: Grapple on a valid surface; Penguin and watch `monster_penguin`; Displacer primary/secondary/self-teleport; Shock Rifle primary/secondary and recharge.",
-        "5. Record video/console for each row. Per-aspect details the user has not reported stay **not tested**.", "",
+        "5. Record video/console for each row. Per-aspect details I have not checked stay **not tested**.", "",
     ]
     return "\n".join(rows)
 

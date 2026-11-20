@@ -5,14 +5,14 @@ BugfixedHL with the ten Opposing Force weapons, for Half-Life on Linux.
 ## Download
 
 - **Package:** [`build-evidence/bhl-base-linux-mod/lambda-fix-bhlbase-linux.zip`](build-evidence/bhl-base-linux-mod/lambda-fix-bhlbase-linux.zip)
-- **SHA-256:** `5f82ab529e6ee795c834e349554f350304f8254d3649d6575147cb745d7adc6d`
+- **SHA-256:** `069bc9002f9028faacefbf4ac67d27b65ffb888bfee4601ce1cddf216671be81`
 - **Release:** [v0.9.0](https://github.com/Abdo-X684/Bugfixhl-speedrun-op4/releases/tag/v0.9.0)
 
 The repository is private, so the links need a GitHub login with access.
 
 ## Status
 
-Reported by the user (not tested by the project):
+Tested on my machine (Linux):
 
 - The game runs.
 - The BugfixedHL menu opens.

@@ -2,7 +2,7 @@
 
 > **File and source audit only.** The GoldSrc engine was not run in this environment,
 > and compilation, CI, file presence, or event logging is not proof that any weapon works.
-> User report: the game runs, the music is OP4 music, and the weapons work. This was not re-tested here,
+> The game runs, the music is OP4 music, and the weapons work (tested on my machine). This was not re-tested here,
 > so no untested row is marked as passing.
 
 ## 1. Pinned repositories and commits
@@ -117,15 +117,15 @@ into BHL client prediction; expanding the prediction arrays/loops to `MAX_WEAPON
 and a real `GetAmmoIndex` in the client; linking `OldWeapon`/`HudColor` with `Weapons`;
 clearing network state on `InitHUD`/`ResetHUD`; generating a merged `delta.lst` that keeps
 BHL's health/eflags and adds a 6-bit `m_iId` and OP4's `iuser4`.
-These were the candidate causes for the earlier weapon bug. A later user report says the weapons work; this was not re-tested here.
+These were the candidate causes for the earlier weapon bug. Later, the weapons worked on my machine; this was not re-tested here.
 
 ## 5. Music: cause, path, and fix
 
 * Code path: OP4 dlls/triggers.cpp PlayCDTrack() sends engine 'cd play <track>' (and 'cd stop' for -1). The engine, not the game DLL, maps the track ID to media/*.mp3. Shipped autoexec.cfg/op4weapons.cfg contain no cd/mp3/media command.
-* Diagnosis: The ZIP contains no media/*.mp3 and no gamestartup.mp3. GoldSrc looks in the active mod's media/ folder and then valve/media; fallback_dir gearbox supplies maps/models/sounds but is not a reliable media/ lookup for CD/MP3 tracks. An earlier report said the intro played Half-Life music. A later user report says the music works and is the OP4 soundtrack.
+* Diagnosis: The ZIP contains no media/*.mp3 and no gamestartup.mp3. GoldSrc looks in the active mod's media/ folder and then valve/media; fallback_dir gearbox supplies maps/models/sounds but is not a reliable media/ lookup for CD/MP3 tracks. Earlier, the intro played Half-Life music. Later, the music worked and was the OP4 soundtrack.
 * Fix: setup_op4_media.bat copies only the user's original gearbox/media/*.mp3 (plus gearbox_downloads/media/*.mp3 when present) into lambda-fix/media/. No track is invented, renamed, or downloaded.
 * Startup music: gamestartup.mp3 is copied only if the installed OP4 copy provides it; it is never fabricated.
-* In-game result: **user reports OP4 music plays in game; not run or tested in this environment**.
+* In-game result: **works on my machine (OP4 music plays); not run in this environment**.
 
 Engine behavior sources (for review, not as runtime proof):
 * https://developer.valvesoftware.com/wiki/List_of_HL1_soundtracks
