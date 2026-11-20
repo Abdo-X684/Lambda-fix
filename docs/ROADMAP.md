@@ -1,36 +1,43 @@
-# خارطة الطريق — الحالة النهائية
+# Roadmap (current status)
 
-## ✅ مكتمل
+## Done (source and package level)
 
-تثبيت المصادر، محرّك الدمج، **حلّ الـ127 تعارضاً بتدقيق تكافؤ**، إغلاق كل
-المنقولات المؤجلة، 10 حقن بـ anchor، 4 ملفات بناء، نواة C++ (77 فحص)،
-رسالة `SRSplit` سيرفر→عميل، HUD بزمن سلطوي، تسجيل demo تلقائي،
-39 خريطة + PB، تقرير ببصمة شجرة، **131 اختبار Python**، لوحة RTL،
-حزمة توزيع بـ sha256، CI، **9/9 فحص ترجمة مقابل SDK الحقيقي**،
-سكربت بناء `client.so`/`hl.so` مع فحص بيئة صريح،
-ولوحة بتبويبين مع **صفحة README/وثائق مُنسّقة** بفهرس جانبي وتنقّل داخلي.
+* Pinned upstream fetch (commit + sha256), the merge tooling, and `bhl-op4/` (BugfixedHL base with
+  OP4 weapons and systems merged in, with provenance for every file).
+* 32-bit Linux `client.so` and `hl.so` built from `bhl-op4/` (no unresolved symbols from our own build).
+* Ten OP4 weapons compiled to ELF32 objects; the BHL server sources that are wired into CMake compile.
+* Linux package with `MOD_MANIFEST.json`, English install and test documents, and the OP4 media setup
+  script (copies the user's own MP3 files only).
+* Advanced > About: auto-update entry removed (source level).
+* Default HUD color set to OP4 green, `0 160 0` (source level).
+* Dashboard and documents in English.
 
-النتيجة الحقيقية: `0 conflicts · 0 deferred · 0 errors · 0 anchor_drift`.
+## Not yet verified (needs the user's machine)
 
-## ⏳ خارج نطاق المستودع (يحتاج بيئة اللعبة)
+1. In-game check of the Linux package: intro music, every chapter, every weapon (select, fire, reload,
+   ammo, sound, model, effects), menus, and the HUD color and About changes.
+2. Windows: the MSVC DLL build (`build-evidence/bhl-windows/`) has not been run in the game. The GitHub
+   Actions Windows workflow failed before any step ran; see [`BHL_WINDOWS_BUILD.md`](BHL_WINDOWS_BUILD.md).
+3. Timing on real hardware, compared with speedrun.com.
 
-1. ~~ربط الـ DLL~~ → صار مؤتمتاً عبر `make build-dlls` / `tools/build_dlls.py`
-   (فحص 32-bit + `vgui.so` + ملفات البناء المرقّعة، ثم `dist/dlls/`).
-   المتبقي على **جهاز المستخدم**: تثبيت `gcc-multilib` ونسخة مشروعة من اللعبة،
-   ثم التحقق البصري من HUD داخل `-game gearbox`. التفاصيل في [`BUILDING.md`](BUILDING.md).
-2. قياس زمن الرن فعلياً على hardware ومقارنته بـ speedrun.com.
-3. توقيع/توزيع الحزمة مع مراجعة التزامات الرخص النهائية.
+## Open decisions
 
-## 💡 تحسينات اختيارية لاحقاً
+* The Adrenaline Gamer sprites (`sprites/ag_ctf.spr`, `ag_ctf_score.spr`) have no confirmed license.
+  They are loaded by the CTF HUD on non-AG clients. Options: confirm the license, or remove them with the
+  matching code change.
+* Final mod name. The folder name `bhlop4` is temporary. A rename must change the folder, the
+  localization file, and the strings in the code, without Valve-protected prefixes.
+* Feature list for the final release.
 
-* HUD بـ sprite ولون قابل للضبط ودعم `hud_scale` / 4K.
-* تصدير splits بصيغة LiveSplit، وفئات Boot Camp وScripted منفصلة.
-* اختبارات حركة آلية (bhop cap) داخل محرك اللعبة نفسها.
-* إعادة تشغيل `make fetch && make merge && make verify-sdk` دورياً في CI
-  لكشف أي انحراف في المصدر مبكراً.
+## Optional later improvements
 
-## فلسفة
+* HUD with sprites, configurable colors, and `hud_scale` / 4K support.
+* Split export in LiveSplit format; separate Boot Camp and scripted categories.
+* Automated movement tests (bhop cap) inside the game.
+* Periodic re-run of `make fetch && make bhl-base && make verify` in CI to catch source drift early.
 
-لا تعارض مخفي، ولا cvar وهمي، ولا حقن أعمى، ولا ادّعاء «جاهز» قبل
-`make verify` + `make verify-sdk`. كل قرار موثّق في `MERGE_REPORT.md`
-و`docs/RESOLUTION.md`.
+## Principles
+
+No hidden conflicts, no fake cvars, no blind injection, and no "ready" claim before `make verify`.
+Each decision is recorded in [`BHL_BASE_MERGE.md`](BHL_BASE_MERGE.md) and in the package's
+`SOURCE_AUDIT.md`.

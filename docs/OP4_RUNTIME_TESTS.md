@@ -1,31 +1,31 @@
-# جدول اختبارات GoldSrc المطلوبة
+# Required GoldSrc test table
 
-> **لا يوجد محرك GoldSrc في هذه البيئة.** لم يُنفَّذ أي اختبار داخل اللعبة هنا.
-> لا تُوضع علامة نجاح لأي صف حتى يختبره المستخدم على جهازه ويوثّق النتيجة.
-> بلاغ المستخدم بأن اللعبة تبدأ مع موسيقى خاطئة وأسلحة لا تعمل يُسجَّل كخلل، لا كنجاح.
+> **There is no GoldSrc engine in this environment.** No in-game test was run here.
+> No row is marked as passing until the user tests it on their machine and documents the result.
+> The user's report that the game starts with the wrong music and broken weapons is recorded as a bug, not as a pass.
 
-| العنصر | منطق الخادم | تنبؤ العميل | HUD/ذخيرة | إعادة تعبئة | إطلاق | أنيميشن | صوت | تأثيرات | موديل | النتيجة داخل اللعبة |
+| Item | Server logic | Client prediction | HUD/ammo | Reload | Fire | Animation | Sound | Effects | Model | In-game result |
 |---|---|---|---|---|---|---|---|---|---|---|
-| Desert Eagle | مصدر OP4 موجود | مصدر OP4 موجود | توصيل مصدرى فقط | غير مُختبَر | غير مُختبَر | غير مُختبَر | غير مُختبَر | غير مُختبَر | من `gearbox` المثبّت | **غير مُختبَر** |
-| Pipe Wrench | مصدر OP4 موجود | مصدر OP4 موجود | توصيل مصدرى فقط | غير مُختبَر | غير مُختبَر | غير مُختبَر | غير مُختبَر | غير مُختبَر | من `gearbox` المثبّت | **غير مُختبَر** |
-| M249 | مصدر OP4 موجود | مصدر OP4 موجود | توصيل مصدرى فقط | غير مُختبَر | غير مُختبَر | غير مُختبَر | غير مُختبَر | غير مُختبَر | من `gearbox` المثبّت | **غير مُختبَر** |
-| Displacer | مصدر OP4 موجود | مصدر OP4 موجود | توصيل مصدرى فقط | غير مُختبَر | غير مُختبَر | غير مُختبَر | غير مُختبَر | غير مُختبَر | من `gearbox` المثبّت | **غير مُختبَر** |
-| Shock Rifle / weapon_shockroach alias | مصدر OP4 موجود | مصدر OP4 موجود | توصيل مصدرى فقط | غير مُختبَر | غير مُختبَر | غير مُختبَر | غير مُختبَر | غير مُختبَر | من `gearbox` المثبّت | **غير مُختبَر** |
-| Spore Launcher | مصدر OP4 موجود | مصدر OP4 موجود | توصيل مصدرى فقط | غير مُختبَر | غير مُختبَر | غير مُختبَر | غير مُختبَر | غير مُختبَر | من `gearbox` المثبّت | **غير مُختبَر** |
-| Sniper Rifle | مصدر OP4 موجود | مصدر OP4 موجود | توصيل مصدرى فقط | غير مُختبَر | غير مُختبَر | غير مُختبَر | غير مُختبَر | غير مُختبَر | من `gearbox` المثبّت | **غير مُختبَر** |
-| Knife | مصدر OP4 موجود | مصدر OP4 موجود | توصيل مصدرى فقط | غير مُختبَر | غير مُختبَر | غير مُختبَر | غير مُختبَر | غير مُختبَر | من `gearbox` المثبّت | **غير مُختبَر** |
-| Penguin | مصدر OP4 موجود | مصدر OP4 موجود | توصيل مصدرى فقط | غير مُختبَر | غير مُختبَر | غير مُختبَر | غير مُختبَر | غير مُختبَر | من `gearbox` المثبّت | **غير مُختبَر** |
-| Grapple | مصدر OP4 موجود | مصدر OP4 موجود | توصيل مصدرى فقط | غير مُختبَر | غير مُختبَر | غير مُختبَر | غير مُختبَر | غير مُختبَر | من `gearbox` المثبّت | **غير مُختبَر** |
-| موسيقى المقدمة الأصلية | — | — | — | — | — | — | تُنسخ من `gearbox/media` فقط | — | — | **غير مُختبَر** |
-| موسيقى الخرائط `trigger_cdaudio` | خرائط OP4 خارجية | — | — | — | — | — | تُنسخ من `gearbox/media` فقط | — | — | **غير مُختبَر** |
-| حملة `of0a0` / `ofboot0` | خادم OP4 | — | — | — | — | — | — | — | خرائط خارجية | **غير مُختبَر** |
-| قوائم BHL VGUI2 | — | عميل BHL | — | — | — | — | — | — | — | **غير مُختبَر** |
-| `impulse 101` للأسلحة العشرة | مصدر خادم OP4 | — | — | — | — | — | — | — | — | **غير مُختبَر** |
+| Desert Eagle | OP4 source present | OP4 source present | source wiring only | not tested | not tested | not tested | not tested | not tested | from installed `gearbox` | **not tested** |
+| Pipe Wrench | OP4 source present | OP4 source present | source wiring only | not tested | not tested | not tested | not tested | not tested | from installed `gearbox` | **not tested** |
+| M249 | OP4 source present | OP4 source present | source wiring only | not tested | not tested | not tested | not tested | not tested | from installed `gearbox` | **not tested** |
+| Displacer | OP4 source present | OP4 source present | source wiring only | not tested | not tested | not tested | not tested | not tested | from installed `gearbox` | **not tested** |
+| Shock Rifle / weapon_shockroach alias | OP4 source present | OP4 source present | source wiring only | not tested | not tested | not tested | not tested | not tested | from installed `gearbox` | **not tested** |
+| Spore Launcher | OP4 source present | OP4 source present | source wiring only | not tested | not tested | not tested | not tested | not tested | from installed `gearbox` | **not tested** |
+| Sniper Rifle | OP4 source present | OP4 source present | source wiring only | not tested | not tested | not tested | not tested | not tested | from installed `gearbox` | **not tested** |
+| Knife | OP4 source present | OP4 source present | source wiring only | not tested | not tested | not tested | not tested | not tested | from installed `gearbox` | **not tested** |
+| Penguin | OP4 source present | OP4 source present | source wiring only | not tested | not tested | not tested | not tested | not tested | from installed `gearbox` | **not tested** |
+| Grapple | OP4 source present | OP4 source present | source wiring only | not tested | not tested | not tested | not tested | not tested | from installed `gearbox` | **not tested** |
+| Original intro music | — | — | — | — | — | — | copied from `gearbox/media` only | — | — | **not tested** |
+| Map music `trigger_cdaudio` | external OP4 maps | — | — | — | — | — | copied from `gearbox/media` only | — | — | **not tested** |
+| `of0a0` / `ofboot0` campaign | OP4 server | — | — | — | — | — | — | — | external maps | **not tested** |
+| BHL VGUI2 menus | — | BHL client | — | — | — | — | — | — | — | **not tested** |
+| `impulse 101` for the ten weapons | OP4 server source | — | — | — | — | — | — | — | — | **not tested** |
 
-## بروتوكول الاختبار المطلوب من المستخدم
+## Test protocol for the user
 
-1. فكّ ZIP في `Half-Life/bhlop4/` بجانب `valve/` و`gearbox/`، ثم شغّل `setup_op4_media.bat` مرة واحدة.
-2. شغّل `hl.exe -game bhlop4 -console`؛ سجّل بداية `of0a0`، موسيقى المقدمة، وموسيقى أول `trigger_cdaudio`.
-3. `sv_cheats 1; impulse 101`؛ لكل سلاح: اختياره، أيقونة/ذخيرة HUD، إطلاق، تفريغ المخزن، إعادة تعبئة، التبديل عنه/إليه، الصوت، موديل اليد/العالم، التأثيرات.
-4. اختبارات خاصة: Grapple على سطح صالح؛ Penguin ومراقبة `monster_penguin`؛ Displacer أولي/ثانوي/انتقال ذاتي؛ Shock Rifle أولي/ثانوي وإعادة الشحن.
-5. سجّل فيديو/console لكل صف. إلى أن يحدث ذلك يبقى كل صف **غير مُختبَر** ولا يُقال «يعمل».
+1. Unzip into `Half-Life/bhlop4/` next to `valve/` and `gearbox/`, then run `setup_op4_media.bat` once.
+2. Run `hl.exe -game bhlop4 -console`; record the start of `of0a0`, the intro music, and the music of the first `trigger_cdaudio`.
+3. `sv_cheats 1; impulse 101`; for each weapon: select it, HUD icon/ammo, fire, empty magazine, reload, switch away/to, sound, view/world model, effects.
+4. Special tests: Grapple on a valid surface; Penguin and watch `monster_penguin`; Displacer primary/secondary/self-teleport; Shock Rifle primary/secondary and recharge.
+5. Record video/console for each row. Until then every row stays **not tested**, and nothing is called 'working'.

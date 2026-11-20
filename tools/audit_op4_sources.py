@@ -224,7 +224,7 @@ def build_audit() -> dict:
             "all_source_files_present": all(e["exists"] for e in entries),
             "all_source_files_from_op4": all(e["origin"] == "op4" for e in entries),
             "referenced_assets": sorted(asset_refs),
-            "runtime_test": "غير مُختبَر داخل GoldSrc في هذه البيئة",
+            "runtime_test": "not tested inside GoldSrc in this environment",
         })
     return {
         "audit_type": "source and package provenance; NOT gameplay verification",
@@ -288,7 +288,7 @@ def build_audit() -> dict:
                 "gamestartup.mp3 is copied only if the installed OP4 copy provides it; "
                 "it is never fabricated."
             ),
-            "runtime_test": "غير مُختبَر داخل GoldSrc في هذه البيئة",
+            "runtime_test": "not tested inside GoldSrc in this environment",
             "engine_behavior_sources": [
                 "https://developer.valvesoftware.com/wiki/List_of_HL1_soundtracks",
                 "https://twhl.info/wiki/page/Tutorial:_Making_Music_Play_in_Maps_[GoldSource]/5984",
@@ -302,113 +302,113 @@ def markdown(audit: dict) -> str:
     by_name = {u["name"]: u for u in audit["upstreams"]}
     op4, bhl, valve = by_name["op4"], by_name["bugfixhl"], by_name["valve_hlsdk"]
     lines = [
-        "# تدقيق مصادر وأصول Opposing Force", "",
-        "> **تدقيق ملفات ومصادر فقط.** لم يُشغَّل محرك GoldSrc في هذه البيئة،",
-        "> ولا تُعدّ الترجمة أو CI أو وجود ملفات أو تسجيل حدث دليلاً على عمل أي سلاح.",
-        "> بلاغ المستخدم: اللعبة تعمل، لكن موسيقى المقدمة ليست OP4 والأسلحة لا تعمل بشكل صحيح؛",
-        "> لذلك لا توجد علامة نجاح لأي صف غير مُختبَر.", "",
-        "## 1. المستودعات والالتزامات المثبّتة", "",
-        "| الدور | المستودع | الالتزام | بصمة الحزمة |", "|---|---|---|---|",
-        f"| مصدر أسلحة/خادم OP4 | [{op4['repo']}](https://github.com/{op4['repo']}) | [`{op4['ref']}`](https://github.com/{op4['repo']}/commit/{op4['ref']}) | `{op4['tarball']['sha256']}` |",
-        f"| أساس BHL / VGUI2 / الحركة | [{bhl['repo']}](https://github.com/{bhl['repo']}) | [`{bhl['ref']}`](https://github.com/{bhl['repo']}/commit/{bhl['ref']}) | `{bhl['tarball']['sha256']}` |",
-        f"| أصل HLSDK | [{valve['repo']}](https://github.com/{valve['repo']}) | [`{valve['ref']}`](https://github.com/{valve['repo']}/commit/{valve['ref']}) | `{valve['tarball']['sha256']}` |",
-        "", "الأسلحة العشرة كلها من **مستودع OP4 واحد** وبنفس الالتزام أعلاه؛ لا توجد نماذج",
-        "أو كيانات بديلة من مستودع آخر. الموديلات/الأصوات/الخرائط/الـMP3 ليست في هذا",
-        "المستودع ولا في ZIP: تُقرأ من نسخة `gearbox/` المثبّتة قانونياً لدى المستخدم.", "",
-        "## 2. جدول الأسلحة: الأصل، الملفات، التعديل، الكتابة الذاتية", "",
-        "| السلاح | الاسم البرمجي | ملفات OP4 الأصلية | تعديل معلن | حدث العميل | ملفات كتبناها للسلاح | داخل اللعبة |",
+        "# Opposing Force source and asset audit", "",
+        "> **File and source audit only.** The GoldSrc engine was not run in this environment,",
+        "> and compilation, CI, file presence, or event logging is not proof that any weapon works.",
+        "> User report: the game runs, but the intro music is not OP4 and the weapons do not work correctly;",
+        "> so no untested row is marked as passing.", "",
+        "## 1. Pinned repositories and commits", "",
+        "| Role | Repository | Commit | Tarball hash |", "|---|---|---|---|",
+        f"| OP4 weapons/server source | [{op4['repo']}](https://github.com/{op4['repo']}) | [`{op4['ref']}`](https://github.com/{op4['repo']}/commit/{op4['ref']}) | `{op4['tarball']['sha256']}` |",
+        f"| BHL base / VGUI2 / movement | [{bhl['repo']}](https://github.com/{bhl['repo']}) | [`{bhl['ref']}`](https://github.com/{bhl['repo']}/commit/{bhl['ref']}) | `{bhl['tarball']['sha256']}` |",
+        f"| HLSDK origin | [{valve['repo']}](https://github.com/{valve['repo']}) | [`{valve['ref']}`](https://github.com/{valve['repo']}/commit/{valve['ref']}) | `{valve['tarball']['sha256']}` |",
+        "", "All ten weapons come from **one OP4 repository** at the commit above; there are no models",
+        "or entities from any other repository. Models, sounds, maps, and MP3s are not in this",
+        "repository or in the ZIP: they are read from the user's own legally installed `gearbox/` copy.", "",
+        "## 2. Weapon table: origin, files, edits, self-written code", "",
+        "| Weapon | Code name | Original OP4 files | Declared edit | Client event | Files we wrote for the weapon | In game |",
         "|---|---|---|---|---|---|---|",
     ]
     for w in audit["weapons"]:
         src = "<br>".join(f"`{Path(e['path']).name}`" for e in w["source_files"])
         actions = ", ".join(sorted({e["action"] or "?" for e in w["source_files"]}))
-        ev = f"`{w['event']}` → `{w['event_func']}`" if w["event"] else "لا يوجد في مصدر OP4"
+        ev = f"`{w['event']}` → `{w['event_func']}`" if w["event"] else "not in OP4 source"
         lines.append(
-            f"| {w['name']} | `{w['classname']}` / `{w['cxx']}` | {src} | `{actions}` | {ev} | لا شيء؛ أجسام الأسلحة أصلية | **{w['runtime_test']}** |"
+            f"| {w['name']} | `{w['classname']}` / `{w['cxx']}` | {src} | `{actions}` | {ev} | none; weapon bodies are original | **{w['runtime_test']}** |"
         )
     lines += [
-        "", "**توضيح Shock Roach:** " + audit["shock_roach_definition"], "",
-        "**كل ملف `op4+compat-patch` أعلاه**: جسم السلاح من OP4، والتعديلات مسماة في",
-        "`bhl-op4/PROVENANCE.json` (توافق `bool/int`، ترويسات، `Vector::Normalize`).",
-        "لم يُكتب منطق إطلاق أو إعادة تعبئة بديل. ملفات `dlls/weapons.cpp` و`dlls/player.cpp`",
-        "في OP4 محفوظة كمرجع فقط؛ خادم الحزمة يُبنى من مصدر OP4 الكامل عبر",
+        "", "**Shock Roach note:** " + audit["shock_roach_definition"], "",
+        "**Every `op4+compat-patch` file above**: the weapon body is from OP4, and the edits are named in",
+        "`bhl-op4/PROVENANCE.json` (`bool/int` compatibility, headers, `Vector::Normalize`).",
+        "No replacement fire or reload logic was written. The OP4 files `dlls/weapons.cpp` and `dlls/player.cpp`",
+        "are kept as reference only; the package server is built from the full OP4 source via",
         "`tools/prepare_op4_msvc_server.py`.", "",
-        "### ملفات BHL المعدّلة بقواعد مسماة", "",
+        "### BHL files edited by named rules", "",
     ]
     lines += [f"* `{e['path']}` — `{e['action']}`" for e in audit["modified_bhl_files"]]
-    lines += ["", "### ملفات كتبها هذا المشروع (ليست من OP4 ولا BHL)", ""]
+    lines += ["", "### Files written by this project (not from OP4 or BHL)", ""]
     lines += [f"* `{e['path']}`" for e in audit["authored_files"]]
     lines += [
-        "", "هذه طبقة توصيل/تنبؤ/تثبيت أحداث/إعداد موسيقى فقط؛ لا تحل محل أنظمة BHL",
-        "(VGUI2، الحركة، Bhop، الوحوش، أسلحة BHL الأربعة عشر).", "",
-        "## 3. Penguin: المصدر البرمجي", "",
-        f"* السلاح: `{audit['penguin']['weapon_class']}` / `{audit['penguin']['weapon_classname']}`؛ FGD: `{audit['penguin']['fgd_label']}`.",
-        f"* الكيان الحي: `{audit['penguin']['projectile_entity']}` / `{audit['penguin']['projectile_classname']}`.",
-        "* الملفات: `dlls/weapons/CPenguin.cpp`, `dlls/weapons/CPenguin.h`, `dlls/penguin_grenade.cpp` من OP4 بالالتزام أعلاه.",
-        f"* الوظيفة: {audit['penguin']['function']}",
-        f"* الموديلات: {audit['penguin']['model_provenance']}",
-        "* لا يوجد `.mdl` داخل ZIP؛ أي موديل بطريق شوهد في ملفات اللعبة المثبّتة مصدره `gearbox/`، لا مستودع ثانٍ.", "",
-        "## 4. فجوات المصدر التي عُولجت بعد بلاغ الخلل", "",
-        "> هذه فحوصات مصدرية فقط؛ لم تُختبر داخل اللعبة.", "",
-        "| الفحص | موجود في الشجرة المولّدة |", "|---|---|",
+        "", "This is only a wiring, prediction, event-hook, and music-setup layer; it does not replace BHL systems",
+        "(VGUI2, movement, bhop, monsters, the fourteen BHL weapons).", "",
+        "## 3. Penguin: source code", "",
+        f"* Weapon: `{audit['penguin']['weapon_class']}` / `{audit['penguin']['weapon_classname']}`; FGD: `{audit['penguin']['fgd_label']}`.",
+        f"* Live entity: `{audit['penguin']['projectile_entity']}` / `{audit['penguin']['projectile_classname']}`.",
+        "* Files: `dlls/weapons/CPenguin.cpp`, `dlls/weapons/CPenguin.h`, `dlls/penguin_grenade.cpp` from OP4 at the commit above.",
+        f"* Function: {audit['penguin']['function']}",
+        f"* Models: {audit['penguin']['model_provenance']}",
+        "* No `.mdl` is inside the ZIP; any model path seen in the installed game files comes from `gearbox/`, not a second repository.", "",
+        "## 4. Source gaps fixed after the bug report", "",
+        "> These are source checks only; they were not tested in game.", "",
+        "| Check | Present in the generated tree |", "|---|---|",
     ]
     for k, v in audit["static_wiring"].items():
         if isinstance(v, dict):
-            v = f"{sum(v.values())}/{len(v)} أحداث موصولة"
+            v = f"{sum(v.values())}/{len(v)} events wired"
         lines.append(f"| `{k}` | `{v}` |")
     lines += [
-        "", "أهم الإصلاحات المصدرية: نقل `iuser4 → m_iItems` و`vuser2.y/z → ammo_spores/ammo_762`",
-        "إلى تنبؤ عميل BHL؛ توسيع مصفوفة/حلقات التنبؤ إلى `MAX_WEAPONS=64`؛ ملء",
-        "`ItemInfoArray` وتسجيل الذخيرة بصيغة OP4 ذات المعاملين؛ تعريف `AmmoInfoArray`",
-        "و`GetAmmoIndex` الحقيقي في العميل؛ ربط `OldWeapon`/`HudColor` مع `Weapons`؛",
-        "تفريغ حالة الشبكة عند `InitHUD`/`ResetHUD`؛ توليد `delta.lst` مدمج يحافظ",
-        "على صحة/eflags الخاصة بـBHL ويضيف `m_iId` بـ6 بتات و`iuser4` الخاص بـOP4.",
-        "هذه مرشحات سببية قوية لخلل الأسلحة، وليست إثبات تشغيل.", "",
-        "## 5. الموسيقى: السبب والمسار والإصلاح", "",
-        f"* مسار الكود: {audit['music']['code_path']}",
-        f"* التشخيص: {audit['music']['diagnosis']}",
-        f"* الإصلاح: {audit['music']['fix']}",
-        f"* موسيقى البداية: {audit['music']['startup_music']}",
-        f"* النتيجة داخل اللعبة: **{audit['music']['runtime_test']}**.", "",
-        "مصادر سلوك المحرك (للفحص، لا كدليل تشغيل):",
+        "", "Main source fixes: moving `iuser4 → m_iItems` and `vuser2.y/z → ammo_spores/ammo_762`",
+        "into BHL client prediction; expanding the prediction arrays/loops to `MAX_WEAPONS=64`; filling",
+        "`ItemInfoArray` and registering ammo with OP4's two-argument form; defining `AmmoInfoArray`",
+        "and a real `GetAmmoIndex` in the client; linking `OldWeapon`/`HudColor` with `Weapons`;",
+        "clearing network state on `InitHUD`/`ResetHUD`; generating a merged `delta.lst` that keeps",
+        "BHL's health/eflags and adds a 6-bit `m_iId` and OP4's `iuser4`.",
+        "These are strong causal candidates for the weapon bug, not proof that it works.", "",
+        "## 5. Music: cause, path, and fix", "",
+        f"* Code path: {audit['music']['code_path']}",
+        f"* Diagnosis: {audit['music']['diagnosis']}",
+        f"* Fix: {audit['music']['fix']}",
+        f"* Startup music: {audit['music']['startup_music']}",
+        f"* In-game result: **{audit['music']['runtime_test']}**.", "",
+        "Engine behavior sources (for review, not as runtime proof):",
     ]
     lines += [f"* {u}" for u in audit["music"]["engine_behavior_sources"]]
     lines += [
-        "", "## 6. حدود الحزمة", "",
-        "* ZIP لا يضم `.mdl`, `.wav`, `.sc`, `.mp3`, `.bsp`؛ سبرايت `sprites/ag_*.spr` فقط من BHL.",
-        "* `setup_op4_media.bat`, `SOURCE_AUDIT.md`, `RUNTIME_TESTS.md`, `INSTALL.md` مرفقة داخل ZIP.",
-        "* `MOD_MANIFEST.json` ينص صراحة على `in_game_tested_here: false`.", "",
-        "**الخلاصة:** كل ملف أصلي/معدّل/مكتوب ذاتياً موثّق أعلاه، لكن لا اختبار GoldSrc هنا؛",
-        "جدول `RUNTIME_TESTS.md` المرفق لا يحوي علامة نجاح واحدة.", "",
+        "", "## 6. Package limits", "",
+        "* The ZIP does not include `.mdl`, `.wav`, `.sc`, `.mp3`, or `.bsp`. The only third-party sprites are `sprites/ag_*.spr` (Adrenaline Gamer, license unconfirmed).",
+        "* `setup_op4_media.bat`, `SOURCE_AUDIT.md`, `RUNTIME_TESTS.md`, `INSTALL.md` are included in the ZIP.",
+        "* `MOD_MANIFEST.json` states `in_game_tested_here: false`.", "",
+        "**Summary:** every original, edited, and self-written file is documented above, but there is no GoldSrc test here;",
+        "the `RUNTIME_TESTS.md` table in the package has no passing mark.", "",
     ]
     return "\n".join(lines)
 
 
 def tests_markdown(audit: dict) -> str:
     rows = [
-        "# جدول اختبارات GoldSrc المطلوبة", "",
-        "> **لا يوجد محرك GoldSrc في هذه البيئة.** لم يُنفَّذ أي اختبار داخل اللعبة هنا.",
-        "> لا تُوضع علامة نجاح لأي صف حتى يختبره المستخدم على جهازه ويوثّق النتيجة.",
-        "> بلاغ المستخدم بأن اللعبة تبدأ مع موسيقى خاطئة وأسلحة لا تعمل يُسجَّل كخلل، لا كنجاح.", "",
-        "| العنصر | منطق الخادم | تنبؤ العميل | HUD/ذخيرة | إعادة تعبئة | إطلاق | أنيميشن | صوت | تأثيرات | موديل | النتيجة داخل اللعبة |",
+        "# Required GoldSrc test table", "",
+        "> **There is no GoldSrc engine in this environment.** No in-game test was run here.",
+        "> No row is marked as passing until the user tests it on their machine and documents the result.",
+        "> The user's report that the game starts with the wrong music and broken weapons is recorded as a bug, not as a pass.", "",
+        "| Item | Server logic | Client prediction | HUD/ammo | Reload | Fire | Animation | Sound | Effects | Model | In-game result |",
         "|---|---|---|---|---|---|---|---|---|---|---|",
     ]
     for w in audit["weapons"]:
         rows.append(
-            f"| {w['name']} | مصدر OP4 موجود | مصدر OP4 موجود | توصيل مصدرى فقط | غير مُختبَر | غير مُختبَر | غير مُختبَر | غير مُختبَر | غير مُختبَر | من `gearbox` المثبّت | **غير مُختبَر** |"
+            f"| {w['name']} | OP4 source present | OP4 source present | source wiring only | not tested | not tested | not tested | not tested | not tested | from installed `gearbox` | **not tested** |"
         )
     rows += [
-        "| موسيقى المقدمة الأصلية | — | — | — | — | — | — | تُنسخ من `gearbox/media` فقط | — | — | **غير مُختبَر** |",
-        "| موسيقى الخرائط `trigger_cdaudio` | خرائط OP4 خارجية | — | — | — | — | — | تُنسخ من `gearbox/media` فقط | — | — | **غير مُختبَر** |",
-        "| حملة `of0a0` / `ofboot0` | خادم OP4 | — | — | — | — | — | — | — | خرائط خارجية | **غير مُختبَر** |",
-        "| قوائم BHL VGUI2 | — | عميل BHL | — | — | — | — | — | — | — | **غير مُختبَر** |",
-        "| `impulse 101` للأسلحة العشرة | مصدر خادم OP4 | — | — | — | — | — | — | — | — | **غير مُختبَر** |",
-        "", "## بروتوكول الاختبار المطلوب من المستخدم", "",
-        "1. فكّ ZIP في `Half-Life/bhlop4/` بجانب `valve/` و`gearbox/`، ثم شغّل `setup_op4_media.bat` مرة واحدة.",
-        "2. شغّل `hl.exe -game bhlop4 -console`؛ سجّل بداية `of0a0`، موسيقى المقدمة، وموسيقى أول `trigger_cdaudio`.",
-        "3. `sv_cheats 1; impulse 101`؛ لكل سلاح: اختياره، أيقونة/ذخيرة HUD، إطلاق، تفريغ المخزن، إعادة تعبئة، التبديل عنه/إليه، الصوت، موديل اليد/العالم، التأثيرات.",
-        "4. اختبارات خاصة: Grapple على سطح صالح؛ Penguin ومراقبة `monster_penguin`؛ Displacer أولي/ثانوي/انتقال ذاتي؛ Shock Rifle أولي/ثانوي وإعادة الشحن.",
-        "5. سجّل فيديو/console لكل صف. إلى أن يحدث ذلك يبقى كل صف **غير مُختبَر** ولا يُقال «يعمل».", "",
+        "| Original intro music | — | — | — | — | — | — | copied from `gearbox/media` only | — | — | **not tested** |",
+        "| Map music `trigger_cdaudio` | external OP4 maps | — | — | — | — | — | copied from `gearbox/media` only | — | — | **not tested** |",
+        "| `of0a0` / `ofboot0` campaign | OP4 server | — | — | — | — | — | — | — | external maps | **not tested** |",
+        "| BHL VGUI2 menus | — | BHL client | — | — | — | — | — | — | — | **not tested** |",
+        "| `impulse 101` for the ten weapons | OP4 server source | — | — | — | — | — | — | — | — | **not tested** |",
+        "", "## Test protocol for the user", "",
+        "1. Unzip into `Half-Life/bhlop4/` next to `valve/` and `gearbox/`, then run `setup_op4_media.bat` once.",
+        "2. Run `hl.exe -game bhlop4 -console`; record the start of `of0a0`, the intro music, and the music of the first `trigger_cdaudio`.",
+        "3. `sv_cheats 1; impulse 101`; for each weapon: select it, HUD icon/ammo, fire, empty magazine, reload, switch away/to, sound, view/world model, effects.",
+        "4. Special tests: Grapple on a valid surface; Penguin and watch `monster_penguin`; Displacer primary/secondary/self-teleport; Shock Rifle primary/secondary and recharge.",
+        "5. Record video/console for each row. Until then every row stays **not tested**, and nothing is called 'working'.", "",
     ]
     return "\n".join(rows)
 

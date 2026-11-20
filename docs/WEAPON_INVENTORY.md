@@ -1,85 +1,85 @@
-# جرد أسلحة Opposing Force على أساس BugfixedHL
+# Opposing Force weapon inventory on the BugfixedHL base
 
-> مولّد آلياً بأمر `python3 tools/weapon_inventory.py --write` من نسختي
-> `.cache/upstreams/bugfixhl/` و`.cache/upstreams/op4/` النظيفتين، والشجرة المدمجة
-> `bhl-op4/`، و`PORT_STATUS.json`، و manifest الخاص ببنائي لينكس وويندوز، وحزمة `mod/`.
-> الحزمة الآن تبدأ حملة OP4 كاملة (`of0a0`) بخادم OP4 حقيقي، وليس حملة
-> Half-Life مع أسلحة OP4. لا يُقرأ أي تقرير سابق أو نتيجة CI كدليل.
+> Generated automatically by `python3 tools/weapon_inventory.py --write` from the clean
+> `.cache/upstreams/bugfixhl/` and `.cache/upstreams/op4/` copies, the merged tree
+> `bhl-op4/`, `PORT_STATUS.json`, the Linux and Windows build manifests, and the `mod/` package.
+> The package now starts the full OP4 campaign (`of0a0`) with a real OP4 server, not a
+> Half-Life campaign with OP4 weapons. No earlier report or CI result is read as evidence.
 
-## الجدول المطلوب
+## Required table
 
-| السلاح | موجود في BHL | موجود في OP4 | حالة الدمج | Prediction | اختبار اللعبة |
+| Weapon | In BHL | In OP4 | Merge status | Prediction | In-game test |
 | --- | --- | --- | --- | --- | --- |
-| `weapon_displacer` | لا | نعم | ناقص | نعم | غير مختبر |
-| `weapon_eagle` | لا | نعم | ناقص | نعم | غير مختبر |
-| `weapon_grapple` | لا | نعم | ناقص | نعم | غير مختبر |
-| `weapon_knife` | لا | نعم | ناقص | نعم | غير مختبر |
-| `weapon_m249` | لا | نعم | ناقص | نعم | غير مختبر |
-| `weapon_penguin` | لا | نعم | ناقص | نعم | غير مختبر |
-| `weapon_pipewrench` | لا | نعم | ناقص | نعم | غير مختبر |
-| `weapon_shockrifle` | لا | نعم | ناقص | نعم | غير مختبر |
-| `weapon_sniperrifle` | لا | نعم | ناقص | نعم | غير مختبر |
-| `weapon_sporelauncher` | لا | نعم | ناقص | نعم | غير مختبر |
+| `weapon_displacer` | no | yes | incomplete | yes | not tested |
+| `weapon_eagle` | no | yes | incomplete | yes | not tested |
+| `weapon_grapple` | no | yes | incomplete | yes | not tested |
+| `weapon_knife` | no | yes | incomplete | yes | not tested |
+| `weapon_m249` | no | yes | incomplete | yes | not tested |
+| `weapon_penguin` | no | yes | incomplete | yes | not tested |
+| `weapon_pipewrench` | no | yes | incomplete | yes | not tested |
+| `weapon_shockrifle` | no | yes | incomplete | yes | not tested |
+| `weapon_sniperrifle` | no | yes | incomplete | yes | not tested |
+| `weapon_sporelauncher` | no | yes | incomplete | yes | not tested |
 
-**تفسير ملزم:** `ناقص` في «حالة الدمج» و`غير مختبر` في «اختبار اللعبة» ليسا تهرباً من
-الجرد: ملفات المصدر والعميل/الخادم والحدث والتسجيل والإعطاء موصولة لكل الأسلحة العشرة،
-لكن لا محرك GoldSrc ولا أصول OP4 شرعية في هذه البيئة. لذلك لا يوجد صف `مكتمل`
-ولا `ناجح`، ولا يُقال عن أي سلاح إنه يعمل داخل اللعبة. `نعم` في `Prediction`
-يعني توصيل ملف السلاح الحقيقي داخل `client` مع `CLIENT_DLL` وحالة `GetLocalWeapon`
-و`UseDecrement()`، لا إثبات تنبؤ وقت التشغيل.
+**Required interpretation:** `incomplete` under 'Merge status' and `not tested` under 'In-game test' are not evasions of
+the inventory: source, client/server, event, registration, and give-command files are wired for all ten weapons,
+but there is no GoldSrc engine and no legal OP4 assets in this environment. So no row says `complete`
+or `passing`, and nothing is said about any weapon working in game. `yes` under `Prediction`
+means the real weapon file is wired into `client` with `CLIENT_DLL` and the `GetLocalWeapon`
+and `UseDecrement()` state, not proof of runtime prediction.
 
-`weapon_shockroach` ليس سلاحاً حادي عشر: هو اسم بديل لـ `CShockRifle` في
-مصدر OP4 النظيف ولا يظهر في `W_Precache()`؛ أما `monster_shockroach`
-فكيان وحش منفصل في `dlls/shockroach.cpp`.
+`weapon_shockroach` is not an eleventh weapon: it is an alias for `CShockRifle` in
+the clean OP4 source and does not appear in `W_Precache()`; `monster_shockroach`
+is a separate monster entity in `dlls/shockroach.cpp`.
 
-## ما تحقق منه الفحص فعلياً
+## What the check actually verified
 
-* BHL النظيف: `14` سلاحاً في `W_Precache()`؛ OP4 النظيف: `24`؛
-  الفرق هو `10` أسلحة OP4 فقط. الشجرة المدمجة تسجّل `24`
-  اسماً، مرة واحدة لكل اسم، بدون تكرار تسجيل.
-* العميل: عشرة ملفات أسلحة OP4 حقيقية + `CGrappleTip.cpp` + `ehandle.cpp`
-  + `op4_client_prediction.cpp` + تسعة أحداث عرض، مترجمة بـ `CLIENT_DLL`.
-  `CGrapple` لم يعد server-authoritative؛ لا يوجد `UseDecrement()` مجبر على `FALSE`.
-* `MAX_WEAPON_SLOTS = 7` وأمر `slot7` موصولان في كود BHL؛ سبرايت السلة السابعة
-  داخل `sprites/hud.txt` ما زال غير مُختبَر في اللعبة.
-* توافق شبكة OP4: `MAX_WEAPONS = 64`، `local_state_t.weapondata[64]`، نقل
-  بيانات التنبؤ لـ64 سلاحاً، وربط رسالة `Weapons` ذات 8 بايتات في عميل BHL
-  حتى لا تُقرأ بتات الأسلحة من حقل المحرك القديم ذي 32 بت فقط.
-* `liblist.gam` يبدأ `of0a0` و`ofboot0`، `steam_appid.txt = 50`،
-  `delta.lst` مدمج BHL+OP4 (يحافظ على `health`/`eflags` ويضيف `iuser4`
-  و`m_iId` بـ6 بتات)، و`fallback_dir "gearbox"` يجلب أصول OP4 المثبّتة.
-* بعد بلاغ الخلل: عُولجت فجوات تنبؤ العميل (`ItemInfoArray`، تسجيل الذخيرة،
-  `GetAmmoIndex`، `ammo_spores/ammo_762/m_iItems`، حلقات 64 خانة،
-  `OldWeapon`/`HudColor`، وتفريغ الحالة عند ResetHUD) على مستوى المصدر فقط.
-* الموسيقى: `setup_op4_media.bat` ينسخ MP3 الأصلية من `gearbox/media` فقط؛
-  لا ملف MP3 داخل ZIP، ولا موسيقى مُولّدة. التفاصيل في `SOURCE_AUDIT.md`.
-* `autoexec.cfg` يضبط `sv_oldweapons 0`؛ `op4weapons.cfg` يعطي الأسلحة العشرة
-  والذخائر عبر F9. خادم ويندوز المرقّع يجعل `impulse 101` يعطيها أيضاً،
-  بما فيها `weapon_penguin`؛ لينكس يستخدم F9/F10 مع خادم `gearbox` الأصلي.
-* لينكس: `client.so` `28303100` بايت، sha256
-  `57c26765f9a9219ba388fb8349b3f56fe3b3e6a1ce920fbdb2c023584eba3b95`، مرتبط بأساس `GLIBC_2.17`؛ خادم `hl.so` القديم
-  (`21252408` بايت) ليس داخل الحزمة، ويستخدم
-  `../gearbox/dlls/opfor.so` بدلاً منه.
-* ويندوز (`x86-windows-msvc / PE32 i386`, `MSVC 19.44 / Visual Studio 2022 / CMake 3.30.9 / vcpkg x86-windows-static`, ABI متوافق مع MSVC/VGUI2):
-  `client.dll` `2015744` بايت، sha256 `77897e92bb0772c4351f8e4251108ec7e9b50702883214e32c8b450170de8496`؛
-  `opfor.dll` `1860608` بايت، sha256 `866d4dd3392b7cf906141f0520d032f89fc166fab3095cbec3b87e951996143a`. خادم `hl.dll`
-  القديم (`1196544` بايت) ليس داخل الحزمة.
-  هذه ثنائيات MSVC، لكنها **غير مُختبَرة داخل اللعبة**.
-* بصمات `SOURCES.sha256` تُتحقق لكل ملف موجود، ويكون عدد المخالفات صفراً؛
-  مسارات `.cache/` لتبعيات SDK/deps ليست داخل git ويعيدها سكربت البناء،
-  فيُتخطى الغائب منها صراحةً ولا يُحتسب نجاحاً. ثنائيات `mod/cl_dlls/`
-  و`mod/dlls/opfor.dll` تطابق البناء الموجود تماماً.
-* `MOD_MANIFEST.json` يقول صراحة: `in_game_tested_here: false`.
+* Clean BHL: `14` weapons in `W_Precache()`; clean OP4: `24`;
+  the difference is `10` OP4-only weapons. The merged tree registers `24`
+  names, once per name, with no duplicate registration.
+* Client: ten real OP4 weapon files + `CGrappleTip.cpp` + `ehandle.cpp`
+  + `op4_client_prediction.cpp` + nine view events, compiled with `CLIENT_DLL`.
+  `CGrapple` is no longer server-authoritative; no `UseDecrement()` is forced to `FALSE`.
+* `MAX_WEAPON_SLOTS = 7` and the `slot7` command are wired into BHL code; the seventh-slot sprite
+  in `sprites/hud.txt` is still not tested in game.
+* OP4 network compatibility: `MAX_WEAPONS = 64`, `local_state_t.weapondata[64]`, moving
+  prediction data for 64 weapons, and binding the 8-byte `Weapons` message in the BHL client
+  so weapon bits are not read only from the old 32-bit engine field.
+* `liblist.gam` starts `of0a0` and `ofboot0`; `steam_appid.txt = 50`;
+  merged BHL+OP4 `delta.lst` (keeps `health`/`eflags` and adds `iuser4`
+  and a 6-bit `m_iId`), and `fallback_dir "gearbox"` loads the installed OP4 assets.
+* After the bug report: client prediction gaps were fixed (`ItemInfoArray`, ammo registration,
+  `GetAmmoIndex`, `ammo_spores/ammo_762/m_iItems`, 64-slot loops,
+  `OldWeapon`/`HudColor`, and clearing state on ResetHUD), at the source level only.
+* Music: `setup_op4_media.bat` copies the original MP3s from `gearbox/media` only;
+  there is no MP3 in the ZIP and no generated music. Details are in `SOURCE_AUDIT.md`.
+* `autoexec.cfg` sets `sv_oldweapons 0`; `op4weapons.cfg` gives the ten weapons
+  and ammo via F9. The patched Windows server also makes `impulse 101` give them,
+  including `weapon_penguin`; Linux uses F9/F10 with the original `gearbox` server.
+* Linux: `client.so` `28303100` bytes, sha256
+  `57c26765f9a9219ba388fb8349b3f56fe3b3e6a1ce920fbdb2c023584eba3b95`, linked against `GLIBC_2.17`; the old `hl.so` server
+  (`21252408` bytes) is not in the package and uses
+  `../gearbox/dlls/opfor.so` instead.
+* Windows (`x86-windows-msvc / PE32 i386`, `MSVC 19.44 / Visual Studio 2022 / CMake 3.30.9 / vcpkg x86-windows-static`, ABI compatible with MSVC/VGUI2):
+  `client.dll` `2015744` bytes, sha256 `77897e92bb0772c4351f8e4251108ec7e9b50702883214e32c8b450170de8496`;
+  `opfor.dll` `1860608` bytes, sha256 `866d4dd3392b7cf906141f0520d032f89fc166fab3095cbec3b87e951996143a`. The old `hl.dll`
+  server (`1196544` bytes) is not in the package.
+  These are MSVC binaries, but they are **not tested in game**.
+* `SOURCES.sha256` hashes are checked for every existing file, and the violation count must be zero;
+  `.cache/` paths for SDK/deps are not in git and are restored by the build script,
+  so missing ones are skipped explicitly and are not counted as a pass. The `mod/cl_dlls/` binaries
+  and `mod/dlls/opfor.dll` match the existing build exactly.
+* `MOD_MANIFEST.json` states explicitly: `in_game_tested_here: false`.
 
-## النواقص التي تمنع علامة «مكتمل»
+## Gaps that block a 'complete' mark
 
-1. لا تحميل في محرك GoldSrc، ولا اختيار/إطلاق/إعادة تعبئة/ذخيرة/أنيميشن/صوت/Prediction
-   فعلي، ولا اختبار أعطال أو تعدد لاعبين.
-2. لا أصول OP4 قانونية مرفقة: الموديلات، الأصوات، سبرايت HUD، و`events/*.sc`
-   تُقرأ من نسخة `gearbox/` المثبّتة لدى المستخدم عبر `fallback_dir`.
-3. لا اختبار لنظام Windows runtime ولا لسلّة HUD السابعة داخل اللعبة، ولا
-   تأكيد من المستخدم أن حملة OP4 والقوائم والموسيقى وكل سلاح تعمل بعد هذا التغيير؛
-   جدول `RUNTIME_TESTS.md` يحمل `غير مُختبَر` لكل صف.
-4. خادم لينكس هو `gearbox` الأصلي: لا يحمل `sv_bhl_*` ولا ترقيع
-   `impulse 101`، وهذا فرق صريح عن نسخة ويندوز.
-5. البناء/الترجمة/الفحوص الآلية ليست بديلاً عن هذه الاختبارات.
+1. No loading in the GoldSrc engine, and no real selection/fire/reload/ammo/animation/sound/prediction
+   testing, and no crash or multiplayer testing.
+2. No legal OP4 assets are included: models, sounds, HUD sprites, and `events/*.sc`
+   are read from the user's installed `gearbox/` copy through `fallback_dir`.
+3. No Windows runtime test and no seventh HUD slot test in game, and no
+   confirmation from the user that the OP4 campaign, menus, music, and every weapon work after this change;
+   the `RUNTIME_TESTS.md` table shows `not tested` for every row.
+4. The Linux server is the original `gearbox` one: it has no `sv_bhl_*` and no
+   `impulse 101` patch, which is an explicit difference from the Windows build.
+5. Builds, compilation, and automated checks do not replace these tests.

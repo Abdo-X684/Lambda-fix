@@ -1,48 +1,51 @@
-# تصميم طبقة السبيدرن (مكتمل)
+# Speedrun layer design (optional add-on)
 
-## الزمن
+This is an **optional add-on** on top of BugfixedHL. It is not the merge itself (see
+[`BHL_BASE_MERGE.md`](BHL_BASE_MERGE.md)).
 
-* `sr::IClock` قابل للحقن: `SystemClock` (steady_clock) في اللعبة، `FakeClock` في الاختبارات.
-* `RunTimer` يحسب `now - start - paused_total`؛ الإيقاف لا يضيف زمن التحميل،
-  والتجميد عند `of7a0` يمنع تضخم الرن.
-* `ServerMirror` على العميل: `OnServerSplit(at, now)` ثم
-  `ProjectedMs(now2) = at + max(0, now2 - now)`؛ عند `Freeze` يتوقف نهائياً.
-* `FormatTime` → `M:SS.mmm` أو `H:MM:SS.mmm`.
+## Timing
 
-## الشبكة: `SRSplit`
+* `sr::IClock` can be injected: `SystemClock` (steady_clock) in the game, `FakeClock` in tests.
+* `RunTimer` computes `now - start - paused_total`. Pausing does not add load time. Freezing at
+  `of7a0` stops the run timer.
+* `ServerMirror` on the client: `OnServerSplit(at, now)`, then
+  `ProjectedMs(now2) = at + max(0, now2 - now)`. On `Freeze`, it stops for good.
+* `FormatTime` outputs `M:SS.mmm` or `H:MM:SS.mmm`.
 
-| جهة | السلوك |
-| --- | --- |
-| السيرفر | `gmsgSRSplit = REG_USER_MSG("SRSplit", -1)` في `LinkUserMessages()`؛ عند كل تقسيم `MESSAGE_BEGIN(MSG_ALL, ...)` ثم `WRITE_LONG(at)`, `WRITE_LONG(delta)`, `WRITE_BYTE(hasPb)`, `WRITE_STRING(map)`, `MESSAGE_END()` |
-| العميل | `HOOK_MESSAGE(SRSplit)` في `CHud::Init`؛ `__MsgFunc_SRSplit` يقرأ بـ `BEGIN_READ/READ_*` ويتحقق `READ_OK()` ثم `SR_HUD_OnSplit(...)` |
-| HUD | يعرض `ServerMirror`، وآخر تقسيم مع فرق PB عبر `DrawConsoleString` |
+## Network: `SRSplit`
 
-`sr_net_splits 0` يعطّل البثّ للاختبار المحلي.
+| Side | Behavior |
+|---|---|
+| Server | `gmsgSRSplit = REG_USER_MSG("SRSplit", -1)` in `LinkUserMessages()`. On each split: `MESSAGE_BEGIN(MSG_ALL, ...)`, then `WRITE_LONG(at)`, `WRITE_LONG(delta)`, `WRITE_BYTE(hasPb)`, `WRITE_STRING(map)`, `MESSAGE_END()` |
+| Client | `HOOK_MESSAGE(SRSplit)` in `CHud::Init`. `__MsgFunc_SRSplit` reads with `BEGIN_READ/READ_*`, checks `READ_OK()`, then calls `SR_HUD_OnSplit(...)` |
+| HUD | Shows `ServerMirror`, and the last split with the PB difference via `DrawConsoleString` |
 
-## المسار والتقسيمات
+`sr_net_splits 0` disables the broadcast for local tests.
 
-`data/op4_route.json` هو المصدر الوحيد: 13 فصلاً و39 خريطة، ومعسكر التدريب
-`ofboot0..ofboot4` فئة منفصلة. `SplitAt(map)` يرفض المؤقّت المتوقف، الخريطة
-المجهولة، والعودة للخلف؛ القفز للأمام مسموح (skips). `ParsePersonalBest`
-يتجاهل الأسطر التالفة كي لا يُفسد ملف PB رنّاً كاملاً.
+## Route and splits
 
-## الشرعية
+`data/op4_route.json` is the single source: 13 chapters and 39 maps. The Boot Camp
+`ofboot0..ofboot4` is a separate category. `SplitAt(map)` rejects a stopped timer, an unknown map,
+and going backwards. Skipping forward is allowed. `ParsePersonalBest` ignores damaged lines so that
+one bad line cannot corrupt a whole PB file.
 
-| البند | الآلية |
-| --- | --- |
-| `sv_cheats` | `0` في cfg؛ السيرفر يعلم الرن INVALID إن كان مفعّلاً |
-| `sr_practice_mode 1` | يمنع اعتبار الرن صالحاً |
-| السلطة | المؤقّت على السيرفر + بثّ `SRSplit`؛ HUD مرآة فقط |
-| bunnyhop | `sv_allowbunnyhopping 1` (مكافئ OP4 الأصلي لإصلاح BugfixedHL) |
-| demo | `sr_autodemo 1` → `record sr_run_<epoch>` عند البدء/الإعادة، `stop` عند الخاتمة |
-| binds | `F5` إعادة، `F6` تقسيم، `F7` تدريب — لا تلمس `Space` أو `E` |
+## Legitimacy
 
-## أوامر اللعبة
+| Item | Mechanism |
+|---|---|
+| `sv_cheats` | `0` in the cfg. The server marks the run INVALID if it is enabled |
+| `sr_practice_mode 1` | Prevents the run from counting as valid |
+| Authority | The timer runs on the server and broadcasts `SRSplit`. The HUD is a mirror only |
+| bunnyhop | `sv_allowbunnyhopping 1` (the OP4 equivalent of the BugfixedHL fix) |
+| demo | `sr_autodemo 1` runs `record sr_run_<epoch>` at start or reset, and `stop` at the end |
+| binds | `F5` reset, `F6` split, `F7` practice. Do not bind `Space` or `E` |
 
-`sr_split`, `sr_reset`, `sr_practice_toggle` تُسجَّل مرة واحدة عند أول
-`CWorld::Spawn`. ملف PB: أسطر `map=ms` في `splits/op4_pb.txt`.
+## Console commands
 
-## التحقق
+`sr_split`, `sr_reset`, and `sr_practice_toggle` are registered once, on the first `CWorld::Spawn`.
+PB file: `map=ms` lines in `splits/op4_pb.txt`.
 
-`tools/verify_sdk.py`: 9 ملفات `g++ -fsyntax-only` أمام هيدرات OP4 الحقيقية
-+ فحص عدم وجود علامات تعارض في أي مصدر قابل للبناء.
+## Checks
+
+`tools/verify_sdk.py`: 9 files compiled with `g++ -fsyntax-only` against the real OP4 headers, plus a
+check that no conflict markers exist in any buildable source.

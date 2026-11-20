@@ -1,145 +1,36 @@
-# كيف أبني `client.so` — ومن أين أحمّل الأشياء؟
+# Building `client.so` and `hl.so`
 
-## ⛔ أولاً: لا تضع الملفات داخل `gearbox/`
+## Do not put the files inside `gearbox/`
 
-إذا ظهرت لك الرسالة:
+If you see this message:
 
 > *This mod has detected that it is being run from a Valve game directory which
 > is not supported. Run this mod from its intended location. The game will now
 > shut down.*
 
-فالسبب أنك نسخت `client.so`/`hl.so` إلى **`gearbox/cl_dlls/`** و**`gearbox/dlls/`**
-(كما قلتُ لك خطأً في إرشادات سابقة — هذا كان خطأي). SDK يحوي حاجزاً صريحاً
-`UTIL_IsValveGameDirectory()` في `game_shared/filesystem_utils.cpp` يرفض أي
-مجلد مود يبدأ بأحد البادئات:
-`valve`, `gearbox`, `bshift`, `ricochet`, `dmc`, `cstrike`, `czero`, `dod`, `tfc`
-(مطابقة بادئة، أي `gearbox_hd` مرفوض أيضاً). العميل يوقف اللعبة برسالة SDL
-والسيرفر يطبعها في الكونسول.
+then the DLLs were copied into `gearbox/cl_dlls/` or `gearbox/dlls/`. The SDK refuses to run
+any mod folder whose name starts with `valve`, `gearbox`, `bshift`, `ricochet`, `dmc`,
+`cstrike`, `czero`, `dod`, or `tfc` (prefix match, so `gearbox_hd` is refused too).
 
-**الحل:** مجلد مود مستقل اسمه `bhlop4` بجوار `valve/` و`gearbox/`، مع
-`fallback_dir "gearbox"` كي تُقرأ أصول OP4 من مجلدها الرسمي دون تعديله.
-
-```bash
-python3 tools/create_mod.py --install "/path/to/Half-Life"
-# ينشئ /path/to/Half-Life/bhlop4/{liblist.gam,steam_appid.txt,delta.lst,
-#        cl_dlls/client.so,dlls/hl.so,speedrun.cfg,splits/,INSTALL.md}
-hl_linux -game bhlop4 -console -dev +exec speedrun.cfg
-```
-
-أو حمّل الأرشيف الجاهز `bhl-op4-mod.zip`، فكّه داخل مجلد Half-Life، وشغّل
-`-game bhlop4`. لا تلمس `gearbox/` أبداً: Steam يعيد ملفاته، والحاجز يرفضه أصلاً.
-
----
-
-## 🧩 «مافي أي علامات BHL» — كان خطأً في الدمج نفسه
-
-السبب لم يكن cvars ناقصة فقط: الإصدارات `0.1.x` **لم تدمج BHL أصلاً**، بل
-استخدمته كمرجع تدقيق وبنت نظام `sr_*` جديداً. تم التصحيح: أنظمة BHL الحقيقية
-تُترجم الآن داخل الثنائيات مع طبقة توافقيات فقط
-([`BHL_MERGE.md`](BHL_MERGE.md)، `make merge` يستدعي `merge.bhl`).
-
-| علامة BHL | وين |
-| --- | --- |
-| مؤشر السرعة / jumpspeed / strafe guide | على الشاشة، `hud_speedometer 1` … |
-| `[BHL] BugfixedHL systems merged into Opposing Force` | الكونسول عند التحميل |
-| **`bhl_status`** | قائمة الأنظمة المدموجة (أمر BHL عبر `CON_COMMAND`) |
-| `bhl_version` → `bhl-systems-1` | cvar من نظام `ConVar` في BHL |
-| `sv_bhl_version` / `sv_bhl_query_vars` | السيرفر |
-| `bugfixedhl.cfg` | يُنشأ في مجلد المود عند الإغلاق |
-
-`bhl-op4-mod.zip` و`client.so`/`hl.so` في الـ Release مبنية من الشجرة المدموجة
-الجديدة. `sr_status` و`sr_hud_banner` بقيتا لإضافة السبيدرن الاختيارية فقط.
-
-## ✅ جاهز للتحميل الآن
-
-| الملف | الحجم | التحميل |
-| --- | --- | --- |
-| **`bhl-op4-mod.zip`** ⭐ bhl-systems-1 | 9.3 MB | [**⬇ المود كامل**](https://github.com/Abdo-X684/Bugfixhl-speedrun-op4/releases/download/v0.1.0-linux32/bhl-op4-mod.zip) · [من اللوحة](/dist/bhl-op4-mod.zip) |
-| `client.so` | 9.0 MB | [**⬇ مباشر**](https://github.com/Abdo-X684/Bugfixhl-speedrun-op4/releases/download/v0.1.0-linux32/client.so) · [من اللوحة](/dist/dlls/client.so) |
-| `hl.so` | 15.9 MB | [**⬇ مباشر**](https://github.com/Abdo-X684/Bugfixhl-speedrun-op4/releases/download/v0.1.0-linux32/hl.so) · [من اللوحة](/dist/dlls/hl.so) |
-| `MANIFEST.json` | sha256 + ELF32 | [**⬇ مباشر**](https://github.com/Abdo-X684/Bugfixhl-speedrun-op4/releases/download/v0.1.0-linux32/MANIFEST.json) |
-
-صفحة الإصدار: [v0.1.0-linux32](https://github.com/Abdo-X684/Bugfixhl-speedrun-op4/releases/tag/v0.1.0-linux32).
-الثنائيات ELF 32-bit حقيقية، مبنية بـ Zig كمُصرّف i386 عابر (بلا `gcc-multilib`
-وبلا `vgui.so` من اللعبة وقت الربط). **`vgui.so` الحقيقية وأصول اللعبة تبقى من
-نسختك المشروعة**؛ المكتبة الوهمية استُخدمت للربط فقط لإنشاء `DT_NEEDED`، ولا تُوزّع.
-
----
-
-## الجواب المختصر عن «من أين أحمّل client.so؟»
-
-لا يوجد رابط «شرعي» لتحميله منفرداً: النسخة الأصلية تأتي مع لعبتك عند
-`.../Half-Life/gearbox/cl_dlls/client.so`، ومهمتنا بناء نسخة بديلة من الشجرة
-المدموجة (HUD السبيدرن + `SRSplit` + `sr_core`) داخل **مجلد المود**، لا فوقها
-[1](https://deepwiki.com/twhl-community/halflife-op4-updated).
-
-```bash
-make fetch && make merge          # ① الشجرة المدموجة (828 ملف، 0 تعارضات)
-make build-dlls-zig               # ② dist/dlls/{client.so,hl.so}
-make mod                          # ③ dist/bhlop4/ + bhl-op4-mod.zip
-```
-
----
-
-## إذن ماذا أحمّل فعلاً؟
-
-| تحتاجه | من أين | هل أحمّله يدوياً؟ |
-| --- | --- | --- |
-| مصادر OP4 / BugfixedHL / HLSDK | `make fetch` ينزّلها تلقائياً بـ commit + sha256 مثبّتين في `upstreams.json` | ❌ لا — مؤتمت بالكامل |
-| **أداة البناء 32-bit** | `pip install ziglang` للطريقة السريعة، أو `sudo apt install build-essential gcc-multilib g++-multilib libgl1-mesa-dev` (GCC 9+) | ✅ نعم، من الـ repos |
-| **أصول اللعبة** (`gearbox/`, الخرائط، الأصوات) | Steam: Half-Life (app 70) + Opposing Force (app 50) [2](https://steamcommunity.com/app/50/discussions/0/3103512736615438885/)؛ أو SteamCMD `+app_set_config 90 mod gearbox +app_update 90 validate` [1](https://steamcommunity.com/discussions/forum/13/810938082280349586/) | ✅ نعم — للتشغيل فقط |
-| **`vgui.so`** | جذر تثبيت اللعبة `Half-Life/vgui.so` — **لا تُوزّع** [4](https://github.com/ranting-soberly/half-life-decay-linux-installer) | ✅ من لعبتك |
-| `delta.lst`, `liblist.gam`, `steam_appid.txt`, `speedrun.cfg`, `splits/` | `make mod` يولّدها كلها (`data/delta.lst` من شبكة OP4 SDK) | ❌ مؤتمت |
-
-> `fallback_dir "gearbox"` هو المفتاح: المود يقرأ أصول OP4 من مجلد Valve الرسمي
-> دون أن يُشغَّل منه. لا يمكن سلسلة أكثر من fallback واحد، لكن `valve` يبقى
-> الأساس الضمني للمحرك [1](https://twhl.info/wiki/page/liblist.gam).
-> `steam_appid.txt = 50` يجعل Steam يركّب أصول Opposing Force للمود [2](https://steamcommunity.com/app/50/discussions/0/3103512736615438885/).
-
----
-
-## لماذا 32 بالتحديد؟ 🔧
-
-محرك GoldSrc على Linux **ELF 32-bit**، لذا `linux/Makefile` يستخدم
-`g++ -m32` و`ARCH=i386`. أي `client.so` بـ 64-bit يُرفض بـ
-`could not load library client.so` [4](https://github.com/ranting-soberly/half-life-decay-linux-installer).
-في هذه الـ sandbox لا يوجد `gcc-multilib`، لذلك بنيتُ الملفين بـ Zig
-(`x86-linux-gnu`) مع هيدر `GL/gl.h` مصغّر و`vgui.so` وهمي للربط فقط.
-
----
-
-## خطوات البناء الكاملة (إن أردت إعادة الإنتاج)
-
-```bash
-python3 -m pip install ziglang
-make fetch && make merge
-make verify-sdk                  # 9/9 ملفات تُترجم أمام هيدرات SDK الحقيقية
-make build-dlls-zig              # client.so + hl.so + MANIFEST.json
-make mod                         # مجلد bhlop4 + الأرشيف
-```
-
-`merge/projects.py` أضاف مسبقاً `sr_hud_timer.o`, `sr_hud_msg.o`,
-`sr_server.o`, `sr_core.o` إلى `Makefile.hl_cdll`/`Makefile.hldll`، وسكربت
-البناء يتحقق من وجودها ويصلح إذن `gendbg.sh`. النواة تُبنى أيضاً بـ
-`-fno-exceptions` (فحص دائم في `make verify`).
-
-### التثبيت والتشغيل
+**Fix:** use a separate mod folder named `bhlop4` next to `valve/` and `gearbox/`. Its
+`fallback_dir "gearbox"` setting reads the Opposing Force assets from the original folder without
+changing it.
 
 ```text
 Half-Life/
-├── valve/          ← لا تلمسه
-├── gearbox/        ← لا تلمسه (الأصول تُقرأ منه عبر fallback_dir)
-└── bhlop4/         ← هنا فقط
+├── valve/          do not touch
+├── gearbox/        do not touch (assets are read from here through fallback_dir)
+└── bhlop4/         the mod folder
     ├── liblist.gam
     ├── steam_appid.txt   (50)
     ├── delta.lst
     ├── cl_dlls/client.so
-    ├── dlls/hl.so
-    ├── speedrun.cfg
-    └── splits/op4_route.json
+    └── dlls/hl.so
 ```
 
-`liblist.gam` الجاهز:
+Launch with: `hl_linux -game bhlop4 -console`
+
+`liblist.gam`:
 
 ```text
 game "BugfixedHL x OP4 Speedrun"
@@ -152,32 +43,50 @@ gamedll_linux "dlls/hl.so"
 fallback_dir "gearbox"
 ```
 
-وشغّل `hl_linux -game bhlop4 -console -dev +exec speedrun.cfg`
-(أو أضف `-game bhlop4` لخيارات التشغيل في Steam). `F5` إعادة، `F6` تقسيم،
-`F7` تدريب. `sv_cheats` يبقى `0`. للمود على Windows: ابنِ
-`projects/vs2019/projects.sln` بـ VS2019+ وضع `client.dll`/`hl.dll` في نفس
-مجلد المود [2](https://twhl.info/wiki/page/Half-Life_Programming_-_Getting_Started).
+## Prerequisites
 
----
+| Item | Where it comes from |
+|---|---|
+| Pinned upstream sources (BugfixedHL, OP4, HLSDK) | `make fetch` (commit and sha256 pinned in `upstreams.json`) |
+| 32-bit toolchain | `pip install ziglang==0.17.1` (used by `tools/build_bhl_base.py`), or `gcc-multilib g++-multilib` |
+| `vgui.so` | Your own Half-Life installation. It is **not** distributed and **not** in this repository |
+| Game assets (`gearbox/`, maps, sounds, models) | Your own Steam install of Half-Life and Opposing Force |
 
-## استكشاف الأخطاء
+## Build steps
 
-| الرسالة | السبب / الحل |
-| --- | --- |
-| **This mod has detected that it is being run from a Valve game directory…** | نسخت الملفات إلى `gearbox/` أو `valve/`؛ استخدم `bhlop4/` مع `fallback_dir "gearbox"` |
-| `cannot find Scrt1.o` / `bits/c++config.h` | ناقص `gcc-multilib g++-multilib` — أو استخدم `make build-dlls-zig` |
-| `cannot find vgui.so` | انسخ `vgui.so` من جذر اللعبة أو مرّر `--vgui` لـ `build_dlls.py` |
-| `./gendbg.sh: Permission denied` | السكربت يصلحها تلقائياً؛ أو `chmod +x linux/gendbg.sh` |
-| `could not load library client.so` | بنيت 64-bit أو ينقصك `libstdc++6-i386`؛ افحص `ldd client.so` |
-| `Host_InitError ... vgui.so: cannot open` | ضع `vgui.so` في جذر Half-Life حيث يجدها المحرك |
-| خرائط/موديلات OP4 مفقودة | تأكد من `fallback_dir "gearbox"` و`steam_appid.txt = 50` |
+```bash
+make fetch                       # pinned upstream sources
+make bhl-base                    # regenerate bhl-op4/ from the BHL base + OP4 merge rules
+python3 -m venv /tmp/zenv && /tmp/zenv/bin/pip install cmake==3.30.9 ziglang==0.17.1 PyYAML==6.0.3
+/tmp/zenv/bin/python tools/build_bhl_base.py --out scratch/bhl-out --jobs 8
+make verify                      # repository checks
+```
 
-للتوزيع العام يُفضّل البناء داخل **Steam Runtime "scout"** [2](https://twhl.info/wiki/page/Half-Life_Programming_-_Getting_Started).
+`build_bhl_base.py` reproduces the CMake source lists, defines, and precompiled header from
+`bhl-op4/CMakeLists.txt` and compiles with Zig's clang for `i386-unknown-linux-gnu`. Output is a
+32-bit ELF `client.so` and `hl.so`, linked against a GLIBC 2.17 baseline. See
+[`BHL_BASE_BUILD.md`](BHL_BASE_BUILD.md) for the full log and compatibility notes.
 
----
+## Packaged builds
 
-## الرخص
+* `build-evidence/bhl-base-linux-mod/bhlop4-bhlbase-linux.zip`: the current Linux package
+  (see its `MOD_MANIFEST.json`, `INSTALL.md`, and `RUNTIME_TESTS.md`).
+* Windows build: see [`BHL_WINDOWS_BUILD.md`](BHL_WINDOWS_BUILD.md).
 
-`client.so` و`hl.so` مشتقان من كود OP4/Valve، فيخضعان لرخصها؛ `data/delta.lst`
-منقول من مجلد `network/` في SDK لأن كل مود يحتاجه. لا تُرفع ثنائيات Valve إلى
-حزمة `make package` (كودنا فقط). راجع [`LICENSES.md`](LICENSES.md) قبل أي توزيع.
+The `v0.1.0-linux32` GitHub release and `dist/` binaries come from the earlier OP4-based tree.
+They are **legacy** and are not from the current `bhl-op4/` tree.
+
+## Troubleshooting
+
+| Message | Cause / fix |
+|---|---|
+| `This mod has detected that it is being run from a Valve game directory` | Files were copied into `gearbox/` or `valve/`. Use `bhlop4/` with `fallback_dir "gearbox"` |
+| `could not load library client.so` | Built as 64-bit, or `libstdc++6-i386` is missing. Check with `ldd client.so` |
+| `cannot open vgui.so` | Copy `vgui.so` from the Half-Life root folder, where the engine can find it |
+| Missing OP4 maps or models | Check `fallback_dir "gearbox"` and `steam_appid.txt = 50` |
+
+## Licenses
+
+`client.so` and `hl.so` are derived from BugfixedHL (GPL-3.0) and OP4 / Valve HLSDK code, so
+they follow those licenses. Do not add Valve binaries or `vgui.so` to any package. Read
+[`LICENSES.md`](LICENSES.md) before distributing anything.

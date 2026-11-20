@@ -1,52 +1,46 @@
-# المعمارية (النسخة المكتملة)
+# Architecture (current)
 
-## المشكلة
+## Problem
 
 | | BugfixedHL-Rebased | halflife-op4-updated |
-| --- | --- | --- |
-| التخطيط | `src/game/{client,server,shared}`, `src/common` | `cl_dll`, `dlls`, `game_shared`, `common` |
-| الواجهة | VGUI2، HUD مقسّم، `ConVar` class | VGUI1، `cl_dll/hud.cpp` واحد، macros |
-| البناء | CMake | VS2019 vcxproj + Linux Makefiles |
-| الرخصة | GPL-3.0 | Valve HLSDK (non-commercial) + TWHL |
+|---|---|---|
+| Layout | `src/game/{client,server,shared}`, `src/common` | `cl_dll`, `dlls`, `game_shared`, `common` |
+| UI | VGUI2, split HUD, `ConVar` class | VGUI1, one `cl_dll/hud.cpp`, macros |
+| Build | CMake | VS2019 vcxproj + Linux Makefiles |
+| License | GPL-3.0 | Valve HLSDK (non-commercial) + TWHL |
 
-وضع `src/game/client/hud.cpp` مكان `cl_dll/hud.cpp` يدمر كود OP4. لذا المشروع
-لا يدمج المستودعين كتلةً واحدة، بل يطبّق طبقة انتقائية مُثبتة بالأدلة.
+Copying OP4's `cl_dll/hud.cpp` over BHL's `src/game/client/hud.cpp` would break both. So the project
+does not merge the two trees as one block. It takes BHL as the base and applies OP4 content through
+named, recorded rules.
 
-## الطبقات
+## Layers
 
-1. **البيانات** — `upstreams.json` (3 مصادر بـ SHA + sha256 + رخصة + دور)
-   و`merge/plan.json` (30 قاعدة صريحة، schema 2).
-2. **المصادر** — `merge/fetch.py`: تنزيل + تحقق sha256/حجم + فك آمن
-   (يمنع traversal والروابط الرمزية والثنائيات) إلى `.cache/upstreams/`.
-   `--offline` يبدّلها بـ fixtures بنفس المسارات والـ anchors.
-3. **المحرّك** — `merge/engine.py`: نسخ شجرة OP4 إلى مرحلة مؤقتة،
-   `audit` (تدقيق تكافؤ)، `copy` (ترجمة مسارات/`#include`/بانر)،
-   `inject` (anchor فريد)، `generate`، `patch_projects`،
-   ثم تقرير + بصمة شجرة + تبديل ذري.
-4. **النواة** — `src/speedrun/sr_core.{h,cpp}`: C++17 بلا اعتماد على المحرك،
-   تُبنى وتُختبر على المضيف وتُنسخ كما هي إلى `game_shared/`.
-   تحوي `RunTimer` و`Route` و`Split`/PB و`ServerMirror`.
-5. **الـ glue** — `overlay/cl_dll/sr_hud_timer.*` و`sr_hud_msg.*`،
-   `overlay/dlls/sr_server.*`، ومقاطع `integration/snippets/`.
-6. **الشبكة** — السيرفر يسجّل `SRSplit` في `LinkUserMessages()` ويبثّ
-   `(at, delta, hasPb, map)` عند كل changelevel؛ العميل يربطها في
-   `CHud::Init` ويعرض `ServerMirror` (زمن سلطوي + إسقاط رتيب محلي).
-7. **العرض والتوزيع** — `web/app.py` (stdlib http.server + RTL)،
-   `web/markdown.py` (عارض Markdown آمن بلا اعتماديات: عناوين بفهرس، جداول،
-   كتل أوامر، روابط وثائق داخلية؛ يُهرَّب كل النص خادمياً)،
-   `tools/package_mod.py` (zip + `MANIFEST.json` بـ sha256، بلا كود SDK).
-   اللوحة تبويبان: لوحة التحكم، وصفحة README/الوثائق بفهرس جانبي.
-8. **ربط الـ binaries** — `tools/build_dlls.py`: فحص الشجرة/الأداة 32-bit/
-   `vgui.so`، ثم `make -C build/merged-real/linux CFG=release` لإنتاج
-   `client.so` + `hl.so` مع `MANIFEST.json`؛ تفاصيل [`BUILDING.md`](BUILDING.md).
+1. **Base tree**: `bhl-op4/`, a verbatim copy of BugfixedHL-Rebased with named merge rules applied.
+   Every file has a provenance record in `bhl-op4/PROVENANCE.json`.
+2. **Sources**: `merge/fetch.py` downloads the pinned upstreams (commit + sha256 checked, safe
+   extraction) into `.cache/upstreams/`.
+3. **Merge tooling**: `merge/bhl_base.py` produces `bhl-op4/` from the base and the OP4 tree
+   (deterministic, rebuilt from scratch). `--check` verifies the provenance fingerprint and that every
+   CMake-wired source is present and clean.
+4. **Compilation evidence**: `tools/build_bhl_base.py` builds 32-bit `client.so` and `hl.so` with
+   Zig's clang. `tools/verify_bhl_base.py --compile` compiles each source to an ELF32 object and writes
+   `bhl-op4/PORT_STATUS.json`.
+5. **Speedrun add-on** (optional): `src/speedrun/sr_core.{h,cpp}` is a C++17 core with no engine
+   dependency. It contains the run timer, the route, splits, personal bests, and the server mirror. See
+   [`SPEEDRUN.md`](SPEEDRUN.md).
+6. **Packaging**: `tools/create_playable_mod.py` creates the standalone `bhlop4/` mod folder and the zip
+   with `MOD_MANIFEST.json` (sha256 for every file). The package never contains Valve assets.
+7. **Web dashboard**: `web/app.py` (standard library `http.server`) and `web/markdown.py` (a safe Markdown
+   renderer with no dependencies). The dashboard shows the merge status and the README/docs with a side
+   index.
 
-## القرارات المهمة
+## Key decisions
 
-* **التكافؤ بدل الدمج الأعمى**: OP4-updated يوفّر bunnyhop وحماية الأوامر
-  وتهيئة HUD أصلاً. التدقيق الآلي يثبت ذلك بمراجع سطور؛ التفاصيل في
-  [`RESOLUTION.md`](RESOLUTION.md). لا تعارضات مخفية ولا cvars وهمية.
-* **المنقولات GPL للمراجعة فقط** في `integration/ports/` خارج مسارات البناء،
-  والتنفيذ نواة نظيفة مكتوبة هنا.
-* **الزمن سلطوي**: HUD لا يخمن الزمن، بل يستقبل الرسائل ويعرض إسقاطاً رتيباً.
-* **الحتمية**: `compute_tree_hash()` يهضم `(المسار، المحتوى)` بترتيب مفروض
-  ويستثني التقرير؛ إعادة التشغيل تعطي نفس البصمة. الحزمة كذلك بتواريخ zip ثابتة.
+* **Base is BugfixedHL**: OP4 systems and weapons are merged into BHL headers and sources, not the other
+  way round. Earlier releases did the opposite and were corrected; see
+  [`BHL_MERGE.md`](BHL_MERGE.md) and [`BHL_BASE_MERGE.md`](BHL_BASE_MERGE.md).
+* **Named, mechanical transformations only**: each change to a source file is a named rule with a count
+  in `PROVENANCE.json`. Function bodies come from OP4 unchanged.
+* **Server authority**: the server owns the speedrun timer. The client HUD only displays the mirrored time.
+* **Determinism**: `compute_tree_hash()` hashes `(path, content)` in a fixed order and excludes the report,
+  so repeated runs give the same hash. Package zips use fixed timestamps.

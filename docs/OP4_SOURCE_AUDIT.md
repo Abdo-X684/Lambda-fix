@@ -1,46 +1,46 @@
-# تدقيق مصادر وأصول Opposing Force
+# Opposing Force source and asset audit
 
-> **تدقيق ملفات ومصادر فقط.** لم يُشغَّل محرك GoldSrc في هذه البيئة،
-> ولا تُعدّ الترجمة أو CI أو وجود ملفات أو تسجيل حدث دليلاً على عمل أي سلاح.
-> بلاغ المستخدم: اللعبة تعمل، لكن موسيقى المقدمة ليست OP4 والأسلحة لا تعمل بشكل صحيح؛
-> لذلك لا توجد علامة نجاح لأي صف غير مُختبَر.
+> **File and source audit only.** The GoldSrc engine was not run in this environment,
+> and compilation, CI, file presence, or event logging is not proof that any weapon works.
+> User report: the game runs, but the intro music is not OP4 and the weapons do not work correctly;
+> so no untested row is marked as passing.
 
-## 1. المستودعات والالتزامات المثبّتة
+## 1. Pinned repositories and commits
 
-| الدور | المستودع | الالتزام | بصمة الحزمة |
+| Role | Repository | Commit | Tarball hash |
 |---|---|---|---|
-| مصدر أسلحة/خادم OP4 | [twhl-community/halflife-op4-updated](https://github.com/twhl-community/halflife-op4-updated) | [`5368be7f8eba14b05236c7c52ad5f6b11fd95e55`](https://github.com/twhl-community/halflife-op4-updated/commit/5368be7f8eba14b05236c7c52ad5f6b11fd95e55) | `c65e53713b5ef2d3a8a65dfea4010ccb87afb096944e310ce094f9fbdef43753` |
-| أساس BHL / VGUI2 / الحركة | [tmp64/BugfixedHL-Rebased](https://github.com/tmp64/BugfixedHL-Rebased) | [`4d32095e3c33d5ca60809d9c51f8aafe51c0a521`](https://github.com/tmp64/BugfixedHL-Rebased/commit/4d32095e3c33d5ca60809d9c51f8aafe51c0a521) | `a70ab961de1c40f6d4df025fbd37f14c81951afef9b6175023518ed4f81228dc` |
-| أصل HLSDK | [ValveSoftware/halflife](https://github.com/ValveSoftware/halflife) | [`b1b5cf5892918535619b2937bb927e46cb097ba1`](https://github.com/ValveSoftware/halflife/commit/b1b5cf5892918535619b2937bb927e46cb097ba1) | `f5e7793f974bc02d1e1c4e29a9733df23c2f8dfbaa97c888bb738c2d9b2b5726` |
+| OP4 weapons/server source | [twhl-community/halflife-op4-updated](https://github.com/twhl-community/halflife-op4-updated) | [`5368be7f8eba14b05236c7c52ad5f6b11fd95e55`](https://github.com/twhl-community/halflife-op4-updated/commit/5368be7f8eba14b05236c7c52ad5f6b11fd95e55) | `c65e53713b5ef2d3a8a65dfea4010ccb87afb096944e310ce094f9fbdef43753` |
+| BHL base / VGUI2 / movement | [tmp64/BugfixedHL-Rebased](https://github.com/tmp64/BugfixedHL-Rebased) | [`4d32095e3c33d5ca60809d9c51f8aafe51c0a521`](https://github.com/tmp64/BugfixedHL-Rebased/commit/4d32095e3c33d5ca60809d9c51f8aafe51c0a521) | `a70ab961de1c40f6d4df025fbd37f14c81951afef9b6175023518ed4f81228dc` |
+| HLSDK origin | [ValveSoftware/halflife](https://github.com/ValveSoftware/halflife) | [`b1b5cf5892918535619b2937bb927e46cb097ba1`](https://github.com/ValveSoftware/halflife/commit/b1b5cf5892918535619b2937bb927e46cb097ba1) | `f5e7793f974bc02d1e1c4e29a9733df23c2f8dfbaa97c888bb738c2d9b2b5726` |
 
-الأسلحة العشرة كلها من **مستودع OP4 واحد** وبنفس الالتزام أعلاه؛ لا توجد نماذج
-أو كيانات بديلة من مستودع آخر. الموديلات/الأصوات/الخرائط/الـMP3 ليست في هذا
-المستودع ولا في ZIP: تُقرأ من نسخة `gearbox/` المثبّتة قانونياً لدى المستخدم.
+All ten weapons come from **one OP4 repository** at the commit above; there are no models
+or entities from any other repository. Models, sounds, maps, and MP3s are not in this
+repository or in the ZIP: they are read from the user's own legally installed `gearbox/` copy.
 
-## 2. جدول الأسلحة: الأصل، الملفات، التعديل، الكتابة الذاتية
+## 2. Weapon table: origin, files, edits, self-written code
 
-| السلاح | الاسم البرمجي | ملفات OP4 الأصلية | تعديل معلن | حدث العميل | ملفات كتبناها للسلاح | داخل اللعبة |
+| Weapon | Code name | Original OP4 files | Declared edit | Client event | Files we wrote for the weapon | In game |
 |---|---|---|---|---|---|---|
-| Desert Eagle | `weapon_eagle` / `CEagle` | `CEagle.cpp`<br>`CEagle.h`<br>`CEagleLaser.cpp`<br>`CEagleLaser.h` | `op4+compat-patch, verbatim` | `events/eagle.sc` → `EV_FireEagle` | لا شيء؛ أجسام الأسلحة أصلية | **غير مُختبَر داخل GoldSrc في هذه البيئة** |
-| Pipe Wrench | `weapon_pipewrench` / `CPipewrench` | `CPipewrench.cpp`<br>`CPipewrench.h` | `op4+compat-patch` | `events/pipewrench.sc` → `EV_Pipewrench` | لا شيء؛ أجسام الأسلحة أصلية | **غير مُختبَر داخل GoldSrc في هذه البيئة** |
-| M249 | `weapon_m249` / `CM249` | `CM249.cpp`<br>`CM249.h` | `op4+compat-patch` | `events/m249.sc` → `EV_FireM249` | لا شيء؛ أجسام الأسلحة أصلية | **غير مُختبَر داخل GoldSrc في هذه البيئة** |
-| Displacer | `weapon_displacer` / `CDisplacer` | `CDisplacer.cpp`<br>`CDisplacer.h`<br>`CDisplacerBall.cpp`<br>`CDisplacerBall.h` | `op4+compat-patch, verbatim` | `events/displacer.sc` → `EV_FireDisplacer` | لا شيء؛ أجسام الأسلحة أصلية | **غير مُختبَر داخل GoldSrc في هذه البيئة** |
-| Shock Rifle / weapon_shockroach alias | `weapon_shockrifle` / `CShockRifle` | `CShockRifle.cpp`<br>`CShockRifle.h`<br>`CShockBeam.cpp`<br>`CShockBeam.h`<br>`shockroach.cpp` | `op4+compat-patch` | `events/shock.sc` → `EV_FireShockRifle` | لا شيء؛ أجسام الأسلحة أصلية | **غير مُختبَر داخل GoldSrc في هذه البيئة** |
-| Spore Launcher | `weapon_sporelauncher` / `CSporeLauncher` | `CSporeLauncher.cpp`<br>`CSporeLauncher.h`<br>`CSpore.cpp`<br>`CSpore.h` | `op4+compat-patch` | `events/spore.sc` → `EV_FireSpore` | لا شيء؛ أجسام الأسلحة أصلية | **غير مُختبَر داخل GoldSrc في هذه البيئة** |
-| Sniper Rifle | `weapon_sniperrifle` / `CSniperRifle` | `CSniperRifle.cpp`<br>`CSniperRifle.h` | `op4+compat-patch` | `events/sniper.sc` → `EV_SniperRifle` | لا شيء؛ أجسام الأسلحة أصلية | **غير مُختبَر داخل GoldSrc في هذه البيئة** |
-| Knife | `weapon_knife` / `CKnife` | `CKnife.cpp`<br>`CKnife.h` | `op4+compat-patch` | `events/knife.sc` → `EV_Knife` | لا شيء؛ أجسام الأسلحة أصلية | **غير مُختبَر داخل GoldSrc في هذه البيئة** |
-| Penguin | `weapon_penguin` / `CPenguin` | `CPenguin.cpp`<br>`CPenguin.h`<br>`penguin_grenade.cpp` | `op4+compat-patch` | `events/penguinfire.sc` → `EV_PenguinFire` | لا شيء؛ أجسام الأسلحة أصلية | **غير مُختبَر داخل GoldSrc في هذه البيئة** |
-| Grapple | `weapon_grapple` / `CGrapple` | `CGrapple.cpp`<br>`CGrapple.h`<br>`CGrappleTip.cpp`<br>`CGrappleTip.h` | `op4+compat-patch, verbatim` | لا يوجد في مصدر OP4 | لا شيء؛ أجسام الأسلحة أصلية | **غير مُختبَر داخل GoldSrc في هذه البيئة** |
+| Desert Eagle | `weapon_eagle` / `CEagle` | `CEagle.cpp`<br>`CEagle.h`<br>`CEagleLaser.cpp`<br>`CEagleLaser.h` | `op4+compat-patch, verbatim` | `events/eagle.sc` → `EV_FireEagle` | none; weapon bodies are original | **not tested inside GoldSrc in this environment** |
+| Pipe Wrench | `weapon_pipewrench` / `CPipewrench` | `CPipewrench.cpp`<br>`CPipewrench.h` | `op4+compat-patch` | `events/pipewrench.sc` → `EV_Pipewrench` | none; weapon bodies are original | **not tested inside GoldSrc in this environment** |
+| M249 | `weapon_m249` / `CM249` | `CM249.cpp`<br>`CM249.h` | `op4+compat-patch` | `events/m249.sc` → `EV_FireM249` | none; weapon bodies are original | **not tested inside GoldSrc in this environment** |
+| Displacer | `weapon_displacer` / `CDisplacer` | `CDisplacer.cpp`<br>`CDisplacer.h`<br>`CDisplacerBall.cpp`<br>`CDisplacerBall.h` | `op4+compat-patch, verbatim` | `events/displacer.sc` → `EV_FireDisplacer` | none; weapon bodies are original | **not tested inside GoldSrc in this environment** |
+| Shock Rifle / weapon_shockroach alias | `weapon_shockrifle` / `CShockRifle` | `CShockRifle.cpp`<br>`CShockRifle.h`<br>`CShockBeam.cpp`<br>`CShockBeam.h`<br>`shockroach.cpp` | `op4+compat-patch` | `events/shock.sc` → `EV_FireShockRifle` | none; weapon bodies are original | **not tested inside GoldSrc in this environment** |
+| Spore Launcher | `weapon_sporelauncher` / `CSporeLauncher` | `CSporeLauncher.cpp`<br>`CSporeLauncher.h`<br>`CSpore.cpp`<br>`CSpore.h` | `op4+compat-patch` | `events/spore.sc` → `EV_FireSpore` | none; weapon bodies are original | **not tested inside GoldSrc in this environment** |
+| Sniper Rifle | `weapon_sniperrifle` / `CSniperRifle` | `CSniperRifle.cpp`<br>`CSniperRifle.h` | `op4+compat-patch` | `events/sniper.sc` → `EV_SniperRifle` | none; weapon bodies are original | **not tested inside GoldSrc in this environment** |
+| Knife | `weapon_knife` / `CKnife` | `CKnife.cpp`<br>`CKnife.h` | `op4+compat-patch` | `events/knife.sc` → `EV_Knife` | none; weapon bodies are original | **not tested inside GoldSrc in this environment** |
+| Penguin | `weapon_penguin` / `CPenguin` | `CPenguin.cpp`<br>`CPenguin.h`<br>`penguin_grenade.cpp` | `op4+compat-patch` | `events/penguinfire.sc` → `EV_PenguinFire` | none; weapon bodies are original | **not tested inside GoldSrc in this environment** |
+| Grapple | `weapon_grapple` / `CGrapple` | `CGrapple.cpp`<br>`CGrapple.h`<br>`CGrappleTip.cpp`<br>`CGrappleTip.h` | `op4+compat-patch, verbatim` | not in OP4 source | none; weapon bodies are original | **not tested inside GoldSrc in this environment** |
 
-**توضيح Shock Roach:** weapon_shockroach is an alternate classname for CShockRifle, not a separate player weapon. monster_shockroach / COFShockRoach in dlls/shockroach.cpp is a separate OP4 creature entity. W_Precache registers weapon_shockrifle only.
+**Shock Roach note:** weapon_shockroach is an alternate classname for CShockRifle, not a separate player weapon. monster_shockroach / COFShockRoach in dlls/shockroach.cpp is a separate OP4 creature entity. W_Precache registers weapon_shockrifle only.
 
-**كل ملف `op4+compat-patch` أعلاه**: جسم السلاح من OP4، والتعديلات مسماة في
-`bhl-op4/PROVENANCE.json` (توافق `bool/int`، ترويسات، `Vector::Normalize`).
-لم يُكتب منطق إطلاق أو إعادة تعبئة بديل. ملفات `dlls/weapons.cpp` و`dlls/player.cpp`
-في OP4 محفوظة كمرجع فقط؛ خادم الحزمة يُبنى من مصدر OP4 الكامل عبر
+**Every `op4+compat-patch` file above**: the weapon body is from OP4, and the edits are named in
+`bhl-op4/PROVENANCE.json` (`bool/int` compatibility, headers, `Vector::Normalize`).
+No replacement fire or reload logic was written. The OP4 files `dlls/weapons.cpp` and `dlls/player.cpp`
+are kept as reference only; the package server is built from the full OP4 source via
 `tools/prepare_op4_msvc_server.py`.
 
-### ملفات BHL المعدّلة بقواعد مسماة
+### BHL files edited by named rules
 
 * `src/game/client/hud.cpp` — `bhl+op4-merge`
 * `src/game/client/hud_msg.cpp` — `bhl+op4-merge`
@@ -57,7 +57,7 @@
 * `src/common/entity_state.h` — `bhl+op4-merge`
 * `src/game/server/CMakeLists.txt` — `bhl+op4-merge`
 
-### ملفات كتبها هذا المشروع (ليست من OP4 ولا BHL)
+### Files written by this project (not from OP4 or BHL)
 
 * `src/game/client/op4/op4_client_prediction.cpp`
 * `src/game/client/op4/op4_weapon_events.cpp`
@@ -72,23 +72,23 @@
 * `src/game/shared/op4_weapon_timing.h`
 * `tools/packaging/setup_op4_media.bat`
 
-هذه طبقة توصيل/تنبؤ/تثبيت أحداث/إعداد موسيقى فقط؛ لا تحل محل أنظمة BHL
-(VGUI2، الحركة، Bhop، الوحوش، أسلحة BHL الأربعة عشر).
+This is only a wiring, prediction, event-hook, and music-setup layer; it does not replace BHL systems
+(VGUI2, movement, bhop, monsters, the fourteen BHL weapons).
 
-## 3. Penguin: المصدر البرمجي
+## 3. Penguin: source code
 
-* السلاح: `CPenguin` / `weapon_penguin`؛ FGD: `Killer Penguin`.
-* الكيان الحي: `CPenguinGrenade` / `monster_penguin`.
-* الملفات: `dlls/weapons/CPenguin.cpp`, `dlls/weapons/CPenguin.h`, `dlls/penguin_grenade.cpp` من OP4 بالالتزام أعلاه.
-* الوظيفة: CPenguin::PrimaryAttack() plays events/penguinfire.sc and, server-side, creates monster_penguin at the trace endpoint with forward velocity. CPenguinGrenade::Spawn() sets models/w_penguin.mdl and HuntThink() makes it seek a target before exploding.
-* الموديلات: Only from the user's installed gearbox/models/*.mdl via fallback_dir; the repository and ZIP contain no .mdl file.
-* لا يوجد `.mdl` داخل ZIP؛ أي موديل بطريق شوهد في ملفات اللعبة المثبّتة مصدره `gearbox/`، لا مستودع ثانٍ.
+* Weapon: `CPenguin` / `weapon_penguin`; FGD: `Killer Penguin`.
+* Live entity: `CPenguinGrenade` / `monster_penguin`.
+* Files: `dlls/weapons/CPenguin.cpp`, `dlls/weapons/CPenguin.h`, `dlls/penguin_grenade.cpp` from OP4 at the commit above.
+* Function: CPenguin::PrimaryAttack() plays events/penguinfire.sc and, server-side, creates monster_penguin at the trace endpoint with forward velocity. CPenguinGrenade::Spawn() sets models/w_penguin.mdl and HuntThink() makes it seek a target before exploding.
+* Models: Only from the user's installed gearbox/models/*.mdl via fallback_dir; the repository and ZIP contain no .mdl file.
+* No `.mdl` is inside the ZIP; any model path seen in the installed game files comes from `gearbox/`, not a second repository.
 
-## 4. فجوات المصدر التي عُولجت بعد بلاغ الخلل
+## 4. Source gaps fixed after the bug report
 
-> هذه فحوصات مصدرية فقط؛ لم تُختبر داخل اللعبة.
+> These are source checks only; they were not tested in game.
 
-| الفحص | موجود في الشجرة المولّدة |
+| Check | Present in the generated tree |
 |---|---|
 | `all_ten_prediction_objects` | `True` |
 | `all_ten_prediction_cases` | `True` |
@@ -109,34 +109,34 @@
 | `reset_on_init_and_reset_hud` | `True` |
 | `oldweapon_message_glue` | `True` |
 | `hudcolor_message_glue` | `True` |
-| `event_hooks` | `9/9 أحداث موصولة` |
+| `event_hooks` | `9/9 events wired` |
 
-أهم الإصلاحات المصدرية: نقل `iuser4 → m_iItems` و`vuser2.y/z → ammo_spores/ammo_762`
-إلى تنبؤ عميل BHL؛ توسيع مصفوفة/حلقات التنبؤ إلى `MAX_WEAPONS=64`؛ ملء
-`ItemInfoArray` وتسجيل الذخيرة بصيغة OP4 ذات المعاملين؛ تعريف `AmmoInfoArray`
-و`GetAmmoIndex` الحقيقي في العميل؛ ربط `OldWeapon`/`HudColor` مع `Weapons`؛
-تفريغ حالة الشبكة عند `InitHUD`/`ResetHUD`؛ توليد `delta.lst` مدمج يحافظ
-على صحة/eflags الخاصة بـBHL ويضيف `m_iId` بـ6 بتات و`iuser4` الخاص بـOP4.
-هذه مرشحات سببية قوية لخلل الأسلحة، وليست إثبات تشغيل.
+Main source fixes: moving `iuser4 → m_iItems` and `vuser2.y/z → ammo_spores/ammo_762`
+into BHL client prediction; expanding the prediction arrays/loops to `MAX_WEAPONS=64`; filling
+`ItemInfoArray` and registering ammo with OP4's two-argument form; defining `AmmoInfoArray`
+and a real `GetAmmoIndex` in the client; linking `OldWeapon`/`HudColor` with `Weapons`;
+clearing network state on `InitHUD`/`ResetHUD`; generating a merged `delta.lst` that keeps
+BHL's health/eflags and adds a 6-bit `m_iId` and OP4's `iuser4`.
+These are strong causal candidates for the weapon bug, not proof that it works.
 
-## 5. الموسيقى: السبب والمسار والإصلاح
+## 5. Music: cause, path, and fix
 
-* مسار الكود: OP4 dlls/triggers.cpp PlayCDTrack() sends engine 'cd play <track>' (and 'cd stop' for -1). The engine, not the game DLL, maps the track ID to media/*.mp3. Shipped autoexec.cfg/op4weapons.cfg contain no cd/mp3/media command.
-* التشخيص: The ZIP contains no media/*.mp3 and no gamestartup.mp3. GoldSrc looks in the active mod's media/ folder and then valve/media; fallback_dir gearbox supplies maps/models/sounds but is not a reliable media/ lookup for CD/MP3 tracks. Therefore an unmodified bhlop4 folder plays the Half-Life soundtrack.
-* الإصلاح: setup_op4_media.bat copies only the user's original gearbox/media/*.mp3 (plus gearbox_downloads/media/*.mp3 when present) into bhlop4/media/. No track is invented, renamed, or downloaded.
-* موسيقى البداية: gamestartup.mp3 is copied only if the installed OP4 copy provides it; it is never fabricated.
-* النتيجة داخل اللعبة: **غير مُختبَر داخل GoldSrc في هذه البيئة**.
+* Code path: OP4 dlls/triggers.cpp PlayCDTrack() sends engine 'cd play <track>' (and 'cd stop' for -1). The engine, not the game DLL, maps the track ID to media/*.mp3. Shipped autoexec.cfg/op4weapons.cfg contain no cd/mp3/media command.
+* Diagnosis: The ZIP contains no media/*.mp3 and no gamestartup.mp3. GoldSrc looks in the active mod's media/ folder and then valve/media; fallback_dir gearbox supplies maps/models/sounds but is not a reliable media/ lookup for CD/MP3 tracks. Therefore an unmodified bhlop4 folder plays the Half-Life soundtrack.
+* Fix: setup_op4_media.bat copies only the user's original gearbox/media/*.mp3 (plus gearbox_downloads/media/*.mp3 when present) into bhlop4/media/. No track is invented, renamed, or downloaded.
+* Startup music: gamestartup.mp3 is copied only if the installed OP4 copy provides it; it is never fabricated.
+* In-game result: **not tested inside GoldSrc in this environment**.
 
-مصادر سلوك المحرك (للفحص، لا كدليل تشغيل):
+Engine behavior sources (for review, not as runtime proof):
 * https://developer.valvesoftware.com/wiki/List_of_HL1_soundtracks
 * https://twhl.info/wiki/page/Tutorial:_Making_Music_Play_in_Maps_[GoldSource]/5984
 * https://github.com/UCyborg/hl-mp3-fix
 
-## 6. حدود الحزمة
+## 6. Package limits
 
-* ZIP لا يضم `.mdl`, `.wav`, `.sc`, `.mp3`, `.bsp`؛ سبرايت `sprites/ag_*.spr` فقط من BHL.
-* `setup_op4_media.bat`, `SOURCE_AUDIT.md`, `RUNTIME_TESTS.md`, `INSTALL.md` مرفقة داخل ZIP.
-* `MOD_MANIFEST.json` ينص صراحة على `in_game_tested_here: false`.
+* The ZIP does not include `.mdl`, `.wav`, `.sc`, `.mp3`, or `.bsp`. The only third-party sprites are `sprites/ag_*.spr` (Adrenaline Gamer, license unconfirmed).
+* `setup_op4_media.bat`, `SOURCE_AUDIT.md`, `RUNTIME_TESTS.md`, `INSTALL.md` are included in the ZIP.
+* `MOD_MANIFEST.json` states `in_game_tested_here: false`.
 
-**الخلاصة:** كل ملف أصلي/معدّل/مكتوب ذاتياً موثّق أعلاه، لكن لا اختبار GoldSrc هنا؛
-جدول `RUNTIME_TESTS.md` المرفق لا يحوي علامة نجاح واحدة.
+**Summary:** every original, edited, and self-written file is documented above, but there is no GoldSrc test here;
+the `RUNTIME_TESTS.md` table in the package has no passing mark.

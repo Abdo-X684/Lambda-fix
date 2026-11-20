@@ -32,7 +32,7 @@ fcf73eba2fcf4e073e262d4625493dc7b964b80ddaf30133272f049cb20c43a4  bhl-op4/src/ga
 24ab63a97378cd8e218581e47f8e4687a9462a52e2f62db72c8d79a838d7eeff  bhl-op4/src/game/client/gameui/options/cvar_combo_box.cpp
 cf10c2a7b1f2ddad227bef673290984f66af658f50c41ffd4fdaf03ce57bb562  bhl-op4/src/game/client/gameui/options/cvar_slider.cpp
 d09c71dd2e9edbebfe9244bce15fd48c4be0ded4f0fb299e552975ed9a8d0242  bhl-op4/src/game/client/gameui/options/cvar_text_entry.cpp
-1dc3dc33eac23e52293259b196714e9d150127a6b6aa9e71cbf3cb50c45a987b  bhl-op4/src/game/client/gameui/options/options_about.cpp
+48292662d759b8ed6f3aa45c8b59ddf746ccf18f0718c57e600a272f7ad518c2  bhl-op4/src/game/client/gameui/options/options_about.cpp
 7e9c18c854d67d97d61e5cff0e4e31bd5b9dee3e8359985272f0756a1582ba28  bhl-op4/src/game/client/gameui/options/options_chat.cpp
 a8e16036ffca07ce7de1e76014e6686cd214654402cc1e5edc35defb06c78eb3  bhl-op4/src/game/client/gameui/options/options_crosshair.cpp
 9e8b7158b02fd505273b237891d6adf7d85e3a82640fa296e6f5c05f9a2b57e3  bhl-op4/src/game/client/gameui/options/options_general.cpp
@@ -82,7 +82,7 @@ ba317c0183410703506cc8963d59b2892d18d99b08b5a3e38cbe6eba1d24bcb3  bhl-op4/src/ga
 b52341ed7b4cafa9d2a623ba816f3004f104acc926060b4f42792c38c89595dd  bhl-op4/src/game/client/hud/train.cpp
 e2adc95d499ff01c70977f266ccd182ae623656ad502af8499f2e11be230dc24  bhl-op4/src/game/client/hud/voice_status.cpp
 d57a01bfc4b92c28555b7c336a3f9de1727cd360b6479c91415c9a0b212114cb  bhl-op4/src/game/client/hud/voice_status_self.cpp
-4ec765a8b4671536938561e07605c779164f6d914cb2de5f83c1cf3c61915837  bhl-op4/src/game/client/hud.cpp
+6b53568e9686e718a9b0686b80cd961669b2874c85bd791ac92d68ad746da631  bhl-op4/src/game/client/hud.cpp
 b700fc50e54c596f0efefe447644db8f6adcd10225debfa911f109c4cd6cd882  bhl-op4/src/game/client/hud_msg.cpp
 1cd4ad92b90e572357e282188010ee09370873b3d503e95d1cf2f19f4a9f4986  bhl-op4/src/game/client/hud_redraw.cpp
 dc7d16c0d44c25df13f1ad6b735647df3503820eed69b0ac56b6bab87d83c9df  bhl-op4/src/game/client/hud_renderer.cpp
@@ -284,7 +284,7 @@ fdfe8be1cda35196deb9cc06e7196ae26be89ce263cbe1c007d553cae5f9afb8  bhl-op4/src/ga
 fe54fbb0bc00edb81939378293648684002dfe934d0e9157426040002e6b3e4b  bhl-op4/src/game/server/op4/dlls/zombie_soldier.cpp
 ee6f4fad01260282e42ffe8b9a4070bc9d813a800aae3984954a40815651da4d  bhl-op4/src/game/server/op4/op4_compat.cpp
 ccd459bf803218462bab72d50436f9a78341c4b5dacd43c59ab3f10d5c73cec7  bhl-op4/src/game/server/op4/op4_ctf_player.cpp
-a4639e763ba7b06e781acef2aa1d2e0913cca34056fc68b6eac4f94a0b037dee  bhl-op4/src/game/server/op4/op4_link_fixups.cpp
+92a4e6e236040ce0dbf7539b4824d7d7cd27b003fb312fe5e6e6a2dbb3cf0575  bhl-op4/src/game/server/op4/op4_link_fixups.cpp
 897b1070cf1886dbacbf155e522164d4b681897efd046a51d8545c4e5d83aafe  bhl-op4/src/game/server/osprey.cpp
 e6f2c03d3fe3e8983449c2bf3fa6005f7b6c6d3088533d2a89d368bfc01d7d08  bhl-op4/src/game/server/path.cpp
 9a43bd7ad89958b366814d62756d3ff146e751be48aeb6b889fa45a3b09cda8c  bhl-op4/src/game/server/pathcorner.cpp

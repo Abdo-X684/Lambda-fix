@@ -1,31 +1,27 @@
-# جدول اختبارات GoldSrc المطلوبة
+# In-game test status
 
-> **لا يوجد محرك GoldSrc في هذه البيئة.** لم يُنفَّذ أي اختبار داخل اللعبة هنا.
-> لا تُوضع علامة نجاح لأي صف حتى يختبره المستخدم على جهازه ويوثّق النتيجة.
-> بلاغ المستخدم بأن اللعبة تبدأ مع موسيقى خاطئة وأسلحة لا تعمل يُسجَّل كخلل، لا كنجاح.
+No GoldSrc engine runs in the build environment, so nothing below was tested automatically.
+Status comes from reports by the user, marked as such.
 
-| العنصر | منطق الخادم | تنبؤ العميل | HUD/ذخيرة | إعادة تعبئة | إطلاق | أنيميشن | صوت | تأثيرات | موديل | النتيجة داخل اللعبة |
-|---|---|---|---|---|---|---|---|---|---|---|
-| Desert Eagle | مصدر OP4 موجود | مصدر OP4 موجود | توصيل مصدرى فقط | غير مُختبَر | غير مُختبَر | غير مُختبَر | غير مُختبَر | غير مُختبَر | من `gearbox` المثبّت | **غير مُختبَر** |
-| Pipe Wrench | مصدر OP4 موجود | مصدر OP4 موجود | توصيل مصدرى فقط | غير مُختبَر | غير مُختبَر | غير مُختبَر | غير مُختبَر | غير مُختبَر | من `gearbox` المثبّت | **غير مُختبَر** |
-| M249 | مصدر OP4 موجود | مصدر OP4 موجود | توصيل مصدرى فقط | غير مُختبَر | غير مُختبَر | غير مُختبَر | غير مُختبَر | غير مُختبَر | من `gearbox` المثبّت | **غير مُختبَر** |
-| Displacer | مصدر OP4 موجود | مصدر OP4 موجود | توصيل مصدرى فقط | غير مُختبَر | غير مُختبَر | غير مُختبَر | غير مُختبَر | غير مُختبَر | من `gearbox` المثبّت | **غير مُختبَر** |
-| Shock Rifle / weapon_shockroach alias | مصدر OP4 موجود | مصدر OP4 موجود | توصيل مصدرى فقط | غير مُختبَر | غير مُختبَر | غير مُختبَر | غير مُختبَر | غير مُختبَر | من `gearbox` المثبّت | **غير مُختبَر** |
-| Spore Launcher | مصدر OP4 موجود | مصدر OP4 موجود | توصيل مصدرى فقط | غير مُختبَر | غير مُختبَر | غير مُختبَر | غير مُختبَر | غير مُختبَر | من `gearbox` المثبّت | **غير مُختبَر** |
-| Sniper Rifle | مصدر OP4 موجود | مصدر OP4 موجود | توصيل مصدرى فقط | غير مُختبَر | غير مُختبَر | غير مُختبَر | غير مُختبَر | غير مُختبَر | من `gearbox` المثبّت | **غير مُختبَر** |
-| Knife | مصدر OP4 موجود | مصدر OP4 موجود | توصيل مصدرى فقط | غير مُختبَر | غير مُختبَر | غير مُختبَر | غير مُختبَر | غير مُختبَر | من `gearbox` المثبّت | **غير مُختبَر** |
-| Penguin | مصدر OP4 موجود | مصدر OP4 موجود | توصيل مصدرى فقط | غير مُختبَر | غير مُختبَر | غير مُختبَر | غير مُختبَر | غير مُختبَر | من `gearbox` المثبّت | **غير مُختبَر** |
-| Grapple | مصدر OP4 موجود | مصدر OP4 موجود | توصيل مصدرى فقط | غير مُختبَر | غير مُختبَر | غير مُختبَر | غير مُختبَر | غير مُختبَر | من `gearbox` المثبّت | **غير مُختبَر** |
-| موسيقى المقدمة الأصلية | — | — | — | — | — | — | تُنسخ من `gearbox/media` فقط | — | — | **غير مُختبَر** |
-| موسيقى الخرائط `trigger_cdaudio` | خرائط OP4 خارجية | — | — | — | — | — | تُنسخ من `gearbox/media` فقط | — | — | **غير مُختبَر** |
-| حملة `of0a0` / `ofboot0` | خادم OP4 | — | — | — | — | — | — | — | خرائط خارجية | **غير مُختبَر** |
-| قوائم BHL VGUI2 | — | عميل BHL | — | — | — | — | — | — | — | **غير مُختبَر** |
-| `impulse 101` للأسلحة العشرة | مصدر خادم OP4 | — | — | — | — | — | — | — | — | **غير مُختبَر** |
+| Item | Status | Source |
+| --- | --- | --- |
+| Game starts | Works | User report |
+| BHL menu opens | Works | User report |
+| Opposing Force weapons work | Works | User report |
+| Ammo HUD crash | Fixed | User report after the `-O2` rebuild |
+| Lag | Greatly reduced | User report on a weak PC |
+| Auto-update removed from Advanced > About | Not tested | Source change only |
+| Default HUD color green | Not tested | Source change only |
+| Localization text (`bhlop4_english.txt`) | Not tested | File added, display not confirmed |
+| Music on Linux | Not tested | — |
+| Every campaign map (`of0a0` onward) | Not tested | — |
+| Each weapon: fire, reload, switch, sound, model, effects | Not tested per weapon | — |
+| Grapple, Penguin, Displacer, Shock Rifle special cases | Not tested | — |
 
-## بروتوكول الاختبار المطلوب من المستخدم
+## Suggested test list
 
-1. فكّ ZIP في `Half-Life/bhlop4/` بجانب `valve/` و`gearbox/`، ثم شغّل `setup_op4_media.bat` مرة واحدة.
-2. شغّل `hl.exe -game bhlop4 -console`؛ سجّل بداية `of0a0`، موسيقى المقدمة، وموسيقى أول `trigger_cdaudio`.
-3. `sv_cheats 1; impulse 101`؛ لكل سلاح: اختياره، أيقونة/ذخيرة HUD، إطلاق، تفريغ المخزن، إعادة تعبئة، التبديل عنه/إليه، الصوت، موديل اليد/العالم، التأثيرات.
-4. اختبارات خاصة: Grapple على سطح صالح؛ Penguin ومراقبة `monster_penguin`؛ Displacer أولي/ثانوي/انتقال ذاتي؛ Shock Rifle أولي/ثانوي وإعادة الشحن.
-5. سجّل فيديو/console لكل صف. إلى أن يحدث ذلك يبقى كل صف **غير مُختبَر** ولا يُقال «يعمل».
+1. Start a new game and confirm the first map loads from Opposing Force.
+2. Open Advanced > About and confirm there is no update option.
+3. Confirm the HUD is green.
+4. Check each weapon: fire, reload, switch, sound, model.
+5. Record any error from the console.
