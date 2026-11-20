@@ -518,7 +518,7 @@ class Builder:
                     cc: list[str] | None = None,
                     std: str = "-std=c++17",
                     extra: list[str] | None = None) -> list[pathlib.Path]:
-        base = (cc or ZIG_CXX) + ["-c", std, "-fpermissive", "-g0", "-w",
+        base = (cc or ZIG_CXX) + ["-c", std, "-fpermissive", "-g0", "-O2", "-fno-sanitize=undefined", "-w",
                                   "-fPIC", "-ferror-limit=6"] + defs + includes
         if force_include:
             base += ["-include", str(force_include)]
