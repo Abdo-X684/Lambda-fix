@@ -4,7 +4,6 @@
 #include <tier1/strtools.h>
 #include <vgui/ILocalize.h>
 #include <vgui_controls/Label.h>
-#include <vgui_controls/Button.h>
 #include <vgui_controls/URLLabel.h>
 #include <vgui_controls/Frame.h>
 #include <vgui_controls/RichText.h>
@@ -13,11 +12,6 @@
 #include <bhl_urls.h>
 #include "client_vgui.h"
 #include "options_about.h"
-#include "cvar_check_button.h"
-
-#if USE_UPDATER
-#include "updater/update_checker.h"
-#endif
 
 class COptionsOSSCreditsDialog : public vgui2::Frame
 {
@@ -99,33 +93,17 @@ CAboutSubOptions::CAboutSubOptions(vgui2::Panel *parent)
 	m_pVerTextLabel = new vgui2::Label(this, "VerTextLabel", "#BHL_AdvOptions_About_Version");
 	m_pVerLabel = new vgui2::Label(this, "VerLabel", "?");
 
-	m_pLatestVerTextLabel = new vgui2::Label(this, "LatestVerTextLabel", "#BHL_AdvOptions_About_NewVersion");
-	m_pLatestVerLabel = new vgui2::Label(this, "LatestVerLabel", "#BHL_AdvOptions_About_NoUpdater");
-	m_pUpdateLabel = new vgui2::Label(this, "UpdateLable", "#BHL_AdvOptions_About_NewUpdate");
-	m_pCheckUpdatesButton = new vgui2::Button(this, "CheckUpdatesButton", "#BHL_AdvOptions_About_Check", this, "CheckUpd");
-
 	m_pGitHubLink = new vgui2::URLLabel(this, "GitHubLink", "#BHL_AdvOptions_About_GitHub", "URL goes here");
 	m_pAghlLink = new vgui2::URLLabel(this, "AghlLink", "#BHL_AdvOptions_About_AGHL", "URL goes here");
 	m_pOSSCredits = new COptionsURLButton(this, "OSSCredits", "#BHL_AdvOptions_About_OSSCredits");
 
-#if USE_UPDATER
-	m_pAutoCheck = new CCvarCheckButton(this, "AutoCheck", "#BHL_AdvOptions_About_AutoCheck", "cl_check_for_updates");
-	m_GameVer = CUpdateChecker::Get().GetCurVersion();
-#else
 	m_GameVer = CGameVersion(APP_VERSION);
-#endif
 
 	LoadControlSettings(VGUI2_ROOT_DIR "resource/options/AboutSubOptions.res");
 }
 
 CAboutSubOptions::~CAboutSubOptions()
 {
-}
-
-void CAboutSubOptions::ApplySchemeSettings(vgui2::IScheme *pScheme)
-{
-	BaseClass::ApplySchemeSettings(pScheme);
-	m_pUpdateLabel->SetFgColor(m_GreenColor);
 }
 
 void CAboutSubOptions::PerformLayout()
@@ -144,35 +122,8 @@ void CAboutSubOptions::PerformLayout()
 	};
 
 	fnPositionAfter(m_pVerTextLabel, m_pVerLabel);
-	fnPositionAfter(m_pLatestVerTextLabel, m_pLatestVerLabel);
 
 	UpdateControls();
-}
-
-void CAboutSubOptions::OnCommand(const char *pCmd)
-{
-	if (!strcmp(pCmd, "CheckUpd"))
-	{
-#if USE_UPDATER
-		CUpdateChecker::Get().CheckForUpdates();
-#endif
-	}
-	else
-		BaseClass::OnCommand(pCmd);
-}
-
-void CAboutSubOptions::OnResetData()
-{
-#if USE_UPDATER
-	m_pAutoCheck->ResetData();
-#endif
-}
-
-void CAboutSubOptions::OnApplyChanges()
-{
-#if USE_UPDATER
-	m_pAutoCheck->ApplyChanges();
-#endif
 }
 
 void CAboutSubOptions::UpdateControls()
@@ -212,41 +163,4 @@ void CAboutSubOptions::UpdateControls()
 		g_pVGuiLocalize->ConvertANSIToUnicode(gameVer.c_str(), wbuf, sizeof(wbuf));
 		m_pVerLabel->SetText(wbuf);
 	}
-
-#if !USE_UPDATER
-	m_pLatestVerLabel->SetText("#BHL_AdvOptions_About_NoUpdater");
-	m_pUpdateLabel->SetVisible(false);
-	m_pCheckUpdatesButton->SetEnabled(false);
-#else
-	m_pCheckUpdatesButton->SetEnabled(true);
-
-	CGameVersion latestVer = CUpdateChecker::Get().GetLatestVersion();
-	if (latestVer.IsValid())
-	{
-		snprintf(buf, sizeof(buf), "%d.%d.%d", latestVer.GetMajor(), latestVer.GetMinor(), latestVer.GetPatch());
-		std::string strVer = buf;
-		if (latestVer.GetTag(buf, sizeof(buf)))
-		{
-			strVer += "-";
-			strVer += buf;
-		}
-
-		g_pVGuiLocalize->ConvertANSIToUnicode(strVer.c_str(), wbuf, sizeof(wbuf));
-		m_pLatestVerLabel->SetText(wbuf);
-
-		if (latestVer > m_GameVer)
-		{
-			m_pUpdateLabel->SetVisible(true);
-		}
-		else
-		{
-			m_pUpdateLabel->SetVisible(false);
-		}
-	}
-	else
-	{
-		m_pLatestVerLabel->SetText("#BHL_AdvOptions_About_Unknown");
-		m_pUpdateLabel->SetVisible(false);
-	}
-#endif
 }

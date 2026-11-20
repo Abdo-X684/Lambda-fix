@@ -23,7 +23,7 @@
     {
         "ControlName"                "Label"
         "fieldName"                  "HealthIcon"
-        "fgcolor_override"           "255 160 0 255"
+        "fgcolor_override"           "0 160 0 255"
         "xpos"                       "6"
         "ypos"                       "0"
         "wide"                       "144"
@@ -52,7 +52,7 @@
     {
         "ControlName"                "Label"
         "fieldName"                  "HealthAmount"
-        "fgcolor_override"           "255 160 0 255"
+        "fgcolor_override"           "0 160 0 255"
         "xpos"                       "18" [$WINDOWS]
         "xpos"                       "20" [!$WINDOWS]
         "ypos"                       "4"
@@ -111,7 +111,7 @@
     {
         "ControlName"                "Label"
         "fieldName"                  "HealthAmountGlow"
-        "fgcolor_override"           "255 160 0 255"
+        "fgcolor_override"           "0 160 0 255"
         "xpos"                       "18" [$WINDOWS]
         "xpos"                       "20" [!$WINDOWS]
         "ypos"                       "4"

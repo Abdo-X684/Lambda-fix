@@ -124,7 +124,7 @@ static constexpr HudScaleInfo HUD_SCALE_INFO[] = {
 extern cvar_t *cl_lw;
 
 ConVar cl_bhopcap("cl_bhopcap", "2", FCVAR_BHL_ARCHIVE, "Enables/disables bhop speed cap, '2' - detect automatically");
-ConVar hud_color("hud_color", "255 160 0", FCVAR_BHL_ARCHIVE, "Main color of HUD elements");
+ConVar hud_color("hud_color", "0 160 0", FCVAR_BHL_ARCHIVE, "Main color of HUD elements");
 ConVar hud_color1("hud_color1", "0 255 0", FCVAR_BHL_ARCHIVE, "HUD color when >= 90%");
 ConVar hud_color2("hud_color2", "255 160 0", FCVAR_BHL_ARCHIVE, "HUD color when [50%; 90%)");
 ConVar hud_color3("hud_color3", "255 96 0", FCVAR_BHL_ARCHIVE, "HUD color when (25%; 50%)");

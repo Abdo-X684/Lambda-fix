@@ -30,7 +30,7 @@
     {
         "ControlName"                "Label"
         "fieldName"                  "Ammo"
-        "fgcolor_override"           "255 160 0 255"
+        "fgcolor_override"           "0 160 0 255"
         "xpos"                       "4" [$WINDOWS]
         "xpos"                       "6" [!$WINDOWS]
         "ypos"                       "0"
@@ -61,7 +61,7 @@
     {
         "ControlName"                "Label"
         "fieldName"                  "AmmoGlow"
-        "fgcolor_override"           "255 160 0 255"
+        "fgcolor_override"           "0 160 0 255"
         "xpos"                       "4" [$WINDOWS]
         "xpos"                       "6" [!$WINDOWS]
         "ypos"                       "0"

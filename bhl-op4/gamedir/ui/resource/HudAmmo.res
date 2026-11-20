@@ -45,7 +45,7 @@
     {
         "ControlName"                "Label"
         "fieldName"                  "Clip"
-        "fgcolor_override"           "255 160 0 255"
+        "fgcolor_override"           "0 160 0 255"
         "xpos"                       "4"
         "ypos"                       "4"
         "wide"                       "50" [$WINDOWS]
@@ -75,7 +75,7 @@
     {
         "ControlName"                "Label"
         "fieldName"                  "ClipGlow"
-        "fgcolor_override"           "255 160 0 255"
+        "fgcolor_override"           "0 160 0 255"
         "xpos"                       "4"
         "ypos"                       "4"
         "wide"                       "50" [$WINDOWS]
@@ -133,7 +133,7 @@
     {
         "ControlName"                "Label"
         "fieldName"                  "Ammo"
-        "fgcolor_override"           "255 160 0 255"
+        "fgcolor_override"           "0 160 0 255"
         "xpos"                       "50"
         "ypos"                       "4"
         "wide"                       "50" [$WINDOWS]
@@ -163,7 +163,7 @@
     {
         "ControlName"                "Label"
         "fieldName"                  "AmmoGlow"
-        "fgcolor_override"           "255 160 0 255"
+        "fgcolor_override"           "0 160 0 255"
         "xpos"                       "50"
         "ypos"                       "4"
         "wide"                       "50" [$WINDOWS]
