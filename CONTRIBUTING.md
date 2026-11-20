@@ -1,48 +1,48 @@
-# المساهمة / Adding to the kit
+# Contributing
 
-القاعدة الذهبية: **لا تضف تعديلاً ضمنياً**. كل تغيير على شجرة OP4 يُعلن كقاعدة في
-`merge/plan.json`، وكل مصدر خارجي يُثبّت في `upstreams.json`.
+Golden rule: **do not add implicit changes**. Every change to the OP4 tree must be declared as a rule in
+`merge/plan.json`, and every external source must be pinned in `upstreams.json`.
 
-## قبل أي commit
+## Before any commit
 
 ```bash
-make hygiene     # نصوص، JSON، استيرادات، روابط markdown، فهرس الوثائق
-make verify      # 131 اختبار Python + 77 فحص C++ + التوليد + الدمج + الحزمة
-make fetch && make merge && make verify-sdk   # إن غيّرت pins أو نقاط حقن
+make hygiene     # text, JSON, imports, markdown links, docs index
+make verify      # Python tests + C++ checks + generation + merge + package
+make fetch && make merge && make verify-sdk   # if you changed pins or injection points
 ```
 
-`make tidy` ينظّف `__pycache__` ومجلدات `.stage-*` اليتيمة ثم يعيد فحص النظافة.
+`make tidy` removes `__pycache__` and orphaned `.stage-*` folders, then runs the hygiene check again.
 
-## أين أضع كل شيء؟
+## Where does each change go?
 
-| أريد… | المكان |
+| I want to… | Location |
 | --- | --- |
-| قاعدة دمج/حقن/تدقيق جديدة | `merge/plan.json` (+ مقطع في `integration/snippets/` إن لزم) |
-| سلوك محرك الدمج | `merge/engine.py` + اختبار في `tests/` |
-| كود C++ مشترك بين test واللعبة | `src/speedrun/` ثم قاعدة `copy` إلى `game_shared/` |
-| glue يعتمد على محرك Half-Life | `overlay/cl_dll/` أو `overlay/dlls/` + تحديث `merge/projects.py` |
-| خريطة/فصل/cvar | `data/` ثم `python3 tools/gen_route_header.py --write` |
-| وثيقة جديدة | `docs/` **وأضفها إلى `docs/README.md`** (وإلا يفشل `make hygiene`)؛ تظهر تلقائياً في تبويب الوثائق بالواجهة |
-| اختبار | `tests/test_*.py` أو `tests/cpp/test_speedrun.cpp` |
-| تعديل عارض الوثائق | `web/markdown.py` + `tests/test_markdown.py` (افحص التهريب والروابط) |
-| بناء الـ DLL | `tools/build_dlls.py` + `docs/BUILDING.md`؛ `make build-dlls-check` لا يحتاج أداة 32-bit |
+| Add a new merge, injection, or audit rule | `merge/plan.json` (plus a snippet in `integration/snippets/` if needed) |
+| Change merge engine behavior | `merge/engine.py` + a test in `tests/` |
+| C++ code shared by tests and the game | `src/speedrun/`, then a `copy` rule to `game_shared/` |
+| Glue that depends on the Half-Life engine | `overlay/cl_dll/` or `overlay/dlls/` + update `merge/projects.py` |
+| Map, chapter, or cvar | `data/`, then `python3 tools/gen_route_header.py --write` |
+| New document | `docs/`, **and add it to `docs/README.md`** (otherwise `make hygiene` fails) |
+| Test | `tests/test_*.py` or `tests/cpp/test_speedrun.cpp` |
+| Change the docs viewer | `web/markdown.py` + `tests/test_markdown.py` (check escaping and links) |
+| Build the DLLs | `tools/build_dlls.py` + `docs/BUILDING.md`; `make build-dlls-check` does not need a 32-bit toolchain |
 
-## إضافة قاعدة `inject`
+## Adding an `inject` rule
 
-1. تأكد أن الـ anchor يظهر **مرة واحدة فقط** في الملف الحقيقي:
+1. Make sure the anchor appears **only once** in the real file:
    `grep -c "<anchor>" .cache/upstreams/op4/<path>`.
-2. اكتب المقطع في `integration/snippets/`، وأضف القاعدة، ثم حدّث الـ fixture
-   المناسب في `tests/fixtures/upstreams/op4/` بنفس الـ anchor.
-3. شغّل `python3 -m merge.cli run --offline --strict` ثم الدمج الحقيقي.
+2. Write the snippet in `integration/snippets/`, add the rule, then update the matching fixture
+   in `tests/fixtures/upstreams/op4/` with the same anchor.
+3. Run `python3 -m merge.cli run --offline --strict`, then the real merge.
 
-## تحديث pin
+## Updating a pin
 
-غيّر `ref` و`tarball.sha256` و`tarball.bytes` في `upstreams.json`
-(راجع الـ commit أولاً)، ثم `python3 -m merge.cli fetch --force`،
-`make merge`، وافحص `build/merged-real/MERGE_REPORT.md`.
-أي `anchor_drift` يعني أن upstream تغيّر — لا تُخفِه، بل حدّث القاعدة ووثّقها.
+Change `ref`, `tarball.sha256`, and `tarball.bytes` in `upstreams.json` (check the commit first),
+then run `python3 -m merge.cli fetch --force` and `make merge`, and review
+`build/merged-real/MERGE_REPORT.md`. Any `anchor_drift` means upstream changed. Do not hide it:
+update the rule and document the change.
 
-## التنسيق
+## Style
 
-Python 3.9+ بلا اعتماديات، C++17، نصوص UTF-8 بـ LF وسطر أخير newline،
-لا مسافات زائدة في نهاية الأسطر. `tools/check_hygiene.py` يفرض ذلك.
+Python 3.9+ with no dependencies, C++17, UTF-8 text with LF line endings and a final newline,
+no trailing spaces. `tools/check_hygiene.py` enforces this.
