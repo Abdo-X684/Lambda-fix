@@ -99,7 +99,7 @@ void *CommandLine(void)
 /* ---- logging: write to stderr; the engine console is not reachable from here ---- */
 void Msg(const char *fmt, ...)
 {
-    va_list ap; va_start(ap, fmt); vfprintf(stdout, fmt, ap); va_end(ap); fflush(stdout);
+    va_list ap; va_start(ap, fmt); vfprintf(stdout, fmt, ap); va_end(ap);
 }
 void Warning(const char *fmt, ...)
 {
@@ -135,5 +135,4 @@ static void *g_spew_fn;
 void SpewOutputFunc(void *fn) { g_spew_fn = fn; }
 void *GetSpewOutputFunc(void) { return g_spew_fn; }
 
-/* ---- pcre table: zeroed (regex character classes will be wrong; see README) ---- */
-unsigned char _pcre_default_tables[1088];
+/* _pcre_default_tables is NOT defined here: the real table comes from pcre_chartables.c (built in tools/build_bhl_base.py). */

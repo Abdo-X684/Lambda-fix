@@ -720,6 +720,11 @@ def main() -> int:
                            defs=SDK_DEFS, includes=sdk_inc, cc=ZIG_CC, std="-std=c11")
 
     pcre_src = args.deps / "src/pcre-master"
+    # PCRE ships its default character tables as pcre_chartables.c.dist; the
+    # library references _pcre_default_tables but the real definition is only
+    # in the generated pcre_chartables.c. Generate it from the shipped default.
+    if not (pcre_src / "pcre_chartables.c").exists():
+        shutil.copy(pcre_src / "pcre_chartables.c.dist", pcre_src / "pcre_chartables.c")
     pcre_files = sorted(p for p in pcre_src.glob("pcre_*.c")
                         if not p.name.startswith(("pcre16_", "pcre32_", "pcrecpp_",
                                                   "pcreposix_", "pcre_jit_test",
