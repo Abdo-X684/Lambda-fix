@@ -1,74 +1,77 @@
-# BugfixedHL + Opposing Force (bhlop4)
+# bhlop4 — BugfixedHL + Opposing Force
 
-مود لـHalf-Life يجمع **BugfixedHL** (الأساس) مع **أسلحة Opposing Force** العشرة.
-الهدف مود سباق نظيف: مؤقت، وقوائم BHL، ومن دون ميزات زائدة.
+A Half-Life mod that combines **BugfixedHL** (the base) with the **ten Opposing Force weapons**.
+The goal is a clean speedrun mod: timer, BHL menus, and no extra features.
 
-## الحزمة الحالية (Linux)
+## Current package (Linux)
 
-- **الرابط:** [bhlop4-bhlbase-linux.zip](https://github.com/Abdo-X684/Bugfixhl-speedrun-op4/raw/d79fb84deeea1a19f0dd1b93a0866e3bfe2edc3f/build-evidence/bhl-base-linux-mod/bhlop4-bhlbase-linux.zip)
-- **SHA256:** `93ca8939454dcb1dc9bd7f36708e17f157ad27d7aa42fc87f6959b6c47e10138`
-- **التعليمات:** ملف `INSTALL.md` داخل الحزمة، والخطوات مكتوبة أدناه أيضاً.
+- **Download:** [bhlop4-bhlbase-linux.zip](build-evidence/bhl-base-linux-mod/bhlop4-bhlbase-linux.zip) (in this repository, `build-evidence/bhl-base-linux-mod/`)
+- **SHA256:** `17cd673451fb7ca70c7465c5b54c9f97429efe090a9f089316d76cd7177ee699`
+- **Install steps:** see `INSTALL.md` inside the package, and the summary below.
 
-## الحالة
+The repository is private, so the direct GitHub raw links require a GitHub login with access.
 
-| البند | الوضع |
+## Status
+
+| Item | Status |
 | --- | --- |
-| تشغيل اللعبة | ✅ يبدأ (أبلغ المستخدم) |
-| قائمة BHL | ✅ تفتح (أبلغ المستخدم) |
-| أسلحة OP4 | ✅ تعمل (أبلغ المستخدم) |
-| الانهيار في HUD الذخيرة | ✅ اختفى بعد إعادة البناء بتحسين (`-O2`) |
-| ثقل اللعبة | ✅ خفّ كثيراً بعد إعادة البناء بتحسين |
-| إزالة التحديث التلقائي من Advanced > About | ✅ مُنفَّذ في الكود، ولم يُختبر بعد داخل اللعبة |
-| اللون الافتراضي للـHUD أخضر (`0 160 0`) | ✅ مُنفَّذ في الكود، ولم يُختبر بعد داخل اللعبة |
-| ملف الترجمة `bhlop4_english.txt` | ✅ مُضاف، ولم يُتحقق بعد من ظهور النصوص |
-| الموسيقى | ❓ لم تُختبر على لينكس |
-| بناء Windows | ❌ متوقف، فتشغيلات GitHub Actions تفشل قبل تنفيذ أي خطوة |
+| Game starts | ✅ Reported by the user |
+| BHL menu opens | ✅ Reported by the user |
+| Opposing Force weapons work | ✅ Reported by the user |
+| Crash in the ammo HUD | ✅ Fixed (rebuilt with `-O2`, no Zig safety checks); reported gone |
+| Game lag | ✅ Greatly reduced after the `-O2` rebuild (reported on a weak PC) |
+| Auto-update removed from Advanced > About | ✅ Implemented in source; not yet tested in game |
+| Default HUD color green (`0 160 0`) | ✅ Implemented in source; not yet tested in game |
+| Localization file `bhlop4_english.txt` | ✅ Added; not yet confirmed in game |
+| Music on Linux | ❓ Not tested |
+| Windows build | ❌ Blocked: GitHub Actions runs fail before any step runs |
 
-## التشغيل على Linux
+## Install on Linux
 
-1. تأكد من تثبيت Half-Life: Opposing Force، ومن وجود مجلد `gearbox/` بجانب `valve/`.
-2. احذف أي مجلد `bhlop4` قديم.
-3. فكّ الحزمة داخل مجلد اللعبة الرئيسي، بجانب `valve/` و`gearbox/`.
-4. شغّل اللعبة بخيار `-game bhlop4` (حسب سكربت `hl.sh` عندك).
+1. Install Half-Life: Opposing Force. The `gearbox/` folder must sit next to `valve/`.
+2. Delete any old `bhlop4` folder.
+3. Unzip the package into the main game folder, next to `valve/` and `gearbox/`.
+4. Launch with `-game bhlop4` (depends on your `hl.sh`).
 
-الخادم في الحزمة يستخدم `gearbox/dlls/opfor.so` الأصلي، والعميل هو BugfixedHL المبني.
+The server is the stock `gearbox/dlls/opfor.so`. The client is the built BugfixedHL client.
+SDL2 must be installed on the system.
 
-## الرخص
+## Licenses
 
-- **BugfixedHL:** GPL-3.0. المصدر: [tmp64/BugfixedHL-Rebased](https://github.com/tmp64/BugfixedHL-Rebased).
-- **أسلحة OP4:** رخصة Valve للـHalf-Life 1 SDK. توزيع مجاني فقط، والتجاري يحتاج إذناً من Valve. المصدر: [twhl-community/halflife-op4-updated](https://github.com/twhl-community/halflife-op4-updated).
-- **أدوات الدمج والشِيمز:** MIT.
+- **BugfixedHL:** GPL-3.0. Source: [tmp64/BugfixedHL-Rebased](https://github.com/tmp64/BugfixedHL-Rebased).
+- **Opposing Force weapons:** Valve Half-Life 1 SDK License. Free use and distribution only. Commercial use requires permission from Valve. Source: [twhl-community/halflife-op4-updated](https://github.com/twhl-community/halflife-op4-updated).
+- **Build tools and Linux shims:** MIT.
 
-الحزمة تحتوي على مجلد `LICENSES/` بهذه النصوص، وملف `NOTICE.txt` يشرح مصدر كل جزء.
-الحزمة لا تحتوي على أصول Valve (نماذج وأصوات وخرائط)، ويجب أن تملك اللعبة الأصلية.
+The package contains a `LICENSES/` folder with these texts, and `NOTICE.txt` explains where each part comes from.
+The package does not contain Valve assets (models, sounds, maps). You must own the original game.
 
-## البناء من المصدر (Linux)
+## Build from source (Linux)
 
 ```bash
-make fetch                                   # يجلب BugfixedHL وOP4 updated وValve SDK
+make fetch                                   # fetches BugfixedHL, OP4 updated, and the Valve SDK
 git clone https://github.com/tmp64/hl1_source_sdk .cache/upstreams/hl1_source_sdk
 git -C .cache/upstreams/hl1_source_sdk checkout 11f2665
 python3 -m venv /tmp/zenv && /tmp/zenv/bin/pip install cmake==3.30.9 ziglang==0.17.1 PyYAML==6.0.3
 /tmp/zenv/bin/python tools/build_bhl_base.py --out scratch/bhl-out
 ```
 
-النتيجة: `client.so` (ELF32، يحتاج GLIBC 2.17 كحد أقصى)، ويُبنى بتحسين `-O2` بدون فحوص Zig.
+Output: `client.so` (ELF32, needs at most GLIBC 2.17). It is built with `-O2` and `-fno-sanitize=undefined`.
 
-## ما لم يُنجز بعد
+## Open items
 
-1. **اسم المود:** لم يُحسم بعد. الاسم الحالي `bhlop4` مؤقت، وأي تغيير يتطلب تغيير المجلد وملف الترجمة والكود.
-2. **شعار وعلامة:** لا نستخدم شعار Lambda ولا اسم Half-Life في الاسم أو الشعار (علامات تجارية لـValve).
-3. **ترخيص الصور الصغيرة:** `sprites/ag_ctf.spr` و`ag_ctf_score.spr` من كود Adrenaline Gamer، ولم أجد ترخيصهما بعد. وهي لا تُستخدم في مود السباق.
-4. **Windows:** لا يوجد ملف `client.dll` حديث. مصدر Windows الموجود مبني من شجرة OP4 القديمة، وليس من BHL الحالي.
-5. **المود داخل اللعبة:** الاختبارات التي أبلغ عنها المستخدم محدودة. ما زالت هناك اختبارات لم تُنفَّذ: الموسيقى، وكل خريطة في الحملة، وكل سلاح مع الذخيرة.
+1. **Mod name:** not decided. `bhlop4` is temporary. Renaming requires changing the folder, the localization file, and the code.
+2. **Trademarks:** do not use the Lambda logo or the name "Half-Life" in the mod name or logo. Both belong to Valve.
+3. **Sprite license:** `sprites/ag_ctf.spr` and `ag_ctf_score.spr` come from the Adrenaline Gamer code base. Their license is not confirmed. They are only used for CTF mode.
+4. **Windows:** no current `client.dll`. The Windows source tree in the repo is based on an older OP4 tree, not the current BHL base.
+5. **Not yet tested in game:** music, every map in the campaign, every weapon with ammo, and the items listed as "not yet tested" above.
 
-## الوثائق
+## Docs
 
-- [`docs/LICENSES.md`](docs/LICENSES.md) — تفاصيل الرخص.
-- [`docs/BUILDING.md`](docs/BUILDING.md) — البناء.
-- [`docs/UPSTREAMS.md`](docs/UPSTREAMS.md) — المصادر المثبتة.
-- [`docs/LEGACY.md`](docs/LEGACY.md) — التوثيق القديم (مرحلة OP4 الأساس)، لا يعكس الحالة الحالية.
+- `docs/LICENSES.md` — license details
+- `docs/BUILDING.md` — build instructions
+- `docs/UPSTREAMS.md` — pinned upstream sources
+- `docs/LEGACY.md` — older documentation from the earlier OP4-based approach. It does not describe the current state.
 
-## المساهمة
+## Contributing
 
-انظر [CONTRIBUTING.md](CONTRIBUTING.md).
+See [CONTRIBUTING.md](CONTRIBUTING.md).
