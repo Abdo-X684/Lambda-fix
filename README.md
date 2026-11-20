@@ -72,3 +72,6 @@ make verify    # full repository checks
 - [`docs/BUILDING.md`](docs/BUILDING.md): build instructions
 - [`docs/UPSTREAMS.md`](docs/UPSTREAMS.md): pinned upstream sources
 - [`CONTRIBUTING.md`](CONTRIBUTING.md): how to contribute
+## AI
+
+this was build by arena ai not me
