@@ -2,7 +2,7 @@
 
 > **File and source audit only.** The GoldSrc engine was not run in this environment,
 > and compilation, CI, file presence, or event logging is not proof that any weapon works.
-> User report: the game runs and the music is OP4 music. The earlier weapon report is not re-tested here,
+> User report: the game runs, the music is OP4 music, and the weapons work. This was not re-tested here,
 > so no untested row is marked as passing.
 
 ## 1. Pinned repositories and commits
@@ -117,7 +117,7 @@ into BHL client prediction; expanding the prediction arrays/loops to `MAX_WEAPON
 and a real `GetAmmoIndex` in the client; linking `OldWeapon`/`HudColor` with `Weapons`;
 clearing network state on `InitHUD`/`ResetHUD`; generating a merged `delta.lst` that keeps
 BHL's health/eflags and adds a 6-bit `m_iId` and OP4's `iuser4`.
-These are strong causal candidates for the weapon bug, not proof that it works.
+These were the candidate causes for the earlier weapon bug. A later user report says the weapons work; this was not re-tested here.
 
 ## 5. Music: cause, path, and fix
 
