@@ -190,27 +190,23 @@ data/op4_route.json ──> gen_route_header.py ──> src/speedrun/sr_route_da
 
 ---
 
-## 🎯 وماذا نشتري بـ 100,000$؟
+## الحالة الفعلية للمشروع
 
-محطة بناء 18K، شاشات 240Hz وقياس الإدخال 6K، مختبر توافق Steam/WON/Linux 12K،
-CI runners 8K، قهوة 3K… و53K للإصدار 1.0. أما BugfixedHL فمفتوح المصدر،
-لذا لا يمكن شراؤه — وهذا أفضل 😄. (الجائزة صُرفت بعد `make verify`.)
+- **مُثبَّت:** مصادر الأساس مثبّتة بالالتزام وبمجموع sha256 للأرشيف.
+- **مُتحقَّق منه:** بناء وربط بعض المكونات، وفحوص الرموز والمعمارية (ELF32)، وفق ما هو موثّق في `docs/BHL_BASE_BUILD.md`.
+- **غير مكتمل:** ربط مكتبة VGUI2 داخل العميل، والتحقق من أي سلاح داخل اللعبة، وبناء Windows (متوقف بسبب إعدادات GitHub Actions).
+- **غير مُختبر داخل اللعبة:** لا توجد نتيجة اختبار تشغيل مؤكدة لأي ميزة حتى الآن.
 
 ---
 
-## English TL;DR
+## English status
 
-A reproducible merge kit that ports BugfixedHL fixes and speedrun tooling onto
-the Opposing Force SDK. Upstreams are pinned by commit and tarball checksum;
-machine-verified equivalence audits (OP4 already implements the donor fixes),
-anchor-checked injections, and build-file patching produce a merged SDK tree
-with **zero conflicts, zero deferred ports, zero errors** and a deterministic
-tree hash. A clean-room C++17 core implements the RTA timer, splits, PB,
-server-time projection and config generation; a server→client `SRSplit` user
-message keeps the HUD authoritative. A distributable, sha256-manifested overlay
-package and an RTL live dashboard are included. `make verify` runs everything;
-`make fetch && make merge && make verify-sdk && make package` exercises the
-real SDKs. Only the final DLL link needs the external HLSDK toolchain.
+This is a merge kit that ports BugfixedHL features and speedrun tooling onto the
+Opposing Force SDK. Upstream sources are pinned by commit and archive checksum.
+Build and link checks pass for the components documented in
+`docs/BHL_BASE_BUILD.md`. The following are still open: linking VGUI2 into the
+client, in-game testing of any feature (including weapons), and the Windows build
+(blocked by GitHub Actions settings). No in-game test result has been recorded yet.
 
 ### المصادر
 
