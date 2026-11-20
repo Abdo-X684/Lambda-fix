@@ -14,15 +14,15 @@ The repository is private, so the links need a GitHub login with access.
 
 Tested on my machine (Linux):
 
-- The game runs.
-- The BugfixedHL menu opens.
-- The Opposing Force weapons work.
-- The OP4 music plays.
-- Everything else works.
-
-Built but not tested in game: the auto-update removal and the green HUD color.
-
-Not done: Windows build (GitHub Actions fails before any step runs).
+| Item | Status |
+| --- | --- |
+| Game starts | ✅ Works |
+| BugfixedHL menu opens | ✅ Works |
+| Opposing Force weapons | ✅ Work |
+| OP4 music | ✅ Plays |
+| Everything else | ✅ Works |
+| Auto-update removal and green HUD color | Built, not tested in game |
+| Windows build | ❌ Not done: GitHub Actions fails before any step runs |
 
 ## Install (Linux)
 
