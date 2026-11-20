@@ -78,7 +78,7 @@ is a separate monster entity in `dlls/shockroach.cpp`.
 2. No legal OP4 assets are included: models, sounds, HUD sprites, and `events/*.sc`
    are read from the user's installed `gearbox/` copy through `fallback_dir`.
 3. No Windows runtime test and no seventh HUD slot test in game, and no
-   confirmation from the user that the OP4 campaign, menus, music, and every weapon work after this change;
+   confirmation from the user that the OP4 campaign, menus, and every weapon work after this change;
    the `RUNTIME_TESTS.md` table shows `not tested` for every row.
 4. The Linux server is the original `gearbox` one: it has no `sv_bhl_*` and no
    `impulse 101` patch, which is an explicit difference from the Windows build.

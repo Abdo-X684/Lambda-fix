@@ -2,7 +2,7 @@
 
 > **There is no GoldSrc engine in this environment.** No in-game test was run here.
 > No row is marked as passing until the user tests it on their machine and documents the result.
-> The user's report that the game starts with the wrong music and broken weapons is recorded as a bug, not as a pass.
+> Music: the user reports that the OP4 soundtrack plays in game. The other rows stay untested until the user reports them.
 
 | Item | Server logic | Client prediction | HUD/ammo | Reload | Fire | Animation | Sound | Effects | Model | In-game result |
 |---|---|---|---|---|---|---|---|---|---|---|
@@ -16,8 +16,8 @@
 | Knife | OP4 source present | OP4 source present | source wiring only | not tested | not tested | not tested | not tested | not tested | from installed `gearbox` | **not tested** |
 | Penguin | OP4 source present | OP4 source present | source wiring only | not tested | not tested | not tested | not tested | not tested | from installed `gearbox` | **not tested** |
 | Grapple | OP4 source present | OP4 source present | source wiring only | not tested | not tested | not tested | not tested | not tested | from installed `gearbox` | **not tested** |
-| Original intro music | — | — | — | — | — | — | copied from `gearbox/media` only | — | — | **not tested** |
-| Map music `trigger_cdaudio` | external OP4 maps | — | — | — | — | — | copied from `gearbox/media` only | — | — | **not tested** |
+| Original intro music | — | — | — | — | — | — | copied from `gearbox/media` only | — | — | user reports OP4 music plays |
+| Map music `trigger_cdaudio` | external OP4 maps | — | — | — | — | — | copied from `gearbox/media` only | — | — | user reports OP4 music plays |
 | `of0a0` / `ofboot0` campaign | OP4 server | — | — | — | — | — | — | — | external maps | **not tested** |
 | BHL VGUI2 menus | — | BHL client | — | — | — | — | — | — | — | **not tested** |
 | `impulse 101` for the ten weapons | OP4 server source | — | — | — | — | — | — | — | — | **not tested** |

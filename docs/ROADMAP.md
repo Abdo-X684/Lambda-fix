@@ -14,7 +14,7 @@
 
 ## Not yet verified (needs the user's machine)
 
-1. In-game check of the Linux package: intro music, every chapter, every weapon (select, fire, reload,
+1. In-game check of the Linux package: every chapter, every weapon (select, fire, reload,
    ammo, sound, model, effects), menus, and the HUD color and About changes.
 2. Windows: the MSVC DLL build (`build-evidence/bhl-windows/`) has not been run in the game. The GitHub
    Actions Windows workflow failed before any step ran; see [`BHL_WINDOWS_BUILD.md`](BHL_WINDOWS_BUILD.md).

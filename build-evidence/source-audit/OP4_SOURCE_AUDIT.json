@@ -363,14 +363,14 @@
   ],
   "music": {
     "code_path": "OP4 dlls/triggers.cpp PlayCDTrack() sends engine 'cd play <track>' (and 'cd stop' for -1). The engine, not the game DLL, maps the track ID to media/*.mp3. Shipped autoexec.cfg/op4weapons.cfg contain no cd/mp3/media command.",
-    "diagnosis": "The ZIP contains no media/*.mp3 and no gamestartup.mp3. GoldSrc looks in the active mod's media/ folder and then valve/media; fallback_dir gearbox supplies maps/models/sounds but is not a reliable media/ lookup for CD/MP3 tracks. Therefore an unmodified lambda-fix folder plays the Half-Life soundtrack.",
+    "diagnosis": "The ZIP contains no media/*.mp3 and no gamestartup.mp3. GoldSrc looks in the active mod's media/ folder and then valve/media; fallback_dir gearbox supplies maps/models/sounds but is not a reliable media/ lookup for CD/MP3 tracks. An earlier report said the intro played Half-Life music. A later user report says the music works and is the OP4 soundtrack.",
     "engine_behavior_sources": [
       "https://developer.valvesoftware.com/wiki/List_of_HL1_soundtracks",
       "https://twhl.info/wiki/page/Tutorial:_Making_Music_Play_in_Maps_[GoldSource]/5984",
       "https://github.com/UCyborg/hl-mp3-fix"
     ],
     "fix": "setup_op4_media.bat copies only the user's original gearbox/media/*.mp3 (plus gearbox_downloads/media/*.mp3 when present) into lambda-fix/media/. No track is invented, renamed, or downloaded.",
-    "runtime_test": "not tested inside GoldSrc in this environment",
+    "runtime_test": "user reports OP4 music plays in game; not run or tested in this environment",
     "startup_music": "gamestartup.mp3 is copied only if the installed OP4 copy provides it; it is never fabricated."
   },
   "package_policy": {

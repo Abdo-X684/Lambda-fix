@@ -277,7 +277,8 @@ def build_audit() -> dict:
                 "The ZIP contains no media/*.mp3 and no gamestartup.mp3. GoldSrc looks in the "
                 "active mod's media/ folder and then valve/media; fallback_dir gearbox supplies "
                 "maps/models/sounds but is not a reliable media/ lookup for CD/MP3 tracks. "
-                "Therefore an unmodified lambda-fix folder plays the Half-Life soundtrack."
+                "An earlier report said the intro played Half-Life music. A later user report says "
+                "the music works and is the OP4 soundtrack."
             ),
             "fix": (
                 "setup_op4_media.bat copies only the user's original gearbox/media/*.mp3 "
@@ -288,7 +289,7 @@ def build_audit() -> dict:
                 "gamestartup.mp3 is copied only if the installed OP4 copy provides it; "
                 "it is never fabricated."
             ),
-            "runtime_test": "not tested inside GoldSrc in this environment",
+            "runtime_test": "user reports OP4 music plays in game; not run or tested in this environment",
             "engine_behavior_sources": [
                 "https://developer.valvesoftware.com/wiki/List_of_HL1_soundtracks",
                 "https://twhl.info/wiki/page/Tutorial:_Making_Music_Play_in_Maps_[GoldSource]/5984",
@@ -305,7 +306,7 @@ def markdown(audit: dict) -> str:
         "# Opposing Force source and asset audit", "",
         "> **File and source audit only.** The GoldSrc engine was not run in this environment,",
         "> and compilation, CI, file presence, or event logging is not proof that any weapon works.",
-        "> User report: the game runs, but the intro music is not OP4 and the weapons do not work correctly;",
+        "> User report: the game runs and the music is OP4 music. The earlier weapon report is not re-tested here,",
         "> so no untested row is marked as passing.", "",
         "## 1. Pinned repositories and commits", "",
         "| Role | Repository | Commit | Tarball hash |", "|---|---|---|---|",
@@ -389,7 +390,7 @@ def tests_markdown(audit: dict) -> str:
         "# Required GoldSrc test table", "",
         "> **There is no GoldSrc engine in this environment.** No in-game test was run here.",
         "> No row is marked as passing until the user tests it on their machine and documents the result.",
-        "> The user's report that the game starts with the wrong music and broken weapons is recorded as a bug, not as a pass.", "",
+        "> Music: the user reports that the OP4 soundtrack plays in game. The other rows stay untested until the user reports them.", "",
         "| Item | Server logic | Client prediction | HUD/ammo | Reload | Fire | Animation | Sound | Effects | Model | In-game result |",
         "|---|---|---|---|---|---|---|---|---|---|---|",
     ]
@@ -398,8 +399,8 @@ def tests_markdown(audit: dict) -> str:
             f"| {w['name']} | OP4 source present | OP4 source present | source wiring only | not tested | not tested | not tested | not tested | not tested | from installed `gearbox` | **not tested** |"
         )
     rows += [
-        "| Original intro music | — | — | — | — | — | — | copied from `gearbox/media` only | — | — | **not tested** |",
-        "| Map music `trigger_cdaudio` | external OP4 maps | — | — | — | — | — | copied from `gearbox/media` only | — | — | **not tested** |",
+        "| Original intro music | — | — | — | — | — | — | copied from `gearbox/media` only | — | — | user reports OP4 music plays |",
+        "| Map music `trigger_cdaudio` | external OP4 maps | — | — | — | — | — | copied from `gearbox/media` only | — | — | user reports OP4 music plays |",
         "| `of0a0` / `ofboot0` campaign | OP4 server | — | — | — | — | — | — | — | external maps | **not tested** |",
         "| BHL VGUI2 menus | — | BHL client | — | — | — | — | — | — | — | **not tested** |",
         "| `impulse 101` for the ten weapons | OP4 server source | — | — | — | — | — | — | — | — | **not tested** |",

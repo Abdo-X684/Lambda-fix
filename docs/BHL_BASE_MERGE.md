@@ -209,6 +209,7 @@ path in the game code and no `cd/mp3/media` command in the cfg files. Because th
 no `media/`, the engine looks for music in `valve`, and `fallback_dir` is not enough to force
 `gearbox/media`. So `setup_op4_media.bat` copies the original MP3 files only, from the installed
 `gearbox` copy into `lambda-fix/media/`. Nothing is generated or downloaded.
+A later user report says the OP4 music plays in game; this is not a test run in this environment.
 
 Full details and the original, edited, and self-written file list are in
 [`docs/OP4_SOURCE_AUDIT.md`](OP4_SOURCE_AUDIT.md). The table in

@@ -23,7 +23,7 @@ The repository is private, so the direct GitHub raw links require a GitHub login
 | Auto-update removed from Advanced > About | ✅ Implemented in source; not yet tested in game |
 | Default HUD color green (`0 160 0`) | ✅ Implemented in source; not yet tested in game |
 | Localization file `lambda-fix-fix_english.txt` | ✅ Added; not yet confirmed in game |
-| Music on Linux | ❓ Not tested |
+| Music | ✅ Reported by the user: OP4 music plays |
 | Windows build | ❌ Blocked: GitHub Actions runs fail before any step runs |
 
 ## Install on Linux
@@ -70,7 +70,7 @@ make verify    # repository checks (Python tests, C++ checks, generation, merge,
 2. **Trademarks:** do not use the Lambda logo or the name "Half-Life" in the mod name or logo. Both belong to Valve.
 3. **Sprite license:** `sprites/ag_ctf.spr` and `ag_ctf_score.spr` come from the Adrenaline Gamer code base. Their license is not confirmed. They are only used for CTF mode.
 4. **Windows:** no current `client.dll`. The Windows source tree in the repo is based on an older OP4 tree, not the current BHL base.
-5. **Not yet tested in game:** music, every map in the campaign, every weapon with ammo, and the items listed as "not yet tested" above.
+5. **Not yet tested in game:** every map in the campaign, every weapon with ammo, and the items listed as "not yet tested" above.
 
 ## Docs
 
