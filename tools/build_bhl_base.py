@@ -732,8 +732,20 @@ def main() -> int:
 
     sdl = TREE / "lib/public/libSDL2-2.0.so.0"
     sdk_lib = args.sdk / "lib/public"
-    libs = [sdl, sdk_lib / "libtier0.so", sdk_lib / "libvstdlib.so",
-            sdk_lib / "libsteam_api.so"]
+    # Clean-room tier0/vstdlib replacements (tools/linux_shims/) are compiled
+    # and linked INTO client.so, so the client no longer NEEDs Valve's
+    # libtier0.so / libvstdlib.so at all.
+    shim_dir = ROOT / "tools/linux_shims"
+    shim_objs = []
+    for src in ("shim_tier0.c", "shim_vstdlib.c"):
+        obj = b.out / (src[:-2] + ".o")
+        r = subprocess.run(ZIG_CC + ["-c", "-fPIC", "-O2", str(shim_dir / src),
+                                     "-o", str(obj)], capture_output=True, text=True)
+        if r.returncode != 0:
+            raise SystemExit(f"[shim] {src} failed:\n" + r.stderr[:4000])
+        shim_objs.append(obj)
+    c_obj = list(c_obj) + shim_objs
+    libs = [sdl, sdk_lib / "libsteam_api.so"]
 
     # CMake builds the SDK/dependency targets as STATIC libraries; do the same.
     a_vgui = b.archive("vgui_controls", v_obj)
