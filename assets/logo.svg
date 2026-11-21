@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="320" viewBox="0 0 960 320" role="img" aria-labelledby="title desc">
+  <title id="title">Lambda Fix</title>
+  <desc id="desc">A geometric lambda mark in industrial orange and graphite, with the Lambda Fix wordmark.</desc>
+  <defs>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffb14a"/>
+      <stop offset="1" stop-color="#e45b18"/>
+    </linearGradient>
+  </defs>
+  <g transform="translate(34 24)">
+    <path d="M136 4 258 74v140l-122 70L14 214V74Z" fill="#171b20" stroke="#59616b" stroke-width="8"/>
+    <path d="m136 47 82 47v94l-82 47-82-47V94Z" fill="none" stroke="#343c45" stroke-width="4"/>
+    <path d="m76 207 56-132 57 132h-37l-20-51-21 51Z" fill="url(#accent)"/>
+    <path d="M172 207h38l-24-55-18 31Z" fill="#f28a32"/>
+    <path d="M36 250h200" stroke="#e45b18" stroke-width="7" stroke-linecap="square"/>
+  </g>
+  <g transform="translate(340 0)">
+    <text x="0" y="150" fill="#f2f4f6" font-family="Arial, Helvetica, sans-serif" font-size="92" font-weight="800" letter-spacing="3">LAMBDA</text>
+    <text x="5" y="237" fill="#f28a32" font-family="Arial, Helvetica, sans-serif" font-size="68" font-weight="700" letter-spacing="13">FIX</text>
+    <path d="M7 263h500" stroke="#59616b" stroke-width="3"/>
+    <text x="8" y="296" fill="#aab2bc" font-family="Arial, Helvetica, sans-serif" font-size="19" letter-spacing="4">GOLDSRC  /  LINUX INTEGRATION</text>
+  </g>
+</svg>
