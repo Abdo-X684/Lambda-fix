@@ -6,7 +6,7 @@
     "license": "GPL-3.0",
     "merged_files": 23,
     "repo": "tmp64/BugfixedHL-Rebased",
-    "tree_sha256": "f6267a363ebc769f2858d4717c200b8f02ac9b5d2909dfb91f775f026086fc00",
+    "tree_sha256": "313a03f12a2234be68d84b225bab39614dda4e74b2d0ea8a803b37662ec54a72",
     "tree_sha256_note": "sha256 over sorted '<path>  <file sha256>' for every BHL-origin file on disk; verified by --check",
     "verbatim_files": 671
   },
@@ -1018,7 +1018,7 @@
       "commit": "4d32095e3c33",
       "edited_after_import": "Advanced > About: auto-update entry removed",
       "origin": "bugfixhl",
-      "sha256": "aac5e8c170f247a67fe3cb8963e7a6431a89ba446d3476c61599608cb0e4eca3"
+      "sha256": "29e7d95cffd9b4ce18d5229c9a142f7acdfc9c3d979c0c75caacb228f1c6ff8d"
     },
     "gamedir/ui/resource/options/ChatSubOptions.res": {
       "action": "verbatim",
@@ -2022,7 +2022,7 @@
       "commit": "4d32095e3c33",
       "edited_after_import": "Advanced > About: auto-update entry removed; ApplySchemeSettings defined (fixes undefined symbol in client.so)",
       "origin": "bugfixhl",
-      "sha256": "b62edf2fa8dc79e9d93bbdc3c5c350df25856c4cf111fa0104ff9cbc8f6cee87"
+      "sha256": "add57d6ffacbef7d9deaaf903bbdce66c361dfdb8726635fe0cd7a42ec377228"
     },
     "src/game/client/gameui/options/options_about.h": {
       "action": "verbatim+edit",

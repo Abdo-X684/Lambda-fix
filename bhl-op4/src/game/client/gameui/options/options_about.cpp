@@ -115,7 +115,7 @@ void CAboutSubOptions::PerformLayout()
 {
 	BaseClass::PerformLayout();
 
-	m_pGitHubLink->SetURL(BHL_GITHUB_URL);
+	m_pGitHubLink->SetURL("https://github.com/Abdo-X684/Lambda-fix"); // Lambda fix repository
 	m_pAghlLink->SetURL(BHL_FORUM_URL);
 
 	auto fnPositionAfter = [](vgui2::Label *left, vgui2::Label *right) {

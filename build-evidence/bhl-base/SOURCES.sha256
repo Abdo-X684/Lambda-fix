@@ -32,7 +32,7 @@ fcf73eba2fcf4e073e262d4625493dc7b964b80ddaf30133272f049cb20c43a4  bhl-op4/src/ga
 24ab63a97378cd8e218581e47f8e4687a9462a52e2f62db72c8d79a838d7eeff  bhl-op4/src/game/client/gameui/options/cvar_combo_box.cpp
 cf10c2a7b1f2ddad227bef673290984f66af658f50c41ffd4fdaf03ce57bb562  bhl-op4/src/game/client/gameui/options/cvar_slider.cpp
 d09c71dd2e9edbebfe9244bce15fd48c4be0ded4f0fb299e552975ed9a8d0242  bhl-op4/src/game/client/gameui/options/cvar_text_entry.cpp
-b62edf2fa8dc79e9d93bbdc3c5c350df25856c4cf111fa0104ff9cbc8f6cee87  bhl-op4/src/game/client/gameui/options/options_about.cpp
+add57d6ffacbef7d9deaaf903bbdce66c361dfdb8726635fe0cd7a42ec377228  bhl-op4/src/game/client/gameui/options/options_about.cpp
 7e9c18c854d67d97d61e5cff0e4e31bd5b9dee3e8359985272f0756a1582ba28  bhl-op4/src/game/client/gameui/options/options_chat.cpp
 a8e16036ffca07ce7de1e76014e6686cd214654402cc1e5edc35defb06c78eb3  bhl-op4/src/game/client/gameui/options/options_crosshair.cpp
 9e8b7158b02fd505273b237891d6adf7d85e3a82640fa296e6f5c05f9a2b57e3  bhl-op4/src/game/client/gameui/options/options_general.cpp
