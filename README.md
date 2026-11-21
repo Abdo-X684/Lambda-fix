@@ -5,6 +5,8 @@
 
 <div align="center">
 
+<img src="assets/logo.svg" alt="Lambda Fix logo" width="480">
+
 # Lambda Fix
 
 **BugfixedHL × Opposing Force — a GoldSrc integration project for Linux**
