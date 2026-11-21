@@ -6,7 +6,7 @@
     "license": "GPL-3.0",
     "merged_files": 23,
     "repo": "tmp64/BugfixedHL-Rebased",
-    "tree_sha256": "b778e0d364aa8d8387c7fb190f4ecc251100bf0f2e95bbf286a1764614863ab0",
+    "tree_sha256": "88271103ce6549e12af87146472a4829b2910e095089e1aadd6f1800774c1b38",
     "tree_sha256_note": "sha256 over sorted '<path>  <file sha256>' for every BHL-origin file on disk; verified by --check",
     "verbatim_files": 671
   },
@@ -1647,10 +1647,11 @@
       "sha256": "da4aaa672f9bb20657c89108276a72e15ac795a0c461164fab71073fb75ccc32"
     },
     "src/game/client/bhlcfg.cpp": {
-      "action": "verbatim",
+      "action": "verbatim+edit",
       "commit": "4d32095e3c33",
+      "edited_after_import": "one-time OP4 color defaults (bhl_apply_defaults) and sv_cheats 0 at start",
       "origin": "bugfixhl",
-      "sha256": "822b80c7acb7d1fbcf1684430cad51993df35e9bcbbd3ad8b53ecc345900149b"
+      "sha256": "30902beb0ca85f5d7ecb6153727b49b8c82ab7b479671c7e1b4e10a31a3797f7"
     },
     "src/game/client/bhlcfg.h": {
       "action": "verbatim",
@@ -2402,10 +2403,11 @@
       "sha256": "eeedcc4ff0f42413b54d0395eda8c7913f6e8bd60d65c4d3d6d6265bbac45fe5"
     },
     "src/game/client/hud/crosshair.cpp": {
-      "action": "verbatim",
+      "action": "verbatim+edit",
       "commit": "4d32095e3c33",
+      "edited_after_import": "default crosshair color OP4 green (0 160 0)",
       "origin": "bugfixhl",
-      "sha256": "7d0352d0e3d3b6ad7c32fdb5db8b796a46fecdaff948a2f7bfc24bc4d660eb48"
+      "sha256": "61163d35721d82135b63069ca4c325151af0a21a8888625609f0d09a66233217"
     },
     "src/game/client/hud/crosshair.h": {
       "action": "verbatim",

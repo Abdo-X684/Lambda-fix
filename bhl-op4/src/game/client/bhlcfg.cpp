@@ -16,9 +16,35 @@ namespace bhlcfg
 static void SaveConfig(const char *cfgname);
 }
 
+// Version of the OP4 color defaults applied by bhl_apply_defaults.
+// Saved to bugfixedhl.cfg, so the reset runs once per install.
+static ConVar bhl_defaults_version("bhl_defaults_version", "0", FCVAR_BHL_ARCHIVE,
+	"Version of the applied OP4 color defaults (internal)");
+
+// Sets the main HUD color, HUD number coloring, and crosshair color to the
+// original Opposing Force green (0 160 0). Runs after bugfixedhl.cfg is loaded,
+// so older saved values are replaced once.
+static void ApplyColorDefaults()
+{
+	const int kVersion = 1;
+	if (bhl_defaults_version.GetInt() >= kVersion)
+		return;
+
+	gEngfuncs.Cvar_Set("hud_color", "0 160 0");
+	gEngfuncs.Cvar_Set("hud_color_override", "1");
+	gEngfuncs.Cvar_SetValue("cl_cross_red", 0);
+	gEngfuncs.Cvar_SetValue("cl_cross_green", 160);
+	gEngfuncs.Cvar_SetValue("cl_cross_blue", 0);
+	bhl_defaults_version.SetValue(kVersion);
+}
+
 void bhlcfg::Init()
 {
+	gEngfuncs.pfnAddCommand("bhl_apply_defaults", ApplyColorDefaults);
 	gEngfuncs.pfnClientCmd("exec " BHL_CONFIG_NAME);
+	gEngfuncs.pfnClientCmd("bhl_apply_defaults");
+	// Cheats stay off at every start. Turn them on only for a test session.
+	gEngfuncs.pfnClientCmd("sv_cheats 0");
 }
 
 void bhlcfg::Shutdown()
