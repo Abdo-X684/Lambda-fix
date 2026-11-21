@@ -2,7 +2,7 @@
 89625125b18b9235cd81c2538f46000f760fb2dcde5fa785cc9682fc70189591  bhl-op4/src/common/parsemsg.cpp
 70a72c65e7a829200d705ac7a8d17558a6047f25a51085e138b290f264febf31  bhl-op4/src/game/client/GameStudioModelRenderer.cpp
 322648285afd070f9e6e7a61f22c469127450615bba3ec936ef8deec0b822fdb  bhl-op4/src/game/client/StudioModelRenderer.cpp
-6861e3998c238e7e7efa1b48600a5a3dbf8c184423036542344153b2f8108bbc  bhl-op4/src/game/client/bhlcfg.cpp
+1fdf65a7ab7726a919033425430ada4c69781a012ed9757c4d0938278541a440  bhl-op4/src/game/client/bhlcfg.cpp
 552cab8596fc72322dad9fa1a71b3f1679bc9f2cd943db6cae485a802936f449  bhl-op4/src/game/client/cdll_int.cpp
 86c7857a8571da07a1ca44f8b5be20980a01cdb96a3d9fdab72782d532f885a4  bhl-op4/src/game/client/cl_util.cpp
 9b10ebd01ea7c75ed1fd019e2252433d1d53fbd3c596324c17fbfba36e9fab53  bhl-op4/src/game/client/cl_voice_status.cpp
@@ -62,7 +62,7 @@ afa05170ed4b4653a63a21732a669c1e19443e91511beadd8a4364a85da23bb7  bhl-op4/src/ga
 a786a0b3bfbeb0cdbbcc8d04d17a194a17011e9e3261b0a1c0c17fdd43838274  bhl-op4/src/game/client/hud/base.cpp
 1f8a4d895e68fa23608edbfd89ec66e3ae5f751d2a82e80c2e66a0ef4f4274f2  bhl-op4/src/game/client/hud/battery.cpp
 4510ca3e2041560e768f5940269c26c1db9d4a4c76e0a07249dc1f5c499535e2  bhl-op4/src/game/client/hud/chat.cpp
-252312deb9076a4d9fb6c4952939c306000fb08dbdada7d76bbd4649aab97aff  bhl-op4/src/game/client/hud/crosshair.cpp
+5399562f532d288b974bc40e155b0f070bbf93a88c04526f52b750e619e945ee  bhl-op4/src/game/client/hud/crosshair.cpp
 3bf6815a2610b17af59082a638e0fb716b5ed8310109cfd5b5c3e1a4d5850b3c  bhl-op4/src/game/client/hud/death_notice.cpp
 deaefe8dcdd83cf93919b60e13e0671eb719e2f77516fef0df1e61f7360df405  bhl-op4/src/game/client/hud/death_notice_panel.cpp
 54491f7c25fbfe64ea7717a2f94a7f39313af4dd324aae67d057ccaa8019e632  bhl-op4/src/game/client/hud/flashlight.cpp
