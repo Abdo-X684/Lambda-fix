@@ -2,7 +2,7 @@
 89625125b18b9235cd81c2538f46000f760fb2dcde5fa785cc9682fc70189591  bhl-op4/src/common/parsemsg.cpp
 70a72c65e7a829200d705ac7a8d17558a6047f25a51085e138b290f264febf31  bhl-op4/src/game/client/GameStudioModelRenderer.cpp
 322648285afd070f9e6e7a61f22c469127450615bba3ec936ef8deec0b822fdb  bhl-op4/src/game/client/StudioModelRenderer.cpp
-c7ecdcefd7b01b0b982f14f9ca723f8b2e6e82690637498ce480f41043a06bc4  bhl-op4/src/game/client/bhlcfg.cpp
+657a40b092c0584fe28fa9f05743eee2d95facbefe4d3d3f98a6cabc7916dd8d  bhl-op4/src/game/client/bhlcfg.cpp
 552cab8596fc72322dad9fa1a71b3f1679bc9f2cd943db6cae485a802936f449  bhl-op4/src/game/client/cdll_int.cpp
 86c7857a8571da07a1ca44f8b5be20980a01cdb96a3d9fdab72782d532f885a4  bhl-op4/src/game/client/cl_util.cpp
 9b10ebd01ea7c75ed1fd019e2252433d1d53fbd3c596324c17fbfba36e9fab53  bhl-op4/src/game/client/cl_voice_status.cpp
@@ -32,7 +32,7 @@ eb828d5d4020baf0967ba141f45ca1548bccf9d543c66977cefdad642cfaded6  bhl-op4/src/ga
 38b0de3af5dd131c77c913a0f0562bf2b446f1ef553c32c40a2662c428b283ca  bhl-op4/src/game/client/gameui/options/cvar_combo_box.cpp
 7c05328bcb4920e174f5e8b86d75f7edbbcdb3d15cc674600b208643bb4e3b5f  bhl-op4/src/game/client/gameui/options/cvar_slider.cpp
 913636ad2f7dc151967022a01f92c7934ebdc3c142260792ffe751ab42856214  bhl-op4/src/game/client/gameui/options/cvar_text_entry.cpp
-d9eb24dec9d75b43a25ad56405bd2a889130de729f4ef6a899aa34d77da7dbd4  bhl-op4/src/game/client/gameui/options/options_about.cpp
+7e6705387f5824c73fcd9d24639945f1e32b24e234bcbe97b67e212f185b023c  bhl-op4/src/game/client/gameui/options/options_about.cpp
 9d8aa16b12ebf5516b5957adc0372c03c7ce9cf8c9a3c0865923328704521b9a  bhl-op4/src/game/client/gameui/options/options_chat.cpp
 d96e1a2502b9a0cc1766cd7a03162ef2d0730b08cbd8fa13cccbe1b69d059a15  bhl-op4/src/game/client/gameui/options/options_crosshair.cpp
 f4941381af22a7d740155e70e9439c603f0e67501f1845927462631200c5019f  bhl-op4/src/game/client/gameui/options/options_general.cpp
