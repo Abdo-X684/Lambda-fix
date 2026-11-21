@@ -3,7 +3,7 @@ PYTHON ?= python3
 CXX    ?= g++
 ROOT   := $(CURDIR)
 
-.PHONY: help verify hygiene tidy test test-py test-cpp test-op4 test-op4-fixups gen route-check merge merge-offline bhl-plan bhl-base verify-bhl-base fetch serve build build-cmake verify-sdk package build-dlls build-dlls-check build-dlls-zig noexcept-check mod clean
+.PHONY: help verify verify-op4-minimal hygiene tidy test test-py test-cpp test-op4 test-op4-fixups gen route-check merge merge-offline bhl-plan bhl-base verify-bhl-base fetch serve build build-cmake verify-sdk package build-dlls build-dlls-check build-dlls-zig noexcept-check mod clean
 
 help:
 	@echo "verify        - hygiene + python tests + C++ checks + generation + merge + package"
@@ -34,6 +34,9 @@ verify: hygiene test-py gen route-check noexcept-check test-cpp test-op4 test-op
 
 verify-delta:
 	$(PYTHON) tools/make_merged_delta.py --check
+
+verify-op4-minimal:
+	$(PYTHON) tools/prepare_op4_minimal_server.py --check
 
 verify-op4-audit:
 	$(PYTHON) tools/audit_op4_sources.py --check

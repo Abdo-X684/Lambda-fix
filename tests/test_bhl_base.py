@@ -159,7 +159,11 @@ class BhlBaseTreeTests(unittest.TestCase):
         for rel in bb["files"]:
             rec = self.prov["files"][rel]
             self.assertEqual(rec["origin"], "bugfixhl", rel)
-            self.assertEqual(rec["action"], "verbatim", rel)
+            # A named, recorded edit is allowed (see edited_after_import);
+            # anything else must be byte-identical to the BHL source.
+            self.assertIn(rec["action"], ("verbatim", "verbatim+edit"), rel)
+            if rec["action"] == "verbatim+edit":
+                self.assertTrue(rec.get("edited_after_import"), rel)
 
     def test_13_op4_server_network_compat(self):
         checks = {
