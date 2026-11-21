@@ -1529,8 +1529,11 @@ def apply_cmake(tree: Path, provenance: dict) -> None:
             if inc_anchor in s and "${CMAKE_CURRENT_SOURCE_DIR}/../server/op4/dlls" not in s:
                 s = s.replace(
                     inc_anchor,
-                    inc_anchor + "\t${CMAKE_CURRENT_SOURCE_DIR}/../server/op4/dlls\n"
-                    "\t${CMAKE_CURRENT_SOURCE_DIR}/../server/op4/dlls/ctf\n",
+                    inc_anchor + "\t${CMAKE_CURRENT_SOURCE_DIR}/../server/op4\n"
+                    "\t${CMAKE_CURRENT_SOURCE_DIR}/../server/op4/dlls\n"
+                    "\t${CMAKE_CURRENT_SOURCE_DIR}/../server/op4/dlls/weapons\n"
+                    "\t${CMAKE_CURRENT_SOURCE_DIR}/../server/op4/dlls/ctf\n"
+                    "\t${CMAKE_CURRENT_SOURCE_DIR}/../server/op4/dlls/rope\n",
                     1)
                 provenance[rel].setdefault("merge_rules", []).append(
                     "op4-client-include-dirs")

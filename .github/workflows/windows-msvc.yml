@@ -40,7 +40,6 @@ jobs:
           vcpkgGitCommitId: 47313591da1d14a8a9b209f4bee39d29acc39b31
           vcpkgJsonGlob: '**/bhl-op4/vcpkg.json'
           runVcpkgInstall: true
-          vcpkgTriplet: x86-windows-static
 
       - name: Persist the vcpkg root before MSVC resets it
         shell: pwsh

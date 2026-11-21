@@ -6,7 +6,7 @@
     "license": "GPL-3.0",
     "merged_files": 23,
     "repo": "tmp64/BugfixedHL-Rebased",
-    "tree_sha256": "e4580411e684d28ebb42816e8378878e791e1aa58fa87dadd6d98956105d12a3",
+    "tree_sha256": "80d45034350e58042a228b55611e073fbc449f3ac29f89414d2416babe6c95c8",
     "tree_sha256_note": "sha256 over sorted '<path>  <file sha256>' for every BHL-origin file on disk; verified by --check",
     "verbatim_files": 671
   },
@@ -1594,6 +1594,7 @@
     "src/game/client/CMakeLists.txt": {
       "action": "bhl+op4-merge",
       "commit": "4d32095e3c33",
+      "edited_after_import": "client include dirs for op4_compat.h (server/op4, weapons, rope)",
       "merge_rules": [
         "windows-winsock-by-name",
         "windows-disable-threadsafe-statics",
@@ -1601,7 +1602,7 @@
         "op4-cmake-sources"
       ],
       "origin": "bugfixhl",
-      "sha256": "48db619e1258c4813d9754651c91c3ff663d8050b97c41c671a8375a696febe7"
+      "sha256": "af10bfde715d32ecff1d6e46f68ff614c99a7f062ae4659105fa63cc4d0d2ac4"
     },
     "src/game/client/Exports.h": {
       "action": "verbatim",
