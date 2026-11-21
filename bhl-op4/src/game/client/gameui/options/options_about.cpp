@@ -106,6 +106,11 @@ CAboutSubOptions::~CAboutSubOptions()
 {
 }
 
+void CAboutSubOptions::ApplySchemeSettings(vgui2::IScheme *pScheme)
+{
+	BaseClass::ApplySchemeSettings(pScheme);
+}
+
 void CAboutSubOptions::PerformLayout()
 {
 	BaseClass::PerformLayout();

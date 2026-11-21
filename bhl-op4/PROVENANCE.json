@@ -6,7 +6,7 @@
     "license": "GPL-3.0",
     "merged_files": 23,
     "repo": "tmp64/BugfixedHL-Rebased",
-    "tree_sha256": "13bc87f6ec7cf1c1be56c528044d75e1e2c05cf93274f4d59391ceb0fd4b929b",
+    "tree_sha256": "5cb34fc5c1a952afaf790791fa35784f29f86c6ffff0a6b6a30cd4b334e580f1",
     "tree_sha256_note": "sha256 over sorted '<path>  <file sha256>' for every BHL-origin file on disk; verified by --check",
     "verbatim_files": 671
   },
@@ -874,16 +874,16 @@
     "gamedir/ui/resource/HudAmmo.res": {
       "action": "verbatim+edit",
       "commit": "4d32095e3c33",
+      "edited_after_import": "Default HUD color changed to OP4 green (0 160 0)",
       "origin": "bugfixhl",
-      "sha256": "50f82562bbfb6de216242a8c9bca1ea1f66272840f8ec938c7791167c3d98175",
-      "edited_after_import": "Default HUD color changed to OP4 green (0 160 0)"
+      "sha256": "50f82562bbfb6de216242a8c9bca1ea1f66272840f8ec938c7791167c3d98175"
     },
     "gamedir/ui/resource/HudAmmoSecondary.res": {
       "action": "verbatim+edit",
       "commit": "4d32095e3c33",
+      "edited_after_import": "Default HUD color changed to OP4 green (0 160 0)",
       "origin": "bugfixhl",
-      "sha256": "86ca6a049734076392c4f4973090257d2ca844e37ae1e6c3dd0d398ef8923d06",
-      "edited_after_import": "Default HUD color changed to OP4 green (0 160 0)"
+      "sha256": "86ca6a049734076392c4f4973090257d2ca844e37ae1e6c3dd0d398ef8923d06"
     },
     "gamedir/ui/resource/HudBattery.res": {
       "action": "verbatim",
@@ -894,9 +894,9 @@
     "gamedir/ui/resource/HudHealth.res": {
       "action": "verbatim+edit",
       "commit": "4d32095e3c33",
+      "edited_after_import": "Default HUD color changed to OP4 green (0 160 0)",
       "origin": "bugfixhl",
-      "sha256": "47ccbeb5f8a13b37ca3ed6277ff38b7771ca23725b07f8429fde69839565e207",
-      "edited_after_import": "Default HUD color changed to OP4 green (0 160 0)"
+      "sha256": "47ccbeb5f8a13b37ca3ed6277ff38b7771ca23725b07f8429fde69839565e207"
     },
     "gamedir/ui/resource/MOTD.res": {
       "action": "verbatim",
@@ -1015,9 +1015,9 @@
     "gamedir/ui/resource/options/AboutSubOptions.res": {
       "action": "verbatim+edit",
       "commit": "4d32095e3c33",
+      "edited_after_import": "Advanced > About: auto-update entry removed",
       "origin": "bugfixhl",
-      "sha256": "aac5e8c170f247a67fe3cb8963e7a6431a89ba446d3476c61599608cb0e4eca3",
-      "edited_after_import": "Advanced > About: auto-update entry removed"
+      "sha256": "aac5e8c170f247a67fe3cb8963e7a6431a89ba446d3476c61599608cb0e4eca3"
     },
     "gamedir/ui/resource/options/ChatSubOptions.res": {
       "action": "verbatim",
@@ -2016,16 +2016,16 @@
     "src/game/client/gameui/options/options_about.cpp": {
       "action": "verbatim+edit",
       "commit": "4d32095e3c33",
+      "edited_after_import": "Advanced > About: auto-update entry removed; ApplySchemeSettings defined (fixes undefined symbol in client.so)",
       "origin": "bugfixhl",
-      "sha256": "48292662d759b8ed6f3aa45c8b59ddf746ccf18f0718c57e600a272f7ad518c2",
-      "edited_after_import": "Advanced > About: auto-update entry removed"
+      "sha256": "b62edf2fa8dc79e9d93bbdc3c5c350df25856c4cf111fa0104ff9cbc8f6cee87"
     },
     "src/game/client/gameui/options/options_about.h": {
       "action": "verbatim+edit",
       "commit": "4d32095e3c33",
+      "edited_after_import": "Advanced > About: auto-update entry removed",
       "origin": "bugfixhl",
-      "sha256": "b97d9bf2b5eb8e10ac23b87eceb02101b3dfe0d040368f4979c0f3ab1c8241c0",
-      "edited_after_import": "Advanced > About: auto-update entry removed"
+      "sha256": "b97d9bf2b5eb8e10ac23b87eceb02101b3dfe0d040368f4979c0f3ab1c8241c0"
     },
     "src/game/client/gameui/options/options_chat.cpp": {
       "action": "verbatim",
@@ -2179,12 +2179,12 @@
     "src/game/client/hud.cpp": {
       "action": "bhl+op4-merge",
       "commit": "4d32095e3c33",
+      "edited_after_import": "Default HUD color changed to OP4 green (0 160 0)",
       "merge_rules": [
         "op4-weapons-message-hook"
       ],
       "origin": "bugfixhl",
-      "sha256": "6b53568e9686e718a9b0686b80cd961669b2874c85bd791ac92d68ad746da631",
-      "edited_after_import": "Default HUD color changed to OP4 green (0 160 0)"
+      "sha256": "6b53568e9686e718a9b0686b80cd961669b2874c85bd791ac92d68ad746da631"
     },
     "src/game/client/hud.h": {
       "action": "verbatim",
