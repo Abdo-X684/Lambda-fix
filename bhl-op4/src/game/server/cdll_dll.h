@@ -68,6 +68,7 @@ enum WeaponId
 	WEAPON_PIPEWRENCH,
 	WEAPON_M249,
 	WEAPON_DISPLACER,
+	WEAPON_UNUSED_21, /* ID 21 is reserved by the stock OP4 server (no GetItemInfo); keeps Shock/Spore/Sniper/Knife/Penguin at their stock IDs */
 	WEAPON_SHOCKRIFLE,
 	WEAPON_SPORELAUNCHER,
 	WEAPON_SNIPERRIFLE,

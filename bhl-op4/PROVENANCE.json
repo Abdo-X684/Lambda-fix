@@ -6,7 +6,7 @@
     "license": "GPL-3.0",
     "merged_files": 23,
     "repo": "tmp64/BugfixedHL-Rebased",
-    "tree_sha256": "feee8a69a9aea5025769b89e47ded5ad75d2bdce0c3098e417ecd8ea72cdb3b3",
+    "tree_sha256": "f6267a363ebc769f2858d4717c200b8f02ac9b5d2909dfb91f775f026086fc00",
     "tree_sha256_note": "sha256 over sorted '<path>  <file sha256>' for every BHL-origin file on disk; verified by --check",
     "verbatim_files": 671
   },
@@ -3545,7 +3545,7 @@
         "op4-max-weapons-64"
       ],
       "origin": "bugfixhl",
-      "sha256": "e0fd3d1505f8730a141ae7e9096c5bab1ec6fc006b1304487944d4ca67a312a1"
+      "sha256": "68240a3ce4ec9521aa5ebe4199469ded5042df42dd24019020b672f12c4e8355"
     },
     "src/game/server/client.cpp": {
       "action": "verbatim+edit",

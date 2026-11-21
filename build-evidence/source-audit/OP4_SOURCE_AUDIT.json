@@ -315,7 +315,7 @@
       "origin": "bugfixhl",
       "patch_rules": [],
       "path": "src/game/server/cdll_dll.h",
-      "sha256": "e0fd3d1505f8730a141ae7e9096c5bab1ec6fc006b1304487944d4ca67a312a1",
+      "sha256": "68240a3ce4ec9521aa5ebe4199469ded5042df42dd24019020b672f12c4e8355",
       "upstream_commit": "4d32095e3c33",
       "upstream_path": null
     },
