@@ -1,0 +1,8 @@
+This opfor.dll is NOT in the Windows package (lambda-fix-windows-mod.zip).
+
+The user reported that a package with this server crashes on "New Game"
+(no game starts). The package was rolled back to the previously tested
+state (stock server from the installed gearbox folder).
+
+Do not ship this DLL again until the crash is explained from a console log
+(run the game with -condebug and check gearbox_addon/console.log).
