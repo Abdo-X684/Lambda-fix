@@ -167,7 +167,7 @@ ad10ed83af39345a5a7f3b5e4b89ad6927cf6712cddf1525dac1674be2d62322  bhl-op4/src/ga
 59aa29dc92b54282adc0de63b22b8c380cd7a867866a77dfcbeeffe467410777  bhl-op4/src/game/server/bullsquid.cpp
 c4c6834090a5d12b6e246b69fc603a636b27dfffb18761c12775ec090a0d94fb  bhl-op4/src/game/server/buttons.cpp
 c6f73a0f17ac27083e3b5fd2dfaf30ae083e959daa31ab8274e27d0bc9b3e75c  bhl-op4/src/game/server/cbase.cpp
-1c1b45fe444f55bb360d5b5b92187504f13a3949bc8240d8c21518c892a11f91  bhl-op4/src/game/server/client.cpp
+6bb98c8b523f5b4c0d680165a1efd1add41131b5a2ad46d52c386cb942f75369  bhl-op4/src/game/server/client.cpp
 2a769e53262ab3446f81c5a085961466a3ed30fd5e67839b26644713d62eafde  bhl-op4/src/game/server/com_utils.cpp
 0dc42b6f2090bbbe0bef5c4efcd35d38edb61bb648e6340dc08d7dc23a605454  bhl-op4/src/game/server/combat.cpp
 a7fd3c0c0958862388d8a6c0208593c90ba47f1dbb43ffe942c6cf8b20aee4fa  bhl-op4/src/game/server/controller.cpp
