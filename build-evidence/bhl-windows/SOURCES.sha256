@@ -44,7 +44,7 @@ bfa8c28a247642626b1ca3cf218956e477c78caf46a67a29e10483c43b469de0  bhl-op4/src/ga
 5db94ab8eec2050a4db2aa6b635c9746af77baac28f6bdcaf91458617f920def  bhl-op4/src/game/client/hl/hl_baseentity.cpp
 ff5a8bc592cb065ccc283e4a10095971f14975aaa5fee62ee12f2e1befcd27a8  bhl-op4/src/game/client/hl/hl_events.cpp
 4223fdaa2ea62ea2d7fbc98dc7a09eee8e81db0639abc8413e0ddfab190aa54a  bhl-op4/src/game/client/hl/hl_objects.cpp
-e4ad52c02131af3dc43e18dd4c691e681774f9a36064c057d1a22737623c5834  bhl-op4/src/game/client/hl/hl_weapons.cpp
+d564de745722cbd08f6479ef195f44f4b3ef4fb4d056be698051155e05ee383d  bhl-op4/src/game/client/hl/hl_weapons.cpp
 6f9a9b1b1ad205da38a8259b1dad100a28cdcb0257dcc2c5dc14646d66c9a696  bhl-op4/src/game/client/hud/ag/ag_countdown.cpp
 d9ef10d215800b6bfc679f89bf7ef1f058f8e89c498ba5ce49e4b39778f0b056  bhl-op4/src/game/client/hud/ag/ag_ctf.cpp
 5a5ba4a153078e963fe94d6240c03014c5ce64465be27f6cd11a7cd62a995632  bhl-op4/src/game/client/hud/ag/ag_global.cpp
@@ -169,7 +169,7 @@ e7016b0c8de3bf5f00ed597dd91c9e108dd493a343616da58c56d6a9f3f55989  bhl-op4/src/ga
 5da69714d426802a4071ff21b891d0549ffdf8e133c13a19a58b3f527fd0dc6f  bhl-op4/src/game/server/bullsquid.cpp
 e010d06de44676da8a025cbef7d274b0c3fcb884104c50825d76254c81659e40  bhl-op4/src/game/server/buttons.cpp
 67e1daf2e7daaa55012621a0badf91c4429b20d6550596a381da08f5657f779a  bhl-op4/src/game/server/cbase.cpp
-355d0593e61cdbdfb6a9ab0b1fdade283f88420e53716dff7944b66c1a61c222  bhl-op4/src/game/server/client.cpp
+77f1eeb5d22cc24208066b5f5bad54db49371d9a76442c62cd738f06d7cf5809  bhl-op4/src/game/server/client.cpp
 39f9651769b61d28d6dd2a3e4ce9454d7aacd5af2f9cd872774273f5a3c20130  bhl-op4/src/game/server/com_utils.cpp
 b1807292508b5dd4cbcdc2fee3a5518ae068910402c08f1add995bf43f0652c8  bhl-op4/src/game/server/combat.cpp
 7ddc877c7b98ef06070e51b66df90b3402ecb243f6e468352f4dc13c9f7e6036  bhl-op4/src/game/server/controller.cpp
