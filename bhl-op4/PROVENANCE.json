@@ -6,7 +6,7 @@
     "license": "GPL-3.0",
     "merged_files": 23,
     "repo": "tmp64/BugfixedHL-Rebased",
-    "tree_sha256": "41e62db8ff0f78afa7b62eda1b4ea74c215b1edd2e40ae95c1d36fbf6e768f47",
+    "tree_sha256": "0112cdedddcce5e67df941d210df7a8058640d71a7e0b877399d992cd25de3a0",
     "tree_sha256_note": "sha256 over sorted '<path>  <file sha256>' for every BHL-origin file on disk; verified by --check",
     "verbatim_files": 671
   },
@@ -1018,7 +1018,7 @@
       "commit": "4d32095e3c33",
       "edited_after_import": "Advanced > About: auto-update entry removed",
       "origin": "bugfixhl",
-      "sha256": "708fdfb6a5e5b6215aa6c96c8584f971c7b31578b60fe1934f79cf50245f60a3"
+      "sha256": "0386f0bbe18d4c90cc87321e8cc3292dac86550011ca0bf1f60c14fb51551243"
     },
     "gamedir/ui/resource/options/ChatSubOptions.res": {
       "action": "verbatim",
