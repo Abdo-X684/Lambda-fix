@@ -1,0 +1,84 @@
+name: Build minimal OP4 server DLL
+
+# Stock halflife-op4-updated server plus one Spore Launcher classname fix.
+# No BugfixedHL server systems, speedrun core, or impulse 101 change.
+# See tools/prepare_op4_minimal_server.py for the exact edits.
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - arena/dd30bd22-bugfixhl-speedrun-op4
+    paths:
+      - .github/workflows/windows-op4-minimal-server.yml
+      - tools/prepare_op4_minimal_server.py
+
+permissions:
+  contents: write
+
+jobs:
+  opfor:
+    runs-on: windows-2022
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: arena/dd30bd22-bugfixhl-speedrun-op4
+          persist-credentials: true
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Fetch pinned upstreams and prepare the minimal OP4 server tree
+        shell: pwsh
+        run: |
+          python -m merge.cli fetch
+          python tools/prepare_op4_minimal_server.py --out build/op4-min
+
+      - name: Record the source diff against the pinned upstream
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path build-evidence/op4-minimal-windows | Out-Null
+          git diff --no-index --binary .cache/upstreams/op4 build/op4-min | Out-File -Encoding utf8 build-evidence/op4-minimal-windows/SOURCE_DIFF.patch
+          exit 0
+
+      - uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: x86
+
+      - name: Build opfor.dll from the minimal OP4 tree with MSVC/Win32
+        shell: pwsh
+        run: |
+          msbuild build/op4-min/projects/vs2019/projects.sln /t:hldll /p:Configuration=Release /p:Platform=Win32 /m /nologo
+          $dll = Get-ChildItem -Path build/op4-min/projects/vs2019 -Recurse -Filter opfor.dll | Select-Object -First 1
+          if (-not $dll) { throw "opfor.dll was not produced" }
+          Copy-Item $dll.FullName build-evidence/op4-minimal-windows/opfor.dll -Force
+
+      - name: Check PE loader shape and write exports and hashes
+        shell: pwsh
+        run: |
+          python -m pip install --quiet pefile
+          python tools/check_msvc_pe.py build-evidence/op4-minimal-windows/opfor.dll
+          python -c "import pefile,hashlib; p='build-evidence/op4-minimal-windows/opfor.dll'; pe=pefile.PE(p); names=sorted((e.name or b'').decode(errors='replace') if e.name else f'ordinal {e.ordinal}' for e in pe.DIRECTORY_ENTRY_EXPORT.symbols) if hasattr(pe,'DIRECTORY_ENTRY_EXPORT') else []; open('build-evidence/op4-minimal-windows/EXPORTS.txt','w',encoding='utf-8').write('\n'.join(names)+'\n'); h=hashlib.sha256(open(p,'rb').read()).hexdigest(); open('build-evidence/op4-minimal-windows/SHA256SUMS.txt','w',encoding='utf-8').write(h+'  opfor.dll\n'); print(h, len(names), 'exports')"
+
+      - name: Upload opfor.dll
+        uses: actions/upload-artifact@v4
+        with:
+          name: opfor-minimal-dll
+          path: build-evidence/op4-minimal-windows/
+          if-no-files-found: error
+
+      - name: Publish minimal opfor.dll to the working branch
+        shell: pwsh
+        run: |
+          $branch = 'arena/dd30bd22-bugfixhl-speedrun-op4'
+          git config user.name "arena-bot"
+          git config user.email "arena-bot@users.noreply.github.com"
+          git add -f build-evidence/op4-minimal-windows
+          if (git diff --cached --quiet) {
+            Write-Host "No minimal opfor.dll changes to publish"
+          } else {
+            git commit -m "Build minimal OP4 server DLL (stock OP4 + Spore classname fix)"
+            git pull --rebase origin $branch
+            git push origin "HEAD:$branch"
+          }
