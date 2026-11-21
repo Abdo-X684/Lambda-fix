@@ -628,7 +628,7 @@
     "pending": 0,
     "total": 14
   },
-  "compiler": "/tmp/zig32",
+  "compiler": "/home/user/Bugfixhl-speedrun-op4/build/bin/zig c++ -target x86-linux-gnu",
   "files": {
     "src/game/client/op4/op4_client_prediction.cpp": {
       "errors": 0,

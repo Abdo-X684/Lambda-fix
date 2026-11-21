@@ -182,7 +182,7 @@ def bhl_sources(tree: Path) -> list[Path]:
       out = []
       for rel, rec in prov["files"].items():
           if (rec["origin"] == "bugfixhl"
-                  and rec["action"] == "verbatim"
+                  and rec["action"] in ("verbatim", "verbatim+edit")
                   and rel.startswith("src/game/server/")
                   and rel.endswith(".cpp")):
               out.append(tree / rel)
