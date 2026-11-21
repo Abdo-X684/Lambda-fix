@@ -6,7 +6,7 @@
     "license": "GPL-3.0",
     "merged_files": 23,
     "repo": "tmp64/BugfixedHL-Rebased",
-    "tree_sha256": "80d45034350e58042a228b55611e073fbc449f3ac29f89414d2416babe6c95c8",
+    "tree_sha256": "a49a0e96d504aeb42a5e2f35e04ecf724a8c046f10a51f43b233c27245c0dfbb",
     "tree_sha256_note": "sha256 over sorted '<path>  <file sha256>' for every BHL-origin file on disk; verified by --check",
     "verbatim_files": 671
   },
@@ -3401,11 +3401,12 @@
     "src/game/server/CMakeLists.txt": {
       "action": "bhl+op4-merge",
       "commit": "4d32095e3c33",
+      "edited_after_import": "server include dirs for op4_compat.h and ctf headers (MSVC)",
       "merge_rules": [
         "op4-cmake-sources"
       ],
       "origin": "bugfixhl",
-      "sha256": "ce5b734e725f6fe7c87866be618a241cb2f5d806e3be7fe387f6de972fde9e18"
+      "sha256": "f39a49b1fb73713b041c88495a3d7ce880062700277d68815440746e9f6b1e4b"
     },
     "src/game/server/activity.h": {
       "action": "verbatim",

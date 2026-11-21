@@ -243,6 +243,11 @@ bhl_version_info( ${TARGET_NAME} "hl.dll" "BugfixedHL-Rebased Server" )
 
 target_include_directories( ${TARGET_NAME} PRIVATE
 	.
+	${CMAKE_CURRENT_SOURCE_DIR}/op4
+	${CMAKE_CURRENT_SOURCE_DIR}/op4/dlls
+	${CMAKE_CURRENT_SOURCE_DIR}/op4/dlls/weapons
+	${CMAKE_CURRENT_SOURCE_DIR}/op4/dlls/ctf
+	${CMAKE_CURRENT_SOURCE_DIR}/op4/dlls/rope
 	${GAME_COMMON_INCLUDE_PATHS}
 	${SOURCE_SDK_INCLUDE_PATHS} # For mathlib
 )
