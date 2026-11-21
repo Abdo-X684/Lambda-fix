@@ -28,7 +28,7 @@
 #include "UserMessages.h"
 #include "op4_compat_late.h"
 
-extern DLL_GLOBAL bool g_fGameOver;
+extern DLL_GLOBAL BOOL g_fGameOver;  /* BHL defines it as BOOL (int); bool mismatches under MSVC name mangling */
 
 CHalfLifeCoopplay::CHalfLifeCoopplay()
 	: CHalfLifeMultiplay()

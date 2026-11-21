@@ -4411,6 +4411,7 @@
     "src/game/server/op4/dlls/coopplay_gamerules.cpp": {
       "action": "op4+compat-patch",
       "commit": "5368be7f8eba",
+      "edited_after_import": "g_fGameOver extern type bool->BOOL (MSVC link)",
       "origin": "op4",
       "patch_rules": [
         {
@@ -4426,7 +4427,7 @@
           "rule": "op4-compat-late-include"
         }
       ],
-      "sha256": "fca1b6744c1ec7bde9d23f1c0867b92b0361b881d98f5e770a0ae76cf5bac7b9",
+      "sha256": "3409e24fe29ca60f5e9fa979438d9f1ec6c38863c0e0faa91ad191e474f081ad",
       "upstream_path": "dlls/coopplay_gamerules.cpp"
     },
     "src/game/server/op4/dlls/coopplay_gamerules.h": {
@@ -4932,6 +4933,7 @@
     "src/game/server/op4/dlls/ctf/ctfplay_gamerules.cpp": {
       "action": "op4+compat-patch",
       "commit": "5368be7f8eba",
+      "edited_after_import": "g_fGameOver extern type bool->BOOL (MSVC link)",
       "origin": "op4",
       "patch_rules": [
         {
@@ -4963,7 +4965,7 @@
           "rule": "op4-compat-late-include"
         }
       ],
-      "sha256": "70d5e2b2a6f8d7cc2168ab0992641b128eca5992cfe1d45da3ac61c58cbc39d8",
+      "sha256": "a3c973a9ac95e8593e594e4cb843f09ba1423bd36d99cab57b8da0d650decedb",
       "upstream_path": "dlls/ctf/ctfplay_gamerules.cpp"
     },
     "src/game/server/op4/dlls/ctf/ctfplay_gamerules.h": {
