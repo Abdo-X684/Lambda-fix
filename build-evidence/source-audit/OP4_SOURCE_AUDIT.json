@@ -236,7 +236,7 @@
       "origin": "bugfixhl",
       "patch_rules": [],
       "path": "src/game/client/hl/hl_weapons.cpp",
-      "sha256": "1661787fb2e079629f0e93248b720ebd208f02963d4e874abc27332600bbfb82",
+      "sha256": "c55c62bfbfbf1ddd416577396f916ec4e953416ac2837f2c79e4d2441c55e04b",
       "upstream_commit": "4d32095e3c33",
       "upstream_path": null
     },

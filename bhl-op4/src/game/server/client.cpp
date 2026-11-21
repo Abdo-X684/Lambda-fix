@@ -1816,6 +1816,10 @@ void UpdateClientData(const struct edict_s *ent, int sendweapons, struct clientd
 			cd->ammo_rockets = pl->ammo_rockets;
 			cd->ammo_cells = pl->ammo_uranium;
 			cd->vuser2.x = pl->ammo_hornets;
+			/* OP4 client.cpp:1967,1985-1986 - the client predicts spores/762 ammo and CTF items from these */
+			cd->vuser2.y = pl->ammo_spores;
+			cd->vuser2.z = pl->ammo_762;
+			cd->iuser4 = (int)pl->m_iItems;
 
 			if (pl->m_pActiveItem)
 			{
