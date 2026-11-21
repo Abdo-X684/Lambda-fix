@@ -78,7 +78,7 @@
         "op4-compat-late-include"
       ],
       "path": "src/game/server/op4/op4_link_fixups.cpp",
-      "sha256": "92a4e6e236040ce0dbf7539b4824d7d7cd27b003fb312fe5e6e6a2dbb3cf0575",
+      "sha256": "dae1ed24c27693c546f3e397a20a0af6eb4bf4c23603741ee42d36d5a47ee848",
       "upstream_commit": null,
       "upstream_path": null
     },
@@ -153,7 +153,7 @@
       "origin": "bugfixhl",
       "patch_rules": [],
       "path": "src/game/client/hud.cpp",
-      "sha256": "67ee600ea3587daa740c45f121164cf38feb3f855b18c2fee3a9e22cd76cbef3",
+      "sha256": "c5e2b716929067596a0b36f34155027fc1c0e1732afd8bd51e96a5de544ff5d0",
       "upstream_commit": "4d32095e3c33",
       "upstream_path": null
     },
@@ -265,7 +265,7 @@
       "origin": "bugfixhl",
       "patch_rules": [],
       "path": "src/game/client/CMakeLists.txt",
-      "sha256": "48db619e1258c4813d9754651c91c3ff663d8050b97c41c671a8375a696febe7",
+      "sha256": "af10bfde715d32ecff1d6e46f68ff614c99a7f062ae4659105fa63cc4d0d2ac4",
       "upstream_commit": "4d32095e3c33",
       "upstream_path": null
     },
@@ -356,7 +356,7 @@
       "origin": "bugfixhl",
       "patch_rules": [],
       "path": "src/game/server/CMakeLists.txt",
-      "sha256": "ce5b734e725f6fe7c87866be618a241cb2f5d806e3be7fe387f6de972fde9e18",
+      "sha256": "f39a49b1fb73713b041c88495a3d7ce880062700277d68815440746e9f6b1e4b",
       "upstream_commit": "4d32095e3c33",
       "upstream_path": null
     }
