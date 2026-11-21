@@ -6912,7 +6912,7 @@
           "rule": "op4-compat-late-include"
         }
       ],
-      "sha256": "92a4e6e236040ce0dbf7539b4824d7d7cd27b003fb312fe5e6e6a2dbb3cf0575"
+      "sha256": "dae1ed24c27693c546f3e397a20a0af6eb4bf4c23603741ee42d36d5a47ee848"
     },
     "src/game/server/op4/reference/dlls/cdll_dll.h": {
       "action": "reference-only",

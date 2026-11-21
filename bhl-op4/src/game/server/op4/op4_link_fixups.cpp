@@ -36,7 +36,11 @@
 
 #include "ctf/CTFGoalFlag.h"
 
+#if defined(_MSC_VER)
+#include <malloc.h>   /* MSVC: alloca lives in malloc.h */
+#else
 #include <alloca.h>
+#endif
 #include <cstdio>
 #include <cstring>
 #include "op4_compat_late.h"
