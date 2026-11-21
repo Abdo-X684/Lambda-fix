@@ -175,20 +175,15 @@ Lambda Fix combines and adapts work from these upstream repositories. The exact 
 | [Weapon inventory](docs/WEAPON_INVENTORY.md) | Weapon-by-weapon source and integration inventory |
 | [OP4 runtime tests](docs/OP4_RUNTIME_TESTS.md) | Runtime test status and test protocol |
 | [Upstream sources](docs/UPSTREAMS.md) | Pinned source repositories and revisions |
-| [Licensing](docs/LICENSES.md) | Upstream licenses and redistribution notes |
+| [Licensing](LICENSES.md) | License breakdown, attribution, and redistribution requirements |
 | [BugfixedHL merge](docs/BHL_BASE_MERGE.md) | BugfixedHL base merge details |
 | [Contributing](CONTRIBUTING.md) | Contribution guidelines |
 
-## Licensing and redistribution
+## Licensing
 
-**Lambda Fix contains code under more than one license.** The root [MIT license](LICENSE) applies to original code authored for this repository; it does not replace the terms that apply to upstream code incorporated into the merged source tree or binaries.
+Lambda Fix incorporates original code and third-party components under different terms. The root MIT license applies only to original repository-authored code; it does not replace the licenses covering BugfixedHL-derived code, Valve SDK code, or third-party assets.
 
-- **BugfixedHL-derived code:** GPL-3.0 obligations apply to covered code and binaries derived from it. When distributing covered binaries, comply with the GPL requirements, including the corresponding source and notices.
-- **Valve Half-Life and Opposing Force SDK-derived code:** the applicable Valve SDK terms restrict use and redistribution to the permitted non-commercial context. Commercial use requires permission from Valve.
-- **AG CTF sprites:** the source is attributed to Adrenaline Gamer, but the license has not been confirmed. Do not assume these assets are cleared for redistribution.
-- **Game assets:** models, sounds, maps, and other commercial game content are not included. Supply them from your own installation. SDK-derived data such as `delta.lst` remains subject to its applicable upstream terms.
-
-Before redistributing any build, read [LICENSE](LICENSE), [docs/LICENSES.md](docs/LICENSES.md), and the relevant upstream license files. This summary is informational and is not legal advice.
+See **[LICENSES.md](LICENSES.md)** for the license breakdown, attribution, and redistribution requirements before sharing source code or binaries. This summary is not legal advice.
 
 ## Contributing
 
