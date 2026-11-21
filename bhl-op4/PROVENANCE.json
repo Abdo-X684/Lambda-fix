@@ -6,7 +6,7 @@
     "license": "GPL-3.0",
     "merged_files": 23,
     "repo": "tmp64/BugfixedHL-Rebased",
-    "tree_sha256": "6e258b02a68b5d3ff3a583bfcdc572b60d8eb2948e2f02936204c00bebff2253",
+    "tree_sha256": "feee8a69a9aea5025769b89e47ded5ad75d2bdce0c3098e417ecd8ea72cdb3b3",
     "tree_sha256_note": "sha256 over sorted '<path>  <file sha256>' for every BHL-origin file on disk; verified by --check",
     "verbatim_files": 671
   },
@@ -2181,7 +2181,7 @@
         "op4-client-ammo-reset"
       ],
       "origin": "bugfixhl",
-      "sha256": "c55c62bfbfbf1ddd416577396f916ec4e953416ac2837f2c79e4d2441c55e04b"
+      "sha256": "572a2799ff144f15b262949d6ece3cacd7909a3ccbba9f6f6a5c70c81d43b630"
     },
     "src/game/client/hud.cpp": {
       "action": "bhl+op4-merge",

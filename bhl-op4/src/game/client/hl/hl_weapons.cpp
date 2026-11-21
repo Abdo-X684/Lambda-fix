@@ -927,6 +927,9 @@ void HUD_WeaponsPostThink(local_state_s *from, local_state_s *to, usercmd_t *cmd
 			if (pCurrent->m_iSecondaryAmmoType > 0 && pCurrent->m_iSecondaryAmmoType < MAX_AMMO_SLOTS)
 				player.m_rgAmmo[pCurrent->m_iSecondaryAmmoType] = (int)from->client.vuser4[2];
 		}
+
+		// Restore the weapon's own state (e.g. Spore reload state), as OP4 does.
+		pCurrent->SetWeaponData(*pfrom);
 	}
 
 	// For random weapon events, use this seed to seed random # generator
@@ -1108,6 +1111,9 @@ void HUD_WeaponsPostThink(local_state_s *from, local_state_s *to, usercmd_t *cmd
 		pto->m_flNextSecondaryAttack -= cmd->msec / 1000.0;
 		pto->m_flTimeWeaponIdle -= cmd->msec / 1000.0;
 		pto->fuser1 -= cmd->msec / 1000.0;
+
+		// Let the weapon write its own state into the prediction output, as OP4 does.
+		pCurrent->GetWeaponData(*pto);
 
 		// Ammo fields describe the active weapon only (see the read side above).
 		if (pCurrent == static_cast<CBasePlayerItem *>(player.m_pActiveItem))
