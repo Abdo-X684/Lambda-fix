@@ -1,0 +1,1 @@
+e4f3866518cb01ddc857d5320b09b3f12d34a18df6ccc96848f465e1c5e87c1f  build-evidence/test-stock-delta/lambda-fix-windows-TEST-stock-delta.zip
