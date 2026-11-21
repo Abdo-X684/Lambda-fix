@@ -1,71 +1,121 @@
+<!--
+  Lambda Fix
+  Keep this README focused on the project, its verified capabilities, and setup.
+-->
+
+<div align="center">
+
 # Lambda Fix
 
-**BugfixedHL integrated with all ten Opposing Force weapons for Half-Life on Linux.**
+**BugfixedHL × Opposing Force — a GoldSrc integration project for Linux**
 
-Lambda Fix brings the BugfixedHL codebase together with the ten-weapon Opposing Force set in a dedicated GoldSrc mod. The goal is straightforward: keep the BugfixedHL foundation, add the Opposing Force weapons, and make the result buildable and playable on Linux.
+[![Platform](https://img.shields.io/badge/platform-Linux-informational?logo=linux&logoColor=white)](https://www.kernel.org/)
+[![Engine](https://img.shields.io/badge/engine-GoldSrc-orange)](https://www.valvesoftware.com/)
+[![Architecture](https://img.shields.io/badge/architecture-x86%20%2F%2032--bit-blue)](https://en.wikipedia.org/wiki/IA-32)
+[![Language](https://img.shields.io/badge/language-C%2B%2B-blue)](https://isocpp.org/)
+[![License](https://img.shields.io/badge/license-MIT%20%2B%20upstream%20terms-lightgrey)](LICENSE)
 
-## What’s included
+*Bringing the BugfixedHL foundation and the ten Opposing Force weapons together in one dedicated Half-Life mod.*
 
-- **BugfixedHL foundation** — the BugfixedHL codebase and its fixes.
-- **All ten Opposing Force weapons** — integrated into the mod rather than shipped as loose resource files.
-- **Opposing Force integration** — uses the original `gearbox/` game content through GoldSrc's `fallback_dir` setting.
-- **Linux builds** — 32-bit `client.so` and `hl.so` outputs.
-- **Reproducible upstream inputs** — source repositories are pinned to commits and checked by SHA-256 and file size before extraction.
+</div>
+
+---
+
+## Overview
+
+Lambda Fix is a community integration project built around **BugfixedHL** with code and gameplay content from **Half-Life: Opposing Force**. It keeps BugfixedHL as the project base and incorporates the ten Opposing Force weapon implementations into a separate GoldSrc mod.
+
+The Linux package is designed to run alongside the user's existing Half-Life and Opposing Force installations. It uses the original `gearbox/` content through GoldSrc's `fallback_dir` mechanism instead of bundling Valve or Gearbox game assets.
+
+## At a glance
+
+| | |
+| --- | --- |
+| **Base** | BugfixedHL-Rebased |
+| **Game** | Half-Life / Opposing Force |
+| **Engine** | GoldSrc |
+| **Primary target** | Linux, 32-bit |
+| **Client library** | `client.so` |
+| **Build output** | 32-bit ELF; GLIBC 2.17 baseline |
+| **Mod directory** | `lambda-fix/` |
+| **Current package** | Linux ZIP — see [Download](#download) |
+
+## Features
+
+- **BugfixedHL foundation** — BugfixedHL remains the base of the merged game code.
+- **Ten Opposing Force weapons** — the OP4 weapon source, client-side code, registrations, and related integration are included in the merged project.
+- **Dedicated mod folder** — install `lambda-fix/` beside the original `valve/` and `gearbox/` folders.
+- **Original OP4 assets** — the mod reads the user's installed Opposing Force content through `fallback_dir "gearbox"`.
+- **Pinned upstream sources** — upstream revisions and archive checksums are recorded for repeatable source fetching.
+- **Linux build** — produces 32-bit GoldSrc libraries with a GLIBC 2.17 compatibility baseline.
+
+## Opposing Force weapon set
+
+The project integrates these ten OP4 weapon implementations:
+
+| Weapon | Code identifier |
+| --- | --- |
+| Desert Eagle | `weapon_eagle` |
+| Pipe Wrench | `weapon_pipewrench` |
+| M249 | `weapon_m249` |
+| Displacer | `weapon_displacer` |
+| Shock Rifle | `weapon_shockrifle` |
+| Spore Launcher | `weapon_sporelauncher` |
+| Sniper Rifle | `weapon_sniperrifle` |
+| Knife | `weapon_knife` |
+| Penguin | `weapon_penguin` |
+| Grapple | `weapon_grapple` |
+
+**Testing note:** the repository's runtime notes report the game, OP4 campaign entry points, menus, music, and weapon access working. However, the detailed per-weapon checks—such as firing, reloading, animations, sounds, effects, and prediction—are not all independently documented as tested. See [OP4 runtime tests](docs/OP4_RUNTIME_TESTS.md) and the [weapon inventory](docs/WEAPON_INVENTORY.md) for the exact verification status.
 
 ## Download
 
-| Item | Value |
+| Item | Details |
 | --- | --- |
-| Linux package | [`lambda-fix-bhlbase-linux.zip`](build-evidence/bhl-base-linux-mod/lambda-fix-bhlbase-linux.zip) |
-| SHA-256 | `16193b9f482dc3744217f8c9e095f274e07588561a57172cc6ae2ba03721dba9` |
-| Release | [v0.9.0](https://github.com/Abdo-X684/Bugfixhl-speedrun-op4/releases/tag/v0.9.0) |
+| **Linux package** | [`lambda-fix-bhlbase-linux.zip`](build-evidence/bhl-base-linux-mod/lambda-fix-bhlbase-linux.zip) |
+| **SHA-256** | `16193b9f482dc3744217f8c9e095f274e07588561a57172cc6ae2ba03721dba9` |
+| **Release** | [v0.9.0](https://github.com/Abdo-X684/Bugfixhl-speedrun-op4/releases/tag/v0.9.0) |
 
-> **Access:** This repository is private. You must be signed in to GitHub with repository access to open its package links.
+> **Repository access:** this repository is private. You must be signed in to GitHub with access to the repository to open its package files.
 
-## Current status
+Always verify the SHA-256 checksum after downloading:
 
-The current Linux build has been tested. The status below distinguishes working features from items that still need testing.
+```bash
+sha256sum lambda-fix-bhlbase-linux.zip
+```
 
-| Area | Status |
-| --- | --- |
-| Game startup | Working |
-| BugfixedHL menu | Working |
-| Ten Opposing Force weapons | Integrated and working |
-| Opposing Force music | Working |
-| Other tested gameplay/features | Working |
-| Auto-update removal and green HUD color | Built; in-game testing pending |
-| Windows `client.dll` | Not available; Windows build is not complete |
-| Campaign maps | Not yet tested individually |
+## Installation (Linux)
 
-## Requirements
+### Requirements
 
-- A working **Half-Life** installation.
-- **Half-Life: Opposing Force** installed, with its original `gearbox/` directory.
-- Linux and the 32-bit runtime libraries required by the game.
+- A working installation of **Half-Life**.
+- **Half-Life: Opposing Force**, including its original `gearbox/` directory.
+- Linux with the 32-bit runtime libraries required by your Half-Life installation.
 - SDL2.
-- The original game installation's `vgui.so` file.
+- The original installation's `vgui.so` file.
 
-Lambda Fix does not include the commercial game assets. Use your own legitimate installation of Half-Life and Opposing Force.
+Lambda Fix does **not** include commercial Half-Life or Opposing Force assets. You must provide your own legitimate game installation.
 
-## Install on Linux
+### Steps
 
-1. Install Half-Life and Opposing Force. Confirm that `valve/` and `gearbox/` are next to each other in your game directory.
-2. Extract the package into the Half-Life directory. It should create a separate `lambda-fix/` folder alongside `valve/` and `gearbox/`.
-3. Do **not** install the mod's libraries inside `valve/` or `gearbox/`.
-4. Make sure the required `vgui.so` is available from your own Half-Life installation.
-5. Launch the game with:
+1. Install Half-Life and Opposing Force.
+2. Confirm that `valve/` and `gearbox/` are located next to each other in your Half-Life directory.
+3. Extract the Lambda Fix package into that directory. It should create a separate `lambda-fix/` folder.
+4. Keep the mod files separate; do not overwrite files inside `valve/` or `gearbox/`.
+5. Make sure the required `vgui.so` is available from your own Half-Life installation.
+6. Launch Lambda Fix from the Half-Life directory:
 
    ```bash
    hl_linux -game lambda-fix -console
    ```
 
-The mod uses `fallback_dir "gearbox"` to read Opposing Force content from the original game folder without replacing it.
+The mod uses `fallback_dir "gearbox"` to access Opposing Force assets from the original installation.
 
-For the package-specific walkthrough, see `INSTALL.md` inside the archive.
+For package-specific details, consult `INSTALL.md` included in the archive.
 
 ## Build from source
 
-The build fetches pinned upstream sources and generates the merged BugfixedHL/OP4 tree before compiling the Linux libraries.
+The build process fetches pinned upstream sources, prepares the merged BugfixedHL/OP4 tree, and builds the Linux libraries.
 
 ```bash
 make fetch
@@ -78,53 +128,79 @@ python3 -m venv /tmp/zenv
 make verify
 ```
 
-The current build produces 32-bit ELF `client.so` and `hl.so` binaries for `i386-unknown-linux-gnu`, with a GLIBC 2.17 baseline. See [`docs/BUILDING.md`](docs/BUILDING.md) and [`docs/BHL_BASE_BUILD.md`](docs/BHL_BASE_BUILD.md) for details.
+The current Linux build targets `i386-unknown-linux-gnu` and uses a GLIBC 2.17 baseline.
 
 ### Repository checks
 
 ```bash
 make hygiene   # text, JSON, links, and documentation checks
-make verify    # full repository checks
+make verify    # full repository verification
 ```
 
-## Upstream sources and credits
+See the [build guide](docs/BUILDING.md) and [BugfixedHL base build notes](docs/BHL_BASE_BUILD.md) for prerequisites and further details.
 
-Lambda Fix combines code from multiple upstream projects. The source inputs are pinned in [`docs/UPSTREAMS.md`](docs/UPSTREAMS.md) and `upstreams.json`.
+## Project status
 
-| Source | How it is used | Pinned revision | License / terms |
-| --- | --- | --- | --- |
-| [BugfixedHL-Rebased](https://github.com/tmp64/BugfixedHL-Rebased) | BugfixedHL foundation and systems | `4d32095e3c33` | GPL-3.0 |
-| [halflife-op4-updated](https://github.com/twhl-community/halflife-op4-updated) | Opposing Force code and community updates | `5368be7f8eba` | Valve Half-Life SDK terms and TWHL contributions |
-| [ValveSoftware/halflife](https://github.com/ValveSoftware/halflife) | Pinned Half-Life SDK base | `b1b5cf589291` | Valve Half-Life SDK terms |
+| Area | Status |
+| --- | --- |
+| Linux package | Available |
+| BugfixedHL base integration | Included |
+| Ten OP4 weapon source integrations | Included |
+| OP4 campaign entry points | Reported working in runtime notes |
+| BugfixedHL menus | Reported working in runtime notes |
+| OP4 music | Reported working in runtime notes |
+| Individual weapon fire/reload/animation/effect checks | Not fully verified weapon by weapon |
+| Windows in-game support | Not verified |
+| Campaign map-by-map testing | Not completed |
+| Auto-update removal and green HUD color | Built; in-game verification pending |
 
-The pinned revisions and archive checksums are part of the build inputs; see [`docs/UPSTREAMS.md`](docs/UPSTREAMS.md) for the source-fetching process.
+Build success and source-level integration are not substitutes for full in-game testing. The linked test documents distinguish what is present in the source from what has been verified in the GoldSrc engine.
 
-## Licensing and redistribution
+## Upstream projects
 
-**There is no single license that covers every part of the generated project.** The MIT license in this repository's root applies to original code authored for this repository; it does not replace the licenses of upstream code included in the merged source tree or binaries.
+Lambda Fix combines and adapts work from these upstream repositories. The exact pinned revisions are documented in [UPSTREAMS.md](docs/UPSTREAMS.md) and `upstreams.json`.
 
-- **BugfixedHL-derived code:** GPL-3.0 obligations apply to the merged code and binaries built from it. Review the GPL terms and provide the corresponding source and required notices when distributing covered binaries.
-- **Valve Half-Life SDK and Opposing Force SDK-derived code:** the applicable Valve SDK terms restrict redistribution to the permitted non-commercial use. Commercial use requires permission from Valve. Review the license files in the respective upstream repositories before redistributing.
-- **AG CTF sprites:** the origin is attributed to Adrenaline Gamer, but their license has not been confirmed. They are used by CTF mode; do not assume they are cleared for redistribution.
-- **Game content:** this project does not include Valve/Gearbox models, sounds, or maps. You must supply the original game content yourself. The mod's `delta.lst` is SDK-derived data and remains subject to the applicable SDK terms.
-
-Before publishing or redistributing a build, read [`LICENSE`](LICENSE), [`docs/LICENSES.md`](docs/LICENSES.md), and the upstream license files. This project documentation is not legal advice.
-
-## Known limitations and work in progress
-
-- No current Windows `client.dll` build.
-- Campaign maps have not yet been tested one by one.
-- Auto-update removal and the green HUD color change are built but still need in-game verification.
-- AG CTF sprite licensing remains unconfirmed.
+| Project | Role | Pinned revision |
+| --- | --- | --- |
+| [BugfixedHL-Rebased](https://github.com/tmp64/BugfixedHL-Rebased) | BugfixedHL foundation and systems | `4d32095e3c33` |
+| [halflife-op4-updated](https://github.com/twhl-community/halflife-op4-updated) | Opposing Force code and community updates | `5368be7f8eba` |
+| [ValveSoftware/halflife](https://github.com/ValveSoftware/halflife) | Half-Life SDK base | `b1b5cf589291` |
 
 ## Documentation
 
-- [Installation and build guide](docs/BUILDING.md)
-- [License details and distribution notes](docs/LICENSES.md)
-- [Pinned upstream sources](docs/UPSTREAMS.md)
-- [BugfixedHL base merge notes](docs/BHL_BASE_MERGE.md)
-- [Contributing](CONTRIBUTING.md)
+| Document | Description |
+| --- | --- |
+| [Building](docs/BUILDING.md) | Build prerequisites and Linux build steps |
+| [Architecture](docs/ARCHITECTURE.md) | Project structure and integration approach |
+| [Weapon inventory](docs/WEAPON_INVENTORY.md) | Weapon-by-weapon source and integration inventory |
+| [OP4 runtime tests](docs/OP4_RUNTIME_TESTS.md) | Runtime test status and test protocol |
+| [Upstream sources](docs/UPSTREAMS.md) | Pinned source repositories and revisions |
+| [Licensing](docs/LICENSES.md) | Upstream licenses and redistribution notes |
+| [BugfixedHL merge](docs/BHL_BASE_MERGE.md) | BugfixedHL base merge details |
+| [Contributing](CONTRIBUTING.md) | Contribution guidelines |
+
+## Licensing and redistribution
+
+**Lambda Fix contains code under more than one license.** The root [MIT license](LICENSE) applies to original code authored for this repository; it does not replace the terms that apply to upstream code incorporated into the merged source tree or binaries.
+
+- **BugfixedHL-derived code:** GPL-3.0 obligations apply to covered code and binaries derived from it. When distributing covered binaries, comply with the GPL requirements, including the corresponding source and notices.
+- **Valve Half-Life and Opposing Force SDK-derived code:** the applicable Valve SDK terms restrict use and redistribution to the permitted non-commercial context. Commercial use requires permission from Valve.
+- **AG CTF sprites:** the source is attributed to Adrenaline Gamer, but the license has not been confirmed. Do not assume these assets are cleared for redistribution.
+- **Game assets:** models, sounds, maps, and other commercial game content are not included. Supply them from your own installation. SDK-derived data such as `delta.lst` remains subject to its applicable upstream terms.
+
+Before redistributing any build, read [LICENSE](LICENSE), [docs/LICENSES.md](docs/LICENSES.md), and the relevant upstream license files. This summary is informational and is not legal advice.
+
+## Contributing
+
+Bug reports, reproducible test results, and carefully documented improvements are useful. Before submitting a change, review [CONTRIBUTING.md](CONTRIBUTING.md) and include the platform, launch parameters, steps to reproduce, and relevant logs.
 
 ---
 
-**Lambda Fix** is a community integration project. Half-Life, Opposing Force, BugfixedHL, and their respective names and assets remain the property of their respective owners.
+<div align="center">
+
+**Lambda Fix**  
+*A community integration project for Half-Life and Opposing Force.*
+
+Half-Life, Opposing Force, BugfixedHL, and their respective names and assets remain the property of their respective owners.
+
+</div>
