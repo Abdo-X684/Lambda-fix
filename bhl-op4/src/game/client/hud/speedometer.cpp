@@ -7,6 +7,7 @@
 extern ConVar hud_jumpspeed;
 extern ConVar hud_jumpspeed_below_cross;
 ConVar hud_speedometer("hud_speedometer", "0", FCVAR_BHL_ARCHIVE, "Enable speedometer");
+ConVar hud_speedometer_color("hud_speedometer_color", "0 160 0", FCVAR_BHL_ARCHIVE, "Speedometer color");
 ConVar hud_speedometer_below_cross("hud_speedometer_below_cross", "0", FCVAR_BHL_ARCHIVE, "Move speedometer to below the crosshair");
 
 DEFINE_HUD_ELEM(CHudSpeedometer);
@@ -66,7 +67,12 @@ void CHudSpeedometer::Draw(float time)
 		a *= gHUD.GetHudTransparency();
 	else
 		a *= 1;
-	gHUD.GetHudColor(HudPart::Common, 0, r, g, b);
+	Color speedColor;
+	if (!ParseColor(hud_speedometer_color.GetString(), speedColor))
+		speedColor = gHUD.GetHudColor(HudPart::Common, 0);
+	r = speedColor.r();
+	g = speedColor.g();
+	b = speedColor.b();
 	ScaleColors(r, g, b, a);
 	gHUD.DrawHudNumberCentered(ScreenWidth / 2, y, m_iSpeed, r, g, b);
 

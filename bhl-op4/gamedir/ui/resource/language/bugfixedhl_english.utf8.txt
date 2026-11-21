@@ -87,6 +87,11 @@
 "BHL_AdvOptions_HUD_Color4_Title"	"HUD HP/AP/Ammo (Very low) color"
 
 "BHL_AdvOptions_HUD_ColorOverride"	"Color HUD numbers by amount (HP/AP/Ammo)"
+"BHL_AdvOptions_HUD_SpeedColor"	"Speedometer"
+"BHL_AdvOptions_HUD_SpeedColor_Title"	"Speedometer color"
+"BHL_AdvOptions_HUD_ArmorColor"	"Armor"
+"BHL_AdvOptions_HUD_ArmorColor_Title"	"Armor color"
+"BHL_AdvOptions_HUD_ArmorCustom"	"Use one color for armor (instead of by amount)"
 
 "BHL_AdvOptions_HUD_Render"			"Enhanced sprite rendering *"
 "BHL_AdvOptions_HUD_Dim"			"Dim HUD when inactive"

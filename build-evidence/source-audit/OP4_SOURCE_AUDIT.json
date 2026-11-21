@@ -153,7 +153,7 @@
       "origin": "bugfixhl",
       "patch_rules": [],
       "path": "src/game/client/hud.cpp",
-      "sha256": "6b53568e9686e718a9b0686b80cd961669b2874c85bd791ac92d68ad746da631",
+      "sha256": "67ee600ea3587daa740c45f121164cf38feb3f855b18c2fee3a9e22cd76cbef3",
       "upstream_commit": "4d32095e3c33",
       "upstream_path": null
     },

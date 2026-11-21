@@ -19,6 +19,12 @@ private:
 	vgui2::Label *m_pColorLabel[5];
 	CCvarColor *m_pColorValue[5];
 	CCvarCheckButton *m_pColorOverride = nullptr;
+
+	vgui2::Label *m_pSpeedColorLabel = nullptr;
+	CCvarColor *m_pSpeedColorValue = nullptr;
+	vgui2::Label *m_pArmorColorLabel = nullptr;
+	CCvarColor *m_pArmorColorValue = nullptr;
+	CCvarCheckButton *m_pArmorCustom = nullptr;
 };
 
 #endif

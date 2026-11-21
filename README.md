@@ -7,7 +7,7 @@ Lambda Fix is a community integration project. It keeps BugfixedHL as the base a
 ## Download
 
 - **Package:** [`lambda-fix-bhlbase-linux.zip`](build-evidence/bhl-base-linux-mod/lambda-fix-bhlbase-linux.zip)
-- **SHA-256:** `324031113ab7aed7b92fbb05dc8c6ac59717e4d7d8dd75c0deb2be2a60483a72`
+- **SHA-256:** `65b9cab084e7895ae18714ed1b0262e2e14d14a25ead7276b66b9f68aa4a53f7`
 - **Release:** [v0.9.0](https://github.com/Abdo-X684/Bugfixhl-speedrun-op4/releases/tag/v0.9.0)
 
 The repository is private, so you need a GitHub login with access to open these links.

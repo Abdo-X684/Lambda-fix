@@ -26,6 +26,13 @@ CHudSubOptionsColors::CHudSubOptionsColors(vgui2::Panel *parent)
 
 	m_pColorOverride = new CCvarCheckButton(this, "ColorOverrideCheckbox", "#BHL_AdvOptions_HUD_ColorOverride", "hud_color_override", true);
 
+	m_pSpeedColorLabel = new vgui2::Label(this, "SpeedColorLabel", "#BHL_AdvOptions_HUD_SpeedColor");
+	m_pSpeedColorValue = new CCvarColor(this, "SpeedColorValue", "hud_speedometer_color", "#BHL_AdvOptions_HUD_SpeedColor_Title");
+
+	m_pArmorColorLabel = new vgui2::Label(this, "ArmorColorLabel", "#BHL_AdvOptions_HUD_ArmorColor");
+	m_pArmorColorValue = new CCvarColor(this, "ArmorColorValue", "hud_armor_color", "#BHL_AdvOptions_HUD_ArmorColor_Title");
+	m_pArmorCustom = new CCvarCheckButton(this, "ArmorCustomCheckbox", "#BHL_AdvOptions_HUD_ArmorCustom", "hud_armor_custom");
+
 	LoadControlSettings(VGUI2_ROOT_DIR "resource/options/HudSubOptionsColors.res");
 }
 
@@ -37,6 +44,9 @@ void CHudSubOptionsColors::OnResetData()
 	m_pColorValue[3]->ResetData();
 	m_pColorValue[4]->ResetData();
 	m_pColorOverride->ResetData();
+	m_pSpeedColorValue->ResetData();
+	m_pArmorColorValue->ResetData();
+	m_pArmorCustom->ResetData();
 }
 
 void CHudSubOptionsColors::OnApplyChanges()
@@ -47,4 +57,7 @@ void CHudSubOptionsColors::OnApplyChanges()
 	m_pColorValue[3]->ApplyChanges();
 	m_pColorValue[4]->ApplyChanges();
 	m_pColorOverride->ApplyChanges();
+	m_pSpeedColorValue->ApplyChanges();
+	m_pArmorColorValue->ApplyChanges();
+	m_pArmorCustom->ApplyChanges();
 }

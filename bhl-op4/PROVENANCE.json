@@ -6,7 +6,7 @@
     "license": "GPL-3.0",
     "merged_files": 23,
     "repo": "tmp64/BugfixedHL-Rebased",
-    "tree_sha256": "5cb34fc5c1a952afaf790791fa35784f29f86c6ffff0a6b6a30cd4b334e580f1",
+    "tree_sha256": "e4580411e684d28ebb42816e8378878e791e1aa58fa87dadd6d98956105d12a3",
     "tree_sha256_note": "sha256 over sorted '<path>  <file sha256>' for every BHL-origin file on disk; verified by --check",
     "verbatim_files": 671
   },
@@ -943,8 +943,9 @@
     "gamedir/ui/resource/language/bugfixedhl_english.utf8.txt": {
       "action": "verbatim",
       "commit": "4d32095e3c33",
+      "edited_after_import": "Armor and speedometer color options (hud_armor_color, hud_speedometer_color)",
       "origin": "bugfixhl",
-      "sha256": "6a28b2e3d57eb001b91c94704313e99a38f4da185955f9b3e6359857def8a439"
+      "sha256": "a18b1dd21cbc04336322bcefce19f6dae9a66185717670f4ea55393b10892920"
     },
     "gamedir/ui/resource/language/bugfixedhl_russian.utf8.txt": {
       "action": "verbatim",
@@ -1052,8 +1053,9 @@
     "gamedir/ui/resource/options/HudSubOptionsColors.res": {
       "action": "verbatim",
       "commit": "4d32095e3c33",
+      "edited_after_import": "Armor and speedometer color options (hud_armor_color, hud_speedometer_color)",
       "origin": "bugfixhl",
-      "sha256": "ae242dc070f6447c2e547ba06697ad269f6d7cd49d9c18d4590387b5fa7f373d"
+      "sha256": "4441793fb4e438e69b8603c1c0adbea67d50bf2138807ea5820e35a9621025d7"
     },
     "gamedir/ui/resource/options/ModelSubOptions.res": {
       "action": "verbatim",
@@ -2078,14 +2080,16 @@
     "src/game/client/gameui/options/options_hud_colors.cpp": {
       "action": "verbatim",
       "commit": "4d32095e3c33",
+      "edited_after_import": "Armor and speedometer color options (hud_armor_color, hud_speedometer_color)",
       "origin": "bugfixhl",
-      "sha256": "de9c5b0b8ba81719aa29686adfee2d24877cb81d8f84f160e47be8fce538e300"
+      "sha256": "cfe9db5319506d3f54270646744da0e4acb2b2084caecbb5fe3c14586e9edc70"
     },
     "src/game/client/gameui/options/options_hud_colors.h": {
       "action": "verbatim",
       "commit": "4d32095e3c33",
+      "edited_after_import": "Armor and speedometer color options (hud_armor_color, hud_speedometer_color)",
       "origin": "bugfixhl",
-      "sha256": "21238894be89e65441939f7e4fde02792462f12aaf4aa28dcb4d199c1a5de2f9"
+      "sha256": "a428240fcf01398492d09da3e394fb211313c64f2d1d664b3aa8f2086bbb0535"
     },
     "src/game/client/gameui/options/options_hud_root.cpp": {
       "action": "verbatim",
@@ -2179,12 +2183,12 @@
     "src/game/client/hud.cpp": {
       "action": "bhl+op4-merge",
       "commit": "4d32095e3c33",
-      "edited_after_import": "Default HUD color changed to OP4 green (0 160 0)",
+      "edited_after_import": "Default HUD color changed to OP4 green (0 160 0); Armor and speedometer color options (hud_armor_color, hud_speedometer_color)",
       "merge_rules": [
         "op4-weapons-message-hook"
       ],
       "origin": "bugfixhl",
-      "sha256": "6b53568e9686e718a9b0686b80cd961669b2874c85bd791ac92d68ad746da631"
+      "sha256": "67ee600ea3587daa740c45f121164cf38feb3f855b18c2fee3a9e22cd76cbef3"
     },
     "src/game/client/hud.h": {
       "action": "verbatim",
@@ -2531,8 +2535,9 @@
     "src/game/client/hud/speedometer.cpp": {
       "action": "verbatim",
       "commit": "4d32095e3c33",
+      "edited_after_import": "Armor and speedometer color options (hud_armor_color, hud_speedometer_color)",
       "origin": "bugfixhl",
-      "sha256": "c19689b728acd7a9966d1d4a4be74bf53d64221dd78ebe34ced25635d852d7a7"
+      "sha256": "57e4ec85762404e99e4204122bf3f9a80f6a010b38a6c5a1f664cddcf53884bf"
     },
     "src/game/client/hud/speedometer.h": {
       "action": "verbatim",
