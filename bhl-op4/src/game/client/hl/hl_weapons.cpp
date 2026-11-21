@@ -912,14 +912,21 @@ void HUD_WeaponsPostThink(local_state_s *from, local_state_s *to, usercmd_t *cmd
 		pCurrent->m_fInAttack = pfrom->iuser2;
 		pCurrent->m_fireState = pfrom->iuser3;
 
-		pCurrent->m_iSecondaryAmmoType = (int)from->client.vuser3[2];
-		pCurrent->m_iPrimaryAmmoType = (int)from->client.vuser4[0];
+		// The server sends ammo type and count for the ACTIVE weapon only
+		// (client.cpp: vuser3.z / vuser4.xyz from pl->m_pActiveItem). Copying
+		// them into every weapon object made each weapon predict with the
+		// active weapon's ammo, so keep them on pWeapon only.
+		if (pCurrent == pWeapon)
+		{
+			pCurrent->m_iSecondaryAmmoType = (int)from->client.vuser3[2];
+			pCurrent->m_iPrimaryAmmoType = (int)from->client.vuser4[0];
 
-		if (pCurrent->m_iPrimaryAmmoType > 0 && pCurrent->m_iPrimaryAmmoType < MAX_AMMO_SLOTS)
-			player.m_rgAmmo[pCurrent->m_iPrimaryAmmoType] = (int)from->client.vuser4[1];
+			if (pCurrent->m_iPrimaryAmmoType > 0 && pCurrent->m_iPrimaryAmmoType < MAX_AMMO_SLOTS)
+				player.m_rgAmmo[pCurrent->m_iPrimaryAmmoType] = (int)from->client.vuser4[1];
 
-		if (pCurrent->m_iSecondaryAmmoType > 0 && pCurrent->m_iSecondaryAmmoType < MAX_AMMO_SLOTS)
-			player.m_rgAmmo[pCurrent->m_iSecondaryAmmoType] = (int)from->client.vuser4[2];
+			if (pCurrent->m_iSecondaryAmmoType > 0 && pCurrent->m_iSecondaryAmmoType < MAX_AMMO_SLOTS)
+				player.m_rgAmmo[pCurrent->m_iSecondaryAmmoType] = (int)from->client.vuser4[2];
+		}
 	}
 
 	// For random weapon events, use this seed to seed random # generator
@@ -1102,14 +1109,18 @@ void HUD_WeaponsPostThink(local_state_s *from, local_state_s *to, usercmd_t *cmd
 		pto->m_flTimeWeaponIdle -= cmd->msec / 1000.0;
 		pto->fuser1 -= cmd->msec / 1000.0;
 
-		to->client.vuser3[2] = pCurrent->m_iSecondaryAmmoType;
-		to->client.vuser4[0] = pCurrent->m_iPrimaryAmmoType;
+		// Ammo fields describe the active weapon only (see the read side above).
+		if (pCurrent == static_cast<CBasePlayerItem *>(player.m_pActiveItem))
+		{
+			to->client.vuser3[2] = pCurrent->m_iSecondaryAmmoType;
+			to->client.vuser4[0] = pCurrent->m_iPrimaryAmmoType;
 
-		if (pCurrent->m_iPrimaryAmmoType > 0 && pCurrent->m_iPrimaryAmmoType < MAX_AMMO_SLOTS)
-			to->client.vuser4[1] = player.m_rgAmmo[pCurrent->m_iPrimaryAmmoType];
+			if (pCurrent->m_iPrimaryAmmoType > 0 && pCurrent->m_iPrimaryAmmoType < MAX_AMMO_SLOTS)
+				to->client.vuser4[1] = player.m_rgAmmo[pCurrent->m_iPrimaryAmmoType];
 
-		if (pCurrent->m_iSecondaryAmmoType > 0 && pCurrent->m_iSecondaryAmmoType < MAX_AMMO_SLOTS)
-			to->client.vuser4[2] = player.m_rgAmmo[pCurrent->m_iSecondaryAmmoType];
+			if (pCurrent->m_iSecondaryAmmoType > 0 && pCurrent->m_iSecondaryAmmoType < MAX_AMMO_SLOTS)
+				to->client.vuser4[2] = player.m_rgAmmo[pCurrent->m_iSecondaryAmmoType];
+		}
 
 		/*		if ( pto->m_flPumpTime != -9999 )
 		{

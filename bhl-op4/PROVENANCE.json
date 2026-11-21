@@ -6,7 +6,7 @@
     "license": "GPL-3.0",
     "merged_files": 23,
     "repo": "tmp64/BugfixedHL-Rebased",
-    "tree_sha256": "88271103ce6549e12af87146472a4829b2910e095089e1aadd6f1800774c1b38",
+    "tree_sha256": "d4a2d6b80ff13de23e305244ad0c4a97abebe9b5b60222096c418f333caa56df",
     "tree_sha256_note": "sha256 over sorted '<path>  <file sha256>' for every BHL-origin file on disk; verified by --check",
     "verbatim_files": 671
   },
@@ -2163,6 +2163,7 @@
     "src/game/client/hl/hl_weapons.cpp": {
       "action": "bhl+op4-merge",
       "commit": "4d32095e3c33",
+      "edited_after_import": "per-weapon ammo sync limited to the active weapon (read and write)",
       "merge_rules": [
         "op4-client-setlocalbody",
         "op4-client-weapon-headers",
@@ -2180,7 +2181,7 @@
         "op4-client-ammo-reset"
       ],
       "origin": "bugfixhl",
-      "sha256": "1661787fb2e079629f0e93248b720ebd208f02963d4e874abc27332600bbfb82"
+      "sha256": "c55c62bfbfbf1ddd416577396f916ec4e953416ac2837f2c79e4d2441c55e04b"
     },
     "src/game/client/hud.cpp": {
       "action": "bhl+op4-merge",

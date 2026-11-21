@@ -44,7 +44,7 @@ ab576d01804dca58999d578b51a11b1f5517a5d6ab2a46dcb5d3f8e3cb93fd26  bhl-op4/src/ga
 33983073a30e73fde6d2131b7ee5f9f4f9eab131a83babf06f1aecd09e8e2287  bhl-op4/src/game/client/hl/hl_baseentity.cpp
 61b49bdf1e824e287b69f8b694f289130f1e5f94444dc38d6a9eb66786824a24  bhl-op4/src/game/client/hl/hl_events.cpp
 f49691908f6c6c8621a4d5e191c54d86c7568e672576fb4dc680d2561b3cce6a  bhl-op4/src/game/client/hl/hl_objects.cpp
-1661787fb2e079629f0e93248b720ebd208f02963d4e874abc27332600bbfb82  bhl-op4/src/game/client/hl/hl_weapons.cpp
+c55c62bfbfbf1ddd416577396f916ec4e953416ac2837f2c79e4d2441c55e04b  bhl-op4/src/game/client/hl/hl_weapons.cpp
 9f9c9a7da76a6e38bfcb05dc3fff59d5fe4d91ef5e0adf2f0cff1b887e935764  bhl-op4/src/game/client/hud/ag/ag_countdown.cpp
 b4bad70c668307bc0844320f1e296667ff8aa2cc3951c2a3044e12090e2615b4  bhl-op4/src/game/client/hud/ag/ag_ctf.cpp
 62d348a6fcae4d08c8297ca12ad4478f97b356f43e91fdb9a490ccd7b1a9e5b1  bhl-op4/src/game/client/hud/ag/ag_global.cpp
