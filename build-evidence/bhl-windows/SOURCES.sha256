@@ -82,7 +82,7 @@ f249e449de70c6b6651fe970b8a79d246d03139c6204177465035562ae8c9aa2  bhl-op4/src/ga
 5df4f4c7c64fa90d962144a1f2a7f9a08a5b8b1adec55d489af4dc46ed3eed1d  bhl-op4/src/game/client/hud/train.cpp
 d234f44d4bd321eec4063ed19dd759b7de66a2c629b609fa31b6ff5724bef86b  bhl-op4/src/game/client/hud/voice_status.cpp
 e1ca7e7615e796178717edbc4eb77fa076af21f72ed5a323cad621350292981a  bhl-op4/src/game/client/hud/voice_status_self.cpp
-a37a56f8c1ac5e1460df8773bc76a14fe8d13661fe93b9f8f82f594c60ee407d  bhl-op4/src/game/client/hud.cpp
+79a5c660559ca007fb8d76860ecda0fa59656ab252566e58345701cf16818a17  bhl-op4/src/game/client/hud.cpp
 c472fea97d0031b95d0ba589cd067a92a75544b90963a36e6d1898015d1344ba  bhl-op4/src/game/client/hud_msg.cpp
 1f76fb96c267f2afb5095ad5a0029f688a05cd295d5314b3a8f54fb130a971fc  bhl-op4/src/game/client/hud_redraw.cpp
 e8aa735d817ebc6958f1da4df4991513665106333dd549ddaebebc33163b888e  bhl-op4/src/game/client/hud_renderer.cpp
