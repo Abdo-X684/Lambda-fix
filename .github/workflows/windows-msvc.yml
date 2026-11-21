@@ -83,7 +83,15 @@ jobs:
 
       - name: Build client.dll and hl.dll with MSVC
         shell: pwsh
-        run: cmake --build build-msvc --config Release --target client server -- /m
+        run: cmake --build build-msvc --config Release --target client server -- /m /v:n 2>&1 | Tee-Object -FilePath msvc-build.log
+
+      - name: Upload MSVC build log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: msvc-build-log
+          path: msvc-build.log
+          if-no-files-found: ignore
 
       - name: Verify PE loader shape for Wine
         shell: pwsh
