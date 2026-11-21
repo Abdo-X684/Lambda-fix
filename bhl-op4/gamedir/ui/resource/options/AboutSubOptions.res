@@ -87,7 +87,7 @@
 		"visible"		"1"
 		"enabled"		"1"
 		"tabPosition"		"0"
-		"labelText"		"1.6.0 (master.aaaaaaa) [Debug build]"
+		"labelText"		"1.0.0"
 		"textAlignment"		"west"
 		"dulltext"		"0"
 		"brighttext"		"0"

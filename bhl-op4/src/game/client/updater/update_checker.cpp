@@ -8,7 +8,7 @@
 
 static CUpdateChecker s_Instance;
 
-ConVar cl_check_for_updates("cl_check_for_updates", "1", FCVAR_BHL_ARCHIVE, "Check for updates on game launch.");
+ConVar cl_check_for_updates("cl_check_for_updates", "0", FCVAR_BHL_ARCHIVE, "Check for updates on game launch (disabled in Lambda fix).");
 
 CON_COMMAND(update_check, "Check for updates")
 {
@@ -18,8 +18,7 @@ CON_COMMAND(update_check, "Check for updates")
 		return;
 	}
 
-	CUpdateChecker::Get().CheckForUpdates();
-	ConPrintf("Checking... You will be notified if there is an update.\n");
+	ConPrintf("Update checks are disabled in Lambda fix.\n");
 }
 
 CON_COMMAND(update_changelog, "Show update changelog")
@@ -134,7 +133,8 @@ bool CUpdateChecker::IsUpdaterDisabled()
 
 void CUpdateChecker::CheckForUpdates()
 {
-	FetchReleaseList();
+	// Update checks are disabled in Lambda fix: never contact the GitHub API.
+	return;
 }
 
 void CUpdateChecker::FetchReleaseList()

@@ -138,28 +138,9 @@ void CAboutSubOptions::UpdateControls()
 
 	// Update client's version
 	{
+		// Show only the release number, e.g. "1.0.0"
 		snprintf(buf, sizeof(buf), "%d.%d.%d", m_GameVer.GetMajor(), m_GameVer.GetMinor(), m_GameVer.GetPatch());
 		std::string gameVer = buf;
-		if (m_GameVer.GetTag(buf, sizeof(buf)))
-		{
-			gameVer += "-";
-			gameVer += buf;
-		}
-
-		buf[0] = '\0';
-		gameVer += " (";
-
-		m_GameVer.GetBranch(buf, sizeof(buf));
-		gameVer += buf;
-		gameVer += ".";
-
-		m_GameVer.GetCommitHash(buf, sizeof(buf));
-		gameVer += buf;
-
-		if (m_GameVer.IsDirtyBuild())
-			gameVer += ".m";
-
-		gameVer += ")";
 
 #ifdef _DEBUG
 		gameVer += " [Debug build]";

@@ -6,7 +6,7 @@
     "license": "GPL-3.0",
     "merged_files": 23,
     "repo": "tmp64/BugfixedHL-Rebased",
-    "tree_sha256": "60a918296743ae803c9e8dbc527a0e4cf6c2ec4192b94e1db5f76c7ba949dcaf",
+    "tree_sha256": "ef13f905f2e9fa78edb6cdeeb01963c129b98529406abc786d4f70ced49f0688",
     "tree_sha256_note": "sha256 over sorted '<path>  <file sha256>' for every BHL-origin file on disk; verified by --check",
     "verbatim_files": 671
   },
@@ -148,9 +148,9 @@
     "CMakeLists.txt": {
       "action": "verbatim+edit",
       "commit": "4d32095e3c33",
+      "edited_after_import": "OP4 version set to 1.0.0 (fallback used when no git: BHL_REPO_VERSION_MINOR 14->0, TAG dev->empty)",
       "origin": "bugfixhl",
-      "sha256": "4437979b0a550e47ffaa8991ee13d5a9a56063e59564e9f709f90df376bf8c03",
-      "edited_after_import": "OP4 version set to 1.0.0 (fallback used when no git: BHL_REPO_VERSION_MINOR 14->0, TAG dev->empty)"
+      "sha256": "4437979b0a550e47ffaa8991ee13d5a9a56063e59564e9f709f90df376bf8c03"
     },
     "CMakePresets.json": {
       "action": "verbatim",
@@ -1019,7 +1019,7 @@
       "commit": "4d32095e3c33",
       "edited_after_import": "Advanced > About: auto-update entry removed",
       "origin": "bugfixhl",
-      "sha256": "0386f0bbe18d4c90cc87321e8cc3292dac86550011ca0bf1f60c14fb51551243"
+      "sha256": "0a0a0115a2b07feb675ffaa60568218bcebd9f09dffa429b6fc52e2cbfc1539a"
     },
     "gamedir/ui/resource/options/ChatSubOptions.res": {
       "action": "verbatim",
@@ -2021,9 +2021,9 @@
     "src/game/client/gameui/options/options_about.cpp": {
       "action": "verbatim+edit",
       "commit": "4d32095e3c33",
-      "edited_after_import": "Advanced > About: auto-update entry removed; ApplySchemeSettings defined (fixes undefined symbol in client.so)",
+      "edited_after_import": "Advanced > About: auto-update entry removed; ApplySchemeSettings defined (fixes undefined symbol in client.so); version label shows only x.y.z",
       "origin": "bugfixhl",
-      "sha256": "add57d6ffacbef7d9deaaf903bbdce66c361dfdb8726635fe0cd7a42ec377228"
+      "sha256": "d9eb24dec9d75b43a25ad56405bd2a889130de729f4ef6a899aa34d77da7dbd4"
     },
     "src/game/client/gameui/options/options_about.h": {
       "action": "verbatim+edit",
@@ -3133,10 +3133,11 @@
       "sha256": "c05753b6c8c5ee800da8e5b9bd8edeadb642b007782d067628c230f4e720a525"
     },
     "src/game/client/updater/update_checker.cpp": {
-      "action": "verbatim",
+      "action": "verbatim+edit",
       "commit": "4d32095e3c33",
       "origin": "bugfixhl",
-      "sha256": "73b3be325ef10a37be80f99fcb0c066e7bb7c6d2e0ea122b80e7192702a197a9"
+      "sha256": "03c7d18846d489fa90ac2b23d98fb51be5bb3ed5dda2dbdbac9cd84060dc8cb6",
+      "edited_after_import": "update checks disabled in Lambda fix (CheckForUpdates no-op, cl_check_for_updates default 0, update_check command message)"
     },
     "src/game/client/updater/update_checker.h": {
       "action": "verbatim",
