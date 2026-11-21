@@ -2,7 +2,7 @@
 99c65d149aeecb162e218edd457261c190f254675194a6bfc577aa2fe90ff84c  bhl-op4/src/common/parsemsg.cpp
 cfb842fd1d55166df2b2dd8ea8fa3cd24af79673f741b19231331c492d609e81  bhl-op4/src/game/client/GameStudioModelRenderer.cpp
 2625cdb3bf0add34182b6f791ca2573bc89d3640c2a3995538fe34ffa0d1976e  bhl-op4/src/game/client/StudioModelRenderer.cpp
-30902beb0ca85f5d7ecb6153727b49b8c82ab7b479671c7e1b4e10a31a3797f7  bhl-op4/src/game/client/bhlcfg.cpp
+c7ecdcefd7b01b0b982f14f9ca723f8b2e6e82690637498ce480f41043a06bc4  bhl-op4/src/game/client/bhlcfg.cpp
 de29fddb0d7e74f1495bd7b832a1217346356c77fbcc1437978929798922dd07  bhl-op4/src/game/client/cdll_int.cpp
 0d6fcce8896e2ae0f7be06649cafd5e92b1967c2b0fb11ff01d9bf48cc5fa5cd  bhl-op4/src/game/client/cl_util.cpp
 4431a1c391ff15bf610610e7a6987945140dbdb89c3302747c12a9514fd1d358  bhl-op4/src/game/client/cl_voice_status.cpp

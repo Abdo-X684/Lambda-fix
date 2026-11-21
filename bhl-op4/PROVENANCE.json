@@ -6,7 +6,7 @@
     "license": "GPL-3.0",
     "merged_files": 23,
     "repo": "tmp64/BugfixedHL-Rebased",
-    "tree_sha256": "0112cdedddcce5e67df941d210df7a8058640d71a7e0b877399d992cd25de3a0",
+    "tree_sha256": "11f09fdf3b7e32bc96eec91bcd1b2984e181e3fd712552dd2bfcd52f8edc765b",
     "tree_sha256_note": "sha256 over sorted '<path>  <file sha256>' for every BHL-origin file on disk; verified by --check",
     "verbatim_files": 671
   },
@@ -1649,9 +1649,9 @@
     "src/game/client/bhlcfg.cpp": {
       "action": "verbatim+edit",
       "commit": "4d32095e3c33",
-      "edited_after_import": "one-time OP4 color defaults (bhl_apply_defaults) and sv_cheats 0 at start",
+      "edited_after_import": "one-time OP4 color defaults (lambda_apply_defaults) and sv_cheats 0 at start",
       "origin": "bugfixhl",
-      "sha256": "30902beb0ca85f5d7ecb6153727b49b8c82ab7b479671c7e1b4e10a31a3797f7"
+      "sha256": "c7ecdcefd7b01b0b982f14f9ca723f8b2e6e82690637498ce480f41043a06bc4"
     },
     "src/game/client/bhlcfg.h": {
       "action": "verbatim",
@@ -3156,10 +3156,11 @@
       "sha256": "a44d91641341a403171c0b099c3f603bc631efba8024788bad4a064249daef97"
     },
     "src/game/client/updater/update_installer.cpp": {
-      "action": "verbatim",
+      "action": "verbatim+edit",
       "commit": "4d32095e3c33",
       "origin": "bugfixhl",
-      "sha256": "a88ac353244925174db99be5fb5d6acc58538f14d149018252ec1f749effa6a0"
+      "sha256": "15658dc5b8f0baf9ed926a1a1374b46720795326ff4d1f74709f01fbc71b7bba",
+      "edited_after_import": "lambda_validate_files: console command renamed from bhl_validate_files"
     },
     "src/game/client/updater/update_installer.h": {
       "action": "verbatim",

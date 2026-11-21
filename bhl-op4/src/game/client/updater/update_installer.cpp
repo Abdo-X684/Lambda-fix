@@ -1464,7 +1464,7 @@ void CUpdateInstaller::CleanUp() noexcept
 	m_InstallationPath.clear();
 }
 
-CON_COMMAND(bhl_validate_files, "Validates integrity of BugfixedHL files, may freeze the game for a bit")
+CON_COMMAND(lambda_validate_files, "Validates integrity of BugfixedHL files, may freeze the game for a bit")
 {
 	using nlohmann::json;
 
