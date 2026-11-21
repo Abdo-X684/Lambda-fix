@@ -133,7 +133,7 @@ af29b36eca6fd1c5f26d4bf86c56da980a8c7766252b636d2367327409fab745  bhl-op4/src/ga
 508ec3486395af98f3a83141eeafae469d58bcc88c751e4161af431b87b48aca  bhl-op4/src/game/server/op4/dlls/weapons/CM249.cpp
 ec04484b1d37c209ec1aad06bcb9e9af509a4321c053b63ac6a1cd7b9b18d018  bhl-op4/src/game/server/op4/dlls/weapons/CPenguin.cpp
 c2b8d486131184ee4e8d9e160bd48e1e0fa44d455f617e37ad3b7bbf4d77694d  bhl-op4/src/game/server/op4/dlls/weapons/CPipewrench.cpp
-aaa0fa64a1aeb02c0d648883fab075ae65a86ce179af9125e4abfd2e76ccdaeb  bhl-op4/src/game/server/op4/dlls/weapons/CShockRifle.cpp
+3b18fd811b189b0dea6cd0ef7b30d6af79fcfef455d55b3407a3b88b2c1fa4c1  bhl-op4/src/game/server/op4/dlls/weapons/CShockRifle.cpp
 1311356e8d0d97e3716bd0880061a83c67fdd0d8eb583da6f021458427a63f58  bhl-op4/src/game/server/op4/dlls/weapons/CSniperRifle.cpp
 59654f55d8641dab96bb644cfcfedff872be28b33f8b4d10b2b452090e44c7bb  bhl-op4/src/game/server/op4/dlls/weapons/CSporeLauncher.cpp
 28f11ffabeead9d9a82ffecb22607be17e0dc4d9d1c71c5c8399d790a532418a  bhl-op4/src/game/server/python.cpp
@@ -276,7 +276,7 @@ af29b36eca6fd1c5f26d4bf86c56da980a8c7766252b636d2367327409fab745  bhl-op4/src/ga
 ec04484b1d37c209ec1aad06bcb9e9af509a4321c053b63ac6a1cd7b9b18d018  bhl-op4/src/game/server/op4/dlls/weapons/CPenguin.cpp
 c2b8d486131184ee4e8d9e160bd48e1e0fa44d455f617e37ad3b7bbf4d77694d  bhl-op4/src/game/server/op4/dlls/weapons/CPipewrench.cpp
 8e25b0b1cbc360107265d782cd1ec3ec2809a3465082450774d7e093b3a998af  bhl-op4/src/game/server/op4/dlls/weapons/CShockBeam.cpp
-aaa0fa64a1aeb02c0d648883fab075ae65a86ce179af9125e4abfd2e76ccdaeb  bhl-op4/src/game/server/op4/dlls/weapons/CShockRifle.cpp
+3b18fd811b189b0dea6cd0ef7b30d6af79fcfef455d55b3407a3b88b2c1fa4c1  bhl-op4/src/game/server/op4/dlls/weapons/CShockRifle.cpp
 1311356e8d0d97e3716bd0880061a83c67fdd0d8eb583da6f021458427a63f58  bhl-op4/src/game/server/op4/dlls/weapons/CSniperRifle.cpp
 a6d6651a508f857914a0e570b03d01045bc30c5b31147ea2ff0f72fd65e108e4  bhl-op4/src/game/server/op4/dlls/weapons/CSpore.cpp
 59654f55d8641dab96bb644cfcfedff872be28b33f8b4d10b2b452090e44c7bb  bhl-op4/src/game/server/op4/dlls/weapons/CSporeLauncher.cpp

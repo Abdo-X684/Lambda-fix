@@ -867,7 +867,7 @@
             "op4-compat-late-include"
           ],
           "path": "src/game/server/op4/dlls/weapons/CShockRifle.cpp",
-          "sha256": "63136b67f0e7730830dc1f5461720a719b058d0db6b009cac46b18067ff46e86",
+          "sha256": "3b18fd811b189b0dea6cd0ef7b30d6af79fcfef455d55b3407a3b88b2c1fa4c1",
           "upstream_commit": "5368be7f8eba",
           "upstream_path": "dlls/weapons/CShockRifle.cpp"
         },

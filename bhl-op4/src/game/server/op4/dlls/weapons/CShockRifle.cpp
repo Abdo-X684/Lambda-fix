@@ -250,7 +250,9 @@ void CShockRifle::PrimaryAttack()
 
 void CShockRifle::SecondaryAttack()
 {
-	//Nothing
+	// Right button: play the Shock Rifle IDLE3 animation (no shot, no projectile).
+	SendWeaponAnim(SHOCKRIFLE_IDLE3);
+	m_flNextSecondaryAttack = UTIL_WeaponTimeBase() + 0.5;
 }
 
 void CShockRifle::Reload()
