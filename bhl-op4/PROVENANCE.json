@@ -6,7 +6,7 @@
     "license": "GPL-3.0",
     "merged_files": 23,
     "repo": "tmp64/BugfixedHL-Rebased",
-    "tree_sha256": "ef13f905f2e9fa78edb6cdeeb01963c129b98529406abc786d4f70ced49f0688",
+    "tree_sha256": "67d376f58e0dd25bcb50e5615358ae871844ead3614c5c5d0c71d8ebcb3dc480",
     "tree_sha256_note": "sha256 over sorted '<path>  <file sha256>' for every BHL-origin file on disk; verified by --check",
     "verbatim_files": 671
   },
@@ -3135,9 +3135,9 @@
     "src/game/client/updater/update_checker.cpp": {
       "action": "verbatim+edit",
       "commit": "4d32095e3c33",
+      "edited_after_import": "update checks disabled in Lambda fix (CheckForUpdates no-op, cl_check_for_updates default 0); update_check and update_changelog console commands removed",
       "origin": "bugfixhl",
-      "sha256": "03c7d18846d489fa90ac2b23d98fb51be5bb3ed5dda2dbdbac9cd84060dc8cb6",
-      "edited_after_import": "update checks disabled in Lambda fix (CheckForUpdates no-op, cl_check_for_updates default 0, update_check command message)"
+      "sha256": "f6adfa156e1593afdc0161b077034a1c176c9f70147de645ebe13d72ebc58b64"
     },
     "src/game/client/updater/update_checker.h": {
       "action": "verbatim",

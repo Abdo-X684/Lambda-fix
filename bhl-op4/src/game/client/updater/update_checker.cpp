@@ -10,41 +10,6 @@ static CUpdateChecker s_Instance;
 
 ConVar cl_check_for_updates("cl_check_for_updates", "0", FCVAR_BHL_ARCHIVE, "Check for updates on game launch (disabled in Lambda fix).");
 
-CON_COMMAND(update_check, "Check for updates")
-{
-	if (CUpdateChecker::Get().IsInProgress())
-	{
-		ConPrintf("Update check is in progress.\n");
-		return;
-	}
-
-	ConPrintf("Update checks are disabled in Lambda fix.\n");
-}
-
-CON_COMMAND(update_changelog, "Show update changelog")
-{
-	if (CUpdateChecker::Get().IsInProgress())
-	{
-		ConPrintf("Update check is in progress.\n");
-		return;
-	}
-
-	if (!CUpdateChecker::Get().IsUpdateFound())
-	{
-		ConPrintf("Client is on the latest version.\n");
-		return;
-	}
-
-	// Maximum chars that can be printed to the console in one call.
-	constexpr size_t MAX_CON_OUT = 1024;
-	const std::string &log = CUpdateChecker::Get().GetChangelog();
-
-	for (size_t i = 0; i < log.size(); i += MAX_CON_OUT)
-	{
-		ConPrintf("%s", log.data() + i);
-	}
-}
-
 static const char *VerToString(const CGameVersion &ver)
 {
 	static char buf[128];
