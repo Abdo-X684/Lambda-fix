@@ -421,8 +421,8 @@ class Builder:
 
         # --- appversion.h from BHL's own template ---------------------------
         tpl = (TREE / "src/common/appversion.h.in").read_text()
-        ver = (tpl.replace("@GIT_SEM_VERSION@", "1.14.0-dev+no-git")
-                  .replace("@GIT_MAJOR@", "1").replace("@GIT_MINOR@", "14")
+        ver = (tpl.replace("@GIT_SEM_VERSION@", "1.0.0+no-git")
+                  .replace("@GIT_MAJOR@", "1").replace("@GIT_MINOR@", "0")
                   .replace("@GIT_PATCH@", "0").replace("@GIT_SKIP@", "0"))
         (self.gen / "appversion.h").write_text(ver)
         log(f"[gen] appversion.h from bhl-op4/src/common/appversion.h.in", self.logf)

@@ -6,7 +6,7 @@
     "license": "GPL-3.0",
     "merged_files": 23,
     "repo": "tmp64/BugfixedHL-Rebased",
-    "tree_sha256": "11f09fdf3b7e32bc96eec91bcd1b2984e181e3fd712552dd2bfcd52f8edc765b",
+    "tree_sha256": "60a918296743ae803c9e8dbc527a0e4cf6c2ec4192b94e1db5f76c7ba949dcaf",
     "tree_sha256_note": "sha256 over sorted '<path>  <file sha256>' for every BHL-origin file on disk; verified by --check",
     "verbatim_files": 671
   },
@@ -146,10 +146,11 @@
       "sha256": "00f71f2b394660c2618aa96b42f7bd4f3d8e03c0564b7d188861493db500b1be"
     },
     "CMakeLists.txt": {
-      "action": "verbatim",
+      "action": "verbatim+edit",
       "commit": "4d32095e3c33",
       "origin": "bugfixhl",
-      "sha256": "239eb3141d56cdb5c32b20198cd347be5ebaae83e7f68d05fdf7c1191f28fdc5"
+      "sha256": "4437979b0a550e47ffaa8991ee13d5a9a56063e59564e9f709f90df376bf8c03",
+      "edited_after_import": "OP4 version set to 1.0.0 (fallback used when no git: BHL_REPO_VERSION_MINOR 14->0, TAG dev->empty)"
     },
     "CMakePresets.json": {
       "action": "verbatim",
@@ -3158,9 +3159,9 @@
     "src/game/client/updater/update_installer.cpp": {
       "action": "verbatim+edit",
       "commit": "4d32095e3c33",
+      "edited_after_import": "lambda_validate_files: console command renamed from bhl_validate_files",
       "origin": "bugfixhl",
-      "sha256": "15658dc5b8f0baf9ed926a1a1374b46720795326ff4d1f74709f01fbc71b7bba",
-      "edited_after_import": "lambda_validate_files: console command renamed from bhl_validate_files"
+      "sha256": "15658dc5b8f0baf9ed926a1a1374b46720795326ff4d1f74709f01fbc71b7bba"
     },
     "src/game/client/updater/update_installer.h": {
       "action": "verbatim",
