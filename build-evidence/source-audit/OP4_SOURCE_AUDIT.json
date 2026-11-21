@@ -978,10 +978,11 @@
             "bhl-bool-to-int-takedamage",
             "bhl-holster-skiplocal-def",
             "op4-compat-include",
-            "op4-compat-late-include"
+            "op4-compat-late-include",
+            "bhl-spore-classname"
           ],
           "path": "src/game/server/op4/dlls/weapons/CSporeLauncher.cpp",
-          "sha256": "fdfe8be1cda35196deb9cc06e7196ae26be89ce263cbe1c007d553cae5f9afb8",
+          "sha256": "9f00046059befce1266b6df69ef0918c343eba8d614286deb2737b64c049cedf",
           "upstream_commit": "5368be7f8eba",
           "upstream_path": "dlls/weapons/CSporeLauncher.cpp"
         },

@@ -40,6 +40,9 @@ LINK_ENTITY_TO_CLASS(weapon_sporelauncher, CSporeLauncher);
 
 void CSporeLauncher::Precache()
 {
+	/* BHL: set the classname like CSniperRifle/CShockRifle, so the
+	 * client-side HUD_PrepEntity() copy gets a valid pszName. */
+	pev->classname = MAKE_STRING("weapon_sporelauncher");
 	PRECACHE_MODEL("models/w_spore_launcher.mdl");
 	PRECACHE_MODEL("models/v_spore_launcher.mdl");
 	PRECACHE_MODEL("models/p_spore_launcher.mdl");
