@@ -65,9 +65,23 @@ def source_hashes(path: Path) -> tuple[int, list[str], int]:
                 skipped += 1
                 continue
             bad.append(name + " (missing)")
-        elif sha256(p) != digest:
+        elif digest not in accepted_digests(p):
             bad.append(name)
     return len(entries), bad, skipped
+
+
+def accepted_digests(path: Path) -> set[str]:
+    """Digests that describe the same source text under either line ending.
+
+    Git stores these sources with LF. The Windows MSVC workflow checks them
+    out with CRLF (core.autocrlf), so its SOURCES.sha256 records CRLF digests
+    for some files and LF digests for others. Both are the same source; only
+    a change in the text itself is drift.
+    """
+    raw = path.read_bytes()
+    lf = raw.replace(b"\r\n", b"\n")
+    crlf = lf.replace(b"\n", b"\r\n")
+    return {hashlib.sha256(b).hexdigest() for b in (raw, lf, crlf)}
 
 
 def collect() -> tuple[list[str], str]:

@@ -135,7 +135,7 @@ f199164e9427d8953aa16c45cacc055763e087ea9f58982745f73afe1ef3f3cf  bhl-op4/src/ga
 0bd468537b7d6239a2be2ac9475ebd42023a7bc67620c6d875db02a91239afd5  bhl-op4/src/game/server/op4/dlls/weapons/CPipewrench.cpp
 63136b67f0e7730830dc1f5461720a719b058d0db6b009cac46b18067ff46e86  bhl-op4/src/game/server/op4/dlls/weapons/CShockRifle.cpp
 a4a8e89a59c12a11926446adff3465cb0331f93cfe766f743a22e48c3b12f9ea  bhl-op4/src/game/server/op4/dlls/weapons/CSniperRifle.cpp
-fdfe8be1cda35196deb9cc06e7196ae26be89ce263cbe1c007d553cae5f9afb8  bhl-op4/src/game/server/op4/dlls/weapons/CSporeLauncher.cpp
+9f00046059befce1266b6df69ef0918c343eba8d614286deb2737b64c049cedf  bhl-op4/src/game/server/op4/dlls/weapons/CSporeLauncher.cpp
 f7e20d58c1271e616dc68107c54945b1549ef70a84c3a2d953d814b278023a77  bhl-op4/src/game/server/python.cpp
 e8aee6dc223307e3a1990f8593e8035ba60e26ca946afa9a787b94cace5ffb6e  bhl-op4/src/game/server/rpg.cpp
 1e4de4cbdb740a69f8d14fb7e5588a36f7dc483f4e3d055e2131cf89ab2a9009  bhl-op4/src/game/server/satchel.cpp
@@ -277,7 +277,7 @@ b21d03525199e4b0855bdb05d2148dcdbc35357d66f7b6f4022b950db9d7aafc  bhl-op4/src/ga
 63136b67f0e7730830dc1f5461720a719b058d0db6b009cac46b18067ff46e86  bhl-op4/src/game/server/op4/dlls/weapons/CShockRifle.cpp
 a4a8e89a59c12a11926446adff3465cb0331f93cfe766f743a22e48c3b12f9ea  bhl-op4/src/game/server/op4/dlls/weapons/CSniperRifle.cpp
 65f5bd70daed2026cc7034e856d2f2bb2c47f451f75b3534c2bc2b3597ecbbe4  bhl-op4/src/game/server/op4/dlls/weapons/CSpore.cpp
-fdfe8be1cda35196deb9cc06e7196ae26be89ce263cbe1c007d553cae5f9afb8  bhl-op4/src/game/server/op4/dlls/weapons/CSporeLauncher.cpp
+9f00046059befce1266b6df69ef0918c343eba8d614286deb2737b64c049cedf  bhl-op4/src/game/server/op4/dlls/weapons/CSporeLauncher.cpp
 9451684285e32be282f7f5a9f2aeec337d029f8f9a97111e30a4e53328c8aba8  bhl-op4/src/game/server/op4/dlls/zombie_barney.cpp
 fe54fbb0bc00edb81939378293648684002dfe934d0e9157426040002e6b3e4b  bhl-op4/src/game/server/op4/dlls/zombie_soldier.cpp
 ee6f4fad01260282e42ffe8b9a4070bc9d813a800aae3984954a40815651da4d  bhl-op4/src/game/server/op4/op4_compat.cpp

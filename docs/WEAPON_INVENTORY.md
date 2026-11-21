@@ -61,9 +61,9 @@ is a separate monster entity in `dlls/shockroach.cpp`.
   (`21252408` bytes) is not in the package and uses
   `../gearbox/dlls/opfor.so` instead.
 * Windows (`x86-windows-msvc / PE32 i386`, `MSVC 19.44 / Visual Studio 2022 / CMake 3.30.9 / vcpkg x86-windows-static`, ABI compatible with MSVC/VGUI2):
-  `client.dll` `2015744` bytes, sha256 `77897e92bb0772c4351f8e4251108ec7e9b50702883214e32c8b450170de8496`;
+  `client.dll` `2063360` bytes, sha256 `6d6ee228009a596550694baf5c247017b733f167583119d4d6945b0258d10a71`;
   `opfor.dll` `1860608` bytes, sha256 `866d4dd3392b7cf906141f0520d032f89fc166fab3095cbec3b87e951996143a`. The old `hl.dll`
-  server (`1196544` bytes) is not in the package.
+  server (`1661440` bytes) is not in the package.
   These are MSVC binaries, but they are **not tested in game**.
 * `SOURCES.sha256` hashes are checked for every existing file, and the violation count must be zero;
   `.cache/` paths for SDK/deps are not in git and are restored by the build script,
@@ -78,7 +78,7 @@ is a separate monster entity in `dlls/shockroach.cpp`.
 2. No legal OP4 assets are included: models, sounds, HUD sprites, and `events/*.sc`
    are read from the user's installed `gearbox/` copy through `fallback_dir`.
 3. No Windows runtime test and no seventh HUD slot test in game, and no
-   confirmation from the user that the OP4 campaign, menus, and every weapon work after this change;
+   confirmation from the user that the OP4 campaign, menus, music, and every weapon work after this change;
    the `RUNTIME_TESTS.md` table shows `not tested` for every row.
 4. The Linux server is the original `gearbox` one: it has no `sv_bhl_*` and no
    `impulse 101` patch, which is an explicit difference from the Windows build.
