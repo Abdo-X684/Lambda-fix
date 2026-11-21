@@ -22,11 +22,11 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Fetch pinned clean upstreams and regenerate the BHL-based tree
+      - name: Fetch pinned upstreams and check the committed BHL-based tree (no regeneration)
         shell: pwsh
         run: |
           python -m merge.cli fetch
-          python -m merge.bhl_base --out bhl-op4
+          python -m merge.bhl_base --check
           python -c "import sys; sys.path.insert(0, 'tools'); import verify_bhl_base as v; assert v.ensure_source_sdk(True); print('source_sdk ready')"
           python -c "import shutil, pathlib; shutil.copytree('.cache/upstreams/hl1_source_sdk', 'bhl-op4/source_sdk', dirs_exist_ok=True); print('source_sdk copied')"
           git clone --depth 1 https://github.com/alliedmodders/metamod-hl1.git bhl-op4/external/metamod
