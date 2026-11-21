@@ -131,7 +131,7 @@ ConVar hud_color3("hud_color3", "255 96 0", FCVAR_BHL_ARCHIVE, "HUD color when (
 ConVar hud_color4("hud_color4", "255 0 0", FCVAR_BHL_ARCHIVE, "HUD color when (0%; 25%)");
 ConVar hud_armor_custom("hud_armor_custom", "0", FCVAR_BHL_ARCHIVE, "Use hud_armor_color for armor instead of colors by amount");
 ConVar hud_armor_color("hud_armor_color", "0 160 0", FCVAR_BHL_ARCHIVE, "Armor color when hud_armor_custom is 1");
-ConVar hud_color_override("hud_color_override", "0", FCVAR_ARCHIVE, "Enables/disables HUD coloring according to amount");
+ConVar hud_color_override("hud_color_override", "1", FCVAR_ARCHIVE, "Enables/disables HUD coloring according to amount");
 ConVar hud_custom("hud_custom", "0", FCVAR_BHL_ARCHIVE, "Custom HUD using VGUI2");
 ConVar hud_draw("hud_draw", "1", FCVAR_ARCHIVE, "Opacity of the HUD");
 ConVar hud_dim("hud_dim", "1", FCVAR_BHL_ARCHIVE, "Dim inactive HUD elements");

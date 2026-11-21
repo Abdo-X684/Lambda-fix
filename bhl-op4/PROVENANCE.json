@@ -2184,12 +2184,12 @@
     "src/game/client/hud.cpp": {
       "action": "bhl+op4-merge",
       "commit": "4d32095e3c33",
-      "edited_after_import": "Default HUD color changed to OP4 green (0 160 0); Armor and speedometer color options (hud_armor_color, hud_speedometer_color)",
+      "edited_after_import": "Default HUD color changed to OP4 green (0 160 0); Armor and speedometer color options (hud_armor_color, hud_speedometer_color); hud_color_override default 1 (main OP4 green used for all HUD numbers)",
       "merge_rules": [
         "op4-weapons-message-hook"
       ],
       "origin": "bugfixhl",
-      "sha256": "67ee600ea3587daa740c45f121164cf38feb3f855b18c2fee3a9e22cd76cbef3"
+      "sha256": "c5e2b716929067596a0b36f34155027fc1c0e1732afd8bd51e96a5de544ff5d0"
     },
     "src/game/client/hud.h": {
       "action": "verbatim",
