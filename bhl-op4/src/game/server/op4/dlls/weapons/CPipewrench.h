@@ -41,6 +41,7 @@ private:
 	{
 		SWING_NONE = 0,
 		SWING_START_BIG,
+		SWING_HOLD_BIG,
 		SWING_DOING_BIG,
 	};
 

@@ -649,7 +649,7 @@
             "op4-compat-late-include"
           ],
           "path": "src/game/server/op4/dlls/weapons/CPipewrench.cpp",
-          "sha256": "bfc82faaf3b4f9124d3c9913dc7f5fd5621baef3d656d8ce61d16fab47ebe228",
+          "sha256": "99bb4569d07ffb02d1b9b86ff92790faec649457185a4c8aff45a2ee6081a8d9",
           "upstream_commit": "5368be7f8eba",
           "upstream_path": "dlls/weapons/CPipewrench.cpp"
         },
@@ -669,7 +669,7 @@
             "bhl-bool-returns-from-bhl-virtuals"
           ],
           "path": "src/game/server/op4/dlls/weapons/CPipewrench.h",
-          "sha256": "dd611870d096036404b5ef04303a385a99a5830a3c0c82023abfd076ca129a18",
+          "sha256": "737237e877b1a61123fd2550e23ce7c44a70a662375e12c550e4960da5313cec",
           "upstream_commit": "5368be7f8eba",
           "upstream_path": "dlls/weapons/CPipewrench.h"
         }

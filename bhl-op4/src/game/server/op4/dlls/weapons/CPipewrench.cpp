@@ -106,9 +106,22 @@ void CPipewrench::PrimaryAttack()
 static const float PIPEWRENCH_MIN_CHARGE = 1.0f;
 static const float PIPEWRENCH_MAX_CHARGE = 6.25f;
 
+// Time given to the BIG_SWING_START pull-back before BIG_SWING_IDLE starts looping.
+// Not read from the model; tune in game.
+static const float PIPEWRENCH_BIG_START_TIME = 0.5f;
+
+// Official default for sk_plr_pipewrench. The compiled skill table never assigns
+// gSkillData.plrDmgPipewrench, so this value is used when it is zero.
+static const float PIPEWRENCH_DEFAULT_DAMAGE = 20.0f;
+
+static float PipewrenchDamage()
+{
+	return gSkillData.plrDmgPipewrench > 0 ? gSkillData.plrDmgPipewrench : PIPEWRENCH_DEFAULT_DAMAGE;
+}
+
 void CPipewrench::SecondaryAttack()
 {
-	if (m_iSwingMode != SWING_START_BIG)
+	if (m_iSwingMode != SWING_START_BIG && m_iSwingMode != SWING_HOLD_BIG)
 	{
 		SendWeaponAnim(PIPEWRENCH_BIG_SWING_START);
 		m_flBigSwingStart = gpGlobals->time;
@@ -223,12 +236,12 @@ int CPipewrench::Swing(const bool bFirst)
 			if ((m_flNextPrimaryAttack + 1 < UTIL_WeaponTimeBase()) || g_pGameRules->IsMultiplayer())
 			{
 				// first swing does full damage
-				pEntity->TraceAttack(m_pPlayer->pev, gSkillData.plrDmgPipewrench, gpGlobals->v_forward, &tr, DMG_CLUB);
+				pEntity->TraceAttack(m_pPlayer->pev, PipewrenchDamage(), gpGlobals->v_forward, &tr, DMG_CLUB);
 			}
 			else
 			{
 				// subsequent swings do half
-				pEntity->TraceAttack(m_pPlayer->pev, gSkillData.plrDmgPipewrench / 2, gpGlobals->v_forward, &tr, DMG_CLUB);
+				pEntity->TraceAttack(m_pPlayer->pev, PipewrenchDamage() / 2, gpGlobals->v_forward, &tr, DMG_CLUB);
 			}
 
 			ApplyMultiDamage(m_pPlayer->pev, m_pPlayer->pev);
@@ -376,7 +389,7 @@ void CPipewrench::BigSwing()
 			float flCharge = gpGlobals->time - m_flBigSwingStart;
 			if (flCharge > PIPEWRENCH_MAX_CHARGE)
 				flCharge = PIPEWRENCH_MAX_CHARGE;
-			float flDamage = flCharge * gSkillData.plrDmgPipewrench + 25.0f;
+			float flDamage = flCharge * PipewrenchDamage() + 25.0f;
 			if ((m_flNextPrimaryAttack + 1 < UTIL_WeaponTimeBase()) || g_pGameRules->IsMultiplayer())
 			{
 				// first swing does full damage
@@ -470,24 +483,25 @@ void CPipewrench::BigSwing()
 
 void CPipewrench::ItemPostFrame()
 {
-	if (m_iSwingMode == SWING_START_BIG)
+	if (m_iSwingMode == SWING_START_BIG || m_iSwingMode == SWING_HOLD_BIG)
 	{
-		// Charging the big swing: the weapon stays pulled back while the button is held.
-		// No strike while held, however long the hold lasts.
 		if ((m_pPlayer->pev->button & IN_ATTACK2) != 0)
+		{
+			// Still held: stay pulled back. Once the pull-back has played, switch to BIG_SWING_IDLE.
+			if (m_iSwingMode == SWING_START_BIG && gpGlobals->time >= m_flBigSwingStart + PIPEWRENCH_BIG_START_TIME)
+			{
+				m_iSwingMode = SWING_HOLD_BIG;
+				SendWeaponAnim(PIPEWRENCH_BIG_SWING_IDLE);
+			}
 			return;
+		}
 
-		// Button released. Strike only if it was held at least PIPEWRENCH_MIN_CHARGE seconds;
-		// a shorter press is cancelled without a strike.
+		// Released. The strike needs PIPEWRENCH_MIN_CHARGE seconds since the press.
+		// An early release waits here until that time, then strikes at minimum damage.
 		if (gpGlobals->time >= m_flBigSwingStart + PIPEWRENCH_MIN_CHARGE)
 		{
 			m_iSwingMode = SWING_DOING_BIG;
 			BigSwing();
-		}
-		else
-		{
-			m_iSwingMode = SWING_NONE;
-			m_flTimeWeaponIdle = UTIL_WeaponTimeBase();
 		}
 		return;
 	}
@@ -511,7 +525,7 @@ void CPipewrench::WeaponIdle()
 		return;
 
 	// Charging, or still holding after the swing: ItemPostFrame handles these.
-	if (m_iSwingMode == SWING_START_BIG || (m_iSwingMode == SWING_DOING_BIG && (m_pPlayer->pev->button & IN_ATTACK2) != 0))
+	if (m_iSwingMode == SWING_START_BIG || m_iSwingMode == SWING_HOLD_BIG || (m_iSwingMode == SWING_DOING_BIG && (m_pPlayer->pev->button & IN_ATTACK2) != 0))
 		return;
 
 	{
