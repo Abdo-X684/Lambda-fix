@@ -6,7 +6,7 @@
     "license": "GPL-3.0",
     "merged_files": 23,
     "repo": "tmp64/BugfixedHL-Rebased",
-    "tree_sha256": "4722496178982c5eff02f88bed8b2be1aaaa01955639e9476850a73eb14fd597",
+    "tree_sha256": "6b8ffb48d1d22b5ed639bc7af7aa0d1b73f6db3fdbb764004be63b18aa09d2b2",
     "tree_sha256_note": "sha256 over sorted '<path>  <file sha256>' for every BHL-origin file on disk; verified by --check",
     "verbatim_files": 671
   },
@@ -944,15 +944,16 @@
     "gamedir/ui/resource/language/bugfixedhl_english.utf8.txt": {
       "action": "verbatim+edit",
       "commit": "4d32095e3c33",
-      "edited_after_import": "Armor and speedometer color options (hud_armor_color, hud_speedometer_color)",
+      "edited_after_import": "added BHL_AdvOptions_Multiplayer key (user-requested tab)",
       "origin": "bugfixhl",
-      "sha256": "a18b1dd21cbc04336322bcefce19f6dae9a66185717670f4ea55393b10892920"
+      "sha256": "b128bd2c2d6582c00a7c68ed5546009a4c8ae44121a3777ec4472e17ed02c19a"
     },
     "gamedir/ui/resource/language/bugfixedhl_russian.utf8.txt": {
-      "action": "verbatim",
+      "action": "verbatim+edit",
       "commit": "4d32095e3c33",
       "origin": "bugfixhl",
-      "sha256": "03ad32fe6a3f218f9182c0801e8854b57ade0fa95ae9e309e6926b404420b4af"
+      "sha256": "b2c626172d5d3f0a0649f09ee15fd74a5a30e8b3f6dc3c0dfbcbd882f1984804",
+      "edited_after_import": "added BHL_AdvOptions_Multiplayer key (user-requested tab)"
     },
     "gamedir/ui/resource/language/chat_english.utf8.txt": {
       "action": "verbatim",
@@ -1603,7 +1604,7 @@
         "op4-cmake-sources"
       ],
       "origin": "bugfixhl",
-      "sha256": "af10bfde715d32ecff1d6e46f68ff614c99a7f062ae4659105fa63cc4d0d2ac4"
+      "sha256": "5b9d2a5b02286b7126ae98b2b070b358934fe2a31c7bc953a797b20bfe745378"
     },
     "src/game/client/Exports.h": {
       "action": "verbatim",
@@ -1887,10 +1888,11 @@
       "sha256": "b92e58c7201509c2d60af5c1b91c63648d71f041b6fdf5e65b752f664291097c"
     },
     "src/game/client/gameui/options/adv_options_dialog.cpp": {
-      "action": "verbatim",
+      "action": "verbatim+edit",
       "commit": "4d32095e3c33",
       "origin": "bugfixhl",
-      "sha256": "e976b320e700e787922ef63c1a7a6e57df0e324ca60e87a41e771f3a9a585388"
+      "sha256": "6c96e3d93931fbd04121f3c7e5f24350c3765475a94cd5281013667f9325ddd0",
+      "edited_after_import": "Multiplayer tab: Chat, Scoreboard and Models moved under one tab (user-requested)"
     },
     "src/game/client/gameui/options/adv_options_dialog.h": {
       "action": "verbatim",

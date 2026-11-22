@@ -10,6 +10,7 @@
 #include "options_hud_root.h"
 #include "options_models.h"
 #include "options_chat.h"
+#include "options_multiplayer_root.h"
 #include "options_crosshair.h"
 #include "options_scoreboard.h"
 #include "options_general.h"
@@ -38,10 +39,8 @@ CAdvOptionsDialog::CAdvOptionsDialog(vgui2::Panel *pParent)
 
 	AddPage(new CGeneralSubOptions(this), "#BHL_AdvOptions_General");
 	AddPage(new CHudSubOptionsRoot(this), "#BHL_AdvOptions_HUD");
-	AddPage(new CChatSubOptions(this), "#BHL_AdvOptions_Chat");
-	AddPage(new CScoreboardSubOptions(this), "#BHL_AdvOptions_Scores");
 	AddPage(new CCrosshairSubOptions(this), "#BHL_AdvOptions_Cross");
-	AddPage(new CModelSubOptions(this), "#BHL_AdvOptions_Models");
+	AddPage(new CMultiplayerSubOptionsRoot(this), "#BHL_AdvOptions_Multiplayer");
 	AddPage(new CAboutSubOptions(this), "#BHL_AdvOptions_About");
 
 	SetApplyButtonVisible(true);

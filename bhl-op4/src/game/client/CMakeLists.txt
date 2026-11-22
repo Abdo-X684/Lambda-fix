@@ -41,6 +41,8 @@ set( SOURCE_FILES
 	gameui/options/options_hud_root.h
 	gameui/options/options_hud.cpp
 	gameui/options/options_hud.h
+	gameui/options/options_multiplayer_root.cpp
+	gameui/options/options_multiplayer_root.h
 	gameui/options/options_models.cpp
 	gameui/options/options_models.h
 	gameui/options/options_scoreboard.cpp

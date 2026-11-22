@@ -199,6 +199,7 @@
 
 
 // Adv options: About
+"BHL_AdvOptions_Multiplayer"				"Multiplayer"
 "BHL_AdvOptions_About"				"About"
 "BHL_AdvOptions_About_BHL"			"Bugfixed and Improved Half-Life Release"
 "BHL_AdvOptions_About_Version"		"Version: "
