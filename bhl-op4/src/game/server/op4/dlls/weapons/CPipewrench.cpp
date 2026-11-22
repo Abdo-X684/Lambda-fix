@@ -536,11 +536,12 @@ void CPipewrench::GetWeaponData(weapon_data_t& data)
 	data.m_fInSpecialReload = static_cast<int>(m_iSwingMode);
 }
 
+// DEVIATION FROM OP4 UPDATED (user-requested fix): the server does not send m_iSwingMode
+// (client.cpp copies base fields only), so restoring it here set the mode to 0 on every
+// predicted frame and restarted the pull-back. Keep the locally predicted swing mode.
 void CPipewrench::SetWeaponData(const weapon_data_t& data)
 {
 	BaseClass::SetWeaponData(data);
-
-	m_iSwingMode = data.m_fInSpecialReload;
 }
 
 int CPipewrench::iItemSlot()
