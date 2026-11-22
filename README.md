@@ -8,8 +8,6 @@ Lambda Fix is a community integration project. It keeps BugfixedHL as the base a
 - **SHA-256:** `65b9cab084e7895ae18714ed1b0262e2e14d14a25ead7276b66b9f68aa4a53f7`
 - **Release:** [v0.9.0](https://github.com/Abdo-X684/Bugfixhl-speedrun-op4/releases/tag/v0.9.0)
 
-The repository is private, so you need a GitHub login with access to open these links.
-
 Check the download:
 
 ```bash
