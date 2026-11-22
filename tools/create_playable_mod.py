@@ -59,7 +59,7 @@ bind F10 "give weapon_penguin"
 echo "BHL+OP4: New Game starts of0a0; F9 gives all ten OP4 weapons + ammo"
 '''
 
-OP4_CFG = '''// All ten Opposing Force weapons + their ammo. Requires sv_cheats 1
+OP4_CFG = '''// All nine Opposing Force weapons (the impulse 101 set in OP4 Updated). Requires sv_cheats 1
 // (set by autoexec.cfg). Run with: exec op4weapons.cfg  (bound to F9)
 impulse 101
 give weapon_eagle
@@ -70,12 +70,7 @@ give weapon_shockrifle
 give weapon_sporelauncher
 give weapon_sniperrifle
 give weapon_knife
-give weapon_penguin
 give weapon_grapple
-give ammo_556
-give ammo_762
-give ammo_spore
-give ammo_357
 '''
 
 INSTALL = '''# BugfixedHL + full Opposing Force

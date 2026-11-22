@@ -195,9 +195,13 @@ def collect() -> tuple[list[str], str]:
             chk(w["func"] in events_cpp, f"{cls}: event {w['func']} missing")
         else:
             chk(cxx == "CGrapple", f"{cls}: missing event without documented reason")
+        # impulse 101 (OP4 Updated) gives the nine weapons below, no penguin and no extra ammo.
+        if cls == "weapon_penguin":
+            chk(f"give {cls}" not in config, f"{cls}: must not be in impulse 101 config")
+        else:
+            chk(f"give {cls}" in config, f"{cls}: give command missing from config")
         if w.get("ammo"):
-            chk(f"give {w['ammo']}" in config, f"{cls}: ammo {w['ammo']} missing from config")
-        chk(f"give {cls}" in config, f"{cls}: give command missing from config")
+            chk(f"give {w['ammo']}" not in config, f"{cls}: ammo {w['ammo']} must not be in impulse 101 config")
 
     for extra in ("../server/op4/dlls/weapons/CGrappleTip.cpp",
                   "../server/op4/dlls/ehandle.cpp"):
