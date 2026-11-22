@@ -83,6 +83,10 @@ BOOL CPipewrench::Deploy()
 
 void CPipewrench::Holster(int skiplocal)
 {
+	//Cancel any swing in progress.
+	m_iSwingMode = SWING_NONE;
+	SetThink(nullptr);
+
 	m_pPlayer->m_flNextAttack = UTIL_WeaponTimeBase() + 0.5;
 	SendWeaponAnim(PIPEWRENCH_HOLSTER);
 }
@@ -108,9 +112,8 @@ void CPipewrench::SecondaryAttack()
 
 	m_iSwingMode = SWING_START_BIG;
 
-	m_flNextPrimaryAttack = GetNextAttackDelay(1.0);
-	m_flNextSecondaryAttack = GetNextAttackDelay(1.0);
-	m_flTimeWeaponIdle = m_flNextSecondaryAttack + 0.2;
+	m_flNextPrimaryAttack = m_flNextSecondaryAttack = GetNextAttackDelay(0.1);
+	m_flTimeWeaponIdle = UTIL_WeaponTimeBase() + 0.2;
 }
 
 void CPipewrench::Smack()
@@ -227,6 +230,14 @@ int CPipewrench::Swing(const bool bFirst)
 			ApplyMultiDamage(m_pPlayer->pev, m_pPlayer->pev);
 		}
 
+#endif
+
+		m_flNextPrimaryAttack = GetNextAttackDelay(0.5);
+		m_flNextSecondaryAttack = GetNextAttackDelay(0.5);
+		m_flTimeWeaponIdle = UTIL_WeaponTimeBase() + 1.0;
+
+#ifndef CLIENT_DLL
+
 		// play thwack, smack, or dong sound
 		float flVol = 1.0;
 		bool bHitWorld = true;
@@ -291,11 +302,8 @@ int CPipewrench::Swing(const bool bFirst)
 		m_pPlayer->m_iWeaponVolume = flVol * PIPEWRENCH_WALLHIT_VOLUME;
 
 		SetThink(&CPipewrench::Smack);
-		pev->nextthink = UTIL_WeaponTimeBase() + 0.2;
+		pev->nextthink = gpGlobals->time + 0.2;
 #endif
-		m_flNextPrimaryAttack = GetNextAttackDelay(0.5);
-		m_flNextSecondaryAttack = GetNextAttackDelay(0.5);
-		m_flTimeWeaponIdle = UTIL_WeaponTimeBase() + 1.0;	
 	}
 	return bDidHit;
 }
@@ -459,13 +467,11 @@ void CPipewrench::WeaponIdle()
 
 	if (m_iSwingMode == SWING_START_BIG)
 	{
-		const float earliestSwingTime = m_flBigSwingStart + 1;
-
-		if (gpGlobals->time > earliestSwingTime)
+		if (gpGlobals->time > m_flBigSwingStart + 1)
 		{
 			m_iSwingMode = SWING_DOING_BIG;
 
-			m_flTimeWeaponIdle = earliestSwingTime + 1.2;
+			m_flTimeWeaponIdle = UTIL_WeaponTimeBase() + 1.2;
 			SetThink(&CPipewrench::BigSwing);
 			pev->nextthink = gpGlobals->time + 0.1;
 		}
