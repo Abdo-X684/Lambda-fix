@@ -54,12 +54,11 @@ AUTOEXEC = '''// Full OP4 campaign with BugfixedHL client. Executed at startup.
 sv_cheats 1
 sv_oldweapons 0
 alias op4all "exec op4weapons.cfg"
-bind F9 "op4all"
-echo "BHL+OP4: New Game starts of0a0; F9 gives the nine OP4 weapons"
+echo "welcome to Lambda-fix"
 '''
 
 OP4_CFG = '''// All nine Opposing Force weapons (the impulse 101 set in OP4 Updated). Requires sv_cheats 1
-// (set by autoexec.cfg). Run with: exec op4weapons.cfg  (bound to F9)
+// (set by autoexec.cfg). Run from the console: exec op4weapons.cfg
 impulse 101
 give weapon_eagle
 give weapon_pipewrench
@@ -82,7 +81,7 @@ INSTALL = '''# BugfixedHL + full Opposing Force
    `gearbox/media/` to `lambda-fix/media/`. It does not create or download any MP3 file.
 3. Run: `hl.exe -game lambda-fix -console`.
 4. **New Game** starts the Opposing Force campaign at `of0a0`, not the Half-Life campaign.
-5. `impulse 101` gives the nine OP4 weapons on Windows. **F9** gives them again.
+5. `impulse 101` gives the nine OP4 weapons on Windows.
 6. Opposing Force must be installed: maps, models, sounds, and sprites are read from
    `gearbox/` through `fallback_dir`.
 
@@ -99,7 +98,7 @@ Put this folder next to `valve/` and `gearbox/`, then launch
   gamerules and entities, not the Half-Life campaign.
 * Linux uses the installed `../gearbox/dlls/opfor.so`; the custom BHL
   client still loads from this mod. Linux therefore lacks the BHL server
-  cvars and the patched impulse 101, but F9 covers the nine weapons.
+  cvars and the patched impulse 101, but the console command covers the nine weapons.
 * `cl_dlls/client.dll` and `client.so` are the BugfixedHL VGUI2 clients
   with all ten OP4 weapon prediction sources compiled in.
 * `ui/resource/language/*.txt` are UTF-16LE BOM conversions of BHL's
