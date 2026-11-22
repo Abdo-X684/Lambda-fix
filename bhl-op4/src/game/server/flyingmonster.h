@@ -45,7 +45,6 @@ protected:
 	float m_stopTime; // Last time we stopped (to avoid switching states too soon)
 	float m_momentum; // Weight for desired vs. momentum velocity
 	const char *m_pFlapSound;
-	float m_flLastZYawTime = 0.0f; // Last frame time Z was changed when yaw was changed
 };
 
 #endif //FLYINGMONSTER_H

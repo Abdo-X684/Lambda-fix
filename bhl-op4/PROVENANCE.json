@@ -6,7 +6,7 @@
     "license": "GPL-3.0",
     "merged_files": 23,
     "repo": "tmp64/BugfixedHL-Rebased",
-    "tree_sha256": "42c588e3c3620f65d2254b5ffbdac1a50ef4035ed480739fea504b5064483a56",
+    "tree_sha256": "dd11b57fa013eb881deeff76ccdb931a53ec1e2c50d0e565fa8fcef4497f093f",
     "tree_sha256_note": "sha256 over sorted '<path>  <file sha256>' for every BHL-origin file on disk; verified by --check",
     "verbatim_files": 671
   },
@@ -3487,7 +3487,8 @@
         "op4-monster-shock-state"
       ],
       "origin": "bugfixhl",
-      "sha256": "e6d126aab4a26f7e01944387ecf437bf5cd44ab8a9eb62fb61cbc1159789fc58"
+      "sha256": "938507a4a310c792db5ba9578d75b23beb243cc5edf4e568a4265e4974f5d813",
+      "edited_after_import": "speedrun: removed m_flLastYawTime (343bbb2)"
     },
     "src/game/server/bigmomma.cpp": {
       "action": "verbatim",
@@ -3673,22 +3674,25 @@
       "sha256": "df0e7bfb958b0c050703d5a02f5eaeb5598da1c8d09e8ea5df32800be95e439c"
     },
     "src/game/server/flyingmonster.cpp": {
-      "action": "verbatim",
+      "action": "verbatim+edit",
       "commit": "4d32095e3c33",
       "origin": "bugfixhl",
-      "sha256": "da1d25bdedbd77ead8d311e44ee4729865b809ef834b5af44c47fe4467d00b63"
+      "sha256": "8e8fc0def9f34047d79e2ff6dca62b97c6db70919ce3e340bd8cec238ea6b18a",
+      "edited_after_import": "speedrun: reverted framerate-independent yaw (343bbb2, 95fdebe) in CFlyingMonster::ChangeYaw"
     },
     "src/game/server/flyingmonster.h": {
-      "action": "verbatim",
+      "action": "verbatim+edit",
       "commit": "4d32095e3c33",
       "origin": "bugfixhl",
-      "sha256": "b1c309a4d72a63dac28cef5a44470914b513cc5d1146ea0db363358ef962bb69"
+      "sha256": "ae156bd7795f5f0dc33460e58cf641e822b08ccf227911dbbd66315ade979624",
+      "edited_after_import": "speedrun: removed m_flLastZYawTime (343bbb2, 95fdebe)"
     },
     "src/game/server/func_break.cpp": {
-      "action": "verbatim",
+      "action": "verbatim+edit",
       "commit": "4d32095e3c33",
       "origin": "bugfixhl",
-      "sha256": "4f1730a164a0f0cab724e2f319aa555c64abbb6ec23a8e17e15c90ea53fdf01d"
+      "sha256": "64ddf1a628716378252ec4710eb4eb8f18ec680869b0e5f9d604bd35e85bbbb6",
+      "edited_after_import": "speedrun: removed fixed-tick fudge framerate scaling of pushable velocity (4f0d502)"
     },
     "src/game/server/func_break.h": {
       "action": "verbatim",
@@ -3710,7 +3714,8 @@
         "op4-gamedllinit-call"
       ],
       "origin": "bugfixhl",
-      "sha256": "33fdf90b16306e62bdd72bf03f9eeb9d6afb93a975294ffd08afbf09e9473c72"
+      "sha256": "860774a838c945ee216a8f6c17b874bb5b4e88601394cd5d571af0eeea88ad71",
+      "edited_after_import": "speedrun: removed sv_pushable_fixed_tick_fudge cvar (4f0d502)"
     },
     "src/game/server/game.h": {
       "action": "verbatim",
@@ -3874,10 +3879,11 @@
       "sha256": "f6015587d4f4aaf3e9471117cacf29a476fb43f286e4af8395822657fcc901e3"
     },
     "src/game/server/ichthyosaur.cpp": {
-      "action": "verbatim",
+      "action": "verbatim+edit",
       "commit": "4d32095e3c33",
       "origin": "bugfixhl",
-      "sha256": "1c778799d12862902fdacd3e2600e63a7a7bcee06aded9f1820ad98474b155a5"
+      "sha256": "5bde8dfbf25c02f2feecabfff343ff0cd07709268574e250da69fb533491806c",
+      "edited_after_import": "speedrun: reverted framerate-independent pitch/yaw (343bbb2, 95fdebe); removed m_flLastPitchTime/m_flLastZYawTime"
     },
     "src/game/server/islave.cpp": {
       "action": "verbatim",
@@ -3934,10 +3940,11 @@
       "sha256": "a485d82fe34b1bacf812522a5d10b9afeb8a38435e6c1811acbce5a988c28fd7"
     },
     "src/game/server/monsters.cpp": {
-      "action": "verbatim",
+      "action": "verbatim+edit",
       "commit": "4d32095e3c33",
       "origin": "bugfixhl",
-      "sha256": "3b972558f65793f9d1a28f497673bcfbdcdb24ab00d74239516b7923fc4bcfe3"
+      "sha256": "626ee733b1f503b51043f002010f8c5a1dc5905cc9f23005a25795d2bd9c8b47",
+      "edited_after_import": "speedrun: reverted framerate-independent yaw (343bbb2, 95fdebe) in CBaseMonster::ChangeYaw"
     },
     "src/game/server/monsters.h": {
       "action": "bhl+op4-merge",
@@ -5650,8 +5657,9 @@
           "rule": "op4-compat-late-include"
         }
       ],
-      "sha256": "9a635a1d711c08ae862209626d866b2e1289c3302ef3bac09a5e8abe73067d22",
-      "upstream_path": "dlls/rope/CRope.cpp"
+      "sha256": "441d688bd765097d9e2b81263ced3b8b248313481c93e2bdf55a4b1a582383e1",
+      "upstream_path": "dlls/rope/CRope.cpp",
+      "edited_after_import": "speedrun: reverted OP4 Updated fix 'ropes breaking at high framerates' (bccba90)"
     },
     "src/game/server/op4/dlls/rope/CRope.h": {
       "action": "op4+compat-patch",
@@ -5722,8 +5730,9 @@
           "rule": "op4-compat-late-include"
         }
       ],
-      "sha256": "6a9ffad593641190d43d15621411ab799c61924fd0a7ec1fef2c37db0b220fa0",
-      "upstream_path": "dlls/rope/CRopeSegment.cpp"
+      "sha256": "94d7f055ae6986fd559d12838b2f6f13d57ffc30760a6008ec33dfb9229e4191",
+      "upstream_path": "dlls/rope/CRopeSegment.cpp",
+      "edited_after_import": "speedrun: reverted OP4 Updated fix 'electrified wire frametime-dependent damage' (f6917f2)"
     },
     "src/game/server/op4/dlls/rope/CRopeSegment.h": {
       "action": "op4+compat-patch",
@@ -5739,8 +5748,9 @@
           "rule": "bhl-bool-to-int-restore"
         }
       ],
-      "sha256": "2d61be94bbf36fe9287d29bcafe1a925c3fec7861891409fc97feca63baef0ba",
-      "upstream_path": "dlls/rope/CRopeSegment.h"
+      "sha256": "cf466b8fe488c55dc0cfc2b4b0a69d16f79162c683a5939354c2c67098d4e159",
+      "upstream_path": "dlls/rope/CRopeSegment.h",
+      "edited_after_import": "speedrun: reverted OP4 Updated fix 'electrified wire frametime-dependent damage' (f6917f2)"
     },
     "src/game/server/op4/dlls/shockroach.cpp": {
       "action": "op4+compat-patch",
@@ -6206,8 +6216,9 @@
           "rule": "op4-compat-late-include"
         }
       ],
-      "sha256": "784451daf1e89b4d2e6ee2e9d75e059039bdef524691141691b7d6bd3e546c9e",
-      "upstream_path": "dlls/weapons/CKnife.cpp"
+      "sha256": "0e58c41d8b4f0b8168bbc324d42c57cef95e46e456282921eb68b1677e297dda",
+      "upstream_path": "dlls/weapons/CKnife.cpp",
+      "edited_after_import": "speedrun: reverted OP4 Updated knife/wrench time-base fixes 2dd789b, 83c1aef"
     },
     "src/game/server/op4/dlls/weapons/CKnife.h": {
       "action": "op4+compat-patch",
@@ -6268,8 +6279,9 @@
           "rule": "op4-compat-late-include"
         }
       ],
-      "sha256": "f199164e9427d8953aa16c45cacc055763e087ea9f58982745f73afe1ef3f3cf",
-      "upstream_path": "dlls/weapons/CM249.cpp"
+      "sha256": "0dd7e7d25eb6d91e67f66c58c2a9e34164f55cfc97e5dbc0a46250404c0e5803",
+      "upstream_path": "dlls/weapons/CM249.cpp",
+      "edited_after_import": "speedrun: reverted OP4 Updated fix 'M249 wrong spread standing/ducking' (a34affd)"
     },
     "src/game/server/op4/dlls/weapons/CM249.h": {
       "action": "op4+compat-patch",
@@ -6404,9 +6416,9 @@
           "rule": "op4-compat-late-include"
         }
       ],
-      "sha256": "0bd468537b7d6239a2be2ac9475ebd42023a7bc67620c6d875db02a91239afd5",
+      "sha256": "ba59d79912e36607be92e8ea9cc5b93e3a98c3fb7b67c3403f21ff6d94e864b9",
       "upstream_path": "dlls/weapons/CPipewrench.cpp",
-      "edited_after_import": "Pipe Wrench: big-swing logic kept identical to OP4 Updated; only change is PipewrenchDamage() (sk_plr_pipewrench default 20 when the skill table value is zero)"
+      "edited_after_import": "speedrun: reverted OP4 Updated wrench fixes 9d24aa0, 3cd847a, 2dd789b, 83c1aef, d4cdc90 (holster cancel, secondary delay, time base)"
     },
     "src/game/server/op4/dlls/weapons/CPipewrench.h": {
       "action": "op4+compat-patch",

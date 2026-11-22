@@ -31,7 +31,6 @@ TYPEDESCRIPTION CRopeSegment::m_SaveData[] =
 		DEFINE_FIELD(CRopeSegment, m_flDefaultMass, FIELD_FLOAT),
 		DEFINE_FIELD(CRopeSegment, m_bCauseDamage, FIELD_BOOLEAN),
 		DEFINE_FIELD(CRopeSegment, m_bCanBeGrabbed, FIELD_BOOLEAN),
-		DEFINE_FIELD(CRopeSegment, m_LastDamageTime, FIELD_TIME),
 };
 
 LINK_ENTITY_TO_CLASS(rope_segment, CRopeSegment);
@@ -82,14 +81,7 @@ void CRopeSegment::Touch(CBaseEntity* pOther)
 		//Electrified wires deal damage. - Solokiller
 		if (m_bCauseDamage)
 		{
-			// Like trigger_hurt we need to deal half a second's worth of damage per touch to make this frametime-independent.
-			if (m_LastDamageTime < gpGlobals->time)
-			{
-				// 1 damage per tick is 30 damage per second at 30 FPS.
-				const float damagePerHalfSecond = 30.f / 2;
-				pOther->TakeDamage(pev, pev, damagePerHalfSecond, DMG_SHOCK);
-				m_LastDamageTime = gpGlobals->time + 0.5f;
-			}
+			pOther->TakeDamage(pev, pev, 1, DMG_SHOCK);
 		}
 
 		if (m_pSample->GetMasterRope()->IsAcceptingAttachment() && !pPlayer->IsOnRope())

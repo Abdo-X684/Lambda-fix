@@ -649,7 +649,7 @@
             "op4-compat-late-include"
           ],
           "path": "src/game/server/op4/dlls/weapons/CPipewrench.cpp",
-          "sha256": "0bd468537b7d6239a2be2ac9475ebd42023a7bc67620c6d875db02a91239afd5",
+          "sha256": "ba59d79912e36607be92e8ea9cc5b93e3a98c3fb7b67c3403f21ff6d94e864b9",
           "upstream_commit": "5368be7f8eba",
           "upstream_path": "dlls/weapons/CPipewrench.cpp"
         },
@@ -714,7 +714,7 @@
             "op4-compat-late-include"
           ],
           "path": "src/game/server/op4/dlls/weapons/CM249.cpp",
-          "sha256": "f199164e9427d8953aa16c45cacc055763e087ea9f58982745f73afe1ef3f3cf",
+          "sha256": "0dd7e7d25eb6d91e67f66c58c2a9e34164f55cfc97e5dbc0a46250404c0e5803",
           "upstream_commit": "5368be7f8eba",
           "upstream_path": "dlls/weapons/CM249.cpp"
         },
@@ -1132,7 +1132,7 @@
             "op4-compat-late-include"
           ],
           "path": "src/game/server/op4/dlls/weapons/CKnife.cpp",
-          "sha256": "784451daf1e89b4d2e6ee2e9d75e059039bdef524691141691b7d6bd3e546c9e",
+          "sha256": "0e58c41d8b4f0b8168bbc324d42c57cef95e46e456282921eb68b1677e297dda",
           "upstream_commit": "5368be7f8eba",
           "upstream_path": "dlls/weapons/CKnife.cpp"
         },

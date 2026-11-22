@@ -190,12 +190,6 @@ int CKnife::Swing(const bool bFirst)
 			ApplyMultiDamage(m_pPlayer->pev, m_pPlayer->pev);
 		}
 
-#endif
-
-		m_flNextPrimaryAttack = GetNextAttackDelay(0.25);
-
-#ifndef CLIENT_DLL
-
 		// play thwack, smack, or dong sound
 		float flVol = 1.0;
 		bool bHitWorld = true;
@@ -257,8 +251,9 @@ int CKnife::Swing(const bool bFirst)
 		m_pPlayer->m_iWeaponVolume = flVol * KNIFE_WALLHIT_VOLUME;
 
 		SetThink(&CKnife::Smack);
-		pev->nextthink = gpGlobals->time + 0.2;
+		pev->nextthink = UTIL_WeaponTimeBase() + 0.2;
 #endif
+		m_flNextPrimaryAttack = GetNextAttackDelay( 0.25 );
 	}
 	return bDidHit;
 }

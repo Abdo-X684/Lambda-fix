@@ -943,15 +943,6 @@ void CPushable ::Move(CBaseEntity *pOther, int push)
 	else
 		factor = 0.25;
 
-	// This used to be added every 'frame', but to be consistent at high fps,
-	// now act as if it's added at a constant rate with a fudge factor.
-	extern cvar_t sv_pushable_fixed_tick_fudge;
-
-	if (!push && sv_pushable_fixed_tick_fudge.value >= 0.0f)
-	{
-		factor *= gpGlobals->frametime * sv_pushable_fixed_tick_fudge.value;
-	}
-
 	// JoshA: Always apply this if pushing, or if under the player's velocity.
 	if (push || (abs(pev->velocity.x) < abs(pevToucher->velocity.x - pevToucher->velocity.x * factor)))
 		pev->velocity.x += pevToucher->velocity.x * factor;

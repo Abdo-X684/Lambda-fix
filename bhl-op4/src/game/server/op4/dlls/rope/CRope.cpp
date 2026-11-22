@@ -27,19 +27,6 @@
 #include "CRope.h"
 #include "op4_compat_late.h"
 
-/**
-*	@brief The framerate that the rope aims to run at.
-*	Clamping simulation to this also fixes ropes being invisible in multiplayer.
-*/
-constexpr float RopeFrameRate = 60.f;
-
-/**
-*	@brief Account for varying frame rates; adjust force to apply what was previously applied at 30 FPS.
-*	HL1 games were developed on machines running around 30 FPS so this is about right.
-*	This is independent of the framerate to allow for smoother ropes.
-*/
-constexpr float RopeForceMultiplier = 30.f;
-
 static const char* const g_pszCreakSounds[] =
 	{
 		"items/rope1.wav",
@@ -266,7 +253,7 @@ void CRope::Think()
 		Creak();
 	}
 
-	pev->nextthink = gpGlobals->time + (1 / RopeFrameRate);
+	pev->nextthink = gpGlobals->time + 0.001;
 }
 
 void CRope::Touch(CBaseEntity* pOther)
@@ -809,7 +796,9 @@ void CRope::SetRopeSegments(const size_t uiNumSegments,
 		CRopeSegment** ppVisible = ppPrimarySegs;
 		CRopeSegment** ppActualHidden = ppHiddenSegs;
 
-		if (m_bToggle)
+		//In multiplayer, the constant toggling of visible segments makes them completely invisible.
+		//So always make the seg segments visible. - Solokiller
+		if (m_bToggle && g_pGameRules->IsMultiplayer())
 		{
 			std::swap(ppVisible, ppActualHidden);
 		}
@@ -968,7 +957,7 @@ void CRope::ApplyForceFromPlayer(const Vector& vecForce)
 	if (!m_bObjectAttached)
 		return;
 
-	float flForce = 20000.0 * RopeForceMultiplier * gpGlobals->frametime;
+	float flForce = 20000.0;
 
 	if (m_uiSegments < 26)
 		flForce *= (m_uiSegments / 26.0);
