@@ -6402,7 +6402,7 @@
           "rule": "op4-compat-late-include"
         }
       ],
-      "sha256": "1e56a3767eae006de49bd122f15932eb5a7a33eaab8360e2a984eaaad6da1fe4",
+      "sha256": "bfc82faaf3b4f9124d3c9913dc7f5fd5621baef3d656d8ce61d16fab47ebe228",
       "upstream_path": "dlls/weapons/CPipewrench.cpp",
       "edited_after_import": "Pipe Wrench big swing: starts on release (charge with fire2), no repeat while held, ItemPostFrame override (fire2 fix)"
     },

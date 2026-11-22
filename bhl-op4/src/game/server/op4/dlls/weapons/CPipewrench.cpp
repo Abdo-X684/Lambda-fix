@@ -102,6 +102,10 @@ void CPipewrench::PrimaryAttack()
 	}
 }
 
+// Big swing charge limits, in seconds of holding the secondary button.
+static const float PIPEWRENCH_MIN_CHARGE = 1.0f;
+static const float PIPEWRENCH_MAX_CHARGE = 6.25f;
+
 void CPipewrench::SecondaryAttack()
 {
 	if (m_iSwingMode != SWING_START_BIG)
@@ -368,7 +372,11 @@ void CPipewrench::BigSwing()
 		{
 			ClearMultiDamage();
 
-			float flDamage = (gpGlobals->time - m_flBigSwingStart) * gSkillData.plrDmgPipewrench + 25.0f;
+			// Damage grows with how long the button was held, up to PIPEWRENCH_MAX_CHARGE seconds.
+			float flCharge = gpGlobals->time - m_flBigSwingStart;
+			if (flCharge > PIPEWRENCH_MAX_CHARGE)
+				flCharge = PIPEWRENCH_MAX_CHARGE;
+			float flDamage = flCharge * gSkillData.plrDmgPipewrench + 25.0f;
 			if ((m_flNextPrimaryAttack + 1 < UTIL_WeaponTimeBase()) || g_pGameRules->IsMultiplayer())
 			{
 				// first swing does full damage
@@ -464,12 +472,22 @@ void CPipewrench::ItemPostFrame()
 {
 	if (m_iSwingMode == SWING_START_BIG)
 	{
-		// Charging the big swing (pull back). It fires when the button is released,
-		// or after 1 second of charge so the damage stays bounded.
-		if ((m_pPlayer->pev->button & IN_ATTACK2) == 0 || gpGlobals->time > m_flBigSwingStart + 1)
+		// Charging the big swing: the weapon stays pulled back while the button is held.
+		// No strike while held, however long the hold lasts.
+		if ((m_pPlayer->pev->button & IN_ATTACK2) != 0)
+			return;
+
+		// Button released. Strike only if it was held at least PIPEWRENCH_MIN_CHARGE seconds;
+		// a shorter press is cancelled without a strike.
+		if (gpGlobals->time >= m_flBigSwingStart + PIPEWRENCH_MIN_CHARGE)
 		{
 			m_iSwingMode = SWING_DOING_BIG;
 			BigSwing();
+		}
+		else
+		{
+			m_iSwingMode = SWING_NONE;
+			m_flTimeWeaponIdle = UTIL_WeaponTimeBase();
 		}
 		return;
 	}
