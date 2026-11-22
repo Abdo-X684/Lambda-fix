@@ -21,7 +21,7 @@ e60692b1e7f625c63eab1a5a2583fc9267ce08e2c0730a36295f94bf2075cb20  bhl-op4/src/ga
 595168ede7b9d1887db23256d255ab5e8f42d16c0b177c7a7d262cbae1c1ce8d  bhl-op4/src/game/client/fog.cpp
 2fede4bb7d048173c9ef23507a78163c8b5140d3adc9aa8b3d0072de89af7499  bhl-op4/src/game/client/gameui/gameui_test_panel.cpp
 5b97e9ae09e364fdef4c618fbed86a7d129ad913f1aa32d50ca40eba9643434b  bhl-op4/src/game/client/gameui/gameui_viewport.cpp
-f352398f45587c05168ebd215b63bf5dcdf69edbb0a266f37e8c19b37ea8c38e  bhl-op4/src/game/client/gameui/options/adv_options_dialog.cpp
+cd9c2252ae528978dcaadd1c585dba135204e8c903df6e8679e71d207d3991f9  bhl-op4/src/game/client/gameui/options/adv_options_dialog.cpp
 53f189eb1f2e5c9c74c61eedede30710a5dca242dc616858ff9071d693b4f83b  bhl-op4/src/game/client/gameui/options/color_picker.cpp
 fcb6ab97e4d6e6481b6c7e4e162af52639a9685fd20044b61113a001287a2541  bhl-op4/src/game/client/gameui/options/colorpicker/bar_panel.cpp
 6d085e27b8ff64e33462772b627a3e9fbd24336615f476f2ead86cb634f94493  bhl-op4/src/game/client/gameui/options/colorpicker/picker_panel.cpp
