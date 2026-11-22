@@ -236,7 +236,7 @@
       "origin": "bugfixhl",
       "patch_rules": [],
       "path": "src/game/client/hl/hl_weapons.cpp",
-      "sha256": "572a2799ff144f15b262949d6ece3cacd7909a3ccbba9f6f6a5c70c81d43b630",
+      "sha256": "e6423c2f1d8df762b0e8bf28c3db8d4e156c7d2b099c2f5ab5e091d8f7ff5090",
       "upstream_commit": "4d32095e3c33",
       "upstream_path": null
     },
@@ -867,7 +867,7 @@
             "op4-compat-late-include"
           ],
           "path": "src/game/server/op4/dlls/weapons/CShockRifle.cpp",
-          "sha256": "3b18fd811b189b0dea6cd0ef7b30d6af79fcfef455d55b3407a3b88b2c1fa4c1",
+          "sha256": "63136b67f0e7730830dc1f5461720a719b058d0db6b009cac46b18067ff46e86",
           "upstream_commit": "5368be7f8eba",
           "upstream_path": "dlls/weapons/CShockRifle.cpp"
         },

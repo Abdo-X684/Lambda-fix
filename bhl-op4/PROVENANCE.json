@@ -6,7 +6,7 @@
     "license": "GPL-3.0",
     "merged_files": 23,
     "repo": "tmp64/BugfixedHL-Rebased",
-    "tree_sha256": "67d376f58e0dd25bcb50e5615358ae871844ead3614c5c5d0c71d8ebcb3dc480",
+    "tree_sha256": "6078ea045592a8a8149f1bc21486ceb689babc6af41f0d04df41a4d1e3dd1241",
     "tree_sha256_note": "sha256 over sorted '<path>  <file sha256>' for every BHL-origin file on disk; verified by --check",
     "verbatim_files": 671
   },
@@ -2164,7 +2164,7 @@
     "src/game/client/hl/hl_weapons.cpp": {
       "action": "bhl+op4-merge",
       "commit": "4d32095e3c33",
-      "edited_after_import": "per-weapon ammo sync limited to the active weapon (read and write)",
+      "edited_after_import": "per-weapon ammo sync limited to the active weapon (read and write); per-weapon SetWeaponData skipped for the Pipe Wrench (fire2 big swing was reset by server state)",
       "merge_rules": [
         "op4-client-setlocalbody",
         "op4-client-weapon-headers",
@@ -2182,7 +2182,7 @@
         "op4-client-ammo-reset"
       ],
       "origin": "bugfixhl",
-      "sha256": "572a2799ff144f15b262949d6ece3cacd7909a3ccbba9f6f6a5c70c81d43b630"
+      "sha256": "e6423c2f1d8df762b0e8bf28c3db8d4e156c7d2b099c2f5ab5e091d8f7ff5090"
     },
     "src/game/client/hud.cpp": {
       "action": "bhl+op4-merge",
@@ -6514,7 +6514,7 @@
           "rule": "op4-compat-late-include"
         }
       ],
-      "sha256": "3b18fd811b189b0dea6cd0ef7b30d6af79fcfef455d55b3407a3b88b2c1fa4c1",
+      "sha256": "63136b67f0e7730830dc1f5461720a719b058d0db6b009cac46b18067ff46e86",
       "upstream_path": "dlls/weapons/CShockRifle.cpp"
     },
     "src/game/server/op4/dlls/weapons/CShockRifle.h": {
