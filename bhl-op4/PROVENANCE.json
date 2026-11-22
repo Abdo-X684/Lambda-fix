@@ -6416,7 +6416,7 @@
           "rule": "op4-compat-late-include"
         }
       ],
-      "sha256": "db7e5ae560613458aa6259dd051ff9961c1daba8ec3e52a8f26eb7184d1f354f",
+      "sha256": "1bb4114dcf72a9ce21ab6426791fcafcf519c67fa5c2e953f2666b1f849b76e3",
       "upstream_path": "dlls/weapons/CPipewrench.cpp",
       "edited_after_import": "user-requested deviation from OP4 Updated: fire2 hold keeps wrench pulled back, strike on release, charge damage 25+base*t clamped 1..6.25 s, 0.7 s delay after swing (see DEVIATION comments)"
     },

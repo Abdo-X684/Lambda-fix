@@ -480,11 +480,11 @@ void CPipewrench::WeaponIdle()
 
 	if (m_iSwingMode == SWING_START_BIG)
 	{
-		// DEVIATION FROM OP4 UPDATED (user-requested): no strike while fire2 is held.
+		// DEVIATION FROM OP4 UPDATED (user-requested): while fire2 is held the wrench stays pulled
+		// back on the last frame of the pull-back. No looping animation is restarted and no strike.
 		if (m_pPlayer->pev->button & IN_ATTACK2)
 		{
-			SendWeaponAnim(PIPEWRENCH_BIG_SWING_IDLE);
-			m_flTimeWeaponIdle = UTIL_WeaponTimeBase() + 0.5f;
+			m_flTimeWeaponIdle = UTIL_WeaponTimeBase() + 0.1f;
 			return;
 		}
 
