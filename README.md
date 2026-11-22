@@ -5,8 +5,6 @@ BugfixedHL with the ten Opposing Force weapons, for Half-Life on Linux.
 Lambda Fix is a community integration project. It keeps BugfixedHL as the base and adds the Opposing Force weapon code in a separate mod folder. It does not bundle Valve or Gearbox assets. It reads them from your own installed copy of Opposing Force.
 
 ## Download
-
-- **Package:** [`lambda-fix-bhlbase-linux.zip`](build-evidence/bhl-base-linux-mod/lambda-fix-bhlbase-linux.zip)
 - **SHA-256:** `65b9cab084e7895ae18714ed1b0262e2e14d14a25ead7276b66b9f68aa4a53f7`
 - **Release:** [v0.9.0](https://github.com/Abdo-X684/Bugfixhl-speedrun-op4/releases/tag/v0.9.0)
 
