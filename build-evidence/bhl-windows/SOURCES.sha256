@@ -228,7 +228,7 @@ e5332d7b903d6bb319a235064ad662e8c7d5c0c38aa77b75c2321779d7e73e77  bhl-op4/src/ga
 209684539609f31075e669a6158ca7f7152927752cfd1421c99006adc11968ff  bhl-op4/src/game/server/op4/dlls/blkop_osprey.cpp
 52163ad15a54cfabe4d1012e0f4bdd5f747bdb0b05c4f5604ad4746405942106  bhl-op4/src/game/server/op4/dlls/blowercannon.cpp
 7e1d96b86d58ec84749d2215f3a04dacdf428f6fee4565804c623b91dec1b6ba  bhl-op4/src/game/server/op4/dlls/cleansuit_scientist.cpp
-becf776d6674ec85c4d53aa6990a8741d26cdf80fcba191015d40d2a150bc575  bhl-op4/src/game/server/op4/dlls/coopplay_gamerules.cpp
+ed2b13e721ff69698fe0670c8401fb758e5a23d024e779f5f21636a5fc2a91bc  bhl-op4/src/game/server/op4/dlls/coopplay_gamerules.cpp
 c61f714abc5feac7afcd5d9b1574cdaac031e272b9f9f53648ed08389a0c55d4  bhl-op4/src/game/server/op4/dlls/ctf/CHUDIconTrigger.cpp
 cf1580a6fb0504d8c0c2951c184e5f14ff8732bb4376d5ec4275ba13555ae563  bhl-op4/src/game/server/op4/dlls/ctf/CItemAcceleratorCTF.cpp
 ba66dd79093631ba12251d1f4283d4c998e7cbc3cfad80177113516e16ed85dd  bhl-op4/src/game/server/op4/dlls/ctf/CItemBackpackCTF.cpp
@@ -240,9 +240,9 @@ a587868754002917a1f8c06b92100c4b83fda10d4dcf887f989129e1eb62e5d8  bhl-op4/src/ga
 ef1df48f9ecb1782aeae62839e8c94f0acaa5ad2c74af0285745db024b42035d  bhl-op4/src/game/server/op4/dlls/ctf/CTFDetect.cpp
 cd50ac70d9d66451dd63c9a96ca4c3dc320604858aa40c0bb3e54047738677bf  bhl-op4/src/game/server/op4/dlls/ctf/CTFGoal.cpp
 3569c3a55ad0adbf3b9759292ecf593dd0f0ae85c8ca572599d88b05b67899d1  bhl-op4/src/game/server/op4/dlls/ctf/CTFGoalBase.cpp
-e2442463526837bd8560409ec45ff332fd003aff0f218f5941096a7473cf4c7b  bhl-op4/src/game/server/op4/dlls/ctf/CTFGoalFlag.cpp
+a1a5941483b670f64dc31a3c8c4829db297e5cda434868de9ccfcacf44d17e10  bhl-op4/src/game/server/op4/dlls/ctf/CTFGoalFlag.cpp
 b53e7303748b3f997daca52631302c03ad87b62adcf069b1d374922f1cdfac5f  bhl-op4/src/game/server/op4/dlls/ctf/CTFSpawn.cpp
-5e73e0ebcc8e2aa4abf02046c09258c9150db04b0c15fd64e77edf6701d3e77a  bhl-op4/src/game/server/op4/dlls/ctf/ctfplay_gamerules.cpp
+a08e88e7f5baf1212235c3ed06292fd76c77dd519f6d1615901a25518c531336  bhl-op4/src/game/server/op4/dlls/ctf/ctfplay_gamerules.cpp
 f6f552c08cb5724fc8cdfc4d716b0994d2486ffa85a5197626df240484857869  bhl-op4/src/game/server/op4/dlls/func_tank_of.cpp
 f242b134e23ab096d97d19c9f613b7b10eef421ac491f05df3b1e560d93c38b9  bhl-op4/src/game/server/op4/dlls/geneworm.cpp
 f4d0716bac2acfe8d0a2424894d508689aba80ef8017e87de320fefb1203008c  bhl-op4/src/game/server/op4/dlls/gonome.cpp
