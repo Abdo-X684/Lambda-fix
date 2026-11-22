@@ -102,18 +102,21 @@ void CPipewrench::PrimaryAttack()
 	}
 }
 
+// DEVIATION FROM OP4 UPDATED (user-requested): holding fire2 keeps the wrench pulled back;
+// the strike happens on release (see WeaponIdle/BigSwing).
 void CPipewrench::SecondaryAttack()
 {
 	if (m_iSwingMode != SWING_START_BIG)
 	{
 		SendWeaponAnim(PIPEWRENCH_BIG_SWING_START);
 		m_flBigSwingStart = gpGlobals->time;
+		// The 1.0 s pull-back must finish before the hold loop starts.
+		m_flTimeWeaponIdle = UTIL_WeaponTimeBase() + 1.0f;
 	}
 
 	m_iSwingMode = SWING_START_BIG;
 
 	m_flNextPrimaryAttack = m_flNextSecondaryAttack = GetNextAttackDelay(0.1);
-	m_flTimeWeaponIdle = UTIL_WeaponTimeBase() + 0.2;
 }
 
 void CPipewrench::Smack()
@@ -343,8 +346,8 @@ void CPipewrench::BigSwing()
 	if (tr.flFraction >= 1.0)
 	{
 		// miss
-		m_flNextPrimaryAttack = GetNextAttackDelay(1.0);
-		m_flNextSecondaryAttack = GetNextAttackDelay(1.0);
+		m_flNextPrimaryAttack = GetNextAttackDelay(0.7);  // DEVIATION FROM OP4 UPDATED (user-requested: 0.7 instead of 1.0)
+		m_flNextSecondaryAttack = GetNextAttackDelay(0.7);
 		m_flTimeWeaponIdle = UTIL_WeaponTimeBase() + 1.0;
 
 		SendWeaponAnim(PIPEWRENCH_BIG_SWING_MISS);
@@ -368,7 +371,17 @@ void CPipewrench::BigSwing()
 		{
 			ClearMultiDamage();
 
-			float flDamage = (gpGlobals->time - m_flBigSwingStart) * gSkillData.plrDmgPipewrench + 25.0f;
+			// DEVIATION FROM OP4 UPDATED (user-requested): charge clamped to [1.0 s, 6.25 s], so
+			// damage is 25 + base * t: 45 at 1 s, 150 at 6.25 s. Original OP4 had no cap (fixed 1 s strike).
+			float flCharge = gpGlobals->time - m_flBigSwingStart;
+			if (flCharge < 1.0f)
+				flCharge = 1.0f;
+			if (flCharge > 6.25f)
+				flCharge = 6.25f;
+			float flBaseDmg = gSkillData.plrDmgPipewrench;
+			if (flBaseDmg <= 0.0f)
+				flBaseDmg = 20.0f;
+			float flDamage = 25.0f + flBaseDmg * flCharge;
 			if ((m_flNextPrimaryAttack + 1 < UTIL_WeaponTimeBase()) || g_pGameRules->IsMultiplayer())
 			{
 				// first swing does full damage
@@ -454,8 +467,8 @@ void CPipewrench::BigSwing()
 		/*SetThink( &CPipewrench::Smack );
 		SetNextThink( UTIL_WeaponTimeBase() + 0.2 );*/
 #endif
-		m_flNextPrimaryAttack = GetNextAttackDelay(1.0);
-		m_flNextSecondaryAttack = GetNextAttackDelay(1.0);
+		m_flNextPrimaryAttack = GetNextAttackDelay(0.7);  // DEVIATION FROM OP4 UPDATED (user-requested: 0.7 instead of 1.0)
+		m_flNextSecondaryAttack = GetNextAttackDelay(0.7);
 		m_flTimeWeaponIdle = UTIL_WeaponTimeBase() + 1.0;
 	}
 }
@@ -467,14 +480,28 @@ void CPipewrench::WeaponIdle()
 
 	if (m_iSwingMode == SWING_START_BIG)
 	{
-		if (gpGlobals->time > m_flBigSwingStart + 1)
+		// DEVIATION FROM OP4 UPDATED (user-requested): no strike while fire2 is held.
+		if (m_pPlayer->pev->button & IN_ATTACK2)
 		{
-			m_iSwingMode = SWING_DOING_BIG;
-
-			m_flTimeWeaponIdle = UTIL_WeaponTimeBase() + 1.2;
-			SetThink(&CPipewrench::BigSwing);
-			pev->nextthink = gpGlobals->time + 0.1;
+			SendWeaponAnim(PIPEWRENCH_BIG_SWING_IDLE);
+			m_flTimeWeaponIdle = UTIL_WeaponTimeBase() + 0.5f;
+			return;
 		}
+
+		// Released: finish the full 1.0 s pull-back first, then strike.
+		const float earliestSwingTime = m_flBigSwingStart + 1;
+
+		if (gpGlobals->time < earliestSwingTime)
+		{
+			m_flTimeWeaponIdle = UTIL_WeaponTimeBase() + (earliestSwingTime - gpGlobals->time);
+			return;
+		}
+
+		m_iSwingMode = SWING_DOING_BIG;
+
+		m_flTimeWeaponIdle = UTIL_WeaponTimeBase() + 1.2;
+		SetThink(&CPipewrench::BigSwing);
+		pev->nextthink = gpGlobals->time + 0.1;
 	}
 	else
 	{
