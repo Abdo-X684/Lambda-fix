@@ -929,11 +929,7 @@ void HUD_WeaponsPostThink(local_state_s *from, local_state_s *to, usercmd_t *cmd
 		}
 
 		// Restore the weapon's own state (e.g. Spore reload state), as OP4 does.
-		// Not for the Pipe Wrench: its big-swing state lives in m_iSwingMode, and the
-		// server sends only m_fInSpecialReload (0 for the wrench) in sendweapons().
-		// Restoring it here reset the swing on every server update, so fire2 failed.
-		if (pCurrent->m_iId != WEAPON_PIPEWRENCH)
-			pCurrent->SetWeaponData(*pfrom);
+		pCurrent->SetWeaponData(*pfrom);
 	}
 
 	// For random weapon events, use this seed to seed random # generator

@@ -44,7 +44,7 @@ bfa8c28a247642626b1ca3cf218956e477c78caf46a67a29e10483c43b469de0  bhl-op4/src/ga
 5db94ab8eec2050a4db2aa6b635c9746af77baac28f6bdcaf91458617f920def  bhl-op4/src/game/client/hl/hl_baseentity.cpp
 ff5a8bc592cb065ccc283e4a10095971f14975aaa5fee62ee12f2e1befcd27a8  bhl-op4/src/game/client/hl/hl_events.cpp
 4223fdaa2ea62ea2d7fbc98dc7a09eee8e81db0639abc8413e0ddfab190aa54a  bhl-op4/src/game/client/hl/hl_objects.cpp
-e6423c2f1d8df762b0e8bf28c3db8d4e156c7d2b099c2f5ab5e091d8f7ff5090  bhl-op4/src/game/client/hl/hl_weapons.cpp
+572a2799ff144f15b262949d6ece3cacd7909a3ccbba9f6f6a5c70c81d43b630  bhl-op4/src/game/client/hl/hl_weapons.cpp
 6f9a9b1b1ad205da38a8259b1dad100a28cdcb0257dcc2c5dc14646d66c9a696  bhl-op4/src/game/client/hud/ag/ag_countdown.cpp
 d9ef10d215800b6bfc679f89bf7ef1f058f8e89c498ba5ce49e4b39778f0b056  bhl-op4/src/game/client/hud/ag/ag_ctf.cpp
 5a5ba4a153078e963fe94d6240c03014c5ce64465be27f6cd11a7cd62a995632  bhl-op4/src/game/client/hud/ag/ag_global.cpp
@@ -132,7 +132,7 @@ bc2195a622eea879e3b9f14279fd9ee11e054752ed2ad104947209865444a139  bhl-op4/src/ga
 af29b36eca6fd1c5f26d4bf86c56da980a8c7766252b636d2367327409fab745  bhl-op4/src/game/server/op4/dlls/weapons/CKnife.cpp
 508ec3486395af98f3a83141eeafae469d58bcc88c751e4161af431b87b48aca  bhl-op4/src/game/server/op4/dlls/weapons/CM249.cpp
 ec04484b1d37c209ec1aad06bcb9e9af509a4321c053b63ac6a1cd7b9b18d018  bhl-op4/src/game/server/op4/dlls/weapons/CPenguin.cpp
-18d6be2a857284ff9b99023dceed8796fd8175aa8582dfc9c56bcae032eac9b1  bhl-op4/src/game/server/op4/dlls/weapons/CPipewrench.cpp
+0bd468537b7d6239a2be2ac9475ebd42023a7bc67620c6d875db02a91239afd5  bhl-op4/src/game/server/op4/dlls/weapons/CPipewrench.cpp
 63136b67f0e7730830dc1f5461720a719b058d0db6b009cac46b18067ff46e86  bhl-op4/src/game/server/op4/dlls/weapons/CShockRifle.cpp
 1311356e8d0d97e3716bd0880061a83c67fdd0d8eb583da6f021458427a63f58  bhl-op4/src/game/server/op4/dlls/weapons/CSniperRifle.cpp
 59654f55d8641dab96bb644cfcfedff872be28b33f8b4d10b2b452090e44c7bb  bhl-op4/src/game/server/op4/dlls/weapons/CSporeLauncher.cpp
@@ -274,7 +274,7 @@ bc2195a622eea879e3b9f14279fd9ee11e054752ed2ad104947209865444a139  bhl-op4/src/ga
 af29b36eca6fd1c5f26d4bf86c56da980a8c7766252b636d2367327409fab745  bhl-op4/src/game/server/op4/dlls/weapons/CKnife.cpp
 508ec3486395af98f3a83141eeafae469d58bcc88c751e4161af431b87b48aca  bhl-op4/src/game/server/op4/dlls/weapons/CM249.cpp
 ec04484b1d37c209ec1aad06bcb9e9af509a4321c053b63ac6a1cd7b9b18d018  bhl-op4/src/game/server/op4/dlls/weapons/CPenguin.cpp
-18d6be2a857284ff9b99023dceed8796fd8175aa8582dfc9c56bcae032eac9b1  bhl-op4/src/game/server/op4/dlls/weapons/CPipewrench.cpp
+0bd468537b7d6239a2be2ac9475ebd42023a7bc67620c6d875db02a91239afd5  bhl-op4/src/game/server/op4/dlls/weapons/CPipewrench.cpp
 8e25b0b1cbc360107265d782cd1ec3ec2809a3465082450774d7e093b3a998af  bhl-op4/src/game/server/op4/dlls/weapons/CShockBeam.cpp
 63136b67f0e7730830dc1f5461720a719b058d0db6b009cac46b18067ff46e86  bhl-op4/src/game/server/op4/dlls/weapons/CShockRifle.cpp
 1311356e8d0d97e3716bd0880061a83c67fdd0d8eb583da6f021458427a63f58  bhl-op4/src/game/server/op4/dlls/weapons/CSniperRifle.cpp

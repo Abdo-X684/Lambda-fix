@@ -116,15 +116,6 @@ void CPipewrench::SecondaryAttack()
 	m_flTimeWeaponIdle = UTIL_WeaponTimeBase() + 0.2;
 }
 
-// Official default for sk_plr_pipewrench (20 on every difficulty in the stock skill config).
-// The compiled skill table in this tree never assigns gSkillData.plrDmgPipewrench, so use the default when it is zero.
-static const float PIPEWRENCH_DEFAULT_DAMAGE = 20.0f;
-
-static float PipewrenchDamage()
-{
-	return gSkillData.plrDmgPipewrench > 0 ? gSkillData.plrDmgPipewrench : PIPEWRENCH_DEFAULT_DAMAGE;
-}
-
 void CPipewrench::Smack()
 {
 	DecalGunshot(&m_trHit, BULLET_PLAYER_CROWBAR);
@@ -228,12 +219,12 @@ int CPipewrench::Swing(const bool bFirst)
 			if ((m_flNextPrimaryAttack + 1 < UTIL_WeaponTimeBase()) || g_pGameRules->IsMultiplayer())
 			{
 				// first swing does full damage
-				pEntity->TraceAttack(m_pPlayer->pev, PipewrenchDamage(), gpGlobals->v_forward, &tr, DMG_CLUB);
+				pEntity->TraceAttack(m_pPlayer->pev, gSkillData.plrDmgPipewrench, gpGlobals->v_forward, &tr, DMG_CLUB);
 			}
 			else
 			{
 				// subsequent swings do half
-				pEntity->TraceAttack(m_pPlayer->pev, PipewrenchDamage() / 2, gpGlobals->v_forward, &tr, DMG_CLUB);
+				pEntity->TraceAttack(m_pPlayer->pev, gSkillData.plrDmgPipewrench / 2, gpGlobals->v_forward, &tr, DMG_CLUB);
 			}
 
 			ApplyMultiDamage(m_pPlayer->pev, m_pPlayer->pev);
@@ -377,7 +368,7 @@ void CPipewrench::BigSwing()
 		{
 			ClearMultiDamage();
 
-			float flDamage = (gpGlobals->time - m_flBigSwingStart) * PipewrenchDamage() + 25.0f;
+			float flDamage = (gpGlobals->time - m_flBigSwingStart) * gSkillData.plrDmgPipewrench + 25.0f;
 			if ((m_flNextPrimaryAttack + 1 < UTIL_WeaponTimeBase()) || g_pGameRules->IsMultiplayer())
 			{
 				// first swing does full damage

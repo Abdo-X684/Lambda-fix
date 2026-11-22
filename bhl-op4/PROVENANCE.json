@@ -6,7 +6,7 @@
     "license": "GPL-3.0",
     "merged_files": 23,
     "repo": "tmp64/BugfixedHL-Rebased",
-    "tree_sha256": "a256b094660b21383db4dd22fed6d4903941e995ee5a4be478aa4b730554a7dc",
+    "tree_sha256": "42c588e3c3620f65d2254b5ffbdac1a50ef4035ed480739fea504b5064483a56",
     "tree_sha256_note": "sha256 over sorted '<path>  <file sha256>' for every BHL-origin file on disk; verified by --check",
     "verbatim_files": 671
   },
@@ -2164,7 +2164,7 @@
     "src/game/client/hl/hl_weapons.cpp": {
       "action": "bhl+op4-merge",
       "commit": "4d32095e3c33",
-      "edited_after_import": "per-weapon ammo sync limited to the active weapon (read and write); per-weapon SetWeaponData skipped for the Pipe Wrench (fire2 big swing was reset by server state)",
+      "edited_after_import": "per-weapon ammo sync limited to the active weapon (read and write)",
       "merge_rules": [
         "op4-client-setlocalbody",
         "op4-client-weapon-headers",
@@ -2182,7 +2182,7 @@
         "op4-client-ammo-reset"
       ],
       "origin": "bugfixhl",
-      "sha256": "e6423c2f1d8df762b0e8bf28c3db8d4e156c7d2b099c2f5ab5e091d8f7ff5090"
+      "sha256": "572a2799ff144f15b262949d6ece3cacd7909a3ccbba9f6f6a5c70c81d43b630"
     },
     "src/game/client/hud.cpp": {
       "action": "bhl+op4-merge",
@@ -6404,7 +6404,7 @@
           "rule": "op4-compat-late-include"
         }
       ],
-      "sha256": "18d6be2a857284ff9b99023dceed8796fd8175aa8582dfc9c56bcae032eac9b1",
+      "sha256": "0bd468537b7d6239a2be2ac9475ebd42023a7bc67620c6d875db02a91239afd5",
       "upstream_path": "dlls/weapons/CPipewrench.cpp",
       "edited_after_import": "Pipe Wrench: big-swing logic kept identical to OP4 Updated; only change is PipewrenchDamage() (sk_plr_pipewrench default 20 when the skill table value is zero)"
     },
