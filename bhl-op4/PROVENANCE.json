@@ -4429,7 +4429,7 @@
     "src/game/server/op4/dlls/coopplay_gamerules.cpp": {
       "action": "op4+compat-patch",
       "commit": "5368be7f8eba",
-      "edited_after_import": "g_fGameOver extern type bool->BOOL (MSVC link)",
+      "edited_after_import": "ScoreInfo writes replaced by SendScoreInfo() so the message is 9 bytes like the registered BHL format (user-reported 'expected 9' error); deviation from OP4 upstream 5-byte format, user-requested fix",
       "origin": "op4",
       "patch_rules": [
         {
@@ -4445,7 +4445,7 @@
           "rule": "op4-compat-late-include"
         }
       ],
-      "sha256": "3409e24fe29ca60f5e9fa979438d9f1ec6c38863c0e0faa91ad191e474f081ad",
+      "sha256": "a4455c11f1701fe8b90fdb56cff5383ec7fd9e0d0082801ab87ddf824df0c7eb",
       "upstream_path": "dlls/coopplay_gamerules.cpp"
     },
     "src/game/server/op4/dlls/coopplay_gamerules.h": {
@@ -4892,8 +4892,9 @@
           "rule": "op4-compat-late-include"
         }
       ],
-      "sha256": "6f6d322da6885a6e045a2ba70186decd5422b7e95bf47d0676d28f6abe1aa41e",
-      "upstream_path": "dlls/ctf/CTFGoalFlag.cpp"
+      "sha256": "6040692e1b34c82ec7dc6eea254adc6b7d64cdfe1bc7f57417f460dd4effc856",
+      "upstream_path": "dlls/ctf/CTFGoalFlag.cpp",
+      "edited_after_import": "ScoreInfo writes replaced by SendScoreInfo() so the message is 9 bytes like the registered BHL format (user-reported 'expected 9' error); deviation from OP4 upstream 5-byte format, user-requested fix"
     },
     "src/game/server/op4/dlls/ctf/CTFGoalFlag.h": {
       "action": "verbatim",
@@ -4951,7 +4952,7 @@
     "src/game/server/op4/dlls/ctf/ctfplay_gamerules.cpp": {
       "action": "op4+compat-patch",
       "commit": "5368be7f8eba",
-      "edited_after_import": "g_fGameOver extern type bool->BOOL (MSVC link)",
+      "edited_after_import": "ScoreInfo writes replaced by SendScoreInfo() so the message is 9 bytes like the registered BHL format (user-reported 'expected 9' error); deviation from OP4 upstream 5-byte format, user-requested fix",
       "origin": "op4",
       "patch_rules": [
         {
@@ -4983,7 +4984,7 @@
           "rule": "op4-compat-late-include"
         }
       ],
-      "sha256": "a3c973a9ac95e8593e594e4cb843f09ba1423bd36d99cab57b8da0d650decedb",
+      "sha256": "9f0be23954ee5ebc88ab1f50d4af77791af0f746d126504a83198f5a331e7a35",
       "upstream_path": "dlls/ctf/ctfplay_gamerules.cpp"
     },
     "src/game/server/op4/dlls/ctf/ctfplay_gamerules.h": {

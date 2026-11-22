@@ -393,11 +393,7 @@ void CTFGoalFlag::ScoreFlagTouch(CBasePlayer* pPlayer)
 				g_engfuncs.pfnMessageEnd();
 
 				ClientPrint(pPlayer->pev, HUD_PRINTTALK, "#CTFScorePoints");
-				g_engfuncs.pfnMessageBegin(MSG_ALL, gmsgScoreInfo, 0, 0);
-				g_engfuncs.pfnWriteByte(pPlayer->entindex());
-				g_engfuncs.pfnWriteShort(pPlayer->pev->frags);
-				g_engfuncs.pfnWriteShort(pPlayer->m_iDeaths);
-				g_engfuncs.pfnMessageEnd();
+				pPlayer->SendScoreInfo();
 
 				UTIL_ClientPrintAll(HUD_PRINTNOTIFY, "#CTFTeamBM");
 				UTIL_ClientPrintAll(HUD_PRINTNOTIFY, UTIL_VarArgs(": %d\n", teamscores[0]));
@@ -459,11 +455,7 @@ void CTFGoalFlag::ScoreFlagTouch(CBasePlayer* pPlayer)
 
 				ClientPrint(pPlayer->pev, HUD_PRINTTALK, "#CTFScorePoints");
 
-				g_engfuncs.pfnMessageBegin(MSG_ALL, gmsgScoreInfo, 0, 0);
-				g_engfuncs.pfnWriteByte(pPlayer->entindex());
-				g_engfuncs.pfnWriteShort(pPlayer->pev->frags);
-				g_engfuncs.pfnWriteShort(pPlayer->m_iDeaths);
-				g_engfuncs.pfnMessageEnd();
+				pPlayer->SendScoreInfo();
 
 				UTIL_ClientPrintAll(HUD_PRINTNOTIFY, "#CTFTeamBM");
 				UTIL_ClientPrintAll(HUD_PRINTNOTIFY, UTIL_VarArgs(": %d\n", teamscores[0]));
@@ -597,11 +589,7 @@ void CTFGoalFlag::GiveFlagToPlayer(CBasePlayer* pPlayer)
 
 	ClientPrint(pPlayer->pev, HUD_PRINTTALK, "#CTFScorePoint");
 
-	g_engfuncs.pfnMessageBegin(MSG_ALL, gmsgScoreInfo, 0, 0);
-	g_engfuncs.pfnWriteByte(pPlayer->entindex());
-	g_engfuncs.pfnWriteShort(pPlayer->pev->frags);
-	g_engfuncs.pfnWriteShort(pPlayer->m_iDeaths);
-	g_engfuncs.pfnMessageEnd();
+	pPlayer->SendScoreInfo();
 
 	DisplayTeamFlags(nullptr);
 
@@ -708,11 +696,7 @@ void CTFGoalFlag::goal_item_touch(CBaseEntity* pOther)
 
 	ClientPrint(pPlayer->pev, HUD_PRINTTALK, "#CTFScorePoint");
 
-	g_engfuncs.pfnMessageBegin(2, gmsgScoreInfo, 0, 0);
-	g_engfuncs.pfnWriteByte(pPlayer->entindex());
-	g_engfuncs.pfnWriteShort(pPlayer->pev->frags);
-	g_engfuncs.pfnWriteShort(pPlayer->m_iDeaths);
-	g_engfuncs.pfnMessageEnd();
+	pPlayer->SendScoreInfo();
 
 	ReturnFlag();
 
