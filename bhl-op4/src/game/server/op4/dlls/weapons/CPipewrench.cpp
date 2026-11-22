@@ -460,23 +460,42 @@ void CPipewrench::BigSwing()
 	}
 }
 
+void CPipewrench::ItemPostFrame()
+{
+	if (m_iSwingMode == SWING_START_BIG)
+	{
+		// Charging the big swing (pull back). It fires when the button is released,
+		// or after 1 second of charge so the damage stays bounded.
+		if ((m_pPlayer->pev->button & IN_ATTACK2) == 0 || gpGlobals->time > m_flBigSwingStart + 1)
+		{
+			m_iSwingMode = SWING_DOING_BIG;
+			BigSwing();
+		}
+		return;
+	}
+
+	if (m_iSwingMode == SWING_DOING_BIG)
+	{
+		// The swing already happened. Holding the button must not start it again,
+		// so wait for the release first.
+		if ((m_pPlayer->pev->button & IN_ATTACK2) != 0)
+			return;
+
+		m_iSwingMode = SWING_NONE;
+	}
+
+	BaseClass::ItemPostFrame();
+}
+
 void CPipewrench::WeaponIdle()
 {
 	if (m_flTimeWeaponIdle > UTIL_WeaponTimeBase())
 		return;
 
-	if (m_iSwingMode == SWING_START_BIG)
-	{
-		if (gpGlobals->time > m_flBigSwingStart + 1)
-		{
-			m_iSwingMode = SWING_DOING_BIG;
+	// Charging, or still holding after the swing: ItemPostFrame handles these.
+	if (m_iSwingMode == SWING_START_BIG || (m_iSwingMode == SWING_DOING_BIG && (m_pPlayer->pev->button & IN_ATTACK2) != 0))
+		return;
 
-			m_flTimeWeaponIdle = UTIL_WeaponTimeBase() + 1.2;
-			SetThink(&CPipewrench::BigSwing);
-			pev->nextthink = gpGlobals->time + 0.1;
-		}
-	}
-	else
 	{
 		m_iSwingMode = SWING_NONE;
 		int iAnim;

@@ -6402,8 +6402,9 @@
           "rule": "op4-compat-late-include"
         }
       ],
-      "sha256": "0bd468537b7d6239a2be2ac9475ebd42023a7bc67620c6d875db02a91239afd5",
-      "upstream_path": "dlls/weapons/CPipewrench.cpp"
+      "sha256": "1e56a3767eae006de49bd122f15932eb5a7a33eaab8360e2a984eaaad6da1fe4",
+      "upstream_path": "dlls/weapons/CPipewrench.cpp",
+      "edited_after_import": "Pipe Wrench big swing: starts on release (charge with fire2), no repeat while held, ItemPostFrame override (fire2 fix)"
     },
     "src/game/server/op4/dlls/weapons/CPipewrench.h": {
       "action": "op4+compat-patch",
@@ -6443,8 +6444,9 @@
           "rule": "bhl-bool-returns-from-bhl-virtuals"
         }
       ],
-      "sha256": "48e53a36ca608cfbd801b5e918d1037e390399bdfb23e80893f2ba88a3db7f17",
-      "upstream_path": "dlls/weapons/CPipewrench.h"
+      "sha256": "dd611870d096036404b5ef04303a385a99a5830a3c0c82023abfd076ca129a18",
+      "upstream_path": "dlls/weapons/CPipewrench.h",
+      "edited_after_import": "Pipe Wrench big swing: starts on release (charge with fire2), no repeat while held, ItemPostFrame override (fire2 fix)"
     },
     "src/game/server/op4/dlls/weapons/CShockBeam.cpp": {
       "action": "op4+compat-patch",

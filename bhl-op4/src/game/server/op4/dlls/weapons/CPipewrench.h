@@ -66,6 +66,7 @@ public:
 	BOOL Deploy() override;
 	void Holster(int skiplocal = 0) override;
 	void WeaponIdle() override;
+	void ItemPostFrame() override;
 
 	void GetWeaponData(weapon_data_t& data);
 
