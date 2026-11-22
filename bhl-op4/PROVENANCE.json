@@ -6402,9 +6402,9 @@
           "rule": "op4-compat-late-include"
         }
       ],
-      "sha256": "99bb4569d07ffb02d1b9b86ff92790faec649457185a4c8aff45a2ee6081a8d9",
+      "sha256": "18d6be2a857284ff9b99023dceed8796fd8175aa8582dfc9c56bcae032eac9b1",
       "upstream_path": "dlls/weapons/CPipewrench.cpp",
-      "edited_after_import": "Pipe Wrench big swing: starts on release (charge with fire2), no repeat while held, ItemPostFrame override (fire2 fix)"
+      "edited_after_import": "Pipe Wrench: big-swing logic kept identical to OP4 Updated; only change is PipewrenchDamage() (sk_plr_pipewrench default 20 when the skill table value is zero)"
     },
     "src/game/server/op4/dlls/weapons/CPipewrench.h": {
       "action": "op4+compat-patch",
@@ -6444,9 +6444,8 @@
           "rule": "bhl-bool-returns-from-bhl-virtuals"
         }
       ],
-      "sha256": "737237e877b1a61123fd2550e23ce7c44a70a662375e12c550e4960da5313cec",
-      "upstream_path": "dlls/weapons/CPipewrench.h",
-      "edited_after_import": "Pipe Wrench big swing: starts on release (charge with fire2), no repeat while held, ItemPostFrame override (fire2 fix)"
+      "sha256": "48e53a36ca608cfbd801b5e918d1037e390399bdfb23e80893f2ba88a3db7f17",
+      "upstream_path": "dlls/weapons/CPipewrench.h"
     },
     "src/game/server/op4/dlls/weapons/CShockBeam.cpp": {
       "action": "op4+compat-patch",
