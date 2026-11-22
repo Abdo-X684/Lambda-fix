@@ -170,8 +170,9 @@ int CPipewrench::Swing(const bool bFirst)
 		if (bFirst)
 		{
 			// miss
-			m_flNextPrimaryAttack = GetNextAttackDelay(0.75);
-			m_flNextSecondaryAttack = GetNextAttackDelay(0.75);
+			// DEVIATION FROM OP4 UPDATED (user-requested: normal strike 0.5 s instead of 0.75 s)
+			m_flNextPrimaryAttack = GetNextAttackDelay(0.5);
+			m_flNextSecondaryAttack = GetNextAttackDelay(0.5);
 			m_flTimeWeaponIdle = UTIL_WeaponTimeBase() + 1.0;
 
 			// Shepard - In Opposing Force, the "miss" sound is
@@ -346,9 +347,8 @@ void CPipewrench::BigSwing()
 	if (tr.flFraction >= 1.0)
 	{
 		// miss
-		// DEVIATION FROM OP4 UPDATED (user-requested: 0.5 s post-swing delay instead of 1.0 s)
-		m_flNextPrimaryAttack = GetNextAttackDelay(0.5);
-		m_flNextSecondaryAttack = GetNextAttackDelay(0.5);
+		m_flNextPrimaryAttack = GetNextAttackDelay(1.0);
+		m_flNextSecondaryAttack = GetNextAttackDelay(1.0);
 		m_flTimeWeaponIdle = UTIL_WeaponTimeBase() + 1.0;
 
 		SendWeaponAnim(PIPEWRENCH_BIG_SWING_MISS);
@@ -468,9 +468,8 @@ void CPipewrench::BigSwing()
 		/*SetThink( &CPipewrench::Smack );
 		SetNextThink( UTIL_WeaponTimeBase() + 0.2 );*/
 #endif
-		// DEVIATION FROM OP4 UPDATED (user-requested: 0.5 s post-swing delay instead of 1.0 s)
-		m_flNextPrimaryAttack = GetNextAttackDelay(0.5);
-		m_flNextSecondaryAttack = GetNextAttackDelay(0.5);
+		m_flNextPrimaryAttack = GetNextAttackDelay(1.0);
+		m_flNextSecondaryAttack = GetNextAttackDelay(1.0);
 		m_flTimeWeaponIdle = UTIL_WeaponTimeBase() + 1.0;
 	}
 }

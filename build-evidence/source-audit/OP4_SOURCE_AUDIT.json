@@ -649,7 +649,7 @@
             "op4-compat-late-include"
           ],
           "path": "src/game/server/op4/dlls/weapons/CPipewrench.cpp",
-          "sha256": "ca5a05516a86d5c01996e76db781ad8e6383ec2432f9317f1ac3e577c3b3cb5c",
+          "sha256": "87754a5dfe59c6d8f5ba1a3fbe50b113246d386eab090b2b375c8c604188d84e",
           "upstream_commit": "5368be7f8eba",
           "upstream_path": "dlls/weapons/CPipewrench.cpp"
         },
