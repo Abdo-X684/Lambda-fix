@@ -1,11 +1,13 @@
 #ifndef OPTIONS_MODELS_H
 #define OPTIONS_MODELS_H
+#include <vector>
 #include <vgui_controls/PropertyPage.h>
 
 namespace vgui2
 {
 class Button;
 class ListPanel;
+class ScrollBar;
 class TextEntry;
 }
 
@@ -22,6 +24,9 @@ public:
 	void OnCommand(const char *cmd) override;
 	void OnResetData() override;
 	void OnApplyChanges() override;
+	void PerformLayout() override;
+	void OnMouseWheeled(int delta) override;
+	MESSAGE_FUNC_INT(OnScrollBarMoved, "ScrollBarSliderMoved", position);
 
 private:
 	vgui2::ListPanel *m_pEnemyModels = nullptr;
@@ -40,6 +45,21 @@ private:
 	CCvarCheckButton *m_pNoViewModel = nullptr;
 
 	int m_iNewItemIdx = 0;
+
+	// The page is taller than the sheet area: a scrollbar on the right moves the controls up.
+	struct ScrollChild
+	{
+		vgui2::Panel *panel;
+		int x;
+		int y;
+	};
+	std::vector<ScrollChild> m_ScrollChildren;
+	vgui2::ScrollBar *m_pScrollBar = nullptr;
+	int m_iContentTall = 0;
+	int m_iScrollOffset = 0;
+
+	int GetScrollRange() const;
+	void UpdateScrollOffset();
 
 	void ParseEnemyModels();
 	void ApplyEnemyModels();

@@ -6,7 +6,7 @@
     "license": "GPL-3.0",
     "merged_files": 23,
     "repo": "tmp64/BugfixedHL-Rebased",
-    "tree_sha256": "6b8ffb48d1d22b5ed639bc7af7aa0d1b73f6db3fdbb764004be63b18aa09d2b2",
+    "tree_sha256": "76b2ee982d35f8859d4d1803c624d405b7882dcc153d49cc3d1489fb18846304",
     "tree_sha256_note": "sha256 over sorted '<path>  <file sha256>' for every BHL-origin file on disk; verified by --check",
     "verbatim_files": 671
   },
@@ -2109,16 +2109,18 @@
       "sha256": "c3153626aa3cc2e8e22f5c9651154cdc259e3e97d60e51c5182a32f4a57b5152"
     },
     "src/game/client/gameui/options/options_models.cpp": {
-      "action": "verbatim",
+      "action": "verbatim+edit",
       "commit": "4d32095e3c33",
       "origin": "bugfixhl",
-      "sha256": "38352ee97d67436f4fcfffb3320b787fc2b33c2250945af3d0290166399dae67"
+      "sha256": "66fcaa5015ebfec00dc70856a993ac0b868e7ea0512734917ffa748461debeae",
+      "edited_after_import": "Scrollbar added to the Models page (PerformLayout, OnMouseWheeled, ScrollChild list); page is taller than the sheet area (user-requested)"
     },
     "src/game/client/gameui/options/options_models.h": {
-      "action": "verbatim",
+      "action": "verbatim+edit",
       "commit": "4d32095e3c33",
       "origin": "bugfixhl",
-      "sha256": "dec1763ea37d14f9f428769fb7eaa89862e327dfcac0f6db3291dc34639783a5"
+      "sha256": "81b1685e77ffb7368aa82dc12fd997d3ab36986027691e237fee87ff503ae50e",
+      "edited_after_import": "Scrollbar added to the Models page (PerformLayout, OnMouseWheeled, ScrollChild list); page is taller than the sheet area (user-requested)"
     },
     "src/game/client/gameui/options/options_scoreboard.cpp": {
       "action": "verbatim",

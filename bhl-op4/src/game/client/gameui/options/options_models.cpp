@@ -2,6 +2,7 @@
 #include <vector>
 #include <vgui_controls/Button.h>
 #include <vgui_controls/ListPanel.h>
+#include <vgui_controls/ScrollBar.h>
 #include <vgui_controls/TextEntry.h>
 #include <KeyValues.h>
 #include "client_vgui.h"
@@ -38,6 +39,73 @@ CModelSubOptions::CModelSubOptions(vgui2::Panel *parent)
 	m_pNoViewModel = new CCvarCheckButton(this, "NoViewModel", "#BHL_AdvOptions_Models_NoViewmodel", "r_drawviewmodel", true);
 
 	LoadControlSettings(VGUI2_ROOT_DIR "resource/options/ModelSubOptions.res");
+
+	m_pScrollBar = new vgui2::ScrollBar(this, "ModelScroll", true);
+	m_pScrollBar->AddActionSignalTarget(this);
+	for (int i = 0; i < GetChildCount(); i++)
+	{
+		vgui2::Panel *child = GetChild(i);
+		if (child == m_pScrollBar || !Q_stricmp(child->GetName(), "BuildModeDialog"))
+			continue;
+
+		int x, y;
+		child->GetPos(x, y);
+		m_ScrollChildren.push_back({child, x, y});
+		if (child->IsVisible() && y + child->GetTall() > m_iContentTall)
+			m_iContentTall = y + child->GetTall();
+	}
+}
+
+int CModelSubOptions::GetScrollRange() const
+{
+	int range = m_iContentTall - GetTall();
+	return range > 0 ? range : 0;
+}
+
+void CModelSubOptions::UpdateScrollOffset()
+{
+	for (const ScrollChild &child : m_ScrollChildren)
+		child.panel->SetPos(child.x, child.y - m_iScrollOffset);
+}
+
+void CModelSubOptions::PerformLayout()
+{
+	BaseClass::PerformLayout();
+
+	if (!m_pScrollBar)
+		return;
+
+	const int scrollWide = 16;
+	m_pScrollBar->SetBounds(GetWide() - scrollWide, 0, scrollWide, GetTall());
+	m_pScrollBar->SetRange(0, m_iContentTall);
+	m_pScrollBar->SetRangeWindow(GetTall());
+
+	const int range = GetScrollRange();
+	m_pScrollBar->SetVisible(range > 0);
+	if (m_iScrollOffset > range)
+		m_iScrollOffset = range;
+	m_pScrollBar->SetValue(m_iScrollOffset);
+	UpdateScrollOffset();
+}
+
+void CModelSubOptions::OnScrollBarMoved(int position)
+{
+	m_iScrollOffset = position;
+	UpdateScrollOffset();
+}
+
+void CModelSubOptions::OnMouseWheeled(int delta)
+{
+	int offset = m_iScrollOffset - delta * 20;
+	if (offset < 0)
+		offset = 0;
+	if (offset > GetScrollRange())
+		offset = GetScrollRange();
+
+	m_iScrollOffset = offset;
+	if (m_pScrollBar)
+		m_pScrollBar->SetValue(offset);
+	UpdateScrollOffset();
 }
 
 void CModelSubOptions::OnCommand(const char *cmd)
