@@ -6,7 +6,7 @@
     "license": "GPL-3.0",
     "merged_files": 23,
     "repo": "tmp64/BugfixedHL-Rebased",
-    "tree_sha256": "0aa8164ef17e5d4d65145ebcbe3ad836ea391c98abfefe327660bc4f9ecd0678",
+    "tree_sha256": "4722496178982c5eff02f88bed8b2be1aaaa01955639e9476850a73eb14fd597",
     "tree_sha256_note": "sha256 over sorted '<path>  <file sha256>' for every BHL-origin file on disk; verified by --check",
     "verbatim_files": 671
   },
@@ -6416,9 +6416,9 @@
           "rule": "op4-compat-late-include"
         }
       ],
-      "sha256": "cb2cd6da78f62347f4c1b55a7ce5b868316d3c0d455ebceda5a2744b04a00b9a",
+      "sha256": "ca5a05516a86d5c01996e76db781ad8e6383ec2432f9317f1ac3e577c3b3cb5c",
       "upstream_path": "dlls/weapons/CPipewrench.cpp",
-      "edited_after_import": "user-requested deviation: fire2 hold/charge/strike; client SetWeaponData no longer restores swing mode (see DEVIATION comments)"
+      "edited_after_import": "user-requested fire2 deviations: hold keeps pull-back, strike on release, charge 25+20t clamped 1..6.25 s, post-swing delay 0.5 s (user-requested), hold-loop fix"
     },
     "src/game/server/op4/dlls/weapons/CPipewrench.h": {
       "action": "op4+compat-patch",
@@ -7085,8 +7085,8 @@
       "action": "verbatim+edit",
       "commit": "4d32095e3c33",
       "origin": "bugfixhl",
-      "sha256": "7cb0edef50ef3cb7e698f2d05163986056e0318151209e40336f0a4e48025d54",
-      "edited_after_import": "impulse 101 also gives the ten OP4 weapons and their ammo (user request)"
+      "sha256": "e1ca75c639fe3e42799b98cedbc91f6a60bba15625569455d093f6db58e8956d",
+      "edited_after_import": "impulse 101 gives the OP4 weapons as in OP4 Updated (reference/dlls/player.cpp), no penguin/extra ammo"
     },
     "src/game/server/player.h": {
       "action": "bhl+op4-merge",
