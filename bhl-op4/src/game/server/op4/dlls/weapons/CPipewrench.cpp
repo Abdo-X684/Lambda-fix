@@ -346,8 +346,8 @@ void CPipewrench::BigSwing()
 	if (tr.flFraction >= 1.0)
 	{
 		// miss
-		m_flNextPrimaryAttack = GetNextAttackDelay(0.7);  // DEVIATION FROM OP4 UPDATED (user-requested: 0.7 instead of 1.0)
-		m_flNextSecondaryAttack = GetNextAttackDelay(0.7);
+		m_flNextPrimaryAttack = GetNextAttackDelay(1.0);
+		m_flNextSecondaryAttack = GetNextAttackDelay(1.0);
 		m_flTimeWeaponIdle = UTIL_WeaponTimeBase() + 1.0;
 
 		SendWeaponAnim(PIPEWRENCH_BIG_SWING_MISS);
@@ -467,8 +467,8 @@ void CPipewrench::BigSwing()
 		/*SetThink( &CPipewrench::Smack );
 		SetNextThink( UTIL_WeaponTimeBase() + 0.2 );*/
 #endif
-		m_flNextPrimaryAttack = GetNextAttackDelay(0.7);  // DEVIATION FROM OP4 UPDATED (user-requested: 0.7 instead of 1.0)
-		m_flNextSecondaryAttack = GetNextAttackDelay(0.7);
+		m_flNextPrimaryAttack = GetNextAttackDelay(1.0);
+		m_flNextSecondaryAttack = GetNextAttackDelay(1.0);
 		m_flTimeWeaponIdle = UTIL_WeaponTimeBase() + 1.0;
 	}
 }
@@ -536,7 +536,7 @@ void CPipewrench::GetWeaponData(weapon_data_t& data)
 	data.m_fInSpecialReload = static_cast<int>(m_iSwingMode);
 }
 
-// DEVIATION FROM OP4 UPDATED (user-requested fix): the server does not send m_iSwingMode
+// DEVIATION FROM OP4 UPDATED (agent fix for the hold loop reported by the user): the server does not send m_iSwingMode
 // (client.cpp copies base fields only), so restoring it here set the mode to 0 on every
 // predicted frame and restarted the pull-back. Keep the locally predicted swing mode.
 void CPipewrench::SetWeaponData(const weapon_data_t& data)

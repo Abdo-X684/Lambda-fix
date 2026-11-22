@@ -6416,7 +6416,7 @@
           "rule": "op4-compat-late-include"
         }
       ],
-      "sha256": "dc71293a164b4897211f3abdb629d4a6bc66595726c66cd19c0fcee52206a34c",
+      "sha256": "cb2cd6da78f62347f4c1b55a7ce5b868316d3c0d455ebceda5a2744b04a00b9a",
       "upstream_path": "dlls/weapons/CPipewrench.cpp",
       "edited_after_import": "user-requested deviation: fire2 hold/charge/strike; client SetWeaponData no longer restores swing mode (see DEVIATION comments)"
     },
