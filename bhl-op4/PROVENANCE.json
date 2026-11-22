@@ -6,7 +6,7 @@
     "license": "GPL-3.0",
     "merged_files": 23,
     "repo": "tmp64/BugfixedHL-Rebased",
-    "tree_sha256": "dd11b57fa013eb881deeff76ccdb931a53ec1e2c50d0e565fa8fcef4497f093f",
+    "tree_sha256": "0aa8164ef17e5d4d65145ebcbe3ad836ea391c98abfefe327660bc4f9ecd0678",
     "tree_sha256_note": "sha256 over sorted '<path>  <file sha256>' for every BHL-origin file on disk; verified by --check",
     "verbatim_files": 671
   },
@@ -7082,10 +7082,11 @@
       "sha256": "c9cb8925043b80f041be797d07932951eb8b5d535420f94b9d0865b46c3c0bcf"
     },
     "src/game/server/player.cpp": {
-      "action": "verbatim",
+      "action": "verbatim+edit",
       "commit": "4d32095e3c33",
       "origin": "bugfixhl",
-      "sha256": "ddfc37fef31390468501bd0522cc8498e6673b4b1acf2c29403fe4daf900d89c"
+      "sha256": "7cb0edef50ef3cb7e698f2d05163986056e0318151209e40336f0a4e48025d54",
+      "edited_after_import": "impulse 101 also gives the ten OP4 weapons and their ammo (user request)"
     },
     "src/game/server/player.h": {
       "action": "bhl+op4-merge",

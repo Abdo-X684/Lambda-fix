@@ -4103,6 +4103,21 @@ void CBasePlayer::CheatImpulseCommands(int iImpulse)
 		GiveNamedItem("weapon_snark");
 		GiveNamedItem("weapon_hornetgun");
 #endif
+		// BHL-OP4: the ten Opposing Force weapons and their ammo (same list as op4weapons.cfg).
+		GiveNamedItem("weapon_eagle");
+		GiveNamedItem("weapon_pipewrench");
+		GiveNamedItem("weapon_m249");
+		GiveNamedItem("weapon_displacer");
+		GiveNamedItem("weapon_shockrifle");
+		GiveNamedItem("weapon_sporelauncher");
+		GiveNamedItem("weapon_sniperrifle");
+		GiveNamedItem("weapon_knife");
+		GiveNamedItem("weapon_penguin");
+		GiveNamedItem("weapon_grapple");
+		GiveNamedItem("ammo_556");
+		GiveNamedItem("ammo_762");
+		GiveNamedItem("ammo_spore");
+		GiveNamedItem("ammo_357");
 		gEvilImpulse101 = FALSE;
 		break;
 
