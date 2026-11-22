@@ -6,7 +6,7 @@
     "license": "GPL-3.0",
     "merged_files": 23,
     "repo": "tmp64/BugfixedHL-Rebased",
-    "tree_sha256": "6078ea045592a8a8149f1bc21486ceb689babc6af41f0d04df41a4d1e3dd1241",
+    "tree_sha256": "a256b094660b21383db4dd22fed6d4903941e995ee5a4be478aa4b730554a7dc",
     "tree_sha256_note": "sha256 over sorted '<path>  <file sha256>' for every BHL-origin file on disk; verified by --check",
     "verbatim_files": 671
   },
@@ -3576,10 +3576,11 @@
       "sha256": "071e34b4994f00f59c668c3caff3f21ef52b8b41c813c0f77321fb3d56eff7f4"
     },
     "src/game/server/combat.cpp": {
-      "action": "verbatim",
+      "action": "verbatim+edit",
       "commit": "4d32095e3c33",
       "origin": "bugfixhl",
-      "sha256": "0dc42b6f2090bbbe0bef5c4efcd35d38edb61bb648e6340dc08d7dc23a605454"
+      "sha256": "6acd07842aedc580186b16774bfe4e760a3ceefdaef506df1238f96fc0ade5cb",
+      "edited_after_import": "OP4 FireBulletsPlayer cases BULLET_PLAYER_556/762/EAGLE added (were falling to the 9mm default)"
     },
     "src/game/server/controller.cpp": {
       "action": "verbatim",
@@ -3725,7 +3726,8 @@
         "op4-install-gamerules-branch"
       ],
       "origin": "bugfixhl",
-      "sha256": "c0581b8351ee8d00684b0f1f3ebd7ed48cf61b21cb22b93ec2f913c504297d37"
+      "sha256": "9d73b0c9791e02bf0e800bab6a1e1393e07f535898f98981ed3e89880d173b71",
+      "edited_after_import": "OP4 weapon damage fields assigned from sk_* cvars with official defaults (GetSkillCvarOr)"
     },
     "src/game/server/gamerules.h": {
       "action": "bhl+op4-merge",

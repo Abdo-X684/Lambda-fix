@@ -169,7 +169,7 @@ c4c6834090a5d12b6e246b69fc603a636b27dfffb18761c12775ec090a0d94fb  bhl-op4/src/ga
 c6f73a0f17ac27083e3b5fd2dfaf30ae083e959daa31ab8274e27d0bc9b3e75c  bhl-op4/src/game/server/cbase.cpp
 6bb98c8b523f5b4c0d680165a1efd1add41131b5a2ad46d52c386cb942f75369  bhl-op4/src/game/server/client.cpp
 2a769e53262ab3446f81c5a085961466a3ed30fd5e67839b26644713d62eafde  bhl-op4/src/game/server/com_utils.cpp
-0dc42b6f2090bbbe0bef5c4efcd35d38edb61bb648e6340dc08d7dc23a605454  bhl-op4/src/game/server/combat.cpp
+6acd07842aedc580186b16774bfe4e760a3ceefdaef506df1238f96fc0ade5cb  bhl-op4/src/game/server/combat.cpp
 a7fd3c0c0958862388d8a6c0208593c90ba47f1dbb43ffe942c6cf8b20aee4fa  bhl-op4/src/game/server/controller.cpp
 2807da976130b9b70b8dc5cb83cda56cc12b7e9a18c81298911612f1700e9bf2  bhl-op4/src/game/server/crossbow.cpp
 0ede0be568600a63f4d6dab9f1828ea660893f878350224e3857b63638295ba6  bhl-op4/src/game/server/crowbar.cpp
@@ -182,7 +182,7 @@ da1d25bdedbd77ead8d311e44ee4729865b809ef834b5af44c47fe4467d00b63  bhl-op4/src/ga
 4f1730a164a0f0cab724e2f319aa555c64abbb6ec23a8e17e15c90ea53fdf01d  bhl-op4/src/game/server/func_break.cpp
 e710f14124f3e0a50890c6a816601816fa5d33dc1f6caecf527db57da2ef2ef9  bhl-op4/src/game/server/func_tank.cpp
 33fdf90b16306e62bdd72bf03f9eeb9d6afb93a975294ffd08afbf09e9473c72  bhl-op4/src/game/server/game.cpp
-c0581b8351ee8d00684b0f1f3ebd7ed48cf61b21cb22b93ec2f913c504297d37  bhl-op4/src/game/server/gamerules.cpp
+9d73b0c9791e02bf0e800bab6a1e1393e07f535898f98981ed3e89880d173b71  bhl-op4/src/game/server/gamerules.cpp
 ccf180a890709b8b8b77ea72ca65bb4928fb2b29d4bafe5e12728a068923b2dd  bhl-op4/src/game/server/gargantua.cpp
 73afefc04faff5f01fce7b19ddcb4fdcceed30eca12f4336ae461acd0b18d94a  bhl-op4/src/game/server/gauss.cpp
 0be7a833ec4e671b6a195f820ac385a087de573895aff99ef8610e04f8d157bf  bhl-op4/src/game/server/genericmonster.cpp

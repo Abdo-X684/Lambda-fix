@@ -122,6 +122,13 @@ BOOL CGameRules::CanHavePlayerItem(CBasePlayer *pPlayer, CBasePlayerItem *pWeapo
 //=========================================================
 // load the SkillData struct with the proper values based on the skill level.
 //=========================================================
+// OP4 skill value with the official default: used when the skill config has no value (0).
+static float GetSkillCvarOr(char* pName, float flDefault)
+{
+	const float flValue = GetSkillCvar(pName);
+	return flValue > 0 ? flValue : flDefault;
+}
+
 void CGameRules::RefreshSkillData(void)
 {
 	int iSkill;
@@ -277,6 +284,20 @@ void CGameRules::RefreshSkillData(void)
 
 	// Tripmine
 	gSkillData.plrDmgTripmine = GetSkillCvar("sk_plr_tripmine");
+
+	// OP4 weapons: values from the OP4 skill config, official defaults when unset
+	gSkillData.plrDmgPipewrench = GetSkillCvarOr("sk_plr_pipewrench", 20);
+	gSkillData.plrDmgKnife = GetSkillCvarOr("sk_plr_knife", 10);
+	gSkillData.plrDmgGrapple = GetSkillCvarOr("sk_plr_grapple", 25);
+	gSkillData.plrDmgEagle = GetSkillCvarOr("sk_plr_eagle", 34);
+	gSkillData.plrDmg762 = GetSkillCvarOr("sk_plr_762_bullet", 100);
+	gSkillData.plrDmg556 = GetSkillCvarOr("sk_plr_556_bullet", 15);
+	gSkillData.plrDmgDisplacerSelf = GetSkillCvarOr("sk_plr_displacer_self", 5);
+	gSkillData.plrDmgDisplacerOther = GetSkillCvarOr("sk_plr_displacer_other", 250);
+	gSkillData.plrRadiusDisplacer = GetSkillCvarOr("sk_plr_displacer_radius", 300);
+	gSkillData.plrDmgShockRoachS = GetSkillCvarOr("sk_plr_shockroachs", 10);
+	gSkillData.plrDmgShockRoachM = GetSkillCvarOr("sk_plr_shockroachm", 15);
+	gSkillData.plrDmgSpore = GetSkillCvarOr("sk_plr_spore", 50);
 
 	// MONSTER WEAPONS
 	gSkillData.monDmg12MM = GetSkillCvar("sk_12mm_bullet");
