@@ -55,8 +55,7 @@ sv_cheats 1
 sv_oldweapons 0
 alias op4all "exec op4weapons.cfg"
 bind F9 "op4all"
-bind F10 "give weapon_penguin"
-echo "BHL+OP4: New Game starts of0a0; F9 gives all ten OP4 weapons + ammo"
+echo "BHL+OP4: New Game starts of0a0; F9 gives the nine OP4 weapons"
 '''
 
 OP4_CFG = '''// All nine Opposing Force weapons (the impulse 101 set in OP4 Updated). Requires sv_cheats 1
@@ -83,8 +82,7 @@ INSTALL = '''# BugfixedHL + full Opposing Force
    `gearbox/media/` to `lambda-fix/media/`. It does not create or download any MP3 file.
 3. Run: `hl.exe -game lambda-fix -console`.
 4. **New Game** starts the Opposing Force campaign at `of0a0`, not the Half-Life campaign.
-5. `impulse 101` gives all ten OP4 weapons on Windows. **F9** gives them again with ammo,
-   and **F10** gives `weapon_penguin` on Linux too.
+5. `impulse 101` gives the nine OP4 weapons on Windows. **F9** gives them again.
 6. Opposing Force must be installed: maps, models, sounds, and sprites are read from
    `gearbox/` through `fallback_dir`.
 
@@ -97,11 +95,11 @@ Put this folder next to `valve/` and `gearbox/`, then launch
   `delta.lst` and `fallback_dir "gearbox"` give the real OP4 campaign.
 * Windows `dlls/opfor.dll` is built from the full OP4 SDK server, with
   BHL `sv_bhl_*` cvars, speedrun hooks, and a patched `impulse 101` that
-  includes `weapon_penguin` and OP4 ammunition. It has OP4's monsters,
+  gives the nine OP4 weapons (no penguin, no extra ammo). It has OP4's monsters,
   gamerules and entities, not the Half-Life campaign.
 * Linux uses the installed `../gearbox/dlls/opfor.so`; the custom BHL
   client still loads from this mod. Linux therefore lacks the BHL server
-  cvars and the patched impulse 101, but F9/F10 cover the ten weapons.
+  cvars and the patched impulse 101, but F9 covers the nine weapons.
 * `cl_dlls/client.dll` and `client.so` are the BugfixedHL VGUI2 clients
   with all ten OP4 weapon prediction sources compiled in.
 * `ui/resource/language/*.txt` are UTF-16LE BOM conversions of BHL's
