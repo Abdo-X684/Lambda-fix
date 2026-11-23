@@ -17,11 +17,9 @@ class HygieneTests(unittest.TestCase):
             tmp = Path(td)
             shutil.copy2(ROOT / "upstreams.json", tmp / "upstreams.json")
             shutil.copy2(ROOT / ".gitignore", tmp / ".gitignore")
-            shutil.copytree(ROOT / "docs", tmp / "docs")
+            (tmp / "docs").mkdir()
             (tmp / "docs" / "LINKS.md").write_text("[dl](/dist/dlls/client.so)\n")
-            (tmp / "docs" / "README.md").write_text(
-                (tmp / "docs" / "README.md").read_text(encoding="utf-8")
-                + "\n[LINKS.md](LINKS.md)\n")
+            (tmp / "docs" / "README.md").write_text("# Index\n\n[LINKS.md](LINKS.md)\n")
             issues = check(tmp)
             self.assertFalse(any("dist/dlls" in i for i in issues), issues)
 
@@ -31,13 +29,15 @@ class HygieneTests(unittest.TestCase):
         import shutil
         with tempfile.TemporaryDirectory() as td:
             tmp = Path(td)
-            for rel in ("upstreams.json", ".gitignore", "docs", "tests/fixtures/upstreams"):
+            for rel in ("upstreams.json", ".gitignore", "tests/fixtures/upstreams"):
                 src, dst = ROOT / rel, tmp / rel
                 if src.is_dir():
                     shutil.copytree(src, dst)
                 else:
                     dst.parent.mkdir(parents=True, exist_ok=True)
                     shutil.copy2(src, dst)
+            (tmp / "docs").mkdir()
+            (tmp / "docs" / "README.md").write_text("# Index\n\n[BROKEN.md](BROKEN.md)\n")
             (tmp / "docs" / "BROKEN.md").write_text("[bad](nope.md)\n")
             issues = check(tmp)
             self.assertTrue(any("broken link" in i for i in issues), issues)

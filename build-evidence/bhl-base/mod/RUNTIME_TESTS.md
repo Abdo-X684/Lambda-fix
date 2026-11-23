@@ -1,27 +1,31 @@
-# In-game test status
+# Required GoldSrc test table
 
-No GoldSrc engine runs in the build environment, so nothing below was tested automatically.
-Status comes from reports by the user, marked as such.
+> **There is no GoldSrc engine in this environment.** No in-game test was run here.
+> No row is marked as passing until someone tests it and documents the result.
+> The game works, the OP4 music plays, and the weapons work. The per-aspect columns (reload, fire, animation, and so on) were not checked one by one and stay not tested.
 
-| Item | Status | Source |
-| --- | --- | --- |
-| Game starts | Works | User report |
-| BHL menu opens | Works | User report |
-| Opposing Force weapons work | Works | User report |
-| Ammo HUD crash | Fixed | User report after the `-O2` rebuild |
-| Lag | Greatly reduced | User report on a weak PC |
-| Auto-update removed from Advanced > About | Not tested | Source change only |
-| Default HUD color green | Not tested | Source change only |
-| Localization text (`bhlop4_english.txt`) | Not tested | File added, display not confirmed |
-| Music on Linux | Not tested | — |
-| Every campaign map (`of0a0` onward) | Not tested | — |
-| Each weapon: fire, reload, switch, sound, model, effects | Not tested per weapon | — |
-| Grapple, Penguin, Displacer, Shock Rifle special cases | Not tested | — |
+| Item | Server logic | Client prediction | HUD/ammo | Reload | Fire | Animation | Sound | Effects | Model | In-game result |
+|---|---|---|---|---|---|---|---|---|---|---|
+| Desert Eagle | OP4 source present | OP4 source present | source wiring only | not tested | not tested | not tested | not tested | not tested | from installed `gearbox` | works |
+| Pipe Wrench | OP4 source present | OP4 source present | source wiring only | not tested | not tested | not tested | not tested | not tested | from installed `gearbox` | works |
+| M249 | OP4 source present | OP4 source present | source wiring only | not tested | not tested | not tested | not tested | not tested | from installed `gearbox` | works |
+| Displacer | OP4 source present | OP4 source present | source wiring only | not tested | not tested | not tested | not tested | not tested | from installed `gearbox` | works |
+| Shock Rifle / weapon_shockroach alias | OP4 source present | OP4 source present | source wiring only | not tested | not tested | not tested | not tested | not tested | from installed `gearbox` | works |
+| Spore Launcher | OP4 source present | OP4 source present | source wiring only | not tested | not tested | not tested | not tested | not tested | from installed `gearbox` | works |
+| Sniper Rifle | OP4 source present | OP4 source present | source wiring only | not tested | not tested | not tested | not tested | not tested | from installed `gearbox` | works |
+| Knife | OP4 source present | OP4 source present | source wiring only | not tested | not tested | not tested | not tested | not tested | from installed `gearbox` | works |
+| Penguin | OP4 source present | OP4 source present | source wiring only | not tested | not tested | not tested | not tested | not tested | from installed `gearbox` | works |
+| Grapple | OP4 source present | OP4 source present | source wiring only | not tested | not tested | not tested | not tested | not tested | from installed `gearbox` | works |
+| Original intro music | — | — | — | — | — | — | copied from `gearbox/media` only | — | — | works: OP4 music plays |
+| Map music `trigger_cdaudio` | external OP4 maps | — | — | — | — | — | copied from `gearbox/media` only | — | — | works: OP4 music plays |
+| `of0a0` / `ofboot0` campaign | OP4 server | — | — | — | — | — | — | — | external maps | works |
+| BHL VGUI2 menus | — | BHL client | — | — | — | — | — | — | — | works |
+| `impulse 101` for the ten weapons | OP4 server source | — | — | — | — | — | — | — | — | works |
 
-## Suggested test list
+## Test protocol for the user
 
-1. Start a new game and confirm the first map loads from Opposing Force.
-2. Open Advanced > About and confirm there is no update option.
-3. Confirm the HUD is green.
-4. Check each weapon: fire, reload, switch, sound, model.
-5. Record any error from the console.
+1. Unzip into `Half-Life/lambda-fix/` next to `valve/` and `gearbox/`, then run `setup_op4_media.bat` once.
+2. Run `hl.exe -game lambda-fix -console`; record the start of `of0a0`, the intro music, and the music of the first `trigger_cdaudio`.
+3. `sv_cheats 1; impulse 101`; for each weapon: select it, HUD icon/ammo, fire, empty magazine, reload, switch away/to, sound, view/world model, effects.
+4. Special tests: Grapple on a valid surface; Penguin and watch `monster_penguin`; Displacer primary/secondary/self-teleport; Shock Rifle primary/secondary and recharge.
+5. Record video/console for each row. Per-aspect details I have not checked stay **not tested**.

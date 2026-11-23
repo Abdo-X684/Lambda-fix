@@ -219,8 +219,6 @@ class BhlBaseTreeTests(unittest.TestCase):
         setup = (ROOT / "tools/packaging/setup_op4_media.bat").read_text()
         self.assertIn("gearbox\\media", setup)
         self.assertNotIn("valve\\media", setup.lower())
-        for rel in ("docs/OP4_SOURCE_AUDIT.md", "docs/OP4_RUNTIME_TESTS.md"):
-            self.assertTrue((ROOT / rel).is_file(), rel)
 
     def test_10_port_pending_matches_documented_count(self):
         wired = set()

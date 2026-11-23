@@ -22,10 +22,9 @@ make fetch && make merge && make verify-sdk   # if you changed pins or injection
 | C++ code shared by tests and the game | `src/speedrun/`, then a `copy` rule to `game_shared/` |
 | Glue that depends on the Half-Life engine | `overlay/cl_dll/` or `overlay/dlls/` + update `merge/projects.py` |
 | Map, chapter, or cvar | `data/`, then `python3 tools/gen_route_header.py --write` |
-| New document | `docs/`, **and add it to `docs/README.md`** (otherwise `make hygiene` fails) |
 | Test | `tests/test_*.py` or `tests/cpp/test_speedrun.cpp` |
 | Change the docs viewer | `web/markdown.py` + `tests/test_markdown.py` (check escaping and links) |
-| Build the DLLs | `tools/build_dlls.py` + `docs/BUILDING.md`; `make build-dlls-check` does not need a 32-bit toolchain |
+| Build the DLLs | `tools/build_dlls.py`; `make build-dlls-check` does not need a 32-bit toolchain |
 
 ## Adding an `inject` rule
 

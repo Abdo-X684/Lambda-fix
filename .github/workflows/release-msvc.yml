@@ -19,7 +19,8 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           TAG: bhl-op4-full-20261111
         run: |
-          files="build-evidence/bhl-base/bhl-base-mod.zip docs/OP4_SOURCE_AUDIT.md docs/OP4_RUNTIME_TESTS.md"
+          python3 tools/audit_op4_sources.py
+          files="build-evidence/bhl-base/bhl-base-mod.zip build/docs/OP4_SOURCE_AUDIT.md build/docs/OP4_RUNTIME_TESTS.md"
           if gh release view "$TAG" >/dev/null 2>&1; then
             gh release upload "$TAG" $files --clobber
           else

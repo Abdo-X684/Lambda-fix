@@ -40,7 +40,6 @@ class WebTests(unittest.TestCase):
         names = [d["name"] for d in docs]
         self.assertIn("README.md", names)
         self.assertIn("CONTRIBUTING.md", names)
-        self.assertIn("docs/RESOLUTION.md", names)
         self.assertTrue(all(d["title"] and d["bytes"] > 0 for d in docs))
 
     def test_doc_payload_renders_readme(self):

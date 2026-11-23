@@ -22,4 +22,4 @@ SOFTWARE.
 
 NOTE: this license covers the code authored in this repository only. The
 upstream SDKs downloaded by `make fetch` and the *generated merged tree* are
-covered by their own licenses (see docs/LICENSES.md).
+covered by their own licenses (see LICENSES.md).

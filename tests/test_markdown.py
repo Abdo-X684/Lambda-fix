@@ -70,7 +70,6 @@ class DocumentStoreTests(unittest.TestCase):
         names = [d["name"] for d in store.index()]
         self.assertIn("README.md", names)
         self.assertIn("CONTRIBUTING.md", names)
-        self.assertIn("docs/RESOLUTION.md", names)
         self.assertTrue(all(d["title"] for d in store.index()))
         self.assertIsNone(store.get("../upstreams.json"))
         self.assertIsNone(store.get("missing.md"))

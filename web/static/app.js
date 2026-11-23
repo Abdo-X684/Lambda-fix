@@ -345,9 +345,9 @@ $('btnViewDashboard').onclick = () => setView('dashboard');
 $('btnViewDocs').onclick = () => loadDoc(docsState.name);
 $('btnOpenReadme').onclick = () => loadDoc('README.md');
 $('btnQuickReadme').onclick = () => loadDoc('README.md');
-$('btnQuickBuild').onclick = () => loadDoc('docs/BUILDING.md');
-  $('btnOpenBuild').onclick = () => loadDoc('docs/BUILDING.md');
-  $('btnBhlBaseDoc').onclick = () => loadDoc('docs/BHL_BASE_MERGE.md');
+$('btnQuickBuild').onclick = () => loadDoc('README.md');
+  $('btnOpenBuild').onclick = () => loadDoc('README.md');
+  $('btnBhlBaseDoc').onclick = () => loadDoc('README.md');
 $('btnBackDashboard').onclick = () => setView('dashboard');
 $('docsList').addEventListener('click', (e) => {
   const b = e.target.closest('button[data-doc]');

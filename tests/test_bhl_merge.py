@@ -164,12 +164,6 @@ class BhlMergeTests(unittest.TestCase):
                        "bugfixedhl.cfg", "optional add-on", "not the merge"):
             self.assertIn(needle, text, needle)
 
-    def test_bhl_merge_documents_the_correction(self) -> None:
-        doc = (ROOT / "docs/BHL_MERGE.md").read_text(encoding="utf-8")
-        for needle in ("Correction to an earlier path", "Compatibility layer", "GPL-3.0",
-                       "sr_*", "bhl_status"):
-            self.assertIn(needle, doc, needle)
-
 
 if __name__ == "__main__":
     unittest.main()

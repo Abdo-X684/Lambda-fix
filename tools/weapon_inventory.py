@@ -26,7 +26,8 @@ BHL_CLEAN = ROOT / ".cache/upstreams/bugfixhl"
 OP4_CLEAN = ROOT / ".cache/upstreams/op4"
 TREE = ROOT / "bhl-op4"
 MOD = ROOT / "build-evidence/bhl-base/mod"
-DOC = ROOT / "docs/WEAPON_INVENTORY.md"
+# Generated report, written under build/ (never committed).
+DOC = ROOT / "build/docs/WEAPON_INVENTORY.md"
 
 
 def precache(path: Path) -> set[str]:
@@ -340,11 +341,10 @@ def main() -> int:
     a = ap.parse_args()
     errors, doc = collect()
     if a.write:
+        DOC.parent.mkdir(parents=True, exist_ok=True)
         DOC.write_text(doc)
         print(f"wrote {DOC.relative_to(ROOT)}")
     if a.check:
-        if not DOC.is_file() or DOC.read_text() != doc:
-            errors.append("docs/WEAPON_INVENTORY.md is stale; run --write")
         if errors:
             for e in errors:
                 print("FAIL:", e, file=sys.stderr)

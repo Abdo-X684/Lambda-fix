@@ -5,7 +5,7 @@ These files are copied from the pinned **BugfixedHL-Rebased** commit by
 (auto demo recording, the `ConVar` class, the timer HUD) and are kept for
 side-by-side review.
 
-* They are **GPL-3.0** code (see `docs/LICENSES.md`).
+* They are **GPL-3.0** code (see `LICENSES.md` at the repository root).
 * They are deliberately placed outside `cl_dll/`, `dlls/`, `game_shared/`,
   `common/` and `pm_shared/` so no build system picks them up.
 * The shipped implementation is a clean-room core in

@@ -21,8 +21,9 @@ PROVENANCE = ROOT / "bhl-op4/PROVENANCE.json"
 UPSTREAMS = ROOT / "upstreams.json"
 PACKAGE = ROOT / "build-evidence/bhl-base/bhl-base-mod.zip"
 OUT_JSON = ROOT / "build-evidence/source-audit/OP4_SOURCE_AUDIT.json"
-OUT_DOC = ROOT / "docs/OP4_SOURCE_AUDIT.md"
-OUT_TESTS = ROOT / "docs/OP4_RUNTIME_TESTS.md"
+# Generated reports are written under build/ (never committed).
+OUT_DOC = ROOT / "build/docs/OP4_SOURCE_AUDIT.md"
+OUT_TESTS = ROOT / "build/docs/OP4_RUNTIME_TESTS.md"
 
 ASSET_RE = re.compile(r'["\']((?:models|sound|sprites|events)/[^"\']+?(?:mdl|wav|spr|sc))["\']', re.I)
 
@@ -461,7 +462,7 @@ def main() -> int:
     data = json.dumps(audit, indent=2, sort_keys=True) + "\n"
     pkg = package_audit()
     if a.check:
-        for p, expected in ((OUT_JSON, data), (OUT_DOC, doc), (OUT_TESTS, tests)):
+        for p, expected in ((OUT_JSON, data),):
             if not p.is_file() or p.read_text() != expected:
                 raise SystemExit(f"{p.relative_to(ROOT)} is stale; run tools/audit_op4_sources.py")
         if not all(w["all_source_files_present"] and w["all_source_files_from_op4"] for w in audit["weapons"]):
@@ -472,6 +473,7 @@ def main() -> int:
         return 0
     OUT_JSON.parent.mkdir(parents=True, exist_ok=True)
     OUT_JSON.write_text(data)
+    OUT_DOC.parent.mkdir(parents=True, exist_ok=True)
     OUT_DOC.write_text(doc)
     OUT_TESTS.write_text(tests)
     print(f"wrote {OUT_JSON.relative_to(ROOT)}")

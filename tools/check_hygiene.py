@@ -120,12 +120,12 @@ def check(root: Path = ROOT) -> list[str]:
                     f"{path.relative_to(root).as_posix()}: broken link -> {target}"
                 )
 
-    # Every doc must be listed in the docs index.
+    # The docs folder is optional: when it exists, its index must list every doc.
     docs = root / "docs"
     index = docs / "README.md"
-    if not index.is_file():
+    if docs.is_dir() and not index.is_file():
         issues.append("docs/README.md: missing docs index")
-    else:
+    elif index.is_file():
         index_text = index.read_text(encoding="utf-8")
         for doc in sorted(docs.glob("*.md")):
             if doc.name != "README.md" and doc.name not in index_text:

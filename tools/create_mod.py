@@ -104,7 +104,7 @@ supplies that library at runtime. No Valve/Gearbox binary is redistributed.
 Earlier builds used BugfixedHL only as a reference and shipped a brand-new
 `sr_*` speedrun system. That was wrong. This build compiles **BHL's own
 systems** into the OP4 client/server, with only a compatibility layer
-(`integration/bhl/`, `docs/BHL_MERGE.md`):
+(`integration/bhl/`):
 
 * `ConVar` / `ConCommand` / `CvarSystem` (BHL's cvar system)
 * `CHudElem` / `CHudElemBase` (BHL's HUD base)

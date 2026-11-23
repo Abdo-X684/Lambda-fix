@@ -35,9 +35,7 @@ FILES = (
     ("overlay/dlls/sr_server.h", "src/dlls/sr_server.h"),
     ("overlay/dlls/sr_server.cpp", "src/dlls/sr_server.cpp"),
     ("LICENSE", "LICENSE"),
-    ("docs/LICENSES.md", "docs/LICENSES.md"),
-    ("docs/SPEEDRUN.md", "docs/SPEEDRUN.md"),
-    ("docs/BUILDING.md", "docs/BUILDING.md"),
+    ("LICENSES.md", "LICENSES.md"),
 )
 SNIPPETS = "integration/snippets"
 INSTALL_NAME = "INSTALL.md"
@@ -57,8 +55,8 @@ OP4 SDK checkout.
    `make build-dlls` (or `cd build/merged-real/linux && make CFG=release`).
    `merge/projects.py` already added the new `.cpp` files to the VS2019
    projects and the Linux Makefiles. On Linux you need `gcc-multilib /
-   g++-multilib` and the game's proprietary `vgui.so`; see `docs/BUILDING.md`
-   in this archive for the exact download/build/install steps.
+   g++-multilib` and the game's proprietary `vgui.so`. The exact build steps are
+   not in this archive; see the repository README.
 2. Copy `src/cl_dll/*` to `<OP4 SDK>/cl_dll/`, `src/dlls/*` to `dlls/`,
    `src/game_shared/*` to `game_shared/` if you are applying manually, and
    apply `integration/snippets/*.snippet` at the anchors documented in
@@ -76,7 +74,7 @@ built locally from the merged SDK tree and are subject to the upstream licenses.
   change; the HUD projects server time between messages.
 * `sv_cheats` stays `0`; a run recorded with cheats on is flagged INVALID.
 * `sv_allowbunnyhopping 1` is the OP4-native equivalent of BugfixedHL's bhop cap
-  toggle (see `docs/RESOLUTION.md` in the kit repository).
+  toggle (see `data/cvars.json` in the kit repository).
 
 ## Verify the archive
 
@@ -87,7 +85,7 @@ python3 -c "import json,hashlib,pathlib; m=json.load(open('MANIFEST.json'));\\
 [print(f, hashlib.sha256(pathlib.Path(f).read_bytes()).hexdigest()==v) for f,v in m['files'].items()]"
 ```
 
-Licenses: see `LICENSE` (MIT, our code) and `docs/LICENSES.md` (upstream
+Licenses: see `LICENSE` (MIT, our code) and `LICENSES.md` (upstream
 obligations). This archive is not a standalone playable game.
 """
 

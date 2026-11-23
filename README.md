@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/assets/lambda-fix-logo.svg" alt="Lambda-fix" width="480">
+  <img src="assets/lambda-fix-logo.svg" alt="Lambda-fix" width="480">
 </p>
 
 <p align="center">
@@ -57,8 +57,6 @@ make bhl-base
 make verify
 ```
 
-Details are in [BUILDING.md](docs/BUILDING.md).
-
 ## Known open items
 
 - No Linux 1.0.0 build yet.
@@ -66,7 +64,7 @@ Details are in [BUILDING.md](docs/BUILDING.md).
 
 ## Commands
 
-Console commands, the `impulse 101` and `give` weapon commands, and the menu cvars are listed in [docs/COMMANDS.md](docs/COMMANDS.md).
+The command reference is not included in this repository for now.
 
 ## Licenses
 
@@ -74,4 +72,4 @@ See [LICENSES.md](LICENSES.md) for the licenses of each component.
 
 ## Docs
 
-[Building](docs/BUILDING.md) · [Architecture](docs/ARCHITECTURE.md) · [Weapon inventory](docs/WEAPON_INVENTORY.md) · [OP4 runtime tests](docs/OP4_RUNTIME_TESTS.md) · [Upstreams](docs/UPSTREAMS.md) · [BugfixedHL merge](docs/BHL_BASE_MERGE.md) · [Contributing](CONTRIBUTING.md)
+[Contributing](CONTRIBUTING.md) · [Licenses](LICENSES.md)
