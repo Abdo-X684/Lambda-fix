@@ -16,13 +16,17 @@
 
 Check a download with `sha256sum <file>`.
 
-## Features in 1.0.0
+## Features
 
-- The ten Opposing Force weapons. `impulse 101` gives them.
-- Advanced > Multiplayer: Chat, Scoreboard, Models, and More options.
-- Create Server lists only Opposing Force multiplayer maps.
-- Pipe Wrench charge attack and speedrun fixes.
-- Co-op and CTF scoreboard fixes.
+- **Opposing Force weapons:** all ten weapons, matching OP4 Updated. Use `impulse 101` to get them.
+- **Opposing Force campaign:** runs from your own `gearbox/` folder.
+- **Pipe Wrench charge attack:** hold to pull back, release to strike.
+- **Speedrun-friendly behavior:** ropes, electrified wire, M249 spread, wrench and knife timing, and frame-rate-consistent trigger cameras, Gargantua stomps, pushables, and monster turning.
+- **Multiplayer settings:** Advanced > Multiplayer has Chat, Scoreboard, Models, and More options. More options holds HTML MOTD, chat logging, and demo recording.
+- **Create Server:** lists only Opposing Force multiplayer maps.
+- **Co-op and CTF:** scoreboard data works in both modes.
+- **Advanced menu:** General, HUD, Crosshair, Multiplayer, and About. About shows the version.
+- **Console:** commands use the `lambda_` prefix.
 
 ## Install
 
@@ -46,11 +50,7 @@ Details are in [BUILDING.md](docs/BUILDING.md).
 
 ## Licenses
 
-- BugfixedHL: GPL-3.0 ([BugfixedHL-Rebased](https://github.com/tmp64/BugfixedHL-Rebased))
-- Opposing Force weapons: Valve Half-Life 1 SDK License. Non-commercial use only ([halflife-op4-updated](https://github.com/twhl-community/halflife-op4-updated))
-- Build tools and Linux shims: MIT
-
-See [LICENSES.md](LICENSES.md) for the full breakdown. This is not legal advice.
+See [LICENSES.md](LICENSES.md) for the licenses of each component.
 
 ## Docs
 
