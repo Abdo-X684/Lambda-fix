@@ -21,7 +21,7 @@ d44eaee30738df466038c5fbcbe9cf3658e895016e1915fd9583fa03c0631c93  bhl-op4/src/ga
 9c5e9091076057b4b6fb012e8f2379d95a90a38e86193234c4a8561522f910bd  bhl-op4/src/game/client/fog.cpp
 1b43b4f8c5b6bb52c500e159c45f0bdfc1687b49d5de4ed0721f602e81e678b1  bhl-op4/src/game/client/gameui/gameui_test_panel.cpp
 108c067aea0a1160a11b8652d3e18cb7e3c3cdc25c02120be3ccb5233e7b497b  bhl-op4/src/game/client/gameui/gameui_viewport.cpp
-e976b320e700e787922ef63c1a7a6e57df0e324ca60e87a41e771f3a9a585388  bhl-op4/src/game/client/gameui/options/adv_options_dialog.cpp
+6c96e3d93931fbd04121f3c7e5f24350c3765475a94cd5281013667f9325ddd0  bhl-op4/src/game/client/gameui/options/adv_options_dialog.cpp
 e4414c860dac57fa78f4b3d6528841dc6e7b64d2c0c720d92c05682b160b6f9f  bhl-op4/src/game/client/gameui/options/color_picker.cpp
 eb3a29d2061d2a856e1c58d10789011f50af0d2c00149e33d272773fe0208ee3  bhl-op4/src/game/client/gameui/options/colorpicker/bar_panel.cpp
 5a0ab85df64cd0575d3aca6c36cc9fa9afaf6e39ba4c8a03cdcd29ddc3721167  bhl-op4/src/game/client/gameui/options/colorpicker/picker_panel.cpp
@@ -35,11 +35,11 @@ d09c71dd2e9edbebfe9244bce15fd48c4be0ded4f0fb299e552975ed9a8d0242  bhl-op4/src/ga
 d9eb24dec9d75b43a25ad56405bd2a889130de729f4ef6a899aa34d77da7dbd4  bhl-op4/src/game/client/gameui/options/options_about.cpp
 7e9c18c854d67d97d61e5cff0e4e31bd5b9dee3e8359985272f0756a1582ba28  bhl-op4/src/game/client/gameui/options/options_chat.cpp
 a8e16036ffca07ce7de1e76014e6686cd214654402cc1e5edc35defb06c78eb3  bhl-op4/src/game/client/gameui/options/options_crosshair.cpp
-9e8b7158b02fd505273b237891d6adf7d85e3a82640fa296e6f5c05f9a2b57e3  bhl-op4/src/game/client/gameui/options/options_general.cpp
+9c067cbd7bc867eb8b6656e97fff1dfab0befc864f60044ceb750a5329fecbcf  bhl-op4/src/game/client/gameui/options/options_general.cpp
 2524a0d411387be84557b3db6fff41ce0fae76701bcf9339bf330cd918001e35  bhl-op4/src/game/client/gameui/options/options_hud.cpp
 cfe9db5319506d3f54270646744da0e4acb2b2084caecbb5fe3c14586e9edc70  bhl-op4/src/game/client/gameui/options/options_hud_colors.cpp
 abee13dcfc9549d2d5d50853cf8bfb15c936fae87b06411730c8db4857ea1139  bhl-op4/src/game/client/gameui/options/options_hud_root.cpp
-38352ee97d67436f4fcfffb3320b787fc2b33c2250945af3d0290166399dae67  bhl-op4/src/game/client/gameui/options/options_models.cpp
+889652dd40d3a6d869e59c71fa54319144832e6ca26415728193a441057bd92f  bhl-op4/src/game/client/gameui/options/options_models.cpp
 ab576d01804dca58999d578b51a11b1f5517a5d6ab2a46dcb5d3f8e3cb93fd26  bhl-op4/src/game/client/gameui/options/options_scoreboard.cpp
 33983073a30e73fde6d2131b7ee5f9f4f9eab131a83babf06f1aecd09e8e2287  bhl-op4/src/game/client/hl/hl_baseentity.cpp
 61b49bdf1e824e287b69f8b694f289130f1e5f94444dc38d6a9eb66786824a24  bhl-op4/src/game/client/hl/hl_events.cpp
@@ -226,7 +226,7 @@ f4d294ba8e195fb85fafc50574a4221ba880baf8fbef1b8f5310679c98a68450  bhl-op4/src/ga
 4aa283003010a92777ce9047b8d9cf8bc50696ca123cab99ed0d1d1573f98fb6  bhl-op4/src/game/server/op4/dlls/blkop_osprey.cpp
 e9c0634c6d6dd6e2e4db79950ec86a62542e76975a31e2c947df3fb945d2c2a6  bhl-op4/src/game/server/op4/dlls/blowercannon.cpp
 4265de624f6ad7357fdb196a494f01ea189e521f13988240b3a89e29fb2d3bce  bhl-op4/src/game/server/op4/dlls/cleansuit_scientist.cpp
-3409e24fe29ca60f5e9fa979438d9f1ec6c38863c0e0faa91ad191e474f081ad  bhl-op4/src/game/server/op4/dlls/coopplay_gamerules.cpp
+a4455c11f1701fe8b90fdb56cff5383ec7fd9e0d0082801ab87ddf824df0c7eb  bhl-op4/src/game/server/op4/dlls/coopplay_gamerules.cpp
 930166a9c6bd9f780efd9eaec40f17f3348b9e556de12081a7e261077a536c1c  bhl-op4/src/game/server/op4/dlls/ctf/CHUDIconTrigger.cpp
 a23b12dc0b4accba4d7f7aa4947e2837bc87090fe51b76366a79761b5fb0fbe4  bhl-op4/src/game/server/op4/dlls/ctf/CItemAcceleratorCTF.cpp
 d3b55a09d51398a6fe7c7e1a090ead31c8374fdea8e31a40b28e8bd2cad5745d  bhl-op4/src/game/server/op4/dlls/ctf/CItemBackpackCTF.cpp
@@ -238,9 +238,9 @@ ef2b5948561913ed9ef276d35200ad697a1c7db38589700b314421bc41a84419  bhl-op4/src/ga
 ac851460a42086f8474dfb9b72956e5145ed063df797c3d82f3c9a00503dae30  bhl-op4/src/game/server/op4/dlls/ctf/CTFDetect.cpp
 35b9c942270fd321f2cf94397160a4935ca7bf2d494827e32634a1332a031acc  bhl-op4/src/game/server/op4/dlls/ctf/CTFGoal.cpp
 a753fa45180210503bf39367c168ba52717860266670295f3e84b882a88cb38e  bhl-op4/src/game/server/op4/dlls/ctf/CTFGoalBase.cpp
-6f6d322da6885a6e045a2ba70186decd5422b7e95bf47d0676d28f6abe1aa41e  bhl-op4/src/game/server/op4/dlls/ctf/CTFGoalFlag.cpp
+6040692e1b34c82ec7dc6eea254adc6b7d64cdfe1bc7f57417f460dd4effc856  bhl-op4/src/game/server/op4/dlls/ctf/CTFGoalFlag.cpp
 c4c2aad52d080aef02564c8d0320ef8c6ceb946aab3b2b057a265b0bb90298ee  bhl-op4/src/game/server/op4/dlls/ctf/CTFSpawn.cpp
-a3c973a9ac95e8593e594e4cb843f09ba1423bd36d99cab57b8da0d650decedb  bhl-op4/src/game/server/op4/dlls/ctf/ctfplay_gamerules.cpp
+9f0be23954ee5ebc88ab1f50d4af77791af0f746d126504a83198f5a331e7a35  bhl-op4/src/game/server/op4/dlls/ctf/ctfplay_gamerules.cpp
 0d1b205ada21772a6063c4f718dc45704787c028cf3e6dd34295df7a9213f776  bhl-op4/src/game/server/op4/dlls/func_tank_of.cpp
 865e8ee1bd10a77a2243c87a2702a09665299901a3c12229b21862b63aee1bb9  bhl-op4/src/game/server/op4/dlls/geneworm.cpp
 3e8e135e94427d629d100ae6f8cc26c49f5e9394e1b30abc3ac66206f022e0e9  bhl-op4/src/game/server/op4/dlls/gonome.cpp
