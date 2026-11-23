@@ -46,7 +46,7 @@ Earlier Windows packages bundled a server DLL that is not an Opposing Force serv
 ## Screenshots
 
 <p align="center">
-  <img src="assets/screenshots/gameplay.jpg" alt="Lambda-fix gameplay: Opposing Force weapon in view" width="640"><br>
+  <img src="assets/screenshots/gameplay-3.jpg" alt="Lambda-fix gameplay: Pipe Wrench attack" width="640"><br>
   <sub>Gameplay</sub>
 </p>
 
