@@ -1,1 +1,1 @@
-8ea997a7db6502911c8f566e3929f01615bddb5bef4a4ff62d647e7b373d653e  opfor.dll (bhl-op4 server, hl.dll from CI run 45086486744, commit d3d5436; rename to opfor.dll)
+9ea3e1a90acb5b6ca9f93f9acdfac8ee5fb05c04450aad1a1ea1df70e2581da9  opfor.dll (bhl-op4 server, hl.dll from CI run 45136990415, commit 8523e04; rename to opfor.dll)
