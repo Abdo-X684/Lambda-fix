@@ -43,6 +43,13 @@ Earlier Windows packages bundled a server DLL that is not an Opposing Force serv
 - **Advanced menu:** General, HUD, Crosshair, Chat, Scoreboard, Models, Multiplayer (with More options), and About. About shows the version.
 - **Create Server:** lists only Opposing Force multiplayer maps.
 
+## Screenshots
+
+<p align="center">
+  <img src="assets/screenshots/gameplay.jpg" alt="Lambda-fix gameplay: Opposing Force weapon in view" width="640"><br>
+  <sub>Gameplay (running through Winlator on Android)</sub>
+</p>
+
 ## Install on Windows
 
 You need your own Half-Life with the `valve/` and `gearbox/` folders. The package has no server DLL. It uses the stock Opposing Force server in your `gearbox/` folder. Follow `INSTALL.md` inside the zip.
