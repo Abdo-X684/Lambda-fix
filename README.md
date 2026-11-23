@@ -18,7 +18,7 @@ Check a download with `sha256sum <file>`.
 
 ## Features
 
-- **Opposing Force weapons:** ten weapons, matching OP4 Updated:
+- **Opposing Force weapons:** nine weapons, matching OP4 Updated. Penguin is not included yet:
 
   | Weapon | Code name |
   | --- | --- |
@@ -31,8 +31,7 @@ Check a download with `sha256sum <file>`.
   | Sniper Rifle | `weapon_sniperrifle` |
   | Knife | `weapon_knife` |
   | Grapple | `weapon_grapple` |
-  | Penguin | `weapon_penguin` (not in the default weapon set) |
-- **Opposing Force campaign:** runs from your own `gearbox/` folder.
+  - **Opposing Force campaign:** runs from your own `gearbox/` folder.
 - **Pipe Wrench charge attack:** hold to pull back, release to strike.
 - **Speedrun-friendly behavior:** ropes, electrified wire, M249 spread, wrench and knife timing, and frame-rate-consistent trigger cameras, Gargantua stomps, pushables, and monster turning.
 - **Multiplayer settings:** Advanced > Multiplayer has Chat, Scoreboard, Models, and More options. More options holds HTML MOTD, chat logging, and demo recording.
@@ -40,10 +39,13 @@ Check a download with `sha256sum <file>`.
 - **Co-op and CTF:** scoreboard data works in both modes.
 - **Advanced menu:** General, HUD, Crosshair, Multiplayer, and About. About shows the version.
 
-## Install
+## Install on Windows
 
-- **Windows 1.0.0:** you need your own Half-Life with the `valve/` and `gearbox/` folders. Follow `INSTALL.md` inside the zip.
-- **Linux 0.9.0:** put `valve/` and `gearbox/` side by side, unzip the package into that folder, and launch with `-game lambda-fix -console`. `INSTALL.md` inside the package has the full steps.
+Version 1.0.0. You need your own Half-Life with the `valve/` and `gearbox/` folders. Follow `INSTALL.md` inside the zip.
+
+## Install on Linux
+
+Version 0.9.0, the latest public Linux package. Put `valve/` and `gearbox/` side by side, unzip the package into that folder, and launch with `-game lambda-fix -console`. `INSTALL.md` inside the package has the full steps.
 
 ## Build
 
