@@ -18,7 +18,7 @@ Check a download with `sha256sum <file>`.
 
 ## Features
 
-- **Opposing Force weapons:** nine weapons, matching OP4 Updated. Penguin is not included yet:
+- **Opposing Force weapons:** ten weapons, matching OP4 Updated:
 
   | Weapon | Code name |
   | --- | --- |
@@ -31,6 +31,7 @@ Check a download with `sha256sum <file>`.
   | Sniper Rifle | `weapon_sniperrifle` |
   | Knife | `weapon_knife` |
   | Grapple | `weapon_grapple` |
+  | Penguin | `weapon_penguin` (not in the default weapon set) |
 
 - **Opposing Force campaign:** runs from your own `gearbox/` folder.
 - **Pipe Wrench charge attack:** hold to pull back, release to strike.
