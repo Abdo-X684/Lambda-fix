@@ -35,7 +35,7 @@ eb828d5d4020baf0967ba141f45ca1548bccf9d543c66977cefdad642cfaded6  bhl-op4/src/ga
 7e6705387f5824c73fcd9d24639945f1e32b24e234bcbe97b67e212f185b023c  bhl-op4/src/game/client/gameui/options/options_about.cpp
 9d8aa16b12ebf5516b5957adc0372c03c7ce9cf8c9a3c0865923328704521b9a  bhl-op4/src/game/client/gameui/options/options_chat.cpp
 d96e1a2502b9a0cc1766cd7a03162ef2d0730b08cbd8fa13cccbe1b69d059a15  bhl-op4/src/game/client/gameui/options/options_crosshair.cpp
-f4941381af22a7d740155e70e9439c603f0e67501f1845927462631200c5019f  bhl-op4/src/game/client/gameui/options/options_general.cpp
+f361725f696f1af0a080a958234406fa8d0455225ea2dca4074dc527d4af98a1  bhl-op4/src/game/client/gameui/options/options_general.cpp
 58d44b6baa2c2b0a6d754a74f08460b8057dd4039126fc298702fa5741a092c0  bhl-op4/src/game/client/gameui/options/options_hud.cpp
 2d72bfc7dcc69b6689ae0685f0ffd739c97ed2f94173adcc6ef74943c8ac124b  bhl-op4/src/game/client/gameui/options/options_hud_colors.cpp
 0fbd8dc6f9faa11664f3782010d140be9cfe0992736b28a7bdf829f5dc5b6ce7  bhl-op4/src/game/client/gameui/options/options_hud_root.cpp
