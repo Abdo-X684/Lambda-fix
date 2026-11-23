@@ -6,7 +6,7 @@
     "license": "GPL-3.0",
     "merged_files": 23,
     "repo": "tmp64/BugfixedHL-Rebased",
-    "tree_sha256": "a2ad83b3a35b2bc797cf36f008a28595960491930e6ccb78dd99d75a21363188",
+    "tree_sha256": "43094519c56f5e7909678c8a7d360fc161b191a71ea56d966023adb2ea91edb8",
     "tree_sha256_note": "sha256 over sorted '<path>  <file sha256>' for every BHL-origin file on disk; verified by --check",
     "verbatim_files": 671
   },
@@ -148,9 +148,9 @@
     "CMakeLists.txt": {
       "action": "verbatim+edit",
       "commit": "4d32095e3c33",
-      "edited_after_import": "OP4 version set to 1.0.0 (fallback used when no git: BHL_REPO_VERSION_MINOR 14->0, TAG dev->empty)",
+      "edited_after_import": "OP4 version set to 1.0.1 (fallback used when no git: BHL_REPO_VERSION_MINOR 14->0, PATCH 0->1, TAG dev->empty)",
       "origin": "bugfixhl",
-      "sha256": "4437979b0a550e47ffaa8991ee13d5a9a56063e59564e9f709f90df376bf8c03"
+      "sha256": "de0c959f4ecdd652e780f1154cd4e8851abb95f717d9a31c5b69f61871daaf5f"
     },
     "CMakePresets.json": {
       "action": "verbatim",
