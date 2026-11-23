@@ -1,0 +1,80 @@
+{
+  "base_repo": "tmp64/BugfixedHL-Rebased @ 4d32095e3c33",
+  "compatibility_fixes": [
+    "patches/utlblockmemory.h.patch (pinned SDK bit-field std::swap)",
+    "patches/results.cpp.patch (one BHL client TU: auto& -> const auto&)",
+    "patches/vgui_pch.h (reproduces SDK's own PCH header list)"
+  ],
+  "libraries": {
+    "client.so": {
+      "bytes": 10352832,
+      "elf32": true,
+      "exported_game_entry_points": [
+        "HUD_Frame",
+        "HUD_Init",
+        "HUD_Key_Event",
+        "HUD_Redraw",
+        "HUD_Reset",
+        "HUD_Shutdown",
+        "HUD_UpdateClientData",
+        "HUD_VidInit",
+        "Initialize",
+        "V_CalcRefdef"
+      ],
+      "exported_symbol_count": 5137,
+      "glibc_max": "GLIBC_2.17",
+      "needed": [
+        "libSDL2-2.0.so.0",
+        "libm.so.6",
+        "libc.so.6",
+        "ld-linux.so.2",
+        "libpthread.so.0",
+        "libdl.so.2"
+      ],
+      "path": "build/bhl-out/client.so",
+      "sha256": "641dd45cb614e0c02f78510085f3814804a21354b05ef5bc5d3107e1ce5c7643",
+      "undefined_symbol_count": 252,
+      "unresolved_own_build_symbols": []
+    },
+    "hl.so": {
+      "bytes": 4662060,
+      "elf32": true,
+      "exported_game_entry_points": [
+        "GetEntityAPI",
+        "GetEntityAPI2",
+        "GetNewDLLFunctions",
+        "GiveFnptrsToDll"
+      ],
+      "exported_symbol_count": 4467,
+      "glibc_max": "GLIBC_2.16",
+      "needed": [
+        "libm.so.6",
+        "libc.so.6",
+        "ld-linux.so.2",
+        "libpthread.so.0",
+        "libdl.so.2"
+      ],
+      "path": "build/bhl-out/hl.so",
+      "sha256": "d47f76f8d57bffb4f8240e2f78b5001fd33980996eda5e0bf9e733b69bcc49b2",
+      "undefined_symbol_count": 94,
+      "unresolved_own_build_symbols": []
+    }
+  },
+  "note": "Built and ELF-verified only. NOT tested inside Opposing Force: this sandbox has no HL engine, real vgui.so or legitimate OP4 assets. See docs/BHL_BASE_BUILD.md.",
+  "purpose": "real 32-bit build from the BugfixedHL-root bhl-op4/ tree",
+  "source_lists": {
+    "client": 154,
+    "pcre": 21,
+    "server": 179,
+    "tier1": 35,
+    "tier2": 3,
+    "vgui_controls": 68
+  },
+  "source_sdk": "tmp64/hl1_source_sdk @ 11f26656677c881c7c630d03957900e7701da62e",
+  "toolchain": {
+    "cmake_available": "3.30.9 (dependency probe)",
+    "target": "i386-unknown-linux-gnu / GLIBC_2.17 baseline",
+    "zig": "0.17.1 (clang 22.1.8)"
+  },
+  "tree": "bhl-op4/"
+}
