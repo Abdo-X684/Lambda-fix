@@ -141,6 +141,7 @@ void CAboutSubOptions::UpdateControls()
 		// Show only the release number, e.g. "1.0.0"
 		snprintf(buf, sizeof(buf), "%d.%d.%d", m_GameVer.GetMajor(), m_GameVer.GetMinor(), m_GameVer.GetPatch());
 		std::string gameVer = buf;
+		gameVer += " stable";
 
 #ifdef _DEBUG
 		gameVer += " [Debug build]";

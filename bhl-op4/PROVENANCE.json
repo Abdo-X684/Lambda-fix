@@ -6,7 +6,7 @@
     "license": "GPL-3.0",
     "merged_files": 23,
     "repo": "tmp64/BugfixedHL-Rebased",
-    "tree_sha256": "6d43f7e00fb709cfaf26ad779063913af49d9c1a7e5e4540e3fecf6e0b39f5eb",
+    "tree_sha256": "a2ad83b3a35b2bc797cf36f008a28595960491930e6ccb78dd99d75a21363188",
     "tree_sha256_note": "sha256 over sorted '<path>  <file sha256>' for every BHL-origin file on disk; verified by --check",
     "verbatim_files": 671
   },
@@ -2024,9 +2024,9 @@
     "src/game/client/gameui/options/options_about.cpp": {
       "action": "verbatim+edit",
       "commit": "4d32095e3c33",
-      "edited_after_import": "Advanced > About: auto-update entry removed; ApplySchemeSettings defined (fixes undefined symbol in client.so); version label shows only x.y.z",
+      "edited_after_import": "Advanced > About: auto-update entry removed; ApplySchemeSettings defined (fixes undefined symbol in client.so); version label shows only x.y.z; \" stable\" suffix added for the 1.0.0 stable release",
       "origin": "bugfixhl",
-      "sha256": "d9eb24dec9d75b43a25ad56405bd2a889130de729f4ef6a899aa34d77da7dbd4"
+      "sha256": "03a2348dbbdd4c91afa6f98755d2776cd0cbd2b58468b2a158add40c1e4c35f6"
     },
     "src/game/client/gameui/options/options_about.h": {
       "action": "verbatim+edit",
