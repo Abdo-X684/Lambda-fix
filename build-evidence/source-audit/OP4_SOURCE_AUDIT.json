@@ -265,7 +265,7 @@
       "origin": "bugfixhl",
       "patch_rules": [],
       "path": "src/game/client/CMakeLists.txt",
-      "sha256": "5b9d2a5b02286b7126ae98b2b070b358934fe2a31c7bc953a797b20bfe745378",
+      "sha256": "6aa427a6b871c9d23b179037cbd3f779975310be42bb33b33b53ec2b3da9fd38",
       "upstream_commit": "4d32095e3c33",
       "upstream_path": null
     },

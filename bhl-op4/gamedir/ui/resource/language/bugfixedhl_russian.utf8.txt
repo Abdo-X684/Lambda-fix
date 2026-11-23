@@ -206,6 +206,7 @@
 
 // Adv options: Models
 "BHL_AdvOptions_Models"				"Модели"
+"BHL_AdvOptions_More"				"Дополнительно"
 "BHL_AdvOptions_Models_EnemyModels"	"Разрешенные модели врагов:"
 "BHL_AdvOptions_Models_ModelName"	"Модель"
 "BHL_AdvOptions_Models_Add"			"+"

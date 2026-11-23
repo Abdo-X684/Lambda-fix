@@ -35,18 +35,8 @@ private:
 
 	CCvarCheckButton *m_pKillSnd = nullptr;
 	vgui2::Label *m_pKillSndLabel = nullptr;
-	CCvarCheckButton *m_pMOTD = nullptr;
-	vgui2::Label *m_pMOTDLabel = nullptr;
 	CCvarCheckButton *m_pAutoJump = nullptr;
 	vgui2::Label *m_pAutoJumpLabel = nullptr;
-
-	CCvarCheckButton *m_pLogChat = nullptr;
-	CCvarCheckButton *m_pLogOther = nullptr;
-	CCvarCheckButton *m_pAutoDemo = nullptr;
-	vgui2::Label *m_pAutoDemoLabel = nullptr;
-	CCvarTextEntry *m_pKeepFor = nullptr;
-	vgui2::Label *m_pKeepForLabel = nullptr;
-	vgui2::Label *m_pDaysLabel = nullptr;
 
 	MESSAGE_FUNC_PARAMS(OnSliderMoved, "SliderMoved", kv);
 	MESSAGE_FUNC_PARAMS(OnCvarTextChanged, "CvarTextChanged", kv);

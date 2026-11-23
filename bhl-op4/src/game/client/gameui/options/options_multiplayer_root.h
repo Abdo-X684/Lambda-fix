@@ -5,8 +5,9 @@
 class CChatSubOptions;
 class CScoreboardSubOptions;
 class CModelSubOptions;
+class CMoreSubOptions;
 
-// Multiplayer-only options (Chat, Scoreboard, Models) grouped under one top-level tab.
+// Multiplayer-only options (Chat, Scoreboard, Models, More options) grouped under one top-level tab.
 // Same pattern as CHudSubOptionsRoot.
 class CMultiplayerSubOptionsRoot : public vgui2::PropertySheet
 {
@@ -19,6 +20,7 @@ private:
 	CChatSubOptions *m_pChat = nullptr;
 	CScoreboardSubOptions *m_pScoreboard = nullptr;
 	CModelSubOptions *m_pModels = nullptr;
+	CMoreSubOptions *m_pMore = nullptr;
 
 	MESSAGE_FUNC(OnResetData, "ResetData");
 	MESSAGE_FUNC(OnApplyChanges, "ApplyChanges");

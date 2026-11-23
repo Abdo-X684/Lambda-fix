@@ -218,6 +218,7 @@
 
 // Adv options: Models
 "BHL_AdvOptions_Models"				"Models"
+"BHL_AdvOptions_More"				"More options"
 "BHL_AdvOptions_Models_EnemyModels"	"Allowed enemy models:"
 "BHL_AdvOptions_Models_ModelName"	"Model"
 "BHL_AdvOptions_Models_Add"			"+"

@@ -45,6 +45,8 @@ set( SOURCE_FILES
 	gameui/options/options_multiplayer_root.h
 	gameui/options/options_models.cpp
 	gameui/options/options_models.h
+	gameui/options/options_more.cpp
+	gameui/options/options_more.h
 	gameui/options/options_scoreboard.cpp
 	gameui/options/options_scoreboard.h
 

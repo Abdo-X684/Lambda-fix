@@ -35,19 +35,8 @@ CGeneralSubOptions::CGeneralSubOptions(vgui2::Panel *parent)
 	m_pKillSnd = new CCvarCheckButton(this, "KillSnd", "#BHL_AdvOptions_General_KillSnd", "cl_killsound");
 	m_pKillSndLabel = new vgui2::Label(this, "KillSndLabel", "#BHL_AdvOptions_General_KillSnd2");
 
-	m_pMOTD = new CCvarCheckButton(this, "MOTD", "#BHL_AdvOptions_General_HTML", "cl_enable_html_motd");
-	m_pMOTDLabel = new vgui2::Label(this, "MOTDLabel", "#BHL_AdvOptions_General_HTML2");
-
 	m_pAutoJump = new CCvarCheckButton(this, "AutoJump", "#BHL_AdvOptions_General_AutoJump", "cl_autojump");
 	m_pAutoJumpLabel = new vgui2::Label(this, "AutoJumpLabel", "#BHL_AdvOptions_General_AutoJump2");
-
-	m_pLogChat = new CCvarCheckButton(this, "LogChat", "#BHL_AdvOptions_General_LogChat", "results_log_chat");
-	m_pLogOther = new CCvarCheckButton(this, "LogOther", "#BHL_AdvOptions_General_LogOther", "results_log_other");
-	m_pAutoDemo = new CCvarCheckButton(this, "AutoDemo", "#BHL_AdvOptions_General_AutoDemo", "results_demo_autorecord");
-	m_pAutoDemoLabel = new vgui2::Label(this, "AutoDemoLabel", "#BHL_AdvOptions_General_AutoDemo2");
-	m_pKeepFor = new CCvarTextEntry(this, "KeepFor", "results_demo_keepdays", CCvarTextEntry::CvarType::Int);
-	m_pKeepForLabel = new vgui2::Label(this, "KeepForLabel", "#BHL_AdvOptions_General_KeepFor");
-	m_pDaysLabel = new vgui2::Label(this, "DaysLabel", "#BHL_AdvOptions_General_Days");
 
 	LoadControlSettings(VGUI2_ROOT_DIR "resource/options/GeneralSubOptions.res");
 
@@ -55,13 +44,6 @@ CGeneralSubOptions::CGeneralSubOptions(vgui2::Panel *parent)
 	m_pInputMethodBox->SetItemEnabled(m_InputMethodItems[0], IsWindows()); // WindowsCursor
 	m_pInputMethodBox->SetItemEnabled(m_InputMethodItems[1], IsWindows()); // DirectInput
 	m_pInputMethodBox->SetItemEnabled(m_InputMethodItems[2], GetSDL()->IsGood()); // RawInput
-
-	// Disable HTML MOTD if SteamAPI not available
-	if (!SteamAPI_IsAvailable())
-	{
-		m_pMOTD->SetEnabled(false);
-		m_pMOTD->SetSelected(false);
-	}
 }
 
 void CGeneralSubOptions::PerformLayout()
@@ -75,14 +57,7 @@ void CGeneralSubOptions::OnResetData()
 	m_pInputMethodBox->ActivateItem(m_InputMethodItems[clamp(m_input.GetInt(), 0, 2)]);
 	m_pKillSnd->ResetData();
 
-	if (m_pMOTD->IsEnabled())
-		m_pMOTD->ResetData();
-
 	m_pAutoJump->ResetData();
-	m_pLogChat->ResetData();
-	m_pLogOther->ResetData();
-	m_pAutoDemo->ResetData();
-	m_pKeepFor->ResetData();
 }
 
 void CGeneralSubOptions::OnApplyChanges()
@@ -90,14 +65,7 @@ void CGeneralSubOptions::OnApplyChanges()
 	m_pFovValue->ApplyChanges();
 	m_pKillSnd->ApplyChanges();
 
-	if (m_pMOTD->IsEnabled())
-		m_pMOTD->ApplyChanges();
-
 	m_pAutoJump->ApplyChanges();
-	m_pLogChat->ApplyChanges();
-	m_pLogOther->ApplyChanges();
-	m_pAutoDemo->ApplyChanges();
-	m_pKeepFor->ApplyChanges();
 
 	for (int i = 0; i <= 2; i++)
 	{
