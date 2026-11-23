@@ -18,7 +18,20 @@ Check a download with `sha256sum <file>`.
 
 ## Features
 
-- **Opposing Force weapons:** nine weapons, matching OP4 Updated. Penguin is not included.
+- **Opposing Force weapons:** ten weapons, matching OP4 Updated:
+
+  | Weapon | Code name |
+  | --- | --- |
+  | Eagle | `weapon_eagle` |
+  | Pipe Wrench | `weapon_pipewrench` |
+  | M249 | `weapon_m249` |
+  | Displacer | `weapon_displacer` |
+  | Shock Rifle | `weapon_shockrifle` |
+  | Spore Launcher | `weapon_sporelauncher` |
+  | Sniper Rifle | `weapon_sniperrifle` |
+  | Knife | `weapon_knife` |
+  | Grapple | `weapon_grapple` |
+  | Penguin | `weapon_penguin` (not in the default weapon set) |
 - **Opposing Force campaign:** runs from your own `gearbox/` folder.
 - **Pipe Wrench charge attack:** hold to pull back, release to strike.
 - **Speedrun-friendly behavior:** ropes, electrified wire, M249 spread, wrench and knife timing, and frame-rate-consistent trigger cameras, Gargantua stomps, pushables, and monster turning.
