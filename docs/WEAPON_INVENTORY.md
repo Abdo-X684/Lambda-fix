@@ -61,7 +61,7 @@ is a separate monster entity in `dlls/shockroach.cpp`.
   (`21252408` bytes) is not in the package and uses
   `../gearbox/dlls/opfor.so` instead.
 * Windows (`x86-windows-msvc / PE32 i386`, `MSVC 19.44 / Visual Studio 2022 / CMake 3.30.9 / vcpkg x86-windows-static`, ABI compatible with MSVC/VGUI2):
-  `client.dll` `2071552` bytes, sha256 `e5115523c3d6f419804fd9f02295370dda2cd8b25ef38143db7bbc8eafb0eb5e`;
+  `client.dll` `2071552` bytes, sha256 `02acbadbd4aa8aeb209209911550be996c426f961b72e06f19d10a41d0612887`;
   `opfor.dll` `1860608` bytes, sha256 `866d4dd3392b7cf906141f0520d032f89fc166fab3095cbec3b87e951996143a`. The old `hl.dll`
   server (`1661952` bytes) is not in the package.
   These are MSVC binaries, but they are **not tested in game**.
