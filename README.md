@@ -50,6 +50,11 @@ Earlier Windows packages bundled a server DLL that is not an Opposing Force serv
   <sub>Gameplay</sub>
 </p>
 
+<p align="center">
+  <img src="assets/screenshots/gameplay-2.jpg" alt="Lambda-fix gameplay: Opposing Force facility" width="640"><br>
+  <sub>Gameplay</sub>
+</p>
+
 ## Install on Windows
 
 You need your own Half-Life with the `valve/` and `gearbox/` folders. The package has no server DLL. It uses the stock Opposing Force server in your `gearbox/` folder. Follow `INSTALL.md` inside the zip.
