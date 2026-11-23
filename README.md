@@ -47,7 +47,7 @@ Earlier Windows packages bundled a server DLL that is not an Opposing Force serv
 
 <p align="center">
   <img src="assets/screenshots/gameplay.jpg" alt="Lambda-fix gameplay: Opposing Force weapon in view" width="640"><br>
-  <sub>Gameplay (running through Winlator on Android)</sub>
+  <sub>Gameplay</sub>
 </p>
 
 ## Install on Windows
