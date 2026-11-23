@@ -31,7 +31,8 @@ Check a download with `sha256sum <file>`.
   | Sniper Rifle | `weapon_sniperrifle` |
   | Knife | `weapon_knife` |
   | Grapple | `weapon_grapple` |
-  - **Opposing Force campaign:** runs from your own `gearbox/` folder.
+
+- **Opposing Force campaign:** runs from your own `gearbox/` folder.
 - **Pipe Wrench charge attack:** hold to pull back, release to strike.
 - **Speedrun-friendly behavior:** ropes, electrified wire, M249 spread, wrench and knife timing, and frame-rate-consistent trigger cameras, Gargantua stomps, pushables, and monster turning.
 - **Multiplayer settings:** Advanced > Multiplayer has Chat, Scoreboard, Models, and More options. More options holds HTML MOTD, chat logging, and demo recording.
