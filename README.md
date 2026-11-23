@@ -18,7 +18,7 @@ Check a download with `sha256sum <file>`.
 
 ## Features
 
-- **Opposing Force weapons:** nine weapons, matching OP4 Updated, given by `impulse 101` and `exec op4weapons.cfg`. Penguin is not in that set.
+- **Opposing Force weapons:** nine weapons, matching OP4 Updated. Penguin is not included.
 - **Opposing Force campaign:** runs from your own `gearbox/` folder.
 - **Pipe Wrench charge attack:** hold to pull back, release to strike.
 - **Speedrun-friendly behavior:** ropes, electrified wire, M249 spread, wrench and knife timing, and frame-rate-consistent trigger cameras, Gargantua stomps, pushables, and monster turning.
