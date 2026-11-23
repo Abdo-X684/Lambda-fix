@@ -24,7 +24,7 @@ Earlier Windows packages bundled a server DLL that is not an Opposing Force serv
 
 ## Features
 
-- **Opposing Force weapons:** the weapons of OP4 Updated. `impulse 101` gives nine of them (requires `sv_cheats 1`).
+- **Opposing Force weapons:** the weapons of OP4 Updated.
 
   | Weapon | Code name |
   | --- | --- |
