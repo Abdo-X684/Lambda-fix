@@ -170,9 +170,8 @@ int CPipewrench::Swing(const bool bFirst)
 		if (bFirst)
 		{
 			// miss
-			// DEVIATION FROM OP4 UPDATED (user-requested: normal strike 0.5 s instead of 0.75 s)
-			m_flNextPrimaryAttack = GetNextAttackDelay(0.5);
-			m_flNextSecondaryAttack = GetNextAttackDelay(0.5);
+			m_flNextPrimaryAttack = GetNextAttackDelay(0.75);
+			m_flNextSecondaryAttack = GetNextAttackDelay(0.75);
 			m_flTimeWeaponIdle = UTIL_WeaponTimeBase() + 1.0;
 
 			// Shepard - In Opposing Force, the "miss" sound is

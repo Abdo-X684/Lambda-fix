@@ -6424,9 +6424,9 @@
           "rule": "op4-compat-late-include"
         }
       ],
-      "sha256": "87754a5dfe59c6d8f5ba1a3fbe50b113246d386eab090b2b375c8c604188d84e",
+      "sha256": "cb2cd6da78f62347f4c1b55a7ce5b868316d3c0d455ebceda5a2744b04a00b9a",
       "upstream_path": "dlls/weapons/CPipewrench.cpp",
-      "edited_after_import": "user-requested deviations: fire2 hold keeps pull-back, strike on release, charge 25+20t clamped 1..6.25 s, hold-loop fix; normal strike first-swing miss delay 0.5 s (user-requested)"
+      "edited_after_import": "user-requested deviations: fire2 hold keeps pull-back, strike on release, charge 25+20t clamped 1..6.25 s, hold-loop fix; normal strike first-swing miss delay kept at OP4 original 0.75 s (user chose original)"
     },
     "src/game/server/op4/dlls/weapons/CPipewrench.h": {
       "action": "op4+compat-patch",
