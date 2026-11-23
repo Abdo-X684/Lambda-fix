@@ -18,7 +18,7 @@ Check a download with `sha256sum <file>`.
 
 ## Features
 
-- **Opposing Force weapons:** all ten weapons, matching OP4 Updated. Use `impulse 101` to get them.
+- **Opposing Force weapons:** nine weapons, matching OP4 Updated, given by `impulse 101` and `exec op4weapons.cfg`. Penguin is not in that set.
 - **Opposing Force campaign:** runs from your own `gearbox/` folder.
 - **Pipe Wrench charge attack:** hold to pull back, release to strike.
 - **Speedrun-friendly behavior:** ropes, electrified wire, M249 spread, wrench and knife timing, and frame-rate-consistent trigger cameras, Gargantua stomps, pushables, and monster turning.
@@ -26,7 +26,7 @@ Check a download with `sha256sum <file>`.
 - **Create Server:** lists only Opposing Force multiplayer maps.
 - **Co-op and CTF:** scoreboard data works in both modes.
 - **Advanced menu:** General, HUD, Crosshair, Multiplayer, and About. About shows the version.
-- **Console:** commands use the `lambda_` prefix.
+- **Console commands:** see [Commands](#commands).
 
 ## Install
 
@@ -42,6 +42,42 @@ make verify
 ```
 
 Details are in [BUILDING.md](docs/BUILDING.md).
+
+## Commands
+
+Type these in the console (`` ` `` or `~`). The mod sets `sv_cheats 0` at every start, so set `sv_cheats 1` before the weapon commands.
+
+### Weapons
+
+| Command | What it does |
+| --- | --- |
+| `impulse 101` | Gives the standard weapons and the nine Opposing Force weapons. Penguin is not included. |
+| `exec op4weapons.cfg` | Runs `impulse 101`, then gives the nine Opposing Force weapons listed in the file. |
+
+### Settings
+
+| Setting | Default | What it does |
+| --- | --- | --- |
+| `cl_enable_html_motd` | `1` | Allows HTML message-of-the-day pages from servers. |
+| `results_log_chat` | `0` | Logs chat to a file. |
+| `results_log_other` | `0` | Logs other messages, such as kill messages, to a file. |
+| `results_demo_autorecord` | `0` | Records a demo when you join a server. |
+| `results_demo_keepdays` | `14` | Days to keep automatically recorded demos. |
+| `sk_plr_pipewrench` | `20` | Pipe Wrench base damage (server skill setting). |
+
+These settings are also on Advanced > Multiplayer > More options, except `sk_plr_pipewrench`.
+
+### Maintenance
+
+| Command | What it does |
+| --- | --- |
+| `lambda_apply_defaults` | Sets the HUD and crosshair color to OP4 green (`0 160 0`). It runs at startup and applies only once per install, tracked by `lambda_defaults_version`. |
+
+### Engine
+
+| Command | What it does |
+| --- | --- |
+| `maps *` | Lists the maps the game can find. |
 
 ## Known open items
 
