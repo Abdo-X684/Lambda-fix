@@ -63,6 +63,10 @@ Details are in [BUILDING.md](docs/BUILDING.md).
 - No Linux 1.0.0 build yet.
 - The AG CTF sprites (`ag_ctf.spr`, `ag_ctf_score.spr`) have an unconfirmed license. They are used only by CTF mode.
 
+## Commands
+
+Console commands, the `impulse 101` and `give` weapon commands, and the menu cvars are listed in [docs/COMMANDS.md](docs/COMMANDS.md).
+
 ## Licenses
 
 See [LICENSES.md](LICENSES.md) for the licenses of each component.

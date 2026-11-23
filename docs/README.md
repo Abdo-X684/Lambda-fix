@@ -4,6 +4,7 @@ Current status of the weapons and the build: [`WEAPON_INVENTORY.md`](WEAPON_INVE
 
 | File | Content |
 | --- | --- |
+| [COMMANDS.md](COMMANDS.md) | Console commands, `impulse 101` and `give` weapon commands, and the menu cvars. |
 | [WEAPON_INVENTORY.md](WEAPON_INVENTORY.md) | Current status of the ten OP4 weapons (generated from source). |
 | [BHL_BASE_MERGE.md](BHL_BASE_MERGE.md) | Current architecture reference: BHL base plus OP4 weapons and systems. |
 | [BHL_BASE_BUILD.md](BHL_BASE_BUILD.md) | Build record for `client.so` and `hl.so`: commands, logs, hashes. |
