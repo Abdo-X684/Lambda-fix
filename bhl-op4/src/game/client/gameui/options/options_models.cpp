@@ -56,7 +56,7 @@ CModelSubOptions::CModelSubOptions(vgui2::Panel *parent)
 	}
 }
 
-int CModelSubOptions::GetScrollRange() const
+int CModelSubOptions::GetScrollRange()
 {
 	int range = m_iContentTall - GetTall();
 	return range > 0 ? range : 0;

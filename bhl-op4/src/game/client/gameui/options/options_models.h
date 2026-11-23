@@ -58,7 +58,7 @@ private:
 	int m_iContentTall = 0;
 	int m_iScrollOffset = 0;
 
-	int GetScrollRange() const;
+	int GetScrollRange();
 	void UpdateScrollOffset();
 
 	void ParseEnemyModels();
