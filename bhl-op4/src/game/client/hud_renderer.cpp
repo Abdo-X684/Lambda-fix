@@ -6,6 +6,7 @@
 #include <triangleapi.h>
 
 ConVar hud_client_renderer("hud_client_renderer", "1", FCVAR_BHL_ARCHIVE, "Enable client-side HUD rendering (instead of engine renderer)");
+ConVar hud_size("hud_size", "1", FCVAR_BHL_ARCHIVE, "HUD size multiplier (1 = normal, 1.5, 2, 3). Only works with client-side HUD rendering");
 
 static CHudRenderer s_Instance;
 
@@ -50,6 +51,33 @@ void CHudRenderer::SpriteDraw(int frame, int x, int y, const wrect_t *prc)
 void CHudRenderer::SpriteDrawAdditive(int frame, int x, int y, const wrect_t *prc)
 {
 	s_Instance.DrawSprite(frame, x, y, -1, -1, prc, SpriteDrawMode::Additive);
+}
+
+// Clamp hud_size to a safe range.
+static float HudSizeMultiplier()
+{
+	float scale = hud_size.GetFloat();
+	if (scale < 0.5f)
+		scale = 0.5f;
+	else if (scale > 4.0f)
+		scale = 4.0f;
+	return scale;
+}
+
+// Elements in the left/top half grow away from the top-left corner,
+// elements in the right/bottom half stay anchored to the right/bottom edge.
+static float HudScaleX(float x)
+{
+	const float scale = HudSizeMultiplier();
+	const float screenW = (float)ScreenWidth;
+	return x <= screenW * 0.5f ? x * scale : screenW - (screenW - x) * scale;
+}
+
+static float HudScaleY(float y)
+{
+	const float scale = HudSizeMultiplier();
+	const float screenH = (float)gHUD.m_scrinfo.iHeight;
+	return y <= screenH * 0.5f ? y * scale : screenH - (screenH - y) * scale;
 }
 
 void CHudRenderer::DrawSprite(int frame, float x, float y, float width, float height, const wrect_t *prc, SpriteDrawMode mode)
@@ -117,16 +145,16 @@ void CHudRenderer::DrawSprite(int frame, float x, float y, float width, float he
 	// TriangleAPI functions call OpenGL directly
 	gEngfuncs.pTriAPI->Begin(TRI_QUADS);
 	gEngfuncs.pTriAPI->TexCoord2f(s[0], t[0]);
-	gEngfuncs.pTriAPI->Vertex3f(x, y, 0);
+	gEngfuncs.pTriAPI->Vertex3f(HudScaleX(x), HudScaleY(y), 0);
 
 	gEngfuncs.pTriAPI->TexCoord2f(s[1], t[0]);
-	gEngfuncs.pTriAPI->Vertex3f(x + width, y, 0);
+	gEngfuncs.pTriAPI->Vertex3f(HudScaleX(x + width), HudScaleY(y), 0);
 
 	gEngfuncs.pTriAPI->TexCoord2f(s[1], t[1]);
-	gEngfuncs.pTriAPI->Vertex3f(x + width, y + height, 0);
+	gEngfuncs.pTriAPI->Vertex3f(HudScaleX(x + width), HudScaleY(y + height), 0);
 
 	gEngfuncs.pTriAPI->TexCoord2f(s[0], t[1]);
-	gEngfuncs.pTriAPI->Vertex3f(x, y + height, 0);
+	gEngfuncs.pTriAPI->Vertex3f(HudScaleX(x), HudScaleY(y + height), 0);
 	gEngfuncs.pTriAPI->End();
 
 	gEngfuncs.pTriAPI->RenderMode(kRenderNormal);

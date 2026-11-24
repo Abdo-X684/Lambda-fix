@@ -6,7 +6,7 @@
     "license": "GPL-3.0",
     "merged_files": 23,
     "repo": "tmp64/BugfixedHL-Rebased",
-    "tree_sha256": "43094519c56f5e7909678c8a7d360fc161b191a71ea56d966023adb2ea91edb8",
+    "tree_sha256": "cc4c9731a8f4ebbf19bef0fc849d23a439b0cbff3394e3f5b7bed3c5afccbda0",
     "tree_sha256_note": "sha256 over sorted '<path>  <file sha256>' for every BHL-origin file on disk; verified by --check",
     "verbatim_files": 671
   },
@@ -2680,7 +2680,7 @@
       "action": "verbatim",
       "commit": "4d32095e3c33",
       "origin": "bugfixhl",
-      "sha256": "dc7d16c0d44c25df13f1ad6b735647df3503820eed69b0ac56b6bab87d83c9df"
+      "sha256": "3590baab402749836db379480bd21081ec88f809af1197b6897c2dcda4330b14"
     },
     "src/game/client/hud_renderer.h": {
       "action": "verbatim",
