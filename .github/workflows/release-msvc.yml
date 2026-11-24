@@ -12,7 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: arena/dd30bd22-bugfixhl-speedrun-op4
+          ref: arena/4b36a45d-lambda-fix
 
       - name: Attach the full-OP4 mod ZIP to a GitHub Release
         env:
@@ -25,7 +25,7 @@ jobs:
             gh release upload "$TAG" $files --clobber
           else
             gh release create "$TAG" $files \
-              --target arena/dd30bd22-bugfixhl-speedrun-op4 \
+              --target arena/4b36a45d-lambda-fix \
               --title "BugfixedHL + full Opposing Force campaign" \
               --notes "OP4 campaign/server with BHL VGUI2 client. Run setup_op4_media.bat before launch. Source fixes for OP4 prediction/HUD and merged BHL+OP4 delta are included. NOT in-game tested here; no weapon or music row is marked successful."
           fi

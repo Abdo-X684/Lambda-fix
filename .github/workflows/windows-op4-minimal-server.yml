@@ -6,12 +6,6 @@ name: Build minimal OP4 server DLL
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - arena/dd30bd22-bugfixhl-speedrun-op4
-    paths:
-      - .github/workflows/windows-op4-minimal-server.yml
-      - tools/prepare_op4_minimal_server.py
 
 permissions:
   contents: write
@@ -22,7 +16,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: arena/dd30bd22-bugfixhl-speedrun-op4
+          ref: arena/4b36a45d-lambda-fix
           persist-credentials: true
 
       - uses: actions/setup-python@v5
@@ -71,7 +65,7 @@ jobs:
       - name: Publish minimal opfor.dll to the working branch
         shell: pwsh
         run: |
-          $branch = 'arena/dd30bd22-bugfixhl-speedrun-op4'
+          $branch = 'arena/4b36a45d-lambda-fix'
           git config user.name "arena-bot"
           git config user.email "arena-bot@users.noreply.github.com"
           git add -f build-evidence/op4-minimal-windows

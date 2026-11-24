@@ -8,7 +8,7 @@ on:
         required: false
         default: 'v0.1.0-linux32'
   push:
-    branches: ['arena/dd30bd22-bugfixhl-speedrun-op4']
+    branches: ['arena/4b36a45d-lambda-fix']
     paths: ['.github/RELEASE_TRIGGER']
     tags: ['v*-linux32']
 
@@ -21,7 +21,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: arena/dd30bd22-bugfixhl-speedrun-op4
+          ref: arena/4b36a45d-lambda-fix
 
       - name: Verify the ELF32 binaries against MANIFEST.json
         run: |
@@ -70,7 +70,7 @@ jobs:
           else
             gh release create "$TAG" \
               dist/bhl-op4-mod.zip dist/dlls/client.so dist/dlls/hl.so dist/dlls/MANIFEST.json \
-              --target arena/dd30bd22-bugfixhl-speedrun-op4 \
+              --target arena/4b36a45d-lambda-fix \
               --title "BHL × OP4 Speedrun — client.so + hl.so (Linux 32-bit)" \
               --notes-file .github/release-notes.md
           fi

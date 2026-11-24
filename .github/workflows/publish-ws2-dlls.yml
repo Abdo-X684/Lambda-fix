@@ -18,7 +18,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: arena/dd30bd22-bugfixhl-speedrun-op4
+          ref: arena/4b36a45d-lambda-fix
           persist-credentials: true
 
       - uses: actions/download-artifact@v4
@@ -99,5 +99,5 @@ jobs:
             build-evidence/bhl-base/MOD_MANIFEST.json build-evidence/bhl-base/mod/MOD_MANIFEST.json \
             build-evidence/bhl-base/mod/INSTALL.md
           git commit -m "Publish MSVC-ABI build package with client TLS callbacks disabled" || echo "no changes"
-          git pull --rebase origin arena/dd30bd22-bugfixhl-speedrun-op4
-          git push origin HEAD:arena/dd30bd22-bugfixhl-speedrun-op4
+          git pull --rebase origin arena/4b36a45d-lambda-fix
+          git push origin HEAD:arena/4b36a45d-lambda-fix

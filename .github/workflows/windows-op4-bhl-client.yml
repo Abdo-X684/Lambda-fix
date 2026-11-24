@@ -2,14 +2,6 @@ name: Build OP4-based BugfixedHL client DLL
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - arena/dd30bd22-bugfixhl-speedrun-op4
-    paths:
-      - .github/workflows/windows-op4-bhl-client.yml
-      - tools/build_op4_bhl.py
-      - merge/**
-      - integration/bhl/**
 
 permissions:
   contents: write
@@ -20,7 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: arena/dd30bd22-bugfixhl-speedrun-op4
+          ref: arena/4b36a45d-lambda-fix
           persist-credentials: true
 
       - uses: actions/setup-python@v5
@@ -64,7 +56,7 @@ jobs:
       - name: Publish client.dll to the working branch
         shell: pwsh
         run: |
-          $branch = 'arena/dd30bd22-bugfixhl-speedrun-op4'
+          $branch = 'arena/4b36a45d-lambda-fix'
           git config user.name "arena-bot"
           git config user.email "arena-bot@users.noreply.github.com"
           git add -f build-evidence/op4-bhl-windows/client.dll build-evidence/op4-bhl-windows/OP4_BHL_PROVENANCE.json

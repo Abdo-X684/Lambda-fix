@@ -2,11 +2,6 @@ name: Compare MSVC DLL with original BHL client ABI
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - arena/dd30bd22-bugfixhl-speedrun-op4
-    paths:
-      - .github/workflows/abi-compare.yml
 
 permissions:
   contents: write
@@ -17,7 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: arena/dd30bd22-bugfixhl-speedrun-op4
+          ref: arena/4b36a45d-lambda-fix
           persist-credentials: true
 
       - name: Download original BugfixedHL 1.13.2 Windows client
@@ -87,5 +82,5 @@ jobs:
           git add build-evidence/bhl-windows/UPSTREAM_ABI_COMPARE.txt
           git add -f build-evidence/bhl-windows/UPSTREAM_client.dll
           git commit -m "Add upstream client DLL for MSVC-ABI build comparison" || echo "no changes"
-          git pull --rebase origin arena/dd30bd22-bugfixhl-speedrun-op4
-          git push origin HEAD:arena/dd30bd22-bugfixhl-speedrun-op4
+          git pull --rebase origin arena/4b36a45d-lambda-fix
+          git push origin HEAD:arena/4b36a45d-lambda-fix

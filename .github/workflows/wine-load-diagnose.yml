@@ -2,11 +2,6 @@ name: Diagnose MSVC client.dll load under Wine
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - arena/dd30bd22-bugfixhl-speedrun-op4
-    paths:
-      - .github/workflows/wine-load-diagnose.yml
 
 permissions:
   contents: write
@@ -17,7 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: arena/dd30bd22-bugfixhl-speedrun-op4
+          ref: arena/4b36a45d-lambda-fix
           persist-credentials: true
 
       - name: Install 32-bit Wine and a MinGW compiler
@@ -109,5 +104,5 @@ jobs:
           git config user.email "arena-bot@users.noreply.github.com"
           git add build-evidence/bhl-windows/WINE_LOAD_REPORT.txt
           git commit -m "Add Wine load diagnostic for MSVC-ABI build" || echo "no changes"
-          git pull --rebase origin arena/dd30bd22-bugfixhl-speedrun-op4
-          git push origin HEAD:arena/dd30bd22-bugfixhl-speedrun-op4
+          git pull --rebase origin arena/4b36a45d-lambda-fix
+          git push origin HEAD:arena/4b36a45d-lambda-fix

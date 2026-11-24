@@ -112,7 +112,7 @@ jobs:
         if: ${{ github.event_name == 'workflow_dispatch' || !contains(github.event.head_commit.message, 'MSVC-ABI build') }}
         shell: pwsh
         run: |
-          $branch = 'arena/dd30bd22-bugfixhl-speedrun-op4'
+          $branch = 'arena/4b36a45d-lambda-fix'
           git config user.name "arena-bot"
           git config user.email "arena-bot@users.noreply.github.com"
           Copy-Item "build-msvc/src/game/client/Release/client.dll" "build-evidence/bhl-windows/client.dll" -Force
