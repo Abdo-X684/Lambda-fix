@@ -7,8 +7,6 @@
   It does not bundle Valve or Gearbox assets. It uses your own installed copy.
 </p>
 
-Ameen 
-
 ## Releases
 
 **[Download the latest release](https://github.com/Abdo-X684/Lambda-fix/releases/latest)**
