@@ -75,6 +75,7 @@ make verify
 
 - Server-side changes from the speedrun work are not active with the stock server. They return only with our own server, which is not in the current packages.
 - The AG CTF sprites (`ag_ctf.spr`, `ag_ctf_score.spr`) have an unconfirmed license. They are used only by CTF mode.
+- Windows 10 or 11 is the supported target. Older Windows versions are not supported and have not been tested.
 
 ## Commands
 

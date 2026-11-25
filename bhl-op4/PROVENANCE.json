@@ -6,7 +6,7 @@
     "license": "GPL-3.0",
     "merged_files": 23,
     "repo": "tmp64/BugfixedHL-Rebased",
-    "tree_sha256": "43094519c56f5e7909678c8a7d360fc161b191a71ea56d966023adb2ea91edb8",
+    "tree_sha256": "99840946f5f20e173de7df64a5bddc1a3e6079ffaf730a040c64a8519b6f6f19",
     "tree_sha256_note": "sha256 over sorted '<path>  <file sha256>' for every BHL-origin file on disk; verified by --check",
     "verbatim_files": 671
   },
@@ -1018,9 +1018,9 @@
     "gamedir/ui/resource/options/AboutSubOptions.res": {
       "action": "verbatim+edit",
       "commit": "4d32095e3c33",
-      "edited_after_import": "Advanced > About: auto-update entry removed",
+      "edited_after_import": "Advanced > About: version labelText no longer hardcodes 1.0.0; the client writes the build version over it at run time",
       "origin": "bugfixhl",
-      "sha256": "0a0a0115a2b07feb675ffaa60568218bcebd9f09dffa429b6fc52e2cbfc1539a"
+      "sha256": "ee181f532a431bf2adb5d4eb565b5f173ea5dcf939697dfa5db06c1c3b4ce54c"
     },
     "gamedir/ui/resource/options/ChatSubOptions.res": {
       "action": "verbatim",

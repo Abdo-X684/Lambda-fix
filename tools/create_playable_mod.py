@@ -205,6 +205,9 @@ def build() -> None:
         "architecture": "full OP4 campaign/server + BugfixedHL VGUI2 client",
         "root": "BugfixedHL-Rebased gamedir + OP4 SDK server",
         "campaign": {"startmap": "of0a0", "trainmap": "ofboot0", "steam_appid": 50},
+        # Windows ships the patched OP4 SDK server from
+        # prepare_op4_msvc_server.py, whose impulse 101 also gives the Penguin
+        # (ten weapons). The Linux row is the stock installed server.
         "server": {
             "windows": "dlls/opfor.dll (patched OP4 SDK, BHL cvars, speedrun hooks, all-ten impulse 101)",
             "linux": "../gearbox/dlls/opfor.so (stock installed OP4 server)",

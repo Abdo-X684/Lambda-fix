@@ -87,7 +87,7 @@
 		"visible"		"1"
 		"enabled"		"1"
 		"tabPosition"		"0"
-		"labelText"		"1.0.0"
+		"labelText"		"#BHL_AdvOptions_About_Unknown"
 		"textAlignment"		"west"
 		"dulltext"		"0"
 		"brighttext"		"0"
