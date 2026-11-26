@@ -56,8 +56,11 @@
 
 #define CSUITNOREPEAT 32
 
+/* OP4 dlls/player.h:63-64 uses flashlight1 for on and flashlight2 for off.
+ * Both were pointing at flashlight1 here, so turning the night-vision light
+ * off played the "on" click a second time and the light felt broken. */
 #define SOUND_FLASHLIGHT_ON  "items/flashlight1.wav"
-#define SOUND_FLASHLIGHT_OFF "items/flashlight1.wav"
+#define SOUND_FLASHLIGHT_OFF "items/flashlight2.wav"
 
 typedef enum
 {

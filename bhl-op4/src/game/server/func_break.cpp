@@ -1033,7 +1033,25 @@ void CPushable ::PushThink(void)
 
 	CBaseEntity *pPlayer = FindTouchingEntity();
 
-	if (pPlayer != NULL)
+	/* LF-PUSHABLE: this think only stands in for the Touch() that HL25 does
+	 * not deliver to a MOVETYPE_PUSHSTEP entity. It must never run on top of
+	 * the engine's own call, or it changes what the box does.
+	 *
+	 * While +use is held, PlayerUse() calls Use() -> Move(player, 0) every
+	 * frame. That is the unclamped accumulate-and-sync loop: the box gains
+	 * the player's speed, the player is set to the box's speed, and the pair
+	 * ramps up. That ramp is the object boost, and it is why letting go of
+	 * +use launches you. Passing push = 1 here as well applies the push clamp
+	 * (MaxSpeed) to the box on every frame, which caps the ramp into a
+	 * constant drag and throws away the launch on release.
+	 *
+	 * So: stay out of the way while +use is down, and stay out of the way if
+	 * the box is already above MaxSpeed (the only way that happens is the
+	 * boost, and clamping it here would cancel it). */
+	const bool bUsing = pPlayer != NULL && (pPlayer->pev->button & IN_USE) != 0;
+	const float flSpeed = sqrt(pev->velocity.x * pev->velocity.x + pev->velocity.y * pev->velocity.y);
+
+	if (pPlayer != NULL && !bUsing && flSpeed <= MaxSpeed())
 		Move(pPlayer, 1); // the same call Touch() would have made
 
 	pev->nextthink = gpGlobals->time; // every frame
