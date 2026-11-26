@@ -80,8 +80,12 @@ Decoded MSVC symbol in dlls/opfor.dll:
 Absent from the 1.0.4 DLL. Present in this one. 580 sk_* cvar names, the same
 count as 1.0.4, so the 1.0.4 damage and skill work is intact.
 
-NOT TESTED IN GAME
-------------------
-I cannot run Half-Life. The DLL is CI output and the symbol above is static
-evidence, not a play test. The 60 fps figure comes from reading the arithmetic,
-not from measuring the game.
+IN-GAME CONFIRMED
+-----------------
+The user ran this package in Half-Life: Opposing Force and reported that
+func_pushable works: boxes can be pushed and pulled again.
+build-evidence/bhl-windows-mod/v1.0.5/ is the exact ZIP they tested
+(sha256 80f0239f...).
+
+The 60 fps figure in the explanation above still comes from reading the
+arithmetic, not from measuring the game.
