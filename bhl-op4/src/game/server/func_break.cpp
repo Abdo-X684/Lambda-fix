@@ -777,6 +777,19 @@ public:
 	void KeyValue(KeyValueData *pkvd);
 	void Use(CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useType, float value);
 	void EXPORT StopSound(void);
+
+	/* LF-PUSHABLE: self-driven push/pull.
+	 * HL25 (build 8684) applies player friction every frame in proportion to
+	 * 1/frametime while CPushable::Move adds an impulse scaled by frametime.
+	 * The two do not cancel, so above ~60 fps the box's velocity decays to
+	 * nothing and it appears immovable (see ValveSoftware/halflife#3639).
+	 * Driving the box from its own think, assigning velocity instead of
+	 * accumulating it, makes movement framerate independent and removes any
+	 * reliance on the engine delivering a touch for MOVETYPE_PUSHSTEP. */
+	void EXPORT PushThink(void);
+	void DriveFromToucher(CBaseEntity *pOther, int push);
+	CBaseEntity *FindTouchingEntity(void);
+
 	//	virtual void	SetActivator( CBaseEntity *pActivator ) { m_pPusher = pActivator; }
 
 	virtual int ObjectCaps(void) { return (CBaseEntity ::ObjectCaps() & ~FCAP_ACROSS_TRANSITION) | FCAP_CONTINUOUS_USE; }
@@ -831,6 +844,12 @@ void CPushable ::Spawn(void)
 	// Multiply by area of the box's cross-section (assume 1000 units^3 standard volume)
 	pev->skin = (pev->skin * (pev->maxs.x - pev->mins.x) * (pev->maxs.y - pev->mins.y)) * 0.0005;
 	m_soundTime = 0;
+
+	/* LF-PUSHABLE: run our own movement loop so push/pull does not depend on
+	 * the engine delivering touches to a MOVETYPE_PUSHSTEP entity, and so the
+	 * velocity we compute is not immediately eaten by player friction. */
+	SetThink(&CPushable::PushThink);
+	pev->nextthink = gpGlobals->time + 0.05;
 }
 
 void CPushable ::Precache(void)
@@ -888,8 +907,22 @@ void CPushable ::Use(CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE use
 		return;
 	}
 
-	if (pActivator->pev->velocity != g_vecZero)
-		Move(pActivator, 0);
+	/* LF-PUSHABLE: the original only moved the box when the player already had
+	 * velocity, and only by calling Move() with push == 0, whose "factor" is
+	 * multiplied by frametime and therefore shrinks to nothing at high frame
+	 * rates. Drive the box directly instead so a pull works at any fps. */
+	if (!(pActivator->pev->button & IN_USE))
+		return;
+
+	if (useType != USE_SET)
+		return;
+
+	DriveFromToucher(pActivator, 0);
+
+	// Keep the pull alive every frame, even if the engine never sends another
+	// touch for this box.
+	pev->nextthink = gpGlobals->time;
+	SetThink(&CPushable::PushThink);
 }
 
 void CPushable ::Touch(CBaseEntity *pOther)
@@ -897,10 +930,17 @@ void CPushable ::Touch(CBaseEntity *pOther)
 	if (FClassnameIs(pOther->pev, "worldspawn"))
 		return;
 
-	Move(pOther, 1);
+	/* LF-PUSHABLE: touch is only a hint. The box drives itself from
+	 * PushThink(), so a missed touch no longer means a stuck box. */
+	DriveFromToucher(pOther, 1);
 }
 
-void CPushable ::Move(CBaseEntity *pOther, int push)
+/* LF-PUSHABLE: velocity is assigned rather than accumulated. The old code did
+ *     pev->velocity += pevToucher->velocity * factor
+ * every frame, which fights the friction the engine applies per frame. Here we
+ * set the box speed directly to the pusher's speed (capped by MaxSpeed), so the
+ * result is the same at 60 fps and at 300 fps. */
+void CPushable ::DriveFromToucher(CBaseEntity *pOther, int push)
 {
 	entvars_t *pevToucher = pOther->pev;
 	int playerTouch = 0;
@@ -917,12 +957,6 @@ void CPushable ::Move(CBaseEntity *pOther, int push)
 
 	if (pOther->IsPlayer())
 	{
-		// JoshA: Used to check for FORWARD too and logic was inverted
-		// from comment which seems wrong.
-		// Fixed to just check for USE being not set for PUSH.
-		// Should have the right effect.
-		if (push && !!(pevToucher->button & IN_USE)) // Don't push unless the player is not useing (pull)
-			return;
 		playerTouch = 1;
 	}
 
@@ -943,44 +977,149 @@ void CPushable ::Move(CBaseEntity *pOther, int push)
 	else
 		factor = 0.25;
 
-	// JoshA: Always apply this if pushing, or if under the player's velocity.
-	if (push || (abs(pev->velocity.x) < abs(pevToucher->velocity.x - pevToucher->velocity.x * factor)))
-		pev->velocity.x += pevToucher->velocity.x * factor;
-	if (push || (abs(pev->velocity.y) < abs(pevToucher->velocity.y - pevToucher->velocity.y * factor)))
-		pev->velocity.y += pevToucher->velocity.y * factor;
+	// Desired horizontal speed, derived from the toucher, not from our own
+	// decaying velocity.
+	float flSpeed = sqrt(pevToucher->velocity.x * pevToucher->velocity.x + pevToucher->velocity.y * pevToucher->velocity.y) * factor;
 
-	float length = sqrt(pev->velocity.x * pev->velocity.x + pev->velocity.y * pev->velocity.y);
-	if (length > MaxSpeed())
+	if (flSpeed > MaxSpeed())
+		flSpeed = MaxSpeed();
+
+	if (flSpeed > 0.0f)
 	{
-		pev->velocity.x = (pev->velocity.x * MaxSpeed() / length);
-		pev->velocity.y = (pev->velocity.y * MaxSpeed() / length);
-	}
-	if (playerTouch)
-	{
-		// JoshA: Match the player to our pushable's velocity.
-		// Previously this always happened, but it should only
-		// happen if the player is pushing (or rather, being pushed.)
-		// This either stops the player in their tracks or nudges them along.
-		if (push)
+		float flDirX = pevToucher->velocity.x;
+		float flDirY = pevToucher->velocity.y;
+		float flLen = sqrt(flDirX * flDirX + flDirY * flDirY);
+
+		if (flLen > 0.0f)
 		{
-			pevToucher->velocity.x = pev->velocity.x;
-			pevToucher->velocity.y = pev->velocity.y;
+			pev->velocity.x = (flDirX / flLen) * flSpeed;
+			pev->velocity.y = (flDirY / flLen) * flSpeed;
 		}
+	}
 
-		if ((gpGlobals->time - m_soundTime) > 0.7)
+	if (playerTouch && push)
+	{
+		// Match the player to the box so the player is slowed by it instead of
+		// walking straight through the contact (HL25 behaviour).
+		pevToucher->velocity.x = pev->velocity.x;
+		pevToucher->velocity.y = pev->velocity.y;
+	}
+
+	if (playerTouch && (gpGlobals->time - m_soundTime) > 0.7)
+	{
+		m_soundTime = gpGlobals->time;
+		if (flSpeed > 0.0f && FBitSet(pev->flags, FL_ONGROUND))
 		{
-			m_soundTime = gpGlobals->time;
-			if (length > 0 && FBitSet(pev->flags, FL_ONGROUND))
+			m_lastSound = RANDOM_LONG(0, 2);
+			EMIT_SOUND(ENT(pev), CHAN_WEAPON, m_soundNames[m_lastSound], 0.5, ATTN_NORM);
+		}
+		else
+			STOP_SOUND(ENT(pev), CHAN_WEAPON, m_soundNames[m_lastSound]);
+	}
+}
+
+/* LF-PUSHABLE: find a player overlapping our bounding box. Used instead of
+ * relying on the engine's touch delivery for MOVETYPE_PUSHSTEP. */
+CBaseEntity *CPushable ::FindTouchingEntity(void)
+{
+	const Vector vecCenter = (pev->absmin + pev->absmax) * 0.5f;
+	const float flRadius = (pev->absmax - pev->absmin).Length() * 0.5f;
+
+	CBaseEntity *pEntity = NULL;
+
+	while ((pEntity = UTIL_FindEntityInSphere(pEntity, vecCenter, flRadius + 16.0f)) != NULL)
+	{
+		if (pEntity == this || !pEntity->IsPlayer())
+			continue;
+
+		if (!pEntity->IsAlive() || pEntity->pev->deadflag != DEAD_NO)
+			continue;
+
+		if (!(pEntity->pev->flags & FL_CLIENT))
+			continue;
+
+		// Bounding box overlap test
+		if (pEntity->pev->absmin.x > pev->absmax.x || pEntity->pev->absmax.x < pev->absmin.x)
+			continue;
+		if (pEntity->pev->absmin.y > pev->absmax.y || pEntity->pev->absmax.y < pev->absmin.y)
+			continue;
+		if (pEntity->pev->absmin.z > pev->absmax.z + 8.0f || pEntity->pev->absmax.z < pev->absmin.z)
+			continue;
+
+		return pEntity;
+	}
+
+	return NULL;
+}
+
+void CPushable ::PushThink(void)
+{
+	/* LF-PUSHABLE: only a breakable pushable can be "destroyed"; a plain one
+	 * never has health set, so health must not be used as a liveness test. */
+	if (FBitSet(pev->flags, FL_KILLME) || pev->solid == SOLID_NOT)
+		return;
+
+	CBaseEntity *pPlayer = FindTouchingEntity();
+
+	if (pPlayer != NULL)
+	{
+		/* LF-PUSHABLE: two distinct behaviours, matching the original feel:
+		 *  - USE held: a pull. The box keeps pace with the player, so walking
+		 *    backwards drags it along without needing the player to be moving
+		 *    into it.
+		 *  - USE not held: a push. The box is driven by the player's velocity,
+		 *    exactly like the original touch behaviour.
+		 * Both assign velocity, so neither depends on the frame rate. */
+		if (pPlayer->pev->button & IN_USE)
+		{
+			const float flPlayerSpeed = sqrt(pPlayer->pev->velocity.x * pPlayer->pev->velocity.x + pPlayer->pev->velocity.y * pPlayer->pev->velocity.y);
+
+			if (flPlayerSpeed > 1.0f)
 			{
-				m_lastSound = RANDOM_LONG(0, 2);
-				EMIT_SOUND(ENT(pev), CHAN_WEAPON, m_soundNames[m_lastSound], 0.5, ATTN_NORM);
-				//			SetThink( StopSound );
-				//			pev->nextthink = pev->ltime + 0.1;
+				float flSpeed = flPlayerSpeed;
+
+				if (flSpeed > MaxSpeed())
+					flSpeed = MaxSpeed();
+
+				pev->velocity.x = (pPlayer->pev->velocity.x / flPlayerSpeed) * flSpeed;
+				pev->velocity.y = (pPlayer->pev->velocity.y / flPlayerSpeed) * flSpeed;
 			}
 			else
-				STOP_SOUND(ENT(pev), CHAN_WEAPON, m_soundNames[m_lastSound]);
+			{
+				// Standing still while holding use: hold the box still too.
+				pev->velocity.x = 0.0f;
+				pev->velocity.y = 0.0f;
+			}
+
+			if ((gpGlobals->time - m_soundTime) > 0.7)
+			{
+				m_soundTime = gpGlobals->time;
+
+				if (flPlayerSpeed > 1.0f && FBitSet(pev->flags, FL_ONGROUND))
+				{
+					m_lastSound = RANDOM_LONG(0, 2);
+					EMIT_SOUND(ENT(pev), CHAN_WEAPON, m_soundNames[m_lastSound], 0.5, ATTN_NORM);
+				}
+			}
+		}
+		else
+		{
+			DriveFromToucher(pPlayer, 1);
 		}
 	}
+
+	pev->nextthink = gpGlobals->time; // every frame
+}
+
+/* LF-PUSHABLE: kept as a thin wrapper so any remaining caller gets the
+ * framerate independent behaviour instead of the old accumulate-and-decay
+ * code. The real work lives in DriveFromToucher(). */
+void CPushable ::Move(CBaseEntity *pOther, int push)
+{
+	if (!pOther)
+		return;
+
+	DriveFromToucher(pOther, push);
 }
 
 #if 0

@@ -1451,7 +1451,7 @@ void CBasePlayer::PlayerDeathThink(void)
 	StopAnimation();
 
 	pev->effects |= EF_NOINTERP;
-	pev->effects &= ~EF_DIMLIGHT;
+	pev->effects &= ~EF_BRIGHTLIGHT; /* OP4: the suit light is EF_BRIGHTLIGHT */
 
 	BOOL fAnyButtonDown = (m_afButtonPressed & ~IN_SCORE);
 	m_afButtonLast = pev->button;
@@ -3896,7 +3896,7 @@ CBaseEntity *FindEntityForward(CBaseEntity *pMe)
 
 BOOL CBasePlayer ::FlashlightIsOn(void)
 {
-	return FBitSet(pev->effects, EF_DIMLIGHT);
+	return FBitSet(pev->effects, EF_BRIGHTLIGHT); /* OP4 dlls/player.cpp:3647 */
 }
 
 void CBasePlayer ::FlashlightTurnOn(void)
@@ -3909,7 +3909,10 @@ void CBasePlayer ::FlashlightTurnOn(void)
 	if ((pev->weapons & (1 << WEAPON_SUIT)))
 	{
 		EMIT_SOUND_DYN(ENT(pev), CHAN_WEAPON, SOUND_FLASHLIGHT_ON, 1.0, ATTN_NORM, 0, PITCH_NORM);
-		SetBits(pev->effects, EF_DIMLIGHT);
+		/* OP4 dlls/player.cpp:3661 uses EF_BRIGHTLIGHT, not EF_DIMLIGHT.
+		 * EF_DIMLIGHT is the Half-Life cone flashlight; EF_BRIGHTLIGHT is
+		 * the Opposing Force omni light the player sees as night vision. */
+		SetBits(pev->effects, EF_BRIGHTLIGHT);
 		MESSAGE_BEGIN(MSG_ONE, gmsgFlashlight, NULL, pev);
 		WRITE_BYTE(1);
 		WRITE_BYTE(m_iFlashBattery);
@@ -3922,7 +3925,7 @@ void CBasePlayer ::FlashlightTurnOn(void)
 void CBasePlayer ::FlashlightTurnOff(void)
 {
 	EMIT_SOUND_DYN(ENT(pev), CHAN_WEAPON, SOUND_FLASHLIGHT_OFF, 1.0, ATTN_NORM, 0, PITCH_NORM);
-	ClearBits(pev->effects, EF_DIMLIGHT);
+	ClearBits(pev->effects, EF_BRIGHTLIGHT);
 	MESSAGE_BEGIN(MSG_ONE, gmsgFlashlight, NULL, pev);
 	WRITE_BYTE(0);
 	WRITE_BYTE(m_iFlashBattery);
@@ -4103,15 +4106,6 @@ void CBasePlayer::CheatImpulseCommands(int iImpulse)
 		GiveNamedItem("weapon_snark");
 		GiveNamedItem("weapon_hornetgun");
 #endif
-		GiveNamedItem("weapon_eagle");
-		GiveNamedItem("weapon_sporelauncher");
-		GiveNamedItem("weapon_shockrifle");
-		GiveNamedItem("weapon_knife");
-		GiveNamedItem("weapon_m249");
-		GiveNamedItem("weapon_pipewrench");
-		GiveNamedItem("weapon_grapple");
-		GiveNamedItem("weapon_sniperrifle");
-		GiveNamedItem("weapon_displacer");
 		gEvilImpulse101 = FALSE;
 		break;
 
