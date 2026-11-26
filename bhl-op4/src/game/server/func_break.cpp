@@ -921,6 +921,17 @@ void CPushable ::Touch(CBaseEntity *pOther)
  * touch to a MOVETYPE_PUSHSTEP entity. The movement itself is untouched:
  * velocities accumulate, and the player is matched to the box on a push,
  * which is what produces object boosts. */
+/* CPushable::Move -- verbatim from the OP4 server the user confirmed works
+ * (halflife-op4-updated before commit 4f0d502e4, "[HL25] Backport fixes to
+ * pushable"). Differences from the upstream code that used to sit here:
+ *
+ *   - no sv_pushable_fixed_tick_fudge and no frametime scaling: velocity is
+ *     accumulated as-is, which is what the working server does;
+ *   - a push needs IN_FORWARD or IN_USE held, as in the working server;
+ *   - the speed clamp applies to a push only.
+ *
+ * This is intentionally not frame-rate independent. It is a copy of the code
+ * that works. */
 void CPushable ::Move(CBaseEntity *pOther, int push)
 {
 	entvars_t *pevToucher = pOther->pev;
@@ -938,11 +949,7 @@ void CPushable ::Move(CBaseEntity *pOther, int push)
 
 	if (pOther->IsPlayer())
 	{
-		// JoshA: Used to check for FORWARD too and logic was inverted
-		// from comment which seems wrong.
-		// Fixed to just check for USE being not set for PUSH.
-		// Should have the right effect.
-		if (push && !!(pevToucher->button & IN_USE)) // Don't push unless the player is not useing (pull)
+		if (push && (pevToucher->button & (IN_FORWARD | IN_USE)) == 0) // Don't push unless the player is pushing forward and NOT use (pull)
 			return;
 		playerTouch = 1;
 	}
@@ -964,30 +971,19 @@ void CPushable ::Move(CBaseEntity *pOther, int push)
 	else
 		factor = 0.25;
 
-	// JoshA: Always apply this if pushing, or if under the player's velocity.
-	if (push || (abs(pev->velocity.x) < abs(pevToucher->velocity.x - pevToucher->velocity.x * factor)))
-		pev->velocity.x += pevToucher->velocity.x * factor;
-	if (push || (abs(pev->velocity.y) < abs(pevToucher->velocity.y - pevToucher->velocity.y * factor)))
-		pev->velocity.y += pevToucher->velocity.y * factor;
+	pev->velocity.x += pevToucher->velocity.x * factor;
+	pev->velocity.y += pevToucher->velocity.y * factor;
 
 	float length = sqrt(pev->velocity.x * pev->velocity.x + pev->velocity.y * pev->velocity.y);
-	if (length > MaxSpeed())
+	if (push && (length > MaxSpeed()))
 	{
 		pev->velocity.x = (pev->velocity.x * MaxSpeed() / length);
 		pev->velocity.y = (pev->velocity.y * MaxSpeed() / length);
 	}
 	if (playerTouch)
 	{
-		// JoshA: Match the player to our pushable's velocity.
-		// Previously this always happened, but it should only
-		// happen if the player is pushing (or rather, being pushed.)
-		// This either stops the player in their tracks or nudges them along.
-		if (push)
-		{
-			pevToucher->velocity.x = pev->velocity.x;
-			pevToucher->velocity.y = pev->velocity.y;
-		}
-
+		pevToucher->velocity.x = pev->velocity.x;
+		pevToucher->velocity.y = pev->velocity.y;
 		if ((gpGlobals->time - m_soundTime) > 0.7)
 		{
 			m_soundTime = gpGlobals->time;
@@ -995,8 +991,6 @@ void CPushable ::Move(CBaseEntity *pOther, int push)
 			{
 				m_lastSound = RANDOM_LONG(0, 2);
 				EMIT_SOUND(ENT(pev), CHAN_WEAPON, m_soundNames[m_lastSound], 0.5, ATTN_NORM);
-				//			SetThink( StopSound );
-				//			pev->nextthink = pev->ltime + 0.1;
 			}
 			else
 				STOP_SOUND(ENT(pev), CHAN_WEAPON, m_soundNames[m_lastSound]);
@@ -1004,13 +998,6 @@ void CPushable ::Move(CBaseEntity *pOther, int push)
 	}
 }
 
-/* LF-PUSHABLE: HL25 does not deliver Touch() to a MOVETYPE_PUSHSTEP entity,
- * so Move() above would never run and the box would be immovable. Find any
- * player overlapping the box and hand them to the same Valve code.
- *
- * The box's existing velocity is preserved: this only ever adds to it through
- * Move(), exactly as repeated touches would, so boosts behave as before.
- * No velocity is assigned and the frame rate is not consulted. */
 CBaseEntity *CPushable ::FindTouchingEntity(void)
 {
 	const Vector vecCenter = (pev->absmin + pev->absmax) * 0.5f;
