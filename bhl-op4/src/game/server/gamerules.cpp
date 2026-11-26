@@ -122,13 +122,6 @@ BOOL CGameRules::CanHavePlayerItem(CBasePlayer *pPlayer, CBasePlayerItem *pWeapo
 //=========================================================
 // load the SkillData struct with the proper values based on the skill level.
 //=========================================================
-// OP4 skill value with the official default: used when the skill config has no value (0).
-static float GetSkillCvarOr(char* pName, float flDefault)
-{
-	const float flValue = GetSkillCvar(pName);
-	return flValue > 0 ? flValue : flDefault;
-}
-
 void CGameRules::RefreshSkillData(void)
 {
 	int iSkill;
@@ -285,20 +278,6 @@ void CGameRules::RefreshSkillData(void)
 	// Tripmine
 	gSkillData.plrDmgTripmine = GetSkillCvar("sk_plr_tripmine");
 
-	// OP4 weapons: values from the OP4 skill config, official defaults when unset
-	gSkillData.plrDmgPipewrench = GetSkillCvarOr("sk_plr_pipewrench", 20);
-	gSkillData.plrDmgKnife = GetSkillCvarOr("sk_plr_knife", 10);
-	gSkillData.plrDmgGrapple = GetSkillCvarOr("sk_plr_grapple", 25);
-	gSkillData.plrDmgEagle = GetSkillCvarOr("sk_plr_eagle", 34);
-	gSkillData.plrDmg762 = GetSkillCvarOr("sk_plr_762_bullet", 100);
-	gSkillData.plrDmg556 = GetSkillCvarOr("sk_plr_556_bullet", 15);
-	gSkillData.plrDmgDisplacerSelf = GetSkillCvarOr("sk_plr_displacer_self", 5);
-	gSkillData.plrDmgDisplacerOther = GetSkillCvarOr("sk_plr_displacer_other", 250);
-	gSkillData.plrRadiusDisplacer = GetSkillCvarOr("sk_plr_displacer_radius", 300);
-	gSkillData.plrDmgShockRoachS = GetSkillCvarOr("sk_plr_shockroachs", 10);
-	gSkillData.plrDmgShockRoachM = GetSkillCvarOr("sk_plr_shockroachm", 15);
-	gSkillData.plrDmgSpore = GetSkillCvarOr("sk_plr_spore", 50);
-
 	// MONSTER WEAPONS
 	gSkillData.monDmg12MM = GetSkillCvar("sk_12mm_bullet");
 	gSkillData.monDmgMP5 = GetSkillCvar("sk_9mmAR_bullet");
@@ -335,6 +314,104 @@ void CGameRules::RefreshSkillData(void)
 	gSkillData.plrStomach = GetSkillCvar("sk_player_stomach");
 	gSkillData.plrLeg = GetSkillCvar("sk_player_leg");
 	gSkillData.plrArm = GetSkillCvar("sk_player_arm");
+
+	// ===== OP4 enemy, weapon and ally skill values =====
+	// These were present only in op4/reference/dlls/gamerules.cpp, which is
+	// not compiled. Without them every OP4 monster hit for 0 damage.
+
+	// Otis
+	gSkillData.otisHealth = GetSkillCvar("sk_otis_health");
+
+	// Pit Drone
+	gSkillData.pitdroneHealth = GetSkillCvar("sk_pitdrone_health");
+	gSkillData.pitdroneDmgBite = GetSkillCvar("sk_pitdrone_dmg_bite");
+	gSkillData.pitdroneDmgWhip = GetSkillCvar("sk_pitdrone_dmg_whip");
+	gSkillData.pitdroneDmgSpit = GetSkillCvar("sk_pitdrone_dmg_spit");
+
+	// Shock Roach
+	gSkillData.shockroachHealth = GetSkillCvar("sk_shockroach_health");
+	gSkillData.shockroachDmgBite = GetSkillCvar("sk_shockroach_dmg_bite");
+	gSkillData.shockroachLifespan = GetSkillCvar("sk_shockroach_lifespan");
+
+	// HGrunt Ally
+	gSkillData.hgruntAllyHealth = GetSkillCvar("sk_hgrunt_ally_health");
+	gSkillData.hgruntAllyDmgKick = GetSkillCvar("sk_hgrunt_ally_kick");
+	gSkillData.hgruntAllyShotgunPellets = GetSkillCvar("sk_hgrunt_ally_pellets");
+	gSkillData.hgruntAllyGrenadeSpeed = GetSkillCvar("sk_hgrunt_ally_gspeed");
+
+	// Medic Ally
+	gSkillData.medicAllyHealth = GetSkillCvar("sk_medic_ally_health");
+	gSkillData.medicAllyDmgKick = GetSkillCvar("sk_medic_ally_kick");
+	gSkillData.medicAllyGrenadeSpeed = GetSkillCvar("sk_medic_ally_gspeed");
+	gSkillData.medicAllyHeal = GetSkillCvar("sk_medic_ally_heal");
+
+	// Torch Ally
+	gSkillData.torchAllyHealth = GetSkillCvar("sk_torch_ally_health");
+	gSkillData.torchAllyDmgKick = GetSkillCvar("sk_torch_ally_kick");
+	gSkillData.torchAllyGrenadeSpeed = GetSkillCvar("sk_torch_ally_gspeed");
+
+	// Massn Assassin
+	gSkillData.massassinHealth = GetSkillCvar("sk_massassin_health");
+	gSkillData.massassinDmgKick = GetSkillCvar("sk_massassin_kick");
+	gSkillData.massassinGrenadeSpeed = GetSkillCvar("sk_massassin_gspeed");
+
+	// Shock Trooper
+	gSkillData.shocktrooperHealth = GetSkillCvar("sk_shocktrooper_health");
+	gSkillData.shocktrooperDmgKick = GetSkillCvar("sk_shocktrooper_kick");
+	gSkillData.shocktrooperGrenadeSpeed = GetSkillCvar("sk_shocktrooper_gspeed");
+	gSkillData.shocktrooperMaxCharge = GetSkillCvar("sk_shocktrooper_maxcharge");
+	gSkillData.shocktrooperRechargeSpeed = GetSkillCvar("sk_shocktrooper_rchgspeed");
+
+	// Cleansuit Scientist
+	gSkillData.cleansuitScientistHealth = GetSkillCvar("sk_cleansuit_scientist_health");
+
+	// Voltigore
+	gSkillData.voltigoreHealth = GetSkillCvar("sk_voltigore_health");
+	gSkillData.voltigoreDmgPunch = GetSkillCvar("sk_voltigore_dmg_punch");
+	gSkillData.voltigoreDmgBeam = GetSkillCvar("sk_voltigore_dmg_beam");
+
+	// Baby Voltigore
+	gSkillData.babyvoltigoreHealth = GetSkillCvar("sk_babyvoltigore_health");
+	gSkillData.babyvoltigoreDmgPunch = GetSkillCvar("sk_babyvoltigore_dmg_punch");
+
+	// Pit Worm
+	gSkillData.pitWormHealth = GetSkillCvar("sk_pitworm_health");
+	gSkillData.pitWormDmgSwipe = GetSkillCvar("sk_pitworm_dmg_swipe");
+	gSkillData.pitWormDmgBeam = GetSkillCvar("sk_pitworm_dmg_beam");
+
+	// Gene Worm
+	gSkillData.geneWormHealth = GetSkillCvar("sk_geneworm_health");
+	gSkillData.geneWormDmgSpit = GetSkillCvar("sk_geneworm_dmg_spit");
+	gSkillData.geneWormDmgHit = GetSkillCvar("sk_geneworm_dmg_hit");
+
+	// Zombie Barney
+	gSkillData.zombieBarneyHealth = GetSkillCvar("sk_zombie_barney_health");
+	gSkillData.zombieBarneyDmgOneSlash = GetSkillCvar("sk_zombie_barney_dmg_one_slash");
+	gSkillData.zombieBarneyDmgBothSlash = GetSkillCvar("sk_zombie_barney_dmg_both_slash");
+
+	// Zombie Soldier
+	gSkillData.zombieSoldierHealth = GetSkillCvar("sk_zombie_soldier_health");
+	gSkillData.zombieSoldierDmgOneSlash = GetSkillCvar("sk_zombie_soldier_dmg_one_slash");
+	gSkillData.zombieSoldierDmgBothSlash = GetSkillCvar("sk_zombie_soldier_dmg_both_slash");
+
+	// Gonome
+	gSkillData.gonomeDmgGuts = GetSkillCvar("sk_gonome_dmg_guts");
+	gSkillData.gonomeHealth = GetSkillCvar("sk_gonome_health");
+	gSkillData.gonomeDmgOneSlash = GetSkillCvar("sk_gonome_dmg_one_slash");
+	gSkillData.gonomeDmgOneBite = GetSkillCvar("sk_gonome_dmg_one_bite");
+	gSkillData.plrDmgPipewrench = GetSkillCvar("sk_plr_pipewrench");
+	gSkillData.plrDmgKnife = GetSkillCvar("sk_plr_knife");
+	gSkillData.plrDmgGrapple = GetSkillCvar("sk_plr_grapple");
+	gSkillData.plrDmgEagle = GetSkillCvar("sk_plr_eagle");
+	gSkillData.plrDmg762 = GetSkillCvar("sk_plr_762_bullet");
+	gSkillData.plrDmg556 = GetSkillCvar("sk_plr_556_bullet");
+	gSkillData.plrDmgDisplacerSelf = GetSkillCvar("sk_plr_displacer_self");
+	gSkillData.plrDmgDisplacerOther = GetSkillCvar("sk_plr_displacer_other");
+	gSkillData.plrRadiusDisplacer = GetSkillCvar("sk_plr_displacer_radius");
+	gSkillData.plrDmgShockRoachS = GetSkillCvar("sk_plr_shockroachs");
+	gSkillData.plrDmgShockRoachM = GetSkillCvar("sk_plr_shockroachm");
+	gSkillData.plrDmgSpore = GetSkillCvar("sk_plr_spore");
+	gSkillData.cleansuitScientistHeal = GetSkillCvar("sk_cleansuit_scientist_heal");
 }
 
 //=========================================================
