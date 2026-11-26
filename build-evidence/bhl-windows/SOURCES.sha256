@@ -183,8 +183,8 @@ d7bc05b265c4c8b6ceade51e1adfb9692abc6d5f51a94c5e423fe64e64c444a6  bhl-op4/src/ga
 905cd04b6656d128f44b843b2db15bb7751ae4b91fe18c826f636efde4fe9cfb  bhl-op4/src/game/server/flyingmonster.cpp
 ca671e1bcec922cfc83297f5f07383c43c34cb0cc6b62e42120db025cdd5e569  bhl-op4/src/game/server/func_break.cpp
 0bc59bd7b7d5c9108fba26f682edfdf26a802aaa3e6aaca6cd9e74921136df54  bhl-op4/src/game/server/func_tank.cpp
-65f37b947e575c7faa0f9f54d8fade67655dd0d089d586b0497d85cf117e7a26  bhl-op4/src/game/server/game.cpp
-37619e7451d6d2f7874afe05fccb32664a567f406d62eb134fac4aa8b00e6faf  bhl-op4/src/game/server/gamerules.cpp
+840850f551535611e935704e2dc504a32b2dae15a6855fa7124e81b5905ca0dd  bhl-op4/src/game/server/game.cpp
+628c9e7a16d22a331133957b9dc14c4db6149c50f01b6aba481a57a3f3f423de  bhl-op4/src/game/server/gamerules.cpp
 38fd7f59bd36b4d126de1f2761c5aa1ea47f8935cc625c368cbeda149346edb1  bhl-op4/src/game/server/gargantua.cpp
 07771bce9729a64f0daf2f0cfbb3059343eebf23fa8c6187f185d18c41c0851f  bhl-op4/src/game/server/gauss.cpp
 717c062e25702d0418c8202a11cf35f771b8cf8a054a3223a5e225d0e94d09b5  bhl-op4/src/game/server/genericmonster.cpp
