@@ -34,3 +34,16 @@ Testing/
 .vscode/
 .idea/
 .DS_Store
+
+# ---------------------------------------------------------------------------
+# Licensing: do not commit Valve game assets or retail binaries.
+# The repository is public. These files are not redistributable.
+# ---------------------------------------------------------------------------
+# Valve maps (Half-Life: Opposing Force .bsp)
+*.bsp
+# Retail 2002 server DLL and any stock Valve binary
+/opfor.dll
+/gearbox/
+# Crash dumps: contain process memory, loaded module paths and stack data
+*.dmp
+*.mdmp

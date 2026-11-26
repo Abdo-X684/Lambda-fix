@@ -57,6 +57,31 @@ Before publishing or sharing a source archive, binary, or mod package:
 
 The obligations can differ between the repository's original code, the merged development tree, and a particular packaged build. Review the contents of the actual distribution rather than relying on the repository's root license alone.
 
+## Before making this repository public
+
+The repository was private during development. Several files that were fine for
+private testing are **not redistributable** and must stay out of a public tree:
+
+| Removed | Why |
+| --- | --- |
+| `opfor.dll` (repository root) | Retail Valve/Gearbox server binary, build 2002-03-18. Not covered by the SDK license; the SDK license covers code you compile, not Valve's shipped binaries. |
+| `of2a1.bsp`, `of2a1b.bsp`, `of4a2.bsp` | Half-Life: Opposing Force campaign maps. Valve/Gearbox content. |
+| `crash-*.dmp` | Process memory capture: loaded module paths, stack contents, and possibly environment data. |
+
+`.gitignore` now blocks `*.bsp`, `*.dmp`, `*.mdmp`, `/opfor.dll` and `/gearbox/`
+so they cannot be re-added by accident.
+
+**Still unresolved and shipped in packages:** `ag_ctf.spr` and
+`ag_ctf_score.spr`. Their license is unconfirmed. They are loaded by the CTF HUD
+on every client. Either obtain permission, find the original license, or replace
+them before any wide public release.
+
+**Note on history:** removing these files from the current tree does not remove
+them from earlier commits. If the repository becomes public with its full
+history, those blobs remain fetchable. To publish without them, either rewrite
+history (e.g. `git filter-repo --path opfor.dll --path '*.bsp' --path '*.dmp' --invert-paths`)
+or publish a fresh repository from the cleaned tree.
+
 ## Upstream references
 
 - [BugfixedHL-Rebased](https://github.com/tmp64/BugfixedHL-Rebased) — GPL-3.0.
