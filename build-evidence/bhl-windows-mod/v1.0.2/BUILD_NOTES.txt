@@ -1,0 +1,44 @@
+Lambda-fix 1.0.2 — Windows package
+=================================
+
+CHANGE FROM 1.0.1
+-----------------
+1.0.1 shipped gearbox_addon/dlls/ EMPTY and liblist.gam said:
+    gamedll "../gearbox/dlls/opfor.dll"
+  so the engine loaded the stock 2002 Valve opfor.dll from gearbox/.
+  The BHL server was never used.
+
+1.0.2 fixes that:
+* gearbox_addon/dlls/opfor.dll  = BHL server (hl.dll from the same build)
+* gearbox_addon/cl_dlls/client.dll = BHL client from the same build
+* liblist.gam: gamedll "dlls\opfor.dll"   (no ".." path)
+* fallback_dir "gearbox" kept: assets only (maps, models, sounds)
+
+BUILD IDENTITY (both DLLs from one build)
+-----------------------------------------
+client.dll  TimeDateStamp 0x6B04C1C9  2026-11-23 22:44:25
+            sha256 2f7a9b7ee41e325f77a1e0a9f9e3a24c48e1bcd0b8b1ba5b30d0e8a0e1c4d2f9
+opfor.dll   TimeDateStamp 0x6B04C1DC  2026-11-23 22:44:44
+            sha256 f7d42ab2bde5767687d3d854e577aa7589114469b93a96c0bfb85fe5a94b1351
+
+opfor.dll exports: GiveFnptrsToDll, GetEntityAPI, GetEntityAPI2,
+GetNewDLLFunctions  (same entry points as the stock server DLL).
+
+CRASH FIX PRESENT
+-----------------
+COFGonome::GUTS_GRAB now guards m_hEnemy before dereferencing it:
+  0xC070B  lea  ecx, [edi+0xf8]    ; &m_hEnemy
+  0xC0711  call 0x1CA40            ; EHANDLE -> CBaseEntity*
+  0xC0716  test eax, eax           ; NULL check
+  0xC0718  je   0xC0EED            ; bail out safely
+
+LICENSE
+-------
+Same as 1.0.1. See LICENSES/NOTICE.txt.
+Server and client are built from the Half-Life 1 SDK (Valve license),
+BHL code is GPL v3. Distributed free of charge, not for sale.
+
+NOT TESTED BY THE PACKAGER
+--------------------------
+These DLLs were produced by CI. The person who built this package has no
+Windows machine and cannot run Half-Life, so in-game behaviour is unverified.
