@@ -999,8 +999,11 @@ void CPushable ::DriveFromToucher(CBaseEntity *pOther, int push)
 
 	if (playerTouch && push)
 	{
-		// Match the player to the box so the player is slowed by it instead of
-		// walking straight through the contact (HL25 behaviour).
+		/* LF-PUSHABLE: match the player to the box, as the original Move() did.
+		 * This is only called from Touch() now (a real contact), not from
+		 * PushThink(), so the player's velocity is not rewritten every frame.
+		 * Rewriting it per frame broke jumping and strafing while in contact,
+		 * and it killed object boosts. */
 		pevToucher->velocity.x = pev->velocity.x;
 		pevToucher->velocity.y = pev->velocity.y;
 	}
@@ -1063,48 +1066,66 @@ void CPushable ::PushThink(void)
 
 	if (pPlayer != NULL)
 	{
-		/* LF-PUSHABLE: two distinct behaviours, matching the original feel:
-		 *  - USE held: a pull. The box keeps pace with the player, so walking
-		 *    backwards drags it along without needing the player to be moving
-		 *    into it.
-		 *  - USE not held: a push. The box is driven by the player's velocity,
-		 *    exactly like the original touch behaviour.
-		 * Both assign velocity, so neither depends on the frame rate. */
-		if (pPlayer->pev->button & IN_USE)
+		entvars_t *pevToucher = pPlayer->pev;
+
+		/* The original Move() granted the box a share of the player's velocity
+		 * and stopped short of anything else in these two cases. Both matter
+		 * for object boosts, so reproduce them exactly.
+		 *
+		 * 1) The player is RIDING the box. Touching its velocity here slides
+		 *    the box out from under the rider and kills the boost. Only the
+		 *    water case moves it, exactly as before.
+		 * 2) The player is airborne. A player jumping on or over a moving box
+		 *    must not brake it, so do nothing unless it is in water. */
+		const BOOL bRiding = (FBitSet(pevToucher->flags, FL_ONGROUND) && pevToucher->groundentity && VARS(pevToucher->groundentity) == pev);
+		const BOOL bAirborne = !FBitSet(pevToucher->flags, FL_ONGROUND);
+
+		if (bRiding)
 		{
-			const float flPlayerSpeed = sqrt(pPlayer->pev->velocity.x * pPlayer->pev->velocity.x + pPlayer->pev->velocity.y * pPlayer->pev->velocity.y);
+			if (pev->waterlevel > 0)
+				pev->velocity.z += pevToucher->velocity.z * 0.1;
 
-			if (flPlayerSpeed > 1.0f)
-			{
-				float flSpeed = flPlayerSpeed;
+			pev->nextthink = gpGlobals->time;
+			return;
+		}
 
-				if (flSpeed > MaxSpeed())
-					flSpeed = MaxSpeed();
+		if (bAirborne && pev->waterlevel < 1)
+		{
+			pev->nextthink = gpGlobals->time;
+			return;
+		}
 
-				pev->velocity.x = (pPlayer->pev->velocity.x / flPlayerSpeed) * flSpeed;
-				pev->velocity.y = (pPlayer->pev->velocity.y / flPlayerSpeed) * flSpeed;
-			}
-			else
-			{
-				// Standing still while holding use: hold the box still too.
-				pev->velocity.x = 0.0f;
-				pev->velocity.y = 0.0f;
-			}
+		float factor = bAirborne ? 0.1f : 1.0f;
+
+		const float flPlayerSpeed = sqrt(pevToucher->velocity.x * pevToucher->velocity.x + pevToucher->velocity.y * pevToucher->velocity.y);
+
+		/* USE held is a pull, and only a pull adds the original 0.25 share.
+		 * Either way the player's own velocity is never rewritten here: that
+		 * only happened on a real touch, and doing it every frame broke
+		 * jumping and strafing while in contact. */
+		if ((pevToucher->button & IN_USE) == 0)
+			factor = 0.25f;
+
+		if (flPlayerSpeed > 0.1f)
+		{
+			float flSpeed = flPlayerSpeed * factor;
+
+			if (flSpeed > MaxSpeed())
+				flSpeed = MaxSpeed();
+
+			pev->velocity.x = (pevToucher->velocity.x / flPlayerSpeed) * flSpeed;
+			pev->velocity.y = (pevToucher->velocity.y / flPlayerSpeed) * flSpeed;
 
 			if ((gpGlobals->time - m_soundTime) > 0.7)
 			{
 				m_soundTime = gpGlobals->time;
 
-				if (flPlayerSpeed > 1.0f && FBitSet(pev->flags, FL_ONGROUND))
+				if (FBitSet(pev->flags, FL_ONGROUND))
 				{
 					m_lastSound = RANDOM_LONG(0, 2);
 					EMIT_SOUND(ENT(pev), CHAN_WEAPON, m_soundNames[m_lastSound], 0.5, ATTN_NORM);
 				}
 			}
-		}
-		else
-		{
-			DriveFromToucher(pPlayer, 1);
 		}
 	}
 
