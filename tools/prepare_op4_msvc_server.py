@@ -105,6 +105,20 @@ def prepare(out: Path) -> None:
     text = replace_exact(text, old, new, "dlls/player.cpp impulse 101")
     player.write_text(text, encoding="utf-8")
 
+    # LF-PUSHABLE: HL25 broke func_pushable; repair it in the tree that actually
+    # builds the shipped opfor.dll (not in bhl-op4, which the package does not use).
+    sys.path.insert(0, str(ROOT / "tools"))
+    from patch_op4_pushable import patch_text as pushable_patch_text
+    from patch_op4_pushable import verify_text as pushable_verify_text
+
+    func_break = out / "dlls/func_break.cpp"
+    fb_text = func_break.read_text(encoding="utf-8")
+    if "LF-PUSHABLE" not in fb_text:
+        fb_text, fb_errors = pushable_patch_text(fb_text)
+        if fb_errors:
+            raise SystemExit("func_break.cpp pushable patch: " + "; ".join(fb_errors))
+        func_break.write_text(fb_text, encoding="utf-8")
+
     project = out / "projects/vs2019/hldll.vcxproj"
     text = project.read_text(encoding="utf-8")
     if text.count("<PlatformToolset>v142</PlatformToolset>") != 2:
@@ -157,6 +171,14 @@ def verify(tree: Path) -> list[str]:
     for item in ("weapon_penguin", "ammo_556", "ammo_762", "ammo_spore"):
         chk(f'GiveNamedItem("{item}");' in player,
             f"player.cpp impulse 101 missing {item}")
+
+    # LF-PUSHABLE: the shipped opfor.dll must contain the framerate-independent
+    # push/pull code, not the frametime-scaled impulse that HL25 broke.
+    func_break = (tree / "dlls/func_break.cpp").read_text(encoding="utf-8")
+    sys.path.insert(0, str(ROOT / "tools"))
+    from patch_op4_pushable import verify_text as pushable_verify_text
+    for err in pushable_verify_text(func_break):
+        chk(False, f"func_break.cpp pushable: {err}")
     project = (tree / "projects/vs2019/hldll.vcxproj").read_text(
         encoding="utf-8")
     chk("v143" in project and "v142" not in project,
