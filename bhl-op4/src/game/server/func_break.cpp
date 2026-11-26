@@ -785,6 +785,7 @@ public:
 	 * movement code itself is Valve's, including the velocity accumulation
 	 * and the player/box velocity sync that make object boosts work. */
 	void EXPORT PushThink(void);
+	CBaseEntity *FindTouchingEntity(void);
 
 	//	virtual void	SetActivator( CBaseEntity *pActivator ) { m_pPusher = pActivator; }
 
