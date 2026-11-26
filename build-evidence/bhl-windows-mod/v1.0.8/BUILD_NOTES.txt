@@ -1,0 +1,65 @@
+Lambda-fix 1.0.8 - Windows package
+==================================
+
+WHAT THIS IS
+------------
+1.0.4's exact 98-file gearbox_addon layout, with only two files changed:
+dlls/opfor.dll and MOD_MANIFEST.json.
+
+WHAT CHANGED
+------------
+The server DLL is now a STOCK Opposing Force server, built from the pinned
+halflife-op4-updated tree with exactly one edit. It is not built from bhl-op4.
+
+  stock OP4 server   + Spore Launcher classname fix
+  - no BugfixedHL server systems
+  - no speedrun core
+  - no sv_pushable_fixed_tick_fudge (the stock tree does not have it)
+  - no CPushable rewrite, no PushThink
+  - no impulse 101 change
+
+func_pushable in this DLL is Valve's code, unmodified.
+
+WHY
+---
+You confirmed the clean OP4 server you uploaded works, and every build derived
+from bhl-op4 did not. Rather than keep guessing at the difference inside a
+binary, this package uses the same kind of server you know works.
+
+WHAT YOU LOSE
+-------------
+This is important, so it is not buried:
+
+  1. The 1.0.4 damage and skill work is NOT in this DLL.
+     62 OP4 gSkillData fields and 186 OP4 sk_* cvars were added in the bhl-op4
+     tree. A stock OP4 server reads its skill values from gearbox/skill.cfg
+     instead, exactly as the original game does. If skill.cfg is present in your
+     install, OP4 damage will be normal. If it is missing, damage values will be
+     wrong.
+
+  2. No BugfixedHL server-side fixes.
+     Whatever BHL fixed on the server is gone in this build.
+
+  3. No speedrun hooks.
+
+The client DLL is unchanged from 1.0.4, so the menu, HUD and CVar client work is
+still there.
+
+BUILD IDENTITY
+--------------
+  dlls/opfor.dll   CI run 45908504465, workflow windows-op4-minimal-server.yml,
+                   commit 40a863b, MSVC/Win32, 2026-11-26
+                   sha256 8b12d62716eacebfb80201e52836c8b1259a8f7970e8c436cd3900e5bc682156
+                   1,842,688 bytes
+  cl_dlls/client.dll unchanged from 1.0.4
+
+  zip sha256 b84cc7f9ed255f4aa51656dca50b219f39ba001ff644b1dbd69aaf037e65d3f0
+      1,761,170 bytes
+
+  Source diff against the pinned upstream:
+  build-evidence/op4-minimal-windows/SOURCE_DIFF.patch
+
+NOT TESTED IN GAME
+------------------
+I cannot run Half-Life. I do not know whether pushables work in this build. What
+I know is that it is the same class of server as the one you confirmed works.
