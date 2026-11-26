@@ -1,0 +1,63 @@
+Lambda-fix 1.1.0 - Windows package
+==================================
+
+WHAT THIS IS
+------------
+1.0.4's exact 98-file gearbox_addon layout, with dlls/opfor.dll replaced.
+Carries forward everything that worked in 1.0.9 (box movement confirmed by
+you in game) and fixes the two things you reported afterwards.
+
+FIX 1 - THE BOOST NOW HAPPENS WHEN YOU RELEASE E
+------------------------------------------------
+You said: the boost comes while E is held, not when you let go. Correct, and
+the cause was my PushThink, not Valve's code.
+
+While +use is held, PlayerUse() calls CPushable::Use() every frame, which
+calls Move(player, 0): accumulate the player's velocity, then set the player
+to the box's velocity. push = 0, so the MaxSpeed clamp is skipped. That
+feedback loop is the object boost, and it is what launches you when the key
+is released.
+
+PushThink was ALSO calling Move(player, 1) every frame. push = 1 turns on the
+clamp, so on every one of those frames the box was cut back to MaxSpeed. The
+box was dragged along at MaxSpeed (that felt like a boost while held) and
+there was nothing left to hand back on release.
+
+PushThink now skips the call in exactly two cases:
+
+    player is overlapping AND holding +use          -> Use() already did it, unclamped
+    box speed is already above MaxSpeed             -> only the boost does
+                                                       this; clamping it would cancel it
+
+Otherwise it is unchanged and still calls the same Move(player, 1) that
+Touch() would have made. Move(), Use() and Touch() are untouched.
+
+FIX 2 - NIGHT VISION SOUND
+--------------------------
+SOUND_FLASHLIGHT_OFF was defined as items/flashlight1.wav, the same file as
+SOUND_FLASHLIGHT_ON. Turning the light off replayed the on click.
+OP4 dlls/player.h uses items/flashlight2.wav for off; we now match it. Both
+are precached in client.cpp, so no other change was needed.
+
+VERIFIED IN THE BINARY
+----------------------
+  hl.dll contains items/flashlight1.wav and items/flashlight2.wav   (2 distinct)
+  PushThink: test byte [player+0x180], 0x20   ; IN_USE
+             comiss xmm0(MaxSpeed), xmm1(speed) ; skip when MaxSpeed < speed
+             only then call Move(box, 1)
+  Move():   unchanged from 1.0.9 - pre-HL25 body, IN_FORWARD|IN_USE gate,
+            clamp only under push
+
+BUILD IDENTITY
+--------------
+CI run 45912584400, workflow windows-msvc.yml, commit 42d14b5,
+MSVC/Win32, 2026-11-26.
+
+  dlls/opfor.dll   1,676,288 bytes
+                   sha256 8781677e1d1890a0e8a0fe7a7b8a757a8c1b744190f11aea509a1382905af415
+  cl_dlls/client.dll unchanged from 1.0.4
+
+NOT TESTED IN GAME.
+Two known-stale entries in MOD_MANIFEST.json (cl_dlls/client.dll, liblist.gam)
+are inherited unchanged from 1.0.4 and affect nothing but the in-game
+"lambda_validate_files" report.
