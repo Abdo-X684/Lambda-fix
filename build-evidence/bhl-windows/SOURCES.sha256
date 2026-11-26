@@ -181,7 +181,7 @@ c468f30716c5a1f9a834df3978d08888b29ca272a46d08eaf76af281d8480c7b  bhl-op4/src/ga
 d7bc05b265c4c8b6ceade51e1adfb9692abc6d5f51a94c5e423fe64e64c444a6  bhl-op4/src/game/server/egon.cpp
 4b594e1cd55ec188941ab7f17ef3567ffc81a52cd88575c6575d32e265ed2034  bhl-op4/src/game/server/explode.cpp
 905cd04b6656d128f44b843b2db15bb7751ae4b91fe18c826f636efde4fe9cfb  bhl-op4/src/game/server/flyingmonster.cpp
-ca671e1bcec922cfc83297f5f07383c43c34cb0cc6b62e42120db025cdd5e569  bhl-op4/src/game/server/func_break.cpp
+90cbf5125d59ad36862eec092e3df196cbe19426c63f0fcc1c81a73da8526cfc  bhl-op4/src/game/server/func_break.cpp
 0bc59bd7b7d5c9108fba26f682edfdf26a802aaa3e6aaca6cd9e74921136df54  bhl-op4/src/game/server/func_tank.cpp
 840850f551535611e935704e2dc504a32b2dae15a6855fa7124e81b5905ca0dd  bhl-op4/src/game/server/game.cpp
 628c9e7a16d22a331133957b9dc14c4db6149c50f01b6aba481a57a3f3f423de  bhl-op4/src/game/server/gamerules.cpp
@@ -290,7 +290,7 @@ c565b06857cdd607a82fdc0a17e08a73f0748b2ee8668a727347ca89b2872d59  bhl-op4/src/ga
 84953a6d9d2b41fbc7e12b4d1fd92e16cf589daff024b4b6d28801aefdbc4532  bhl-op4/src/game/server/pathcorner.cpp
 9bdf1f13d5a941bee8cead691c12799e58397a6cdda0781e890cdf6bce8d68d2  bhl-op4/src/game/server/plane.cpp
 1047ee057e57994459e6e5cce5494828b4996ad7ba0278827bc88a741237d85c  bhl-op4/src/game/server/plats.cpp
-373f4ffb5d2f0d1e57ac8c65044494bd11ceb954707f78789a94785c657e6e58  bhl-op4/src/game/server/player.cpp
+a2cea8a34f3423df36702d9779ec04212b0e3f812f8455c920c41e6c87e2c6ac  bhl-op4/src/game/server/player.cpp
 28f11ffabeead9d9a82ffecb22607be17e0dc4d9d1c71c5c8399d790a532418a  bhl-op4/src/game/server/python.cpp
 1e688eaa257e96fae70181f311ce6f973a72027e5b83264bc9b08fc7bc5f2935  bhl-op4/src/game/server/rat.cpp
 1bc61a602566fd4fad978551d42b3647abf2621d47d64774ae3fba954ae50d35  bhl-op4/src/game/server/roach.cpp
@@ -319,7 +319,7 @@ e9c75e083d0b6497bea11b2616da322730516b4ef759f6f35c56bb547dddbf2b  bhl-op4/src/ga
 2ada1d77dc99aa5f6e4af035ff21d21a2b8e23a448d493d92e3731f341945c3c  bhl-op4/src/game/server/util_shared.cpp
 5ace09d3bdf5aa9d67e2009495ab29843f5509d9d56ef707ad14a0911ca72771  bhl-op4/src/game/server/vehicle.cpp
 2940edc97bad135125ec6aa64ce6130b4fa307b840f4c589c403e9da8f278261  bhl-op4/src/game/server/voice_gamemgr.cpp
-96835dc9848acd872ab69f8ebc9a2edf841e354bde5183f0dcd950cebfc53ab4  bhl-op4/src/game/server/weapons.cpp
+481362b53f988cdc2b4d77265a019feaa071a94984f5c96af6ddff8c127e75b9  bhl-op4/src/game/server/weapons.cpp
 c0d9ebad67ab90229cfb4d2f02b52e0719ee0114761450f26d3aa5192573f09e  bhl-op4/src/game/server/world.cpp
 a8a344c509b75e6eba3718542600221df4b1da510c4d5d61ad8ea70f8101d9f0  bhl-op4/src/game/server/wpn_shared/hl_wpn_glock.cpp
 951aa7b6404df05885279f3746a525e08e6cf37a2aca14d7a939175ffadde039  bhl-op4/src/game/server/xen.cpp
