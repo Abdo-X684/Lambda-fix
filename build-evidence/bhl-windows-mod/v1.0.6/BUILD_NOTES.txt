@@ -1,0 +1,70 @@
+Lambda-fix 1.0.6 - Windows package
+==================================
+
+WHAT THIS IS
+------------
+1.0.4's exact 98-file gearbox_addon layout with two files touched:
+dlls/opfor.dll and MOD_MANIFEST.json. Everything else is byte-identical to
+1.0.4.
+
+WHAT 1.0.5 BROKE
+----------------
+1.0.5 fixed push and pull, and you confirmed that. It also broke object
+boosts, and you were right to call it out.
+
+The rewrite drove the box from its own think every frame and, in doing so,
+overrode its velocity in two situations where the original code deliberately
+did nothing:
+
+1. A player RIDING the box. PushThink assigned the box a horizontal velocity
+   from the player every frame, sliding the box out from under the rider. The
+   original Move() returned before touching velocity when a player stood on
+   the box, and moved it only in water.
+2. A player AIRBORNE against a moving box. The box's speed was replaced with
+   the player's air speed, which braked it. The original returned early
+   unless the box was in water.
+
+It also rewrote the player's own velocity every frame. The original only did
+that on a real Touch() contact. Doing it per frame killed jumping and
+strafing while in contact, and finished off any boost.
+
+WHAT 1.0.6 DOES
+---------------
+PushThink now reproduces both guards exactly:
+
+  player riding the box   -> only the water case moves it, then return
+  player airborne         -> do nothing unless the box is in water
+  otherwise               -> assign box velocity from the player
+                             factor 1.0 while USE is held (pull)
+                             factor 0.25 while USE is free (push, as before)
+
+The player's velocity is never rewritten from the think. It is still matched
+to the box inside Touch(), which is where the original did it.
+
+Velocities are still assigned rather than accumulated, so the framerate
+independence from 1.0.5 is kept: sv_pushable_fixed_tick_fudge is not consulted
+and the result does not depend on frame rate.
+
+BUILD IDENTITY
+--------------
+  dlls/opfor.dll     CI run 45873742819, workflow windows-msvc.yml,
+                     commit c873b6d, MSVC/Win32, 2026-11-26
+                     sha256 f7bc039e9269efec5b10487e055801c7be57f1e07b914b32bf20ea88994285ff
+                     1,676,288 bytes
+  cl_dlls/client.dll unchanged from 1.0.4
+                     sha256 1cf3d8f6011b823d032816a524a97664c85f8a37058c7d121562d2ae7acd3447
+
+  zip sha256 9ab3d3591036a60f2f2f2e7969c555962a88c8b4acb429b4caad19b26511a628
+      1,715,800 bytes
+
+EVIDENCE IN THE SHIPPED BINARY
+------------------------------
+?PushThink@CPushable@@QAEXXZ present in dlls/opfor.dll.
+580 sk_* cvar names, the same count as 1.0.4, so the damage and skill work is
+intact.
+
+NOT TESTED IN GAME
+------------------
+I cannot run Half-Life. You tested 1.0.5 and found the boost regression, which
+is exactly the kind of report this file should record. Whether 1.0.6 restores
+boosts is for you to confirm.
