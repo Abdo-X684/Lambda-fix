@@ -1,0 +1,79 @@
+Lambda-fix 1.0.7 - Windows package
+==================================
+
+WHAT THIS IS
+------------
+1.0.4's exact 98-file gearbox_addon layout with two files touched:
+dlls/opfor.dll and MOD_MANIFEST.json.
+
+WHAT I DID WRONG, AND WHAT THIS FIXES
+-------------------------------------
+1.0.5 and 1.0.6 fixed push and pull by REPLACING Valve's movement code. Valve's
+Move() does this on every contact:
+
+    pev->velocity.x += pevToucher->velocity.x * factor;   // box gains player speed
+    ...
+    pevToucher->velocity.x = pev->velocity.x;             // player takes box speed
+
+That is a feedback loop: the box and the player keep handing each other their
+velocity, and the pair accelerates together up to MaxSpeed. That loop is the
+object boost.
+
+My rewrite replaced the accumulation with assignment. Push and pull started
+working, and the boost stopped working. You reported it, correctly.
+
+WHAT 1.0.7 DOES
+---------------
+CPushable::Move() is now Valve's code, byte for byte. So is Use(), and so is
+Touch(). Verified by diffing against the exact file 1.0.4 shipped:
+
+    Move()   identical to 1.0.4  ✓
+    Use()    identical to 1.0.4  ✓
+    Touch()  identical to 1.0.4  ✓
+
+The only thing left of mine is PushThink(), and it does exactly one thing:
+
+    if (a player overlaps the box)
+        Move(player, 1);        // the same call Touch() would have made
+
+No velocity is assigned anywhere. frametime is not consulted. The movement
+maths is Valve's, not an approximation of it.
+
+WHY PushThink IS NEEDED AT ALL
+------------------------------
+Because the unmodified Valve code never ran. HL25 (build 8684) does not deliver
+Touch() to a MOVETYPE_PUSHSTEP entity, which is why the box was immovable in
+1.0.4 in the first place. PushThink supplies the missing call; it does not
+change what the call does.
+
+sv_pushable_fixed_tick_fudge is registered but not read, exactly as in 1.0.4.
+Setting it changes nothing.
+
+BUILD IDENTITY
+--------------
+  dlls/opfor.dll     CI run 45879394339, workflow windows-msvc.yml,
+                     commit 4ae1ece, MSVC/Win32, 2026-11-26
+                     sha256 e2536c9c828ca8c0cdc616b837606f82b1ca5ed7df75f7e4eaedf6282c606769
+                     1,675,776 bytes
+  cl_dlls/client.dll unchanged from 1.0.4
+
+  zip sha256 0f66eee3ea5485f5def037d2e957de1332652bfcb97e4b0599dc0ff99e34ae21
+      1,715,648 bytes
+
+WHAT I HAVE NOT PROVEN
+----------------------
+That the box moves in game. Valve's Move() is correct code, but it is only
+reached from PushThink now, and PushThink finding a player is my code, not
+Valve's. If the box still does not move, the fault is in FindTouchingEntity
+(finding the player) and not in the movement maths.
+
+Whether the boost exactly matches upstream at high frame rates: Valve's code
+accelerates per contact. Calling it once per frame from a think is not the same
+contact pattern as the engine's touch scheduling, so the boost may be stronger
+or weaker than a given reference version. I am not claiming a byte-exact
+speedrun match, only that the original accumulation logic is back.
+
+NOT TESTED IN GAME
+------------------
+I cannot run Half-Life. 1.0.5 was the only build confirmed in game, and it was
+confirmed broken for boosts.
