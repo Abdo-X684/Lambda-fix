@@ -1,0 +1,89 @@
+Lambda-fix 1.0.5 - Windows package
+==================================
+
+WHAT CHANGED FROM 1.0.4
+-----------------------
+1) func_pushable: boxes can now be pushed and pulled again.
+
+   This was not a defect in our code. HL25 (client build 8684, protocol 48)
+   broke func_pushable for every mod built on this SDK, and it is still broken
+   in Valve's own games: ValveSoftware/halflife#3639 reports boxes that cannot
+   be moved in Counter-Strike: Condition Zero unless you run
+   sv_pushable_fixed_tick_fudge 15000 or fps_max 60.
+
+   The cause is arithmetic. CPushable::Move() did
+
+       pev->velocity += pevToucher->velocity * factor      every frame
+
+   and for a pull factor was multiplied by
+
+       gpGlobals->frametime * sv_pushable_fixed_tick_fudge   (15)
+
+   At 60 fps that is 0.25, so a pull added a quarter of the player's speed.
+   At 240 fps it is 0.0625. Meanwhile the engine applies player friction once
+   per frame regardless of frame rate. The added impulse therefore shrinks
+   while the friction does not, and above about 60 fps the box's velocity
+   decays to zero: it looks immovable. A push was further gated on the engine
+   delivering a touch to a MOVETYPE_PUSHSTEP entity.
+
+   Fixed by replacing accumulate-and-decay with velocity assignment, and by
+   driving the box from its own think instead of waiting for a touch:
+
+     PushThink()            runs every frame, finds a player overlapping the box
+     USE held   -> pull     box keeps pace with the player at MaxSpeed
+     USE free   -> push     box takes the player's velocity, capped at MaxSpeed
+     Touch()                stays as a fast path, no longer required
+     Move()                 kept as a wrapper over DriveFromToucher()
+
+   Friction cannot eat an assigned velocity the way it ate an accumulated
+   impulse, so behaviour is identical at 60 fps and at 300 fps, and
+   sv_pushable_fixed_tick_fudge is no longer consulted.
+
+   This had to be patched in the tree that actually builds the shipped
+   opfor.dll (tools/prepare_op4_msvc_server.py, via tools/patch_op4_pushable.py),
+   not in bhl-op4, which the package does not use as a server.
+
+2) Night vision: the suit light now behaves like Opposing Force.
+
+   OP4 uses EF_BRIGHTLIGHT (an omni light) for the suit light; Half-Life uses
+   EF_DIMLIGHT (a cone). All four sites in player.cpp now use EF_BRIGHTLIGHT:
+   the FLASHLIGHT impulse, FlashlightIsOn(), FlashlightTurnOn() and
+   FlashlightTurnOff(). This is the client-side hl.dll in the package.
+
+3) Weapon timing: the OP4 weapon delay is no longer reset every frame.
+   m_flLastFireTime is reset correctly, so weapons no longer fire too fast.
+
+4) About dialog reports 1.0.5.
+
+BUILD IDENTITY
+--------------
+CI run 45869835805, workflow windows-op4-server.yml, commit 9afe9fb,
+MSVC/Win32 (v143), 2026-11-26.
+CI run 45868826691, workflow windows-msvc.yml, commit 5cf6734,
+MSVC/Win32, 2026-11-26.
+
+  dlls/opfor.dll     1,860,608 bytes   full OP4 SDK server + BHL systems
+  cl_dlls/client.dll 2,071,552 bytes   VGUI2 client
+
+EVIDENCE IN THE SHIPPED BINARY
+------------------------------
+  Decoded MSVC symbol inside dlls/opfor.dll:
+
+      ?PushThink@CPushable@@QAEXXZ
+
+  That symbol only exists because of this change; it is absent from the
+  1.0.4 opfor.dll. sha256 of the packaged dlls/opfor.dll begins acaf8137.
+
+  Zip sha256: 8e24d529561ba1368ca3ceeeb894e246aa945eb3ae56ba4c07e451b049bce09b
+
+WHAT THE USER MUST SUPPLY
+-------------------------
+gearbox/ must stay next to gearbox_addon/. The mod reads Valve assets from it;
+no DLL is loaded from there any more.
+
+NOT TESTED IN GAME
+------------------
+The packager has no Windows machine and cannot run Half-Life. The DLL is CI
+output and the symbols above are static evidence, not a play test. The exact
+fps at which the old code failed was measured by reading the arithmetic, not by
+running the game.

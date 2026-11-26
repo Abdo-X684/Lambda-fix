@@ -278,7 +278,7 @@
       "origin": "bugfixhl",
       "patch_rules": [],
       "path": "src/game/server/weapons.cpp",
-      "sha256": "7e5d25211f15c65857e08e84ef7c68e63f4499ac201400c66fa2b810d1561170",
+      "sha256": "1c9ce3df16fc2c9ba4158d6d924cf3701f5143c2cc6c2914ae4dd1bcde967b6f",
       "upstream_commit": "4d32095e3c33",
       "upstream_path": null
     },
