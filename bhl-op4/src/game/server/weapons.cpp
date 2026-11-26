@@ -662,6 +662,17 @@ void CBasePlayerWeapon::ItemPostFrame(void)
 		m_fInReload = FALSE;
 	}
 
+	/* OP4 dlls/weapons_shared.cpp:168-171 -- missing from this tree.
+	 * Without it m_flLastFireTime keeps its value after the fire button is
+	 * released, so the next GetNextAttackDelay() call computes a negative
+	 * creep and returns an attack time EARLIER than the intended delay.
+	 * That makes every weapon fire faster than OP4 when the trigger is
+	 * tapped rather than held. Resetting it here restores OP4 timing. */
+	if ((pPlayer->pev->button & IN_ATTACK) == 0)
+	{
+		m_flLastFireTime = 0.0f;
+	}
+
 	if ((pPlayer->pev->button & IN_ATTACK2) && CanAttack(m_flNextSecondaryAttack, gpGlobals->time, UseDecrement()))
 	{
 		if (pszAmmo2() && !pPlayer->m_rgAmmo[SecondaryAmmoIndex()])

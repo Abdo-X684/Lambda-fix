@@ -1,7 +1,12 @@
 #ifndef __APPVERSION_H__
 #define __APPVERSION_H__
 
-#define APP_VERSION "@GIT_SEM_VERSION@"
+/* Lambda Fix release version. Pinned here on purpose: GitVersionSemverfier
+ * derives the version from `git describe --tags`, and this repository has no
+ * tags, so the generated value was stale (1.0.1) no matter what the package
+ * version was. Bump LF_VERSION on every release. */
+#define LF_VERSION "1.0.5"
+#define APP_VERSION LF_VERSION
 
 // For client.rc
 #define APP_VERSION_C @GIT_MAJOR@,@GIT_MINOR@,@GIT_PATCH@,@GIT_SKIP@
