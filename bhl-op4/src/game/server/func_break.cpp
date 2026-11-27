@@ -27,6 +27,9 @@
 #include "decals.h"
 #include "explode.h"
 
+/* LF-DIAG: see lambda_pushable_debug in game.cpp */
+extern cvar_t lambda_pushable_debug;
+
 extern DLL_GLOBAL Vector g_vecAttackDir;
 
 // =================== FUNC_Breakable ==============================================
@@ -937,6 +940,14 @@ void CPushable ::Move(CBaseEntity *pOther, int push)
 	entvars_t *pevToucher = pOther->pev;
 	int playerTouch = 0;
 
+	if (lambda_pushable_debug.value != 0 && pOther->IsPlayer())
+	{
+		const float sp = sqrt(pev->velocity.x * pev->velocity.x + pev->velocity.y * pev->velocity.y);
+		const float psp = sqrt(pevToucher->velocity.x * pevToucher->velocity.x + pevToucher->velocity.y * pevToucher->velocity.y);
+		ALERT(at_console, "[pushdbg] Move(push=%d) box=%.1f player=%.1f btn=0x%x\n",
+			push, sp, psp, pevToucher->button);
+	}
+
 	// Is entity standing on this pushable ?
 	if (FBitSet(pevToucher->flags, FL_ONGROUND) && pevToucher->groundentity && VARS(pevToucher->groundentity) == pev)
 	{
@@ -1050,6 +1061,14 @@ void CPushable ::PushThink(void)
 	 * boost, and clamping it here would cancel it). */
 	const bool bUsing = pPlayer != NULL && (pPlayer->pev->button & IN_USE) != 0;
 	const float flSpeed = sqrt(pev->velocity.x * pev->velocity.x + pev->velocity.y * pev->velocity.y);
+
+	if (lambda_pushable_debug.value != 0 && pPlayer != NULL)
+	{
+		const float psp = sqrt(pPlayer->pev->velocity.x * pPlayer->pev->velocity.x + pPlayer->pev->velocity.y * pPlayer->pev->velocity.y);
+		ALERT(at_console, "[pushdbg] think box=%.1f player=%.1f max=%.1f using=%d -> %s\n",
+			flSpeed, psp, MaxSpeed(), bUsing ? 1 : 0,
+			(!bUsing && flSpeed <= MaxSpeed()) ? "MOVE" : "skip");
+	}
 
 	if (pPlayer != NULL && !bUsing && flSpeed <= MaxSpeed())
 		Move(pPlayer, 1); // the same call Touch() would have made
