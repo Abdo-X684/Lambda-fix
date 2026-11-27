@@ -10,7 +10,7 @@
  * three numbers, so if this line is not bumped the About page lies about which
  * build is running - which is how releases 1.0.6 through 1.1.2 all shipped
  * showing "1.0.5". Bump it in the same commit as the package. */
-#define LF_VERSION "1.1.4"
+#define LF_VERSION "1.1.5"
 #define APP_VERSION LF_VERSION
 
 // For client.rc

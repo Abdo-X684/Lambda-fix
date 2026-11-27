@@ -2040,6 +2040,26 @@ void CBasePlayer::PreThink(void)
 	m_afButtonPressed = buttonsChanged & pev->button; // The changed ones still down are "pressed"
 	m_afButtonReleased = buttonsChanged & (~pev->button); // The ones not down are "released"
 
+	/* LF-BOOST: launch on the release of +use, not while it is held.
+	 *
+	 * func_pushable's Move() records the peak speed the box reached while this
+	 * player held +use (m_vecPushBoost / m_bPushBoostArmed). This is the frame
+	 * the key comes up, so hand that speed to the player now.
+	 *
+	 * Clearing on release matters: the stored value is only ever the peak of
+	 * the push that just ended, never something that survives and fires later. */
+	if (m_bPushBoostArmed)
+	{
+		if (m_afButtonReleased & IN_USE)
+		{
+			pev->velocity.x = m_vecPushBoost.x;
+			pev->velocity.y = m_vecPushBoost.y;
+		}
+
+		m_bPushBoostArmed = false;
+		m_vecPushBoost = g_vecZero;
+	}
+
 	g_pGameRules->PlayerThink(this);
 
 	if (g_fGameOver)
@@ -3375,6 +3395,10 @@ void CBasePlayer::Spawn(void)
 {
 	m_flStartCharge = gpGlobals->time;
 	m_bConnected = TRUE;
+
+	// LF-BOOST: never let a stored pushboost survive a respawn.
+	m_vecPushBoost = g_vecZero;
+	m_bPushBoostArmed = false;
 
 	pev->classname = MAKE_STRING("player");
 	pev->health = 100;

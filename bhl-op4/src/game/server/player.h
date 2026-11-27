@@ -120,6 +120,12 @@ public:
 	int m_afButtonPressed;
 	int m_afButtonReleased;
 
+	/* LF-BOOST: peak velocity a func_pushable reached while the player held
+	 * +use on it. Applied to the player the frame +use is released, which is
+	 * when the launch belongs. Zero when nothing is stored. */
+	Vector m_vecPushBoost;
+	bool m_bPushBoostArmed;
+
 	edict_t *m_pentSndLast; // last sound entity to modify player room type
 	float m_flSndRoomtype; // last roomtype set by sound entity
 	float m_flSndRange; // dist from player to sound entity

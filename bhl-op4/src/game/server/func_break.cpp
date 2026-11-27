@@ -959,6 +959,44 @@ void CPushable ::Move(CBaseEntity *pOther, int push)
 	pev->velocity.y += pevToucher->velocity.y * factor;
 
 	float length = sqrt(pev->velocity.x * pev->velocity.x + pev->velocity.y * pev->velocity.y);
+
+	/* LF-BOOST: the launch belongs on the RELEASE of +use, not while it is held.
+	 *
+	 * Upstream copies the box velocity onto the player on EVERY contact:
+	 *     pevToucher->velocity = pev->velocity;
+	 * While +use is down, Use() calls Move() every frame, so that copy runs
+	 * every frame and drags the player along with the box while the key is
+	 * still held. When the key comes up the copy stops and there is no launch.
+	 *
+	 * Instead of copying, record the peak speed the box reaches while the key
+	 * is held. CBasePlayer::PreThink applies it on the frame +use is released.
+	 *
+	 * The copy on a non-+use contact is kept, so an ordinary walk-into-box
+	 * push still moves the player exactly as before. Only the held-key case
+	 * changes, and only to defer the speed to the release. */
+	if (playerTouch)
+	{
+		if (pevToucher->button & IN_USE)
+		{
+			// Holding +use: remember the peak, but do not drag the player.
+			CBasePlayer *pPlayer = (CBasePlayer *)GET_PRIVATE(ENT(pevToucher));
+			if (pPlayer)
+			{
+				const Vector vecBoxVel(pev->velocity.x, pev->velocity.y, 0);
+
+				if (!pPlayer->m_bPushBoostArmed || vecBoxVel.Length() > pPlayer->m_vecPushBoost.Length())
+					pPlayer->m_vecPushBoost = vecBoxVel;
+
+				pPlayer->m_bPushBoostArmed = true;
+			}
+		}
+		else
+		{
+			pevToucher->velocity.x = pev->velocity.x;
+			pevToucher->velocity.y = pev->velocity.y;
+		}
+	}
+
 	if (push && (length > MaxSpeed()))
 	{
 		pev->velocity.x = (pev->velocity.x * MaxSpeed() / length);
@@ -966,8 +1004,6 @@ void CPushable ::Move(CBaseEntity *pOther, int push)
 	}
 	if (playerTouch)
 	{
-		pevToucher->velocity.x = pev->velocity.x;
-		pevToucher->velocity.y = pev->velocity.y;
 		if ((gpGlobals->time - m_soundTime) > 0.7)
 		{
 			m_soundTime = gpGlobals->time;
