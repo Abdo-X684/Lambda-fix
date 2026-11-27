@@ -320,7 +320,7 @@ e9c75e083d0b6497bea11b2616da322730516b4ef759f6f35c56bb547dddbf2b  bhl-op4/src/ga
 5ace09d3bdf5aa9d67e2009495ab29843f5509d9d56ef707ad14a0911ca72771  bhl-op4/src/game/server/vehicle.cpp
 2940edc97bad135125ec6aa64ce6130b4fa307b840f4c589c403e9da8f278261  bhl-op4/src/game/server/voice_gamemgr.cpp
 481362b53f988cdc2b4d77265a019feaa071a94984f5c96af6ddff8c127e75b9  bhl-op4/src/game/server/weapons.cpp
-3c510aeac1446426d699e4efa9f7a87730b03d76c2fcb05146879c65108a4249  bhl-op4/src/game/server/world.cpp
+6c70bde0a0c9a71a1063e05b0b5ae70c1bbaf637b50175ae813eb7e9c52a51b3  bhl-op4/src/game/server/world.cpp
 a8a344c509b75e6eba3718542600221df4b1da510c4d5d61ad8ea70f8101d9f0  bhl-op4/src/game/server/wpn_shared/hl_wpn_glock.cpp
 951aa7b6404df05885279f3746a525e08e6cf37a2aca14d7a939175ffadde039  bhl-op4/src/game/server/xen.cpp
 50d924fcb85a5e8a52c0cc7e42c97489e4dcb37ef1bde7ed7c2d31473e9320a5  bhl-op4/src/game/server/zombie.cpp
