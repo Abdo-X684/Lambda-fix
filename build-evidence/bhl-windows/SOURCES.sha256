@@ -181,7 +181,7 @@ c468f30716c5a1f9a834df3978d08888b29ca272a46d08eaf76af281d8480c7b  bhl-op4/src/ga
 d7bc05b265c4c8b6ceade51e1adfb9692abc6d5f51a94c5e423fe64e64c444a6  bhl-op4/src/game/server/egon.cpp
 4b594e1cd55ec188941ab7f17ef3567ffc81a52cd88575c6575d32e265ed2034  bhl-op4/src/game/server/explode.cpp
 905cd04b6656d128f44b843b2db15bb7751ae4b91fe18c826f636efde4fe9cfb  bhl-op4/src/game/server/flyingmonster.cpp
-0c0dbce01f5b90f4967b18db60b96979cdd822122495c601bbfd3779a2118286  bhl-op4/src/game/server/func_break.cpp
+feebd4dbe2a599e1ca80c52fad45ed724c739a191d31994b82c169c4861514af  bhl-op4/src/game/server/func_break.cpp
 0bc59bd7b7d5c9108fba26f682edfdf26a802aaa3e6aaca6cd9e74921136df54  bhl-op4/src/game/server/func_tank.cpp
 4f6d0989ddff11776f07f4ce73459be93ad436def1c802c643daf23b521710a9  bhl-op4/src/game/server/game.cpp
 628c9e7a16d22a331133957b9dc14c4db6149c50f01b6aba481a57a3f3f423de  bhl-op4/src/game/server/gamerules.cpp
