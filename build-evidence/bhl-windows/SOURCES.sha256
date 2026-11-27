@@ -290,7 +290,7 @@ c565b06857cdd607a82fdc0a17e08a73f0748b2ee8668a727347ca89b2872d59  bhl-op4/src/ga
 84953a6d9d2b41fbc7e12b4d1fd92e16cf589daff024b4b6d28801aefdbc4532  bhl-op4/src/game/server/pathcorner.cpp
 9bdf1f13d5a941bee8cead691c12799e58397a6cdda0781e890cdf6bce8d68d2  bhl-op4/src/game/server/plane.cpp
 1047ee057e57994459e6e5cce5494828b4996ad7ba0278827bc88a741237d85c  bhl-op4/src/game/server/plats.cpp
-a2c2e2228e06cc37747c393fad5caff0829acbad0bef504c024f0f62fe4fa885  bhl-op4/src/game/server/player.cpp
+0d1dad864f080a9b01342d4ffdd765c9b871c67faadf5bc14fc016f706c5cf00  bhl-op4/src/game/server/player.cpp
 28f11ffabeead9d9a82ffecb22607be17e0dc4d9d1c71c5c8399d790a532418a  bhl-op4/src/game/server/python.cpp
 1e688eaa257e96fae70181f311ce6f973a72027e5b83264bc9b08fc7bc5f2935  bhl-op4/src/game/server/rat.cpp
 1bc61a602566fd4fad978551d42b3647abf2621d47d64774ae3fba954ae50d35  bhl-op4/src/game/server/roach.cpp
@@ -320,7 +320,7 @@ e9c75e083d0b6497bea11b2616da322730516b4ef759f6f35c56bb547dddbf2b  bhl-op4/src/ga
 5ace09d3bdf5aa9d67e2009495ab29843f5509d9d56ef707ad14a0911ca72771  bhl-op4/src/game/server/vehicle.cpp
 2940edc97bad135125ec6aa64ce6130b4fa307b840f4c589c403e9da8f278261  bhl-op4/src/game/server/voice_gamemgr.cpp
 481362b53f988cdc2b4d77265a019feaa071a94984f5c96af6ddff8c127e75b9  bhl-op4/src/game/server/weapons.cpp
-a49e09b3f1220c442c74d03bbcfeb8a3124a36e741cfef6ff4c861c4282666d2  bhl-op4/src/game/server/world.cpp
+1ffda6a41a7681fe7f6b085f1e5f0bee0193bf7422711d843647234fbfd74b9d  bhl-op4/src/game/server/world.cpp
 a8a344c509b75e6eba3718542600221df4b1da510c4d5d61ad8ea70f8101d9f0  bhl-op4/src/game/server/wpn_shared/hl_wpn_glock.cpp
 951aa7b6404df05885279f3746a525e08e6cf37a2aca14d7a939175ffadde039  bhl-op4/src/game/server/xen.cpp
 50d924fcb85a5e8a52c0cc7e42c97489e4dcb37ef1bde7ed7c2d31473e9320a5  bhl-op4/src/game/server/zombie.cpp
