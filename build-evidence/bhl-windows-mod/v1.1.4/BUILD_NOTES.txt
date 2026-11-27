@@ -1,0 +1,64 @@
+Lambda-fix 1.1.4 - Windows package
+==================================
+
+WHAT YOU ASKED FOR
+------------------
+"Make the code like my DLL."
+
+That is now done in a stronger sense than before. Previously I only copied
+CPushable::Move(). This release compares our whole func_break.cpp against the
+working server's func_break.cpp - function by function - and ports every
+difference.
+
+WHAT WAS STILL DIFFERENT
+------------------------
+A token-by-token comparison of every CBreakable/CPushable function found three
+things ours was missing:
+
+1. CPushable::DamageDecal      was absent entirely.
+   The working server has it: a breakable pushable uses CBreakable's decal,
+   a non-breakable one uses CBaseEntity's.
+
+2. CPushable::StopSound        was inside "#if 0" - compiled out.
+   The working server compiles it. Now we do too.
+
+3. pSpawnObjects[22]           was missing "weapon_penguin".
+   The working server's breakable list ends with weapon_penguin; ours ended at
+   weapon_hornetgun. A crates "spawnobject" key of 22 spawned nothing in ours.
+   CPenguin.cpp is already in our build, so this was a pure omission.
+
+Also removed: the temporary [pushdbg] logging and the lambda_pushable_debug
+cvar from 1.1.1-diag. No diagnostic code is left in the server.
+
+WHAT MATCHES NOW
+----------------
+Function set is identical, none missing, none extra:
+
+  BreakTouch  DamageDecal  DamageSound  Die  IsBreakable  KeyValue
+  MaterialSoundPrecache  MaterialSoundRandom  Move  Precache  Spawn
+  StopSound  TakeDamage  Touch  TraceAttack  Use
+
+Move/Use/Touch/Spawn/Precache are identical bar int-vs-bool and comments -
+ints are forced by this tree's CBaseEntity, which predates bool overrides.
+The logic is the same in every one.
+
+PushThink and FindTouchingEntity: still absent. That stands from 1.1.2.
+
+NIGHT VISION
+------------
+Unchanged: on = items/flashlight1.wav, off = items/flashlight2.wav.
+
+VERSION
+-------
+About page reports 1.1.4. Verified in the shipped client.dll:
+    strings client.dll | grep '^1\.x'  ->  1.1.4
+
+BUILD IDENTITY
+--------------
+CI run 46051292160, commit 56d6d8b, MSVC/Win32, 2026-11-27.
+
+  dlls/opfor.dll     sha256 8667593ba272effa711f05a3e343439a88b3509fa9d3e479c749c53122d80545
+  cl_dlls/client.dll sha256 650227a2591b451c7d9c34a73fe14976bcb865d361af5ddab3e5ef71f9fe4901
+  zip                sha256 bcf2c00ca94076ebeafc4411061222667e5d5009ef05449cdaf1bd1099c8933f
+
+NOT TESTED IN GAME.
