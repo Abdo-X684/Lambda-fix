@@ -459,7 +459,7 @@ void CWorld ::Spawn(void)
 {
 	/* LF-BANNER: identify the DLL that is actually running. If this line does
 	 * not appear in the server console, the game is not loading our opfor.dll. */
-	ALERT(at_console, "\n=== Lambda-fix server build 1.1.5 (boost on release) loaded ===\n");
+	ALERT(at_console, "\n=== Lambda-fix server build 1.1.6 (boost + OP4 impulse 101) loaded ===\n");
 
 	g_fGameOver = FALSE;
 	Precache();

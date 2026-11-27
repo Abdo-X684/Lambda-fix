@@ -4130,6 +4130,15 @@ void CBasePlayer::CheatImpulseCommands(int iImpulse)
 		GiveNamedItem("weapon_snark");
 		GiveNamedItem("weapon_hornetgun");
 #endif
+		/* OP4 weapons. These are what the stock Opposing Force server hands out
+		 * on impulse 101 (op4/reference/dlls/player.cpp) and they were missing
+		 * here, so impulse 101 gave a Half-Life loadout in an OP4 game. */
+		GiveNamedItem("weapon_eagle");
+		GiveNamedItem("weapon_sporelauncher");
+		GiveNamedItem("weapon_shockrifle");
+		GiveNamedItem("weapon_knife");
+		GiveNamedItem("weapon_m249");
+		GiveNamedItem("weapon_pipewrench");
 		gEvilImpulse101 = FALSE;
 		break;
 
