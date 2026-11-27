@@ -1,0 +1,89 @@
+Lambda-fix 1.1.5 - Windows package
+==================================
+
+THE BOOST NOW HAPPENS WHEN YOU LET GO OF E
+------------------------------------------
+You said: "I should go with the object fast when I release E, not while I'm
+holding E."
+
+Root cause, in one line of Valve's Move():
+
+    pevToucher->velocity.x = pev->velocity.x;
+    pevToucher->velocity.y = pev->velocity.y;
+
+That copies the box's velocity onto the player on every contact. While you
+hold E, Use() calls Move() every frame, so that copy fires ~60 times a second
+and drags you along with the box. When you let go, the copy stops and there is
+nothing left to launch you with. That is exactly the "fast while holding it"
+behaviour you described.
+
+WHAT CHANGED
+------------
+1. func_break.cpp - CPushable::Move()
+   The player is no longer dragged while +use is held. Instead the box's
+   horizontal velocity is recorded as a peak on the player:
+
+       if (+use held)   store max(box velocity) on the player, do not move him
+       else             keep the original copy (a normal walk-into push still
+                        moves you exactly as before)
+
+2. player.h - two new members
+       Vector m_vecPushBoost;
+       bool   m_bPushBoostArmed;
+
+3. player.cpp - CBasePlayer::PreThink()
+   On the exact frame +use is released, the stored peak is put on the player:
+
+       if (m_bPushBoostArmed && (m_afButtonReleased & IN_USE)) {
+           pev->velocity.x = m_vecPushBoost.x;
+           pev->velocity.y = m_vecPushBoost.y;
+       }
+       m_bPushBoostArmed = false;
+
+   Cleared the same frame, so a stored value can never fire later by accident.
+   Also cleared in CBasePlayer::Spawn() so it never survives a respawn.
+
+WHY NOT COPY ON RELEASE INSTEAD
+-------------------------------
+Tested this on paper first. The box accumulates +player_speed per frame:
+
+    frame 1: 320 u/s   travelled   5 units
+    frame 2: 640 u/s   travelled  16 units
+    frame 3: 960 u/s   travelled  32 units
+    frame 4: 1280 u/s  travelled  53 units
+    frame 5: 1600 u/s  travelled  80 units  <- outside the 64-unit use radius
+
+The box leaves reach by frame 4-5, so by the time you release, PlayerUse finds
+nothing to call Move() on. Waiting for a natural copy on release cannot work.
+Storing the peak while the box is still in contact is what makes the launch
+survive.
+
+PushThink / FindTouchingEntity: still absent. Nothing runs per-frame on the box.
+
+OTHER, STILL IN PLACE
+---------------------
+Night vision: on = items/flashlight1.wav, off = items/flashlight2.wav.
+func_break.cpp carries weapon_penguin, CPushable::DamageDecal and StopSound.
+
+VERSION
+-------
+About page: 1.1.5  (verified: strings client.dll -> 1.1.5)
+
+BUILD IDENTITY
+--------------
+CI run 46055766210, commit 2d039f5, MSVC/Win32, 2026-11-27.
+First build of this change failed (46154548011) because cbase.h only
+forward-declares CBasePlayer; fixed by including player.h in func_break.cpp.
+
+  dlls/opfor.dll     1,676,288 bytes
+                     sha256 2bd277f7d5667a02204cfb2fa9c5483af4043fc59d4f18edacbca7152cdd6b4e
+  cl_dlls/client.dll sha256 f297e776ae669d32c59f4024776236060f2ebb8e5d5994fba9611265f6a40703
+  zip                sha256 a8d3849e0d43c4ab8cc24e0ba9e249508c56557aa5d5042bb3b289529dfcb04b
+
+WHAT TO CHECK IN GAME
+---------------------
+1. Hold E and strafe: you should NOT be dragged at speed any more.
+2. Let go of E: you should be launched at the box's speed.
+3. Walk into a box without pressing E: push behaviour unchanged.
+
+NOT TESTED IN GAME.
