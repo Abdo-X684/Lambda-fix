@@ -673,11 +673,6 @@ cvar_t sk_player_leg3 = { "sk_player_leg3", "1" };
 
 cvar_t sv_pushable_fixed_tick_fudge = { "sv_pushable_fixed_tick_fudge", "15" };
 
-/* LF-DIAG: temporary instrumentation for the object-boost report. Prints what
- * PushThink and Move actually see, so the next report is numbers and not a
- * guess. Set to 0 to silence it. */
-cvar_t lambda_pushable_debug = { "lambda_pushable_debug", "1" };
-
 cvar_t sv_busters = { "sv_busters", "0" };
 
 // Register your console variables here
@@ -1315,7 +1310,6 @@ void GameDLLInit(void)
 	// END REGISTER CVARS FOR SKILL LEVEL STUFF
 
 	CVAR_REGISTER(&sv_pushable_fixed_tick_fudge);
-	CVAR_REGISTER(&lambda_pushable_debug);
 
 	// Register cvars from ConVar class
 	CvarSystem::RegisterCvars();

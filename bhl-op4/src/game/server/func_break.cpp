@@ -27,9 +27,6 @@
 #include "decals.h"
 #include "explode.h"
 
-/* LF-DIAG: see lambda_pushable_debug in game.cpp */
-extern cvar_t lambda_pushable_debug;
-
 extern DLL_GLOBAL Vector g_vecAttackDir;
 
 // =================== FUNC_Breakable ==============================================
@@ -60,6 +57,7 @@ const char *CBreakable::pSpawnObjects[] = {
 	"weapon_satchel", // 19
 	"weapon_snark", // 20
 	"weapon_hornetgun", // 21
+	"weapon_penguin",
 };
 
 void CBreakable::KeyValue(KeyValueData *pkvd)
@@ -792,6 +790,8 @@ public:
 	// breakables use an overridden takedamage
 	virtual int TakeDamage(entvars_t *pevInflictor, entvars_t *pevAttacker, float flDamage, int bitsDamageType);
 
+	int DamageDecal(int bitsDamageType);
+
 	static TYPEDESCRIPTION m_SaveData[];
 
 	static char *m_soundNames[3];
@@ -920,13 +920,6 @@ void CPushable ::Move(CBaseEntity *pOther, int push)
 	entvars_t *pevToucher = pOther->pev;
 	int playerTouch = 0;
 
-	if (lambda_pushable_debug.value != 0 && pOther->IsPlayer())
-	{
-		const float sp = sqrt(pev->velocity.x * pev->velocity.x + pev->velocity.y * pev->velocity.y);
-		const float psp = sqrt(pevToucher->velocity.x * pevToucher->velocity.x + pevToucher->velocity.y * pevToucher->velocity.y);
-		ALERT(at_console, "[pushdbg] Move(push=%d) box=%.1f player=%.1f btn=0x%x\n",
-			push, sp, psp, pevToucher->button);
-	}
 
 	// Is entity standing on this pushable ?
 	if (FBitSet(pevToucher->flags, FL_ONGROUND) && pevToucher->groundentity && VARS(pevToucher->groundentity) == pev)
@@ -989,14 +982,20 @@ void CPushable ::Move(CBaseEntity *pOther, int push)
 	}
 }
 
-#if 0
-void CPushable::StopSound( void )
+void CPushable ::StopSound(void)
 {
 	Vector dist = pev->oldorigin - pev->origin;
-	if ( dist.Length() <= 0 )
-		STOP_SOUND( ENT(pev), CHAN_WEAPON, m_soundNames[m_lastSound] );
+	if (dist.Length() <= 0)
+		STOP_SOUND(ENT(pev), CHAN_WEAPON, m_soundNames[m_lastSound]);
 }
-#endif
+
+int CPushable ::DamageDecal(int bitsDamageType)
+{
+	if (FBitSet(pev->spawnflags, SF_PUSH_BREAKABLE))
+		return CBreakable::DamageDecal(bitsDamageType);
+
+	return CBaseEntity::DamageDecal(bitsDamageType);
+}
 
 int CPushable::TakeDamage(entvars_t *pevInflictor, entvars_t *pevAttacker, float flDamage, int bitsDamageType)
 {

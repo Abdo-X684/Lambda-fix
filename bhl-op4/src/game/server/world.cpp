@@ -458,10 +458,8 @@ float g_flWeaponCheat;
 void CWorld ::Spawn(void)
 {
 	/* LF-BANNER: identify the DLL that is actually running. If this line does
-	 * not appear in the server console, the game is not loading our opfor.dll
-	 * and no code change here can have any effect. */
-	ALERT(at_console, "\n=== Lambda-fix server build 1.1.3 (no PushThink) loaded ===\n");
-	ALERT(at_console, "    CPushable: Touch/Use only, no PushThink\n");
+	 * not appear in the server console, the game is not loading our opfor.dll. */
+	ALERT(at_console, "\n=== Lambda-fix server build 1.1.4 (CPushable = working server) loaded ===\n");
 
 	g_fGameOver = FALSE;
 	Precache();
