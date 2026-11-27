@@ -3,9 +3,14 @@
 
 /* Lambda Fix release version. Pinned here on purpose: GitVersionSemverfier
  * derives the version from `git describe --tags`, and this repository has no
- * tags, so the generated value was stale (1.0.1) no matter what the package
- * version was. Bump LF_VERSION on every release. */
-#define LF_VERSION "1.0.5"
+ * tags, so the generated value was stale no matter what the package version
+ * was.
+ *
+ * THIS MUST MATCH THE PACKAGE VERSION. The About page prints exactly these
+ * three numbers, so if this line is not bumped the About page lies about which
+ * build is running - which is how releases 1.0.6 through 1.1.2 all shipped
+ * showing "1.0.5". Bump it in the same commit as the package. */
+#define LF_VERSION "1.1.3"
 #define APP_VERSION LF_VERSION
 
 // For client.rc
