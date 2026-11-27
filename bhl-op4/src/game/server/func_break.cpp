@@ -26,6 +26,9 @@
 #include "func_break.h"
 #include "decals.h"
 #include "explode.h"
+/* LF-BOOST: Move() writes to CBasePlayer::m_vecPushBoost, and cbase.h only
+ * forward-declares CBasePlayer. The full definition comes from player.h. */
+#include "player.h"
 
 extern DLL_GLOBAL Vector g_vecAttackDir;
 
