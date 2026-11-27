@@ -781,15 +781,6 @@ public:
 	void Use(CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useType, float value);
 	void EXPORT StopSound(void);
 
-	/* LF-PUSHABLE: HL25 (build 8684) never delivers Touch() to a
-	 * MOVETYPE_PUSHSTEP entity, so CPushable::Move() -- which is unmodified
-	 * Valve code below -- is never called and the box cannot be moved.
-	 * PushThink() exists only to call that same Move() ourselves. The
-	 * movement code itself is Valve's, including the velocity accumulation
-	 * and the player/box velocity sync that make object boosts work. */
-	void EXPORT PushThink(void);
-	CBaseEntity *FindTouchingEntity(void);
-
 	//	virtual void	SetActivator( CBaseEntity *pActivator ) { m_pPusher = pActivator; }
 
 	virtual int ObjectCaps(void) { return (CBaseEntity ::ObjectCaps() & ~FCAP_ACROSS_TRANSITION) | FCAP_CONTINUOUS_USE; }
@@ -844,12 +835,6 @@ void CPushable ::Spawn(void)
 	// Multiply by area of the box's cross-section (assume 1000 units^3 standard volume)
 	pev->skin = (pev->skin * (pev->maxs.x - pev->mins.x) * (pev->maxs.y - pev->mins.y)) * 0.0005;
 	m_soundTime = 0;
-
-	/* LF-PUSHABLE: HL25 does not deliver Touch() to a MOVETYPE_PUSHSTEP
-	 * entity, so run the movement loop ourselves. Everything the loop does is
-	 * Valve's Move(), unmodified. Nothing else about this entity changes. */
-	SetThink(&CPushable::PushThink);
-	pev->nextthink = gpGlobals->time + 0.05;
 }
 
 void CPushable ::Precache(void)
@@ -919,11 +904,6 @@ void CPushable ::Touch(CBaseEntity *pOther)
 	Move(pOther, 1);
 }
 
-/* Valve's CPushable::Move, verbatim. The only reason this is called from
- * PushThink() as well as from Touch()/Use() is that HL25 never delivers a
- * touch to a MOVETYPE_PUSHSTEP entity. The movement itself is untouched:
- * velocities accumulate, and the player is matched to the box on a push,
- * which is what produces object boosts. */
 /* CPushable::Move -- verbatim from the OP4 server the user confirmed works
  * (halflife-op4-updated before commit 4f0d502e4, "[HL25] Backport fixes to
  * pushable"). Differences from the upstream code that used to sit here:
@@ -1007,73 +987,6 @@ void CPushable ::Move(CBaseEntity *pOther, int push)
 				STOP_SOUND(ENT(pev), CHAN_WEAPON, m_soundNames[m_lastSound]);
 		}
 	}
-}
-
-CBaseEntity *CPushable ::FindTouchingEntity(void)
-{
-	const Vector vecCenter = (pev->absmin + pev->absmax) * 0.5f;
-	const float flRadius = (pev->absmax - pev->absmin).Length() * 0.5f + 16.0f;
-
-	CBaseEntity *pEntity = NULL;
-
-	while ((pEntity = UTIL_FindEntityInSphere(pEntity, vecCenter, flRadius)) != NULL)
-	{
-		if (pEntity == this || !pEntity->IsPlayer())
-			continue;
-
-		if (!pEntity->IsAlive())
-			continue;
-
-		if (pEntity->pev->absmin.x > pev->absmax.x || pEntity->pev->absmax.x < pev->absmin.x)
-			continue;
-		if (pEntity->pev->absmin.y > pev->absmax.y || pEntity->pev->absmax.y < pev->absmin.y)
-			continue;
-		if (pEntity->pev->absmin.z > pev->absmax.z + 8.0f || pEntity->pev->absmax.z < pev->absmin.z)
-			continue;
-
-		return pEntity;
-	}
-
-	return NULL;
-}
-
-void CPushable ::PushThink(void)
-{
-	if (FBitSet(pev->flags, FL_KILLME) || pev->solid == SOLID_NOT)
-		return;
-
-	CBaseEntity *pPlayer = FindTouchingEntity();
-
-	/* LF-PUSHABLE: this think only stands in for the Touch() that HL25 does
-	 * not deliver to a MOVETYPE_PUSHSTEP entity. It must never run on top of
-	 * the engine's own call, or it changes what the box does.
-	 *
-	 * While +use is held, PlayerUse() calls Use() -> Move(player, 0) every
-	 * frame. That is the unclamped accumulate-and-sync loop: the box gains
-	 * the player's speed, the player is set to the box's speed, and the pair
-	 * ramps up. That ramp is the object boost, and it is why letting go of
-	 * +use launches you. Passing push = 1 here as well applies the push clamp
-	 * (MaxSpeed) to the box on every frame, which caps the ramp into a
-	 * constant drag and throws away the launch on release.
-	 *
-	 * So: stay out of the way while +use is down, and stay out of the way if
-	 * the box is already above MaxSpeed (the only way that happens is the
-	 * boost, and clamping it here would cancel it). */
-	const bool bUsing = pPlayer != NULL && (pPlayer->pev->button & IN_USE) != 0;
-	const float flSpeed = sqrt(pev->velocity.x * pev->velocity.x + pev->velocity.y * pev->velocity.y);
-
-	if (lambda_pushable_debug.value != 0 && pPlayer != NULL)
-	{
-		const float psp = sqrt(pPlayer->pev->velocity.x * pPlayer->pev->velocity.x + pPlayer->pev->velocity.y * pPlayer->pev->velocity.y);
-		ALERT(at_console, "[pushdbg] think box=%.1f player=%.1f max=%.1f using=%d -> %s\n",
-			flSpeed, psp, MaxSpeed(), bUsing ? 1 : 0,
-			(!bUsing && flSpeed <= MaxSpeed()) ? "MOVE" : "skip");
-	}
-
-	if (pPlayer != NULL && !bUsing && flSpeed <= MaxSpeed())
-		Move(pPlayer, 1); // the same call Touch() would have made
-
-	pev->nextthink = gpGlobals->time; // every frame
 }
 
 #if 0
