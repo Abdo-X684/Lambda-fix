@@ -181,9 +181,9 @@ c468f30716c5a1f9a834df3978d08888b29ca272a46d08eaf76af281d8480c7b  bhl-op4/src/ga
 d7bc05b265c4c8b6ceade51e1adfb9692abc6d5f51a94c5e423fe64e64c444a6  bhl-op4/src/game/server/egon.cpp
 4b594e1cd55ec188941ab7f17ef3567ffc81a52cd88575c6575d32e265ed2034  bhl-op4/src/game/server/explode.cpp
 905cd04b6656d128f44b843b2db15bb7751ae4b91fe18c826f636efde4fe9cfb  bhl-op4/src/game/server/flyingmonster.cpp
-7bfab8a01ca48a7cd206ae7d955a587af1a722d5f0508152f2005a1d76554c35  bhl-op4/src/game/server/func_break.cpp
+0c0dbce01f5b90f4967b18db60b96979cdd822122495c601bbfd3779a2118286  bhl-op4/src/game/server/func_break.cpp
 0bc59bd7b7d5c9108fba26f682edfdf26a802aaa3e6aaca6cd9e74921136df54  bhl-op4/src/game/server/func_tank.cpp
-840850f551535611e935704e2dc504a32b2dae15a6855fa7124e81b5905ca0dd  bhl-op4/src/game/server/game.cpp
+4f6d0989ddff11776f07f4ce73459be93ad436def1c802c643daf23b521710a9  bhl-op4/src/game/server/game.cpp
 628c9e7a16d22a331133957b9dc14c4db6149c50f01b6aba481a57a3f3f423de  bhl-op4/src/game/server/gamerules.cpp
 38fd7f59bd36b4d126de1f2761c5aa1ea47f8935cc625c368cbeda149346edb1  bhl-op4/src/game/server/gargantua.cpp
 07771bce9729a64f0daf2f0cfbb3059343eebf23fa8c6187f185d18c41c0851f  bhl-op4/src/game/server/gauss.cpp
@@ -320,7 +320,7 @@ e9c75e083d0b6497bea11b2616da322730516b4ef759f6f35c56bb547dddbf2b  bhl-op4/src/ga
 5ace09d3bdf5aa9d67e2009495ab29843f5509d9d56ef707ad14a0911ca72771  bhl-op4/src/game/server/vehicle.cpp
 2940edc97bad135125ec6aa64ce6130b4fa307b840f4c589c403e9da8f278261  bhl-op4/src/game/server/voice_gamemgr.cpp
 481362b53f988cdc2b4d77265a019feaa071a94984f5c96af6ddff8c127e75b9  bhl-op4/src/game/server/weapons.cpp
-c0d9ebad67ab90229cfb4d2f02b52e0719ee0114761450f26d3aa5192573f09e  bhl-op4/src/game/server/world.cpp
+3207ed748cbd88673dbbd251ddb971a026471e97e860dd0e2c96a1f03fedd516  bhl-op4/src/game/server/world.cpp
 a8a344c509b75e6eba3718542600221df4b1da510c4d5d61ad8ea70f8101d9f0  bhl-op4/src/game/server/wpn_shared/hl_wpn_glock.cpp
 951aa7b6404df05885279f3746a525e08e6cf37a2aca14d7a939175ffadde039  bhl-op4/src/game/server/xen.cpp
 50d924fcb85a5e8a52c0cc7e42c97489e4dcb37ef1bde7ed7c2d31473e9320a5  bhl-op4/src/game/server/zombie.cpp
