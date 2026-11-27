@@ -1,0 +1,57 @@
+Lambda-fix 1.1.1-diag - DIAGNOSTIC BUILD, NOT A FIX
+====================================================
+
+You said 1.1.0 feels exactly like 1.0.9 - both the boost and the night-vision
+sound are unchanged. Two separate changes producing zero visible difference
+means one of these is true:
+
+  (a) the game is not loading this opfor.dll,
+  (b) my diagnosis was wrong and both changes are in the wrong place,
+  (c) the DLL loads but the code paths I changed never run.
+
+Guessing again would waste your time. This build reports the answer.
+
+WHAT TO DO
+----------
+1. Install this package exactly like the previous one.
+2. Load any map.
+3. Watch the server console window and tell me which of these you see.
+
+   --- A ---
+   === Lambda-fix server build 1.1.0 (boost-on-release) loaded ===
+
+   If you DO NOT see this line, our opfor.dll is not running at all. That
+   alone explains both reports, and nothing I change in the source can fix it
+   until we know where the game is loading its server from.
+
+   --- B ---
+   [pushdbg] think box=... player=... max=... using=... -> MOVE/skip
+   [pushdbg] Move(push=0) box=... player=... btn=0x...
+
+   Walk into a box and hold E. Send me a few of those lines. They say, per
+   frame, exactly what the box speed, the player speed, the button mask and my
+   decision were. With those numbers I can stop guessing.
+
+   If you see A but no B while touching a box, then PushThink is not running
+   and I will know the think is never scheduled.
+
+TURNING IT OFF
+--------------
+   lambda_pushable_debug 0     in the server console
+
+WHAT IS IN THIS BUILD
+---------------------
+Same as 1.1.0 (boost-on-release PushThink + OP4 flashlight2 off sound) plus:
+  - a one-line banner in CWorld::Spawn
+  - [pushdbg] logging in CPushable::PushThink and CPushable::Move
+  - cvar lambda_pushable_debug, default 1
+
+The logging is chatty by design. It is temporary and comes out once we know
+what is happening.
+
+BUILD IDENTITY
+--------------
+CI run 45971139829, commit 3137c46, MSVC/Win32, 2026-11-27.
+
+  dlls/opfor.dll   1,677,312 bytes
+                   sha256 b101a55298bb1edfd16a053691a4d70d4b4c8c3b1a5f41ae62089f1c12ea47d8
