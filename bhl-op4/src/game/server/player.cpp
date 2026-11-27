@@ -4139,6 +4139,11 @@ void CBasePlayer::CheatImpulseCommands(int iImpulse)
 		GiveNamedItem("weapon_knife");
 		GiveNamedItem("weapon_m249");
 		GiveNamedItem("weapon_pipewrench");
+		GiveNamedItem("weapon_grapple");
+		GiveNamedItem("weapon_sniperrifle");
+		GiveNamedItem("weapon_displacer");
+		//TODO: not given in OP4 either
+		//GiveNamedItem("ammo_762");
 		gEvilImpulse101 = FALSE;
 		break;
 
