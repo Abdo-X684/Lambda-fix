@@ -1,0 +1,81 @@
+Lambda-fix 1.1.8 - Windows package
+==================================
+
+THE MONSTERS ARE THERE. THE MAP WAS MISSING ITS ENTITY CLASSES
+--------------------------------------------------------------
+This is chapter 7, "Vicarious Reality", map of4a2.
+
+I did not guess. I had three real gearbox BSPs from the installed game
+(of2a1, of2a1b, of4a2) and read every "classname" value out of each one,
+then checked every one of those against the classes this hl.dll actually
+registers. of2a1 and of2a1b: 0 missing. of4a2: 5 missing.
+
+    monster_pitdrone              3 instances  <- the enemies you did not find
+    trigger_xen_return            1 instance
+    info_displacer_earth_target   6 instances
+    info_displacer_xen_target     1 instance
+    env_spritetrain               1 instance   (decoration, see below)
+
+WHAT WAS ACTUALLY WRONG
+-----------------------
+The pit drone was never built into this DLL. It was not "not spawning",
+not "AI broken", not "wrong skill values" - the class did not exist, so the
+engine threw the three of4a2 pitdrones away at map load. The other four
+classes were the same story.
+
+This also explains the displacer: of4a2 is where the displacer sends you to
+Xen and back. Without trigger_xen_return there is no return at all.
+
+WHAT I ADDED
+------------
+  pitdrone.cpp          OP4's dlls/pitdrone.cpp, 1222 lines, both classes
+                        (monster_pitdrone and its pitdronespike projectile).
+                        Ported the same way shockroach/otis/geneworm already
+                        are: identical body, op4_compat.h glue, bool -> BOOL,
+                        and KeyValue kept as void because that is what this
+                        SDK's CBaseMonster declares.
+
+  triggers.cpp          trigger_xen_return plus info_displacer_earth_target
+                        and info_displacer_xen_target, appended verbatim from
+                        OP4's dlls/triggers.cpp:2523-2598.
+
+ENV_SPRITETRAIN IS THE ONE I DID NOT ADD
+----------------------------------------
+It is a sprite on a path track - a flare sprite, sprites/flare6.spr, used
+for a visual effect in the Xen section. It has no targetname that any
+trigger in the map activates and nothing targets a player through it, so
+its absence cannot block progress; the sprite simply will not be drawn.
+Adding it means porting ~390 lines of CBasePlatTrain subclass for one
+decoration. Say so if you want it and I will do it.
+
+A SAVEGAME BUG I FOUND ON THE WAY
+---------------------------------
+m_DisplacerReturn and m_DisplacerSndRoomtype were not in CBasePlayer's save
+table. OP4 has both (dlls/player.cpp:134-135). Without them, loading a
+savegame after using the displacer reset the return point to zero, so coming
+back from Xen dropped you at the world origin instead of where you
+displaced from. Added both, with FIELD_POSITION_VECTOR for the vector.
+
+Verified in the rebuilt hl.dll:
+
+    monster_pitdrone              present (class + spawn reference)
+    pitdronespike                 present
+    trigger_xen_return            present
+    info_displacer_earth_target   present
+    info_displacer_xen_target     present
+    models/pit_drone.mdl          present
+    pitdrone/pit_drone_alert1.wav present
+
+VERSION
+-------
+About page: 1.1.8  (verified in client.dll)
+
+BUILD IDENTITY
+--------------
+CI run 46133387224, commit 5cb48d3, MSVC/Win32.
+
+  dlls/opfor.dll     sha256 c4f4ca7ba403417e779461493b7d34e393f1d288bfb247d9200574dc8a5087c7
+  cl_dlls/client.dll sha256 587282334737a9638b09afde9e08eb118fb9bed61e09673042c497b5f38da41e
+  zip                sha256 9631624c723023205987e44ba1183d31362d9204b98d0a927dc6a3e85ebce556
+
+NOT TESTED IN GAME.
