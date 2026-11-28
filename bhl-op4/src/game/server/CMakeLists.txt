@@ -207,6 +207,7 @@ list( APPEND SOURCE_FILES
 	op4/dlls/op4mortar.cpp
 	op4/dlls/otis.cpp
 	op4/dlls/penguin_grenade.cpp
+	op4/dlls/pitdrone.cpp
 	op4/dlls/pitworm_up.cpp
 	op4/dlls/rope/CElectrifiedWire.cpp
 	op4/dlls/rope/CRope.cpp

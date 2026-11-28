@@ -2388,3 +2388,81 @@ void CClientFog::Spawn()
 	pev->renderamt = 0; // The engine won't draw this model if this is set to 0 and blending is on
 	pev->rendermode = kRenderTransTexture;
 }
+/* ==========================================================================
+ * OP4 dlls/triggers.cpp:2523-2598 -- trigger_xen_return, plus the two
+ * info_displacer_* point entities it and CDisplacer look up by classname.
+ *
+ * of4a2.bsp contains one trigger_xen_return, one info_displacer_xen_target
+ * and six info_displacer_earth_target entities. Without these the displacer
+ * cannot send the player to Xen and back, which is a required part of
+ * "Vicarious Reality". Bodies are copied from the OP4 source, with the
+ * modernised API mapped onto this tree's HLSDK (bool -> BOOL, override->
+ * plain virtual, nullptr -> NULL).
+ * ========================================================================== */
+LINK_ENTITY_TO_CLASS(info_displacer_earth_target, CPointEntity);
+LINK_ENTITY_TO_CLASS(info_displacer_xen_target, CPointEntity);
+
+class CTriggerXenReturn : public CBaseTrigger
+{
+public:
+	void Spawn(void);
+	void EXPORT ReturnTouch(CBaseEntity *pOther);
+};
+
+LINK_ENTITY_TO_CLASS(trigger_xen_return, CTriggerXenReturn);
+
+void CTriggerXenReturn::Spawn(void)
+{
+	InitTrigger();
+
+	SetTouch(&CTriggerXenReturn::ReturnTouch);
+	SetUse(NULL);
+}
+
+void CTriggerXenReturn::ReturnTouch(CBaseEntity *pOther)
+{
+	if (!pOther->IsPlayer())
+		return;
+
+	CBasePlayer *pPlayer = (CBasePlayer *)pOther;
+
+	float flDist = 8192;
+	CBaseEntity *pTarget = NULL;
+
+	// Find the earth target nearest to the player's original location.
+	CBaseEntity *pDestination = NULL;
+	while ((pDestination = UTIL_FindEntityByClassname(pDestination, "info_displacer_earth_target")) != NULL)
+	{
+		const float flThisDist = (pPlayer->m_DisplacerReturn - pDestination->pev->origin).Length();
+
+		if (flDist > flThisDist)
+		{
+			pTarget = pDestination;
+			flDist = flThisDist;
+		}
+	}
+
+	if (pTarget && !FNullEnt(pTarget->pev))
+	{
+		pPlayer->pev->flags &= ~FL_SKIPLOCALHOST;
+
+		Vector vecDest = pTarget->pev->origin;
+		vecDest.z -= pPlayer->pev->mins.z;
+		vecDest.z += 1;
+
+		UTIL_SetOrigin(pPlayer->pev, vecDest);
+
+		pPlayer->pev->angles = pTarget->pev->angles;
+		pPlayer->pev->v_angle = pTarget->pev->angles;
+		pPlayer->pev->fixangle = 1;
+
+		pPlayer->pev->basevelocity = g_vecZero;
+		pPlayer->pev->velocity = g_vecZero;
+
+		pPlayer->pev->gravity = 1.0;
+
+		pPlayer->m_SndRoomtype = pPlayer->m_DisplacerSndRoomtype;
+
+		EMIT_SOUND(pPlayer->edict(), CHAN_WEAPON, "weapons/displacer_self.wav", RANDOM_FLOAT(0.8, 0.9), ATTN_NORM);
+	}
+}
