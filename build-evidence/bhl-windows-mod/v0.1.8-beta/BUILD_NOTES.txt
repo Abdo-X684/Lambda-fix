@@ -1,14 +1,24 @@
 Lambda-fix 0.1.8-beta - Windows package
-==================================
+=======================================
 
-RENUMBERED
-----------
-This package was published as 1.1.8. It was never a 1.x release - the
-project is pre-release software and that numbering claimed a stable
-interface it does not have. It is now 0.1.8-beta on the 0.x line, with the
-beta tag starting at 0.1.8. The ZIP is byte-for-byte the same archive;
-only its name changed, so its sha256 is unchanged.
+RENUMBERED, AND THIS PACKAGE IS A REBUILD
+----------------------------------------
+Everything in this project shipped as 1.0.2 through 1.1.8 while it was still
+pre-release software. A 1.x version asserts a stable interface, and the About
+page printed "1.1.8 stable" on top of that. That numbering is retired:
 
+    old                     new
+    1.0.2 .. 1.0.9    ->    0.0.2 .. 0.0.9
+    1.1.0             ->    0.1.0
+    1.1.1-diag        ->    0.1.1-diag
+    1.1.2 .. 1.1.7    ->    0.1.2 .. 0.1.7
+    1.1.8             ->    0.1.8-beta   <- this package
+
+Older packages are the same ZIPs, renamed - only the names changed, so their
+sha256 digests are unchanged. This one is different: it was rebuilt, because
+the version string is compiled into the DLL. The About page now prints the
+tag ("0.1.8-beta") and the PE version resource says 0.1.8.0 with the
+VS_FF_PRERELEASE flag set, so Explorer and the game finally agree.
 
 THE MONSTERS ARE THERE. THE MAP WAS MISSING ITS ENTITY CLASSES
 --------------------------------------------------------------
@@ -77,14 +87,15 @@ Verified in the rebuilt hl.dll:
 
 VERSION
 -------
-About page: 1.1.8  (this build predates the 0.x renumbering)  (verified in client.dll)
+About page: 0.1.8-beta  (verified in client.dll)
+PE resource: FileVersion 0.1.8-beta+no-git, FileFlags 0x2 (prerelease)
 
 BUILD IDENTITY
 --------------
-CI run 46133387224, commit 5cb48d3, MSVC/Win32.
+CI run 46135770326, commit 8335622, MSVC/Win32.
 
-  dlls/opfor.dll     sha256 c4f4ca7ba403417e779461493b7d34e393f1d288bfb247d9200574dc8a5087c7
-  cl_dlls/client.dll sha256 587282334737a9638b09afde9e08eb118fb9bed61e09673042c497b5f38da41e
-  zip                              sha256 9631624c723023205987e44ba1183d31362d9204b98d0a927dc6a3e85ebce556
+  dlls/opfor.dll     sha256 8d2466942c2caad7b99c2bf73b124930a8748cf3ad282548259044b0f1759128
+  cl_dlls/client.dll sha256 364e9e80dec1a3df005e4c4bf5466c728dfffc8724e9e619b683939b1b8801ce
+  zip                sha256 d6d4b62755c4f74f0978ed5f51e93777b5371463af8c2032a4cbcd633da52786
 
 NOT TESTED IN GAME.

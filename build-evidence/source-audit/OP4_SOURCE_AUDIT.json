@@ -330,7 +330,7 @@
       "origin": "bugfixhl",
       "patch_rules": [],
       "path": "src/game/server/player.h",
-      "sha256": "75d846b6940e6840155d43505e7c706f02e420570570d69c9a62633e9eb55da3",
+      "sha256": "69c06cef937965f6d2447a232c9314f32d2fc113f6cd3b571a827f96ac46e1d7",
       "upstream_commit": "4d32095e3c33",
       "upstream_path": null
     },
@@ -356,7 +356,7 @@
       "origin": "bugfixhl",
       "patch_rules": [],
       "path": "src/game/server/CMakeLists.txt",
-      "sha256": "f39a49b1fb73713b041c88495a3d7ce880062700277d68815440746e9f6b1e4b",
+      "sha256": "41be192a1a45a0558dfa3d228d3f560463d703ac200efcbdc4f43f6dc2e768ae",
       "upstream_commit": "4d32095e3c33",
       "upstream_path": null
     }

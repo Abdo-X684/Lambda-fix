@@ -31,9 +31,7 @@ the renames and nothing else.
 from __future__ import annotations
 
 import hashlib
-import re
 import shutil
-import subprocess
 import sys
 from pathlib import Path
 
