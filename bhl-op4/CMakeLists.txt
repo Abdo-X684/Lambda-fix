@@ -27,10 +27,14 @@ include( GitVersionSemverfier )
 #-----------------------------------------------------------------
 # Version
 #-----------------------------------------------------------------
-set( BHL_REPO_VERSION_MAJOR 1 )
-set( BHL_REPO_VERSION_MINOR 0 )
-set( BHL_REPO_VERSION_PATCH 1 )
-set( BHL_REPO_VERSION_TAG "" )
+# Kept in step with LF_VERSION in src/common/appversion.h.in. These are only
+# used when git describe finds no tag (this repository has none), but they are
+# what ends up in the PE FileVersion/ProductVersion resource, so a mismatch
+# here means Windows Explorer shows a different version from the About page.
+set( BHL_REPO_VERSION_MAJOR 0 )
+set( BHL_REPO_VERSION_MINOR 1 )
+set( BHL_REPO_VERSION_PATCH 8 )
+set( BHL_REPO_VERSION_TAG "beta" )
 
 if( GIT_SUCCESS )
 	message( "Version: ${GIT_SEM_VERSION} (from Git)" )
