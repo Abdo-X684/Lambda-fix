@@ -139,6 +139,15 @@ TYPEDESCRIPTION CBasePlayer::m_playerSaveData[] = {
 	DEFINE_FIELD(CBasePlayer, m_iHideHUD, FIELD_INTEGER),
 	DEFINE_FIELD(CBasePlayer, m_iFOV, FIELD_INTEGER),
 
+	/* OP4 dlls/player.cpp:134-135. These carry the displacer's return point and
+	 * the room type the player had on Earth. trigger_xen_return reads them to
+	 * put the player back where the displacer picked him up. They were missing
+	 * from this table, so a savegame loaded after using the displacer had
+	 * m_DisplacerReturn at zero, and returning from Xen dropped the player at
+	 * the world origin instead of the displacement spot. */
+	DEFINE_FIELD(CBasePlayer, m_DisplacerReturn, FIELD_POSITION_VECTOR),
+	DEFINE_FIELD(CBasePlayer, m_DisplacerSndRoomtype, FIELD_INTEGER),
+
 	//DEFINE_FIELD( CBasePlayer, m_fDeadTime, FIELD_FLOAT ), // only used in multiplayer games
 	//DEFINE_FIELD( CBasePlayer, m_fGameHUDInitialized, FIELD_INTEGER ), // only used in multiplayer games
 	//DEFINE_FIELD( CBasePlayer, m_flStopExtraSoundTime, FIELD_TIME ),
