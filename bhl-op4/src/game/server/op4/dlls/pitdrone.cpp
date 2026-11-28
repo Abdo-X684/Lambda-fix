@@ -256,7 +256,7 @@ public:
 
 	void CheckAmmo() override;
 	void GibMonster() override;
-	BOOL KeyValue(KeyValueData* pkvd) override;
+	void KeyValue(KeyValueData* pkvd) override;
 
 	int Save(CSave& save) override;
 	int Restore(CRestore& restore) override;
@@ -1213,13 +1213,14 @@ void CPitdrone::GibMonster()
 	pev->nextthink = gpGlobals->time;
 }
 
-BOOL CPitdrone::KeyValue(KeyValueData* pkvd)
+void CPitdrone::KeyValue(KeyValueData* pkvd)
 {
 	if (FStrEq("initammo", pkvd->szKeyName))
 	{
 		m_iInitialAmmo = atoi(pkvd->szValue);
-		return TRUE;
+		pkvd->fHandled = TRUE;
+		return;
 	}
 
-	return CBaseMonster::KeyValue(pkvd);
+	CBaseMonster::KeyValue(pkvd);
 }
