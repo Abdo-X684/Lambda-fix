@@ -288,7 +288,13 @@ function(bhl_version_info target_name file_name file_description)
 		message(FATAL_ERROR "Target ${target_name} is neither EXE nor DLL, it's ${target_type}")
 	endif()
 
+	# A build is a prerelease if it carries a semver tag (-beta, -rc, ...) or
+	# if git reports it as N commits past a tag. Lambda-fix is pre-release
+	# software on the 0.x line, so every package it ships should carry the
+	# VS_FF_PRERELEASE flag instead of looking like a finished 1.x release.
 	if(GIT_SKIP GREATER 0)
+		set(is_prerelease 1)
+	elseif(GIT_SEM_VERSION MATCHES "-[0-9A-Za-z]")
 		set(is_prerelease 1)
 	else()
 		set(is_prerelease 0)

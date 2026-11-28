@@ -138,10 +138,25 @@ void CAboutSubOptions::UpdateControls()
 
 	// Update client's version
 	{
-		// Show only the release number, e.g. "1.0.0"
+		/* Print the prerelease tag as well. This build used to say "1.1.8
+		 * stable"; it is pre-release software on the 0.x line, so the label
+		 * has to show the tag (e.g. "0.1.8-beta") and must never claim to be a
+		 * stable 1.x release. GetTag() returns false when LF_VERSION carries
+		 * no -tag, in which case the plain numbers are shown on their own.
+		 * Bump LF_VERSION in the same commit as the package - the two must
+		 * match, and tools/check_about_version.py enforces it. */
+		char tag[64];
 		snprintf(buf, sizeof(buf), "%d.%d.%d", m_GameVer.GetMajor(), m_GameVer.GetMinor(), m_GameVer.GetPatch());
 		std::string gameVer = buf;
-		gameVer += " stable";
+		if (m_GameVer.GetTag(tag, sizeof(tag)) && tag[0])
+		{
+			gameVer += "-";
+			gameVer += tag;
+		}
+		else
+		{
+			gameVer += " stable";
+		}
 
 #ifdef _DEBUG
 		gameVer += " [Debug build]";

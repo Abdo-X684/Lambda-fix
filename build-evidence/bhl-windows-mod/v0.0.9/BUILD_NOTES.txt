@@ -1,0 +1,62 @@
+Lambda-fix 0.0.9 - Windows package
+==================================
+
+RENUMBERED
+----------
+This package was published as 1.0.9. It was never a 1.x release - the
+project is pre-release software and that numbering claimed a stable
+interface it does not have. It is now 0.0.9 on the 0.x line, with the
+beta tag starting at 0.1.8. The ZIP is byte-for-byte the same archive;
+only its name changed, so its sha256 is unchanged.
+
+
+WHAT THIS IS
+------------
+1.0.4's exact 98-file gearbox_addon layout (OP4 damage + skill data from the
+bhl-op4 tree), with two files changed: dlls/opfor.dll and MOD_MANIFEST.json.
+
+WHAT CHANGED FROM 1.0.4
+-----------------------
+One function changed in the server DLL: CPushable::Move().
+
+It is now a verbatim copy of the CPushable::Move() in the OP4 server you
+uploaded and confirmed works (halflife-op4-updated, before commit 4f0d502e4
+"[HL25] Backport fixes to pushable"):
+
+  * no sv_pushable_fixed_tick_fudge, no frametime scaling;
+  * a push requires IN_FORWARD or IN_USE to be held;
+  * the speed clamp applies to a push only;
+  * velocity accumulates, and on a push the player's velocity is set to the
+    box's velocity - that sync is what produces object boosts.
+
+Everything else the server did in 1.0.4 is unchanged: OP4 monster/weapon
+damage, all 62 OP4 gSkillData fields, all 186 OP4 sk_* cvars, impulse 101,
+speedrun core.
+
+HOW MOVE IS CALLED
+------------------
+Touch() and Use() call Move() exactly as in your server. PushThink() runs every
+frame and, if a player overlaps the box, calls that same Move(). It is a safety
+net only: it adds no movement of its own, it just calls the same function the
+engine would call. If your server's Touch path works, the result is identical.
+
+Verified in the binary (not just in the source): the compiled Move() contains
+  test byte ptr [toucher+0x180], 0x28    ; IN_FORWARD|IN_USE gate on push
+  clamp inside "if (push && length > MaxSpeed())"
+  unconditional "toucher->velocity = box->velocity"
+and the touch-only build of 1.0.4 does not contain that gate - it has the HL25
+form instead. PushThink is present as ?PushThink@CPushable@@QAEXXZ.
+
+BUILD IDENTITY
+--------------
+CI run 45909109970, workflow windows-msvc.yml, commit d022ac5,
+MSVC/Win32, 2026-11-26.
+
+  dlls/opfor.dll   hl.dll of bhl-op4 @ d022ac5
+                   1,675,264 bytes
+                   sha256 2e9c4f9e5e20a5f337c0daf16a25f45d60008f2532416415a9eeb991569bda96
+  cl_dlls/client.dll unchanged from 1.0.4
+                   sha256 1cf3d8f6011b823d032816a524a97664c85f8a37058c7d121562d2ae7acd3447
+
+NOT TESTED IN GAME. 1.0.8 (stock OP4 server) is still in its own folder as a
+fallback.

@@ -1,0 +1,86 @@
+Lambda-fix 0.1.2 - Windows package
+==================================
+
+RENUMBERED
+----------
+This package was published as 1.1.2. It was never a 1.x release - the
+project is pre-release software and that numbering claimed a stable
+interface it does not have. It is now 0.1.2 on the 0.x line, with the
+beta tag starting at 0.1.8. The ZIP is byte-for-byte the same archive;
+only its name changed, so its sha256 is unchanged.
+
+
+PushThink IS DELETED
+--------------------
+You asked why I could not just delete it. I could, and I should have. It is
+gone, along with FindTouchingEntity. The DLL no longer contains either name.
+
+WHY IT WAS THERE, AND WHY THAT WAS WRONG
+----------------------------------------
+1.0.4 shipped the upstream bhl-op4 CPushable::Move, which carries the HL25
+fix. That version applies an impulse scaled by frametime while the engine
+applies player friction once per frame, so above ~60 fps the box's velocity
+decays to nothing. The box did not move, and I concluded that HL25 was not
+delivering Touch() to a MOVETYPE_PUSHSTEP entity at all.
+
+That conclusion was wrong, and your binaries prove it:
+
+    1.0.4 DLL          PushThink ABSENT   box does not move
+    your server DLL    PushThink ABSENT   box moves fine
+    our 1.0.9 DLL      PushThink PRESENT  box moves
+
+Your working server never needed a think. It moves boxes through Touch() and
+Use() with the pre-HL25 Move(). I copied that Move() but kept the think, so
+every build from 1.0.9 on had one piece of code in the physics path that your
+server does not have - and that is where the boost went wrong.
+
+WHAT THIS BUILD IS
+------------------
+func_break.cpp is now the working server's CPushable, with nothing added:
+
+    Move()   verbatim, pre-HL25 form (no fudge, IN_FORWARD|IN_USE on push,
+             clamp only on push, accumulate + player/box velocity sync)
+    Use()    verbatim  -> Move(player, 0)   <- the boost, unclamped
+    Touch()  verbatim  -> Move(player, 1)
+    Spawn()  verbatim - no SetThink, no nextthink
+    no PushThink, no FindTouchingEntity, no overlap scan, no per-frame code
+
+Verified in the compiled DLL:
+    ?PushThink@CPushable@@QAEXXZ          absent
+    FindTouchingEntity                    absent
+    func_pushable                         registered (2 strings)
+    Move() push gate                      test byte ptr [ebx+0x180], 0x28
+                                          (IN_FORWARD|IN_USE) - pre-HL25 form
+    items/flashlight1.wav + flashlight2.wav   both present (on/off fixed)
+
+NIGHT VISION SOUND
+------------------
+Unchanged from 1.1.0: SOUND_FLASHLIGHT_OFF is items/flashlight2.wav, matching
+OP4 dlls/player.h:64. Upstream Valve's dlls/player.h:61 has flashlight1 for
+both, which is what bhl-op4 inherited.
+
+BUILD BANNER
+------------
+The map load still prints, so you can confirm which DLL is running:
+
+    === Lambda-fix server build 1.1.2 (no PushThink) loaded ===
+        CPushable: Touch/Use only, no PushThink
+
+If you do not see that line, the game is not loading this DLL.
+
+BUILD IDENTITY
+--------------
+CI run 45976235286, commit b46817a, MSVC/Win32, 2026-11-27.
+
+  dlls/opfor.dll   1,675,776 bytes
+                   sha256 98a710eac82c8ff9c8942a1c9c4724735e7032e774822f047900a6183b2f34cd
+  cl_dlls/client.dll unchanged
+
+WHAT I AM NOT CLAIMING
+----------------------
+I have not run this in game. Deleting the think assumes Touch() really is
+delivered in this build, which is what your server's behaviour implies but
+which I cannot execute here. If the box turns out not to move at all, that is
+the answer: Touch is not delivered, and the think was masking it. The banner
+plus the fact that the box either moves or does not will settle it in one
+test.

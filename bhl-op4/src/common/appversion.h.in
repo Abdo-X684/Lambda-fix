@@ -7,10 +7,15 @@
  * was.
  *
  * THIS MUST MATCH THE PACKAGE VERSION. The About page prints exactly these
- * three numbers, so if this line is not bumped the About page lies about which
- * build is running - which is how releases 1.0.6 through 1.1.2 all shipped
- * showing "1.0.5". Bump it in the same commit as the package. */
-#define LF_VERSION "1.1.8"
+ * the whole string, so if this line is not bumped the About page lies about
+ * which build is running - which is how releases 1.0.6 through 1.1.2 all
+ * shipped showing "1.0.5". Bump it in the same commit as the package.
+ *
+ * Numbering: this is pre-release software, so it is 0.x with a beta tag, not
+ * 1.x. The old 1.0.2..1.1.8 packages were renumbered onto this line and the
+ * 1.x numbers are retired; do not go back to them. The tag is part of the
+ * string the About page prints, so it has to match exactly. */
+#define LF_VERSION "0.1.8-beta"
 #define APP_VERSION LF_VERSION
 
 // For client.rc
